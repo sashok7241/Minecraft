@@ -1,0 +1,153 @@
+package net.minecraft.src;
+
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
+public class PlayerUsageSnooper
+{
+	private Map dataMap = new HashMap();
+	private final String uniqueID = UUID.randomUUID().toString();
+	private final URL serverUrl;
+	private final IPlayerUsage playerStatsCollector;
+	private final java.util.Timer threadTrigger = new java.util.Timer("Snooper Timer", true);
+	private final Object syncLock = new Object();
+	private final long field_98224_g = System.currentTimeMillis();
+	private boolean isRunning = false;
+	private int selfCounter = 0;
+	
+	public PlayerUsageSnooper(String p_i3428_1_, IPlayerUsage p_i3428_2_)
+	{
+		try
+		{
+			serverUrl = new URL("http://snoop.minecraft.net/" + p_i3428_1_ + "?version=" + 1);
+		} catch(MalformedURLException var4)
+		{
+			throw new IllegalArgumentException();
+		}
+		playerStatsCollector = p_i3428_2_;
+	}
+	
+	private void addBaseDataToSnooper()
+	{
+		addJvmArgsToSnooper();
+		addData("snooper_token", uniqueID);
+		addData("os_name", System.getProperty("os.name"));
+		addData("os_version", System.getProperty("os.version"));
+		addData("os_architecture", System.getProperty("os.arch"));
+		addData("java_version", System.getProperty("java.version"));
+		addData("version", "1.5.2");
+		playerStatsCollector.addServerTypeToSnooper(this);
+	}
+	
+	public void addData(String p_76472_1_, Object p_76472_2_)
+	{
+		Object var3 = syncLock;
+		synchronized(syncLock)
+		{
+			dataMap.put(p_76472_1_, p_76472_2_);
+		}
+	}
+	
+	private void addJvmArgsToSnooper()
+	{
+		RuntimeMXBean var1 = ManagementFactory.getRuntimeMXBean();
+		List var2 = var1.getInputArguments();
+		int var3 = 0;
+		Iterator var4 = var2.iterator();
+		while(var4.hasNext())
+		{
+			String var5 = (String) var4.next();
+			if(var5.startsWith("-X"))
+			{
+				addData("jvm_arg[" + var3++ + "]", var5);
+			}
+		}
+		addData("jvm_args", Integer.valueOf(var3));
+	}
+	
+	public void addMemoryStatsToSnooper()
+	{
+		addData("memory_total", Long.valueOf(Runtime.getRuntime().totalMemory()));
+		addData("memory_max", Long.valueOf(Runtime.getRuntime().maxMemory()));
+		addData("memory_free", Long.valueOf(Runtime.getRuntime().freeMemory()));
+		addData("cpu_cores", Integer.valueOf(Runtime.getRuntime().availableProcessors()));
+		addData("run_time", Long.valueOf((System.currentTimeMillis() - field_98224_g) / 60L * 1000L));
+		playerStatsCollector.addServerStatsToSnooper(this);
+	}
+	
+	public Map getCurrentStats()
+	{
+		LinkedHashMap var1 = new LinkedHashMap();
+		Object var2 = syncLock;
+		synchronized(syncLock)
+		{
+			addMemoryStatsToSnooper();
+			Iterator var3 = dataMap.entrySet().iterator();
+			while(var3.hasNext())
+			{
+				Entry var4 = (Entry) var3.next();
+				var1.put(var4.getKey(), var4.getValue().toString());
+			}
+			return var1;
+		}
+	}
+	
+	public String getUniqueID()
+	{
+		return uniqueID;
+	}
+	
+	public boolean isSnooperRunning()
+	{
+		return isRunning;
+	}
+	
+	public void startSnooper()
+	{
+		if(!isRunning)
+		{
+			isRunning = true;
+			addBaseDataToSnooper();
+			threadTrigger.schedule(new PlayerUsageSnooperThread(this), 0L, 900000L);
+		}
+	}
+	
+	public void stopSnooper()
+	{
+		threadTrigger.cancel();
+	}
+	
+	static Map getDataMapFor(PlayerUsageSnooper p_76469_0_)
+	{
+		return p_76469_0_.dataMap;
+	}
+	
+	static int getSelfCounterFor(PlayerUsageSnooper p_76466_0_)
+	{
+		return p_76466_0_.selfCounter++;
+	}
+	
+	static URL getServerUrlFor(PlayerUsageSnooper p_76475_0_)
+	{
+		return p_76475_0_.serverUrl;
+	}
+	
+	static IPlayerUsage getStatsCollectorFor(PlayerUsageSnooper p_76473_0_)
+	{
+		return p_76473_0_.playerStatsCollector;
+	}
+	
+	static Object getSyncLockFor(PlayerUsageSnooper p_76474_0_)
+	{
+		return p_76474_0_.syncLock;
+	}
+}

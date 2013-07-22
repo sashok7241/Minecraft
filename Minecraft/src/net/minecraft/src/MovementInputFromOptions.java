@@ -1,0 +1,40 @@
+package net.minecraft.src;
+
+public class MovementInputFromOptions extends MovementInput
+{
+	private GameSettings gameSettings;
+	
+	public MovementInputFromOptions(GameSettings p_i3115_1_)
+	{
+		gameSettings = p_i3115_1_;
+	}
+	
+	@Override public void updatePlayerMoveState()
+	{
+		moveStrafe = 0.0F;
+		moveForward = 0.0F;
+		if(gameSettings.keyBindForward.pressed)
+		{
+			++moveForward;
+		}
+		if(gameSettings.keyBindBack.pressed)
+		{
+			--moveForward;
+		}
+		if(gameSettings.keyBindLeft.pressed)
+		{
+			++moveStrafe;
+		}
+		if(gameSettings.keyBindRight.pressed)
+		{
+			--moveStrafe;
+		}
+		jump = gameSettings.keyBindJump.pressed;
+		sneak = gameSettings.keyBindSneak.pressed;
+		if(sneak)
+		{
+			moveStrafe = (float) (moveStrafe * 0.3D);
+			moveForward = (float) (moveForward * 0.3D);
+		}
+	}
+}

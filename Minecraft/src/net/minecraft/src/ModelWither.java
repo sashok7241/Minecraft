@@ -1,0 +1,81 @@
+package net.minecraft.src;
+
+public class ModelWither extends ModelBase
+{
+	private ModelRenderer[] field_82905_a;
+	private ModelRenderer[] field_82904_b;
+	
+	public ModelWither()
+	{
+		textureWidth = 64;
+		textureHeight = 64;
+		field_82905_a = new ModelRenderer[3];
+		field_82905_a[0] = new ModelRenderer(this, 0, 16);
+		field_82905_a[0].addBox(-10.0F, 3.9F, -0.5F, 20, 3, 3);
+		field_82905_a[1] = new ModelRenderer(this).setTextureSize(textureWidth, textureHeight);
+		field_82905_a[1].setRotationPoint(-2.0F, 6.9F, -0.5F);
+		field_82905_a[1].setTextureOffset(0, 22).addBox(0.0F, 0.0F, 0.0F, 3, 10, 3);
+		field_82905_a[1].setTextureOffset(24, 22).addBox(-4.0F, 1.5F, 0.5F, 11, 2, 2);
+		field_82905_a[1].setTextureOffset(24, 22).addBox(-4.0F, 4.0F, 0.5F, 11, 2, 2);
+		field_82905_a[1].setTextureOffset(24, 22).addBox(-4.0F, 6.5F, 0.5F, 11, 2, 2);
+		field_82905_a[2] = new ModelRenderer(this, 12, 22);
+		field_82905_a[2].addBox(0.0F, 0.0F, 0.0F, 3, 6, 3);
+		field_82904_b = new ModelRenderer[3];
+		field_82904_b[0] = new ModelRenderer(this, 0, 0);
+		field_82904_b[0].addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8);
+		field_82904_b[1] = new ModelRenderer(this, 32, 0);
+		field_82904_b[1].addBox(-4.0F, -4.0F, -4.0F, 6, 6, 6);
+		field_82904_b[1].rotationPointX = -8.0F;
+		field_82904_b[1].rotationPointY = 4.0F;
+		field_82904_b[2] = new ModelRenderer(this, 32, 0);
+		field_82904_b[2].addBox(-4.0F, -4.0F, -4.0F, 6, 6, 6);
+		field_82904_b[2].rotationPointX = 10.0F;
+		field_82904_b[2].rotationPointY = 4.0F;
+	}
+	
+	public int func_82903_a()
+	{
+		return 32;
+	}
+	
+	@Override public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
+	{
+		setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
+		ModelRenderer[] var8 = field_82904_b;
+		int var9 = var8.length;
+		int var10;
+		ModelRenderer var11;
+		for(var10 = 0; var10 < var9; ++var10)
+		{
+			var11 = var8[var10];
+			var11.render(par7);
+		}
+		var8 = field_82905_a;
+		var9 = var8.length;
+		for(var10 = 0; var10 < var9; ++var10)
+		{
+			var11 = var8[var10];
+			var11.render(par7);
+		}
+	}
+	
+	@Override public void setLivingAnimations(EntityLiving par1EntityLivingBase, float par2, float par3, float par4)
+	{
+		EntityWither var5 = (EntityWither) par1EntityLivingBase;
+		for(int var6 = 1; var6 < 3; ++var6)
+		{
+			field_82904_b[var6].rotateAngleY = (var5.func_82207_a(var6 - 1) - par1EntityLivingBase.renderYawOffset) / (180F / (float) Math.PI);
+			field_82904_b[var6].rotateAngleX = var5.func_82210_r(var6 - 1) / (180F / (float) Math.PI);
+		}
+	}
+	
+	@Override public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
+	{
+		float var8 = MathHelper.cos(par3 * 0.1F);
+		field_82905_a[1].rotateAngleX = (0.065F + 0.05F * var8) * (float) Math.PI;
+		field_82905_a[2].setRotationPoint(-2.0F, 6.9F + MathHelper.cos(field_82905_a[1].rotateAngleX) * 10.0F, -0.5F + MathHelper.sin(field_82905_a[1].rotateAngleX) * 10.0F);
+		field_82905_a[2].rotateAngleX = (0.265F + 0.1F * var8) * (float) Math.PI;
+		field_82904_b[0].rotateAngleY = par4 / (180F / (float) Math.PI);
+		field_82904_b[0].rotateAngleX = par5 / (180F / (float) Math.PI);
+	}
+}

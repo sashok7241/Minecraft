@@ -1,0 +1,56 @@
+package net.minecraft.src;
+
+import java.util.Random;
+
+public class NoiseGeneratorOctaves extends NoiseGenerator
+{
+	private NoiseGeneratorPerlin[] generatorCollection;
+	private int octaves;
+	
+	public NoiseGeneratorOctaves(Random p_i3877_1_, int p_i3877_2_)
+	{
+		octaves = p_i3877_2_;
+		generatorCollection = new NoiseGeneratorPerlin[p_i3877_2_];
+		for(int var3 = 0; var3 < p_i3877_2_; ++var3)
+		{
+			generatorCollection[var3] = new NoiseGeneratorPerlin(p_i3877_1_);
+		}
+	}
+	
+	public double[] generateNoiseOctaves(double[] p_76305_1_, int p_76305_2_, int p_76305_3_, int p_76305_4_, int p_76305_5_, double p_76305_6_, double p_76305_8_, double p_76305_10_)
+	{
+		return this.generateNoiseOctaves(p_76305_1_, p_76305_2_, 10, p_76305_3_, p_76305_4_, 1, p_76305_5_, p_76305_6_, 1.0D, p_76305_8_);
+	}
+	
+	public double[] generateNoiseOctaves(double[] p_76304_1_, int p_76304_2_, int p_76304_3_, int p_76304_4_, int p_76304_5_, int p_76304_6_, int p_76304_7_, double p_76304_8_, double p_76304_10_, double p_76304_12_)
+	{
+		if(p_76304_1_ == null)
+		{
+			p_76304_1_ = new double[p_76304_5_ * p_76304_6_ * p_76304_7_];
+		} else
+		{
+			for(int var14 = 0; var14 < p_76304_1_.length; ++var14)
+			{
+				p_76304_1_[var14] = 0.0D;
+			}
+		}
+		double var27 = 1.0D;
+		for(int var16 = 0; var16 < octaves; ++var16)
+		{
+			double var17 = p_76304_2_ * var27 * p_76304_8_;
+			double var19 = p_76304_3_ * var27 * p_76304_10_;
+			double var21 = p_76304_4_ * var27 * p_76304_12_;
+			long var23 = MathHelper.floor_double_long(var17);
+			long var25 = MathHelper.floor_double_long(var21);
+			var17 -= var23;
+			var21 -= var25;
+			var23 %= 16777216L;
+			var25 %= 16777216L;
+			var17 += var23;
+			var21 += var25;
+			generatorCollection[var16].populateNoiseArray(p_76304_1_, var17, var19, var21, p_76304_5_, p_76304_6_, p_76304_7_, p_76304_8_ * var27, p_76304_10_ * var27, p_76304_12_ * var27, var27);
+			var27 /= 2.0D;
+		}
+		return p_76304_1_;
+	}
+}
