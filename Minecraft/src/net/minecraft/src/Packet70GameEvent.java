@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet70GameEvent extends Packet
@@ -14,10 +14,10 @@ public class Packet70GameEvent extends Packet
 	{
 	}
 	
-	public Packet70GameEvent(int par1, int par2)
+	public Packet70GameEvent(int p_i3320_1_, int p_i3320_2_)
 	{
-		eventType = par1;
-		gameMode = par2;
+		eventType = p_i3320_1_;
+		gameMode = p_i3320_2_;
 	}
 	
 	@Override public int getPacketSize()
@@ -25,20 +25,20 @@ public class Packet70GameEvent extends Packet
 		return 2;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleGameEvent(this);
+		p_73279_1_.handleGameEvent(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		eventType = par1DataInput.readByte();
-		gameMode = par1DataInput.readByte();
+		eventType = p_73267_1_.readByte();
+		gameMode = p_73267_1_.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeByte(eventType);
-		par1DataOutput.writeByte(gameMode);
+		p_73273_1_.writeByte(eventType);
+		p_73273_1_.writeByte(gameMode);
 	}
 }

@@ -13,12 +13,12 @@ public class LogAgent implements ILogAgent
 	private final String loggerName;
 	private final String loggerPrefix;
 	
-	public LogAgent(String par1Str, String par2Str, String par3Str)
+	public LogAgent(String p_i11036_1_, String p_i11036_2_, String p_i11036_3_)
 	{
-		serverLogger = Logger.getLogger(par1Str);
-		loggerName = par1Str;
-		loggerPrefix = par2Str;
-		logFile = par3Str;
+		serverLogger = Logger.getLogger(p_i11036_1_);
+		loggerName = p_i11036_1_;
+		loggerPrefix = p_i11036_2_;
+		logFile = p_i11036_3_;
 		setupLogger();
 	}
 	
@@ -27,34 +27,34 @@ public class LogAgent implements ILogAgent
 		serverLogger.log(Level.FINE, par1Str);
 	}
 	
-	@Override public void logInfo(String par1Str)
+	@Override public void logInfo(String p_98233_1_)
 	{
-		serverLogger.log(Level.INFO, par1Str);
+		serverLogger.log(Level.INFO, p_98233_1_);
 	}
 	
-	@Override public void logSevere(String par1Str)
+	@Override public void logSevere(String p_98232_1_)
 	{
-		serverLogger.log(Level.SEVERE, par1Str);
+		serverLogger.log(Level.SEVERE, p_98232_1_);
 	}
 	
-	@Override public void logSevereException(String par1Str, Throwable par2Throwable)
+	@Override public void logSevereException(String p_98234_1_, Throwable p_98234_2_)
 	{
-		serverLogger.log(Level.SEVERE, par1Str, par2Throwable);
+		serverLogger.log(Level.SEVERE, p_98234_1_, p_98234_2_);
 	}
 	
-	@Override public void logWarning(String par1Str)
+	@Override public void logWarning(String p_98236_1_)
 	{
-		serverLogger.log(Level.WARNING, par1Str);
+		serverLogger.log(Level.WARNING, p_98236_1_);
 	}
 	
-	@Override public void logWarningException(String par1Str, Throwable par2Throwable)
+	@Override public void logWarningException(String p_98235_1_, Throwable p_98235_2_)
 	{
-		serverLogger.log(Level.WARNING, par1Str, par2Throwable);
+		serverLogger.log(Level.WARNING, p_98235_1_, p_98235_2_);
 	}
 	
-	@Override public void logWarningFormatted(String par1Str, Object ... par2ArrayOfObj)
+	@Override public void logWarningFormatted(String p_98231_1_, Object ... p_98231_2_)
 	{
-		serverLogger.log(Level.WARNING, par1Str, par2ArrayOfObj);
+		serverLogger.log(Level.WARNING, p_98231_1_, p_98231_2_);
 	}
 	
 	private void setupLogger()
@@ -67,7 +67,7 @@ public class LogAgent implements ILogAgent
 			Handler var4 = var1[var3];
 			serverLogger.removeHandler(var4);
 		}
-		LogFormatter var6 = new LogFormatter(this, (LogAgentEmptyAnon) null);
+		LogFormatter var6 = new LogFormatter(this, (LogAgentINNER1) null);
 		ConsoleHandler var7 = new ConsoleHandler();
 		var7.setFormatter(var6);
 		serverLogger.addHandler(var7);
@@ -82,8 +82,8 @@ public class LogAgent implements ILogAgent
 		}
 	}
 	
-	static String func_98237_a(LogAgent par0LogAgent)
+	static String func_98237_a(LogAgent p_98237_0_)
 	{
-		return par0LogAgent.loggerPrefix;
+		return p_98237_0_.loggerPrefix;
 	}
 }

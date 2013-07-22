@@ -2,63 +2,44 @@ package net.minecraft.src;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class SoundManager implements ResourceManagerReloadListener
+public class SoundManager
 {
-	private static final String[] field_130084_a = new String[] { "ogg" };
-	private SoundSystem sndSystem;
-	private boolean loaded;
-	private final SoundPool soundPoolSounds;
-	private final SoundPool soundPoolStreaming;
-	private final SoundPool soundPoolMusic;
-	private int latestSoundID;
-	private final GameSettings options;
-	private final File field_130085_i;
-	private final Set playingSounds = new HashSet();
-	private final List field_92072_h = new ArrayList();
+	private static SoundSystem sndSystem;
+	private SoundPool soundPoolSounds = new SoundPool();
+	private SoundPool soundPoolStreaming = new SoundPool();
+	private SoundPool soundPoolMusic = new SoundPool();
+	private int latestSoundID = 0;
+	private GameSettings options;
+	private Set playingSounds = new HashSet();
+	private List field_92072_h = new ArrayList();
+	private static boolean loaded = false;
 	private Random rand = new Random();
 	private int ticksBeforeMusic;
 	
-	public SoundManager(ResourceManager par1ResourceManager, GameSettings par2GameSettings, File par3File)
+	public SoundManager()
 	{
 		ticksBeforeMusic = rand.nextInt(12000);
-		options = par2GameSettings;
-		field_130085_i = par3File;
-		soundPoolSounds = new SoundPool(par1ResourceManager, "sound", true);
-		soundPoolStreaming = new SoundPool(par1ResourceManager, "records", false);
-		soundPoolMusic = new SoundPool(par1ResourceManager, "music", true);
-		try
-		{
-			SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
-			SoundSystemConfig.setCodec("ogg", CodecJOrbis.class);
-			SoundSystemConfig.setCodec("wav", CodecWav.class);
-		} catch(SoundSystemException var5)
-		{
-			var5.printStackTrace();
-			System.err.println("error linking with the LibraryJavaSound plug-in");
-		}
-		func_130083_h();
 	}
 	
-	public void addMusic(String par1Str)
+	public void addMusic(String par1Str, File p_77365_2_)
 	{
-		soundPoolMusic.addSound(par1Str);
+		soundPoolMusic.addSound(par1Str, p_77365_2_);
 	}
 	
-	public void addSound(String par1Str)
+	public void addSound(String par1Str, File p_77372_2_)
 	{
-		soundPoolSounds.addSound(par1Str);
+		soundPoolSounds.addSound(par1Str, p_77372_2_);
 	}
 	
-	public void addStreaming(String par1Str)
+	public void addStreaming(String par1Str, File p_77374_2_)
 	{
-		soundPoolStreaming.addSound(par1Str);
+		soundPoolStreaming.addSound(par1Str, p_77374_2_);
 	}
 	
 	public void closeMinecraft()
@@ -66,49 +47,6 @@ public class SoundManager implements ResourceManagerReloadListener
 		if(loaded)
 		{
 			sndSystem.cleanup();
-			loaded = false;
-		}
-	}
-	
-	@Override public void func_110549_a(ResourceManager par1ResourceManager)
-	{
-		stopAllSounds();
-		closeMinecraft();
-		tryToSetLibraryAndCodecs();
-	}
-	
-	private void func_130081_a(File par1File)
-	{
-		String var2 = field_130085_i.toURI().relativize(par1File.toURI()).getPath();
-		int var3 = var2.indexOf("/");
-		if(var3 != -1)
-		{
-			String var4 = var2.substring(0, var3);
-			var2 = var2.substring(var3 + 1);
-			if("sound".equalsIgnoreCase(var4))
-			{
-				addSound(var2);
-			} else if("records".equalsIgnoreCase(var4))
-			{
-				addStreaming(var2);
-			} else if("music".equalsIgnoreCase(var4))
-			{
-				addMusic(var2);
-			}
-		}
-	}
-	
-	private void func_130083_h()
-	{
-		if(field_130085_i.isDirectory())
-		{
-			Collection var1 = FileUtils.listFiles(field_130085_i, field_130084_a, true);
-			Iterator var2 = var1.iterator();
-			while(var2.hasNext())
-			{
-				File var3 = (File) var2.next();
-				func_130081_a(var3);
-			}
 		}
 	}
 	
@@ -144,8 +82,22 @@ public class SoundManager implements ResourceManagerReloadListener
 		} else return false;
 	}
 	
+	public void loadSoundSettings(GameSettings p_77373_1_)
+	{
+		soundPoolStreaming.isGetRandomSound = false;
+		options = p_77373_1_;
+		if(!loaded && (p_77373_1_ == null || p_77373_1_.soundVolume != 0.0F || p_77373_1_.musicVolume != 0.0F))
+		{
+			tryToSetLibraryAndCodecs();
+		}
+	}
+	
 	public void onSoundOptionsChanged()
 	{
+		if(!loaded && (options.soundVolume != 0.0F || options.musicVolume != 0.0F))
+		{
+			tryToSetLibraryAndCodecs();
+		}
 		if(loaded)
 		{
 			if(options.musicVolume == 0.0F)
@@ -172,20 +124,21 @@ public class SoundManager implements ResourceManagerReloadListener
 	
 	public void playEntitySound(String par1Str, Entity par2Entity, float par3, float par4, boolean par5)
 	{
-		if(loaded && (options.soundVolume != 0.0F || par1Str == null) && par2Entity != null)
+		if(par2Entity != null)
 		{
-			String var6 = "entity_" + par2Entity.entityId;
-			if(playingSounds.contains(var6))
+			if(loaded && (options.soundVolume != 0.0F || par1Str == null))
 			{
-				this.updateSoundLocation(par2Entity);
-			} else
-			{
-				if(sndSystem.playing(var6))
+				String var6 = "entity_" + par2Entity.entityId;
+				if(playingSounds.contains(var6))
 				{
-					sndSystem.stop(var6);
-				}
-				if(par1Str != null)
+					this.updateSoundLocation(par2Entity);
+				} else
 				{
+					if(sndSystem.playing(var6))
+					{
+						sndSystem.stop(var6);
+					}
+					if(par1Str == null) return;
 					SoundPoolEntry var7 = soundPoolSounds.getRandomSoundFromSoundPool(par1Str);
 					if(var7 != null && par3 > 0.0F)
 					{
@@ -194,7 +147,7 @@ public class SoundManager implements ResourceManagerReloadListener
 						{
 							var8 *= par3;
 						}
-						sndSystem.newSource(par5, var6, var7.func_110457_b(), var7.func_110458_a(), false, (float) par2Entity.posX, (float) par2Entity.posY, (float) par2Entity.posZ, 2, var8);
+						sndSystem.newSource(par5, var6, var7.soundUrl, var7.soundName, false, (float) par2Entity.posX, (float) par2Entity.posY, (float) par2Entity.posZ, 2, var8);
 						sndSystem.setLooping(var6, true);
 						sndSystem.setPitch(var6, par4);
 						if(par3 > 1.0F)
@@ -220,16 +173,15 @@ public class SoundManager implements ResourceManagerReloadListener
 				if(ticksBeforeMusic > 0)
 				{
 					--ticksBeforeMusic;
-				} else
+					return;
+				}
+				SoundPoolEntry var1 = soundPoolMusic.getRandomSound();
+				if(var1 != null)
 				{
-					SoundPoolEntry var1 = soundPoolMusic.getRandomSound();
-					if(var1 != null)
-					{
-						ticksBeforeMusic = rand.nextInt(12000) + 12000;
-						sndSystem.backgroundMusic("BgMusic", var1.func_110457_b(), var1.func_110458_a(), false);
-						sndSystem.setVolume("BgMusic", options.musicVolume);
-						sndSystem.play("BgMusic");
-					}
+					ticksBeforeMusic = rand.nextInt(12000) + 12000;
+					sndSystem.backgroundMusic("BgMusic", var1.soundUrl, var1.soundName, false);
+					sndSystem.setVolume("BgMusic", options.musicVolume);
+					sndSystem.play("BgMusic");
 				}
 			}
 		}
@@ -249,12 +201,12 @@ public class SoundManager implements ResourceManagerReloadListener
 				{
 					var9 *= par5;
 				}
-				sndSystem.newSource(par5 > 1.0F, var8, var7.func_110457_b(), var7.func_110458_a(), false, par2, par3, par4, 2, var9);
+				sndSystem.newSource(par5 > 1.0F, var8, var7.soundUrl, var7.soundName, false, par2, par3, par4, 2, var9);
+				sndSystem.setPitch(var8, par6);
 				if(par5 > 1.0F)
 				{
 					par5 = 1.0F;
 				}
-				sndSystem.setPitch(var8, par6);
 				sndSystem.setVolume(var8, par5 * options.soundVolume);
 				sndSystem.play(var8);
 			}
@@ -266,11 +218,11 @@ public class SoundManager implements ResourceManagerReloadListener
 		if(loaded && options.soundVolume != 0.0F)
 		{
 			SoundPoolEntry var4 = soundPoolSounds.getRandomSoundFromSoundPool(par1Str);
-			if(var4 != null && par2 > 0.0F)
+			if(var4 != null)
 			{
 				latestSoundID = (latestSoundID + 1) % 256;
 				String var5 = "sound_" + latestSoundID;
-				sndSystem.newSource(false, var5, var4.func_110457_b(), var4.func_110458_a(), false, 0.0F, 0.0F, 0.0F, 0, 0.0F);
+				sndSystem.newSource(false, var5, var4.soundUrl, var4.soundName, false, 0.0F, 0.0F, 0.0F, 0, 0.0F);
 				if(par2 > 1.0F)
 				{
 					par2 = 1.0F;
@@ -301,7 +253,8 @@ public class SoundManager implements ResourceManagerReloadListener
 					{
 						sndSystem.stop("BgMusic");
 					}
-					sndSystem.newStreamingSource(true, var5, var6.func_110457_b(), var6.func_110458_a(), false, par2, par3, par4, 2, 64.0F);
+					float var7 = 16.0F;
+					sndSystem.newStreamingSource(true, var5, var6.soundUrl, var6.soundName, false, par2, par3, par4, 2, var7 * 4.0F);
 					sndSystem.setVolume(var5, 0.5F * options.soundVolume);
 					sndSystem.play(var5);
 				}
@@ -321,62 +274,68 @@ public class SoundManager implements ResourceManagerReloadListener
 	
 	public void setEntitySoundPitch(Entity par1Entity, float par2)
 	{
-		if(par1Entity != null && loaded && options.soundVolume != 0.0F)
+		if(par1Entity != null && loaded)
 		{
-			String var3 = "entity_" + par1Entity.entityId;
-			if(sndSystem.playing(var3))
+			if(loaded && options.soundVolume != 0.0F)
 			{
-				sndSystem.setPitch(var3, par2);
+				String var3 = "entity_" + par1Entity.entityId;
+				if(sndSystem.playing(var3))
+				{
+					sndSystem.setPitch(var3, par2);
+				}
 			}
 		}
 	}
 	
 	public void setEntitySoundVolume(Entity par1Entity, float par2)
 	{
-		if(par1Entity != null && loaded && options.soundVolume != 0.0F)
+		if(par1Entity != null && loaded)
 		{
-			String var3 = "entity_" + par1Entity.entityId;
-			if(sndSystem.playing(var3))
+			if(loaded && options.soundVolume != 0.0F)
 			{
-				sndSystem.setVolume(var3, par2 * options.soundVolume);
+				String var3 = "entity_" + par1Entity.entityId;
+				if(sndSystem.playing(var3))
+				{
+					sndSystem.setVolume(var3, par2 * options.soundVolume);
+				}
 			}
 		}
 	}
 	
-	public void setListener(EntityLivingBase par1EntityLivingBase, float par2)
+	public void setListener(EntityLiving par1EntityLivingBase, float par2)
 	{
-		if(loaded && options.soundVolume != 0.0F && par1EntityLivingBase != null)
+		if(loaded && options.soundVolume != 0.0F)
 		{
-			float var3 = par1EntityLivingBase.prevRotationPitch + (par1EntityLivingBase.rotationPitch - par1EntityLivingBase.prevRotationPitch) * par2;
-			float var4 = par1EntityLivingBase.prevRotationYaw + (par1EntityLivingBase.rotationYaw - par1EntityLivingBase.prevRotationYaw) * par2;
-			double var5 = par1EntityLivingBase.prevPosX + (par1EntityLivingBase.posX - par1EntityLivingBase.prevPosX) * par2;
-			double var7 = par1EntityLivingBase.prevPosY + (par1EntityLivingBase.posY - par1EntityLivingBase.prevPosY) * par2;
-			double var9 = par1EntityLivingBase.prevPosZ + (par1EntityLivingBase.posZ - par1EntityLivingBase.prevPosZ) * par2;
-			float var11 = MathHelper.cos(-var4 * 0.017453292F - (float) Math.PI);
-			float var12 = MathHelper.sin(-var4 * 0.017453292F - (float) Math.PI);
-			float var13 = -var12;
-			float var14 = -MathHelper.sin(-var3 * 0.017453292F - (float) Math.PI);
-			float var15 = -var11;
-			float var16 = 0.0F;
-			float var17 = 1.0F;
-			float var18 = 0.0F;
-			sndSystem.setListenerPosition((float) var5, (float) var7, (float) var9);
-			sndSystem.setListenerOrientation(var13, var14, var15, var16, var17, var18);
+			if(par1EntityLivingBase != null)
+			{
+				float var3 = par1EntityLivingBase.prevRotationPitch + (par1EntityLivingBase.rotationPitch - par1EntityLivingBase.prevRotationPitch) * par2;
+				float var4 = par1EntityLivingBase.prevRotationYaw + (par1EntityLivingBase.rotationYaw - par1EntityLivingBase.prevRotationYaw) * par2;
+				double var5 = par1EntityLivingBase.prevPosX + (par1EntityLivingBase.posX - par1EntityLivingBase.prevPosX) * par2;
+				double var7 = par1EntityLivingBase.prevPosY + (par1EntityLivingBase.posY - par1EntityLivingBase.prevPosY) * par2;
+				double var9 = par1EntityLivingBase.prevPosZ + (par1EntityLivingBase.posZ - par1EntityLivingBase.prevPosZ) * par2;
+				float var11 = MathHelper.cos(-var4 * 0.017453292F - (float) Math.PI);
+				float var12 = MathHelper.sin(-var4 * 0.017453292F - (float) Math.PI);
+				float var13 = -var12;
+				float var14 = -MathHelper.sin(-var3 * 0.017453292F - (float) Math.PI);
+				float var15 = -var11;
+				float var16 = 0.0F;
+				float var17 = 1.0F;
+				float var18 = 0.0F;
+				sndSystem.setListenerPosition((float) var5, (float) var7, (float) var9);
+				sndSystem.setListenerOrientation(var13, var14, var15, var16, var17, var18);
+			}
 		}
 	}
 	
 	public void stopAllSounds()
 	{
-		if(loaded)
+		Iterator var1 = playingSounds.iterator();
+		while(var1.hasNext())
 		{
-			Iterator var1 = playingSounds.iterator();
-			while(var1.hasNext())
-			{
-				String var2 = (String) var1.next();
-				sndSystem.stop(var2);
-			}
-			playingSounds.clear();
+			String var2 = (String) var1.next();
+			sndSystem.stop(var2);
 		}
+		playingSounds.clear();
 	}
 	
 	public void stopEntitySound(Entity par1Entity)
@@ -395,29 +354,29 @@ public class SoundManager implements ResourceManagerReloadListener
 		}
 	}
 	
-	private synchronized void tryToSetLibraryAndCodecs()
+	private void tryToSetLibraryAndCodecs()
 	{
-		if(!loaded)
+		try
 		{
 			float var1 = options.soundVolume;
 			float var2 = options.musicVolume;
 			options.soundVolume = 0.0F;
 			options.musicVolume = 0.0F;
 			options.saveOptions();
-			try
-			{
-				new Thread(new SoundManagerINNER1(this)).start();
-				options.soundVolume = var1;
-				options.musicVolume = var2;
-			} catch(RuntimeException var4)
-			{
-				var4.printStackTrace();
-				System.err.println("error starting SoundSystem turning off sounds & music");
-				options.soundVolume = 0.0F;
-				options.musicVolume = 0.0F;
-			}
+			SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
+			SoundSystemConfig.setCodec("ogg", CodecJOrbis.class);
+			SoundSystemConfig.setCodec("mus", CodecMus.class);
+			SoundSystemConfig.setCodec("wav", CodecWav.class);
+			sndSystem = new SoundSystem();
+			options.soundVolume = var1;
+			options.musicVolume = var2;
 			options.saveOptions();
+		} catch(Throwable var3)
+		{
+			var3.printStackTrace();
+			System.err.println("error linking with the LibraryJavaSound plug-in");
 		}
+		loaded = true;
 	}
 	
 	public void updateSoundLocation(Entity par1Entity)
@@ -439,15 +398,5 @@ public class SoundManager implements ResourceManagerReloadListener
 				playingSounds.remove(var3);
 			}
 		}
-	}
-	
-	static SoundSystem func_130080_a(SoundManager par0SoundManager, SoundSystem par1SoundSystem)
-	{
-		return par0SoundManager.sndSystem = par1SoundSystem;
-	}
-	
-	static boolean func_130082_a(SoundManager par0SoundManager, boolean par1)
-	{
-		return par0SoundManager.loaded = par1;
 	}
 }

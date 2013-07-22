@@ -4,13 +4,13 @@ public class EntityAIOcelotAttack extends EntityAIBase
 {
 	World theWorld;
 	EntityLiving theEntity;
-	EntityLivingBase theVictim;
-	int attackCountdown;
+	EntityLiving theVictim;
+	int attackCountdown = 0;
 	
-	public EntityAIOcelotAttack(EntityLiving par1EntityLiving)
+	public EntityAIOcelotAttack(EntityLiving p_i3485_1_)
 	{
-		theEntity = par1EntityLiving;
-		theWorld = par1EntityLiving.worldObj;
+		theEntity = p_i3485_1_;
+		theWorld = p_i3485_1_.worldObj;
 		setMutexBits(3);
 	}
 	
@@ -27,7 +27,7 @@ public class EntityAIOcelotAttack extends EntityAIBase
 	
 	@Override public boolean shouldExecute()
 	{
-		EntityLivingBase var1 = theEntity.getAttackTarget();
+		EntityLiving var1 = theEntity.getAttackTarget();
 		if(var1 == null) return false;
 		else
 		{
@@ -41,13 +41,13 @@ public class EntityAIOcelotAttack extends EntityAIBase
 		theEntity.getLookHelper().setLookPositionWithEntity(theVictim, 30.0F, 30.0F);
 		double var1 = theEntity.width * 2.0F * theEntity.width * 2.0F;
 		double var3 = theEntity.getDistanceSq(theVictim.posX, theVictim.boundingBox.minY, theVictim.posZ);
-		double var5 = 0.8D;
+		float var5 = 0.23F;
 		if(var3 > var1 && var3 < 16.0D)
 		{
-			var5 = 1.33D;
+			var5 = 0.4F;
 		} else if(var3 < 225.0D)
 		{
-			var5 = 0.6D;
+			var5 = 0.18F;
 		}
 		theEntity.getNavigator().tryMoveToEntityLiving(theVictim, var5);
 		attackCountdown = Math.max(attackCountdown - 1, 0);

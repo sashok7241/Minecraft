@@ -5,24 +5,24 @@ public class ItemSeeds extends Item
 	private int blockType;
 	private int soilBlockID;
 	
-	public ItemSeeds(int par1, int par2, int par3)
+	public ItemSeeds(int p_i3682_1_, int p_i3682_2_, int p_i3682_3_)
 	{
-		super(par1);
-		blockType = par2;
-		soilBlockID = par3;
+		super(p_i3682_1_);
+		blockType = p_i3682_2_;
+		soilBlockID = p_i3682_3_;
 		setCreativeTab(CreativeTabs.tabMaterials);
 	}
 	
-	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
 	{
-		if(par7 != 1) return false;
-		else if(par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
+		if(p_77648_7_ != 1) return false;
+		else if(p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_1_) && p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_ + 1, p_77648_6_, p_77648_7_, p_77648_1_))
 		{
-			int var11 = par3World.getBlockId(par4, par5, par6);
-			if(var11 == soilBlockID && par3World.isAirBlock(par4, par5 + 1, par6))
+			int var11 = p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_);
+			if(var11 == soilBlockID && p_77648_3_.isAirBlock(p_77648_4_, p_77648_5_ + 1, p_77648_6_))
 			{
-				par3World.setBlock(par4, par5 + 1, par6, blockType);
-				--par1ItemStack.stackSize;
+				p_77648_3_.setBlock(p_77648_4_, p_77648_5_ + 1, p_77648_6_, blockType);
+				--p_77648_1_.stackSize;
 				return true;
 			} else return false;
 		} else return false;

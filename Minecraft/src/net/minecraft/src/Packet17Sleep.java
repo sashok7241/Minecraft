@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet17Sleep extends Packet
@@ -16,13 +16,13 @@ public class Packet17Sleep extends Packet
 	{
 	}
 	
-	public Packet17Sleep(Entity par1Entity, int par2, int par3, int par4, int par5)
+	public Packet17Sleep(Entity p_i3317_1_, int p_i3317_2_, int p_i3317_3_, int p_i3317_4_, int p_i3317_5_)
 	{
-		field_73622_e = par2;
-		bedX = par3;
-		bedY = par4;
-		bedZ = par5;
-		entityID = par1Entity.entityId;
+		field_73622_e = p_i3317_2_;
+		bedX = p_i3317_3_;
+		bedY = p_i3317_4_;
+		bedZ = p_i3317_5_;
+		entityID = p_i3317_1_.entityId;
 	}
 	
 	@Override public int getPacketSize()
@@ -30,26 +30,26 @@ public class Packet17Sleep extends Packet
 		return 14;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleSleep(this);
+		p_73279_1_.handleSleep(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityID = par1DataInput.readInt();
-		field_73622_e = par1DataInput.readByte();
-		bedX = par1DataInput.readInt();
-		bedY = par1DataInput.readByte();
-		bedZ = par1DataInput.readInt();
+		entityID = p_73267_1_.readInt();
+		field_73622_e = p_73267_1_.readByte();
+		bedX = p_73267_1_.readInt();
+		bedY = p_73267_1_.readByte();
+		bedZ = p_73267_1_.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityID);
-		par1DataOutput.writeByte(field_73622_e);
-		par1DataOutput.writeInt(bedX);
-		par1DataOutput.writeByte(bedY);
-		par1DataOutput.writeInt(bedZ);
+		p_73273_1_.writeInt(entityID);
+		p_73273_1_.writeByte(field_73622_e);
+		p_73273_1_.writeInt(bedX);
+		p_73273_1_.writeByte(bedY);
+		p_73273_1_.writeInt(bedZ);
 	}
 }

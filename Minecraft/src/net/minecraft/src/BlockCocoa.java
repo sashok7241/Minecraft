@@ -4,26 +4,27 @@ import java.util.Random;
 
 public class BlockCocoa extends BlockDirectional
 {
+	public static final String[] cocoaIcons = new String[] { "cocoa_0", "cocoa_1", "cocoa_2" };
 	private Icon[] iconArray;
 	
-	public BlockCocoa(int par1)
+	public BlockCocoa(int p_i3930_1_)
 	{
-		super(par1, Material.plants);
+		super(p_i3930_1_, Material.plants);
 		setTickRandomly(true);
 	}
 	
-	@Override public boolean canBlockStay(World par1World, int par2, int par3, int par4)
+	@Override public boolean canBlockStay(World p_71854_1_, int p_71854_2_, int p_71854_3_, int p_71854_4_)
 	{
-		int var5 = getDirection(par1World.getBlockMetadata(par2, par3, par4));
-		par2 += Direction.offsetX[var5];
-		par4 += Direction.offsetZ[var5];
-		int var6 = par1World.getBlockId(par2, par3, par4);
-		return var6 == Block.wood.blockID && BlockLog.limitToValidMetadata(par1World.getBlockMetadata(par2, par3, par4)) == 3;
+		int var5 = getDirection(p_71854_1_.getBlockMetadata(p_71854_2_, p_71854_3_, p_71854_4_));
+		p_71854_2_ += Direction.offsetX[var5];
+		p_71854_4_ += Direction.offsetZ[var5];
+		int var6 = p_71854_1_.getBlockId(p_71854_2_, p_71854_3_, p_71854_4_);
+		return var6 == Block.wood.blockID && BlockLog.limitToValidMetadata(p_71854_1_.getBlockMetadata(p_71854_2_, p_71854_3_, p_71854_4_)) == 3;
 	}
 	
-	@Override public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
+	@Override public void dropBlockAsItemWithChance(World p_71914_1_, int p_71914_2_, int p_71914_3_, int p_71914_4_, int p_71914_5_, float p_71914_6_, int p_71914_7_)
 	{
-		int var8 = func_72219_c(par5);
+		int var8 = func_72219_c(p_71914_5_);
 		byte var9 = 1;
 		if(var8 >= 2)
 		{
@@ -31,7 +32,7 @@ public class BlockCocoa extends BlockDirectional
 		}
 		for(int var10 = 0; var10 < var9; ++var10)
 		{
-			dropBlockAsItem_do(par1World, par2, par3, par4, new ItemStack(Item.dyePowder, 1, 3));
+			dropBlockAsItem_do(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, new ItemStack(Item.dyePowder, 1, 3));
 		}
 	}
 	
@@ -44,13 +45,13 @@ public class BlockCocoa extends BlockDirectional
 		return iconArray[par1];
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
 	{
-		setBlockBoundsBasedOnState(par1World, par2, par3, par4);
-		return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
+		setBlockBoundsBasedOnState(p_71872_1_, p_71872_2_, p_71872_3_, p_71872_4_);
+		return super.getCollisionBoundingBoxFromPool(p_71872_1_, p_71872_2_, p_71872_3_, p_71872_4_);
 	}
 	
-	@Override public int getDamageValue(World par1World, int par2, int par3, int par4)
+	@Override public int getDamageValue(World p_71873_1_, int p_71873_2_, int p_71873_3_, int p_71873_4_)
 	{
 		return 3;
 	}
@@ -81,36 +82,36 @@ public class BlockCocoa extends BlockDirectional
 		return false;
 	}
 	
-	@Override public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
+	@Override public int onBlockPlaced(World p_85104_1_, int p_85104_2_, int p_85104_3_, int p_85104_4_, int p_85104_5_, float p_85104_6_, float p_85104_7_, float p_85104_8_, int p_85104_9_)
 	{
-		if(par5 == 1 || par5 == 0)
+		if(p_85104_5_ == 1 || p_85104_5_ == 0)
 		{
-			par5 = 2;
+			p_85104_5_ = 2;
 		}
-		return Direction.rotateOpposite[Direction.facingToDirection[par5]];
+		return Direction.rotateOpposite[Direction.facingToDirection[p_85104_5_]];
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World p_71860_1_, int p_71860_2_, int p_71860_3_, int p_71860_4_, EntityLiving p_71860_5_, ItemStack p_71860_6_)
 	{
-		int var7 = ((MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 0) % 4;
-		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
+		int var7 = ((MathHelper.floor_double(p_71860_5_.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 0) % 4;
+		p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, var7, 2);
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
-		if(!canBlockStay(par1World, par2, par3, par4))
+		if(!canBlockStay(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_))
 		{
-			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlock(par2, par3, par4, 0, 0, 2);
+			dropBlockAsItem(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, p_71863_1_.getBlockMetadata(p_71863_2_, p_71863_3_, p_71863_4_), 0);
+			p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray = new Icon[3];
+		iconArray = new Icon[cocoaIcons.length];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon(func_111023_E() + "_stage_" + var2);
+			iconArray[var2] = par1IconRegister.registerIcon(cocoaIcons[var2]);
 		}
 	}
 	
@@ -119,9 +120,9 @@ public class BlockCocoa extends BlockDirectional
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
-		int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+		int var5 = p_71902_1_.getBlockMetadata(p_71902_2_, p_71902_3_, p_71902_4_);
 		int var6 = getDirection(var5);
 		int var7 = func_72219_c(var5);
 		int var8 = 4 + var7 * 2;
@@ -143,26 +144,26 @@ public class BlockCocoa extends BlockDirectional
 		}
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
-		if(!canBlockStay(par1World, par2, par3, par4))
+		if(!canBlockStay(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_))
 		{
-			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlock(par2, par3, par4, 0, 0, 2);
-		} else if(par1World.rand.nextInt(5) == 0)
+			dropBlockAsItem(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_, p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_), 0);
+			p_71847_1_.setBlockToAir(p_71847_2_, p_71847_3_, p_71847_4_);
+		} else if(p_71847_1_.rand.nextInt(5) == 0)
 		{
-			int var6 = par1World.getBlockMetadata(par2, par3, par4);
+			int var6 = p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_);
 			int var7 = func_72219_c(var6);
 			if(var7 < 2)
 			{
 				++var7;
-				par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 << 2 | getDirection(var6), 2);
+				p_71847_1_.setBlockMetadataWithNotify(p_71847_2_, p_71847_3_, p_71847_4_, var7 << 2 | getDirection(var6), 2);
 			}
 		}
 	}
 	
-	public static int func_72219_c(int par0)
+	public static int func_72219_c(int p_72219_0_)
 	{
-		return (par0 & 12) >> 2;
+		return (p_72219_0_ & 12) >> 2;
 	}
 }

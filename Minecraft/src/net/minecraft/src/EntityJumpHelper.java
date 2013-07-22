@@ -3,11 +3,11 @@ package net.minecraft.src;
 public class EntityJumpHelper
 {
 	private EntityLiving entity;
-	private boolean isJumping;
+	private boolean isJumping = false;
 	
-	public EntityJumpHelper(EntityLiving par1EntityLiving)
+	public EntityJumpHelper(EntityLiving p_i3454_1_)
 	{
-		entity = par1EntityLiving;
+		entity = p_i3454_1_;
 	}
 	
 	public void doJump()

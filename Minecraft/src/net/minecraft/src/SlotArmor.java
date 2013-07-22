@@ -5,11 +5,11 @@ class SlotArmor extends Slot
 	final int armorType;
 	final ContainerPlayer parent;
 	
-	SlotArmor(ContainerPlayer par1ContainerPlayer, IInventory par2IInventory, int par3, int par4, int par5, int par6)
+	SlotArmor(ContainerPlayer p_i3609_1_, IInventory p_i3609_2_, int p_i3609_3_, int p_i3609_4_, int p_i3609_5_, int p_i3609_6_)
 	{
-		super(par2IInventory, par3, par4, par5);
-		parent = par1ContainerPlayer;
-		armorType = par6;
+		super(p_i3609_2_, p_i3609_3_, p_i3609_4_, p_i3609_5_);
+		parent = p_i3609_1_;
+		armorType = p_i3609_6_;
 	}
 	
 	@Override public Icon getBackgroundIconIndex()
@@ -22,8 +22,8 @@ class SlotArmor extends Slot
 		return 1;
 	}
 	
-	@Override public boolean isItemValid(ItemStack par1ItemStack)
+	@Override public boolean isItemValid(ItemStack p_75214_1_)
 	{
-		return par1ItemStack == null ? false : par1ItemStack.getItem() instanceof ItemArmor ? ((ItemArmor) par1ItemStack.getItem()).armorType == armorType : par1ItemStack.getItem().itemID != Block.pumpkin.blockID && par1ItemStack.getItem().itemID != Item.skull.itemID ? false : armorType == 0;
+		return p_75214_1_ == null ? false : p_75214_1_.getItem() instanceof ItemArmor ? ((ItemArmor) p_75214_1_.getItem()).armorType == armorType : p_75214_1_.getItem().itemID != Block.pumpkin.blockID && p_75214_1_.getItem().itemID != Item.skull.itemID ? false : armorType == 0;
 	}
 }

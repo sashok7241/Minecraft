@@ -7,33 +7,33 @@ public class ComponentNetherBridgeThrone extends ComponentNetherBridgePiece
 {
 	private boolean hasSpawner;
 	
-	public ComponentNetherBridgeThrone(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
+	public ComponentNetherBridgeThrone(int p_i3825_1_, Random p_i3825_2_, StructureBoundingBox p_i3825_3_, int p_i3825_4_)
 	{
-		super(par1);
-		coordBaseMode = par4;
-		boundingBox = par3StructureBoundingBox;
+		super(p_i3825_1_);
+		coordBaseMode = p_i3825_4_;
+		boundingBox = p_i3825_3_;
 	}
 	
-	@Override public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
+	@Override public boolean addComponentParts(World p_74875_1_, Random p_74875_2_, StructureBoundingBox p_74875_3_)
 	{
-		fillWithBlocks(par1World, par3StructureBoundingBox, 0, 2, 0, 6, 7, 7, 0, 0, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 0, 0, 5, 1, 7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 2, 1, 5, 2, 7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 3, 2, 5, 3, 7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 4, 3, 5, 4, 7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 2, 0, 1, 4, 2, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 5, 2, 0, 5, 4, 2, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 5, 2, 1, 5, 3, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 5, 5, 2, 5, 5, 3, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 0, 5, 3, 0, 5, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 6, 5, 3, 6, 5, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 5, 8, 5, 5, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
-		placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, 1, 6, 3, par3StructureBoundingBox);
-		placeBlockAtCurrentPosition(par1World, Block.netherFence.blockID, 0, 5, 6, 3, par3StructureBoundingBox);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 0, 6, 3, 0, 6, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 6, 6, 3, 6, 6, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 6, 8, 5, 7, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
-		fillWithBlocks(par1World, par3StructureBoundingBox, 2, 8, 8, 4, 8, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 0, 2, 0, 6, 7, 7, 0, 0, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 0, 0, 5, 1, 7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 2, 1, 5, 2, 7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 3, 2, 5, 3, 7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 4, 3, 5, 4, 7, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 2, 0, 1, 4, 2, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 5, 2, 0, 5, 4, 2, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 5, 2, 1, 5, 3, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 5, 5, 2, 5, 5, 3, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 0, 5, 3, 0, 5, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 6, 5, 3, 6, 5, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 5, 8, 5, 5, 8, Block.netherBrick.blockID, Block.netherBrick.blockID, false);
+		placeBlockAtCurrentPosition(p_74875_1_, Block.netherFence.blockID, 0, 1, 6, 3, p_74875_3_);
+		placeBlockAtCurrentPosition(p_74875_1_, Block.netherFence.blockID, 0, 5, 6, 3, p_74875_3_);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 0, 6, 3, 0, 6, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 6, 6, 3, 6, 6, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 6, 8, 5, 7, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
+		fillWithBlocks(p_74875_1_, p_74875_3_, 2, 8, 8, 4, 8, 8, Block.netherFence.blockID, Block.netherFence.blockID, false);
 		int var4;
 		int var5;
 		if(!hasSpawner)
@@ -41,11 +41,11 @@ public class ComponentNetherBridgeThrone extends ComponentNetherBridgePiece
 			var4 = getYWithOffset(5);
 			var5 = getXWithOffset(3, 5);
 			int var6 = getZWithOffset(3, 5);
-			if(par3StructureBoundingBox.isVecInside(var5, var4, var6))
+			if(p_74875_3_.isVecInside(var5, var4, var6))
 			{
 				hasSpawner = true;
-				par1World.setBlock(var5, var4, var6, Block.mobSpawner.blockID, 0, 2);
-				TileEntityMobSpawner var7 = (TileEntityMobSpawner) par1World.getBlockTileEntity(var5, var4, var6);
+				p_74875_1_.setBlock(var5, var4, var6, Block.mobSpawner.blockID, 0, 2);
+				TileEntityMobSpawner var7 = (TileEntityMobSpawner) p_74875_1_.getBlockTileEntity(var5, var4, var6);
 				if(var7 != null)
 				{
 					var7.getSpawnerLogic().setMobID("Blaze");
@@ -56,15 +56,15 @@ public class ComponentNetherBridgeThrone extends ComponentNetherBridgePiece
 		{
 			for(var5 = 0; var5 <= 6; ++var5)
 			{
-				fillCurrentPositionBlocksDownwards(par1World, Block.netherBrick.blockID, 0, var4, -1, var5, par3StructureBoundingBox);
+				fillCurrentPositionBlocksDownwards(p_74875_1_, Block.netherBrick.blockID, 0, var4, -1, var5, p_74875_3_);
 			}
 		}
 		return true;
 	}
 	
-	public static ComponentNetherBridgeThrone createValidComponent(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
+	public static ComponentNetherBridgeThrone createValidComponent(List p_74975_0_, Random p_74975_1_, int p_74975_2_, int p_74975_3_, int p_74975_4_, int p_74975_5_, int p_74975_6_)
 	{
-		StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -2, 0, 0, 7, 8, 9, par5);
-		return isAboveGround(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentNetherBridgeThrone(par6, par1Random, var7, par5) : null;
+		StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(p_74975_2_, p_74975_3_, p_74975_4_, -2, 0, 0, 7, 8, 9, p_74975_5_);
+		return isAboveGround(var7) && StructureComponent.findIntersecting(p_74975_0_, var7) == null ? new ComponentNetherBridgeThrone(p_74975_6_, p_74975_1_, var7, p_74975_5_) : null;
 	}
 }

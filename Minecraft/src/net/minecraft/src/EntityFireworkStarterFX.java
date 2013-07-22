@@ -4,22 +4,22 @@ import net.minecraft.client.Minecraft;
 
 public class EntityFireworkStarterFX extends EntityFX
 {
-	private int field_92042_ax;
+	private int field_92042_ax = 0;
 	private final EffectRenderer field_92040_ay;
 	private NBTTagList fireworkExplosions;
 	boolean field_92041_a;
 	
-	public EntityFireworkStarterFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, EffectRenderer par14EffectRenderer, NBTTagCompound par15NBTTagCompound)
+	public EntityFireworkStarterFX(World p_i8002_1_, double p_i8002_2_, double p_i8002_4_, double p_i8002_6_, double p_i8002_8_, double p_i8002_10_, double p_i8002_12_, EffectRenderer p_i8002_14_, NBTTagCompound p_i8002_15_)
 	{
-		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
-		motionX = par8;
-		motionY = par10;
-		motionZ = par12;
-		field_92040_ay = par14EffectRenderer;
+		super(p_i8002_1_, p_i8002_2_, p_i8002_4_, p_i8002_6_, 0.0D, 0.0D, 0.0D);
+		motionX = p_i8002_8_;
+		motionY = p_i8002_10_;
+		motionZ = p_i8002_12_;
+		field_92040_ay = p_i8002_14_;
 		particleMaxAge = 8;
-		if(par15NBTTagCompound != null)
+		if(p_i8002_15_ != null)
 		{
-			fireworkExplosions = par15NBTTagCompound.getTagList("Explosions");
+			fireworkExplosions = p_i8002_15_.getTagList("Explosions");
 			if(fireworkExplosions.tagCount() == 0)
 			{
 				fireworkExplosions = null;

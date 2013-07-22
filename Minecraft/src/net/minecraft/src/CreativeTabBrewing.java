@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 final class CreativeTabBrewing extends CreativeTabs
 {
-	CreativeTabBrewing(int par1, String par2Str)
+	CreativeTabBrewing(int p_i3631_1_, String p_i3631_2_)
 	{
-		super(par1, par2Str);
+		super(p_i3631_1_, p_i3631_2_);
 	}
 	
 	@Override public int getTabIconItemIndex()

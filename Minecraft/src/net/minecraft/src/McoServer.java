@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class McoServer
+public class McoServer extends ValueObject
 {
 	public long field_96408_a;
 	public String field_96406_b;
@@ -16,28 +16,15 @@ public class McoServer
 	public List field_96402_f;
 	public String field_96403_g;
 	public boolean field_98166_h;
-	public int field_110729_i;
-	public int field_110728_j;
 	public int field_104063_i;
 	public int field_96415_h;
+	public String field_96413_j = "";
 	public String field_96414_k = "";
 	public boolean field_96411_l;
-	public boolean field_102022_m;
+	public boolean field_102022_m = false;
 	public long field_96412_m;
-	private String field_96409_n;
-	private String field_96410_o;
-	
-	@Override public boolean equals(Object par1Obj)
-	{
-		if(par1Obj == null) return false;
-		else if(par1Obj == this) return true;
-		else if(par1Obj.getClass() != this.getClass()) return false;
-		else
-		{
-			McoServer var2 = (McoServer) par1Obj;
-			return new EqualsBuilder().append(field_96408_a, var2.field_96408_a).append(field_96406_b, var2.field_96406_b).append(field_96407_c, var2.field_96407_c).append(field_96404_d, var2.field_96404_d).append(field_96405_e, var2.field_96405_e).append(field_98166_h, var2.field_98166_h).isEquals();
-		}
-	}
+	private String field_96409_n = null;
+	private String field_96410_o = null;
 	
 	public String func_96397_a()
 	{
@@ -84,15 +71,11 @@ public class McoServer
 	public void func_96401_a(McoServer par1McoServer)
 	{
 		field_96414_k = par1McoServer.field_96414_k;
+		field_96413_j = par1McoServer.field_96413_j;
 		field_96412_m = par1McoServer.field_96412_m;
 		field_96411_l = par1McoServer.field_96411_l;
 		field_96415_h = par1McoServer.field_96415_h;
 		field_102022_m = true;
-	}
-	
-	@Override public int hashCode()
-	{
-		return new HashCodeBuilder(17, 37).append(field_96408_a).append(field_96406_b).append(field_96407_c).append(field_96404_d).append(field_96405_e).append(field_98166_h).toHashCode();
 	}
 	
 	public static McoServer func_98163_a(JsonNode par0JsonNode)
@@ -115,8 +98,6 @@ public class McoServer
 			var1.field_104063_i = Integer.parseInt(par0JsonNode.getNumberValue(new Object[] { "daysLeft" }));
 			var1.field_96403_g = par0JsonNode.getStringValue(new Object[] { "ip" });
 			var1.field_98166_h = par0JsonNode.getBooleanValue(new Object[] { "expired" }).booleanValue();
-			var1.field_110729_i = Integer.parseInt(par0JsonNode.getNumberValue(new Object[] { "difficulty" }));
-			var1.field_110728_j = Integer.parseInt(par0JsonNode.getNumberValue(new Object[] { "gameMode" }));
 		} catch(IllegalArgumentException var3)
 		{
 			;

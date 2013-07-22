@@ -2,17 +2,18 @@ package net.minecraft.src;
 
 public class EntityCaveSpider extends EntitySpider
 {
-	public EntityCaveSpider(World par1World)
+	public EntityCaveSpider(World p_i3546_1_)
 	{
-		super(par1World);
+		super(p_i3546_1_);
+		texture = "/mob/cavespider.png";
 		setSize(0.7F, 0.5F);
 	}
 	
-	@Override public boolean attackEntityAsMob(Entity par1Entity)
+	@Override public boolean attackEntityAsMob(Entity p_70652_1_)
 	{
-		if(super.attackEntityAsMob(par1Entity))
+		if(super.attackEntityAsMob(p_70652_1_))
 		{
-			if(par1Entity instanceof EntityLivingBase)
+			if(p_70652_1_ instanceof EntityLiving)
 			{
 				byte var2 = 0;
 				if(worldObj.difficultySetting > 1)
@@ -27,21 +28,24 @@ public class EntityCaveSpider extends EntitySpider
 				}
 				if(var2 > 0)
 				{
-					((EntityLivingBase) par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, var2 * 20, 0));
+					((EntityLiving) p_70652_1_).addPotionEffect(new PotionEffect(Potion.poison.id, var2 * 20, 0));
 				}
 			}
 			return true;
 		} else return false;
 	}
 	
-	@Override protected void func_110147_ax()
+	@Override public int getMaxHealth()
 	{
-		super.func_110147_ax();
-		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(12.0D);
+		return 12;
 	}
 	
-	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	@Override public void initCreature()
 	{
-		return par1EntityLivingData;
+	}
+	
+	@Override public float spiderScaleAmount()
+	{
+		return 0.7F;
 	}
 }

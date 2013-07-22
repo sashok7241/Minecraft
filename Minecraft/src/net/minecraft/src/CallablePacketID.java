@@ -7,10 +7,10 @@ class CallablePacketID implements Callable
 	final Packet thePacket;
 	final NetServerHandler theNetServerHandler;
 	
-	CallablePacketID(NetServerHandler par1NetServerHandler, Packet par2Packet)
+	CallablePacketID(NetServerHandler p_i11032_1_, Packet p_i11032_2_)
 	{
-		theNetServerHandler = par1NetServerHandler;
-		thePacket = par2Packet;
+		theNetServerHandler = p_i11032_1_;
+		thePacket = p_i11032_2_;
 	}
 	
 	@Override public Object call()

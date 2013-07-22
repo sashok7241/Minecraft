@@ -6,9 +6,9 @@ public class BlockMelon extends Block
 {
 	private Icon theIcon;
 	
-	protected BlockMelon(int par1)
+	protected BlockMelon(int p_i3968_1_)
 	{
-		super(par1, Material.pumpkin);
+		super(p_i3968_1_, Material.pumpkin);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
@@ -17,19 +17,19 @@ public class BlockMelon extends Block
 		return par1 != 1 && par1 != 0 ? blockIcon : theIcon;
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return Item.melon.itemID;
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
-		return 3 + par1Random.nextInt(5);
+		return 3 + p_71925_1_.nextInt(5);
 	}
 	
-	@Override public int quantityDroppedWithBonus(int par1, Random par2Random)
+	@Override public int quantityDroppedWithBonus(int p_71910_1_, Random p_71910_2_)
 	{
-		int var3 = quantityDropped(par2Random) + par2Random.nextInt(1 + par1);
+		int var3 = quantityDropped(p_71910_2_) + p_71910_2_.nextInt(1 + p_71910_1_);
 		if(var3 > 9)
 		{
 			var3 = 9;
@@ -39,7 +39,7 @@ public class BlockMelon extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
-		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		blockIcon = par1IconRegister.registerIcon("melon_side");
+		theIcon = par1IconRegister.registerIcon("melon_top");
 	}
 }

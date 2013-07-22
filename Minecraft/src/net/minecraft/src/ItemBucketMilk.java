@@ -2,39 +2,39 @@ package net.minecraft.src;
 
 public class ItemBucketMilk extends Item
 {
-	public ItemBucketMilk(int par1)
+	public ItemBucketMilk(int p_i3669_1_)
 	{
-		super(par1);
+		super(p_i3669_1_);
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.tabMisc);
 	}
 	
-	@Override public EnumAction getItemUseAction(ItemStack par1ItemStack)
+	@Override public EnumAction getItemUseAction(ItemStack p_77661_1_)
 	{
 		return EnumAction.drink;
 	}
 	
-	@Override public int getMaxItemUseDuration(ItemStack par1ItemStack)
+	@Override public int getMaxItemUseDuration(ItemStack p_77626_1_)
 	{
 		return 32;
 	}
 	
-	@Override public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@Override public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
 	{
-		if(!par3EntityPlayer.capabilities.isCreativeMode)
+		if(!p_77654_3_.capabilities.isCreativeMode)
 		{
-			--par1ItemStack.stackSize;
+			--p_77654_1_.stackSize;
 		}
-		if(!par2World.isRemote)
+		if(!p_77654_2_.isRemote)
 		{
-			par3EntityPlayer.clearActivePotions();
+			p_77654_3_.clearActivePotions();
 		}
-		return par1ItemStack.stackSize <= 0 ? new ItemStack(Item.bucketEmpty) : par1ItemStack;
+		return p_77654_1_.stackSize <= 0 ? new ItemStack(Item.bucketEmpty) : p_77654_1_;
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
 	{
-		par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
-		return par1ItemStack;
+		p_77659_3_.setItemInUse(p_77659_1_, getMaxItemUseDuration(p_77659_1_));
+		return p_77659_1_;
 	}
 }

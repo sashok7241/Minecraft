@@ -16,16 +16,16 @@ public enum EnumChatFormatting
 	private final boolean field_96303_A;
 	private final String field_96304_B;
 	
-	private EnumChatFormatting(char par3)
+	private EnumChatFormatting(char p_i10000_3_)
 	{
-		this(par3, false);
+		this(p_i10000_3_, false);
 	}
 	
-	private EnumChatFormatting(char par3, boolean par4)
+	private EnumChatFormatting(char p_i10001_3_, boolean p_i10001_4_)
 	{
-		field_96329_z = par3;
-		field_96303_A = par4;
-		field_96304_B = "\u00a7" + par3;
+		field_96329_z = p_i10001_3_;
+		field_96303_A = p_i10001_4_;
+		field_96304_B = "\u00a7" + p_i10001_3_;
 	}
 	
 	public String func_96297_d()
@@ -53,12 +53,7 @@ public enum EnumChatFormatting
 		return field_96304_B;
 	}
 	
-	public static String func_110646_a(String par0Str)
-	{
-		return par0Str == null ? null : field_96330_y.matcher(par0Str).replaceAll("");
-	}
-	
-	public static Collection func_96296_a(boolean par0, boolean par1)
+	public static Collection func_96296_a(boolean p_96296_0_, boolean p_96296_1_)
 	{
 		ArrayList var2 = new ArrayList();
 		EnumChatFormatting[] var3 = values();
@@ -66,7 +61,7 @@ public enum EnumChatFormatting
 		for(int var5 = 0; var5 < var4; ++var5)
 		{
 			EnumChatFormatting var6 = var3[var5];
-			if((!var6.func_96302_c() || par0) && (!var6.func_96301_b() || par1))
+			if((!var6.func_96302_c() || p_96296_0_) && (!var6.func_96301_b() || p_96296_1_))
 			{
 				var2.add(var6.func_96297_d());
 			}
@@ -74,9 +69,9 @@ public enum EnumChatFormatting
 		return var2;
 	}
 	
-	public static EnumChatFormatting func_96300_b(String par0Str)
+	public static EnumChatFormatting func_96300_b(String p_96300_0_)
 	{
-		return par0Str == null ? null : (EnumChatFormatting) field_96331_x.get(par0Str.toLowerCase());
+		return p_96300_0_ == null ? null : (EnumChatFormatting) field_96331_x.get(p_96300_0_.toLowerCase());
 	}
 	
 	static

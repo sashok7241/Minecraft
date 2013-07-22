@@ -26,10 +26,10 @@ public class ChunkProviderHell implements IChunkProvider
 	double[] noiseData4;
 	double[] noiseData5;
 	
-	public ChunkProviderHell(World par1World, long par2)
+	public ChunkProviderHell(World p_i3781_1_, long p_i3781_2_)
 	{
-		worldObj = par1World;
-		hellRNG = new Random(par2);
+		worldObj = p_i3781_1_;
+		hellRNG = new Random(p_i3781_2_);
 		netherNoiseGen1 = new NoiseGeneratorOctaves(hellRNG, 16);
 		netherNoiseGen2 = new NoiseGeneratorOctaves(hellRNG, 16);
 		netherNoiseGen3 = new NoiseGeneratorOctaves(hellRNG, 8);
@@ -44,12 +44,12 @@ public class ChunkProviderHell implements IChunkProvider
 		return true;
 	}
 	
-	@Override public boolean chunkExists(int par1, int par2)
+	@Override public boolean chunkExists(int p_73149_1_, int p_73149_2_)
 	{
 		return true;
 	}
 	
-	@Override public ChunkPosition findClosestStructure(World par1World, String par2Str, int par3, int par4, int par5)
+	@Override public ChunkPosition findClosestStructure(World p_73150_1_, String p_73150_2_, int p_73150_3_, int p_73150_4_, int p_73150_5_)
 	{
 		return null;
 	}
@@ -58,14 +58,14 @@ public class ChunkProviderHell implements IChunkProvider
 	{
 	}
 	
-	public void generateNetherTerrain(int par1, int par2, byte[] par3ArrayOfByte)
+	public void generateNetherTerrain(int p_73165_1_, int p_73165_2_, byte[] p_73165_3_)
 	{
 		byte var4 = 4;
 		byte var5 = 32;
 		int var6 = var4 + 1;
 		byte var7 = 17;
 		int var8 = var4 + 1;
-		noiseField = initializeNoiseField(noiseField, par1 * var4, 0, par2 * var4, var6, var7, var8);
+		noiseField = initializeNoiseField(noiseField, p_73165_1_ * var4, 0, p_73165_2_ * var4, var6, var7, var8);
 		for(int var9 = 0; var9 < var4; ++var9)
 		{
 			for(int var10 = 0; var10 < var4; ++var10)
@@ -106,7 +106,7 @@ public class ChunkProviderHell implements IChunkProvider
 								{
 									var51 = Block.netherrack.blockID;
 								}
-								par3ArrayOfByte[var42] = (byte) var51;
+								p_73165_3_[var42] = (byte) var51;
 								var42 += var43;
 								var46 += var48;
 							}
@@ -128,41 +128,40 @@ public class ChunkProviderHell implements IChunkProvider
 		return 0;
 	}
 	
-	@Override public List getPossibleCreatures(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
+	@Override public List getPossibleCreatures(EnumCreatureType p_73155_1_, int p_73155_2_, int p_73155_3_, int p_73155_4_)
 	{
-		if(par1EnumCreatureType == EnumCreatureType.monster)
+		if(p_73155_1_ == EnumCreatureType.monster && genNetherBridge.hasStructureAt(p_73155_2_, p_73155_3_, p_73155_4_)) return genNetherBridge.getSpawnList();
+		else
 		{
-			if(genNetherBridge.hasStructureAt(par2, par3, par4)) return genNetherBridge.getSpawnList();
-			if(genNetherBridge.func_142038_b(par2, par3, par4) && worldObj.getBlockId(par2, par3 - 1, par4) == Block.netherBrick.blockID) return genNetherBridge.getSpawnList();
+			BiomeGenBase var5 = worldObj.getBiomeGenForCoords(p_73155_2_, p_73155_4_);
+			return var5 == null ? null : var5.getSpawnableList(p_73155_1_);
 		}
-		BiomeGenBase var5 = worldObj.getBiomeGenForCoords(par2, par4);
-		return var5 == null ? null : var5.getSpawnableList(par1EnumCreatureType);
 	}
 	
-	private double[] initializeNoiseField(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, int par6, int par7)
+	private double[] initializeNoiseField(double[] p_73164_1_, int p_73164_2_, int p_73164_3_, int p_73164_4_, int p_73164_5_, int p_73164_6_, int p_73164_7_)
 	{
-		if(par1ArrayOfDouble == null)
+		if(p_73164_1_ == null)
 		{
-			par1ArrayOfDouble = new double[par5 * par6 * par7];
+			p_73164_1_ = new double[p_73164_5_ * p_73164_6_ * p_73164_7_];
 		}
 		double var8 = 684.412D;
 		double var10 = 2053.236D;
-		noiseData4 = netherNoiseGen6.generateNoiseOctaves(noiseData4, par2, par3, par4, par5, 1, par7, 1.0D, 0.0D, 1.0D);
-		noiseData5 = netherNoiseGen7.generateNoiseOctaves(noiseData5, par2, par3, par4, par5, 1, par7, 100.0D, 0.0D, 100.0D);
-		noiseData1 = netherNoiseGen3.generateNoiseOctaves(noiseData1, par2, par3, par4, par5, par6, par7, var8 / 80.0D, var10 / 60.0D, var8 / 80.0D);
-		noiseData2 = netherNoiseGen1.generateNoiseOctaves(noiseData2, par2, par3, par4, par5, par6, par7, var8, var10, var8);
-		noiseData3 = netherNoiseGen2.generateNoiseOctaves(noiseData3, par2, par3, par4, par5, par6, par7, var8, var10, var8);
+		noiseData4 = netherNoiseGen6.generateNoiseOctaves(noiseData4, p_73164_2_, p_73164_3_, p_73164_4_, p_73164_5_, 1, p_73164_7_, 1.0D, 0.0D, 1.0D);
+		noiseData5 = netherNoiseGen7.generateNoiseOctaves(noiseData5, p_73164_2_, p_73164_3_, p_73164_4_, p_73164_5_, 1, p_73164_7_, 100.0D, 0.0D, 100.0D);
+		noiseData1 = netherNoiseGen3.generateNoiseOctaves(noiseData1, p_73164_2_, p_73164_3_, p_73164_4_, p_73164_5_, p_73164_6_, p_73164_7_, var8 / 80.0D, var10 / 60.0D, var8 / 80.0D);
+		noiseData2 = netherNoiseGen1.generateNoiseOctaves(noiseData2, p_73164_2_, p_73164_3_, p_73164_4_, p_73164_5_, p_73164_6_, p_73164_7_, var8, var10, var8);
+		noiseData3 = netherNoiseGen2.generateNoiseOctaves(noiseData3, p_73164_2_, p_73164_3_, p_73164_4_, p_73164_5_, p_73164_6_, p_73164_7_, var8, var10, var8);
 		int var12 = 0;
 		int var13 = 0;
-		double[] var14 = new double[par6];
+		double[] var14 = new double[p_73164_6_];
 		int var15;
-		for(var15 = 0; var15 < par6; ++var15)
+		for(var15 = 0; var15 < p_73164_6_; ++var15)
 		{
-			var14[var15] = Math.cos(var15 * Math.PI * 6.0D / par6) * 2.0D;
+			var14[var15] = Math.cos(var15 * Math.PI * 6.0D / p_73164_6_) * 2.0D;
 			double var16 = var15;
-			if(var15 > par6 / 2)
+			if(var15 > p_73164_6_ / 2)
 			{
-				var16 = par6 - 1 - var15;
+				var16 = p_73164_6_ - 1 - var15;
 			}
 			if(var16 < 4.0D)
 			{
@@ -170,9 +169,9 @@ public class ChunkProviderHell implements IChunkProvider
 				var14[var15] -= var16 * var16 * var16 * 10.0D;
 			}
 		}
-		for(var15 = 0; var15 < par5; ++var15)
+		for(var15 = 0; var15 < p_73164_5_; ++var15)
 		{
-			for(int var36 = 0; var36 < par7; ++var36)
+			for(int var36 = 0; var36 < p_73164_7_; ++var36)
 			{
 				double var17 = (noiseData4[var13] + 256.0D) / 512.0D;
 				if(var17 > 1.0D)
@@ -205,9 +204,9 @@ public class ChunkProviderHell implements IChunkProvider
 					var21 /= 6.0D;
 				}
 				var17 += 0.5D;
-				var21 = var21 * par6 / 16.0D;
+				var21 = var21 * p_73164_6_ / 16.0D;
 				++var13;
-				for(int var23 = 0; var23 < par6; ++var23)
+				for(int var23 = 0; var23 < p_73164_6_; ++var23)
 				{
 					double var24 = 0.0D;
 					double var26 = var14[var23];
@@ -226,9 +225,9 @@ public class ChunkProviderHell implements IChunkProvider
 					}
 					var24 -= var26;
 					double var34;
-					if(var23 > par6 - 4)
+					if(var23 > p_73164_6_ - 4)
 					{
-						var34 = (var23 - (par6 - 4)) / 3.0F;
+						var34 = (var23 - (p_73164_6_ - 4)) / 3.0F;
 						var24 = var24 * (1.0D - var34) + -10.0D * var34;
 					}
 					if(var23 < var19)
@@ -244,17 +243,17 @@ public class ChunkProviderHell implements IChunkProvider
 						}
 						var24 = var24 * (1.0D - var34) + -10.0D * var34;
 					}
-					par1ArrayOfDouble[var12] = var24;
+					p_73164_1_[var12] = var24;
 					++var12;
 				}
 			}
 		}
-		return par1ArrayOfDouble;
+		return p_73164_1_;
 	}
 	
-	@Override public Chunk loadChunk(int par1, int par2)
+	@Override public Chunk loadChunk(int p_73158_1_, int p_73158_2_)
 	{
-		return provideChunk(par1, par2);
+		return provideChunk(p_73158_1_, p_73158_2_);
 	}
 	
 	@Override public String makeString()
@@ -262,12 +261,12 @@ public class ChunkProviderHell implements IChunkProvider
 		return "HellRandomLevelSource";
 	}
 	
-	@Override public void populate(IChunkProvider par1IChunkProvider, int par2, int par3)
+	@Override public void populate(IChunkProvider p_73153_1_, int p_73153_2_, int p_73153_3_)
 	{
 		BlockSand.fallInstantly = true;
-		int var4 = par2 * 16;
-		int var5 = par3 * 16;
-		genNetherBridge.generateStructuresInChunk(worldObj, hellRNG, par2, par3);
+		int var4 = p_73153_2_ * 16;
+		int var5 = p_73153_3_ * 16;
+		genNetherBridge.generateStructuresInChunk(worldObj, hellRNG, p_73153_2_, p_73153_3_);
 		int var6;
 		int var7;
 		int var8;
@@ -336,16 +335,16 @@ public class ChunkProviderHell implements IChunkProvider
 		BlockSand.fallInstantly = false;
 	}
 	
-	@Override public Chunk provideChunk(int par1, int par2)
+	@Override public Chunk provideChunk(int p_73154_1_, int p_73154_2_)
 	{
-		hellRNG.setSeed(par1 * 341873128712L + par2 * 132897987541L);
+		hellRNG.setSeed(p_73154_1_ * 341873128712L + p_73154_2_ * 132897987541L);
 		byte[] var3 = new byte[32768];
-		generateNetherTerrain(par1, par2, var3);
-		replaceBlocksForBiome(par1, par2, var3);
-		netherCaveGenerator.generate(this, worldObj, par1, par2, var3);
-		genNetherBridge.generate(this, worldObj, par1, par2, var3);
-		Chunk var4 = new Chunk(worldObj, var3, par1, par2);
-		BiomeGenBase[] var5 = worldObj.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[]) null, par1 * 16, par2 * 16, 16, 16);
+		generateNetherTerrain(p_73154_1_, p_73154_2_, var3);
+		replaceBlocksForBiome(p_73154_1_, p_73154_2_, var3);
+		netherCaveGenerator.generate(this, worldObj, p_73154_1_, p_73154_2_, var3);
+		genNetherBridge.generate(this, worldObj, p_73154_1_, p_73154_2_, var3);
+		Chunk var4 = new Chunk(worldObj, var3, p_73154_1_, p_73154_2_);
+		BiomeGenBase[] var5 = worldObj.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[]) null, p_73154_1_ * 16, p_73154_2_ * 16, 16, 16);
 		byte[] var6 = var4.getBiomeArray();
 		for(int var7 = 0; var7 < var6.length; ++var7)
 		{
@@ -355,18 +354,18 @@ public class ChunkProviderHell implements IChunkProvider
 		return var4;
 	}
 	
-	@Override public void recreateStructures(int par1, int par2)
+	@Override public void recreateStructures(int p_82695_1_, int p_82695_2_)
 	{
-		genNetherBridge.generate(this, worldObj, par1, par2, (byte[]) null);
+		genNetherBridge.generate(this, worldObj, p_82695_1_, p_82695_2_, (byte[]) null);
 	}
 	
-	public void replaceBlocksForBiome(int par1, int par2, byte[] par3ArrayOfByte)
+	public void replaceBlocksForBiome(int p_73166_1_, int p_73166_2_, byte[] p_73166_3_)
 	{
 		byte var4 = 64;
 		double var5 = 0.03125D;
-		slowsandNoise = slowsandGravelNoiseGen.generateNoiseOctaves(slowsandNoise, par1 * 16, par2 * 16, 0, 16, 16, 1, var5, var5, 1.0D);
-		gravelNoise = slowsandGravelNoiseGen.generateNoiseOctaves(gravelNoise, par1 * 16, 109, par2 * 16, 16, 1, 16, var5, 1.0D, var5);
-		netherrackExclusivityNoise = netherrackExculsivityNoiseGen.generateNoiseOctaves(netherrackExclusivityNoise, par1 * 16, par2 * 16, 0, 16, 16, 1, var5 * 2.0D, var5 * 2.0D, var5 * 2.0D);
+		slowsandNoise = slowsandGravelNoiseGen.generateNoiseOctaves(slowsandNoise, p_73166_1_ * 16, p_73166_2_ * 16, 0, 16, 16, 1, var5, var5, 1.0D);
+		gravelNoise = slowsandGravelNoiseGen.generateNoiseOctaves(gravelNoise, p_73166_1_ * 16, 109, p_73166_2_ * 16, 16, 1, 16, var5, 1.0D, var5);
+		netherrackExclusivityNoise = netherrackExculsivityNoiseGen.generateNoiseOctaves(netherrackExclusivityNoise, p_73166_1_ * 16, p_73166_2_ * 16, 0, 16, 16, 1, var5 * 2.0D, var5 * 2.0D, var5 * 2.0D);
 		for(int var7 = 0; var7 < 16; ++var7)
 		{
 			for(int var8 = 0; var8 < 16; ++var8)
@@ -382,7 +381,7 @@ public class ChunkProviderHell implements IChunkProvider
 					int var16 = (var8 * 16 + var7) * 128 + var15;
 					if(var15 < 127 - hellRNG.nextInt(5) && var15 > 0 + hellRNG.nextInt(5))
 					{
-						byte var17 = par3ArrayOfByte[var16];
+						byte var17 = p_73166_3_[var16];
 						if(var17 == 0)
 						{
 							var12 = -1;
@@ -422,27 +421,27 @@ public class ChunkProviderHell implements IChunkProvider
 								var12 = var11;
 								if(var15 >= var4 - 1)
 								{
-									par3ArrayOfByte[var16] = var13;
+									p_73166_3_[var16] = var13;
 								} else
 								{
-									par3ArrayOfByte[var16] = var14;
+									p_73166_3_[var16] = var14;
 								}
 							} else if(var12 > 0)
 							{
 								--var12;
-								par3ArrayOfByte[var16] = var14;
+								p_73166_3_[var16] = var14;
 							}
 						}
 					} else
 					{
-						par3ArrayOfByte[var16] = (byte) Block.bedrock.blockID;
+						p_73166_3_[var16] = (byte) Block.bedrock.blockID;
 					}
 				}
 			}
 		}
 	}
 	
-	@Override public boolean saveChunks(boolean par1, IProgressUpdate par2IProgressUpdate)
+	@Override public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_)
 	{
 		return true;
 	}

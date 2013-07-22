@@ -8,12 +8,12 @@ public class ScaledResolution
 	private double scaledHeightD;
 	private int scaleFactor;
 	
-	public ScaledResolution(GameSettings par1GameSettings, int par2, int par3)
+	public ScaledResolution(GameSettings p_i3065_1_, int p_i3065_2_, int p_i3065_3_)
 	{
-		scaledWidth = par2;
-		scaledHeight = par3;
+		scaledWidth = p_i3065_2_;
+		scaledHeight = p_i3065_3_;
 		scaleFactor = 1;
-		int var4 = par1GameSettings.guiScale;
+		int var4 = p_i3065_1_.guiScale;
 		if(var4 == 0)
 		{
 			var4 = 1000;

@@ -4,15 +4,15 @@ public class EntityAIControlledByPlayer extends EntityAIBase
 {
 	private final EntityLiving thisEntity;
 	private final float maxSpeed;
-	private float currentSpeed;
-	private boolean speedBoosted;
-	private int speedBoostTime;
-	private int maxSpeedBoostTime;
+	private float currentSpeed = 0.0F;
+	private boolean speedBoosted = false;
+	private int speedBoostTime = 0;
+	private int maxSpeedBoostTime = 0;
 	
-	public EntityAIControlledByPlayer(EntityLiving par1EntityLiving, float par2)
+	public EntityAIControlledByPlayer(EntityLiving p_i5058_1_, float p_i5058_2_)
 	{
-		thisEntity = par1EntityLiving;
-		maxSpeed = par2;
+		thisEntity = p_i5058_1_;
+		maxSpeed = p_i5058_2_;
 		setMutexBits(7);
 	}
 	
@@ -23,9 +23,9 @@ public class EntityAIControlledByPlayer extends EntityAIBase
 		maxSpeedBoostTime = thisEntity.getRNG().nextInt(841) + 140;
 	}
 	
-	private boolean func_98216_b(int par1)
+	private boolean func_98216_b(int p_98216_1_)
 	{
-		return Block.blocksList[par1] != null && (Block.blocksList[par1].getRenderType() == 10 || Block.blocksList[par1] instanceof BlockHalfSlab);
+		return Block.blocksList[p_98216_1_] != null && (Block.blocksList[p_98216_1_].getRenderType() == 10 || Block.blocksList[p_98216_1_] instanceof BlockHalfSlab);
 	}
 	
 	public boolean isControlledByPlayer()

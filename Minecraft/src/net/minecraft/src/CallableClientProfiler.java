@@ -4,13 +4,13 @@ import java.util.concurrent.Callable;
 
 import net.minecraft.client.Minecraft;
 
-class CallableClientProfiler implements Callable
+public class CallableClientProfiler implements Callable
 {
 	final Minecraft theMinecraft;
 	
-	CallableClientProfiler(Minecraft par1Minecraft)
+	public CallableClientProfiler(Minecraft p_i3017_1_)
 	{
-		theMinecraft = par1Minecraft;
+		theMinecraft = p_i3017_1_;
 	}
 	
 	@Override public Object call()
@@ -20,6 +20,6 @@ class CallableClientProfiler implements Callable
 	
 	public String callClientProfilerInfo()
 	{
-		return Minecraft.func_142024_b(theMinecraft).func_135041_c().toString();
+		return theMinecraft.mcProfiler.profilingEnabled ? theMinecraft.mcProfiler.getNameOfLastSection() : "N/A (disabled)";
 	}
 }

@@ -32,10 +32,10 @@ public class RegionFileCache
 		regionsByFilename.clear();
 	}
 	
-	public static synchronized RegionFile createOrLoadRegionFile(File par0File, int par1, int par2)
+	public static synchronized RegionFile createOrLoadRegionFile(File p_76550_0_, int p_76550_1_, int p_76550_2_)
 	{
-		File var3 = new File(par0File, "region");
-		File var4 = new File(var3, "r." + (par1 >> 5) + "." + (par2 >> 5) + ".mca");
+		File var3 = new File(p_76550_0_, "region");
+		File var4 = new File(var3, "r." + (p_76550_1_ >> 5) + "." + (p_76550_2_ >> 5) + ".mca");
 		RegionFile var5 = (RegionFile) regionsByFilename.get(var4);
 		if(var5 != null) return var5;
 		else
@@ -54,15 +54,15 @@ public class RegionFileCache
 		}
 	}
 	
-	public static DataInputStream getChunkInputStream(File par0File, int par1, int par2)
+	public static DataInputStream getChunkInputStream(File p_76549_0_, int p_76549_1_, int p_76549_2_)
 	{
-		RegionFile var3 = createOrLoadRegionFile(par0File, par1, par2);
-		return var3.getChunkDataInputStream(par1 & 31, par2 & 31);
+		RegionFile var3 = createOrLoadRegionFile(p_76549_0_, p_76549_1_, p_76549_2_);
+		return var3.getChunkDataInputStream(p_76549_1_ & 31, p_76549_2_ & 31);
 	}
 	
-	public static DataOutputStream getChunkOutputStream(File par0File, int par1, int par2)
+	public static DataOutputStream getChunkOutputStream(File p_76552_0_, int p_76552_1_, int p_76552_2_)
 	{
-		RegionFile var3 = createOrLoadRegionFile(par0File, par1, par2);
-		return var3.getChunkDataOutputStream(par1 & 31, par2 & 31);
+		RegionFile var3 = createOrLoadRegionFile(p_76552_0_, p_76552_1_, p_76552_2_);
+		return var3.getChunkDataOutputStream(p_76552_1_ & 31, p_76552_2_ & 31);
 	}
 }

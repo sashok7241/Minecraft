@@ -9,15 +9,15 @@ public class NBTTagIntArray extends NBTBase
 {
 	public int[] intArray;
 	
-	public NBTTagIntArray(String par1Str)
+	public NBTTagIntArray(String p_i3270_1_)
 	{
-		super(par1Str);
+		super(p_i3270_1_);
 	}
 	
-	public NBTTagIntArray(String par1Str, int[] par2ArrayOfInteger)
+	public NBTTagIntArray(String p_i3271_1_, int[] p_i3271_2_)
 	{
-		super(par1Str);
-		intArray = par2ArrayOfInteger;
+		super(p_i3271_1_);
+		intArray = p_i3271_2_;
 	}
 	
 	@Override public NBTBase copy()
@@ -27,12 +27,12 @@ public class NBTTagIntArray extends NBTBase
 		return new NBTTagIntArray(getName(), var1);
 	}
 	
-	@Override public boolean equals(Object par1Obj)
+	@Override public boolean equals(Object p_equals_1_)
 	{
-		if(!super.equals(par1Obj)) return false;
+		if(!super.equals(p_equals_1_)) return false;
 		else
 		{
-			NBTTagIntArray var2 = (NBTTagIntArray) par1Obj;
+			NBTTagIntArray var2 = (NBTTagIntArray) p_equals_1_;
 			return intArray == null && var2.intArray == null || intArray != null && Arrays.equals(intArray, var2.intArray);
 		}
 	}
@@ -47,13 +47,13 @@ public class NBTTagIntArray extends NBTBase
 		return super.hashCode() ^ Arrays.hashCode(intArray);
 	}
 	
-	@Override void load(DataInput par1DataInput, int par2) throws IOException
+	@Override void load(DataInput p_74735_1_) throws IOException
 	{
-		int var3 = par1DataInput.readInt();
-		intArray = new int[var3];
-		for(int var4 = 0; var4 < var3; ++var4)
+		int var2 = p_74735_1_.readInt();
+		intArray = new int[var2];
+		for(int var3 = 0; var3 < var2; ++var3)
 		{
-			intArray[var4] = par1DataInput.readInt();
+			intArray[var3] = p_74735_1_.readInt();
 		}
 	}
 	
@@ -62,12 +62,12 @@ public class NBTTagIntArray extends NBTBase
 		return "[" + intArray.length + " bytes]";
 	}
 	
-	@Override void write(DataOutput par1DataOutput) throws IOException
+	@Override void write(DataOutput p_74734_1_) throws IOException
 	{
-		par1DataOutput.writeInt(intArray.length);
+		p_74734_1_.writeInt(intArray.length);
 		for(int element : intArray)
 		{
-			par1DataOutput.writeInt(element);
+			p_74734_1_.writeInt(element);
 		}
 	}
 }

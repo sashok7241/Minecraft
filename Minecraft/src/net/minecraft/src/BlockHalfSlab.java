@@ -7,13 +7,13 @@ public abstract class BlockHalfSlab extends Block
 {
 	protected final boolean isDoubleSlab;
 	
-	public BlockHalfSlab(int par1, boolean par2, Material par3Material)
+	public BlockHalfSlab(int p_i3954_1_, boolean p_i3954_2_, Material p_i3954_3_)
 	{
-		super(par1, par3Material);
-		isDoubleSlab = par2;
-		if(par2)
+		super(p_i3954_1_, p_i3954_3_);
+		isDoubleSlab = p_i3954_2_;
+		if(p_i3954_2_)
 		{
-			opaqueCubeLookup[par1] = true;
+			opaqueCubeLookup[p_i3954_1_] = true;
 		} else
 		{
 			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
@@ -21,20 +21,20 @@ public abstract class BlockHalfSlab extends Block
 		setLightOpacity(255);
 	}
 	
-	@Override public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)
+	@Override public void addCollisionBoxesToList(World p_71871_1_, int p_71871_2_, int p_71871_3_, int p_71871_4_, AxisAlignedBB p_71871_5_, List p_71871_6_, Entity p_71871_7_)
 	{
-		setBlockBoundsBasedOnState(par1World, par2, par3, par4);
-		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
+		setBlockBoundsBasedOnState(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_);
+		super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
 	}
 	
-	@Override public int damageDropped(int par1)
+	@Override public int damageDropped(int p_71899_1_)
 	{
-		return par1 & 7;
+		return p_71899_1_ & 7;
 	}
 	
-	@Override public int getDamageValue(World par1World, int par2, int par3, int par4)
+	@Override public int getDamageValue(World p_71873_1_, int p_71873_2_, int p_71873_3_, int p_71873_4_)
 	{
-		return super.getDamageValue(par1World, par2, par3, par4) & 7;
+		return super.getDamageValue(p_71873_1_, p_71873_2_, p_71873_3_, p_71873_4_) & 7;
 	}
 	
 	public abstract String getFullSlabName(int var1);
@@ -49,12 +49,12 @@ public abstract class BlockHalfSlab extends Block
 		return isDoubleSlab;
 	}
 	
-	@Override public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
+	@Override public int onBlockPlaced(World p_85104_1_, int p_85104_2_, int p_85104_3_, int p_85104_4_, int p_85104_5_, float p_85104_6_, float p_85104_7_, float p_85104_8_, int p_85104_9_)
 	{
-		return isDoubleSlab ? par9 : par5 != 0 && (par5 == 1 || par7 <= 0.5D) ? par9 : par9 | 8;
+		return isDoubleSlab ? p_85104_9_ : p_85104_5_ != 0 && (p_85104_5_ == 1 || p_85104_7_ <= 0.5D) ? p_85104_9_ : p_85104_9_ | 8;
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
 		return isDoubleSlab ? 2 : 1;
 	}
@@ -64,14 +64,14 @@ public abstract class BlockHalfSlab extends Block
 		return isDoubleSlab;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
 		if(isDoubleSlab)
 		{
 			setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		} else
 		{
-			boolean var5 = (par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 8) != 0;
+			boolean var5 = (p_71902_1_.getBlockMetadata(p_71902_2_, p_71902_3_, p_71902_4_) & 8) != 0;
 			if(var5)
 			{
 				setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);

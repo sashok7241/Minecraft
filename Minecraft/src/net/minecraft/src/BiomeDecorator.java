@@ -42,7 +42,7 @@ public class BiomeDecorator
 	protected int bigMushroomsPerChunk;
 	public boolean generateLakes;
 	
-	public BiomeDecorator(BiomeGenBase par1BiomeGenBase)
+	public BiomeDecorator(BiomeGenBase p_i3750_1_)
 	{
 		sandGen = new WorldGenSand(7, Block.sand.blockID);
 		gravelAsSandGen = new WorldGenSand(6, Block.gravel.blockID);
@@ -62,13 +62,20 @@ public class BiomeDecorator
 		reedGen = new WorldGenReed();
 		cactusGen = new WorldGenCactus();
 		waterlilyGen = new WorldGenWaterlily();
+		waterlilyPerChunk = 0;
+		treesPerChunk = 0;
 		flowersPerChunk = 2;
 		grassPerChunk = 1;
+		deadBushPerChunk = 0;
+		mushroomsPerChunk = 0;
+		reedsPerChunk = 0;
+		cactiPerChunk = 0;
 		sandPerChunk = 1;
 		sandPerChunk2 = 3;
 		clayPerChunk = 1;
+		bigMushroomsPerChunk = 0;
 		generateLakes = true;
-		biome = par1BiomeGenBase;
+		biome = p_i3750_1_;
 	}
 	
 	protected void decorate()
@@ -233,15 +240,15 @@ public class BiomeDecorator
 		}
 	}
 	
-	public void decorate(World par1World, Random par2Random, int par3, int par4)
+	public void decorate(World p_76796_1_, Random p_76796_2_, int p_76796_3_, int p_76796_4_)
 	{
 		if(currentWorld != null) throw new RuntimeException("Already decorating!!");
 		else
 		{
-			currentWorld = par1World;
-			randomGenerator = par2Random;
-			chunk_X = par3;
-			chunk_Z = par4;
+			currentWorld = p_76796_1_;
+			randomGenerator = p_76796_2_;
+			chunk_X = p_76796_3_;
+			chunk_Z = p_76796_4_;
 			this.decorate();
 			currentWorld = null;
 			randomGenerator = null;
@@ -260,25 +267,25 @@ public class BiomeDecorator
 		genStandardOre2(1, lapisGen, 16, 16);
 	}
 	
-	protected void genStandardOre1(int par1, WorldGenerator par2WorldGenerator, int par3, int par4)
+	protected void genStandardOre1(int p_76795_1_, WorldGenerator p_76795_2_, int p_76795_3_, int p_76795_4_)
 	{
-		for(int var5 = 0; var5 < par1; ++var5)
+		for(int var5 = 0; var5 < p_76795_1_; ++var5)
 		{
 			int var6 = chunk_X + randomGenerator.nextInt(16);
-			int var7 = randomGenerator.nextInt(par4 - par3) + par3;
+			int var7 = randomGenerator.nextInt(p_76795_4_ - p_76795_3_) + p_76795_3_;
 			int var8 = chunk_Z + randomGenerator.nextInt(16);
-			par2WorldGenerator.generate(currentWorld, randomGenerator, var6, var7, var8);
+			p_76795_2_.generate(currentWorld, randomGenerator, var6, var7, var8);
 		}
 	}
 	
-	protected void genStandardOre2(int par1, WorldGenerator par2WorldGenerator, int par3, int par4)
+	protected void genStandardOre2(int p_76793_1_, WorldGenerator p_76793_2_, int p_76793_3_, int p_76793_4_)
 	{
-		for(int var5 = 0; var5 < par1; ++var5)
+		for(int var5 = 0; var5 < p_76793_1_; ++var5)
 		{
 			int var6 = chunk_X + randomGenerator.nextInt(16);
-			int var7 = randomGenerator.nextInt(par4) + randomGenerator.nextInt(par4) + par3 - par4;
+			int var7 = randomGenerator.nextInt(p_76793_4_) + randomGenerator.nextInt(p_76793_4_) + p_76793_3_ - p_76793_4_;
 			int var8 = chunk_Z + randomGenerator.nextInt(16);
-			par2WorldGenerator.generate(currentWorld, randomGenerator, var6, var7, var8);
+			p_76793_2_.generate(currentWorld, randomGenerator, var6, var7, var8);
 		}
 	}
 }

@@ -5,19 +5,19 @@ class CrashReportCategoryEntry
 	private final String field_85092_a;
 	private final String field_85091_b;
 	
-	public CrashReportCategoryEntry(String par1Str, Object par2Obj)
+	public CrashReportCategoryEntry(String p_i6808_1_, Object p_i6808_2_)
 	{
-		field_85092_a = par1Str;
-		if(par2Obj == null)
+		field_85092_a = p_i6808_1_;
+		if(p_i6808_2_ == null)
 		{
 			field_85091_b = "~~NULL~~";
-		} else if(par2Obj instanceof Throwable)
+		} else if(p_i6808_2_ instanceof Throwable)
 		{
-			Throwable var3 = (Throwable) par2Obj;
+			Throwable var3 = (Throwable) p_i6808_2_;
 			field_85091_b = "~~ERROR~~ " + var3.getClass().getSimpleName() + ": " + var3.getMessage();
 		} else
 		{
-			field_85091_b = par2Obj.toString();
+			field_85091_b = p_i6808_2_.toString();
 		}
 	}
 	

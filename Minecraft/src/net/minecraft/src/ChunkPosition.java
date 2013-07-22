@@ -6,24 +6,24 @@ public class ChunkPosition
 	public final int y;
 	public final int z;
 	
-	public ChunkPosition(int par1, int par2, int par3)
+	public ChunkPosition(int p_i3743_1_, int p_i3743_2_, int p_i3743_3_)
 	{
-		x = par1;
-		y = par2;
-		z = par3;
+		x = p_i3743_1_;
+		y = p_i3743_2_;
+		z = p_i3743_3_;
 	}
 	
-	public ChunkPosition(Vec3 par1Vec3)
+	public ChunkPosition(Vec3 p_i3744_1_)
 	{
-		this(MathHelper.floor_double(par1Vec3.xCoord), MathHelper.floor_double(par1Vec3.yCoord), MathHelper.floor_double(par1Vec3.zCoord));
+		this(MathHelper.floor_double(p_i3744_1_.xCoord), MathHelper.floor_double(p_i3744_1_.yCoord), MathHelper.floor_double(p_i3744_1_.zCoord));
 	}
 	
-	@Override public boolean equals(Object par1Obj)
+	@Override public boolean equals(Object p_equals_1_)
 	{
-		if(!(par1Obj instanceof ChunkPosition)) return false;
+		if(!(p_equals_1_ instanceof ChunkPosition)) return false;
 		else
 		{
-			ChunkPosition var2 = (ChunkPosition) par1Obj;
+			ChunkPosition var2 = (ChunkPosition) p_equals_1_;
 			return var2.x == x && var2.y == y && var2.z == z;
 		}
 	}

@@ -9,26 +9,26 @@ public class EntitySenses
 	List seenEntities = new ArrayList();
 	List unseenEntities = new ArrayList();
 	
-	public EntitySenses(EntityLiving par1EntityLiving)
+	public EntitySenses(EntityLiving p_i3508_1_)
 	{
-		entityObj = par1EntityLiving;
+		entityObj = p_i3508_1_;
 	}
 	
-	public boolean canSee(Entity par1Entity)
+	public boolean canSee(Entity p_75522_1_)
 	{
-		if(seenEntities.contains(par1Entity)) return true;
-		else if(unseenEntities.contains(par1Entity)) return false;
+		if(seenEntities.contains(p_75522_1_)) return true;
+		else if(unseenEntities.contains(p_75522_1_)) return false;
 		else
 		{
 			entityObj.worldObj.theProfiler.startSection("canSee");
-			boolean var2 = entityObj.canEntityBeSeen(par1Entity);
+			boolean var2 = entityObj.canEntityBeSeen(p_75522_1_);
 			entityObj.worldObj.theProfiler.endSection();
 			if(var2)
 			{
-				seenEntities.add(par1Entity);
+				seenEntities.add(p_75522_1_);
 			} else
 			{
-				unseenEntities.add(par1Entity);
+				unseenEntities.add(p_75522_1_);
 			}
 			return var2;
 		}

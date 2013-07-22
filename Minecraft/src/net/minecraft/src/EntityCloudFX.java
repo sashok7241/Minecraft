@@ -4,16 +4,16 @@ public class EntityCloudFX extends EntityFX
 {
 	float field_70569_a;
 	
-	public EntityCloudFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
+	public EntityCloudFX(World p_i3173_1_, double p_i3173_2_, double p_i3173_4_, double p_i3173_6_, double p_i3173_8_, double p_i3173_10_, double p_i3173_12_)
 	{
-		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
+		super(p_i3173_1_, p_i3173_2_, p_i3173_4_, p_i3173_6_, 0.0D, 0.0D, 0.0D);
 		float var14 = 2.5F;
 		motionX *= 0.10000000149011612D;
 		motionY *= 0.10000000149011612D;
 		motionZ *= 0.10000000149011612D;
-		motionX += par8;
-		motionY += par10;
-		motionZ += par12;
+		motionX += p_i3173_8_;
+		motionY += p_i3173_10_;
+		motionZ += p_i3173_12_;
 		particleRed = particleGreen = particleBlue = 1.0F - (float) (Math.random() * 0.30000001192092896D);
 		particleScale *= 0.75F;
 		particleScale *= var14;

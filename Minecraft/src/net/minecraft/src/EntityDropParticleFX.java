@@ -5,11 +5,11 @@ public class EntityDropParticleFX extends EntityFX
 	private Material materialType;
 	private int bobTimer;
 	
-	public EntityDropParticleFX(World par1World, double par2, double par4, double par6, Material par8Material)
+	public EntityDropParticleFX(World p_i3151_1_, double p_i3151_2_, double p_i3151_4_, double p_i3151_6_, Material p_i3151_8_)
 	{
-		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
+		super(p_i3151_1_, p_i3151_2_, p_i3151_4_, p_i3151_6_, 0.0D, 0.0D, 0.0D);
 		motionX = motionY = motionZ = 0.0D;
-		if(par8Material == Material.water)
+		if(p_i3151_8_ == Material.water)
 		{
 			particleRed = 0.0F;
 			particleGreen = 0.0F;
@@ -23,15 +23,15 @@ public class EntityDropParticleFX extends EntityFX
 		setParticleTextureIndex(113);
 		setSize(0.01F, 0.01F);
 		particleGravity = 0.06F;
-		materialType = par8Material;
+		materialType = p_i3151_8_;
 		bobTimer = 40;
 		particleMaxAge = (int) (64.0D / (Math.random() * 0.8D + 0.2D));
 		motionX = motionY = motionZ = 0.0D;
 	}
 	
-	@Override public float getBrightness(float par1)
+	@Override public float getBrightness(float p_70013_1_)
 	{
-		return materialType == Material.water ? super.getBrightness(par1) : 1.0F;
+		return materialType == Material.water ? super.getBrightness(p_70013_1_) : 1.0F;
 	}
 	
 	@Override public int getBrightnessForRender(float par1)

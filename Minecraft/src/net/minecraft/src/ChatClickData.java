@@ -17,13 +17,13 @@ public class ChatClickData
 	private final String field_78310_f;
 	private final String clickedUrl;
 	
-	public ChatClickData(FontRenderer par1FontRenderer, ChatLine par2ChatLine, int par3, int par4)
+	public ChatClickData(FontRenderer p_i3053_1_, ChatLine p_i3053_2_, int p_i3053_3_, int p_i3053_4_)
 	{
-		fontR = par1FontRenderer;
-		line = par2ChatLine;
-		field_78312_d = par3;
-		field_78313_e = par4;
-		field_78310_f = par1FontRenderer.trimStringToWidth(par2ChatLine.getChatLineString(), par3);
+		fontR = p_i3053_1_;
+		line = p_i3053_2_;
+		field_78312_d = p_i3053_3_;
+		field_78313_e = p_i3053_4_;
+		field_78310_f = p_i3053_1_.trimStringToWidth(p_i3053_2_.getChatLineString(), p_i3053_3_);
 		clickedUrl = findClickedUrl();
 	}
 	

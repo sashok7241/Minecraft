@@ -9,13 +9,13 @@ public abstract class StructureStart
 	protected LinkedList components = new LinkedList();
 	protected StructureBoundingBox boundingBox;
 	
-	public void generateStructure(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
+	public void generateStructure(World p_75068_1_, Random p_75068_2_, StructureBoundingBox p_75068_3_)
 	{
 		Iterator var4 = components.iterator();
 		while(var4.hasNext())
 		{
 			StructureComponent var5 = (StructureComponent) var4.next();
-			if(var5.getBoundingBox().intersectsWith(par3StructureBoundingBox) && !var5.addComponentParts(par1World, par2Random, par3StructureBoundingBox))
+			if(var5.getBoundingBox().intersectsWith(p_75068_3_) && !var5.addComponentParts(p_75068_1_, p_75068_2_, p_75068_3_))
 			{
 				var4.remove();
 			}
@@ -37,13 +37,13 @@ public abstract class StructureStart
 		return true;
 	}
 	
-	protected void markAvailableHeight(World par1World, Random par2Random, int par3)
+	protected void markAvailableHeight(World p_75067_1_, Random p_75067_2_, int p_75067_3_)
 	{
-		int var4 = 63 - par3;
+		int var4 = 63 - p_75067_3_;
 		int var5 = boundingBox.getYSize() + 1;
 		if(var5 < var4)
 		{
-			var5 += par2Random.nextInt(var4 - var5);
+			var5 += p_75067_2_.nextInt(var4 - var5);
 		}
 		int var6 = var5 - boundingBox.maxY;
 		boundingBox.offset(0, var6, 0);
@@ -55,17 +55,17 @@ public abstract class StructureStart
 		}
 	}
 	
-	protected void setRandomHeight(World par1World, Random par2Random, int par3, int par4)
+	protected void setRandomHeight(World p_75070_1_, Random p_75070_2_, int p_75070_3_, int p_75070_4_)
 	{
-		int var5 = par4 - par3 + 1 - boundingBox.getYSize();
+		int var5 = p_75070_4_ - p_75070_3_ + 1 - boundingBox.getYSize();
 		boolean var6 = true;
 		int var10;
 		if(var5 > 1)
 		{
-			var10 = par3 + par2Random.nextInt(var5);
+			var10 = p_75070_3_ + p_75070_2_.nextInt(var5);
 		} else
 		{
-			var10 = par3;
+			var10 = p_75070_3_;
 		}
 		int var7 = var10 - boundingBox.minY;
 		boundingBox.offset(0, var7, 0);

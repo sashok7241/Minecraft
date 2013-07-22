@@ -7,15 +7,15 @@ import java.util.List;
 public class CombatTracker
 {
 	private final List field_94556_a = new ArrayList();
-	private final EntityLivingBase field_94554_b;
-	private int field_94555_c;
-	private boolean field_94552_d;
-	private boolean field_94553_e;
+	private final EntityLiving field_94554_b;
+	private int field_94555_c = 0;
+	private boolean field_94552_d = false;
+	private boolean field_94553_e = false;
 	private String field_94551_f;
 	
-	public CombatTracker(EntityLivingBase par1EntityLivingBase)
+	public CombatTracker(EntityLiving p_i9020_1_)
 	{
-		field_94554_b = par1EntityLivingBase;
+		field_94554_b = p_i9020_1_;
 	}
 	
 	private void func_94542_g()
@@ -73,16 +73,16 @@ public class CombatTracker
 		}
 	}
 	
-	public ChatMessageComponent func_94546_b()
+	public String func_94546_b()
 	{
-		if(field_94556_a.size() == 0) return ChatMessageComponent.func_111082_b("death.attack.generic", new Object[] { field_94554_b.getTranslatedEntityName() });
+		if(field_94556_a.size() == 0) return field_94554_b.getTranslatedEntityName() + " died";
 		else
 		{
 			CombatEntry var1 = func_94544_f();
 			CombatEntry var2 = (CombatEntry) field_94556_a.get(field_94556_a.size() - 1);
+			String var3 = "";
 			String var4 = var2.func_94558_h();
 			Entity var5 = var2.func_94560_a().getEntity();
-			ChatMessageComponent var3;
 			if(var1 != null && var2.func_94560_a() == DamageSource.fall)
 			{
 				String var6 = var1.func_94558_h();
@@ -91,31 +91,31 @@ public class CombatTracker
 					if(var6 != null && (var4 == null || !var6.equals(var4)))
 					{
 						Entity var9 = var1.func_94560_a().getEntity();
-						ItemStack var8 = var9 instanceof EntityLivingBase ? ((EntityLivingBase) var9).getHeldItem() : null;
+						ItemStack var8 = var9 instanceof EntityLiving ? ((EntityLiving) var9).getHeldItem() : null;
 						if(var8 != null && var8.hasDisplayName())
 						{
-							var3 = ChatMessageComponent.func_111082_b("death.fell.assist.item", new Object[] { field_94554_b.getTranslatedEntityName(), var6, var8.getDisplayName() });
+							var3 = StatCollector.translateToLocalFormatted("death.fell.assist.item", new Object[] { field_94554_b.getTranslatedEntityName(), var4, var8.getDisplayName() });
 						} else
 						{
-							var3 = ChatMessageComponent.func_111082_b("death.fell.assist", new Object[] { field_94554_b.getTranslatedEntityName(), var6 });
+							var3 = StatCollector.translateToLocalFormatted("death.fell.assist", new Object[] { field_94554_b.getTranslatedEntityName(), var6 });
 						}
 					} else if(var4 != null)
 					{
-						ItemStack var7 = var5 instanceof EntityLivingBase ? ((EntityLivingBase) var5).getHeldItem() : null;
+						ItemStack var7 = var5 instanceof EntityLiving ? ((EntityLiving) var5).getHeldItem() : null;
 						if(var7 != null && var7.hasDisplayName())
 						{
-							var3 = ChatMessageComponent.func_111082_b("death.fell.finish.item", new Object[] { field_94554_b.getTranslatedEntityName(), var4, var7.getDisplayName() });
+							var3 = StatCollector.translateToLocalFormatted("death.fell.finish.item", new Object[] { field_94554_b.getTranslatedEntityName(), var4, var7.getDisplayName() });
 						} else
 						{
-							var3 = ChatMessageComponent.func_111082_b("death.fell.finish", new Object[] { field_94554_b.getTranslatedEntityName(), var4 });
+							var3 = StatCollector.translateToLocalFormatted("death.fell.finish", new Object[] { field_94554_b.getTranslatedEntityName(), var4 });
 						}
 					} else
 					{
-						var3 = ChatMessageComponent.func_111082_b("death.fell.killer", new Object[] { field_94554_b.getTranslatedEntityName() });
+						var3 = StatCollector.translateToLocalFormatted("death.fell.killer", new Object[] { field_94554_b.getTranslatedEntityName() });
 					}
 				} else
 				{
-					var3 = ChatMessageComponent.func_111082_b("death.fell.accident." + func_94548_b(var1), new Object[] { field_94554_b.getTranslatedEntityName() });
+					var3 = StatCollector.translateToLocalFormatted("death.fell.accident." + func_94548_b(var1), new Object[] { field_94554_b.getTranslatedEntityName() });
 				}
 			} else
 			{
@@ -125,20 +125,20 @@ public class CombatTracker
 		}
 	}
 	
-	public void func_94547_a(DamageSource par1DamageSource, float par2, float par3)
+	public void func_94547_a(DamageSource p_94547_1_, int p_94547_2_, int p_94547_3_)
 	{
 		func_94549_h();
 		func_94545_a();
-		CombatEntry var4 = new CombatEntry(par1DamageSource, field_94554_b.ticksExisted, par2, par3, field_94551_f, field_94554_b.fallDistance);
+		CombatEntry var4 = new CombatEntry(p_94547_1_, field_94554_b.ticksExisted, p_94547_2_, p_94547_3_, field_94551_f, field_94554_b.fallDistance);
 		field_94556_a.add(var4);
 		field_94555_c = field_94554_b.ticksExisted;
 		field_94553_e = true;
 		field_94552_d |= var4.func_94559_f();
 	}
 	
-	private String func_94548_b(CombatEntry par1CombatEntry)
+	private String func_94548_b(CombatEntry p_94548_1_)
 	{
-		return par1CombatEntry.func_94562_g() == null ? "generic" : par1CombatEntry.func_94562_g();
+		return p_94548_1_.func_94562_g() == null ? "generic" : p_94548_1_.func_94562_g();
 	}
 	
 	private void func_94549_h()
@@ -152,12 +152,12 @@ public class CombatTracker
 		}
 	}
 	
-	public EntityLivingBase func_94550_c()
+	public EntityLiving func_94550_c()
 	{
-		EntityLivingBase var1 = null;
+		EntityLiving var1 = null;
 		EntityPlayer var2 = null;
-		float var3 = 0.0F;
-		float var4 = 0.0F;
+		int var3 = 0;
+		int var4 = 0;
 		Iterator var5 = field_94556_a.iterator();
 		while(var5.hasNext())
 		{
@@ -167,13 +167,13 @@ public class CombatTracker
 				var4 = var6.func_94563_c();
 				var2 = (EntityPlayer) var6.func_94560_a().getEntity();
 			}
-			if(var6.func_94560_a().getEntity() instanceof EntityLivingBase && (var1 == null || var6.func_94563_c() > var3))
+			if(var6.func_94560_a().getEntity() instanceof EntityLiving && (var1 == null || var6.func_94563_c() > var3))
 			{
 				var3 = var6.func_94563_c();
-				var1 = (EntityLivingBase) var6.func_94560_a().getEntity();
+				var1 = (EntityLiving) var6.func_94560_a().getEntity();
 			}
 		}
-		if(var2 != null && var4 >= var3 / 3.0F) return var2;
+		if(var2 != null && var4 >= var3 / 3) return var2;
 		else return var1;
 	}
 }

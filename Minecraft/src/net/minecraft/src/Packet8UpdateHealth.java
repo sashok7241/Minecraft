@@ -1,12 +1,12 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet8UpdateHealth extends Packet
 {
-	public float healthMP;
+	public int healthMP;
 	public int food;
 	public float foodSaturation;
 	
@@ -14,14 +14,14 @@ public class Packet8UpdateHealth extends Packet
 	{
 	}
 	
-	public Packet8UpdateHealth(float par1, int par2, float par3)
+	public Packet8UpdateHealth(int p_i3352_1_, int p_i3352_2_, float p_i3352_3_)
 	{
-		healthMP = par1;
-		food = par2;
-		foodSaturation = par3;
+		healthMP = p_i3352_1_;
+		food = p_i3352_2_;
+		foodSaturation = p_i3352_3_;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
+	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
 	{
 		return true;
 	}
@@ -36,22 +36,22 @@ public class Packet8UpdateHealth extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleUpdateHealth(this);
+		p_73279_1_.handleUpdateHealth(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		healthMP = par1DataInput.readFloat();
-		food = par1DataInput.readShort();
-		foodSaturation = par1DataInput.readFloat();
+		healthMP = p_73267_1_.readShort();
+		food = p_73267_1_.readShort();
+		foodSaturation = p_73267_1_.readFloat();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeFloat(healthMP);
-		par1DataOutput.writeShort(food);
-		par1DataOutput.writeFloat(foodSaturation);
+		p_73273_1_.writeShort(healthMP);
+		p_73273_1_.writeShort(food);
+		p_73273_1_.writeFloat(foodSaturation);
 	}
 }

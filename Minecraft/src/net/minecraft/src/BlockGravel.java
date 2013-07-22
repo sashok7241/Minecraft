@@ -4,17 +4,17 @@ import java.util.Random;
 
 public class BlockGravel extends BlockSand
 {
-	public BlockGravel(int par1)
+	public BlockGravel(int p_i9058_1_)
 	{
-		super(par1);
+		super(p_i9058_1_);
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
-		if(par3 > 3)
+		if(p_71885_3_ > 3)
 		{
-			par3 = 3;
+			p_71885_3_ = 3;
 		}
-		return par2Random.nextInt(10 - par3 * 3) == 0 ? Item.flint.itemID : blockID;
+		return p_71885_2_.nextInt(10 - p_71885_3_ * 3) == 0 ? Item.flint.itemID : blockID;
 	}
 }

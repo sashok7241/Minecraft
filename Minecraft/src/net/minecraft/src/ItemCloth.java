@@ -2,25 +2,25 @@ package net.minecraft.src;
 
 public class ItemCloth extends ItemBlock
 {
-	public ItemCloth(int par1)
+	public ItemCloth(int p_i3626_1_)
 	{
-		super(par1);
+		super(p_i3626_1_);
 		setMaxDamage(0);
 		setHasSubtypes(true);
 	}
 	
 	@Override public Icon getIconFromDamage(int par1)
 	{
-		return Block.cloth.getIcon(2, BlockColored.getBlockFromDye(par1));
+		return Block.cloth.getIcon(2, BlockCloth.getBlockFromDye(par1));
 	}
 	
-	@Override public int getMetadata(int par1)
+	@Override public int getMetadata(int p_77647_1_)
 	{
-		return par1;
+		return p_77647_1_;
 	}
 	
-	@Override public String getUnlocalizedName(ItemStack par1ItemStack)
+	@Override public String getUnlocalizedName(ItemStack p_77667_1_)
 	{
-		return super.getUnlocalizedName() + "." + ItemDye.dyeColorNames[BlockColored.getBlockFromDye(par1ItemStack.getItemDamage())];
+		return super.getUnlocalizedName() + "." + ItemDye.dyeColorNames[BlockCloth.getBlockFromDye(p_77667_1_.getItemDamage())];
 	}
 }

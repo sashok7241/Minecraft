@@ -10,15 +10,15 @@ public class BlockDispenser extends BlockContainer
 	protected Icon furnaceFrontIcon;
 	protected Icon field_96473_e;
 	
-	protected BlockDispenser(int par1)
+	protected BlockDispenser(int p_i3938_1_)
 	{
-		super(par1, Material.rock);
+		super(p_i3938_1_, Material.rock);
 		setCreativeTab(CreativeTabs.tabRedstone);
 	}
 	
-	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
+	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
 	{
-		TileEntityDispenser var7 = (TileEntityDispenser) par1World.getBlockTileEntity(par2, par3, par4);
+		TileEntityDispenser var7 = (TileEntityDispenser) p_71852_1_.getBlockTileEntity(p_71852_2_, p_71852_3_, p_71852_4_);
 		if(var7 != null)
 		{
 			for(int var8 = 0; var8 < var7.getSizeInventory(); ++var8)
@@ -37,7 +37,7 @@ public class BlockDispenser extends BlockContainer
 							var13 = var9.stackSize;
 						}
 						var9.stackSize -= var13;
-						EntityItem var14 = new EntityItem(par1World, par2 + var10, par3 + var11, par4 + var12, new ItemStack(var9.itemID, var13, var9.getItemDamage()));
+						EntityItem var14 = new EntityItem(p_71852_1_, p_71852_2_ + var10, p_71852_3_ + var11, p_71852_4_ + var12, new ItemStack(var9.itemID, var13, var9.getItemDamage()));
 						if(var9.hasTagCompound())
 						{
 							var14.getEntityItem().setTagCompound((NBTTagCompound) var9.getTagCompound().copy());
@@ -46,30 +46,30 @@ public class BlockDispenser extends BlockContainer
 						var14.motionX = (float) random.nextGaussian() * var15;
 						var14.motionY = (float) random.nextGaussian() * var15 + 0.2F;
 						var14.motionZ = (float) random.nextGaussian() * var15;
-						par1World.spawnEntityInWorld(var14);
+						p_71852_1_.spawnEntityInWorld(var14);
 					}
 				}
 			}
-			par1World.func_96440_m(par2, par3, par4, par5);
+			p_71852_1_.func_96440_m(p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_);
 		}
-		super.breakBlock(par1World, par2, par3, par4, par5, par6);
+		super.breakBlock(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_, p_71852_6_);
 	}
 	
-	@Override public TileEntity createNewTileEntity(World par1World)
+	@Override public TileEntity createNewTileEntity(World p_72274_1_)
 	{
 		return new TileEntityDispenser();
 	}
 	
-	protected void dispense(World par1World, int par2, int par3, int par4)
+	protected void dispense(World p_82526_1_, int p_82526_2_, int p_82526_3_, int p_82526_4_)
 	{
-		BlockSourceImpl var5 = new BlockSourceImpl(par1World, par2, par3, par4);
+		BlockSourceImpl var5 = new BlockSourceImpl(p_82526_1_, p_82526_2_, p_82526_3_, p_82526_4_);
 		TileEntityDispenser var6 = (TileEntityDispenser) var5.getBlockTileEntity();
 		if(var6 != null)
 		{
 			int var7 = var6.getRandomStackFromInventory();
 			if(var7 < 0)
 			{
-				par1World.playAuxSFX(1001, par2, par3, par4, 0);
+				p_82526_1_.playAuxSFX(1001, p_82526_2_, p_82526_3_, p_82526_4_, 0);
 			} else
 			{
 				ItemStack var8 = var6.getStackInSlot(var7);
@@ -83,14 +83,14 @@ public class BlockDispenser extends BlockContainer
 		}
 	}
 	
-	protected IBehaviorDispenseItem getBehaviorForItemStack(ItemStack par1ItemStack)
+	protected IBehaviorDispenseItem getBehaviorForItemStack(ItemStack p_96472_1_)
 	{
-		return (IBehaviorDispenseItem) dispenseBehaviorRegistry.func_82594_a(par1ItemStack.getItem());
+		return (IBehaviorDispenseItem) dispenseBehaviorRegistry.func_82594_a(p_96472_1_.getItem());
 	}
 	
-	@Override public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
+	@Override public int getComparatorInputOverride(World p_94328_1_, int p_94328_2_, int p_94328_3_, int p_94328_4_, int p_94328_5_)
 	{
-		return Container.calcRedstoneFromInventory((IInventory) par1World.getBlockTileEntity(par2, par3, par4));
+		return Container.calcRedstoneFromInventory((IInventory) p_94328_1_.getBlockTileEntity(p_94328_2_, p_94328_3_, p_94328_4_));
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -104,48 +104,48 @@ public class BlockDispenser extends BlockContainer
 		return true;
 	}
 	
-	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
 	{
-		if(par1World.isRemote) return true;
+		if(p_71903_1_.isRemote) return true;
 		else
 		{
-			TileEntityDispenser var10 = (TileEntityDispenser) par1World.getBlockTileEntity(par2, par3, par4);
+			TileEntityDispenser var10 = (TileEntityDispenser) p_71903_1_.getBlockTileEntity(p_71903_2_, p_71903_3_, p_71903_4_);
 			if(var10 != null)
 			{
-				par5EntityPlayer.displayGUIDispenser(var10);
+				p_71903_5_.displayGUIDispenser(var10);
 			}
 			return true;
 		}
 	}
 	
-	@Override public void onBlockAdded(World par1World, int par2, int par3, int par4)
+	@Override public void onBlockAdded(World p_71861_1_, int p_71861_2_, int p_71861_3_, int p_71861_4_)
 	{
-		super.onBlockAdded(par1World, par2, par3, par4);
-		setDispenserDefaultDirection(par1World, par2, par3, par4);
+		super.onBlockAdded(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_);
+		setDispenserDefaultDirection(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_);
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World p_71860_1_, int p_71860_2_, int p_71860_3_, int p_71860_4_, EntityLiving p_71860_5_, ItemStack p_71860_6_)
 	{
-		int var7 = BlockPistonBase.determineOrientation(par1World, par2, par3, par4, par5EntityLivingBase);
-		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
-		if(par6ItemStack.hasDisplayName())
+		int var7 = BlockPistonBase.determineOrientation(p_71860_1_, p_71860_2_, p_71860_3_, p_71860_4_, p_71860_5_);
+		p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, var7, 2);
+		if(p_71860_6_.hasDisplayName())
 		{
-			((TileEntityDispenser) par1World.getBlockTileEntity(par2, par3, par4)).setCustomName(par6ItemStack.getDisplayName());
+			((TileEntityDispenser) p_71860_1_.getBlockTileEntity(p_71860_2_, p_71860_3_, p_71860_4_)).setCustomName(p_71860_6_.getDisplayName());
 		}
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
-		boolean var6 = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4) || par1World.isBlockIndirectlyGettingPowered(par2, par3 + 1, par4);
-		int var7 = par1World.getBlockMetadata(par2, par3, par4);
+		boolean var6 = p_71863_1_.isBlockIndirectlyGettingPowered(p_71863_2_, p_71863_3_, p_71863_4_) || p_71863_1_.isBlockIndirectlyGettingPowered(p_71863_2_, p_71863_3_ + 1, p_71863_4_);
+		int var7 = p_71863_1_.getBlockMetadata(p_71863_2_, p_71863_3_, p_71863_4_);
 		boolean var8 = (var7 & 8) != 0;
 		if(var6 && !var8)
 		{
-			par1World.scheduleBlockUpdate(par2, par3, par4, blockID, tickRate(par1World));
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 | 8, 4);
+			p_71863_1_.scheduleBlockUpdate(p_71863_2_, p_71863_3_, p_71863_4_, blockID, tickRate(p_71863_1_));
+			p_71863_1_.setBlockMetadataWithNotify(p_71863_2_, p_71863_3_, p_71863_4_, var7 | 8, 4);
 		} else if(!var6 && var8)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 & -9, 4);
+			p_71863_1_.setBlockMetadataWithNotify(p_71863_2_, p_71863_3_, p_71863_4_, var7 & -9, 4);
 		}
 	}
 	
@@ -153,18 +153,18 @@ public class BlockDispenser extends BlockContainer
 	{
 		blockIcon = par1IconRegister.registerIcon("furnace_side");
 		furnaceTopIcon = par1IconRegister.registerIcon("furnace_top");
-		furnaceFrontIcon = par1IconRegister.registerIcon(func_111023_E() + "_front_horizontal");
-		field_96473_e = par1IconRegister.registerIcon(func_111023_E() + "_front_vertical");
+		furnaceFrontIcon = par1IconRegister.registerIcon("dispenser_front");
+		field_96473_e = par1IconRegister.registerIcon("dispenser_front_vertical");
 	}
 	
-	private void setDispenserDefaultDirection(World par1World, int par2, int par3, int par4)
+	private void setDispenserDefaultDirection(World p_72280_1_, int p_72280_2_, int p_72280_3_, int p_72280_4_)
 	{
-		if(!par1World.isRemote)
+		if(!p_72280_1_.isRemote)
 		{
-			int var5 = par1World.getBlockId(par2, par3, par4 - 1);
-			int var6 = par1World.getBlockId(par2, par3, par4 + 1);
-			int var7 = par1World.getBlockId(par2 - 1, par3, par4);
-			int var8 = par1World.getBlockId(par2 + 1, par3, par4);
+			int var5 = p_72280_1_.getBlockId(p_72280_2_, p_72280_3_, p_72280_4_ - 1);
+			int var6 = p_72280_1_.getBlockId(p_72280_2_, p_72280_3_, p_72280_4_ + 1);
+			int var7 = p_72280_1_.getBlockId(p_72280_2_ - 1, p_72280_3_, p_72280_4_);
+			int var8 = p_72280_1_.getBlockId(p_72280_2_ + 1, p_72280_3_, p_72280_4_);
 			byte var9 = 3;
 			if(Block.opaqueCubeLookup[var5] && !Block.opaqueCubeLookup[var6])
 			{
@@ -182,34 +182,34 @@ public class BlockDispenser extends BlockContainer
 			{
 				var9 = 4;
 			}
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, var9, 2);
+			p_72280_1_.setBlockMetadataWithNotify(p_72280_2_, p_72280_3_, p_72280_4_, var9, 2);
 		}
 	}
 	
-	@Override public int tickRate(World par1World)
+	@Override public int tickRate(World p_71859_1_)
 	{
 		return 4;
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
-		if(!par1World.isRemote)
+		if(!p_71847_1_.isRemote)
 		{
-			dispense(par1World, par2, par3, par4);
+			dispense(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_);
 		}
 	}
 	
-	public static EnumFacing getFacing(int par0)
+	public static EnumFacing getFacing(int p_100009_0_)
 	{
-		return EnumFacing.getFront(par0 & 7);
+		return EnumFacing.getFront(p_100009_0_ & 7);
 	}
 	
-	public static IPosition getIPositionFromBlockSource(IBlockSource par0IBlockSource)
+	public static IPosition getIPositionFromBlockSource(IBlockSource p_82525_0_)
 	{
-		EnumFacing var1 = getFacing(par0IBlockSource.getBlockMetadata());
-		double var2 = par0IBlockSource.getX() + 0.7D * var1.getFrontOffsetX();
-		double var4 = par0IBlockSource.getY() + 0.7D * var1.getFrontOffsetY();
-		double var6 = par0IBlockSource.getZ() + 0.7D * var1.getFrontOffsetZ();
+		EnumFacing var1 = getFacing(p_82525_0_.getBlockMetadata());
+		double var2 = p_82525_0_.getX() + 0.7D * var1.getFrontOffsetX();
+		double var4 = p_82525_0_.getY() + 0.7D * var1.getFrontOffsetY();
+		double var6 = p_82525_0_.getZ() + 0.7D * var1.getFrontOffsetZ();
 		return new PositionImpl(var2, var4, var6);
 	}
 }

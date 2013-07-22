@@ -10,9 +10,9 @@ class ThreadLoginVerifier extends Thread
 {
 	final NetLoginHandler loginHandler;
 	
-	ThreadLoginVerifier(NetLoginHandler par1NetLoginHandler)
+	ThreadLoginVerifier(NetLoginHandler p_i3399_1_)
 	{
-		loginHandler = par1NetLoginHandler;
+		loginHandler = p_i3399_1_;
 	}
 	
 	@Override public void run()
@@ -21,7 +21,7 @@ class ThreadLoginVerifier extends Thread
 		{
 			String var1 = new BigInteger(CryptManager.getServerIdHash(NetLoginHandler.getServerId(loginHandler), NetLoginHandler.getLoginMinecraftServer(loginHandler).getKeyPair().getPublic(), NetLoginHandler.getSharedKey(loginHandler))).toString(16);
 			URL var2 = new URL("http://session.minecraft.net/game/checkserver.jsp?user=" + URLEncoder.encode(NetLoginHandler.getClientUsername(loginHandler), "UTF-8") + "&serverId=" + URLEncoder.encode(var1, "UTF-8"));
-			BufferedReader var3 = new BufferedReader(new InputStreamReader(var2.openConnection(NetLoginHandler.getLoginMinecraftServer(loginHandler).func_110454_ao()).getInputStream()));
+			BufferedReader var3 = new BufferedReader(new InputStreamReader(var2.openStream()));
 			String var4 = var3.readLine();
 			var3.close();
 			if(!"YES".equals(var4))

@@ -6,7 +6,7 @@ import java.util.List;
 public class TileEntityChest extends TileEntity implements IInventory
 {
 	private ItemStack[] chestContents = new ItemStack[36];
-	public boolean adjacentChestChecked;
+	public boolean adjacentChestChecked = false;
 	public TileEntityChest adjacentChestZNeg;
 	public TileEntityChest adjacentChestXPos;
 	public TileEntityChest adjacentChestXNeg;
@@ -15,18 +15,8 @@ public class TileEntityChest extends TileEntity implements IInventory
 	public float prevLidAngle;
 	public int numUsingPlayers;
 	private int ticksSinceSync;
-	private int field_94046_i;
+	private int field_94046_i = -1;
 	private String field_94045_s;
-	
-	public TileEntityChest()
-	{
-		field_94046_i = -1;
-	}
-	
-	public TileEntityChest(int par1)
-	{
-		field_94046_i = par1;
-	}
 	
 	public void checkForAdjacentChests()
 	{
@@ -83,23 +73,23 @@ public class TileEntityChest extends TileEntity implements IInventory
 		}
 	}
 	
-	@Override public ItemStack decrStackSize(int par1, int par2)
+	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
 	{
-		if(chestContents[par1] != null)
+		if(chestContents[p_70298_1_] != null)
 		{
 			ItemStack var3;
-			if(chestContents[par1].stackSize <= par2)
+			if(chestContents[p_70298_1_].stackSize <= p_70298_2_)
 			{
-				var3 = chestContents[par1];
-				chestContents[par1] = null;
+				var3 = chestContents[p_70298_1_];
+				chestContents[p_70298_1_] = null;
 				onInventoryChanged();
 				return var3;
 			} else
 			{
-				var3 = chestContents[par1].splitStack(par2);
-				if(chestContents[par1].stackSize == 0)
+				var3 = chestContents[p_70298_1_].splitStack(p_70298_2_);
+				if(chestContents[p_70298_1_].stackSize == 0)
 				{
-					chestContents[par1] = null;
+					chestContents[p_70298_1_] = null;
 				}
 				onInventoryChanged();
 				return var3;
@@ -107,35 +97,35 @@ public class TileEntityChest extends TileEntity implements IInventory
 		} else return null;
 	}
 	
-	private void func_90009_a(TileEntityChest par1TileEntityChest, int par2)
+	private void func_90009_a(TileEntityChest p_90009_1_, int p_90009_2_)
 	{
-		if(par1TileEntityChest.isInvalid())
+		if(p_90009_1_.isInvalid())
 		{
 			adjacentChestChecked = false;
 		} else if(adjacentChestChecked)
 		{
-			switch(par2)
+			switch(p_90009_2_)
 			{
 				case 0:
-					if(adjacentChestZPosition != par1TileEntityChest)
+					if(adjacentChestZPosition != p_90009_1_)
 					{
 						adjacentChestChecked = false;
 					}
 					break;
 				case 1:
-					if(adjacentChestXNeg != par1TileEntityChest)
+					if(adjacentChestXNeg != p_90009_1_)
 					{
 						adjacentChestChecked = false;
 					}
 					break;
 				case 2:
-					if(adjacentChestZNeg != par1TileEntityChest)
+					if(adjacentChestZNeg != p_90009_1_)
 					{
 						adjacentChestChecked = false;
 					}
 					break;
 				case 3:
-					if(adjacentChestXPos != par1TileEntityChest)
+					if(adjacentChestXPos != p_90009_1_)
 					{
 						adjacentChestChecked = false;
 					}
@@ -143,9 +133,9 @@ public class TileEntityChest extends TileEntity implements IInventory
 		}
 	}
 	
-	private boolean func_94044_a(int par1, int par2, int par3)
+	private boolean func_94044_a(int p_94044_1_, int p_94044_2_, int p_94044_3_)
 	{
-		Block var4 = Block.blocksList[worldObj.getBlockId(par1, par2, par3)];
+		Block var4 = Block.blocksList[worldObj.getBlockId(p_94044_1_, p_94044_2_, p_94044_3_)];
 		return var4 != null && var4 instanceof BlockChest ? ((BlockChest) var4).isTrapped == func_98041_l() : false;
 	}
 	
@@ -174,17 +164,17 @@ public class TileEntityChest extends TileEntity implements IInventory
 		return 27;
 	}
 	
-	@Override public ItemStack getStackInSlot(int par1)
+	@Override public ItemStack getStackInSlot(int p_70301_1_)
 	{
-		return chestContents[par1];
+		return chestContents[p_70301_1_];
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int par1)
+	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
 	{
-		if(chestContents[par1] != null)
+		if(chestContents[p_70304_1_] != null)
 		{
-			ItemStack var2 = chestContents[par1];
-			chestContents[par1] = null;
+			ItemStack var2 = chestContents[p_70304_1_];
+			chestContents[p_70304_1_] = null;
 			return var2;
 		} else return null;
 	}
@@ -201,14 +191,14 @@ public class TileEntityChest extends TileEntity implements IInventory
 		return field_94045_s != null && field_94045_s.length() > 0;
 	}
 	
-	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
+	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
 	{
 		return true;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
 	{
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : par1EntityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : p_70300_1_.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
 	}
 	
 	@Override public void openChest()
@@ -223,14 +213,14 @@ public class TileEntityChest extends TileEntity implements IInventory
 		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord - 1, zCoord, getBlockType().blockID);
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
 	{
-		super.readFromNBT(par1NBTTagCompound);
-		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
+		super.readFromNBT(p_70307_1_);
+		NBTTagList var2 = p_70307_1_.getTagList("Items");
 		chestContents = new ItemStack[getSizeInventory()];
-		if(par1NBTTagCompound.hasKey("CustomName"))
+		if(p_70307_1_.hasKey("CustomName"))
 		{
-			field_94045_s = par1NBTTagCompound.getString("CustomName");
+			field_94045_s = p_70307_1_.getString("CustomName");
 		}
 		for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
@@ -243,26 +233,26 @@ public class TileEntityChest extends TileEntity implements IInventory
 		}
 	}
 	
-	@Override public boolean receiveClientEvent(int par1, int par2)
+	@Override public boolean receiveClientEvent(int p_70315_1_, int p_70315_2_)
 	{
-		if(par1 == 1)
+		if(p_70315_1_ == 1)
 		{
-			numUsingPlayers = par2;
+			numUsingPlayers = p_70315_2_;
 			return true;
-		} else return super.receiveClientEvent(par1, par2);
+		} else return super.receiveClientEvent(p_70315_1_, p_70315_2_);
 	}
 	
-	public void setChestGuiName(String par1Str)
+	public void setChestGuiName(String p_94043_1_)
 	{
-		field_94045_s = par1Str;
+		field_94045_s = p_94043_1_;
 	}
 	
-	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
 	{
-		chestContents[par1] = par2ItemStack;
-		if(par2ItemStack != null && par2ItemStack.stackSize > getInventoryStackLimit())
+		chestContents[p_70299_1_] = p_70299_2_;
+		if(p_70299_2_ != null && p_70299_2_.stackSize > getInventoryStackLimit())
 		{
-			par2ItemStack.stackSize = getInventoryStackLimit();
+			p_70299_2_.stackSize = getInventoryStackLimit();
 		}
 		onInventoryChanged();
 	}
@@ -351,9 +341,9 @@ public class TileEntityChest extends TileEntity implements IInventory
 		}
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
 	{
-		super.writeToNBT(par1NBTTagCompound);
+		super.writeToNBT(p_70310_1_);
 		NBTTagList var2 = new NBTTagList();
 		for(int var3 = 0; var3 < chestContents.length; ++var3)
 		{
@@ -365,10 +355,10 @@ public class TileEntityChest extends TileEntity implements IInventory
 				var2.appendTag(var4);
 			}
 		}
-		par1NBTTagCompound.setTag("Items", var2);
+		p_70310_1_.setTag("Items", var2);
 		if(isInvNameLocalized())
 		{
-			par1NBTTagCompound.setString("CustomName", field_94045_s);
+			p_70310_1_.setString("CustomName", field_94045_s);
 		}
 	}
 }

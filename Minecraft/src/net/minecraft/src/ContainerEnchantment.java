@@ -14,38 +14,38 @@ public class ContainerEnchantment extends Container
 	public long nameSeed;
 	public int[] enchantLevels = new int[3];
 	
-	public ContainerEnchantment(InventoryPlayer par1InventoryPlayer, World par2World, int par3, int par4, int par5)
+	public ContainerEnchantment(InventoryPlayer p_i3606_1_, World p_i3606_2_, int p_i3606_3_, int p_i3606_4_, int p_i3606_5_)
 	{
-		worldPointer = par2World;
-		posX = par3;
-		posY = par4;
-		posZ = par5;
+		worldPointer = p_i3606_2_;
+		posX = p_i3606_3_;
+		posY = p_i3606_4_;
+		posZ = p_i3606_5_;
 		addSlotToContainer(new SlotEnchantment(this, tableInventory, 0, 25, 47));
 		int var6;
 		for(var6 = 0; var6 < 3; ++var6)
 		{
 			for(int var7 = 0; var7 < 9; ++var7)
 			{
-				addSlotToContainer(new Slot(par1InventoryPlayer, var7 + var6 * 9 + 9, 8 + var7 * 18, 84 + var6 * 18));
+				addSlotToContainer(new Slot(p_i3606_1_, var7 + var6 * 9 + 9, 8 + var7 * 18, 84 + var6 * 18));
 			}
 		}
 		for(var6 = 0; var6 < 9; ++var6)
 		{
-			addSlotToContainer(new Slot(par1InventoryPlayer, var6, 8 + var6 * 18, 142));
+			addSlotToContainer(new Slot(p_i3606_1_, var6, 8 + var6 * 18, 142));
 		}
 	}
 	
-	@Override public void addCraftingToCrafters(ICrafting par1ICrafting)
+	@Override public void addCraftingToCrafters(ICrafting p_75132_1_)
 	{
-		super.addCraftingToCrafters(par1ICrafting);
-		par1ICrafting.sendProgressBarUpdate(this, 0, enchantLevels[0]);
-		par1ICrafting.sendProgressBarUpdate(this, 1, enchantLevels[1]);
-		par1ICrafting.sendProgressBarUpdate(this, 2, enchantLevels[2]);
+		super.addCraftingToCrafters(p_75132_1_);
+		p_75132_1_.sendProgressBarUpdate(this, 0, enchantLevels[0]);
+		p_75132_1_.sendProgressBarUpdate(this, 1, enchantLevels[1]);
+		p_75132_1_.sendProgressBarUpdate(this, 2, enchantLevels[2]);
 	}
 	
-	@Override public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+	@Override public boolean canInteractWith(EntityPlayer p_75145_1_)
 	{
-		return worldPointer.getBlockId(posX, posY, posZ) != Block.enchantmentTable.blockID ? false : par1EntityPlayer.getDistanceSq(posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
+		return worldPointer.getBlockId(posX, posY, posZ) != Block.enchantmentTable.blockID ? false : p_75145_1_.getDistanceSq(posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
 	}
 	
 	@Override public void detectAndSendChanges()
@@ -60,18 +60,18 @@ public class ContainerEnchantment extends Container
 		}
 	}
 	
-	@Override public boolean enchantItem(EntityPlayer par1EntityPlayer, int par2)
+	@Override public boolean enchantItem(EntityPlayer p_75140_1_, int p_75140_2_)
 	{
 		ItemStack var3 = tableInventory.getStackInSlot(0);
-		if(enchantLevels[par2] > 0 && var3 != null && (par1EntityPlayer.experienceLevel >= enchantLevels[par2] || par1EntityPlayer.capabilities.isCreativeMode))
+		if(enchantLevels[p_75140_2_] > 0 && var3 != null && (p_75140_1_.experienceLevel >= enchantLevels[p_75140_2_] || p_75140_1_.capabilities.isCreativeMode))
 		{
 			if(!worldPointer.isRemote)
 			{
-				List var4 = EnchantmentHelper.buildEnchantmentList(rand, var3, enchantLevels[par2]);
+				List var4 = EnchantmentHelper.buildEnchantmentList(rand, var3, enchantLevels[p_75140_2_]);
 				boolean var5 = var3.itemID == Item.book.itemID;
 				if(var4 != null)
 				{
-					par1EntityPlayer.addExperienceLevel(-enchantLevels[par2]);
+					p_75140_1_.addExperienceLevel(-enchantLevels[p_75140_2_]);
 					if(var5)
 					{
 						var3.itemID = Item.enchantedBook.itemID;
@@ -98,24 +98,24 @@ public class ContainerEnchantment extends Container
 		} else return false;
 	}
 	
-	@Override public void onContainerClosed(EntityPlayer par1EntityPlayer)
+	@Override public void onContainerClosed(EntityPlayer p_75134_1_)
 	{
-		super.onContainerClosed(par1EntityPlayer);
+		super.onContainerClosed(p_75134_1_);
 		if(!worldPointer.isRemote)
 		{
 			ItemStack var2 = tableInventory.getStackInSlotOnClosing(0);
 			if(var2 != null)
 			{
-				par1EntityPlayer.dropPlayerItem(var2);
+				p_75134_1_.dropPlayerItem(var2);
 			}
 		}
 	}
 	
-	@Override public void onCraftMatrixChanged(IInventory par1IInventory)
+	@Override public void onCraftMatrixChanged(IInventory p_75130_1_)
 	{
-		if(par1IInventory == tableInventory)
+		if(p_75130_1_ == tableInventory)
 		{
-			ItemStack var2 = par1IInventory.getStackInSlot(0);
+			ItemStack var2 = p_75130_1_.getStackInSlot(0);
 			int var3;
 			if(var2 != null && var2.isItemEnchantable())
 			{
@@ -176,15 +176,15 @@ public class ContainerEnchantment extends Container
 		}
 	}
 	
-	@Override public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
+	@Override public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
 	{
 		ItemStack var3 = null;
-		Slot var4 = (Slot) inventorySlots.get(par2);
+		Slot var4 = (Slot) inventorySlots.get(p_82846_2_);
 		if(var4 != null && var4.getHasStack())
 		{
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			if(par2 == 0)
+			if(p_82846_2_ == 0)
 			{
 				if(!mergeItemStack(var5, 1, 37, true)) return null;
 			} else
@@ -208,7 +208,7 @@ public class ContainerEnchantment extends Container
 				var4.onSlotChanged();
 			}
 			if(var5.stackSize == var3.stackSize) return null;
-			var4.onPickupFromSlot(par1EntityPlayer, var5);
+			var4.onPickupFromSlot(p_82846_1_, var5);
 		}
 		return var3;
 	}

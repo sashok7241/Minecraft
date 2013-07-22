@@ -14,18 +14,18 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 	private final File worldDirectory;
 	private final File playersDirectory;
 	private final File mapDataDir;
-	private final long initializationTime = MinecraftServer.func_130071_aq();
+	private final long initializationTime = System.currentTimeMillis();
 	private final String saveDirectoryName;
 	
-	public SaveHandler(File par1File, String par2Str, boolean par3)
+	public SaveHandler(File p_i3912_1_, String p_i3912_2_, boolean p_i3912_3_)
 	{
-		worldDirectory = new File(par1File, par2Str);
+		worldDirectory = new File(p_i3912_1_, p_i3912_2_);
 		worldDirectory.mkdirs();
 		playersDirectory = new File(worldDirectory, "players");
 		mapDataDir = new File(worldDirectory, "data");
 		mapDataDir.mkdirs();
-		saveDirectoryName = par2Str;
-		if(par3)
+		saveDirectoryName = p_i3912_2_;
+		if(p_i3912_3_)
 		{
 			playersDirectory.mkdirs();
 		}
@@ -68,25 +68,25 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 		return var1;
 	}
 	
-	@Override public IChunkLoader getChunkLoader(WorldProvider par1WorldProvider)
+	@Override public IChunkLoader getChunkLoader(WorldProvider p_75763_1_)
 	{
 		throw new RuntimeException("Old Chunk Storage is no longer supported.");
 	}
 	
-	@Override public File getMapFileFromName(String par1Str)
+	@Override public File getMapFileFromName(String p_75758_1_)
 	{
-		return new File(mapDataDir, par1Str + ".dat");
+		return new File(mapDataDir, p_75758_1_ + ".dat");
 	}
 	
-	public NBTTagCompound getPlayerData(String par1Str)
+	public NBTTagCompound getPlayerData(String p_75764_1_)
 	{
 		try
 		{
-			File var2 = new File(playersDirectory, par1Str + ".dat");
+			File var2 = new File(playersDirectory, p_75764_1_ + ".dat");
 			if(var2.exists()) return CompressedStreamTools.readCompressed(new FileInputStream(var2));
 		} catch(Exception var3)
 		{
-			MinecraftServer.getServer().getLogAgent().logWarning("Failed to load player data for " + par1Str);
+			MinecraftServer.getServer().getLogAgent().logWarning("Failed to load player data for " + p_75764_1_);
 		}
 		return null;
 	}
@@ -139,19 +139,19 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 		return null;
 	}
 	
-	@Override public NBTTagCompound readPlayerData(EntityPlayer par1EntityPlayer)
+	@Override public NBTTagCompound readPlayerData(EntityPlayer p_75752_1_)
 	{
-		NBTTagCompound var2 = getPlayerData(par1EntityPlayer.getCommandSenderName());
+		NBTTagCompound var2 = getPlayerData(p_75752_1_.username);
 		if(var2 != null)
 		{
-			par1EntityPlayer.readFromNBT(var2);
+			p_75752_1_.readFromNBT(var2);
 		}
 		return var2;
 	}
 	
-	@Override public void saveWorldInfo(WorldInfo par1WorldInfo)
+	@Override public void saveWorldInfo(WorldInfo p_75761_1_)
 	{
-		NBTTagCompound var2 = par1WorldInfo.getNBTTagCompound();
+		NBTTagCompound var2 = p_75761_1_.getNBTTagCompound();
 		NBTTagCompound var3 = new NBTTagCompound();
 		var3.setTag("Data", var2);
 		try
@@ -180,9 +180,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 		}
 	}
 	
-	@Override public void saveWorldInfoWithPlayer(WorldInfo par1WorldInfo, NBTTagCompound par2NBTTagCompound)
+	@Override public void saveWorldInfoWithPlayer(WorldInfo p_75755_1_, NBTTagCompound p_75755_2_)
 	{
-		NBTTagCompound var3 = par1WorldInfo.cloneNBTCompound(par2NBTTagCompound);
+		NBTTagCompound var3 = p_75755_1_.cloneNBTCompound(p_75755_2_);
 		NBTTagCompound var4 = new NBTTagCompound();
 		var4.setTag("Data", var3);
 		try
@@ -231,14 +231,14 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 		}
 	}
 	
-	@Override public void writePlayerData(EntityPlayer par1EntityPlayer)
+	@Override public void writePlayerData(EntityPlayer p_75753_1_)
 	{
 		try
 		{
 			NBTTagCompound var2 = new NBTTagCompound();
-			par1EntityPlayer.writeToNBT(var2);
-			File var3 = new File(playersDirectory, par1EntityPlayer.getCommandSenderName() + ".dat.tmp");
-			File var4 = new File(playersDirectory, par1EntityPlayer.getCommandSenderName() + ".dat");
+			p_75753_1_.writeToNBT(var2);
+			File var3 = new File(playersDirectory, p_75753_1_.username + ".dat.tmp");
+			File var4 = new File(playersDirectory, p_75753_1_.username + ".dat");
 			CompressedStreamTools.writeCompressed(var2, new FileOutputStream(var3));
 			if(var4.exists())
 			{
@@ -247,7 +247,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 			var3.renameTo(var4);
 		} catch(Exception var5)
 		{
-			MinecraftServer.getServer().getLogAgent().logWarning("Failed to save player data for " + par1EntityPlayer.getCommandSenderName());
+			MinecraftServer.getServer().getLogAgent().logWarning("Failed to save player data for " + p_75753_1_.username);
 		}
 	}
 }

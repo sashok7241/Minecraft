@@ -2,29 +2,16 @@ package net.minecraft.src;
 
 import java.io.IOException;
 
-import net.minecraft.client.Minecraft;
-
 public class TaskOnlineConnect extends TaskLongRunning
 {
 	private NetClientHandler field_96586_a;
 	private final McoServer field_96585_c;
 	private final GuiScreen field_96584_d;
 	
-	public TaskOnlineConnect(GuiScreen par1GuiScreen, McoServer par2McoServer)
+	public TaskOnlineConnect(GuiScreen p_i10014_1_, McoServer p_i10014_2_)
 	{
-		field_96584_d = par1GuiScreen;
-		field_96585_c = par2McoServer;
-	}
-	
-	private void func_111251_a(int par1)
-	{
-		try
-		{
-			Thread.sleep(par1 * 1000);
-		} catch(InterruptedException var3)
-		{
-			Minecraft.getMinecraft().getLogAgent().logWarning(var3.getLocalizedMessage());
-		}
+		field_96584_d = p_i10014_1_;
+		field_96585_c = p_i10014_2_;
 	}
 	
 	@Override public void func_96573_a()
@@ -35,6 +22,17 @@ public class TaskOnlineConnect extends TaskLongRunning
 		}
 	}
 	
+	private void func_96581_e()
+	{
+		try
+		{
+			Thread.sleep(5000L);
+		} catch(InterruptedException var2)
+		{
+			System.err.println(var2);
+		}
+	}
+	
 	private void func_96582_a(String par1Str, int par2)
 	{
 		new ThreadOnlineConnect(this, par1Str, par2).start();
@@ -42,47 +40,45 @@ public class TaskOnlineConnect extends TaskLongRunning
 	
 	@Override public void run()
 	{
-		func_96576_b(I18n.func_135053_a("mco.connect.connecting"));
-		McoClient var1 = new McoClient(func_96578_b().func_110432_I());
+		func_96576_b(StringTranslate.getInstance().translateKey("mco.connect.connecting"));
+		McoClient var1 = new McoClient(func_96578_b().session);
 		boolean var2 = false;
 		boolean var3 = false;
-		int var4 = 5;
-		McoServerAddress var5 = null;
-		for(int var6 = 0; var6 < 10 && !func_96577_c(); ++var6)
+		McoServerAddress var4 = null;
+		for(int var5 = 0; var5 < 10 && !func_96577_c(); ++var5)
 		{
 			try
 			{
-				var5 = var1.func_96374_a(field_96585_c.field_96408_a);
+				var4 = var1.func_96374_a(field_96585_c.field_96408_a);
 				var2 = true;
-			} catch(ExceptionRetryCall var8)
+			} catch(ExceptionRetryCall var7)
 			{
-				var4 = var8.field_96393_c;
-			} catch(ExceptionMcoService var9)
+				;
+			} catch(ExceptionMcoService var8)
 			{
 				var3 = true;
-				func_96575_a(var9.toString());
-				Minecraft.getMinecraft().getLogAgent().logSevere(var9.toString());
+				func_96575_a(var8.getLocalizedMessage());
 				break;
-			} catch(IOException var10)
+			} catch(IOException var9)
 			{
-				Minecraft.getMinecraft().getLogAgent().logWarning("Realms: could not parse response");
-			} catch(Exception var11)
+				;
+			} catch(Exception var10)
 			{
 				var3 = true;
-				func_96575_a(var11.getLocalizedMessage());
+				func_96575_a(var10.getLocalizedMessage());
 			}
 			if(var2)
 			{
 				break;
 			}
-			func_111251_a(var4);
+			func_96581_e();
 		}
 		if(!func_96577_c() && !var3)
 		{
 			if(var2)
 			{
-				ServerAddress var12 = ServerAddress.func_78860_a(var5.field_96417_a);
-				func_96582_a(var12.getIP(), var12.getPort());
+				ServerAddress var11 = ServerAddress.func_78860_a(var4.field_96417_a);
+				func_96582_a(var11.getIP(), var11.getPort());
 			} else
 			{
 				func_96578_b().displayGuiScreen(field_96584_d);

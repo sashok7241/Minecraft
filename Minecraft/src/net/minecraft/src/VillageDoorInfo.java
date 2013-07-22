@@ -8,24 +8,24 @@ public class VillageDoorInfo
 	public final int insideDirectionX;
 	public final int insideDirectionZ;
 	public int lastActivityTimestamp;
-	public boolean isDetachedFromVillageFlag;
-	private int doorOpeningRestrictionCounter;
+	public boolean isDetachedFromVillageFlag = false;
+	private int doorOpeningRestrictionCounter = 0;
 	
-	public VillageDoorInfo(int par1, int par2, int par3, int par4, int par5, int par6)
+	public VillageDoorInfo(int p_i3509_1_, int p_i3509_2_, int p_i3509_3_, int p_i3509_4_, int p_i3509_5_, int p_i3509_6_)
 	{
-		posX = par1;
-		posY = par2;
-		posZ = par3;
-		insideDirectionX = par4;
-		insideDirectionZ = par5;
-		lastActivityTimestamp = par6;
+		posX = p_i3509_1_;
+		posY = p_i3509_2_;
+		posZ = p_i3509_3_;
+		insideDirectionX = p_i3509_4_;
+		insideDirectionZ = p_i3509_5_;
+		lastActivityTimestamp = p_i3509_6_;
 	}
 	
-	public int getDistanceSquared(int par1, int par2, int par3)
+	public int getDistanceSquared(int p_75474_1_, int p_75474_2_, int p_75474_3_)
 	{
-		int var4 = par1 - posX;
-		int var5 = par2 - posY;
-		int var6 = par3 - posZ;
+		int var4 = p_75474_1_ - posX;
+		int var5 = p_75474_2_ - posY;
+		int var6 = p_75474_3_ - posZ;
 		return var4 * var4 + var5 * var5 + var6 * var6;
 	}
 	
@@ -34,11 +34,11 @@ public class VillageDoorInfo
 		return doorOpeningRestrictionCounter;
 	}
 	
-	public int getInsideDistanceSquare(int par1, int par2, int par3)
+	public int getInsideDistanceSquare(int p_75469_1_, int p_75469_2_, int p_75469_3_)
 	{
-		int var4 = par1 - posX - insideDirectionX;
-		int var5 = par2 - posY;
-		int var6 = par3 - posZ - insideDirectionZ;
+		int var4 = p_75469_1_ - posX - insideDirectionX;
+		int var5 = p_75469_2_ - posY;
+		int var6 = p_75469_3_ - posZ - insideDirectionZ;
 		return var4 * var4 + var5 * var5 + var6 * var6;
 	}
 	
@@ -62,10 +62,10 @@ public class VillageDoorInfo
 		++doorOpeningRestrictionCounter;
 	}
 	
-	public boolean isInside(int par1, int par2)
+	public boolean isInside(int p_75467_1_, int p_75467_2_)
 	{
-		int var3 = par1 - posX;
-		int var4 = par2 - posZ;
+		int var3 = p_75467_1_ - posX;
+		int var4 = p_75467_2_ - posZ;
 		return var3 * insideDirectionX + var4 * insideDirectionZ >= 0;
 	}
 	

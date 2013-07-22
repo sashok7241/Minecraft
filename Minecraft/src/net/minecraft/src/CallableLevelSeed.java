@@ -6,9 +6,9 @@ class CallableLevelSeed implements Callable
 {
 	final WorldInfo worldInfoInstance;
 	
-	CallableLevelSeed(WorldInfo par1WorldInfo)
+	CallableLevelSeed(WorldInfo p_i6820_1_)
 	{
-		worldInfoInstance = par1WorldInfo;
+		worldInfoInstance = p_i6820_1_;
 	}
 	
 	@Override public Object call()

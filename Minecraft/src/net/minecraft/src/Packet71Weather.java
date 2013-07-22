@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet71Weather extends Packet
@@ -16,13 +16,13 @@ public class Packet71Weather extends Packet
 	{
 	}
 	
-	public Packet71Weather(Entity par1Entity)
+	public Packet71Weather(Entity p_i3292_1_)
 	{
-		entityID = par1Entity.entityId;
-		posX = MathHelper.floor_double(par1Entity.posX * 32.0D);
-		posY = MathHelper.floor_double(par1Entity.posY * 32.0D);
-		posZ = MathHelper.floor_double(par1Entity.posZ * 32.0D);
-		if(par1Entity instanceof EntityLightningBolt)
+		entityID = p_i3292_1_.entityId;
+		posX = MathHelper.floor_double(p_i3292_1_.posX * 32.0D);
+		posY = MathHelper.floor_double(p_i3292_1_.posY * 32.0D);
+		posZ = MathHelper.floor_double(p_i3292_1_.posZ * 32.0D);
+		if(p_i3292_1_ instanceof EntityLightningBolt)
 		{
 			isLightningBolt = 1;
 		}
@@ -33,26 +33,26 @@ public class Packet71Weather extends Packet
 		return 17;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleWeather(this);
+		p_73279_1_.handleWeather(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityID = par1DataInput.readInt();
-		isLightningBolt = par1DataInput.readByte();
-		posX = par1DataInput.readInt();
-		posY = par1DataInput.readInt();
-		posZ = par1DataInput.readInt();
+		entityID = p_73267_1_.readInt();
+		isLightningBolt = p_73267_1_.readByte();
+		posX = p_73267_1_.readInt();
+		posY = p_73267_1_.readInt();
+		posZ = p_73267_1_.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityID);
-		par1DataOutput.writeByte(isLightningBolt);
-		par1DataOutput.writeInt(posX);
-		par1DataOutput.writeInt(posY);
-		par1DataOutput.writeInt(posZ);
+		p_73273_1_.writeInt(entityID);
+		p_73273_1_.writeByte(isLightningBolt);
+		p_73273_1_.writeInt(posX);
+		p_73273_1_.writeInt(posY);
+		p_73273_1_.writeInt(posZ);
 	}
 }

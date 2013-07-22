@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet15Place extends Packet
@@ -19,16 +19,16 @@ public class Packet15Place extends Packet
 	{
 	}
 	
-	public Packet15Place(int par1, int par2, int par3, int par4, ItemStack par5ItemStack, float par6, float par7, float par8)
+	public Packet15Place(int p_i3366_1_, int p_i3366_2_, int p_i3366_3_, int p_i3366_4_, ItemStack p_i3366_5_, float p_i3366_6_, float p_i3366_7_, float p_i3366_8_)
 	{
-		xPosition = par1;
-		yPosition = par2;
-		zPosition = par3;
-		direction = par4;
-		itemStack = par5ItemStack != null ? par5ItemStack.copy() : null;
-		xOffset = par6;
-		yOffset = par7;
-		zOffset = par8;
+		xPosition = p_i3366_1_;
+		yPosition = p_i3366_2_;
+		zPosition = p_i3366_3_;
+		direction = p_i3366_4_;
+		itemStack = p_i3366_5_ != null ? p_i3366_5_.copy() : null;
+		xOffset = p_i3366_6_;
+		yOffset = p_i3366_7_;
+		zOffset = p_i3366_8_;
 	}
 	
 	public int getDirection()
@@ -76,32 +76,32 @@ public class Packet15Place extends Packet
 		return zPosition;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handlePlace(this);
+		p_73279_1_.handlePlace(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		xPosition = par1DataInput.readInt();
-		yPosition = par1DataInput.readUnsignedByte();
-		zPosition = par1DataInput.readInt();
-		direction = par1DataInput.readUnsignedByte();
-		itemStack = readItemStack(par1DataInput);
-		xOffset = par1DataInput.readUnsignedByte() / 16.0F;
-		yOffset = par1DataInput.readUnsignedByte() / 16.0F;
-		zOffset = par1DataInput.readUnsignedByte() / 16.0F;
+		xPosition = p_73267_1_.readInt();
+		yPosition = p_73267_1_.read();
+		zPosition = p_73267_1_.readInt();
+		direction = p_73267_1_.read();
+		itemStack = readItemStack(p_73267_1_);
+		xOffset = p_73267_1_.read() / 16.0F;
+		yOffset = p_73267_1_.read() / 16.0F;
+		zOffset = p_73267_1_.read() / 16.0F;
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(xPosition);
-		par1DataOutput.write(yPosition);
-		par1DataOutput.writeInt(zPosition);
-		par1DataOutput.write(direction);
-		writeItemStack(itemStack, par1DataOutput);
-		par1DataOutput.write((int) (xOffset * 16.0F));
-		par1DataOutput.write((int) (yOffset * 16.0F));
-		par1DataOutput.write((int) (zOffset * 16.0F));
+		p_73273_1_.writeInt(xPosition);
+		p_73273_1_.write(yPosition);
+		p_73273_1_.writeInt(zPosition);
+		p_73273_1_.write(direction);
+		writeItemStack(itemStack, p_73273_1_);
+		p_73273_1_.write((int) (xOffset * 16.0F));
+		p_73273_1_.write((int) (yOffset * 16.0F));
+		p_73273_1_.write((int) (zOffset * 16.0F));
 	}
 }

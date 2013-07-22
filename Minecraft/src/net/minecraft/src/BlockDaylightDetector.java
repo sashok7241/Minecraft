@@ -6,9 +6,9 @@ public class BlockDaylightDetector extends BlockContainer
 {
 	private Icon[] iconArray = new Icon[2];
 	
-	public BlockDaylightDetector(int par1)
+	public BlockDaylightDetector(int p_i9049_1_)
 	{
-		super(par1, Material.wood);
+		super(p_i9049_1_, Material.wood);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 		setCreativeTab(CreativeTabs.tabRedstone);
 	}
@@ -18,7 +18,7 @@ public class BlockDaylightDetector extends BlockContainer
 		return true;
 	}
 	
-	@Override public TileEntity createNewTileEntity(World par1World)
+	@Override public TileEntity createNewTileEntity(World p_72274_1_)
 	{
 		return new TileEntityDaylightDetector();
 	}
@@ -33,23 +33,23 @@ public class BlockDaylightDetector extends BlockContainer
 		return false;
 	}
 	
-	@Override public int isProvidingWeakPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override public int isProvidingWeakPower(IBlockAccess p_71865_1_, int p_71865_2_, int p_71865_3_, int p_71865_4_, int p_71865_5_)
 	{
-		return par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+		return p_71865_1_.getBlockMetadata(p_71865_2_, p_71865_3_, p_71865_4_);
 	}
 	
-	@Override public void onBlockAdded(World par1World, int par2, int par3, int par4)
+	@Override public void onBlockAdded(World p_71861_1_, int p_71861_2_, int p_71861_3_, int p_71861_4_)
 	{
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray[0] = par1IconRegister.registerIcon(func_111023_E() + "_top");
-		iconArray[1] = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		iconArray[0] = par1IconRegister.registerIcon("daylightDetector_top");
+		iconArray[1] = par1IconRegister.registerIcon("daylightDetector_side");
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -57,18 +57,18 @@ public class BlockDaylightDetector extends BlockContainer
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 	}
 	
-	public void updateLightLevel(World par1World, int par2, int par3, int par4)
+	public void updateLightLevel(World p_94444_1_, int p_94444_2_, int p_94444_3_, int p_94444_4_)
 	{
-		if(!par1World.provider.hasNoSky)
+		if(!p_94444_1_.provider.hasNoSky)
 		{
-			int var5 = par1World.getBlockMetadata(par2, par3, par4);
-			int var6 = par1World.getSavedLightValue(EnumSkyBlock.Sky, par2, par3, par4) - par1World.skylightSubtracted;
-			float var7 = par1World.getCelestialAngleRadians(1.0F);
+			int var5 = p_94444_1_.getBlockMetadata(p_94444_2_, p_94444_3_, p_94444_4_);
+			int var6 = p_94444_1_.getSavedLightValue(EnumSkyBlock.Sky, p_94444_2_, p_94444_3_, p_94444_4_) - p_94444_1_.skylightSubtracted;
+			float var7 = p_94444_1_.getCelestialAngleRadians(1.0F);
 			if(var7 < (float) Math.PI)
 			{
 				var7 += (0.0F - var7) * 0.2F;
@@ -87,12 +87,12 @@ public class BlockDaylightDetector extends BlockContainer
 			}
 			if(var5 != var6)
 			{
-				par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 3);
+				p_94444_1_.setBlockMetadataWithNotify(p_94444_2_, p_94444_3_, p_94444_4_, var6, 3);
 			}
 		}
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
 	}
 }

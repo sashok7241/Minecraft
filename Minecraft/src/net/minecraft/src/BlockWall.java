@@ -6,18 +6,18 @@ public class BlockWall extends Block
 {
 	public static final String[] types = new String[] { "normal", "mossy" };
 	
-	public BlockWall(int par1, Block par2Block)
+	public BlockWall(int p_i5108_1_, Block p_i5108_2_)
 	{
-		super(par1, par2Block.blockMaterial);
-		setHardness(par2Block.blockHardness);
-		setResistance(par2Block.blockResistance / 3.0F);
-		setStepSound(par2Block.stepSound);
+		super(p_i5108_1_, p_i5108_2_.blockMaterial);
+		setHardness(p_i5108_2_.blockHardness);
+		setResistance(p_i5108_2_.blockResistance / 3.0F);
+		setStepSound(p_i5108_2_.stepSound);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	public boolean canConnectWallTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	public boolean canConnectWallTo(IBlockAccess p_82538_1_, int p_82538_2_, int p_82538_3_, int p_82538_4_)
 	{
-		int var5 = par1IBlockAccess.getBlockId(par2, par3, par4);
+		int var5 = p_82538_1_.getBlockId(p_82538_2_, p_82538_3_, p_82538_4_);
 		if(var5 != blockID && var5 != Block.fenceGate.blockID)
 		{
 			Block var6 = Block.blocksList[var5];
@@ -25,21 +25,21 @@ public class BlockWall extends Block
 		} else return true;
 	}
 	
-	@Override public int damageDropped(int par1)
+	@Override public int damageDropped(int p_71899_1_)
 	{
-		return par1;
+		return p_71899_1_;
 	}
 	
-	@Override public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public boolean getBlocksMovement(IBlockAccess p_71918_1_, int p_71918_2_, int p_71918_3_, int p_71918_4_)
 	{
 		return false;
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
 	{
-		setBlockBoundsBasedOnState(par1World, par2, par3, par4);
+		setBlockBoundsBasedOnState(p_71872_1_, p_71872_2_, p_71872_3_, p_71872_4_);
 		maxY = 1.5D;
-		return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
+		return super.getCollisionBoundingBoxFromPool(p_71872_1_, p_71872_2_, p_71872_3_, p_71872_4_);
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -72,12 +72,12 @@ public class BlockWall extends Block
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
-		boolean var5 = canConnectWallTo(par1IBlockAccess, par2, par3, par4 - 1);
-		boolean var6 = canConnectWallTo(par1IBlockAccess, par2, par3, par4 + 1);
-		boolean var7 = canConnectWallTo(par1IBlockAccess, par2 - 1, par3, par4);
-		boolean var8 = canConnectWallTo(par1IBlockAccess, par2 + 1, par3, par4);
+		boolean var5 = canConnectWallTo(p_71902_1_, p_71902_2_, p_71902_3_, p_71902_4_ - 1);
+		boolean var6 = canConnectWallTo(p_71902_1_, p_71902_2_, p_71902_3_, p_71902_4_ + 1);
+		boolean var7 = canConnectWallTo(p_71902_1_, p_71902_2_ - 1, p_71902_3_, p_71902_4_);
+		boolean var8 = canConnectWallTo(p_71902_1_, p_71902_2_ + 1, p_71902_3_, p_71902_4_);
 		float var9 = 0.25F;
 		float var10 = 0.75F;
 		float var11 = 0.25F;

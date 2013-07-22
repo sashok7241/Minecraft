@@ -8,14 +8,14 @@ class StructureScatteredFeatureStones extends StructurePieceBlockSelector
 	{
 	}
 	
-	StructureScatteredFeatureStones(ComponentScatteredFeaturePieces2 par1ComponentScatteredFeaturePieces2)
+	StructureScatteredFeatureStones(ComponentScatteredFeaturePieces2 p_i3834_1_)
 	{
 		this();
 	}
 	
-	@Override public void selectBlocks(Random par1Random, int par2, int par3, int par4, boolean par5)
+	@Override public void selectBlocks(Random p_75062_1_, int p_75062_2_, int p_75062_3_, int p_75062_4_, boolean p_75062_5_)
 	{
-		if(par1Random.nextFloat() < 0.4F)
+		if(p_75062_1_.nextFloat() < 0.4F)
 		{
 			selectedBlockId = Block.cobblestone.blockID;
 		} else

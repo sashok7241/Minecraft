@@ -7,10 +7,10 @@ public class ItemBlock extends Item
 	private int blockID;
 	private Icon field_94588_b;
 	
-	public ItemBlock(int par1)
+	public ItemBlock(int p_i3690_1_)
 	{
-		super(par1);
-		blockID = par1 + 256;
+		super(p_i3690_1_);
+		blockID = p_i3690_1_ + 256;
 	}
 	
 	public boolean canPlaceItemBlockOnSide(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer, ItemStack par7ItemStack)
@@ -79,61 +79,61 @@ public class ItemBlock extends Item
 		return Block.blocksList[blockID].getUnlocalizedName();
 	}
 	
-	@Override public String getUnlocalizedName(ItemStack par1ItemStack)
+	@Override public String getUnlocalizedName(ItemStack p_77667_1_)
 	{
 		return Block.blocksList[blockID].getUnlocalizedName();
 	}
 	
-	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
 	{
-		int var11 = par3World.getBlockId(par4, par5, par6);
-		if(var11 == Block.snow.blockID && (par3World.getBlockMetadata(par4, par5, par6) & 7) < 1)
+		int var11 = p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_);
+		if(var11 == Block.snow.blockID && (p_77648_3_.getBlockMetadata(p_77648_4_, p_77648_5_, p_77648_6_) & 7) < 1)
 		{
-			par7 = 1;
+			p_77648_7_ = 1;
 		} else if(var11 != Block.vine.blockID && var11 != Block.tallGrass.blockID && var11 != Block.deadBush.blockID)
 		{
-			if(par7 == 0)
+			if(p_77648_7_ == 0)
 			{
-				--par5;
+				--p_77648_5_;
 			}
-			if(par7 == 1)
+			if(p_77648_7_ == 1)
 			{
-				++par5;
+				++p_77648_5_;
 			}
-			if(par7 == 2)
+			if(p_77648_7_ == 2)
 			{
-				--par6;
+				--p_77648_6_;
 			}
-			if(par7 == 3)
+			if(p_77648_7_ == 3)
 			{
-				++par6;
+				++p_77648_6_;
 			}
-			if(par7 == 4)
+			if(p_77648_7_ == 4)
 			{
-				--par4;
+				--p_77648_4_;
 			}
-			if(par7 == 5)
+			if(p_77648_7_ == 5)
 			{
-				++par4;
+				++p_77648_4_;
 			}
 		}
-		if(par1ItemStack.stackSize == 0) return false;
-		else if(!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack)) return false;
-		else if(par5 == 255 && Block.blocksList[blockID].blockMaterial.isSolid()) return false;
-		else if(par3World.canPlaceEntityOnSide(blockID, par4, par5, par6, false, par7, par2EntityPlayer, par1ItemStack))
+		if(p_77648_1_.stackSize == 0) return false;
+		else if(!p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_1_)) return false;
+		else if(p_77648_5_ == 255 && Block.blocksList[blockID].blockMaterial.isSolid()) return false;
+		else if(p_77648_3_.canPlaceEntityOnSide(blockID, p_77648_4_, p_77648_5_, p_77648_6_, false, p_77648_7_, p_77648_2_, p_77648_1_))
 		{
 			Block var12 = Block.blocksList[blockID];
-			int var13 = getMetadata(par1ItemStack.getItemDamage());
-			int var14 = Block.blocksList[blockID].onBlockPlaced(par3World, par4, par5, par6, par7, par8, par9, par10, var13);
-			if(par3World.setBlock(par4, par5, par6, blockID, var14, 3))
+			int var13 = getMetadata(p_77648_1_.getItemDamage());
+			int var14 = Block.blocksList[blockID].onBlockPlaced(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_8_, p_77648_9_, p_77648_10_, var13);
+			if(p_77648_3_.setBlock(p_77648_4_, p_77648_5_, p_77648_6_, blockID, var14, 3))
 			{
-				if(par3World.getBlockId(par4, par5, par6) == blockID)
+				if(p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_) == blockID)
 				{
-					Block.blocksList[blockID].onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer, par1ItemStack);
-					Block.blocksList[blockID].onPostBlockPlaced(par3World, par4, par5, par6, var14);
+					Block.blocksList[blockID].onBlockPlacedBy(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_2_, p_77648_1_);
+					Block.blocksList[blockID].onPostBlockPlaced(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, var14);
 				}
-				par3World.playSoundEffect(par4 + 0.5F, par5 + 0.5F, par6 + 0.5F, var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
-				--par1ItemStack.stackSize;
+				p_77648_3_.playSoundEffect(p_77648_4_ + 0.5F, p_77648_5_ + 0.5F, p_77648_6_ + 0.5F, var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
+				--p_77648_1_.stackSize;
 			}
 			return true;
 		} else return false;

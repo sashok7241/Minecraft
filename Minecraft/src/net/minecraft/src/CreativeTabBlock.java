@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 final class CreativeTabBlock extends CreativeTabs
 {
-	CreativeTabBlock(int par1, String par2Str)
+	CreativeTabBlock(int p_i3630_1_, String p_i3630_2_)
 	{
-		super(par1, par2Str);
+		super(p_i3630_1_, p_i3630_2_);
 	}
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Block.plantRed.blockID;
+		return Block.brick.blockID;
 	}
 }

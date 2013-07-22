@@ -10,21 +10,21 @@ public class BiomeCacheBlock
 	public long lastAccessTime;
 	final BiomeCache theBiomeCache;
 	
-	public BiomeCacheBlock(BiomeCache par1BiomeCache, int par2, int par3)
+	public BiomeCacheBlock(BiomeCache p_i3748_1_, int p_i3748_2_, int p_i3748_3_)
 	{
-		theBiomeCache = par1BiomeCache;
+		theBiomeCache = p_i3748_1_;
 		temperatureValues = new float[256];
 		rainfallValues = new float[256];
 		biomes = new BiomeGenBase[256];
-		xPosition = par2;
-		zPosition = par3;
-		BiomeCache.getChunkManager(par1BiomeCache).getTemperatures(temperatureValues, par2 << 4, par3 << 4, 16, 16);
-		BiomeCache.getChunkManager(par1BiomeCache).getRainfall(rainfallValues, par2 << 4, par3 << 4, 16, 16);
-		BiomeCache.getChunkManager(par1BiomeCache).getBiomeGenAt(biomes, par2 << 4, par3 << 4, 16, 16, false);
+		xPosition = p_i3748_2_;
+		zPosition = p_i3748_3_;
+		BiomeCache.getChunkManager(p_i3748_1_).getTemperatures(temperatureValues, p_i3748_2_ << 4, p_i3748_3_ << 4, 16, 16);
+		BiomeCache.getChunkManager(p_i3748_1_).getRainfall(rainfallValues, p_i3748_2_ << 4, p_i3748_3_ << 4, 16, 16);
+		BiomeCache.getChunkManager(p_i3748_1_).getBiomeGenAt(biomes, p_i3748_2_ << 4, p_i3748_3_ << 4, 16, 16, false);
 	}
 	
-	public BiomeGenBase getBiomeGenAt(int par1, int par2)
+	public BiomeGenBase getBiomeGenAt(int p_76885_1_, int p_76885_2_)
 	{
-		return biomes[par1 & 15 | (par2 & 15) << 4];
+		return biomes[p_76885_1_ & 15 | (p_76885_2_ & 15) << 4];
 	}
 }

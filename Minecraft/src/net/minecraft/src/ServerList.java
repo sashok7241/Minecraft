@@ -12,9 +12,9 @@ public class ServerList
 	private final Minecraft mc;
 	private final List servers = new ArrayList();
 	
-	public ServerList(Minecraft par1Minecraft)
+	public ServerList(Minecraft p_i3113_1_)
 	{
-		mc = par1Minecraft;
+		mc = p_i3113_1_;
 		loadServerList();
 	}
 	
@@ -37,10 +37,9 @@ public class ServerList
 	{
 		try
 		{
-			servers.clear();
 			NBTTagCompound var1 = CompressedStreamTools.read(new File(mc.mcDataDir, "servers.dat"));
-			if(var1 == null) return;
 			NBTTagList var2 = var1.getTagList("servers");
+			servers.clear();
 			for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 			{
 				servers.add(ServerData.getServerDataFromNBTCompound((NBTTagCompound) var2.tagAt(var3)));
@@ -76,11 +75,32 @@ public class ServerList
 		}
 	}
 	
+	public void setServer(int p_78854_1_, ServerData p_78854_2_)
+	{
+		servers.set(p_78854_1_, p_78854_2_);
+	}
+	
 	public void swapServers(int par1, int par2)
 	{
 		ServerData var3 = getServerData(par1);
 		servers.set(par1, getServerData(par2));
 		servers.set(par2, var3);
 		saveServerList();
+	}
+	
+	public static void func_78852_b(ServerData p_78852_0_)
+	{
+		ServerList var1 = new ServerList(Minecraft.getMinecraft());
+		var1.loadServerList();
+		for(int var2 = 0; var2 < var1.countServers(); ++var2)
+		{
+			ServerData var3 = var1.getServerData(var2);
+			if(var3.serverName.equals(p_78852_0_.serverName) && var3.serverIP.equals(p_78852_0_.serverIP))
+			{
+				var1.setServer(var2, p_78852_0_);
+				break;
+			}
+		}
+		var1.saveServerList();
 	}
 }

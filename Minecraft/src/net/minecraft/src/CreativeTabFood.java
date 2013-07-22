@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 final class CreativeTabFood extends CreativeTabs
 {
-	CreativeTabFood(int par1, String par2Str)
+	CreativeTabFood(int p_i3639_1_, String p_i3639_2_)
 	{
-		super(par1, par2Str);
+		super(p_i3639_1_, p_i3639_2_);
 	}
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Item.axeIron.itemID;
+		return Item.appleRed.itemID;
 	}
 }

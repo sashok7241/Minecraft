@@ -10,70 +10,70 @@ public class WorldChunkManagerHell extends WorldChunkManager
 	private float hellTemperature;
 	private float rainfall;
 	
-	public WorldChunkManagerHell(BiomeGenBase par1BiomeGenBase, float par2, float par3)
+	public WorldChunkManagerHell(BiomeGenBase p_i3755_1_, float p_i3755_2_, float p_i3755_3_)
 	{
-		biomeGenerator = par1BiomeGenBase;
-		hellTemperature = par2;
-		rainfall = par3;
+		biomeGenerator = p_i3755_1_;
+		hellTemperature = p_i3755_2_;
+		rainfall = p_i3755_3_;
 	}
 	
-	@Override public boolean areBiomesViable(int par1, int par2, int par3, List par4List)
+	@Override public boolean areBiomesViable(int p_76940_1_, int p_76940_2_, int p_76940_3_, List p_76940_4_)
 	{
-		return par4List.contains(biomeGenerator);
+		return p_76940_4_.contains(biomeGenerator);
 	}
 	
-	@Override public ChunkPosition findBiomePosition(int par1, int par2, int par3, List par4List, Random par5Random)
+	@Override public ChunkPosition findBiomePosition(int p_76941_1_, int p_76941_2_, int p_76941_3_, List p_76941_4_, Random p_76941_5_)
 	{
-		return par4List.contains(biomeGenerator) ? new ChunkPosition(par1 - par3 + par5Random.nextInt(par3 * 2 + 1), 0, par2 - par3 + par5Random.nextInt(par3 * 2 + 1)) : null;
+		return p_76941_4_.contains(biomeGenerator) ? new ChunkPosition(p_76941_1_ - p_76941_3_ + p_76941_5_.nextInt(p_76941_3_ * 2 + 1), 0, p_76941_2_ - p_76941_3_ + p_76941_5_.nextInt(p_76941_3_ * 2 + 1)) : null;
 	}
 	
-	@Override public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5, boolean par6)
+	@Override public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] p_76931_1_, int p_76931_2_, int p_76931_3_, int p_76931_4_, int p_76931_5_, boolean p_76931_6_)
 	{
-		return loadBlockGeneratorData(par1ArrayOfBiomeGenBase, par2, par3, par4, par5);
+		return loadBlockGeneratorData(p_76931_1_, p_76931_2_, p_76931_3_, p_76931_4_, p_76931_5_);
 	}
 	
-	@Override public BiomeGenBase getBiomeGenAt(int par1, int par2)
+	@Override public BiomeGenBase getBiomeGenAt(int p_76935_1_, int p_76935_2_)
 	{
 		return biomeGenerator;
 	}
 	
-	@Override public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
+	@Override public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] p_76937_1_, int p_76937_2_, int p_76937_3_, int p_76937_4_, int p_76937_5_)
 	{
-		if(par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < par4 * par5)
+		if(p_76937_1_ == null || p_76937_1_.length < p_76937_4_ * p_76937_5_)
 		{
-			par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
+			p_76937_1_ = new BiomeGenBase[p_76937_4_ * p_76937_5_];
 		}
-		Arrays.fill(par1ArrayOfBiomeGenBase, 0, par4 * par5, biomeGenerator);
-		return par1ArrayOfBiomeGenBase;
+		Arrays.fill(p_76937_1_, 0, p_76937_4_ * p_76937_5_, biomeGenerator);
+		return p_76937_1_;
 	}
 	
-	@Override public float[] getRainfall(float[] par1ArrayOfFloat, int par2, int par3, int par4, int par5)
+	@Override public float[] getRainfall(float[] p_76936_1_, int p_76936_2_, int p_76936_3_, int p_76936_4_, int p_76936_5_)
 	{
-		if(par1ArrayOfFloat == null || par1ArrayOfFloat.length < par4 * par5)
+		if(p_76936_1_ == null || p_76936_1_.length < p_76936_4_ * p_76936_5_)
 		{
-			par1ArrayOfFloat = new float[par4 * par5];
+			p_76936_1_ = new float[p_76936_4_ * p_76936_5_];
 		}
-		Arrays.fill(par1ArrayOfFloat, 0, par4 * par5, rainfall);
-		return par1ArrayOfFloat;
+		Arrays.fill(p_76936_1_, 0, p_76936_4_ * p_76936_5_, rainfall);
+		return p_76936_1_;
 	}
 	
-	@Override public float[] getTemperatures(float[] par1ArrayOfFloat, int par2, int par3, int par4, int par5)
+	@Override public float[] getTemperatures(float[] p_76934_1_, int p_76934_2_, int p_76934_3_, int p_76934_4_, int p_76934_5_)
 	{
-		if(par1ArrayOfFloat == null || par1ArrayOfFloat.length < par4 * par5)
+		if(p_76934_1_ == null || p_76934_1_.length < p_76934_4_ * p_76934_5_)
 		{
-			par1ArrayOfFloat = new float[par4 * par5];
+			p_76934_1_ = new float[p_76934_4_ * p_76934_5_];
 		}
-		Arrays.fill(par1ArrayOfFloat, 0, par4 * par5, hellTemperature);
-		return par1ArrayOfFloat;
+		Arrays.fill(p_76934_1_, 0, p_76934_4_ * p_76934_5_, hellTemperature);
+		return p_76934_1_;
 	}
 	
-	@Override public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
+	@Override public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] p_76933_1_, int p_76933_2_, int p_76933_3_, int p_76933_4_, int p_76933_5_)
 	{
-		if(par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < par4 * par5)
+		if(p_76933_1_ == null || p_76933_1_.length < p_76933_4_ * p_76933_5_)
 		{
-			par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
+			p_76933_1_ = new BiomeGenBase[p_76933_4_ * p_76933_5_];
 		}
-		Arrays.fill(par1ArrayOfBiomeGenBase, 0, par4 * par5, biomeGenerator);
-		return par1ArrayOfBiomeGenBase;
+		Arrays.fill(p_76933_1_, 0, p_76933_4_ * p_76933_5_, biomeGenerator);
+		return p_76933_1_;
 	}
 }

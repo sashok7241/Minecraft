@@ -8,27 +8,22 @@ public class Slot
 	public int xDisplayPosition;
 	public int yDisplayPosition;
 	
-	public Slot(IInventory par1IInventory, int par2, int par3, int par4)
+	public Slot(IInventory p_i3616_1_, int p_i3616_2_, int p_i3616_3_, int p_i3616_4_)
 	{
-		inventory = par1IInventory;
-		slotIndex = par2;
-		xDisplayPosition = par3;
-		yDisplayPosition = par4;
+		inventory = p_i3616_1_;
+		slotIndex = p_i3616_2_;
+		xDisplayPosition = p_i3616_3_;
+		yDisplayPosition = p_i3616_4_;
 	}
 	
-	public boolean canTakeStack(EntityPlayer par1EntityPlayer)
+	public boolean canTakeStack(EntityPlayer p_82869_1_)
 	{
 		return true;
 	}
 	
-	public ItemStack decrStackSize(int par1)
+	public ItemStack decrStackSize(int p_75209_1_)
 	{
-		return inventory.decrStackSize(slotIndex, par1);
-	}
-	
-	public boolean func_111238_b()
-	{
-		return true;
+		return inventory.decrStackSize(slotIndex, p_75209_1_);
 	}
 	
 	public Icon getBackgroundIconIndex()
@@ -51,39 +46,39 @@ public class Slot
 		return inventory.getStackInSlot(slotIndex);
 	}
 	
-	public boolean isItemValid(ItemStack par1ItemStack)
+	public boolean isItemValid(ItemStack p_75214_1_)
 	{
 		return true;
 	}
 	
-	public boolean isSlotInInventory(IInventory par1IInventory, int par2)
+	public boolean isSlotInInventory(IInventory p_75217_1_, int p_75217_2_)
 	{
-		return par1IInventory == inventory && par2 == slotIndex;
+		return p_75217_1_ == inventory && p_75217_2_ == slotIndex;
 	}
 	
-	protected void onCrafting(ItemStack par1ItemStack)
-	{
-	}
-	
-	protected void onCrafting(ItemStack par1ItemStack, int par2)
+	protected void onCrafting(ItemStack p_75208_1_)
 	{
 	}
 	
-	public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
+	protected void onCrafting(ItemStack p_75210_1_, int p_75210_2_)
+	{
+	}
+	
+	public void onPickupFromSlot(EntityPlayer p_82870_1_, ItemStack p_82870_2_)
 	{
 		onSlotChanged();
 	}
 	
-	public void onSlotChange(ItemStack par1ItemStack, ItemStack par2ItemStack)
+	public void onSlotChange(ItemStack p_75220_1_, ItemStack p_75220_2_)
 	{
-		if(par1ItemStack != null && par2ItemStack != null)
+		if(p_75220_1_ != null && p_75220_2_ != null)
 		{
-			if(par1ItemStack.itemID == par2ItemStack.itemID)
+			if(p_75220_1_.itemID == p_75220_2_.itemID)
 			{
-				int var3 = par2ItemStack.stackSize - par1ItemStack.stackSize;
+				int var3 = p_75220_2_.stackSize - p_75220_1_.stackSize;
 				if(var3 > 0)
 				{
-					this.onCrafting(par1ItemStack, var3);
+					this.onCrafting(p_75220_1_, var3);
 				}
 			}
 		}
@@ -94,9 +89,9 @@ public class Slot
 		inventory.onInventoryChanged();
 	}
 	
-	public void putStack(ItemStack par1ItemStack)
+	public void putStack(ItemStack p_75215_1_)
 	{
-		inventory.setInventorySlotContents(slotIndex, par1ItemStack);
+		inventory.setInventorySlotContents(slotIndex, p_75215_1_);
 		onSlotChanged();
 	}
 }

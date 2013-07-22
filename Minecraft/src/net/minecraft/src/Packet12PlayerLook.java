@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet12PlayerLook extends Packet10Flying
@@ -11,11 +11,11 @@ public class Packet12PlayerLook extends Packet10Flying
 		rotating = true;
 	}
 	
-	public Packet12PlayerLook(float par1, float par2, boolean par3)
+	public Packet12PlayerLook(float p_i3334_1_, float p_i3334_2_, boolean p_i3334_3_)
 	{
-		yaw = par1;
-		pitch = par2;
-		onGround = par3;
+		yaw = p_i3334_1_;
+		pitch = p_i3334_2_;
+		onGround = p_i3334_3_;
 		rotating = true;
 	}
 	
@@ -24,17 +24,17 @@ public class Packet12PlayerLook extends Packet10Flying
 		return 9;
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		yaw = par1DataInput.readFloat();
-		pitch = par1DataInput.readFloat();
-		super.readPacketData(par1DataInput);
+		yaw = p_73267_1_.readFloat();
+		pitch = p_73267_1_.readFloat();
+		super.readPacketData(p_73267_1_);
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeFloat(yaw);
-		par1DataOutput.writeFloat(pitch);
-		super.writePacketData(par1DataOutput);
+		p_73273_1_.writeFloat(yaw);
+		p_73273_1_.writeFloat(pitch);
+		super.writePacketData(p_73273_1_);
 	}
 }

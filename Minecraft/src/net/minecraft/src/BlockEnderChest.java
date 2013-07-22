@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class BlockEnderChest extends BlockContainer
 {
-	protected BlockEnderChest(int par1)
+	protected BlockEnderChest(int p_i3942_1_)
 	{
-		super(par1, Material.rock);
+		super(p_i3942_1_, Material.rock);
 		setCreativeTab(CreativeTabs.tabDecorations);
 		setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 	}
@@ -16,7 +16,7 @@ public class BlockEnderChest extends BlockContainer
 		return true;
 	}
 	
-	@Override public TileEntity createNewTileEntity(World par1World)
+	@Override public TileEntity createNewTileEntity(World p_72274_1_)
 	{
 		return new TileEntityEnderChest();
 	}
@@ -26,7 +26,7 @@ public class BlockEnderChest extends BlockContainer
 		return 22;
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return Block.obsidian.blockID;
 	}
@@ -36,27 +36,27 @@ public class BlockEnderChest extends BlockContainer
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
 	{
-		InventoryEnderChest var10 = par5EntityPlayer.getInventoryEnderChest();
-		TileEntityEnderChest var11 = (TileEntityEnderChest) par1World.getBlockTileEntity(par2, par3, par4);
+		InventoryEnderChest var10 = p_71903_5_.getInventoryEnderChest();
+		TileEntityEnderChest var11 = (TileEntityEnderChest) p_71903_1_.getBlockTileEntity(p_71903_2_, p_71903_3_, p_71903_4_);
 		if(var10 != null && var11 != null)
 		{
-			if(par1World.isBlockNormalCube(par2, par3 + 1, par4)) return true;
-			else if(par1World.isRemote) return true;
+			if(p_71903_1_.isBlockNormalCube(p_71903_2_, p_71903_3_ + 1, p_71903_4_)) return true;
+			else if(p_71903_1_.isRemote) return true;
 			else
 			{
 				var10.setAssociatedChest(var11);
-				par5EntityPlayer.displayGUIChest(var10);
+				p_71903_5_.displayGUIChest(var10);
 				return true;
 			}
 		} else return true;
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World p_71860_1_, int p_71860_2_, int p_71860_3_, int p_71860_4_, EntityLiving p_71860_5_, ItemStack p_71860_6_)
 	{
 		byte var7 = 0;
-		int var8 = MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		int var8 = MathHelper.floor_double(p_71860_5_.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		if(var8 == 0)
 		{
 			var7 = 2;
@@ -73,10 +73,10 @@ public class BlockEnderChest extends BlockContainer
 		{
 			var7 = 4;
 		}
-		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
+		p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, var7, 2);
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
 		return 8;
 	}

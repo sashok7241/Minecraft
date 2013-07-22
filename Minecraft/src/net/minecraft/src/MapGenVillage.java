@@ -16,14 +16,15 @@ public class MapGenVillage extends MapGenStructure
 	
 	public MapGenVillage()
 	{
+		terrainType = 0;
 		field_82665_g = 32;
 		field_82666_h = 8;
 	}
 	
-	public MapGenVillage(Map par1Map)
+	public MapGenVillage(Map p_i5097_1_)
 	{
 		this();
-		Iterator var2 = par1Map.entrySet().iterator();
+		Iterator var2 = p_i5097_1_.entrySet().iterator();
 		while(var2.hasNext())
 		{
 			Entry var3 = (Entry) var2.next();
@@ -37,20 +38,20 @@ public class MapGenVillage extends MapGenStructure
 		}
 	}
 	
-	@Override protected boolean canSpawnStructureAtCoords(int par1, int par2)
+	@Override protected boolean canSpawnStructureAtCoords(int p_75047_1_, int p_75047_2_)
 	{
-		int var3 = par1;
-		int var4 = par2;
-		if(par1 < 0)
+		int var3 = p_75047_1_;
+		int var4 = p_75047_2_;
+		if(p_75047_1_ < 0)
 		{
-			par1 -= field_82665_g - 1;
+			p_75047_1_ -= field_82665_g - 1;
 		}
-		if(par2 < 0)
+		if(p_75047_2_ < 0)
 		{
-			par2 -= field_82665_g - 1;
+			p_75047_2_ -= field_82665_g - 1;
 		}
-		int var5 = par1 / field_82665_g;
-		int var6 = par2 / field_82665_g;
+		int var5 = p_75047_1_ / field_82665_g;
+		int var6 = p_75047_2_ / field_82665_g;
 		Random var7 = worldObj.setRandomSeed(var5, var6, 10387312);
 		var5 *= field_82665_g;
 		var6 *= field_82665_g;
@@ -64,8 +65,8 @@ public class MapGenVillage extends MapGenStructure
 		return false;
 	}
 	
-	@Override protected StructureStart getStructureStart(int par1, int par2)
+	@Override protected StructureStart getStructureStart(int p_75049_1_, int p_75049_2_)
 	{
-		return new StructureVillageStart(worldObj, rand, par1, par2, terrainType);
+		return new StructureVillageStart(worldObj, rand, p_75049_1_, p_75049_2_, terrainType);
 	}
 }

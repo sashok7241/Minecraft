@@ -9,21 +9,21 @@ public class EntityAIWatchClosest extends EntityAIBase
 	private float field_75331_e;
 	private Class watchedClass;
 	
-	public EntityAIWatchClosest(EntityLiving par1EntityLiving, Class par2Class, float par3)
+	public EntityAIWatchClosest(EntityLiving p_i3472_1_, Class p_i3472_2_, float p_i3472_3_)
 	{
-		theWatcher = par1EntityLiving;
-		watchedClass = par2Class;
-		field_75333_c = par3;
+		theWatcher = p_i3472_1_;
+		watchedClass = p_i3472_2_;
+		field_75333_c = p_i3472_3_;
 		field_75331_e = 0.02F;
 		setMutexBits(2);
 	}
 	
-	public EntityAIWatchClosest(EntityLiving par1EntityLiving, Class par2Class, float par3, float par4)
+	public EntityAIWatchClosest(EntityLiving p_i3473_1_, Class p_i3473_2_, float p_i3473_3_, float p_i3473_4_)
 	{
-		theWatcher = par1EntityLiving;
-		watchedClass = par2Class;
-		field_75333_c = par3;
-		field_75331_e = par4;
+		theWatcher = p_i3473_1_;
+		watchedClass = p_i3473_2_;
+		field_75333_c = p_i3473_3_;
+		field_75331_e = p_i3473_4_;
 		setMutexBits(2);
 	}
 	
@@ -42,10 +42,6 @@ public class EntityAIWatchClosest extends EntityAIBase
 		if(theWatcher.getRNG().nextFloat() >= field_75331_e) return false;
 		else
 		{
-			if(theWatcher.getAttackTarget() != null)
-			{
-				closestEntity = theWatcher.getAttackTarget();
-			}
 			if(watchedClass == EntityPlayer.class)
 			{
 				closestEntity = theWatcher.worldObj.getClosestPlayerToEntity(theWatcher, field_75333_c);

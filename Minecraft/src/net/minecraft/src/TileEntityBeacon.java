@@ -51,19 +51,19 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 	{
 	}
 	
-	@Override public ItemStack decrStackSize(int par1, int par2)
+	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
 	{
-		if(par1 == 0 && payment != null)
+		if(p_70298_1_ == 0 && payment != null)
 		{
-			if(par2 >= payment.stackSize)
+			if(p_70298_2_ >= payment.stackSize)
 			{
 				ItemStack var3 = payment;
 				payment = null;
 				return var3;
 			} else
 			{
-				payment.stackSize -= par2;
-				return new ItemStack(payment.itemID, par2, payment.getItemDamage());
+				payment.stackSize -= p_70298_2_;
+				return new ItemStack(payment.itemID, p_70298_2_, payment.getItemDamage());
 			}
 		} else return null;
 	}
@@ -92,9 +92,9 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 		}
 	}
 	
-	public void func_94047_a(String par1Str)
+	public void func_94047_a(String p_94047_1_)
 	{
-		field_94048_i = par1Str;
+		field_94048_i = p_94047_1_;
 	}
 	
 	@Override public Packet getDescriptionPacket()
@@ -139,14 +139,14 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 		return 1;
 	}
 	
-	@Override public ItemStack getStackInSlot(int par1)
+	@Override public ItemStack getStackInSlot(int p_70301_1_)
 	{
-		return par1 == 0 ? payment : null;
+		return p_70301_1_ == 0 ? payment : null;
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int par1)
+	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
 	{
-		if(par1 == 0 && payment != null)
+		if(p_70304_1_ == 0 && payment != null)
 		{
 			ItemStack var2 = payment;
 			payment = null;
@@ -159,33 +159,33 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 		return field_94048_i != null && field_94048_i.length() > 0;
 	}
 	
-	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
+	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
 	{
-		return par2ItemStack.itemID == Item.emerald.itemID || par2ItemStack.itemID == Item.diamond.itemID || par2ItemStack.itemID == Item.ingotGold.itemID || par2ItemStack.itemID == Item.ingotIron.itemID;
+		return p_94041_2_.itemID == Item.emerald.itemID || p_94041_2_.itemID == Item.diamond.itemID || p_94041_2_.itemID == Item.ingotGold.itemID || p_94041_2_.itemID == Item.ingotIron.itemID;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
 	{
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : par1EntityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : p_70300_1_.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
 	}
 	
 	@Override public void openChest()
 	{
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
 	{
-		super.readFromNBT(par1NBTTagCompound);
-		primaryEffect = par1NBTTagCompound.getInteger("Primary");
-		secondaryEffect = par1NBTTagCompound.getInteger("Secondary");
-		levels = par1NBTTagCompound.getInteger("Levels");
+		super.readFromNBT(p_70307_1_);
+		primaryEffect = p_70307_1_.getInteger("Primary");
+		secondaryEffect = p_70307_1_.getInteger("Secondary");
+		levels = p_70307_1_.getInteger("Levels");
 	}
 	
-	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
 	{
-		if(par1 == 0)
+		if(p_70299_1_ == 0)
 		{
-			payment = par2ItemStack;
+			payment = p_70299_2_;
 		}
 	}
 	
@@ -194,7 +194,7 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 		levels = par1;
 	}
 	
-	public void setPrimaryEffect(int par1)
+	public void setPrimaryEffect(int p_82128_1_)
 	{
 		primaryEffect = 0;
 		for(int var2 = 0; var2 < levels && var2 < 3; ++var2)
@@ -204,16 +204,16 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 			for(int var5 = 0; var5 < var4; ++var5)
 			{
 				Potion var6 = var3[var5];
-				if(var6.id == par1)
+				if(var6.id == p_82128_1_)
 				{
-					primaryEffect = par1;
+					primaryEffect = p_82128_1_;
 					return;
 				}
 			}
 		}
 	}
 	
-	public void setSecondaryEffect(int par1)
+	public void setSecondaryEffect(int p_82127_1_)
 	{
 		secondaryEffect = 0;
 		if(levels >= 4)
@@ -225,9 +225,9 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 				for(int var5 = 0; var5 < var4; ++var5)
 				{
 					Potion var6 = var3[var5];
-					if(var6.id == par1)
+					if(var6.id == p_82127_1_)
 					{
-						secondaryEffect = par1;
+						secondaryEffect = p_82127_1_;
 						return;
 					}
 				}
@@ -286,11 +286,11 @@ public class TileEntityBeacon extends TileEntity implements IInventory
 		}
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
 	{
-		super.writeToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("Primary", primaryEffect);
-		par1NBTTagCompound.setInteger("Secondary", secondaryEffect);
-		par1NBTTagCompound.setInteger("Levels", levels);
+		super.writeToNBT(p_70310_1_);
+		p_70310_1_.setInteger("Primary", primaryEffect);
+		p_70310_1_.setInteger("Secondary", secondaryEffect);
+		p_70310_1_.setInteger("Levels", levels);
 	}
 }

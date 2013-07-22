@@ -8,11 +8,11 @@ class CallableIsFeatureChunk implements Callable
 	final int field_85167_b;
 	final MapGenStructure theMapStructureGenerator;
 	
-	CallableIsFeatureChunk(MapGenStructure par1MapGenStructure, int par2, int par3)
+	CallableIsFeatureChunk(MapGenStructure p_i6817_1_, int p_i6817_2_, int p_i6817_3_)
 	{
-		theMapStructureGenerator = par1MapGenStructure;
-		field_85169_a = par2;
-		field_85167_b = par3;
+		theMapStructureGenerator = p_i6817_1_;
+		field_85169_a = p_i6817_2_;
+		field_85167_b = p_i6817_3_;
 	}
 	
 	@Override public Object call()

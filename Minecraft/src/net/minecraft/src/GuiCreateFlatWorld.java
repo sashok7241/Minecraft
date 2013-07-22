@@ -13,10 +13,10 @@ public class GuiCreateFlatWorld extends GuiScreen
 	private GuiButton buttonEditLayer;
 	private GuiButton buttonRemoveLayer;
 	
-	public GuiCreateFlatWorld(GuiCreateWorld par1GuiCreateWorld, String par2Str)
+	public GuiCreateFlatWorld(GuiCreateWorld p_i5004_1_, String p_i5004_2_)
 	{
-		createWorldGui = par1GuiCreateWorld;
-		setFlatGeneratorInfo(par2Str);
+		createWorldGui = p_i5004_1_;
+		setFlatGeneratorInfo(p_i5004_2_);
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -74,16 +74,16 @@ public class GuiCreateFlatWorld extends GuiScreen
 	@Override public void initGui()
 	{
 		buttonList.clear();
-		customizationTitle = I18n.func_135053_a("createWorld.customize.flat.title");
-		layerMaterialLabel = I18n.func_135053_a("createWorld.customize.flat.tile");
-		heightLabel = I18n.func_135053_a("createWorld.customize.flat.height");
+		customizationTitle = StatCollector.translateToLocal("createWorld.customize.flat.title");
+		layerMaterialLabel = StatCollector.translateToLocal("createWorld.customize.flat.tile");
+		heightLabel = StatCollector.translateToLocal("createWorld.customize.flat.height");
 		createFlatWorldListSlotGui = new GuiCreateFlatWorldListSlot(this);
-		buttonList.add(buttonAddLayer = new GuiButton(2, width / 2 - 154, height - 52, 100, 20, I18n.func_135053_a("createWorld.customize.flat.addLayer") + " (NYI)"));
-		buttonList.add(buttonEditLayer = new GuiButton(3, width / 2 - 50, height - 52, 100, 20, I18n.func_135053_a("createWorld.customize.flat.editLayer") + " (NYI)"));
-		buttonList.add(buttonRemoveLayer = new GuiButton(4, width / 2 - 155, height - 52, 150, 20, I18n.func_135053_a("createWorld.customize.flat.removeLayer")));
-		buttonList.add(new GuiButton(0, width / 2 - 155, height - 28, 150, 20, I18n.func_135053_a("gui.done")));
-		buttonList.add(new GuiButton(5, width / 2 + 5, height - 52, 150, 20, I18n.func_135053_a("createWorld.customize.presets")));
-		buttonList.add(new GuiButton(1, width / 2 + 5, height - 28, 150, 20, I18n.func_135053_a("gui.cancel")));
+		buttonList.add(buttonAddLayer = new GuiButton(2, width / 2 - 154, height - 52, 100, 20, StatCollector.translateToLocal("createWorld.customize.flat.addLayer") + " (NYI)"));
+		buttonList.add(buttonEditLayer = new GuiButton(3, width / 2 - 50, height - 52, 100, 20, StatCollector.translateToLocal("createWorld.customize.flat.editLayer") + " (NYI)"));
+		buttonList.add(buttonRemoveLayer = new GuiButton(4, width / 2 - 155, height - 52, 150, 20, StatCollector.translateToLocal("createWorld.customize.flat.removeLayer")));
+		buttonList.add(new GuiButton(0, width / 2 - 155, height - 28, 150, 20, StatCollector.translateToLocal("gui.done")));
+		buttonList.add(new GuiButton(5, width / 2 + 5, height - 52, 150, 20, StatCollector.translateToLocal("createWorld.customize.presets")));
+		buttonList.add(new GuiButton(1, width / 2 + 5, height - 28, 150, 20, StatCollector.translateToLocal("gui.cancel")));
 		buttonAddLayer.drawButton = buttonEditLayer.drawButton = false;
 		theFlatGeneratorInfo.func_82645_d();
 		func_82270_g();

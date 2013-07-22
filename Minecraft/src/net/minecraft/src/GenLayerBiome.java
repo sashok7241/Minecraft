@@ -4,45 +4,45 @@ public class GenLayerBiome extends GenLayer
 {
 	private BiomeGenBase[] allowedBiomes;
 	
-	public GenLayerBiome(long par1, GenLayer par3GenLayer, WorldType par4WorldType)
+	public GenLayerBiome(long p_i3888_1_, GenLayer p_i3888_3_, WorldType p_i3888_4_)
 	{
-		super(par1);
+		super(p_i3888_1_);
 		allowedBiomes = new BiomeGenBase[] { BiomeGenBase.desert, BiomeGenBase.forest, BiomeGenBase.extremeHills, BiomeGenBase.swampland, BiomeGenBase.plains, BiomeGenBase.taiga, BiomeGenBase.jungle };
-		parent = par3GenLayer;
-		if(par4WorldType == WorldType.DEFAULT_1_1)
+		parent = p_i3888_3_;
+		if(p_i3888_4_ == WorldType.DEFAULT_1_1)
 		{
 			allowedBiomes = new BiomeGenBase[] { BiomeGenBase.desert, BiomeGenBase.forest, BiomeGenBase.extremeHills, BiomeGenBase.swampland, BiomeGenBase.plains, BiomeGenBase.taiga };
 		}
 	}
 	
-	@Override public int[] getInts(int par1, int par2, int par3, int par4)
+	@Override public int[] getInts(int p_75904_1_, int p_75904_2_, int p_75904_3_, int p_75904_4_)
 	{
-		int[] var5 = parent.getInts(par1, par2, par3, par4);
-		int[] var6 = IntCache.getIntCache(par3 * par4);
-		for(int var7 = 0; var7 < par4; ++var7)
+		int[] var5 = parent.getInts(p_75904_1_, p_75904_2_, p_75904_3_, p_75904_4_);
+		int[] var6 = IntCache.getIntCache(p_75904_3_ * p_75904_4_);
+		for(int var7 = 0; var7 < p_75904_4_; ++var7)
 		{
-			for(int var8 = 0; var8 < par3; ++var8)
+			for(int var8 = 0; var8 < p_75904_3_; ++var8)
 			{
-				initChunkSeed(var8 + par1, var7 + par2);
-				int var9 = var5[var8 + var7 * par3];
+				initChunkSeed(var8 + p_75904_1_, var7 + p_75904_2_);
+				int var9 = var5[var8 + var7 * p_75904_3_];
 				if(var9 == 0)
 				{
-					var6[var8 + var7 * par3] = 0;
+					var6[var8 + var7 * p_75904_3_] = 0;
 				} else if(var9 == BiomeGenBase.mushroomIsland.biomeID)
 				{
-					var6[var8 + var7 * par3] = var9;
+					var6[var8 + var7 * p_75904_3_] = var9;
 				} else if(var9 == 1)
 				{
-					var6[var8 + var7 * par3] = allowedBiomes[nextInt(allowedBiomes.length)].biomeID;
+					var6[var8 + var7 * p_75904_3_] = allowedBiomes[nextInt(allowedBiomes.length)].biomeID;
 				} else
 				{
 					int var10 = allowedBiomes[nextInt(allowedBiomes.length)].biomeID;
 					if(var10 == BiomeGenBase.taiga.biomeID)
 					{
-						var6[var8 + var7 * par3] = var10;
+						var6[var8 + var7 * p_75904_3_] = var10;
 					} else
 					{
-						var6[var8 + var7 * par3] = BiomeGenBase.icePlains.biomeID;
+						var6[var8 + var7 * p_75904_3_] = BiomeGenBase.icePlains.biomeID;
 					}
 				}
 			}

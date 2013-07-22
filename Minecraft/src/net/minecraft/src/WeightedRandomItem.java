@@ -4,8 +4,8 @@ public class WeightedRandomItem
 {
 	protected int itemWeight;
 	
-	public WeightedRandomItem(int par1)
+	public WeightedRandomItem(int p_i3423_1_)
 	{
-		itemWeight = par1;
+		itemWeight = p_i3423_1_;
 	}
 }

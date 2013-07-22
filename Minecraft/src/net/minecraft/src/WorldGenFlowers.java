@@ -6,21 +6,21 @@ public class WorldGenFlowers extends WorldGenerator
 {
 	private int plantBlockId;
 	
-	public WorldGenFlowers(int par1)
+	public WorldGenFlowers(int p_i3790_1_)
 	{
-		plantBlockId = par1;
+		plantBlockId = p_i3790_1_;
 	}
 	
-	@Override public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
+	@Override public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_)
 	{
 		for(int var6 = 0; var6 < 64; ++var6)
 		{
-			int var7 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
-			int var8 = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
-			int var9 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
-			if(par1World.isAirBlock(var7, var8, var9) && (!par1World.provider.hasNoSky || var8 < 127) && Block.blocksList[plantBlockId].canBlockStay(par1World, var7, var8, var9))
+			int var7 = p_76484_3_ + p_76484_2_.nextInt(8) - p_76484_2_.nextInt(8);
+			int var8 = p_76484_4_ + p_76484_2_.nextInt(4) - p_76484_2_.nextInt(4);
+			int var9 = p_76484_5_ + p_76484_2_.nextInt(8) - p_76484_2_.nextInt(8);
+			if(p_76484_1_.isAirBlock(var7, var8, var9) && (!p_76484_1_.provider.hasNoSky || var8 < 127) && Block.blocksList[plantBlockId].canBlockStay(p_76484_1_, var7, var8, var9))
 			{
-				par1World.setBlock(var7, var8, var9, plantBlockId, 0, 2);
+				p_76484_1_.setBlock(var7, var8, var9, plantBlockId, 0, 2);
 			}
 		}
 		return true;

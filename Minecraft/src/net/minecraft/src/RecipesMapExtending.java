@@ -7,12 +7,12 @@ public class RecipesMapExtending extends ShapedRecipes
 		super(3, 3, new ItemStack[] { new ItemStack(Item.paper), new ItemStack(Item.paper), new ItemStack(Item.paper), new ItemStack(Item.paper), new ItemStack(Item.map, 0, 32767), new ItemStack(Item.paper), new ItemStack(Item.paper), new ItemStack(Item.paper), new ItemStack(Item.paper) }, new ItemStack(Item.emptyMap, 0, 0));
 	}
 	
-	@Override public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
+	@Override public ItemStack getCraftingResult(InventoryCrafting p_77572_1_)
 	{
 		ItemStack var2 = null;
-		for(int var3 = 0; var3 < par1InventoryCrafting.getSizeInventory() && var2 == null; ++var3)
+		for(int var3 = 0; var3 < p_77572_1_.getSizeInventory() && var2 == null; ++var3)
 		{
-			ItemStack var4 = par1InventoryCrafting.getStackInSlot(var3);
+			ItemStack var4 = p_77572_1_.getStackInSlot(var3);
 			if(var4 != null && var4.itemID == Item.map.itemID)
 			{
 				var2 = var4;
@@ -28,15 +28,15 @@ public class RecipesMapExtending extends ShapedRecipes
 		return var2;
 	}
 	
-	@Override public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
+	@Override public boolean matches(InventoryCrafting p_77569_1_, World p_77569_2_)
 	{
-		if(!super.matches(par1InventoryCrafting, par2World)) return false;
+		if(!super.matches(p_77569_1_, p_77569_2_)) return false;
 		else
 		{
 			ItemStack var3 = null;
-			for(int var4 = 0; var4 < par1InventoryCrafting.getSizeInventory() && var3 == null; ++var4)
+			for(int var4 = 0; var4 < p_77569_1_.getSizeInventory() && var3 == null; ++var4)
 			{
-				ItemStack var5 = par1InventoryCrafting.getStackInSlot(var4);
+				ItemStack var5 = p_77569_1_.getStackInSlot(var4);
 				if(var5 != null && var5.itemID == Item.map.itemID)
 				{
 					var3 = var5;
@@ -45,7 +45,7 @@ public class RecipesMapExtending extends ShapedRecipes
 			if(var3 == null) return false;
 			else
 			{
-				MapData var6 = Item.map.getMapData(var3, par2World);
+				MapData var6 = Item.map.getMapData(var3, p_77569_2_);
 				return var6 == null ? false : var6.scale < 4;
 			}
 		}

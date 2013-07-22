@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet53BlockChange extends Packet
@@ -17,14 +17,14 @@ public class Packet53BlockChange extends Packet
 		isChunkDataPacket = true;
 	}
 	
-	public Packet53BlockChange(int par1, int par2, int par3, World par4World)
+	public Packet53BlockChange(int p_i3364_1_, int p_i3364_2_, int p_i3364_3_, World p_i3364_4_)
 	{
 		isChunkDataPacket = true;
-		xPosition = par1;
-		yPosition = par2;
-		zPosition = par3;
-		type = par4World.getBlockId(par1, par2, par3);
-		metadata = par4World.getBlockMetadata(par1, par2, par3);
+		xPosition = p_i3364_1_;
+		yPosition = p_i3364_2_;
+		zPosition = p_i3364_3_;
+		type = p_i3364_4_.getBlockId(p_i3364_1_, p_i3364_2_, p_i3364_3_);
+		metadata = p_i3364_4_.getBlockMetadata(p_i3364_1_, p_i3364_2_, p_i3364_3_);
 	}
 	
 	@Override public int getPacketSize()
@@ -32,26 +32,26 @@ public class Packet53BlockChange extends Packet
 		return 11;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleBlockChange(this);
+		p_73279_1_.handleBlockChange(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		xPosition = par1DataInput.readInt();
-		yPosition = par1DataInput.readUnsignedByte();
-		zPosition = par1DataInput.readInt();
-		type = par1DataInput.readShort();
-		metadata = par1DataInput.readUnsignedByte();
+		xPosition = p_73267_1_.readInt();
+		yPosition = p_73267_1_.read();
+		zPosition = p_73267_1_.readInt();
+		type = p_73267_1_.readShort();
+		metadata = p_73267_1_.read();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(xPosition);
-		par1DataOutput.write(yPosition);
-		par1DataOutput.writeInt(zPosition);
-		par1DataOutput.writeShort(type);
-		par1DataOutput.write(metadata);
+		p_73273_1_.writeInt(xPosition);
+		p_73273_1_.write(yPosition);
+		p_73273_1_.writeInt(zPosition);
+		p_73273_1_.writeShort(type);
+		p_73273_1_.write(metadata);
 	}
 }

@@ -14,11 +14,11 @@ public class ThreadLanServerPing extends Thread
 	private boolean isStopping = true;
 	private final String address;
 	
-	public ThreadLanServerPing(String par1Str, String par2Str) throws IOException
+	public ThreadLanServerPing(String p_i3124_1_, String p_i3124_2_) throws IOException
 	{
 		super("LanServerPinger");
-		motd = par1Str;
-		address = par2Str;
+		motd = p_i3124_1_;
+		address = p_i3124_2_;
 		setDaemon(true);
 		socket = new DatagramSocket();
 	}

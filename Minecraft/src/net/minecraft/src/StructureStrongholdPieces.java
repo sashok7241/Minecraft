@@ -10,7 +10,7 @@ public class StructureStrongholdPieces
 	private static final StructureStrongholdPieceWeight[] pieceWeightArray = new StructureStrongholdPieceWeight[] { new StructureStrongholdPieceWeight(ComponentStrongholdStraight.class, 40, 0), new StructureStrongholdPieceWeight(ComponentStrongholdPrison.class, 5, 5), new StructureStrongholdPieceWeight(ComponentStrongholdLeftTurn.class, 20, 0), new StructureStrongholdPieceWeight(ComponentStrongholdRightTurn.class, 20, 0), new StructureStrongholdPieceWeight(ComponentStrongholdRoomCrossing.class, 10, 6), new StructureStrongholdPieceWeight(ComponentStrongholdStairsStraight.class, 5, 5), new StructureStrongholdPieceWeight(ComponentStrongholdStairs.class, 5, 5), new StructureStrongholdPieceWeight(ComponentStrongholdCrossing.class, 5, 4), new StructureStrongholdPieceWeight(ComponentStrongholdChestCorridor.class, 5, 4), new StructureStrongholdPieceWeight2(ComponentStrongholdLibrary.class, 10, 2), new StructureStrongholdPieceWeight3(ComponentStrongholdPortalRoom.class, 20, 1) };
 	private static List structurePieceList;
 	private static Class strongComponentType;
-	static int totalWeight;
+	static int totalWeight = 0;
 	private static final StructureStrongholdStones strongholdStones = new StructureStrongholdStones((StructureStrongholdPieceWeight2) null);
 	
 	private static boolean canAddStructurePieces()
@@ -29,14 +29,14 @@ public class StructureStrongholdPieces
 		return var0;
 	}
 	
-	private static ComponentStronghold getNextComponent(ComponentStrongholdStairs2 par0ComponentStrongholdStairs2, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+	private static ComponentStronghold getNextComponent(ComponentStrongholdStairs2 p_75201_0_, List p_75201_1_, Random p_75201_2_, int p_75201_3_, int p_75201_4_, int p_75201_5_, int p_75201_6_, int p_75201_7_)
 	{
 		if(!canAddStructurePieces()) return null;
 		else
 		{
 			if(strongComponentType != null)
 			{
-				ComponentStronghold var8 = getStrongholdComponentFromWeightedPiece(strongComponentType, par1List, par2Random, par3, par4, par5, par6, par7);
+				ComponentStronghold var8 = getStrongholdComponentFromWeightedPiece(strongComponentType, p_75201_1_, p_75201_2_, p_75201_3_, p_75201_4_, p_75201_5_, p_75201_6_, p_75201_7_);
 				strongComponentType = null;
 				if(var8 != null) return var8;
 			}
@@ -44,7 +44,7 @@ public class StructureStrongholdPieces
 			while(var13 < 5)
 			{
 				++var13;
-				int var9 = par2Random.nextInt(totalWeight);
+				int var9 = p_75201_2_.nextInt(totalWeight);
 				Iterator var10 = structurePieceList.iterator();
 				while(var10.hasNext())
 				{
@@ -52,15 +52,15 @@ public class StructureStrongholdPieces
 					var9 -= var11.pieceWeight;
 					if(var9 < 0)
 					{
-						if(!var11.canSpawnMoreStructuresOfType(par7) || var11 == par0ComponentStrongholdStairs2.strongholdPieceWeight)
+						if(!var11.canSpawnMoreStructuresOfType(p_75201_7_) || var11 == p_75201_0_.strongholdPieceWeight)
 						{
 							break;
 						}
-						ComponentStronghold var12 = getStrongholdComponentFromWeightedPiece(var11.pieceClass, par1List, par2Random, par3, par4, par5, par6, par7);
+						ComponentStronghold var12 = getStrongholdComponentFromWeightedPiece(var11.pieceClass, p_75201_1_, p_75201_2_, p_75201_3_, p_75201_4_, p_75201_5_, p_75201_6_, p_75201_7_);
 						if(var12 != null)
 						{
 							++var11.instancesSpawned;
-							par0ComponentStrongholdStairs2.strongholdPieceWeight = var11;
+							p_75201_0_.strongholdPieceWeight = var11;
 							if(!var11.canSpawnMoreStructures())
 							{
 								structurePieceList.remove(var11);
@@ -70,68 +70,68 @@ public class StructureStrongholdPieces
 					}
 				}
 			}
-			StructureBoundingBox var14 = ComponentStrongholdCorridor.func_74992_a(par1List, par2Random, par3, par4, par5, par6);
-			if(var14 != null && var14.minY > 1) return new ComponentStrongholdCorridor(par7, par2Random, var14, par6);
+			StructureBoundingBox var14 = ComponentStrongholdCorridor.func_74992_a(p_75201_1_, p_75201_2_, p_75201_3_, p_75201_4_, p_75201_5_, p_75201_6_);
+			if(var14 != null && var14.minY > 1) return new ComponentStrongholdCorridor(p_75201_7_, p_75201_2_, var14, p_75201_6_);
 			else return null;
 		}
 	}
 	
-	private static StructureComponent getNextValidComponent(ComponentStrongholdStairs2 par0ComponentStrongholdStairs2, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+	private static StructureComponent getNextValidComponent(ComponentStrongholdStairs2 p_75196_0_, List p_75196_1_, Random p_75196_2_, int p_75196_3_, int p_75196_4_, int p_75196_5_, int p_75196_6_, int p_75196_7_)
 	{
-		if(par7 > 50) return null;
-		else if(Math.abs(par3 - par0ComponentStrongholdStairs2.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentStrongholdStairs2.getBoundingBox().minZ) <= 112)
+		if(p_75196_7_ > 50) return null;
+		else if(Math.abs(p_75196_3_ - p_75196_0_.getBoundingBox().minX) <= 112 && Math.abs(p_75196_5_ - p_75196_0_.getBoundingBox().minZ) <= 112)
 		{
-			ComponentStronghold var8 = getNextComponent(par0ComponentStrongholdStairs2, par1List, par2Random, par3, par4, par5, par6, par7 + 1);
+			ComponentStronghold var8 = getNextComponent(p_75196_0_, p_75196_1_, p_75196_2_, p_75196_3_, p_75196_4_, p_75196_5_, p_75196_6_, p_75196_7_ + 1);
 			if(var8 != null)
 			{
-				par1List.add(var8);
-				par0ComponentStrongholdStairs2.field_75026_c.add(var8);
+				p_75196_1_.add(var8);
+				p_75196_0_.field_75026_c.add(var8);
 			}
 			return var8;
 		} else return null;
 	}
 	
-	static StructureComponent getNextValidComponentAccess(ComponentStrongholdStairs2 par0ComponentStrongholdStairs2, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+	static StructureComponent getNextValidComponentAccess(ComponentStrongholdStairs2 p_75195_0_, List p_75195_1_, Random p_75195_2_, int p_75195_3_, int p_75195_4_, int p_75195_5_, int p_75195_6_, int p_75195_7_)
 	{
-		return getNextValidComponent(par0ComponentStrongholdStairs2, par1List, par2Random, par3, par4, par5, par6, par7);
+		return getNextValidComponent(p_75195_0_, p_75195_1_, p_75195_2_, p_75195_3_, p_75195_4_, p_75195_5_, p_75195_6_, p_75195_7_);
 	}
 	
-	private static ComponentStronghold getStrongholdComponentFromWeightedPiece(Class par0Class, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
+	private static ComponentStronghold getStrongholdComponentFromWeightedPiece(Class p_75200_0_, List p_75200_1_, Random p_75200_2_, int p_75200_3_, int p_75200_4_, int p_75200_5_, int p_75200_6_, int p_75200_7_)
 	{
 		Object var8 = null;
-		if(par0Class == ComponentStrongholdStraight.class)
+		if(p_75200_0_ == ComponentStrongholdStraight.class)
 		{
-			var8 = ComponentStrongholdStraight.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdPrison.class)
+			var8 = ComponentStrongholdStraight.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdPrison.class)
 		{
-			var8 = ComponentStrongholdPrison.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdLeftTurn.class)
+			var8 = ComponentStrongholdPrison.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdLeftTurn.class)
 		{
-			var8 = ComponentStrongholdLeftTurn.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdRightTurn.class)
+			var8 = ComponentStrongholdLeftTurn.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdRightTurn.class)
 		{
-			var8 = ComponentStrongholdLeftTurn.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdRoomCrossing.class)
+			var8 = ComponentStrongholdLeftTurn.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdRoomCrossing.class)
 		{
-			var8 = ComponentStrongholdRoomCrossing.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdStairsStraight.class)
+			var8 = ComponentStrongholdRoomCrossing.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdStairsStraight.class)
 		{
-			var8 = ComponentStrongholdStairsStraight.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdStairs.class)
+			var8 = ComponentStrongholdStairsStraight.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdStairs.class)
 		{
-			var8 = ComponentStrongholdStairs.getStrongholdStairsComponent(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdCrossing.class)
+			var8 = ComponentStrongholdStairs.getStrongholdStairsComponent(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdCrossing.class)
 		{
-			var8 = ComponentStrongholdCrossing.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdChestCorridor.class)
+			var8 = ComponentStrongholdCrossing.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdChestCorridor.class)
 		{
-			var8 = ComponentStrongholdChestCorridor.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdLibrary.class)
+			var8 = ComponentStrongholdChestCorridor.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdLibrary.class)
 		{
-			var8 = ComponentStrongholdLibrary.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
-		} else if(par0Class == ComponentStrongholdPortalRoom.class)
+			var8 = ComponentStrongholdLibrary.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
+		} else if(p_75200_0_ == ComponentStrongholdPortalRoom.class)
 		{
-			var8 = ComponentStrongholdPortalRoom.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
+			var8 = ComponentStrongholdPortalRoom.findValidPlacement(p_75200_1_, p_75200_2_, p_75200_3_, p_75200_4_, p_75200_5_, p_75200_6_, p_75200_7_);
 		}
 		return (ComponentStronghold) var8;
 	}
@@ -155,9 +155,9 @@ public class StructureStrongholdPieces
 		strongComponentType = null;
 	}
 	
-	static Class setComponentType(Class par0Class)
+	static Class setComponentType(Class p_75199_0_)
 	{
-		strongComponentType = par0Class;
-		return par0Class;
+		strongComponentType = p_75199_0_;
+		return p_75199_0_;
 	}
 }

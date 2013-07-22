@@ -9,8 +9,8 @@ public class PlayerNotFoundException extends CommandException
 		this("commands.generic.player.notFound", new Object[0]);
 	}
 	
-	public PlayerNotFoundException(String par1Str, Object ... par2ArrayOfObj)
+	public PlayerNotFoundException(String p_i3257_1_, Object ... p_i3257_2_)
 	{
-		super(par1Str, par2ArrayOfObj);
+		super(p_i3257_1_, p_i3257_2_);
 	}
 }

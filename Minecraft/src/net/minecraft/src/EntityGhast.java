@@ -2,44 +2,45 @@ package net.minecraft.src;
 
 public class EntityGhast extends EntityFlying implements IMob
 {
-	public int courseChangeCooldown;
+	public int courseChangeCooldown = 0;
 	public double waypointX;
 	public double waypointY;
 	public double waypointZ;
-	private Entity targetedEntity;
-	private int aggroCooldown;
-	public int prevAttackCounter;
-	public int attackCounter;
+	private Entity targetedEntity = null;
+	private int aggroCooldown = 0;
+	public int prevAttackCounter = 0;
+	public int attackCounter = 0;
 	private int explosionStrength = 1;
 	
-	public EntityGhast(World par1World)
+	public EntityGhast(World p_i3549_1_)
 	{
-		super(par1World);
+		super(p_i3549_1_);
+		texture = "/mob/ghast.png";
 		setSize(4.0F, 4.0F);
 		isImmuneToFire = true;
 		experienceValue = 5;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
+	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
 	{
 		if(isEntityInvulnerable()) return false;
-		else if("fireball".equals(par1DamageSource.getDamageType()) && par1DamageSource.getEntity() instanceof EntityPlayer)
+		else if("fireball".equals(p_70097_1_.getDamageType()) && p_70097_1_.getEntity() instanceof EntityPlayer)
 		{
-			super.attackEntityFrom(par1DamageSource, 1000.0F);
-			((EntityPlayer) par1DamageSource.getEntity()).triggerAchievement(AchievementList.ghast);
+			super.attackEntityFrom(p_70097_1_, 1000);
+			((EntityPlayer) p_70097_1_.getEntity()).triggerAchievement(AchievementList.ghast);
 			return true;
-		} else return super.attackEntityFrom(par1DamageSource, par2);
+		} else return super.attackEntityFrom(p_70097_1_, p_70097_2_);
 	}
 	
-	@Override protected void dropFewItems(boolean par1, int par2)
+	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
 	{
-		int var3 = rand.nextInt(2) + rand.nextInt(1 + par2);
+		int var3 = rand.nextInt(2) + rand.nextInt(1 + p_70628_2_);
 		int var4;
 		for(var4 = 0; var4 < var3; ++var4)
 		{
 			dropItem(Item.ghastTear.itemID, 1);
 		}
-		var3 = rand.nextInt(3) + rand.nextInt(1 + par2);
+		var3 = rand.nextInt(3) + rand.nextInt(1 + p_70628_2_);
 		for(var4 = 0; var4 < var3; ++var4)
 		{
 			dropItem(Item.gunpowder.itemID, 1);
@@ -50,17 +51,6 @@ public class EntityGhast extends EntityFlying implements IMob
 	{
 		super.entityInit();
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-	}
-	
-	@Override protected void func_110147_ax()
-	{
-		super.func_110147_ax();
-		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
-	}
-	
-	public boolean func_110182_bF()
-	{
-		return dataWatcher.getWatchableObjectByte(16) != 0;
 	}
 	
 	@Override public boolean getCanSpawnHere()
@@ -88,6 +78,11 @@ public class EntityGhast extends EntityFlying implements IMob
 		return "mob.ghast.moan";
 	}
 	
+	@Override public int getMaxHealth()
+	{
+		return 10;
+	}
+	
 	@Override public int getMaxSpawnedInChunk()
 	{
 		return 1;
@@ -98,13 +93,13 @@ public class EntityGhast extends EntityFlying implements IMob
 		return 10.0F;
 	}
 	
-	private boolean isCourseTraversable(double par1, double par3, double par5, double par7)
+	private boolean isCourseTraversable(double p_70790_1_, double p_70790_3_, double p_70790_5_, double p_70790_7_)
 	{
-		double var9 = (waypointX - posX) / par7;
-		double var11 = (waypointY - posY) / par7;
-		double var13 = (waypointZ - posZ) / par7;
+		double var9 = (waypointX - posX) / p_70790_7_;
+		double var11 = (waypointY - posY) / p_70790_7_;
+		double var13 = (waypointZ - posZ) / p_70790_7_;
 		AxisAlignedBB var15 = boundingBox.copy();
-		for(int var16 = 1; var16 < par7; ++var16)
+		for(int var16 = 1; var16 < p_70790_7_; ++var16)
 		{
 			var15.offset(var9, var11, var13);
 			if(!worldObj.getCollidingBoundingBoxes(this, var15).isEmpty()) return false;
@@ -112,12 +107,19 @@ public class EntityGhast extends EntityFlying implements IMob
 		return true;
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void onUpdate()
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		if(par1NBTTagCompound.hasKey("ExplosionPower"))
+		super.onUpdate();
+		byte var1 = dataWatcher.getWatchableObjectByte(16);
+		texture = var1 == 1 ? "/mob/ghast_fire.png" : "/mob/ghast.png";
+	}
+	
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	{
+		super.readEntityFromNBT(p_70037_1_);
+		if(p_70037_1_.hasKey("ExplosionPower"))
 		{
-			explosionStrength = par1NBTTagCompound.getInteger("ExplosionPower");
+			explosionStrength = p_70037_1_.getInteger("ExplosionPower");
 		}
 	}
 	
@@ -217,9 +219,9 @@ public class EntityGhast extends EntityFlying implements IMob
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("ExplosionPower", explosionStrength);
+		super.writeEntityToNBT(p_70014_1_);
+		p_70014_1_.setInteger("ExplosionPower", explosionStrength);
 	}
 }

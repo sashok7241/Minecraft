@@ -5,15 +5,15 @@ public class EnchantmentData extends WeightedRandomItem
 	public final Enchantment enchantmentobj;
 	public final int enchantmentLevel;
 	
-	public EnchantmentData(Enchantment par1Enchantment, int par2)
+	public EnchantmentData(Enchantment p_i3713_1_, int p_i3713_2_)
 	{
-		super(par1Enchantment.getWeight());
-		enchantmentobj = par1Enchantment;
-		enchantmentLevel = par2;
+		super(p_i3713_1_.getWeight());
+		enchantmentobj = p_i3713_1_;
+		enchantmentLevel = p_i3713_2_;
 	}
 	
-	public EnchantmentData(int par1, int par2)
+	public EnchantmentData(int p_i8014_1_, int p_i8014_2_)
 	{
-		this(Enchantment.enchantmentsList[par1], par2);
+		this(Enchantment.enchantmentsList[p_i8014_1_], p_i8014_2_);
 	}
 }

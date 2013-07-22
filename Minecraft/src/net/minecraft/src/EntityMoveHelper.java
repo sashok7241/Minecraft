@@ -6,18 +6,18 @@ public class EntityMoveHelper
 	private double posX;
 	private double posY;
 	private double posZ;
-	private double speed;
-	private boolean update;
+	private float speed;
+	private boolean update = false;
 	
-	public EntityMoveHelper(EntityLiving par1EntityLiving)
+	public EntityMoveHelper(EntityLiving p_i3456_1_)
 	{
-		entity = par1EntityLiving;
-		posX = par1EntityLiving.posX;
-		posY = par1EntityLiving.posY;
-		posZ = par1EntityLiving.posZ;
+		entity = p_i3456_1_;
+		posX = p_i3456_1_.posX;
+		posY = p_i3456_1_.posY;
+		posZ = p_i3456_1_.posZ;
 	}
 	
-	public double getSpeed()
+	public float getSpeed()
 	{
 		return speed;
 	}
@@ -27,18 +27,18 @@ public class EntityMoveHelper
 		return update;
 	}
 	
-	private float limitAngle(float par1, float par2, float par3)
+	private float limitAngle(float p_75639_1_, float p_75639_2_, float p_75639_3_)
 	{
-		float var4 = MathHelper.wrapAngleTo180_float(par2 - par1);
-		if(var4 > par3)
+		float var4 = MathHelper.wrapAngleTo180_float(p_75639_2_ - p_75639_1_);
+		if(var4 > p_75639_3_)
 		{
-			var4 = par3;
+			var4 = p_75639_3_;
 		}
-		if(var4 < -par3)
+		if(var4 < -p_75639_3_)
 		{
-			var4 = -par3;
+			var4 = -p_75639_3_;
 		}
-		return par1 + var4;
+		return p_75639_1_ + var4;
 	}
 	
 	public void onUpdateMoveHelper()
@@ -56,7 +56,7 @@ public class EntityMoveHelper
 			{
 				float var10 = (float) (Math.atan2(var4, var2) * 180.0D / Math.PI) - 90.0F;
 				entity.rotationYaw = limitAngle(entity.rotationYaw, var10, 30.0F);
-				entity.setAIMoveSpeed((float) (speed * entity.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e()));
+				entity.setAIMoveSpeed(speed * entity.getSpeedModifier());
 				if(var6 > 0.0D && var2 * var2 + var4 * var4 < 1.0D)
 				{
 					entity.getJumpHelper().setJumping();
@@ -65,12 +65,12 @@ public class EntityMoveHelper
 		}
 	}
 	
-	public void setMoveTo(double par1, double par3, double par5, double par7)
+	public void setMoveTo(double p_75642_1_, double p_75642_3_, double p_75642_5_, float p_75642_7_)
 	{
-		posX = par1;
-		posY = par3;
-		posZ = par5;
-		speed = par7;
+		posX = p_75642_1_;
+		posY = p_75642_3_;
+		posZ = p_75642_5_;
+		speed = p_75642_7_;
 		update = true;
 	}
 }

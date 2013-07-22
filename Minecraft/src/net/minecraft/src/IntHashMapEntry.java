@@ -7,20 +7,20 @@ class IntHashMapEntry
 	IntHashMapEntry nextEntry;
 	final int slotHash;
 	
-	IntHashMapEntry(int par1, int par2, Object par3Obj, IntHashMapEntry par4IntHashMapEntry)
+	IntHashMapEntry(int p_i3419_1_, int p_i3419_2_, Object p_i3419_3_, IntHashMapEntry p_i3419_4_)
 	{
-		valueEntry = par3Obj;
-		nextEntry = par4IntHashMapEntry;
-		hashEntry = par2;
-		slotHash = par1;
+		valueEntry = p_i3419_3_;
+		nextEntry = p_i3419_4_;
+		hashEntry = p_i3419_2_;
+		slotHash = p_i3419_1_;
 	}
 	
-	@Override public final boolean equals(Object par1Obj)
+	@Override public final boolean equals(Object p_equals_1_)
 	{
-		if(!(par1Obj instanceof IntHashMapEntry)) return false;
+		if(!(p_equals_1_ instanceof IntHashMapEntry)) return false;
 		else
 		{
-			IntHashMapEntry var2 = (IntHashMapEntry) par1Obj;
+			IntHashMapEntry var2 = (IntHashMapEntry) p_equals_1_;
 			Integer var3 = Integer.valueOf(getHash());
 			Integer var4 = Integer.valueOf(var2.getHash());
 			if(var3 == var4 || var3 != null && var3.equals(var4))

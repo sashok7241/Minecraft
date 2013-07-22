@@ -11,12 +11,12 @@ public class GuiStats extends GuiScreen
 	private GuiSlotStatsItem slotItem;
 	private GuiSlotStatsBlock slotBlock;
 	private StatFileWriter statFileWriter;
-	private GuiSlot selectedSlot;
+	private GuiSlot selectedSlot = null;
 	
-	public GuiStats(GuiScreen par1GuiScreen, StatFileWriter par2StatFileWriter)
+	public GuiStats(GuiScreen p_i3072_1_, StatFileWriter p_i3072_2_)
 	{
-		parentGui = par1GuiScreen;
-		statFileWriter = par2StatFileWriter;
+		parentGui = p_i3072_1_;
+		statFileWriter = p_i3072_2_;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -44,19 +44,20 @@ public class GuiStats extends GuiScreen
 	
 	public void addHeaderButtons()
 	{
-		buttonList.add(new GuiButton(0, width / 2 + 4, height - 28, 150, 20, I18n.func_135053_a("gui.done")));
-		buttonList.add(new GuiButton(1, width / 2 - 154, height - 52, 100, 20, I18n.func_135053_a("stat.generalButton")));
-		GuiButton var1;
-		buttonList.add(var1 = new GuiButton(2, width / 2 - 46, height - 52, 100, 20, I18n.func_135053_a("stat.blocksButton")));
+		StringTranslate var1 = StringTranslate.getInstance();
+		buttonList.add(new GuiButton(0, width / 2 + 4, height - 28, 150, 20, var1.translateKey("gui.done")));
+		buttonList.add(new GuiButton(1, width / 2 - 154, height - 52, 100, 20, var1.translateKey("stat.generalButton")));
 		GuiButton var2;
-		buttonList.add(var2 = new GuiButton(3, width / 2 + 62, height - 52, 100, 20, I18n.func_135053_a("stat.itemsButton")));
+		buttonList.add(var2 = new GuiButton(2, width / 2 - 46, height - 52, 100, 20, var1.translateKey("stat.blocksButton")));
+		GuiButton var3;
+		buttonList.add(var3 = new GuiButton(3, width / 2 + 62, height - 52, 100, 20, var1.translateKey("stat.itemsButton")));
 		if(slotBlock.getSize() == 0)
 		{
-			var1.enabled = false;
+			var2.enabled = false;
 		}
 		if(slotItem.getSize() == 0)
 		{
-			var2.enabled = false;
+			var3.enabled = false;
 		}
 	}
 	
@@ -70,7 +71,7 @@ public class GuiStats extends GuiScreen
 		drawButtonBackground(par1 + 1, par2 + 1);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		RenderHelper.enableGUIStandardItemLighting();
-		renderItem.renderItemIntoGUI(fontRenderer, mc.func_110434_K(), new ItemStack(par3, 1, 0), par1 + 2, par2 + 2);
+		renderItem.renderItemIntoGUI(fontRenderer, mc.renderEngine, new ItemStack(par3, 1, 0), par1 + 2, par2 + 2);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 	}
@@ -85,11 +86,7 @@ public class GuiStats extends GuiScreen
 	private void drawSprite(int par1, int par2, int par3, int par4)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.func_110434_K().func_110577_a(field_110323_l);
-		float var5 = 0.0078125F;
-		float var6 = 0.0078125F;
-		boolean var7 = true;
-		boolean var8 = true;
+		mc.renderEngine.bindTexture("/gui/slot.png");
 		Tessellator var9 = Tessellator.instance;
 		var9.startDrawingQuads();
 		var9.addVertexWithUV(par1 + 0, par2 + 18, zLevel, (par3 + 0) * 0.0078125F, (par4 + 18) * 0.0078125F);
@@ -101,13 +98,13 @@ public class GuiStats extends GuiScreen
 	
 	@Override public void initGui()
 	{
-		statsTitle = I18n.func_135053_a("gui.stats");
+		statsTitle = StatCollector.translateToLocal("gui.stats");
 		slotGeneral = new GuiSlotStatsGeneral(this);
-		slotGeneral.registerScrollButtons(1, 1);
+		slotGeneral.registerScrollButtons(buttonList, 1, 1);
 		slotItem = new GuiSlotStatsItem(this);
-		slotItem.registerScrollButtons(1, 1);
+		slotItem.registerScrollButtons(buttonList, 1, 1);
 		slotBlock = new GuiSlotStatsBlock(this);
-		slotBlock.registerScrollButtons(1, 1);
+		slotBlock.registerScrollButtons(buttonList, 1, 1);
 		selectedSlot = slotGeneral;
 		addHeaderButtons();
 	}

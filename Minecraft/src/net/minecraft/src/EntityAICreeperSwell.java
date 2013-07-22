@@ -3,11 +3,11 @@ package net.minecraft.src;
 public class EntityAICreeperSwell extends EntityAIBase
 {
 	EntityCreeper swellingCreeper;
-	EntityLivingBase creeperAttackTarget;
+	EntityLiving creeperAttackTarget;
 	
-	public EntityAICreeperSwell(EntityCreeper par1EntityCreeper)
+	public EntityAICreeperSwell(EntityCreeper p_i3493_1_)
 	{
-		swellingCreeper = par1EntityCreeper;
+		swellingCreeper = p_i3493_1_;
 		setMutexBits(1);
 	}
 	
@@ -18,7 +18,7 @@ public class EntityAICreeperSwell extends EntityAIBase
 	
 	@Override public boolean shouldExecute()
 	{
-		EntityLivingBase var1 = swellingCreeper.getAttackTarget();
+		EntityLiving var1 = swellingCreeper.getAttackTarget();
 		return swellingCreeper.getCreeperState() > 0 || var1 != null && swellingCreeper.getDistanceSqToEntity(var1) < 9.0D;
 	}
 	

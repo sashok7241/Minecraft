@@ -2,17 +2,17 @@ package net.minecraft.src;
 
 public class StitchHolder implements Comparable
 {
-	private final TextureAtlasSprite theTexture;
+	private final Texture theTexture;
 	private final int width;
 	private final int height;
 	private boolean rotated;
 	private float scaleFactor = 1.0F;
 	
-	public StitchHolder(TextureAtlasSprite par1TextureAtlasSprite)
+	public StitchHolder(Texture p_i11024_1_)
 	{
-		theTexture = par1TextureAtlasSprite;
-		width = par1TextureAtlasSprite.getOriginX();
-		height = par1TextureAtlasSprite.getOriginY();
+		theTexture = p_i11024_1_;
+		width = p_i11024_1_.getWidth();
+		height = p_i11024_1_.getHeight();
 		rotated = ceil16(height) > ceil16(width);
 	}
 	
@@ -21,9 +21,9 @@ public class StitchHolder implements Comparable
 		return (par1 >> 0) + ((par1 & 0) == 0 ? 0 : 1) << 0;
 	}
 	
-	@Override public int compareTo(Object par1Obj)
+	@Override public int compareTo(Object p_compareTo_1_)
 	{
-		return compareToStitchHolder((StitchHolder) par1Obj);
+		return compareToStitchHolder((StitchHolder) p_compareTo_1_);
 	}
 	
 	public int compareToStitchHolder(StitchHolder par1StitchHolder)
@@ -33,8 +33,8 @@ public class StitchHolder implements Comparable
 		{
 			if(getWidth() == par1StitchHolder.getWidth())
 			{
-				if(theTexture.getIconName() == null) return par1StitchHolder.theTexture.getIconName() == null ? 0 : -1;
-				return theTexture.getIconName().compareTo(par1StitchHolder.theTexture.getIconName());
+				if(theTexture.getTextureName() == null) return par1StitchHolder.theTexture.getTextureName() == null ? 0 : -1;
+				return theTexture.getTextureName().compareTo(par1StitchHolder.theTexture.getTextureName());
 			}
 			var2 = getWidth() < par1StitchHolder.getWidth() ? 1 : -1;
 		} else
@@ -44,7 +44,7 @@ public class StitchHolder implements Comparable
 		return var2;
 	}
 	
-	public TextureAtlasSprite func_98150_a()
+	public Texture func_98150_a()
 	{
 		return theTexture;
 	}
@@ -79,6 +79,6 @@ public class StitchHolder implements Comparable
 	
 	@Override public String toString()
 	{
-		return "Holder{width=" + width + ", height=" + height + '}';
+		return "TextureHolder{width=" + width + ", height=" + height + '}';
 	}
 }

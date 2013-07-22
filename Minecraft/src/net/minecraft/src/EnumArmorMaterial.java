@@ -7,11 +7,11 @@ public enum EnumArmorMaterial
 	private int[] damageReductionAmountArray;
 	private int enchantability;
 	
-	private EnumArmorMaterial(int par3, int[] par4ArrayOfInteger, int par5)
+	private EnumArmorMaterial(int p_i3618_3_, int[] p_i3618_4_, int p_i3618_5_)
 	{
-		maxDamageFactor = par3;
-		damageReductionAmountArray = par4ArrayOfInteger;
-		enchantability = par5;
+		maxDamageFactor = p_i3618_3_;
+		damageReductionAmountArray = p_i3618_4_;
+		enchantability = p_i3618_5_;
 	}
 	
 	public int getArmorCraftingMaterial()
@@ -19,14 +19,14 @@ public enum EnumArmorMaterial
 		return this == CLOTH ? Item.leather.itemID : this == CHAIN ? Item.ingotIron.itemID : this == GOLD ? Item.ingotGold.itemID : this == IRON ? Item.ingotIron.itemID : this == DIAMOND ? Item.diamond.itemID : 0;
 	}
 	
-	public int getDamageReductionAmount(int par1)
+	public int getDamageReductionAmount(int p_78044_1_)
 	{
-		return damageReductionAmountArray[par1];
+		return damageReductionAmountArray[p_78044_1_];
 	}
 	
-	public int getDurability(int par1)
+	public int getDurability(int p_78046_1_)
 	{
-		return ItemArmor.getMaxDamageArray()[par1] * maxDamageFactor;
+		return ItemArmor.getMaxDamageArray()[p_78046_1_] * maxDamageFactor;
 	}
 	
 	public int getEnchantability()

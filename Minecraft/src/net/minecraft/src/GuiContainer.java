@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 
 public abstract class GuiContainer extends GuiScreen
 {
-	protected static final ResourceLocation field_110408_a = new ResourceLocation("textures/gui/container/inventory.png");
 	protected static RenderItem itemRenderer = new RenderItem();
 	protected int xSize = 176;
 	protected int ySize = 166;
@@ -18,31 +17,31 @@ public abstract class GuiContainer extends GuiScreen
 	protected int guiLeft;
 	protected int guiTop;
 	private Slot theSlot;
-	private Slot clickedSlot;
-	private boolean isRightMouseClick;
-	private ItemStack draggedStack;
-	private int field_85049_r;
-	private int field_85048_s;
-	private Slot returningStackDestSlot;
-	private long returningStackTime;
-	private ItemStack returningStack;
-	private Slot field_92033_y;
-	private long field_92032_z;
+	private Slot clickedSlot = null;
+	private boolean isRightMouseClick = false;
+	private ItemStack draggedStack = null;
+	private int field_85049_r = 0;
+	private int field_85048_s = 0;
+	private Slot returningStackDestSlot = null;
+	private long returningStackTime = 0L;
+	private ItemStack returningStack = null;
+	private Slot field_92033_y = null;
+	private long field_92032_z = 0L;
 	protected final Set field_94077_p = new HashSet();
 	protected boolean field_94076_q;
-	private int field_94071_C;
-	private int field_94067_D;
-	private boolean field_94068_E;
+	private int field_94071_C = 0;
+	private int field_94067_D = 0;
+	private boolean field_94068_E = false;
 	private int field_94069_F;
-	private long field_94070_G;
-	private Slot field_94072_H;
-	private int field_94073_I;
+	private long field_94070_G = 0L;
+	private Slot field_94072_H = null;
+	private int field_94073_I = 0;
 	private boolean field_94074_J;
-	private ItemStack field_94075_K;
+	private ItemStack field_94075_K = null;
 	
-	public GuiContainer(Container par1Container)
+	public GuiContainer(Container p_i3079_1_)
 	{
-		inventorySlots = par1Container;
+		inventorySlots = p_i3079_1_;
 		field_94068_E = true;
 	}
 	
@@ -83,8 +82,8 @@ public abstract class GuiContainer extends GuiScreen
 		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
 		zLevel = 200.0F;
 		itemRenderer.zLevel = 200.0F;
-		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.func_110434_K(), par1ItemStack, par2, par3);
-		itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.func_110434_K(), par1ItemStack, par2, par3 - (draggedStack == null ? 0 : 8), par4Str);
+		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, par1ItemStack, par2, par3);
+		itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.renderEngine, par1ItemStack, par2, par3 - (draggedStack == null ? 0 : 8), par4Str);
 		zLevel = 0.0F;
 		itemRenderer.zLevel = 0.0F;
 	}
@@ -131,7 +130,7 @@ public abstract class GuiContainer extends GuiScreen
 		{
 			Slot var14 = (Slot) inventorySlots.inventorySlots.get(var13);
 			drawSlotInventory(var14);
-			if(isMouseOverSlot(var14, par1, par2) && var14.func_111238_b())
+			if(isMouseOverSlot(var14, par1, par2))
 			{
 				theSlot = var14;
 				GL11.glDisable(GL11.GL_LIGHTING);
@@ -236,7 +235,7 @@ public abstract class GuiContainer extends GuiScreen
 			if(var9 != null)
 			{
 				GL11.glDisable(GL11.GL_LIGHTING);
-				mc.func_110434_K().func_110577_a(TextureMap.field_110576_c);
+				mc.renderEngine.bindTexture("/gui/items.png");
 				drawTexturedModelRectFromIcon(var2, var3, var9, 16, 16);
 				GL11.glEnable(GL11.GL_LIGHTING);
 				var6 = true;
@@ -249,8 +248,8 @@ public abstract class GuiContainer extends GuiScreen
 				drawRect(var2, var3, var2 + 16, var3 + 16, -2130706433);
 			}
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
-			itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.func_110434_K(), var4, var2, var3);
-			itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.func_110434_K(), var4, var2, var3, var8);
+			itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, var4, var2, var3);
+			itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.renderEngine, var4, var2, var3, var8);
 		}
 		itemRenderer.zLevel = 0.0F;
 		zLevel = 0.0F;

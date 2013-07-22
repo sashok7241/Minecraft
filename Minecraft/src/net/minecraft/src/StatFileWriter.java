@@ -11,17 +11,17 @@ public class StatFileWriter
 {
 	private Map field_77457_a = new HashMap();
 	private Map field_77455_b = new HashMap();
-	private boolean field_77456_c;
+	private boolean field_77456_c = false;
 	private StatsSyncher statsSyncher;
 	
-	public StatFileWriter(Session par1Session, File par2File)
+	public StatFileWriter(Session p_i3218_1_, File p_i3218_2_)
 	{
-		File var3 = new File(par2File, "stats");
+		File var3 = new File(p_i3218_2_, "stats");
 		if(!var3.exists())
 		{
 			var3.mkdir();
 		}
-		File[] var4 = par2File.listFiles();
+		File[] var4 = p_i3218_2_.listFiles();
 		int var5 = var4.length;
 		for(int var6 = 0; var6 < var5; ++var6)
 		{
@@ -36,7 +36,7 @@ public class StatFileWriter
 				}
 			}
 		}
-		statsSyncher = new StatsSyncher(par1Session, this, var3);
+		statsSyncher = new StatsSyncher(p_i3218_1_, this, var3);
 	}
 	
 	public boolean canUnlockAchievement(Achievement par1Achievement)
@@ -189,30 +189,26 @@ public class StatFileWriter
 				Entry var9 = (Entry) var8.entrySet().iterator().next();
 				int var10 = Integer.parseInt(((JsonStringNode) var9.getKey()).getText());
 				int var11 = Integer.parseInt(((JsonNode) var9.getValue()).getText());
-				boolean var12 = true;
-				StatBase var13 = StatList.getOneShotStat(var10);
-				if(var13 == null)
+				StatBase var12 = StatList.getOneShotStat(var10);
+				if(var12 == null)
 				{
-					var12 = false;
-					var13 = new StatPlaceholder(var10).registerStat();
+					System.out.println(var10 + " is not a valid stat, creating place-holder");
+					var12 = new StatPlaceholder(var10).registerStat();
 				}
 				var3.append(StatList.getOneShotStat(var10).statGuid).append(",");
 				var3.append(var11).append(",");
-				if(var12)
-				{
-					var1.put(var13, Integer.valueOf(var11));
-				}
+				var1.put(var12, Integer.valueOf(var11));
 			}
-			MD5String var15 = new MD5String(var2);
-			String var16 = var15.getMD5String(var3.toString());
-			if(!var16.equals(var4.getStringValue(new Object[] { "checksum" })))
+			MD5String var14 = new MD5String(var2);
+			String var15 = var14.getMD5String(var3.toString());
+			if(!var15.equals(var4.getStringValue(new Object[] { "checksum" })))
 			{
 				System.out.println("CHECKSUM MISMATCH");
 				return null;
 			}
-		} catch(InvalidSyntaxException var14)
+		} catch(InvalidSyntaxException var13)
 		{
-			var14.printStackTrace();
+			var13.printStackTrace();
 		}
 		return var1;
 	}

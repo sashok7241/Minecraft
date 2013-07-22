@@ -4,8 +4,8 @@ public class ExceptionMcoHttp extends RuntimeException
 {
 	private static final long serialVersionUID = 1L;
 	
-	public ExceptionMcoHttp(String par1Str, Exception par2Exception)
+	public ExceptionMcoHttp(String p_i10032_1_, Exception p_i10032_2_)
 	{
-		super(par1Str, par2Exception);
+		super(p_i10032_1_, p_i10032_2_);
 	}
 }

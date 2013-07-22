@@ -10,23 +10,23 @@ public class VillageCollection extends WorldSavedData
 	private final List villagerPositionsList = new ArrayList();
 	private final List newDoors = new ArrayList();
 	private final List villageList = new ArrayList();
-	private int tickCounter;
+	private int tickCounter = 0;
 	
-	public VillageCollection(String par1Str)
+	public VillageCollection(String p_i5061_1_)
 	{
-		super(par1Str);
+		super(p_i5061_1_);
 	}
 	
-	public VillageCollection(World par1World)
+	public VillageCollection(World p_i3513_1_)
 	{
 		super("villages");
-		worldObj = par1World;
+		worldObj = p_i3513_1_;
 		markDirty();
 	}
 	
-	private void addDoorToNewListIfAppropriate(int par1, int par2, int par3)
+	private void addDoorToNewListIfAppropriate(int p_75542_1_, int p_75542_2_, int p_75542_3_)
 	{
-		int var4 = ((BlockDoor) Block.doorWood).getDoorOrientation(worldObj, par1, par2, par3);
+		int var4 = ((BlockDoor) Block.doorWood).getDoorOrientation(worldObj, p_75542_1_, p_75542_2_, p_75542_3_);
 		int var5;
 		int var6;
 		if(var4 != 0 && var4 != 2)
@@ -34,42 +34,42 @@ public class VillageCollection extends WorldSavedData
 			var5 = 0;
 			for(var6 = -5; var6 < 0; ++var6)
 			{
-				if(worldObj.canBlockSeeTheSky(par1, par2, par3 + var6))
+				if(worldObj.canBlockSeeTheSky(p_75542_1_, p_75542_2_, p_75542_3_ + var6))
 				{
 					--var5;
 				}
 			}
 			for(var6 = 1; var6 <= 5; ++var6)
 			{
-				if(worldObj.canBlockSeeTheSky(par1, par2, par3 + var6))
+				if(worldObj.canBlockSeeTheSky(p_75542_1_, p_75542_2_, p_75542_3_ + var6))
 				{
 					++var5;
 				}
 			}
 			if(var5 != 0)
 			{
-				newDoors.add(new VillageDoorInfo(par1, par2, par3, 0, var5 > 0 ? -2 : 2, tickCounter));
+				newDoors.add(new VillageDoorInfo(p_75542_1_, p_75542_2_, p_75542_3_, 0, var5 > 0 ? -2 : 2, tickCounter));
 			}
 		} else
 		{
 			var5 = 0;
 			for(var6 = -5; var6 < 0; ++var6)
 			{
-				if(worldObj.canBlockSeeTheSky(par1 + var6, par2, par3))
+				if(worldObj.canBlockSeeTheSky(p_75542_1_ + var6, p_75542_2_, p_75542_3_))
 				{
 					--var5;
 				}
 			}
 			for(var6 = 1; var6 <= 5; ++var6)
 			{
-				if(worldObj.canBlockSeeTheSky(par1 + var6, par2, par3))
+				if(worldObj.canBlockSeeTheSky(p_75542_1_ + var6, p_75542_2_, p_75542_3_))
 				{
 					++var5;
 				}
 			}
 			if(var5 != 0)
 			{
-				newDoors.add(new VillageDoorInfo(par1, par2, par3, var5 > 0 ? -2 : 2, 0, tickCounter));
+				newDoors.add(new VillageDoorInfo(p_75542_1_, p_75542_2_, p_75542_3_, var5 > 0 ? -2 : 2, 0, tickCounter));
 			}
 		}
 	}
@@ -110,16 +110,16 @@ public class VillageCollection extends WorldSavedData
 		newDoors.clear();
 	}
 	
-	private void addUnassignedWoodenDoorsAroundToNewDoorsList(ChunkCoordinates par1ChunkCoordinates)
+	private void addUnassignedWoodenDoorsAroundToNewDoorsList(ChunkCoordinates p_75546_1_)
 	{
 		byte var2 = 16;
 		byte var3 = 4;
 		byte var4 = 16;
-		for(int var5 = par1ChunkCoordinates.posX - var2; var5 < par1ChunkCoordinates.posX + var2; ++var5)
+		for(int var5 = p_75546_1_.posX - var2; var5 < p_75546_1_.posX + var2; ++var5)
 		{
-			for(int var6 = par1ChunkCoordinates.posY - var3; var6 < par1ChunkCoordinates.posY + var3; ++var6)
+			for(int var6 = p_75546_1_.posY - var3; var6 < p_75546_1_.posY + var3; ++var6)
 			{
-				for(int var7 = par1ChunkCoordinates.posZ - var4; var7 < par1ChunkCoordinates.posZ + var4; ++var7)
+				for(int var7 = p_75546_1_.posZ - var4; var7 < p_75546_1_.posZ + var4; ++var7)
 				{
 					if(isWoodenDoorAt(var5, var6, var7))
 					{
@@ -137,13 +137,13 @@ public class VillageCollection extends WorldSavedData
 		}
 	}
 	
-	public void addVillagerPosition(int par1, int par2, int par3)
+	public void addVillagerPosition(int p_75551_1_, int p_75551_2_, int p_75551_3_)
 	{
 		if(villagerPositionsList.size() <= 64)
 		{
-			if(!isVillagerPositionPresent(par1, par2, par3))
+			if(!isVillagerPositionPresent(p_75551_1_, p_75551_2_, p_75551_3_))
 			{
-				villagerPositionsList.add(new ChunkCoordinates(par1, par2, par3));
+				villagerPositionsList.add(new ChunkCoordinates(p_75551_1_, p_75551_2_, p_75551_3_));
 			}
 		}
 	}
@@ -156,7 +156,7 @@ public class VillageCollection extends WorldSavedData
 		}
 	}
 	
-	public Village findNearestVillage(int par1, int par2, int par3, int par4)
+	public Village findNearestVillage(int p_75550_1_, int p_75550_2_, int p_75550_3_, int p_75550_4_)
 	{
 		Village var5 = null;
 		float var6 = Float.MAX_VALUE;
@@ -164,10 +164,10 @@ public class VillageCollection extends WorldSavedData
 		while(var7.hasNext())
 		{
 			Village var8 = (Village) var7.next();
-			float var9 = var8.getCenter().getDistanceSquared(par1, par2, par3);
+			float var9 = var8.getCenter().getDistanceSquared(p_75550_1_, p_75550_2_, p_75550_3_);
 			if(var9 < var6)
 			{
-				float var10 = par4 + var8.getVillageRadius();
+				int var10 = p_75550_4_ + var8.getVillageRadius();
 				if(var9 <= var10 * var10)
 				{
 					var5 = var8;
@@ -178,18 +178,18 @@ public class VillageCollection extends WorldSavedData
 		return var5;
 	}
 	
-	public void func_82566_a(World par1World)
+	public void func_82566_a(World p_82566_1_)
 	{
-		worldObj = par1World;
+		worldObj = p_82566_1_;
 		Iterator var2 = villageList.iterator();
 		while(var2.hasNext())
 		{
 			Village var3 = (Village) var2.next();
-			var3.func_82691_a(par1World);
+			var3.func_82691_a(p_82566_1_);
 		}
 	}
 	
-	private VillageDoorInfo getVillageDoorAt(int par1, int par2, int par3)
+	private VillageDoorInfo getVillageDoorAt(int p_75547_1_, int p_75547_2_, int p_75547_3_)
 	{
 		Iterator var4 = newDoors.iterator();
 		VillageDoorInfo var5;
@@ -203,12 +203,12 @@ public class VillageCollection extends WorldSavedData
 				{
 					if(!var4.hasNext()) return null;
 					Village var7 = (Village) var4.next();
-					var6 = var7.getVillageDoorAt(par1, par2, par3);
+					var6 = var7.getVillageDoorAt(p_75547_1_, p_75547_2_, p_75547_3_);
 				} while(var6 == null);
 				return var6;
 			}
 			var5 = (VillageDoorInfo) var4.next();
-		} while(var5.posX != par1 || var5.posZ != par3 || Math.abs(var5.posY - par2) > 1);
+		} while(var5.posX != p_75547_1_ || var5.posZ != p_75547_3_ || Math.abs(var5.posY - p_75547_2_) > 1);
 		return var5;
 	}
 	
@@ -217,7 +217,7 @@ public class VillageCollection extends WorldSavedData
 		return villageList;
 	}
 	
-	private boolean isVillagerPositionPresent(int par1, int par2, int par3)
+	private boolean isVillagerPositionPresent(int p_75548_1_, int p_75548_2_, int p_75548_3_)
 	{
 		Iterator var4 = villagerPositionsList.iterator();
 		ChunkCoordinates var5;
@@ -225,20 +225,20 @@ public class VillageCollection extends WorldSavedData
 		{
 			if(!var4.hasNext()) return false;
 			var5 = (ChunkCoordinates) var4.next();
-		} while(var5.posX != par1 || var5.posY != par2 || var5.posZ != par3);
+		} while(var5.posX != p_75548_1_ || var5.posY != p_75548_2_ || var5.posZ != p_75548_3_);
 		return true;
 	}
 	
-	private boolean isWoodenDoorAt(int par1, int par2, int par3)
+	private boolean isWoodenDoorAt(int p_75541_1_, int p_75541_2_, int p_75541_3_)
 	{
-		int var4 = worldObj.getBlockId(par1, par2, par3);
+		int var4 = worldObj.getBlockId(p_75541_1_, p_75541_2_, p_75541_3_);
 		return var4 == Block.doorWood.blockID;
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readFromNBT(NBTTagCompound p_76184_1_)
 	{
-		tickCounter = par1NBTTagCompound.getInteger("Tick");
-		NBTTagList var2 = par1NBTTagCompound.getTagList("Villages");
+		tickCounter = p_76184_1_.getInteger("Tick");
+		NBTTagList var2 = p_76184_1_.getTagList("Villages");
 		for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
 			NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
@@ -280,9 +280,9 @@ public class VillageCollection extends WorldSavedData
 		}
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeToNBT(NBTTagCompound p_76187_1_)
 	{
-		par1NBTTagCompound.setInteger("Tick", tickCounter);
+		p_76187_1_.setInteger("Tick", tickCounter);
 		NBTTagList var2 = new NBTTagList("Villages");
 		Iterator var3 = villageList.iterator();
 		while(var3.hasNext())
@@ -292,6 +292,6 @@ public class VillageCollection extends WorldSavedData
 			var4.writeVillageDataToNBT(var5);
 			var2.appendTag(var5);
 		}
-		par1NBTTagCompound.setTag("Villages", var2);
+		p_76187_1_.setTag("Villages", var2);
 	}
 }

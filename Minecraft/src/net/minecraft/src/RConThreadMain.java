@@ -15,27 +15,27 @@ public class RConThreadMain extends RConThreadBase
 	private int rconPort;
 	private int serverPort;
 	private String hostname;
-	private ServerSocket serverSocket;
+	private ServerSocket serverSocket = null;
 	private String rconPassword;
 	private Map clientThreads;
 	
-	public RConThreadMain(IServer par1IServer)
+	public RConThreadMain(IServer p_i3408_1_)
 	{
-		super(par1IServer);
-		rconPort = par1IServer.getIntProperty("rcon.port", 0);
-		rconPassword = par1IServer.getStringProperty("rcon.password", "");
-		hostname = par1IServer.getHostname();
-		serverPort = par1IServer.getPort();
+		super(p_i3408_1_);
+		rconPort = p_i3408_1_.getIntProperty("rcon.port", 0);
+		rconPassword = p_i3408_1_.getStringProperty("rcon.password", "");
+		hostname = p_i3408_1_.getHostname();
+		serverPort = p_i3408_1_.getPort();
 		if(0 == rconPort)
 		{
 			rconPort = serverPort + 10;
 			logInfo("Setting default rcon port to " + rconPort);
-			par1IServer.setProperty("rcon.port", Integer.valueOf(rconPort));
+			p_i3408_1_.setProperty("rcon.port", Integer.valueOf(rconPort));
 			if(0 == rconPassword.length())
 			{
-				par1IServer.setProperty("rcon.password", "");
+				p_i3408_1_.setProperty("rcon.password", "");
 			}
-			par1IServer.saveProperties();
+			p_i3408_1_.saveProperties();
 		}
 		if(0 == hostname.length())
 		{

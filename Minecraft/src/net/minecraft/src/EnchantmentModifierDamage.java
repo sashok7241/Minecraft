@@ -9,13 +9,13 @@ final class EnchantmentModifierDamage implements IEnchantmentModifier
 	{
 	}
 	
-	EnchantmentModifierDamage(Empty3 par1Empty3)
+	EnchantmentModifierDamage(Empty3 p_i3712_1_)
 	{
 		this();
 	}
 	
-	@Override public void calculateModifier(Enchantment par1Enchantment, int par2)
+	@Override public void calculateModifier(Enchantment p_77493_1_, int p_77493_2_)
 	{
-		damageModifier += par1Enchantment.calcModifierDamage(par2, source);
+		damageModifier += p_77493_1_.calcModifierDamage(p_77493_2_, source);
 	}
 }

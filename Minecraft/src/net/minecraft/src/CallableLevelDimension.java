@@ -6,9 +6,9 @@ class CallableLevelDimension implements Callable
 {
 	final WorldInfo worldInfoInstance;
 	
-	CallableLevelDimension(WorldInfo par1WorldInfo)
+	CallableLevelDimension(WorldInfo p_i6825_1_)
 	{
-		worldInfoInstance = par1WorldInfo;
+		worldInfoInstance = p_i6825_1_;
 	}
 	
 	@Override public Object call()

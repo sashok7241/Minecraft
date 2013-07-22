@@ -7,12 +7,12 @@ public class ModelEnderCrystal extends ModelBase
 	private ModelRenderer glass = new ModelRenderer(this, "glass");
 	private ModelRenderer base;
 	
-	public ModelEnderCrystal(float par1, boolean par2)
+	public ModelEnderCrystal(float p_i5023_1_, boolean p_i5023_2_)
 	{
 		glass.setTextureOffset(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8);
 		cube = new ModelRenderer(this, "cube");
 		cube.setTextureOffset(32, 0).addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8);
-		if(par2)
+		if(p_i5023_2_)
 		{
 			base = new ModelRenderer(this, "base");
 			base.setTextureOffset(0, 16).addBox(-6.0F, 0.0F, -6.0F, 12, 4, 12);

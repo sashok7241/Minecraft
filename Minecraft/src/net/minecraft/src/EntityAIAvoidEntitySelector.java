@@ -4,13 +4,13 @@ class EntityAIAvoidEntitySelector implements IEntitySelector
 {
 	final EntityAIAvoidEntity entityAvoiderAI;
 	
-	EntityAIAvoidEntitySelector(EntityAIAvoidEntity par1EntityAIAvoidEntity)
+	EntityAIAvoidEntitySelector(EntityAIAvoidEntity p_i11037_1_)
 	{
-		entityAvoiderAI = par1EntityAIAvoidEntity;
+		entityAvoiderAI = p_i11037_1_;
 	}
 	
-	@Override public boolean isEntityApplicable(Entity par1Entity)
+	@Override public boolean isEntityApplicable(Entity p_82704_1_)
 	{
-		return par1Entity.isEntityAlive() && EntityAIAvoidEntity.func_98217_a(entityAvoiderAI).getEntitySenses().canSee(par1Entity);
+		return p_82704_1_.isEntityAlive() && EntityAIAvoidEntity.func_98217_a(entityAvoiderAI).getEntitySenses().canSee(p_82704_1_);
 	}
 }

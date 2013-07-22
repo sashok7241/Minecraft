@@ -24,9 +24,9 @@ public class CommandHelp extends CommandBase
 		return MinecraftServer.getServer().getCommandManager().getCommands();
 	}
 	
-	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	@Override public String getCommandUsage(ICommandSender p_71518_1_)
 	{
-		return "commands.help.usage";
+		return p_71518_1_.translateString("commands.help.usage", new Object[0]);
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -34,16 +34,16 @@ public class CommandHelp extends CommandBase
 		return 0;
 	}
 	
-	protected List getSortedPossibleCommands(ICommandSender par1ICommandSender)
+	protected List getSortedPossibleCommands(ICommandSender p_71534_1_)
 	{
-		List var2 = MinecraftServer.getServer().getCommandManager().getPossibleCommands(par1ICommandSender);
+		List var2 = MinecraftServer.getServer().getCommandManager().getPossibleCommands(p_71534_1_);
 		Collections.sort(var2);
 		return var2;
 	}
 	
-	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
 	{
-		List var3 = getSortedPossibleCommands(par1ICommandSender);
+		List var3 = getSortedPossibleCommands(p_71515_1_);
 		byte var4 = 7;
 		int var5 = (var3.size() - 1) / var4;
 		boolean var6 = false;
@@ -51,24 +51,24 @@ public class CommandHelp extends CommandBase
 		int var11;
 		try
 		{
-			var11 = par2ArrayOfStr.length == 0 ? 0 : parseIntBounded(par1ICommandSender, par2ArrayOfStr[0], 1, var5 + 1) - 1;
+			var11 = p_71515_2_.length == 0 ? 0 : parseIntBounded(p_71515_1_, p_71515_2_[0], 1, var5 + 1) - 1;
 		} catch(NumberInvalidException var10)
 		{
 			Map var8 = getCommands();
-			var9 = (ICommand) var8.get(par2ArrayOfStr[0]);
-			if(var9 != null) throw new WrongUsageException(var9.getCommandUsage(par1ICommandSender), new Object[0]);
+			var9 = (ICommand) var8.get(p_71515_2_[0]);
+			if(var9 != null) throw new WrongUsageException(var9.getCommandUsage(p_71515_1_), new Object[0]);
 			throw new CommandNotFoundException();
 		}
 		int var7 = Math.min((var11 + 1) * var4, var3.size());
-		par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.help.header", new Object[] { Integer.valueOf(var11 + 1), Integer.valueOf(var5 + 1) }).func_111059_a(EnumChatFormatting.DARK_GREEN));
+		p_71515_1_.sendChatToPlayer(EnumChatFormatting.DARK_GREEN + p_71515_1_.translateString("commands.help.header", new Object[] { Integer.valueOf(var11 + 1), Integer.valueOf(var5 + 1) }));
 		for(int var12 = var11 * var4; var12 < var7; ++var12)
 		{
 			var9 = (ICommand) var3.get(var12);
-			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e(var9.getCommandUsage(par1ICommandSender)));
+			p_71515_1_.sendChatToPlayer(var9.getCommandUsage(p_71515_1_));
 		}
-		if(var11 == 0 && par1ICommandSender instanceof EntityPlayer)
+		if(var11 == 0 && p_71515_1_ instanceof EntityPlayer)
 		{
-			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e("commands.help.footer").func_111059_a(EnumChatFormatting.GREEN));
+			p_71515_1_.sendChatToPlayer(EnumChatFormatting.GREEN + p_71515_1_.translateString("commands.help.footer", new Object[0]));
 		}
 	}
 }

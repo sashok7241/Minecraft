@@ -8,11 +8,11 @@ class CallableChunkPosHash implements Callable
 	final int field_85163_b;
 	final MapGenStructure theMapStructureGenerator;
 	
-	CallableChunkPosHash(MapGenStructure par1MapGenStructure, int par2, int par3)
+	CallableChunkPosHash(MapGenStructure p_i6818_1_, int p_i6818_2_, int p_i6818_3_)
 	{
-		theMapStructureGenerator = par1MapGenStructure;
-		field_85165_a = par2;
-		field_85163_b = par3;
+		theMapStructureGenerator = p_i6818_1_;
+		field_85165_a = p_i6818_2_;
+		field_85163_b = p_i6818_3_;
 	}
 	
 	@Override public Object call()

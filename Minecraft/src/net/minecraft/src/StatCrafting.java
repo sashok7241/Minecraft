@@ -4,10 +4,10 @@ public class StatCrafting extends StatBase
 {
 	private final int itemID;
 	
-	public StatCrafting(int par1, String par2Str, int par3)
+	public StatCrafting(int p_i3414_1_, String p_i3414_2_, int p_i3414_3_)
 	{
-		super(par1, par2Str);
-		itemID = par3;
+		super(p_i3414_1_, p_i3414_2_);
+		itemID = p_i3414_3_;
 	}
 	
 	public int getItemID()

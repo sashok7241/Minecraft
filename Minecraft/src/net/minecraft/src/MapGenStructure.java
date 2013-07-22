@@ -12,22 +12,10 @@ public abstract class MapGenStructure extends MapGenBase
 	
 	protected abstract boolean canSpawnStructureAtCoords(int var1, int var2);
 	
-	public boolean func_142038_b(int par1, int par2, int par3)
+	public boolean generateStructuresInChunk(World p_75051_1_, Random p_75051_2_, int p_75051_3_, int p_75051_4_)
 	{
-		Iterator var4 = structureMap.values().iterator();
-		StructureStart var5;
-		do
-		{
-			if(!var4.hasNext()) return false;
-			var5 = (StructureStart) var4.next();
-		} while(!var5.isSizeableStructure());
-		return var5.getBoundingBox().intersectsWith(par1, par3, par1, par3);
-	}
-	
-	public boolean generateStructuresInChunk(World par1World, Random par2Random, int par3, int par4)
-	{
-		int var5 = (par3 << 4) + 8;
-		int var6 = (par4 << 4) + 8;
+		int var5 = (p_75051_3_ << 4) + 8;
+		int var6 = (p_75051_4_ << 4) + 8;
 		boolean var7 = false;
 		Iterator var8 = structureMap.values().iterator();
 		while(var8.hasNext())
@@ -35,7 +23,7 @@ public abstract class MapGenStructure extends MapGenBase
 			StructureStart var9 = (StructureStart) var8.next();
 			if(var9.isSizeableStructure() && var9.getBoundingBox().intersectsWith(var5, var6, var5 + 15, var6 + 15))
 			{
-				var9.generateStructure(par1World, par2Random, new StructureBoundingBox(var5, var6, var5 + 15, var6 + 15));
+				var9.generateStructure(p_75051_1_, p_75051_2_, new StructureBoundingBox(var5, var6, var5 + 15, var6 + 15));
 				var7 = true;
 			}
 		}
@@ -47,16 +35,16 @@ public abstract class MapGenStructure extends MapGenBase
 		return null;
 	}
 	
-	public ChunkPosition getNearestInstance(World par1World, int par2, int par3, int par4)
+	public ChunkPosition getNearestInstance(World p_75050_1_, int p_75050_2_, int p_75050_3_, int p_75050_4_)
 	{
-		worldObj = par1World;
-		rand.setSeed(par1World.getSeed());
+		worldObj = p_75050_1_;
+		rand.setSeed(p_75050_1_.getSeed());
 		long var5 = rand.nextLong();
 		long var7 = rand.nextLong();
-		long var9 = (par2 >> 4) * var5;
-		long var11 = (par4 >> 4) * var7;
-		rand.setSeed(var9 ^ var11 ^ par1World.getSeed());
-		recursiveGenerate(par1World, par2 >> 4, par4 >> 4, 0, 0, (byte[]) null);
+		long var9 = (p_75050_2_ >> 4) * var5;
+		long var11 = (p_75050_4_ >> 4) * var7;
+		rand.setSeed(var9 ^ var11 ^ p_75050_1_.getSeed());
+		recursiveGenerate(p_75050_1_, p_75050_2_ >> 4, p_75050_4_ >> 4, 0, 0, (byte[]) null);
 		double var13 = Double.MAX_VALUE;
 		ChunkPosition var15 = null;
 		Iterator var16 = structureMap.values().iterator();
@@ -72,10 +60,10 @@ public abstract class MapGenStructure extends MapGenBase
 			{
 				StructureComponent var18 = (StructureComponent) var17.getComponents().get(0);
 				var19 = var18.getCenter();
-				var20 = var19.x - par2;
-				var21 = var19.y - par3;
-				var22 = var19.z - par4;
-				var23 = var20 * var20 + var21 * var21 + var22 * var22;
+				var20 = var19.x - p_75050_2_;
+				var21 = var19.y - p_75050_3_;
+				var22 = var19.z - p_75050_4_;
+				var23 = var20 + var20 * var21 * var21 + var22 * var22;
 				if(var23 < var13)
 				{
 					var13 = var23;
@@ -94,10 +82,10 @@ public abstract class MapGenStructure extends MapGenBase
 				while(var27.hasNext())
 				{
 					var19 = (ChunkPosition) var27.next();
-					var20 = var19.x - par2;
-					var21 = var19.y - par3;
-					var22 = var19.z - par4;
-					var23 = var20 * var20 + var21 * var21 + var22 * var22;
+					var20 = var19.x - p_75050_2_;
+					var21 = var19.y - p_75050_3_;
+					var22 = var19.z - p_75050_4_;
+					var23 = var20 + var20 * var21 * var21 + var22 * var22;
 					if(var23 < var13)
 					{
 						var13 = var23;
@@ -111,44 +99,44 @@ public abstract class MapGenStructure extends MapGenBase
 	
 	protected abstract StructureStart getStructureStart(int var1, int var2);
 	
-	public boolean hasStructureAt(int par1, int par2, int par3)
+	public boolean hasStructureAt(int p_75048_1_, int p_75048_2_, int p_75048_3_)
 	{
 		Iterator var4 = structureMap.values().iterator();
 		while(var4.hasNext())
 		{
 			StructureStart var5 = (StructureStart) var4.next();
-			if(var5.isSizeableStructure() && var5.getBoundingBox().intersectsWith(par1, par3, par1, par3))
+			if(var5.isSizeableStructure() && var5.getBoundingBox().intersectsWith(p_75048_1_, p_75048_3_, p_75048_1_, p_75048_3_))
 			{
 				Iterator var6 = var5.getComponents().iterator();
 				while(var6.hasNext())
 				{
 					StructureComponent var7 = (StructureComponent) var6.next();
-					if(var7.getBoundingBox().isVecInside(par1, par2, par3)) return true;
+					if(var7.getBoundingBox().isVecInside(p_75048_1_, p_75048_2_, p_75048_3_)) return true;
 				}
 			}
 		}
 		return false;
 	}
 	
-	@Override protected void recursiveGenerate(World par1World, int par2, int par3, int par4, int par5, byte[] par6ArrayOfByte)
+	@Override protected void recursiveGenerate(World p_75037_1_, int p_75037_2_, int p_75037_3_, int p_75037_4_, int p_75037_5_, byte[] p_75037_6_)
 	{
-		if(!structureMap.containsKey(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(par2, par3))))
+		if(!structureMap.containsKey(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(p_75037_2_, p_75037_3_))))
 		{
 			rand.nextInt();
 			try
 			{
-				if(canSpawnStructureAtCoords(par2, par3))
+				if(canSpawnStructureAtCoords(p_75037_2_, p_75037_3_))
 				{
-					StructureStart var7 = getStructureStart(par2, par3);
-					structureMap.put(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(par2, par3)), var7);
+					StructureStart var7 = getStructureStart(p_75037_2_, p_75037_3_);
+					structureMap.put(Long.valueOf(ChunkCoordIntPair.chunkXZ2Int(p_75037_2_, p_75037_3_)), var7);
 				}
 			} catch(Throwable var10)
 			{
 				CrashReport var8 = CrashReport.makeCrashReport(var10, "Exception preparing structure feature");
 				CrashReportCategory var9 = var8.makeCategory("Feature being prepared");
-				var9.addCrashSectionCallable("Is feature chunk", new CallableIsFeatureChunk(this, par2, par3));
-				var9.addCrashSection("Chunk location", String.format("%d,%d", new Object[] { Integer.valueOf(par2), Integer.valueOf(par3) }));
-				var9.addCrashSectionCallable("Chunk pos hash", new CallableChunkPosHash(this, par2, par3));
+				var9.addCrashSectionCallable("Is feature chunk", new CallableIsFeatureChunk(this, p_75037_2_, p_75037_3_));
+				var9.addCrashSection("Chunk location", String.format("%d,%d", new Object[] { Integer.valueOf(p_75037_2_), Integer.valueOf(p_75037_3_) }));
+				var9.addCrashSectionCallable("Chunk pos hash", new CallableChunkPosHash(this, p_75037_2_, p_75037_3_));
 				var9.addCrashSectionCallable("Structure type", new CallableStructureType(this));
 				throw new ReportedException(var8);
 			}

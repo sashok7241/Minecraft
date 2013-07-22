@@ -3,18 +3,18 @@ package net.minecraft.src;
 public class EntityAIMoveTowardsTarget extends EntityAIBase
 {
 	private EntityCreature theEntity;
-	private EntityLivingBase targetEntity;
+	private EntityLiving targetEntity;
 	private double movePosX;
 	private double movePosY;
 	private double movePosZ;
-	private double field_75425_f;
+	private float field_75425_f;
 	private float field_75426_g;
 	
-	public EntityAIMoveTowardsTarget(EntityCreature par1EntityCreature, double par2, float par4)
+	public EntityAIMoveTowardsTarget(EntityCreature p_i3481_1_, float p_i3481_2_, float p_i3481_3_)
 	{
-		theEntity = par1EntityCreature;
-		field_75425_f = par2;
-		field_75426_g = par4;
+		theEntity = p_i3481_1_;
+		field_75425_f = p_i3481_2_;
+		field_75426_g = p_i3481_3_;
 		setMutexBits(1);
 	}
 	

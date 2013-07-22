@@ -6,23 +6,23 @@ public class PositionTextureVertex
 	public float texturePositionX;
 	public float texturePositionY;
 	
-	public PositionTextureVertex(float par1, float par2, float par3, float par4, float par5)
+	public PositionTextureVertex(float p_i3140_1_, float p_i3140_2_, float p_i3140_3_, float p_i3140_4_, float p_i3140_5_)
 	{
-		this(Vec3.createVectorHelper(par1, par2, par3), par4, par5);
+		this(Vec3.createVectorHelper(p_i3140_1_, p_i3140_2_, p_i3140_3_), p_i3140_4_, p_i3140_5_);
 	}
 	
-	public PositionTextureVertex(PositionTextureVertex par1PositionTextureVertex, float par2, float par3)
+	public PositionTextureVertex(PositionTextureVertex p_i3141_1_, float p_i3141_2_, float p_i3141_3_)
 	{
-		vector3D = par1PositionTextureVertex.vector3D;
-		texturePositionX = par2;
-		texturePositionY = par3;
+		vector3D = p_i3141_1_.vector3D;
+		texturePositionX = p_i3141_2_;
+		texturePositionY = p_i3141_3_;
 	}
 	
-	public PositionTextureVertex(Vec3 par1Vec3, float par2, float par3)
+	public PositionTextureVertex(Vec3 p_i3142_1_, float p_i3142_2_, float p_i3142_3_)
 	{
-		vector3D = par1Vec3;
-		texturePositionX = par2;
-		texturePositionY = par3;
+		vector3D = p_i3142_1_;
+		texturePositionX = p_i3142_2_;
+		texturePositionY = p_i3142_3_;
 	}
 	
 	public PositionTextureVertex setTexturePosition(float par1, float par2)

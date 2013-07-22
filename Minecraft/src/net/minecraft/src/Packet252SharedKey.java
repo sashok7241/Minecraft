@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -18,11 +18,11 @@ public class Packet252SharedKey extends Packet
 	{
 	}
 	
-	public Packet252SharedKey(SecretKey par1SecretKey, PublicKey par2PublicKey, byte[] par3ArrayOfByte)
+	public Packet252SharedKey(SecretKey p_i3356_1_, PublicKey p_i3356_2_, byte[] p_i3356_3_)
 	{
-		sharedKey = par1SecretKey;
-		sharedSecret = CryptManager.encryptData(par2PublicKey, par1SecretKey.getEncoded());
-		verifyToken = CryptManager.encryptData(par2PublicKey, par3ArrayOfByte);
+		sharedKey = p_i3356_1_;
+		sharedSecret = CryptManager.encryptData(p_i3356_2_, p_i3356_1_.getEncoded());
+		verifyToken = CryptManager.encryptData(p_i3356_2_, p_i3356_3_);
 	}
 	
 	@Override public int getPacketSize()
@@ -35,30 +35,30 @@ public class Packet252SharedKey extends Packet
 		return this.getSharedKey((PrivateKey) null);
 	}
 	
-	public SecretKey getSharedKey(PrivateKey par1PrivateKey)
+	public SecretKey getSharedKey(PrivateKey p_73303_1_)
 	{
-		return par1PrivateKey == null ? sharedKey : (sharedKey = CryptManager.decryptSharedKey(par1PrivateKey, sharedSecret));
+		return p_73303_1_ == null ? sharedKey : (sharedKey = CryptManager.decryptSharedKey(p_73303_1_, sharedSecret));
 	}
 	
-	public byte[] getVerifyToken(PrivateKey par1PrivateKey)
+	public byte[] getVerifyToken(PrivateKey p_73302_1_)
 	{
-		return par1PrivateKey == null ? verifyToken : CryptManager.decryptData(par1PrivateKey, verifyToken);
+		return p_73302_1_ == null ? verifyToken : CryptManager.decryptData(p_73302_1_, verifyToken);
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleSharedKey(this);
+		p_73279_1_.handleSharedKey(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		sharedSecret = readBytesFromStream(par1DataInput);
-		verifyToken = readBytesFromStream(par1DataInput);
+		sharedSecret = readBytesFromStream(p_73267_1_);
+		verifyToken = readBytesFromStream(p_73267_1_);
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		writeByteArray(par1DataOutput, sharedSecret);
-		writeByteArray(par1DataOutput, verifyToken);
+		writeByteArray(p_73273_1_, sharedSecret);
+		writeByteArray(p_73273_1_, verifyToken);
 	}
 }

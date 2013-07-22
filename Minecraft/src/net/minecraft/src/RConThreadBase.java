@@ -9,16 +9,16 @@ import java.util.List;
 
 public abstract class RConThreadBase implements Runnable
 {
-	protected boolean running;
+	protected boolean running = false;
 	protected IServer server;
 	protected Thread rconThread;
 	protected int field_72615_d = 5;
 	protected List socketList = new ArrayList();
 	protected List serverSocketList = new ArrayList();
 	
-	RConThreadBase(IServer par1IServer)
+	RConThreadBase(IServer p_i3404_1_)
 	{
-		server = par1IServer;
+		server = p_i3404_1_;
 		if(server.isDebuggingEnabled())
 		{
 			logWarning("Debugging is enabled, performance maybe reduced!");
@@ -30,7 +30,7 @@ public abstract class RConThreadBase implements Runnable
 		closeAllSockets_do(false);
 	}
 	
-	protected void closeAllSockets_do(boolean par1)
+	protected void closeAllSockets_do(boolean p_72612_1_)
 	{
 		int var2 = 0;
 		Iterator var3 = socketList.iterator();
@@ -53,58 +53,58 @@ public abstract class RConThreadBase implements Runnable
 			}
 		}
 		serverSocketList.clear();
-		if(par1 && 0 < var2)
+		if(p_72612_1_ && 0 < var2)
 		{
 			logWarning("Force closed " + var2 + " sockets");
 		}
 	}
 	
-	protected boolean closeServerSocket(ServerSocket par1ServerSocket)
+	protected boolean closeServerSocket(ServerSocket p_72608_1_)
 	{
-		return closeServerSocket_do(par1ServerSocket, true);
+		return closeServerSocket_do(p_72608_1_, true);
 	}
 	
-	protected boolean closeServerSocket_do(ServerSocket par1ServerSocket, boolean par2)
+	protected boolean closeServerSocket_do(ServerSocket p_72605_1_, boolean p_72605_2_)
 	{
-		logDebug("closeSocket: " + par1ServerSocket);
-		if(null == par1ServerSocket) return false;
+		logDebug("closeSocket: " + p_72605_1_);
+		if(null == p_72605_1_) return false;
 		else
 		{
 			boolean var3 = false;
 			try
 			{
-				if(!par1ServerSocket.isClosed())
+				if(!p_72605_1_.isClosed())
 				{
-					par1ServerSocket.close();
+					p_72605_1_.close();
 					var3 = true;
 				}
 			} catch(IOException var5)
 			{
 				logWarning("IO: " + var5.getMessage());
 			}
-			if(par2)
+			if(p_72605_2_)
 			{
-				serverSocketList.remove(par1ServerSocket);
+				serverSocketList.remove(p_72605_1_);
 			}
 			return var3;
 		}
 	}
 	
-	protected boolean closeSocket(DatagramSocket par1DatagramSocket, boolean par2)
+	protected boolean closeSocket(DatagramSocket p_72604_1_, boolean p_72604_2_)
 	{
-		logDebug("closeSocket: " + par1DatagramSocket);
-		if(null == par1DatagramSocket) return false;
+		logDebug("closeSocket: " + p_72604_1_);
+		if(null == p_72604_1_) return false;
 		else
 		{
 			boolean var3 = false;
-			if(!par1DatagramSocket.isClosed())
+			if(!p_72604_1_.isClosed())
 			{
-				par1DatagramSocket.close();
+				p_72604_1_.close();
 				var3 = true;
 			}
-			if(par2)
+			if(p_72604_2_)
 			{
-				socketList.remove(par1DatagramSocket);
+				socketList.remove(p_72604_1_);
 			}
 			return var3;
 		}
@@ -120,30 +120,30 @@ public abstract class RConThreadBase implements Runnable
 		return running;
 	}
 	
-	protected void logDebug(String par1Str)
+	protected void logDebug(String p_72607_1_)
 	{
-		server.logDebug(par1Str);
+		server.logDebug(p_72607_1_);
 	}
 	
-	protected void logInfo(String par1Str)
+	protected void logInfo(String p_72609_1_)
 	{
-		server.logInfo(par1Str);
+		server.logInfo(p_72609_1_);
 	}
 	
-	protected void logSevere(String par1Str)
+	protected void logSevere(String p_72610_1_)
 	{
-		server.logSevere(par1Str);
+		server.logSevere(p_72610_1_);
 	}
 	
-	protected void logWarning(String par1Str)
+	protected void logWarning(String p_72606_1_)
 	{
-		server.logWarning(par1Str);
+		server.logWarning(p_72606_1_);
 	}
 	
-	protected void registerSocket(DatagramSocket par1DatagramSocket)
+	protected void registerSocket(DatagramSocket p_72601_1_)
 	{
-		logDebug("registerSocket: " + par1DatagramSocket);
-		socketList.add(par1DatagramSocket);
+		logDebug("registerSocket: " + p_72601_1_);
+		socketList.add(p_72601_1_);
 	}
 	
 	public synchronized void startThread()

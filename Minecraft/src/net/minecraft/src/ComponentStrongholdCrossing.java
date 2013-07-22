@@ -11,61 +11,61 @@ public class ComponentStrongholdCrossing extends ComponentStronghold
 	private boolean field_74995_d;
 	private boolean field_74999_h;
 	
-	public ComponentStrongholdCrossing(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
+	public ComponentStrongholdCrossing(int p_i3842_1_, Random p_i3842_2_, StructureBoundingBox p_i3842_3_, int p_i3842_4_)
 	{
-		super(par1);
-		coordBaseMode = par4;
-		doorType = getRandomDoor(par2Random);
-		boundingBox = par3StructureBoundingBox;
-		field_74996_b = par2Random.nextBoolean();
-		field_74997_c = par2Random.nextBoolean();
-		field_74995_d = par2Random.nextBoolean();
-		field_74999_h = par2Random.nextInt(3) > 0;
+		super(p_i3842_1_);
+		coordBaseMode = p_i3842_4_;
+		doorType = getRandomDoor(p_i3842_2_);
+		boundingBox = p_i3842_3_;
+		field_74996_b = p_i3842_2_.nextBoolean();
+		field_74997_c = p_i3842_2_.nextBoolean();
+		field_74995_d = p_i3842_2_.nextBoolean();
+		field_74999_h = p_i3842_2_.nextInt(3) > 0;
 	}
 	
-	@Override public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
+	@Override public boolean addComponentParts(World p_74875_1_, Random p_74875_2_, StructureBoundingBox p_74875_3_)
 	{
-		if(isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox)) return false;
+		if(isLiquidInStructureBoundingBox(p_74875_1_, p_74875_3_)) return false;
 		else
 		{
-			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 9, 8, 10, true, par2Random, StructureStrongholdPieces.getStrongholdStones());
-			placeDoor(par1World, par2Random, par3StructureBoundingBox, doorType, 4, 3, 0);
+			fillWithRandomizedBlocks(p_74875_1_, p_74875_3_, 0, 0, 0, 9, 8, 10, true, p_74875_2_, StructureStrongholdPieces.getStrongholdStones());
+			placeDoor(p_74875_1_, p_74875_2_, p_74875_3_, doorType, 4, 3, 0);
 			if(field_74996_b)
 			{
-				fillWithBlocks(par1World, par3StructureBoundingBox, 0, 3, 1, 0, 5, 3, 0, 0, false);
+				fillWithBlocks(p_74875_1_, p_74875_3_, 0, 3, 1, 0, 5, 3, 0, 0, false);
 			}
 			if(field_74995_d)
 			{
-				fillWithBlocks(par1World, par3StructureBoundingBox, 9, 3, 1, 9, 5, 3, 0, 0, false);
+				fillWithBlocks(p_74875_1_, p_74875_3_, 9, 3, 1, 9, 5, 3, 0, 0, false);
 			}
 			if(field_74997_c)
 			{
-				fillWithBlocks(par1World, par3StructureBoundingBox, 0, 5, 7, 0, 7, 9, 0, 0, false);
+				fillWithBlocks(p_74875_1_, p_74875_3_, 0, 5, 7, 0, 7, 9, 0, 0, false);
 			}
 			if(field_74999_h)
 			{
-				fillWithBlocks(par1World, par3StructureBoundingBox, 9, 5, 7, 9, 7, 9, 0, 0, false);
+				fillWithBlocks(p_74875_1_, p_74875_3_, 9, 5, 7, 9, 7, 9, 0, 0, false);
 			}
-			fillWithBlocks(par1World, par3StructureBoundingBox, 5, 1, 10, 7, 3, 10, 0, 0, false);
-			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 1, 2, 1, 8, 2, 6, false, par2Random, StructureStrongholdPieces.getStrongholdStones());
-			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 4, 1, 5, 4, 4, 9, false, par2Random, StructureStrongholdPieces.getStrongholdStones());
-			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 8, 1, 5, 8, 4, 9, false, par2Random, StructureStrongholdPieces.getStrongholdStones());
-			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 1, 4, 7, 3, 4, 9, false, par2Random, StructureStrongholdPieces.getStrongholdStones());
-			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 1, 3, 5, 3, 3, 6, false, par2Random, StructureStrongholdPieces.getStrongholdStones());
-			fillWithBlocks(par1World, par3StructureBoundingBox, 1, 3, 4, 3, 3, 4, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
-			fillWithBlocks(par1World, par3StructureBoundingBox, 1, 4, 6, 3, 4, 6, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
-			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 5, 1, 7, 7, 1, 8, false, par2Random, StructureStrongholdPieces.getStrongholdStones());
-			fillWithBlocks(par1World, par3StructureBoundingBox, 5, 1, 9, 7, 1, 9, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
-			fillWithBlocks(par1World, par3StructureBoundingBox, 5, 2, 7, 7, 2, 7, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
-			fillWithBlocks(par1World, par3StructureBoundingBox, 4, 5, 7, 4, 5, 9, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
-			fillWithBlocks(par1World, par3StructureBoundingBox, 8, 5, 7, 8, 5, 9, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
-			fillWithBlocks(par1World, par3StructureBoundingBox, 5, 5, 7, 7, 5, 9, Block.stoneDoubleSlab.blockID, Block.stoneDoubleSlab.blockID, false);
-			placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 6, 5, 6, par3StructureBoundingBox);
+			fillWithBlocks(p_74875_1_, p_74875_3_, 5, 1, 10, 7, 3, 10, 0, 0, false);
+			fillWithRandomizedBlocks(p_74875_1_, p_74875_3_, 1, 2, 1, 8, 2, 6, false, p_74875_2_, StructureStrongholdPieces.getStrongholdStones());
+			fillWithRandomizedBlocks(p_74875_1_, p_74875_3_, 4, 1, 5, 4, 4, 9, false, p_74875_2_, StructureStrongholdPieces.getStrongholdStones());
+			fillWithRandomizedBlocks(p_74875_1_, p_74875_3_, 8, 1, 5, 8, 4, 9, false, p_74875_2_, StructureStrongholdPieces.getStrongholdStones());
+			fillWithRandomizedBlocks(p_74875_1_, p_74875_3_, 1, 4, 7, 3, 4, 9, false, p_74875_2_, StructureStrongholdPieces.getStrongholdStones());
+			fillWithRandomizedBlocks(p_74875_1_, p_74875_3_, 1, 3, 5, 3, 3, 6, false, p_74875_2_, StructureStrongholdPieces.getStrongholdStones());
+			fillWithBlocks(p_74875_1_, p_74875_3_, 1, 3, 4, 3, 3, 4, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
+			fillWithBlocks(p_74875_1_, p_74875_3_, 1, 4, 6, 3, 4, 6, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
+			fillWithRandomizedBlocks(p_74875_1_, p_74875_3_, 5, 1, 7, 7, 1, 8, false, p_74875_2_, StructureStrongholdPieces.getStrongholdStones());
+			fillWithBlocks(p_74875_1_, p_74875_3_, 5, 1, 9, 7, 1, 9, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
+			fillWithBlocks(p_74875_1_, p_74875_3_, 5, 2, 7, 7, 2, 7, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
+			fillWithBlocks(p_74875_1_, p_74875_3_, 4, 5, 7, 4, 5, 9, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
+			fillWithBlocks(p_74875_1_, p_74875_3_, 8, 5, 7, 8, 5, 9, Block.stoneSingleSlab.blockID, Block.stoneSingleSlab.blockID, false);
+			fillWithBlocks(p_74875_1_, p_74875_3_, 5, 5, 7, 7, 5, 9, Block.stoneDoubleSlab.blockID, Block.stoneDoubleSlab.blockID, false);
+			placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 6, 5, 6, p_74875_3_);
 			return true;
 		}
 	}
 	
-	@Override public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
+	@Override public void buildComponent(StructureComponent p_74861_1_, List p_74861_2_, Random p_74861_3_)
 	{
 		int var4 = 3;
 		int var5 = 5;
@@ -74,28 +74,28 @@ public class ComponentStrongholdCrossing extends ComponentStronghold
 			var4 = 8 - var4;
 			var5 = 8 - var5;
 		}
-		getNextComponentNormal((ComponentStrongholdStairs2) par1StructureComponent, par2List, par3Random, 5, 1);
+		getNextComponentNormal((ComponentStrongholdStairs2) p_74861_1_, p_74861_2_, p_74861_3_, 5, 1);
 		if(field_74996_b)
 		{
-			getNextComponentX((ComponentStrongholdStairs2) par1StructureComponent, par2List, par3Random, var4, 1);
+			getNextComponentX((ComponentStrongholdStairs2) p_74861_1_, p_74861_2_, p_74861_3_, var4, 1);
 		}
 		if(field_74997_c)
 		{
-			getNextComponentX((ComponentStrongholdStairs2) par1StructureComponent, par2List, par3Random, var5, 7);
+			getNextComponentX((ComponentStrongholdStairs2) p_74861_1_, p_74861_2_, p_74861_3_, var5, 7);
 		}
 		if(field_74995_d)
 		{
-			getNextComponentZ((ComponentStrongholdStairs2) par1StructureComponent, par2List, par3Random, var4, 1);
+			getNextComponentZ((ComponentStrongholdStairs2) p_74861_1_, p_74861_2_, p_74861_3_, var4, 1);
 		}
 		if(field_74999_h)
 		{
-			getNextComponentZ((ComponentStrongholdStairs2) par1StructureComponent, par2List, par3Random, var5, 7);
+			getNextComponentZ((ComponentStrongholdStairs2) p_74861_1_, p_74861_2_, p_74861_3_, var5, 7);
 		}
 	}
 	
-	public static ComponentStrongholdCrossing findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
+	public static ComponentStrongholdCrossing findValidPlacement(List p_74994_0_, Random p_74994_1_, int p_74994_2_, int p_74994_3_, int p_74994_4_, int p_74994_5_, int p_74994_6_)
 	{
-		StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -4, -3, 0, 10, 9, 11, par5);
-		return canStrongholdGoDeeper(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentStrongholdCrossing(par6, par1Random, var7, par5) : null;
+		StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(p_74994_2_, p_74994_3_, p_74994_4_, -4, -3, 0, 10, 9, 11, p_74994_5_);
+		return canStrongholdGoDeeper(var7) && StructureComponent.findIntersecting(p_74994_0_, var7) == null ? new ComponentStrongholdCrossing(p_74994_6_, p_74994_1_, var7, p_74994_5_) : null;
 	}
 }

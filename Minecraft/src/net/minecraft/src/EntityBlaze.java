@@ -6,24 +6,25 @@ public class EntityBlaze extends EntityMob
 	private int heightOffsetUpdateTime;
 	private int field_70846_g;
 	
-	public EntityBlaze(World par1World)
+	public EntityBlaze(World p_i3545_1_)
 	{
-		super(par1World);
+		super(p_i3545_1_);
+		texture = "/mob/fire.png";
 		isImmuneToFire = true;
 		experienceValue = 10;
 	}
 	
-	@Override protected void attackEntity(Entity par1Entity, float par2)
+	@Override protected void attackEntity(Entity p_70785_1_, float p_70785_2_)
 	{
-		if(attackTime <= 0 && par2 < 2.0F && par1Entity.boundingBox.maxY > boundingBox.minY && par1Entity.boundingBox.minY < boundingBox.maxY)
+		if(attackTime <= 0 && p_70785_2_ < 2.0F && p_70785_1_.boundingBox.maxY > boundingBox.minY && p_70785_1_.boundingBox.minY < boundingBox.maxY)
 		{
 			attackTime = 20;
-			attackEntityAsMob(par1Entity);
-		} else if(par2 < 30.0F)
+			attackEntityAsMob(p_70785_1_);
+		} else if(p_70785_2_ < 30.0F)
 		{
-			double var3 = par1Entity.posX - posX;
-			double var5 = par1Entity.boundingBox.minY + par1Entity.height / 2.0F - (posY + height / 2.0F);
-			double var7 = par1Entity.posZ - posZ;
+			double var3 = p_70785_1_.posX - posX;
+			double var5 = p_70785_1_.boundingBox.minY + p_70785_1_.height / 2.0F - (posY + height / 2.0F);
+			double var7 = p_70785_1_.posZ - posZ;
 			if(attackTime == 0)
 			{
 				++field_70846_g;
@@ -42,7 +43,7 @@ public class EntityBlaze extends EntityMob
 				}
 				if(field_70846_g > 1)
 				{
-					float var9 = MathHelper.sqrt_float(par2) * 0.5F;
+					float var9 = MathHelper.sqrt_float(p_70785_2_) * 0.5F;
 					worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1009, (int) posX, (int) posY, (int) posZ, 0);
 					for(int var10 = 0; var10 < 1; ++var10)
 					{
@@ -57,11 +58,11 @@ public class EntityBlaze extends EntityMob
 		}
 	}
 	
-	@Override protected void dropFewItems(boolean par1, int par2)
+	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
 	{
-		if(par1)
+		if(p_70628_1_)
 		{
-			int var3 = rand.nextInt(2 + par2);
+			int var3 = rand.nextInt(2 + p_70628_2_);
 			for(int var4 = 0; var4 < var3; ++var4)
 			{
 				dropItem(Item.blazeRod.itemID, 1);
@@ -75,20 +76,14 @@ public class EntityBlaze extends EntityMob
 		dataWatcher.addObject(16, new Byte((byte) 0));
 	}
 	
-	@Override protected void fall(float par1)
+	@Override protected void fall(float p_70069_1_)
 	{
 	}
 	
-	@Override protected void func_110147_ax()
-	{
-		super.func_110147_ax();
-		func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(6.0D);
-	}
-	
-	public void func_70844_e(boolean par1)
+	public void func_70844_e(boolean p_70844_1_)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
-		if(par1)
+		if(p_70844_1_)
 		{
 			var2 = (byte) (var2 | 1);
 		} else
@@ -103,7 +98,12 @@ public class EntityBlaze extends EntityMob
 		return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
 	}
 	
-	@Override public float getBrightness(float par1)
+	@Override public int getAttackStrength(Entity p_82193_1_)
+	{
+		return 6;
+	}
+	
+	@Override public float getBrightness(float p_70013_1_)
 	{
 		return 1.0F;
 	}
@@ -133,6 +133,11 @@ public class EntityBlaze extends EntityMob
 		return "mob.blaze.breathe";
 	}
 	
+	@Override public int getMaxHealth()
+	{
+		return 20;
+	}
+	
 	@Override public boolean isBurning()
 	{
 		return func_70845_n();
@@ -149,7 +154,7 @@ public class EntityBlaze extends EntityMob
 		{
 			if(isWet())
 			{
-				attackEntityFrom(DamageSource.drown, 1.0F);
+				attackEntityFrom(DamageSource.drown, 1);
 			}
 			--heightOffsetUpdateTime;
 			if(heightOffsetUpdateTime <= 0)

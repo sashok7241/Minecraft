@@ -7,46 +7,46 @@ public class EntityArrow extends Entity implements IProjectile
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
-	private int inTile;
-	private int inData;
-	private boolean inGround;
-	public int canBePickedUp;
-	public int arrowShake;
+	private int inTile = 0;
+	private int inData = 0;
+	private boolean inGround = false;
+	public int canBePickedUp = 0;
+	public int arrowShake = 0;
 	public Entity shootingEntity;
 	private int ticksInGround;
-	private int ticksInAir;
+	private int ticksInAir = 0;
 	private double damage = 2.0D;
 	private int knockbackStrength;
 	
-	public EntityArrow(World par1World)
+	public EntityArrow(World p_i3565_1_)
 	{
-		super(par1World);
+		super(p_i3565_1_);
 		renderDistanceWeight = 10.0D;
 		setSize(0.5F, 0.5F);
 	}
 	
-	public EntityArrow(World par1World, double par2, double par4, double par6)
+	public EntityArrow(World p_i3566_1_, double p_i3566_2_, double p_i3566_4_, double p_i3566_6_)
 	{
-		super(par1World);
+		super(p_i3566_1_);
 		renderDistanceWeight = 10.0D;
 		setSize(0.5F, 0.5F);
-		setPosition(par2, par4, par6);
+		setPosition(p_i3566_2_, p_i3566_4_, p_i3566_6_);
 		yOffset = 0.0F;
 	}
 	
-	public EntityArrow(World par1World, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase, float par4, float par5)
+	public EntityArrow(World p_i3567_1_, EntityLiving p_i3567_2_, EntityLiving p_i3567_3_, float p_i3567_4_, float p_i3567_5_)
 	{
-		super(par1World);
+		super(p_i3567_1_);
 		renderDistanceWeight = 10.0D;
-		shootingEntity = par2EntityLivingBase;
-		if(par2EntityLivingBase instanceof EntityPlayer)
+		shootingEntity = p_i3567_2_;
+		if(p_i3567_2_ instanceof EntityPlayer)
 		{
 			canBePickedUp = 1;
 		}
-		posY = par2EntityLivingBase.posY + par2EntityLivingBase.getEyeHeight() - 0.10000000149011612D;
-		double var6 = par3EntityLivingBase.posX - par2EntityLivingBase.posX;
-		double var8 = par3EntityLivingBase.boundingBox.minY + par3EntityLivingBase.height / 3.0F - posY;
-		double var10 = par3EntityLivingBase.posZ - par2EntityLivingBase.posZ;
+		posY = p_i3567_2_.posY + p_i3567_2_.getEyeHeight() - 0.10000000149011612D;
+		double var6 = p_i3567_3_.posX - p_i3567_2_.posX;
+		double var8 = p_i3567_3_.boundingBox.minY + p_i3567_3_.height / 3.0F - posY;
+		double var10 = p_i3567_3_.posZ - p_i3567_2_.posZ;
 		double var12 = MathHelper.sqrt_double(var6 * var6 + var10 * var10);
 		if(var12 >= 1.0E-7D)
 		{
@@ -54,24 +54,24 @@ public class EntityArrow extends Entity implements IProjectile
 			float var15 = (float) -(Math.atan2(var8, var12) * 180.0D / Math.PI);
 			double var16 = var6 / var12;
 			double var18 = var10 / var12;
-			setLocationAndAngles(par2EntityLivingBase.posX + var16, posY, par2EntityLivingBase.posZ + var18, var14, var15);
+			setLocationAndAngles(p_i3567_2_.posX + var16, posY, p_i3567_2_.posZ + var18, var14, var15);
 			yOffset = 0.0F;
 			float var20 = (float) var12 * 0.2F;
-			setThrowableHeading(var6, var8 + var20, var10, par4, par5);
+			setThrowableHeading(var6, var8 + var20, var10, p_i3567_4_, p_i3567_5_);
 		}
 	}
 	
-	public EntityArrow(World par1World, EntityLivingBase par2EntityLivingBase, float par3)
+	public EntityArrow(World p_i3568_1_, EntityLiving p_i3568_2_, float p_i3568_3_)
 	{
-		super(par1World);
+		super(p_i3568_1_);
 		renderDistanceWeight = 10.0D;
-		shootingEntity = par2EntityLivingBase;
-		if(par2EntityLivingBase instanceof EntityPlayer)
+		shootingEntity = p_i3568_2_;
+		if(p_i3568_2_ instanceof EntityPlayer)
 		{
 			canBePickedUp = 1;
 		}
 		setSize(0.5F, 0.5F);
-		setLocationAndAngles(par2EntityLivingBase.posX, par2EntityLivingBase.posY + par2EntityLivingBase.getEyeHeight(), par2EntityLivingBase.posZ, par2EntityLivingBase.rotationYaw, par2EntityLivingBase.rotationPitch);
+		setLocationAndAngles(p_i3568_2_.posX, p_i3568_2_.posY + p_i3568_2_.getEyeHeight(), p_i3568_2_.posZ, p_i3568_2_.rotationYaw, p_i3568_2_.rotationPitch);
 		posX -= MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
 		posY -= 0.10000000149011612D;
 		posZ -= MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
@@ -80,7 +80,7 @@ public class EntityArrow extends Entity implements IProjectile
 		motionX = -MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI);
 		motionZ = MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI);
 		motionY = -MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI);
-		setThrowableHeading(motionX, motionY, motionZ, par3 * 1.5F, 1.0F);
+		setThrowableHeading(motionX, motionY, motionZ, p_i3568_3_ * 1.5F, 1.0F);
 	}
 	
 	@Override public boolean canAttackWithItem()
@@ -114,19 +114,19 @@ public class EntityArrow extends Entity implements IProjectile
 		return 0.0F;
 	}
 	
-	@Override public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
+	@Override public void onCollideWithPlayer(EntityPlayer p_70100_1_)
 	{
 		if(!worldObj.isRemote && inGround && arrowShake <= 0)
 		{
-			boolean var2 = canBePickedUp == 1 || canBePickedUp == 2 && par1EntityPlayer.capabilities.isCreativeMode;
-			if(canBePickedUp == 1 && !par1EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 1)))
+			boolean var2 = canBePickedUp == 1 || canBePickedUp == 2 && p_70100_1_.capabilities.isCreativeMode;
+			if(canBePickedUp == 1 && !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 1)))
 			{
 				var2 = false;
 			}
 			if(var2)
 			{
 				playSound("random.pop", 0.2F, ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-				par1EntityPlayer.onItemPickup(this, 1);
+				p_70100_1_.onItemPickup(this, 1);
 				setDead();
 			}
 		}
@@ -249,9 +249,9 @@ public class EntityArrow extends Entity implements IProjectile
 					}
 					if(var4.entityHit.attackEntityFrom(var22, var24))
 					{
-						if(var4.entityHit instanceof EntityLivingBase)
+						if(var4.entityHit instanceof EntityLiving)
 						{
-							EntityLivingBase var25 = (EntityLivingBase) var4.entityHit;
+							EntityLiving var25 = (EntityLiving) var4.entityHit;
 							if(!worldObj.isRemote)
 							{
 								var25.setArrowCountInEntity(var25.getArrowCountInEntity() + 1);
@@ -361,37 +361,37 @@ public class EntityArrow extends Entity implements IProjectile
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		xTile = par1NBTTagCompound.getShort("xTile");
-		yTile = par1NBTTagCompound.getShort("yTile");
-		zTile = par1NBTTagCompound.getShort("zTile");
-		inTile = par1NBTTagCompound.getByte("inTile") & 255;
-		inData = par1NBTTagCompound.getByte("inData") & 255;
-		arrowShake = par1NBTTagCompound.getByte("shake") & 255;
-		inGround = par1NBTTagCompound.getByte("inGround") == 1;
-		if(par1NBTTagCompound.hasKey("damage"))
+		xTile = p_70037_1_.getShort("xTile");
+		yTile = p_70037_1_.getShort("yTile");
+		zTile = p_70037_1_.getShort("zTile");
+		inTile = p_70037_1_.getByte("inTile") & 255;
+		inData = p_70037_1_.getByte("inData") & 255;
+		arrowShake = p_70037_1_.getByte("shake") & 255;
+		inGround = p_70037_1_.getByte("inGround") == 1;
+		if(p_70037_1_.hasKey("damage"))
 		{
-			damage = par1NBTTagCompound.getDouble("damage");
+			damage = p_70037_1_.getDouble("damage");
 		}
-		if(par1NBTTagCompound.hasKey("pickup"))
+		if(p_70037_1_.hasKey("pickup"))
 		{
-			canBePickedUp = par1NBTTagCompound.getByte("pickup");
-		} else if(par1NBTTagCompound.hasKey("player"))
+			canBePickedUp = p_70037_1_.getByte("pickup");
+		} else if(p_70037_1_.hasKey("player"))
 		{
-			canBePickedUp = par1NBTTagCompound.getBoolean("player") ? 1 : 0;
+			canBePickedUp = p_70037_1_.getBoolean("player") ? 1 : 0;
 		}
 	}
 	
-	public void setDamage(double par1)
+	public void setDamage(double p_70239_1_)
 	{
-		damage = par1;
+		damage = p_70239_1_;
 	}
 	
-	public void setIsCritical(boolean par1)
+	public void setIsCritical(boolean p_70243_1_)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
-		if(par1)
+		if(p_70243_1_)
 		{
 			dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 1)));
 		} else
@@ -400,9 +400,9 @@ public class EntityArrow extends Entity implements IProjectile
 		}
 	}
 	
-	public void setKnockbackStrength(int par1)
+	public void setKnockbackStrength(int p_70240_1_)
 	{
-		knockbackStrength = par1;
+		knockbackStrength = p_70240_1_;
 	}
 	
 	@Override public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9)
@@ -411,24 +411,24 @@ public class EntityArrow extends Entity implements IProjectile
 		setRotation(par7, par8);
 	}
 	
-	@Override public void setThrowableHeading(double par1, double par3, double par5, float par7, float par8)
+	@Override public void setThrowableHeading(double p_70186_1_, double p_70186_3_, double p_70186_5_, float p_70186_7_, float p_70186_8_)
 	{
-		float var9 = MathHelper.sqrt_double(par1 * par1 + par3 * par3 + par5 * par5);
-		par1 /= var9;
-		par3 /= var9;
-		par5 /= var9;
-		par1 += rand.nextGaussian() * (rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * par8;
-		par3 += rand.nextGaussian() * (rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * par8;
-		par5 += rand.nextGaussian() * (rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * par8;
-		par1 *= par7;
-		par3 *= par7;
-		par5 *= par7;
-		motionX = par1;
-		motionY = par3;
-		motionZ = par5;
-		float var10 = MathHelper.sqrt_double(par1 * par1 + par5 * par5);
-		prevRotationYaw = rotationYaw = (float) (Math.atan2(par1, par5) * 180.0D / Math.PI);
-		prevRotationPitch = rotationPitch = (float) (Math.atan2(par3, var10) * 180.0D / Math.PI);
+		float var9 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_3_ * p_70186_3_ + p_70186_5_ * p_70186_5_);
+		p_70186_1_ /= var9;
+		p_70186_3_ /= var9;
+		p_70186_5_ /= var9;
+		p_70186_1_ += rand.nextGaussian() * (rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * p_70186_8_;
+		p_70186_3_ += rand.nextGaussian() * (rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * p_70186_8_;
+		p_70186_5_ += rand.nextGaussian() * (rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * p_70186_8_;
+		p_70186_1_ *= p_70186_7_;
+		p_70186_3_ *= p_70186_7_;
+		p_70186_5_ *= p_70186_7_;
+		motionX = p_70186_1_;
+		motionY = p_70186_3_;
+		motionZ = p_70186_5_;
+		float var10 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_5_ * p_70186_5_);
+		prevRotationYaw = rotationYaw = (float) (Math.atan2(p_70186_1_, p_70186_5_) * 180.0D / Math.PI);
+		prevRotationPitch = rotationPitch = (float) (Math.atan2(p_70186_3_, var10) * 180.0D / Math.PI);
 		ticksInGround = 0;
 	}
 	
@@ -449,16 +449,16 @@ public class EntityArrow extends Entity implements IProjectile
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		par1NBTTagCompound.setShort("xTile", (short) xTile);
-		par1NBTTagCompound.setShort("yTile", (short) yTile);
-		par1NBTTagCompound.setShort("zTile", (short) zTile);
-		par1NBTTagCompound.setByte("inTile", (byte) inTile);
-		par1NBTTagCompound.setByte("inData", (byte) inData);
-		par1NBTTagCompound.setByte("shake", (byte) arrowShake);
-		par1NBTTagCompound.setByte("inGround", (byte) (inGround ? 1 : 0));
-		par1NBTTagCompound.setByte("pickup", (byte) canBePickedUp);
-		par1NBTTagCompound.setDouble("damage", damage);
+		p_70014_1_.setShort("xTile", (short) xTile);
+		p_70014_1_.setShort("yTile", (short) yTile);
+		p_70014_1_.setShort("zTile", (short) zTile);
+		p_70014_1_.setByte("inTile", (byte) inTile);
+		p_70014_1_.setByte("inData", (byte) inData);
+		p_70014_1_.setByte("shake", (byte) arrowShake);
+		p_70014_1_.setByte("inGround", (byte) (inGround ? 1 : 0));
+		p_70014_1_.setByte("pickup", (byte) canBePickedUp);
+		p_70014_1_.setDouble("damage", damage);
 	}
 }

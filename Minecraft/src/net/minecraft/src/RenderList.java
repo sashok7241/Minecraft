@@ -11,8 +11,8 @@ public class RenderList
 	private double field_78426_e;
 	private double field_78423_f;
 	private IntBuffer field_78424_g = GLAllocation.createDirectIntBuffer(65536);
-	private boolean field_78430_h;
-	private boolean field_78431_i;
+	private boolean field_78430_h = false;
+	private boolean field_78431_i = false;
 	
 	public boolean func_78418_a(int par1, int par2, int par3)
 	{

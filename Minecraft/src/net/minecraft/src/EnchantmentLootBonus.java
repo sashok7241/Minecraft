@@ -2,24 +2,24 @@ package net.minecraft.src;
 
 public class EnchantmentLootBonus extends Enchantment
 {
-	protected EnchantmentLootBonus(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType)
+	protected EnchantmentLootBonus(int p_i3716_1_, int p_i3716_2_, EnumEnchantmentType p_i3716_3_)
 	{
-		super(par1, par2, par3EnumEnchantmentType);
+		super(p_i3716_1_, p_i3716_2_, p_i3716_3_);
 		setName("lootBonus");
-		if(par3EnumEnchantmentType == EnumEnchantmentType.digger)
+		if(p_i3716_3_ == EnumEnchantmentType.digger)
 		{
 			setName("lootBonusDigger");
 		}
 	}
 	
-	@Override public boolean canApplyTogether(Enchantment par1Enchantment)
+	@Override public boolean canApplyTogether(Enchantment p_77326_1_)
 	{
-		return super.canApplyTogether(par1Enchantment) && par1Enchantment.effectId != silkTouch.effectId;
+		return super.canApplyTogether(p_77326_1_) && p_77326_1_.effectId != silkTouch.effectId;
 	}
 	
-	@Override public int getMaxEnchantability(int par1)
+	@Override public int getMaxEnchantability(int p_77317_1_)
 	{
-		return super.getMinEnchantability(par1) + 50;
+		return super.getMinEnchantability(p_77317_1_) + 50;
 	}
 	
 	@Override public int getMaxLevel()
@@ -27,8 +27,8 @@ public class EnchantmentLootBonus extends Enchantment
 		return 3;
 	}
 	
-	@Override public int getMinEnchantability(int par1)
+	@Override public int getMinEnchantability(int p_77321_1_)
 	{
-		return 15 + (par1 - 1) * 9;
+		return 15 + (p_77321_1_ - 1) * 9;
 	}
 }

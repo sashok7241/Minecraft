@@ -9,48 +9,48 @@ public class WorldGenTrees extends WorldGenerator
 	private final int metaWood;
 	private final int metaLeaves;
 	
-	public WorldGenTrees(boolean par1)
+	public WorldGenTrees(boolean p_i3802_1_)
 	{
-		this(par1, 4, 0, 0, false);
+		this(p_i3802_1_, 4, 0, 0, false);
 	}
 	
-	public WorldGenTrees(boolean par1, int par2, int par3, int par4, boolean par5)
+	public WorldGenTrees(boolean p_i3803_1_, int p_i3803_2_, int p_i3803_3_, int p_i3803_4_, boolean p_i3803_5_)
 	{
-		super(par1);
-		minTreeHeight = par2;
-		metaWood = par3;
-		metaLeaves = par4;
-		vinesGrow = par5;
+		super(p_i3803_1_);
+		minTreeHeight = p_i3803_2_;
+		metaWood = p_i3803_3_;
+		metaLeaves = p_i3803_4_;
+		vinesGrow = p_i3803_5_;
 	}
 	
-	@Override public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
+	@Override public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_)
 	{
-		int var6 = par2Random.nextInt(3) + minTreeHeight;
+		int var6 = p_76484_2_.nextInt(3) + minTreeHeight;
 		boolean var7 = true;
-		if(par4 >= 1 && par4 + var6 + 1 <= 256)
+		if(p_76484_4_ >= 1 && p_76484_4_ + var6 + 1 <= 256)
 		{
 			int var8;
 			byte var9;
 			int var11;
 			int var12;
-			for(var8 = par4; var8 <= par4 + 1 + var6; ++var8)
+			for(var8 = p_76484_4_; var8 <= p_76484_4_ + 1 + var6; ++var8)
 			{
 				var9 = 1;
-				if(var8 == par4)
+				if(var8 == p_76484_4_)
 				{
 					var9 = 0;
 				}
-				if(var8 >= par4 + 1 + var6 - 2)
+				if(var8 >= p_76484_4_ + 1 + var6 - 2)
 				{
 					var9 = 2;
 				}
-				for(int var10 = par3 - var9; var10 <= par3 + var9 && var7; ++var10)
+				for(int var10 = p_76484_3_ - var9; var10 <= p_76484_3_ + var9 && var7; ++var10)
 				{
-					for(var11 = par5 - var9; var11 <= par5 + var9 && var7; ++var11)
+					for(var11 = p_76484_5_ - var9; var11 <= p_76484_5_ + var9 && var7; ++var11)
 					{
 						if(var8 >= 0 && var8 < 256)
 						{
-							var12 = par1World.getBlockId(var10, var8, var11);
+							var12 = p_76484_1_.getBlockId(var10, var8, var11);
 							if(var12 != 0 && var12 != Block.leaves.blockID && var12 != Block.grass.blockID && var12 != Block.dirt.blockID && var12 != Block.wood.blockID)
 							{
 								var7 = false;
@@ -65,31 +65,31 @@ public class WorldGenTrees extends WorldGenerator
 			if(!var7) return false;
 			else
 			{
-				var8 = par1World.getBlockId(par3, par4 - 1, par5);
-				if((var8 == Block.grass.blockID || var8 == Block.dirt.blockID) && par4 < 256 - var6 - 1)
+				var8 = p_76484_1_.getBlockId(p_76484_3_, p_76484_4_ - 1, p_76484_5_);
+				if((var8 == Block.grass.blockID || var8 == Block.dirt.blockID) && p_76484_4_ < 256 - var6 - 1)
 				{
-					setBlock(par1World, par3, par4 - 1, par5, Block.dirt.blockID);
+					setBlock(p_76484_1_, p_76484_3_, p_76484_4_ - 1, p_76484_5_, Block.dirt.blockID);
 					var9 = 3;
 					byte var19 = 0;
 					int var13;
 					int var14;
 					int var15;
-					for(var11 = par4 - var9 + var6; var11 <= par4 + var6; ++var11)
+					for(var11 = p_76484_4_ - var9 + var6; var11 <= p_76484_4_ + var6; ++var11)
 					{
-						var12 = var11 - (par4 + var6);
+						var12 = var11 - (p_76484_4_ + var6);
 						var13 = var19 + 1 - var12 / 2;
-						for(var14 = par3 - var13; var14 <= par3 + var13; ++var14)
+						for(var14 = p_76484_3_ - var13; var14 <= p_76484_3_ + var13; ++var14)
 						{
-							var15 = var14 - par3;
-							for(int var16 = par5 - var13; var16 <= par5 + var13; ++var16)
+							var15 = var14 - p_76484_3_;
+							for(int var16 = p_76484_5_ - var13; var16 <= p_76484_5_ + var13; ++var16)
 							{
-								int var17 = var16 - par5;
-								if(Math.abs(var15) != var13 || Math.abs(var17) != var13 || par2Random.nextInt(2) != 0 && var12 != 0)
+								int var17 = var16 - p_76484_5_;
+								if(Math.abs(var15) != var13 || Math.abs(var17) != var13 || p_76484_2_.nextInt(2) != 0 && var12 != 0)
 								{
-									int var18 = par1World.getBlockId(var14, var11, var16);
+									int var18 = p_76484_1_.getBlockId(var14, var11, var16);
 									if(var18 == 0 || var18 == Block.leaves.blockID)
 									{
-										setBlockAndMetadata(par1World, var14, var11, var16, Block.leaves.blockID, metaLeaves);
+										setBlockAndMetadata(p_76484_1_, var14, var11, var16, Block.leaves.blockID, metaLeaves);
 									}
 								}
 							}
@@ -97,73 +97,73 @@ public class WorldGenTrees extends WorldGenerator
 					}
 					for(var11 = 0; var11 < var6; ++var11)
 					{
-						var12 = par1World.getBlockId(par3, par4 + var11, par5);
+						var12 = p_76484_1_.getBlockId(p_76484_3_, p_76484_4_ + var11, p_76484_5_);
 						if(var12 == 0 || var12 == Block.leaves.blockID)
 						{
-							setBlockAndMetadata(par1World, par3, par4 + var11, par5, Block.wood.blockID, metaWood);
+							setBlockAndMetadata(p_76484_1_, p_76484_3_, p_76484_4_ + var11, p_76484_5_, Block.wood.blockID, metaWood);
 							if(vinesGrow && var11 > 0)
 							{
-								if(par2Random.nextInt(3) > 0 && par1World.isAirBlock(par3 - 1, par4 + var11, par5))
+								if(p_76484_2_.nextInt(3) > 0 && p_76484_1_.isAirBlock(p_76484_3_ - 1, p_76484_4_ + var11, p_76484_5_))
 								{
-									setBlockAndMetadata(par1World, par3 - 1, par4 + var11, par5, Block.vine.blockID, 8);
+									setBlockAndMetadata(p_76484_1_, p_76484_3_ - 1, p_76484_4_ + var11, p_76484_5_, Block.vine.blockID, 8);
 								}
-								if(par2Random.nextInt(3) > 0 && par1World.isAirBlock(par3 + 1, par4 + var11, par5))
+								if(p_76484_2_.nextInt(3) > 0 && p_76484_1_.isAirBlock(p_76484_3_ + 1, p_76484_4_ + var11, p_76484_5_))
 								{
-									setBlockAndMetadata(par1World, par3 + 1, par4 + var11, par5, Block.vine.blockID, 2);
+									setBlockAndMetadata(p_76484_1_, p_76484_3_ + 1, p_76484_4_ + var11, p_76484_5_, Block.vine.blockID, 2);
 								}
-								if(par2Random.nextInt(3) > 0 && par1World.isAirBlock(par3, par4 + var11, par5 - 1))
+								if(p_76484_2_.nextInt(3) > 0 && p_76484_1_.isAirBlock(p_76484_3_, p_76484_4_ + var11, p_76484_5_ - 1))
 								{
-									setBlockAndMetadata(par1World, par3, par4 + var11, par5 - 1, Block.vine.blockID, 1);
+									setBlockAndMetadata(p_76484_1_, p_76484_3_, p_76484_4_ + var11, p_76484_5_ - 1, Block.vine.blockID, 1);
 								}
-								if(par2Random.nextInt(3) > 0 && par1World.isAirBlock(par3, par4 + var11, par5 + 1))
+								if(p_76484_2_.nextInt(3) > 0 && p_76484_1_.isAirBlock(p_76484_3_, p_76484_4_ + var11, p_76484_5_ + 1))
 								{
-									setBlockAndMetadata(par1World, par3, par4 + var11, par5 + 1, Block.vine.blockID, 4);
+									setBlockAndMetadata(p_76484_1_, p_76484_3_, p_76484_4_ + var11, p_76484_5_ + 1, Block.vine.blockID, 4);
 								}
 							}
 						}
 					}
 					if(vinesGrow)
 					{
-						for(var11 = par4 - 3 + var6; var11 <= par4 + var6; ++var11)
+						for(var11 = p_76484_4_ - 3 + var6; var11 <= p_76484_4_ + var6; ++var11)
 						{
-							var12 = var11 - (par4 + var6);
+							var12 = var11 - (p_76484_4_ + var6);
 							var13 = 2 - var12 / 2;
-							for(var14 = par3 - var13; var14 <= par3 + var13; ++var14)
+							for(var14 = p_76484_3_ - var13; var14 <= p_76484_3_ + var13; ++var14)
 							{
-								for(var15 = par5 - var13; var15 <= par5 + var13; ++var15)
+								for(var15 = p_76484_5_ - var13; var15 <= p_76484_5_ + var13; ++var15)
 								{
-									if(par1World.getBlockId(var14, var11, var15) == Block.leaves.blockID)
+									if(p_76484_1_.getBlockId(var14, var11, var15) == Block.leaves.blockID)
 									{
-										if(par2Random.nextInt(4) == 0 && par1World.getBlockId(var14 - 1, var11, var15) == 0)
+										if(p_76484_2_.nextInt(4) == 0 && p_76484_1_.getBlockId(var14 - 1, var11, var15) == 0)
 										{
-											growVines(par1World, var14 - 1, var11, var15, 8);
+											growVines(p_76484_1_, var14 - 1, var11, var15, 8);
 										}
-										if(par2Random.nextInt(4) == 0 && par1World.getBlockId(var14 + 1, var11, var15) == 0)
+										if(p_76484_2_.nextInt(4) == 0 && p_76484_1_.getBlockId(var14 + 1, var11, var15) == 0)
 										{
-											growVines(par1World, var14 + 1, var11, var15, 2);
+											growVines(p_76484_1_, var14 + 1, var11, var15, 2);
 										}
-										if(par2Random.nextInt(4) == 0 && par1World.getBlockId(var14, var11, var15 - 1) == 0)
+										if(p_76484_2_.nextInt(4) == 0 && p_76484_1_.getBlockId(var14, var11, var15 - 1) == 0)
 										{
-											growVines(par1World, var14, var11, var15 - 1, 1);
+											growVines(p_76484_1_, var14, var11, var15 - 1, 1);
 										}
-										if(par2Random.nextInt(4) == 0 && par1World.getBlockId(var14, var11, var15 + 1) == 0)
+										if(p_76484_2_.nextInt(4) == 0 && p_76484_1_.getBlockId(var14, var11, var15 + 1) == 0)
 										{
-											growVines(par1World, var14, var11, var15 + 1, 4);
+											growVines(p_76484_1_, var14, var11, var15 + 1, 4);
 										}
 									}
 								}
 							}
 						}
-						if(par2Random.nextInt(5) == 0 && var6 > 5)
+						if(p_76484_2_.nextInt(5) == 0 && var6 > 5)
 						{
 							for(var11 = 0; var11 < 2; ++var11)
 							{
 								for(var12 = 0; var12 < 4; ++var12)
 								{
-									if(par2Random.nextInt(4 - var11) == 0)
+									if(p_76484_2_.nextInt(4 - var11) == 0)
 									{
-										var13 = par2Random.nextInt(3);
-										setBlockAndMetadata(par1World, par3 + Direction.offsetX[Direction.rotateOpposite[var12]], par4 + var6 - 5 + var11, par5 + Direction.offsetZ[Direction.rotateOpposite[var12]], Block.cocoaPlant.blockID, var13 << 2 | var12);
+										var13 = p_76484_2_.nextInt(3);
+										setBlockAndMetadata(p_76484_1_, p_76484_3_ + Direction.offsetX[Direction.rotateOpposite[var12]], p_76484_4_ + var6 - 5 + var11, p_76484_5_ + Direction.offsetZ[Direction.rotateOpposite[var12]], Block.cocoaPlant.blockID, var13 << 2 | var12);
 									}
 								}
 							}
@@ -175,15 +175,15 @@ public class WorldGenTrees extends WorldGenerator
 		} else return false;
 	}
 	
-	private void growVines(World par1World, int par2, int par3, int par4, int par5)
+	private void growVines(World p_76529_1_, int p_76529_2_, int p_76529_3_, int p_76529_4_, int p_76529_5_)
 	{
-		setBlockAndMetadata(par1World, par2, par3, par4, Block.vine.blockID, par5);
+		setBlockAndMetadata(p_76529_1_, p_76529_2_, p_76529_3_, p_76529_4_, Block.vine.blockID, p_76529_5_);
 		int var6 = 4;
 		while(true)
 		{
-			--par3;
-			if(par1World.getBlockId(par2, par3, par4) != 0 || var6 <= 0) return;
-			setBlockAndMetadata(par1World, par2, par3, par4, Block.vine.blockID, par5);
+			--p_76529_3_;
+			if(p_76529_1_.getBlockId(p_76529_2_, p_76529_3_, p_76529_4_) != 0 || var6 <= 0) return;
+			setBlockAndMetadata(p_76529_1_, p_76529_2_, p_76529_3_, p_76529_4_, Block.vine.blockID, p_76529_5_);
 			--var6;
 		}
 	}

@@ -7,49 +7,48 @@ public class ComponentStrongholdCorridor extends ComponentStronghold
 {
 	private final int field_74993_a;
 	
-	public ComponentStrongholdCorridor(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
+	public ComponentStrongholdCorridor(int p_i3841_1_, Random p_i3841_2_, StructureBoundingBox p_i3841_3_, int p_i3841_4_)
 	{
-		super(par1);
-		coordBaseMode = par4;
-		boundingBox = par3StructureBoundingBox;
-		field_74993_a = par4 != 2 && par4 != 0 ? par3StructureBoundingBox.getXSize() : par3StructureBoundingBox.getZSize();
+		super(p_i3841_1_);
+		coordBaseMode = p_i3841_4_;
+		boundingBox = p_i3841_3_;
+		field_74993_a = p_i3841_4_ != 2 && p_i3841_4_ != 0 ? p_i3841_3_.getXSize() : p_i3841_3_.getZSize();
 	}
 	
-	@Override public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
+	@Override public boolean addComponentParts(World p_74875_1_, Random p_74875_2_, StructureBoundingBox p_74875_3_)
 	{
-		if(isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox)) return false;
+		if(isLiquidInStructureBoundingBox(p_74875_1_, p_74875_3_)) return false;
 		else
 		{
 			for(int var4 = 0; var4 < field_74993_a; ++var4)
 			{
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 0, 0, var4, par3StructureBoundingBox);
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 1, 0, var4, par3StructureBoundingBox);
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 2, 0, var4, par3StructureBoundingBox);
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 0, var4, par3StructureBoundingBox);
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 4, 0, var4, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 0, 0, var4, p_74875_3_);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 1, 0, var4, p_74875_3_);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 2, 0, var4, p_74875_3_);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 3, 0, var4, p_74875_3_);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 4, 0, var4, p_74875_3_);
 				for(int var5 = 1; var5 <= 3; ++var5)
 				{
-					placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 0, var5, var4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, 0, 0, 1, var5, var4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, 0, 0, 2, var5, var4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, 0, 0, 3, var5, var4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 4, var5, var4, par3StructureBoundingBox);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 0, var5, var4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, 0, 0, 1, var5, var4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, 0, 0, 2, var5, var4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, 0, 0, 3, var5, var4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 4, var5, var4, p_74875_3_);
 				}
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 0, 4, var4, par3StructureBoundingBox);
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 1, 4, var4, par3StructureBoundingBox);
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 2, 4, var4, par3StructureBoundingBox);
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 4, var4, par3StructureBoundingBox);
-				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 4, 4, var4, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 0, 4, var4, p_74875_3_);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 1, 4, var4, p_74875_3_);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 2, 4, var4, p_74875_3_);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 3, 4, var4, p_74875_3_);
+				placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 4, 4, var4, p_74875_3_);
 			}
 			return true;
 		}
 	}
 	
-	public static StructureBoundingBox func_74992_a(List par0List, Random par1Random, int par2, int par3, int par4, int par5)
+	public static StructureBoundingBox func_74992_a(List p_74992_0_, Random p_74992_1_, int p_74992_2_, int p_74992_3_, int p_74992_4_, int p_74992_5_)
 	{
-		boolean var6 = true;
-		StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, 4, par5);
-		StructureComponent var8 = StructureComponent.findIntersecting(par0List, var7);
+		StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(p_74992_2_, p_74992_3_, p_74992_4_, -1, -1, 0, 5, 5, 4, p_74992_5_);
+		StructureComponent var8 = StructureComponent.findIntersecting(p_74992_0_, var7);
 		if(var8 == null) return null;
 		else
 		{
@@ -57,8 +56,8 @@ public class ComponentStrongholdCorridor extends ComponentStronghold
 			{
 				for(int var9 = 3; var9 >= 1; --var9)
 				{
-					var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, var9 - 1, par5);
-					if(!var8.getBoundingBox().intersectsWith(var7)) return StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, var9, par5);
+					var7 = StructureBoundingBox.getComponentToAddBoundingBox(p_74992_2_, p_74992_3_, p_74992_4_, -1, -1, 0, 5, 5, var9 - 1, p_74992_5_);
+					if(!var8.getBoundingBox().intersectsWith(var7)) return StructureBoundingBox.getComponentToAddBoundingBox(p_74992_2_, p_74992_3_, p_74992_4_, -1, -1, 0, 5, 5, var9, p_74992_5_);
 				}
 			}
 			return null;

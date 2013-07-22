@@ -6,9 +6,9 @@ class CallableJavaInfo implements Callable
 {
 	final CrashReport theCrashReport;
 	
-	CallableJavaInfo(CrashReport par1CrashReport)
+	CallableJavaInfo(CrashReport p_i3246_1_)
 	{
-		theCrashReport = par1CrashReport;
+		theCrashReport = p_i3246_1_;
 	}
 	
 	@Override public Object call()

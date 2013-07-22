@@ -5,11 +5,11 @@ public class ItemColored extends ItemBlock
 	private final Block blockRef;
 	private String[] blockNames;
 	
-	public ItemColored(int par1, boolean par2)
+	public ItemColored(int p_i3628_1_, boolean p_i3628_2_)
 	{
-		super(par1);
+		super(p_i3628_1_);
 		blockRef = Block.blocksList[getBlockID()];
-		if(par2)
+		if(p_i3628_2_)
 		{
 			setMaxDamage(0);
 			setHasSubtypes(true);
@@ -26,24 +26,24 @@ public class ItemColored extends ItemBlock
 		return blockRef.getIcon(0, par1);
 	}
 	
-	@Override public int getMetadata(int par1)
+	@Override public int getMetadata(int p_77647_1_)
 	{
-		return par1;
+		return p_77647_1_;
 	}
 	
-	@Override public String getUnlocalizedName(ItemStack par1ItemStack)
+	@Override public String getUnlocalizedName(ItemStack p_77667_1_)
 	{
-		if(blockNames == null) return super.getUnlocalizedName(par1ItemStack);
+		if(blockNames == null) return super.getUnlocalizedName(p_77667_1_);
 		else
 		{
-			int var2 = par1ItemStack.getItemDamage();
-			return var2 >= 0 && var2 < blockNames.length ? super.getUnlocalizedName(par1ItemStack) + "." + blockNames[var2] : super.getUnlocalizedName(par1ItemStack);
+			int var2 = p_77667_1_.getItemDamage();
+			return var2 >= 0 && var2 < blockNames.length ? super.getUnlocalizedName(p_77667_1_) + "." + blockNames[var2] : super.getUnlocalizedName(p_77667_1_);
 		}
 	}
 	
-	public ItemColored setBlockNames(String[] par1ArrayOfStr)
+	public ItemColored setBlockNames(String[] p_77894_1_)
 	{
-		blockNames = par1ArrayOfStr;
+		blockNames = p_77894_1_;
 		return this;
 	}
 }

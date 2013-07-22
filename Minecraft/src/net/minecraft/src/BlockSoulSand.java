@@ -2,21 +2,21 @@ package net.minecraft.src;
 
 public class BlockSoulSand extends Block
 {
-	public BlockSoulSand(int par1)
+	public BlockSoulSand(int p_i9062_1_)
 	{
-		super(par1, Material.sand);
+		super(p_i9062_1_, Material.sand);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
 	{
 		float var5 = 0.125F;
-		return AxisAlignedBB.getAABBPool().getAABB(par2, par3, par4, par2 + 1, par3 + 1 - var5, par4 + 1);
+		return AxisAlignedBB.getAABBPool().getAABB(p_71872_2_, p_71872_3_, p_71872_4_, p_71872_2_ + 1, p_71872_3_ + 1 - var5, p_71872_4_ + 1);
 	}
 	
-	@Override public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
+	@Override public void onEntityCollidedWithBlock(World p_71869_1_, int p_71869_2_, int p_71869_3_, int p_71869_4_, Entity p_71869_5_)
 	{
-		par5Entity.motionX *= 0.4D;
-		par5Entity.motionZ *= 0.4D;
+		p_71869_5_.motionX *= 0.4D;
+		p_71869_5_.motionZ *= 0.4D;
 	}
 }

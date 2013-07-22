@@ -7,30 +7,30 @@ public class BlockRedstoneRepeater extends BlockRedstoneLogic
 	public static final double[] repeaterTorchOffset = new double[] { -0.0625D, 0.0625D, 0.1875D, 0.3125D };
 	private static final int[] repeaterState = new int[] { 1, 2, 3, 4 };
 	
-	protected BlockRedstoneRepeater(int par1, boolean par2)
+	protected BlockRedstoneRepeater(int p_i3934_1_, boolean p_i3934_2_)
 	{
-		super(par1, par2);
+		super(p_i3934_1_, p_i3934_2_);
 	}
 	
-	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
+	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
 	{
-		super.breakBlock(par1World, par2, par3, par4, par5, par6);
-		func_94483_i_(par1World, par2, par3, par4);
+		super.breakBlock(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_, p_71852_6_);
+		func_94483_i_(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_);
 	}
 	
-	@Override public boolean func_94476_e(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override public boolean func_94476_e(IBlockAccess p_94476_1_, int p_94476_2_, int p_94476_3_, int p_94476_4_, int p_94476_5_)
 	{
-		return func_94482_f(par1IBlockAccess, par2, par3, par4, par5) > 0;
+		return func_94482_f(p_94476_1_, p_94476_2_, p_94476_3_, p_94476_4_, p_94476_5_) > 0;
 	}
 	
-	@Override protected boolean func_94477_d(int par1)
+	@Override protected boolean func_94477_d(int p_94477_1_)
 	{
-		return isRedstoneRepeaterBlockID(par1);
+		return isRedstoneRepeaterBlockID(p_94477_1_);
 	}
 	
-	@Override protected int func_94481_j_(int par1)
+	@Override protected int func_94481_j_(int p_94481_1_)
 	{
-		return repeaterState[(par1 & 12) >> 2] * 2;
+		return repeaterState[(p_94481_1_ & 12) >> 2] * 2;
 	}
 	
 	@Override protected BlockRedstoneLogic func_94484_i()
@@ -48,7 +48,7 @@ public class BlockRedstoneRepeater extends BlockRedstoneLogic
 		return 15;
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return Item.redstoneRepeater.itemID;
 	}
@@ -58,12 +58,12 @@ public class BlockRedstoneRepeater extends BlockRedstoneLogic
 		return Item.redstoneRepeater.itemID;
 	}
 	
-	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
 	{
-		int var10 = par1World.getBlockMetadata(par2, par3, par4);
+		int var10 = p_71903_1_.getBlockMetadata(p_71903_2_, p_71903_3_, p_71903_4_);
 		int var11 = (var10 & 12) >> 2;
 		var11 = var11 + 1 << 2 & 12;
-		par1World.setBlockMetadataWithNotify(par2, par3, par4, var11 | var10 & 3, 3);
+		p_71903_1_.setBlockMetadataWithNotify(p_71903_2_, p_71903_3_, p_71903_4_, var11 | var10 & 3, 3);
 		return true;
 	}
 	

@@ -1,12 +1,15 @@
 package net.minecraft.src;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -14,20 +17,18 @@ import net.minecraft.client.Minecraft;
 public class GuiMainMenu extends GuiScreen
 {
 	private static final Random rand = new Random();
-	private float updateCounter;
+	private float updateCounter = 0.0F;
 	private String splashText = "missingno";
 	private GuiButton buttonResetDemo;
-	private int panoramaTimer;
-	private DynamicTexture viewportTexture;
+	private int panoramaTimer = 0;
+	private int viewportTexture;
 	private boolean field_96141_q = true;
-	private static boolean field_96140_r;
-	private static boolean field_96139_s;
+	private static boolean field_96140_r = false;
+	private static boolean field_96139_s = false;
 	private final Object field_104025_t = new Object();
 	private String field_92025_p;
 	private String field_104024_v;
-	private static final ResourceLocation field_110353_x = new ResourceLocation("texts/splashes.txt");
-	private static final ResourceLocation field_110352_y = new ResourceLocation("textures/gui/title/minecraft.png");
-	private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[] { new ResourceLocation("textures/gui/title/background/panorama_0.png"), new ResourceLocation("textures/gui/title/background/panorama_1.png"), new ResourceLocation("textures/gui/title/background/panorama_2.png"), new ResourceLocation("textures/gui/title/background/panorama_3.png"), new ResourceLocation("textures/gui/title/background/panorama_4.png"), new ResourceLocation("textures/gui/title/background/panorama_5.png") };
+	private static final String[] titlePanoramaPaths = new String[] { "/title/bg/panorama0.png", "/title/bg/panorama1.png", "/title/bg/panorama2.png", "/title/bg/panorama3.png", "/title/bg/panorama4.png", "/title/bg/panorama5.png" };
 	public static final String field_96138_a = "Please click " + EnumChatFormatting.UNDERLINE + "here" + EnumChatFormatting.RESET + " for more information.";
 	private int field_92024_r;
 	private int field_92023_s;
@@ -35,8 +36,6 @@ public class GuiMainMenu extends GuiScreen
 	private int field_92021_u;
 	private int field_92020_v;
 	private int field_92019_w;
-	private ResourceLocation field_110351_G;
-	private GuiButton field_130023_H;
 	
 	public GuiMainMenu()
 	{
@@ -45,11 +44,11 @@ public class GuiMainMenu extends GuiScreen
 		try
 		{
 			ArrayList var2 = new ArrayList();
-			var1 = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().func_110442_L().func_110536_a(field_110353_x).func_110527_b(), Charsets.UTF_8));
+			var1 = new BufferedReader(new InputStreamReader(GuiMainMenu.class.getResourceAsStream("/title/splashes.txt"), Charset.forName("UTF-8")));
 			while((var3 = var1.readLine()) != null)
 			{
 				var3 = var3.trim();
-				if(!var3.isEmpty())
+				if(var3.length() > 0)
 				{
 					var2.add(var3);
 				}
@@ -87,6 +86,10 @@ public class GuiMainMenu extends GuiScreen
 			field_92025_p = "" + EnumChatFormatting.BOLD + "Notice!" + EnumChatFormatting.RESET + " Java 1.5 compatibility will be dropped in Minecraft 1.6";
 			field_104024_v = "http://tinyurl.com/javappc";
 		}
+		if(field_92025_p.length() == 0)
+		{
+			new Thread(new RunnableTitleScreen(this), "1.6 Update Check Thread").start();
+		}
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -97,7 +100,7 @@ public class GuiMainMenu extends GuiScreen
 		}
 		if(par1GuiButton.id == 5)
 		{
-			mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings, mc.func_135016_M()));
+			mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings));
 		}
 		if(par1GuiButton.id == 1)
 		{
@@ -107,9 +110,9 @@ public class GuiMainMenu extends GuiScreen
 		{
 			mc.displayGuiScreen(new GuiMultiplayer(this));
 		}
-		if(par1GuiButton.id == 14 && field_130023_H.drawButton)
+		if(par1GuiButton.id == 3)
 		{
-			func_140005_i();
+			mc.displayGuiScreen(new GuiScreenOnlineServers(this));
 		}
 		if(par1GuiButton.id == 4)
 		{
@@ -131,24 +134,22 @@ public class GuiMainMenu extends GuiScreen
 		}
 	}
 	
-	private void addDemoButtons(int par1, int par2)
+	private void addDemoButtons(int par1, int par2, StringTranslate p_73972_3_)
 	{
-		buttonList.add(new GuiButton(11, width / 2 - 100, par1, I18n.func_135053_a("menu.playdemo")));
-		buttonList.add(buttonResetDemo = new GuiButton(12, width / 2 - 100, par1 + par2 * 1, I18n.func_135053_a("menu.resetdemo")));
-		ISaveFormat var3 = mc.getSaveLoader();
-		WorldInfo var4 = var3.getWorldInfo("Demo_World");
-		if(var4 == null)
+		buttonList.add(new GuiButton(11, width / 2 - 100, par1, p_73972_3_.translateKey("menu.playdemo")));
+		buttonList.add(buttonResetDemo = new GuiButton(12, width / 2 - 100, par1 + par2 * 1, p_73972_3_.translateKey("menu.resetdemo")));
+		ISaveFormat var4 = mc.getSaveLoader();
+		WorldInfo var5 = var4.getWorldInfo("Demo_World");
+		if(var5 == null)
 		{
 			buttonResetDemo.enabled = false;
 		}
 	}
 	
-	private void addSingleplayerMultiplayerButtons(int par1, int par2)
+	private void addSingleplayerMultiplayerButtons(int par1, int par2, StringTranslate p_73969_3_)
 	{
-		buttonList.add(new GuiButton(1, width / 2 - 100, par1, I18n.func_135053_a("menu.singleplayer")));
-		buttonList.add(new GuiButton(2, width / 2 - 100, par1 + par2 * 1, I18n.func_135053_a("menu.multiplayer")));
-		buttonList.add(field_130023_H = new GuiButton(14, width / 2 - 100, par1 + par2 * 2, I18n.func_135053_a("menu.online")));
-		field_130023_H.drawButton = false;
+		buttonList.add(new GuiButton(1, width / 2 - 100, par1, p_73969_3_.translateKey("menu.singleplayer")));
+		buttonList.add(new GuiButton(2, width / 2 - 100, par1 + par2 * 1, p_73969_3_.translateKey("menu.multiplayer")));
 	}
 	
 	@Override public void confirmClicked(boolean par1, int par2)
@@ -188,7 +189,7 @@ public class GuiMainMenu extends GuiScreen
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glPushMatrix();
 		GL11.glLoadIdentity();
-		Project.gluPerspective(120.0F, 1.0F, 0.05F, 10.0F);
+		GLU.gluPerspective(120.0F, 1.0F, 0.05F, 10.0F);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glPushMatrix();
 		GL11.glLoadIdentity();
@@ -232,7 +233,7 @@ public class GuiMainMenu extends GuiScreen
 				{
 					GL11.glRotatef(-90.0F, 1.0F, 0.0F, 0.0F);
 				}
-				mc.func_110434_K().func_110577_a(titlePanoramaPaths[var10]);
+				mc.renderEngine.bindTexture(titlePanoramaPaths[var10]);
 				var4.startDrawingQuads();
 				var4.setColorRGBA_I(16777215, 255 / (var6 + 1));
 				float var11 = 0.0F;
@@ -267,7 +268,7 @@ public class GuiMainMenu extends GuiScreen
 		byte var7 = 30;
 		drawGradientRect(0, 0, width, height, -2130706433, 16777215);
 		drawGradientRect(0, 0, width, height, 0, Integer.MIN_VALUE);
-		mc.func_110434_K().func_110577_a(field_110352_y);
+		mc.renderEngine.bindTexture("/title/mclogo.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		if(updateCounter < 1.0E-4D)
 		{
@@ -290,7 +291,7 @@ public class GuiMainMenu extends GuiScreen
 		GL11.glScalef(var8, var8, var8);
 		drawCenteredString(fontRenderer, splashText, 0, -8, 16776960);
 		GL11.glPopMatrix();
-		String var9 = "Minecraft 1.6.2";
+		String var9 = "Minecraft 1.5.2";
 		if(mc.isDemo())
 		{
 			var9 = var9 + " Demo";
@@ -307,51 +308,29 @@ public class GuiMainMenu extends GuiScreen
 		super.drawScreen(par1, par2, par3);
 	}
 	
-	private void func_130020_g()
+	private void func_96137_a(StringTranslate p_96137_1_, int p_96137_2_, int p_96137_3_)
 	{
 		if(field_96141_q)
 		{
 			if(!field_96140_r)
 			{
 				field_96140_r = true;
-				new RunnableTitleScreen(this).start();
+				new ThreadTitleScreen(this, p_96137_1_, p_96137_2_, p_96137_3_).start();
 			} else if(field_96139_s)
 			{
-				func_130022_h();
+				func_98060_b(p_96137_1_, p_96137_2_, p_96137_3_);
 			}
 		}
 	}
 	
-	private void func_130022_h()
+	private void func_98060_b(StringTranslate p_98060_1_, int p_98060_2_, int p_98060_3_)
 	{
-		field_130023_H.drawButton = true;
-	}
-	
-	private void func_140005_i()
-	{
-		McoClient var1 = new McoClient(mc.func_110432_I());
-		try
-		{
-			if(var1.func_140054_c().booleanValue())
-			{
-				mc.displayGuiScreen(new GuiScreenClientOutdated(this));
-			} else
-			{
-				mc.displayGuiScreen(new GuiScreenOnlineServers(this));
-			}
-		} catch(ExceptionMcoService var3)
-		{
-			mc.getLogAgent().logSevere(var3.toString());
-		} catch(IOException var4)
-		{
-			mc.getLogAgent().logSevere(var4.getLocalizedMessage());
-		}
+		buttonList.add(new GuiButton(3, width / 2 - 100, p_98060_2_ + p_98060_3_ * 2, p_98060_1_.translateKey("menu.online")));
 	}
 	
 	@Override public void initGui()
 	{
-		viewportTexture = new DynamicTexture(256, 256);
-		field_110351_G = mc.func_110434_K().func_110578_a("background", viewportTexture);
+		viewportTexture = mc.renderEngine.allocateAndSetupTexture(new BufferedImage(256, 256, 2));
 		Calendar var1 = Calendar.getInstance();
 		var1.setTime(new Date());
 		if(var1.get(2) + 1 == 11 && var1.get(5) == 9)
@@ -370,28 +349,34 @@ public class GuiMainMenu extends GuiScreen
 		{
 			splashText = "OOoooOOOoooo! Spooky!";
 		}
-		boolean var2 = true;
-		int var3 = height / 4 + 48;
+		StringTranslate var2 = StringTranslate.getInstance();
+		int var4 = height / 4 + 48;
 		if(mc.isDemo())
 		{
-			addDemoButtons(var3, 24);
+			addDemoButtons(var4, 24, var2);
 		} else
 		{
-			addSingleplayerMultiplayerButtons(var3, 24);
+			addSingleplayerMultiplayerButtons(var4, 24, var2);
 		}
-		func_130020_g();
-		buttonList.add(new GuiButton(0, width / 2 - 100, var3 + 72 + 12, 98, 20, I18n.func_135053_a("menu.options")));
-		buttonList.add(new GuiButton(4, width / 2 + 2, var3 + 72 + 12, 98, 20, I18n.func_135053_a("menu.quit")));
-		buttonList.add(new GuiButtonLanguage(5, width / 2 - 124, var3 + 72 + 12));
-		Object var4 = field_104025_t;
+		func_96137_a(var2, var4, 24);
+		if(mc.hideQuitButton)
+		{
+			buttonList.add(new GuiButton(0, width / 2 - 100, var4 + 72, var2.translateKey("menu.options")));
+		} else
+		{
+			buttonList.add(new GuiButton(0, width / 2 - 100, var4 + 72 + 12, 98, 20, var2.translateKey("menu.options")));
+			buttonList.add(new GuiButton(4, width / 2 + 2, var4 + 72 + 12, 98, 20, var2.translateKey("menu.quit")));
+		}
+		buttonList.add(new GuiButtonLanguage(5, width / 2 - 124, var4 + 72 + 12));
+		Object var5 = field_104025_t;
 		synchronized(field_104025_t)
 		{
 			field_92023_s = fontRenderer.getStringWidth(field_92025_p);
 			field_92024_r = fontRenderer.getStringWidth(field_96138_a);
-			int var5 = Math.max(field_92023_s, field_92024_r);
-			field_92022_t = (width - var5) / 2;
+			int var6 = Math.max(field_92023_s, field_92024_r);
+			field_92022_t = (width - var6) / 2;
 			field_92021_u = ((GuiButton) buttonList.get(0)).yPosition - 24;
-			field_92020_v = field_92022_t + var5;
+			field_92020_v = field_92022_t + var6;
 			field_92019_w = field_92021_u + 24;
 		}
 	}
@@ -449,7 +434,8 @@ public class GuiMainMenu extends GuiScreen
 	
 	private void rotateAndBlurSkybox(float par1)
 	{
-		mc.func_110434_K().func_110577_a(field_110351_G);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, viewportTexture);
+		mc.renderEngine.resetBoundTexture();
 		GL11.glCopyTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, 0, 0, 256, 256);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -470,6 +456,7 @@ public class GuiMainMenu extends GuiScreen
 		}
 		var2.draw();
 		GL11.glColorMask(true, true, true, true);
+		mc.renderEngine.resetBoundTexture();
 	}
 	
 	@Override public void updateScreen()
@@ -477,29 +464,104 @@ public class GuiMainMenu extends GuiScreen
 		++panoramaTimer;
 	}
 	
-	static Minecraft func_110348_a(GuiMainMenu par0GuiMainMenu)
+	static Object func_104004_a(GuiMainMenu p_104004_0_)
 	{
-		return par0GuiMainMenu.mc;
+		return p_104004_0_.field_104025_t;
 	}
 	
-	static boolean func_110349_a(boolean par0)
+	static String func_104005_a(GuiMainMenu p_104005_0_, String p_104005_1_)
 	{
-		field_96139_s = par0;
-		return par0;
+		return p_104005_0_.field_92025_p = p_104005_1_;
 	}
 	
-	static Minecraft func_130018_c(GuiMainMenu par0GuiMainMenu)
+	static int func_104006_a(GuiMainMenu p_104006_0_, int p_104006_1_)
 	{
-		return par0GuiMainMenu.mc;
+		return p_104006_0_.field_92023_s = p_104006_1_;
 	}
 	
-	static Minecraft func_130019_d(GuiMainMenu par0GuiMainMenu)
+	static FontRenderer func_104007_d(GuiMainMenu p_104007_0_)
 	{
-		return par0GuiMainMenu.mc;
+		return p_104007_0_.fontRenderer;
 	}
 	
-	static void func_130021_b(GuiMainMenu par0GuiMainMenu)
+	static int func_104008_c(GuiMainMenu p_104008_0_, int p_104008_1_)
 	{
-		par0GuiMainMenu.func_130022_h();
+		return p_104008_0_.field_92022_t = p_104008_1_;
+	}
+	
+	static int func_104009_d(GuiMainMenu p_104009_0_, int p_104009_1_)
+	{
+		return p_104009_0_.field_92021_u = p_104009_1_;
+	}
+	
+	static int func_104011_e(GuiMainMenu p_104011_0_, int p_104011_1_)
+	{
+		return p_104011_0_.field_92020_v = p_104011_1_;
+	}
+	
+	static int func_104012_f(GuiMainMenu p_104012_0_, int p_104012_1_)
+	{
+		return p_104012_0_.field_92019_w = p_104012_1_;
+	}
+	
+	static String func_104013_b(GuiMainMenu p_104013_0_, String p_104013_1_)
+	{
+		return p_104013_0_.field_104024_v = p_104013_1_;
+	}
+	
+	static int func_104014_b(GuiMainMenu p_104014_0_, int p_104014_1_)
+	{
+		return p_104014_0_.field_92024_r = p_104014_1_;
+	}
+	
+	static int func_104015_f(GuiMainMenu p_104015_0_)
+	{
+		return p_104015_0_.field_92024_r;
+	}
+	
+	static int func_104016_e(GuiMainMenu p_104016_0_)
+	{
+		return p_104016_0_.field_92023_s;
+	}
+	
+	static int func_104018_h(GuiMainMenu p_104018_0_)
+	{
+		return p_104018_0_.field_92022_t;
+	}
+	
+	static List func_104019_g(GuiMainMenu p_104019_0_)
+	{
+		return p_104019_0_.buttonList;
+	}
+	
+	static int func_104020_i(GuiMainMenu p_104020_0_)
+	{
+		return p_104020_0_.field_92021_u;
+	}
+	
+	static FontRenderer func_104022_c(GuiMainMenu p_104022_0_)
+	{
+		return p_104022_0_.fontRenderer;
+	}
+	
+	static String func_104023_b(GuiMainMenu p_104023_0_)
+	{
+		return p_104023_0_.field_92025_p;
+	}
+	
+	static Minecraft func_98058_a(GuiMainMenu p_98058_0_)
+	{
+		return p_98058_0_.mc;
+	}
+	
+	static boolean func_98059_a(boolean p_98059_0_)
+	{
+		field_96139_s = p_98059_0_;
+		return p_98059_0_;
+	}
+	
+	static void func_98061_a(GuiMainMenu p_98061_0_, StringTranslate p_98061_1_, int p_98061_2_, int p_98061_3_)
+	{
+		p_98061_0_.func_98060_b(p_98061_1_, p_98061_2_, p_98061_3_);
 	}
 }

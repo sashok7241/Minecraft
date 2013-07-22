@@ -12,16 +12,18 @@ import net.minecraft.client.Minecraft;
 
 public class GuiScreen extends Gui
 {
+	public static final boolean isMacOs = Minecraft.getOs() == EnumOS.MACOS;
 	protected Minecraft mc;
 	public int width;
 	public int height;
 	protected List buttonList = new ArrayList();
-	public boolean allowUserInput;
+	public boolean allowUserInput = false;
 	protected FontRenderer fontRenderer;
-	private GuiButton selectedButton;
-	private int eventButton;
-	private long lastMouseEvent;
-	private int field_92018_d;
+	public GuiParticle guiParticles;
+	private GuiButton selectedButton = null;
+	private int eventButton = 0;
+	private long lastMouseEvent = 0L;
+	private int field_92018_d = 0;
 	
 	protected void actionPerformed(GuiButton par1GuiButton)
 	{
@@ -41,7 +43,7 @@ public class GuiScreen extends Gui
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_FOG);
 		Tessellator var2 = Tessellator.instance;
-		mc.func_110434_K().func_110577_a(field_110325_k);
+		mc.renderEngine.bindTexture("/gui/background.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float var3 = 32.0F;
 		var2.startDrawingQuads();
@@ -101,6 +103,10 @@ public class GuiScreen extends Gui
 				mc.toggleFullscreen();
 				return;
 			}
+			if(isMacOs && var1 == 28 && var2 == 0)
+			{
+				var1 = 29;
+			}
 			keyTyped(var2, var1);
 		}
 	}
@@ -109,26 +115,21 @@ public class GuiScreen extends Gui
 	{
 		int var1 = Mouse.getEventX() * width / mc.displayWidth;
 		int var2 = height - Mouse.getEventY() * height / mc.displayHeight - 1;
-		int var3 = Mouse.getEventButton();
-		if(Minecraft.field_142025_a && var3 == 0 && (Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157)))
-		{
-			var3 = 1;
-		}
 		if(Mouse.getEventButtonState())
 		{
 			if(mc.gameSettings.touchscreen && field_92018_d++ > 0) return;
-			eventButton = var3;
+			eventButton = Mouse.getEventButton();
 			lastMouseEvent = Minecraft.getSystemTime();
 			mouseClicked(var1, var2, eventButton);
-		} else if(var3 != -1)
+		} else if(Mouse.getEventButton() != -1)
 		{
 			if(mc.gameSettings.touchscreen && --field_92018_d > 0) return;
 			eventButton = -1;
-			mouseMovedOrUp(var1, var2, var3);
+			mouseMovedOrUp(var1, var2, Mouse.getEventButton());
 		} else if(eventButton != -1 && lastMouseEvent > 0L)
 		{
-			long var4 = Minecraft.getSystemTime() - lastMouseEvent;
-			mouseClickMove(var1, var2, eventButton, var4);
+			long var3 = Minecraft.getSystemTime() - lastMouseEvent;
+			mouseClickMove(var1, var2, eventButton, var3);
 		}
 	}
 	
@@ -181,6 +182,7 @@ public class GuiScreen extends Gui
 	
 	public void setWorldAndResolution(Minecraft par1Minecraft, int par2, int par3)
 	{
+		guiParticles = new GuiParticle(par1Minecraft);
 		mc = par1Minecraft;
 		fontRenderer = par1Minecraft.fontRenderer;
 		width = par2;
@@ -208,7 +210,8 @@ public class GuiScreen extends Gui
 	
 	public static boolean isCtrlKeyDown()
 	{
-		return Minecraft.field_142025_a ? Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220) : Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
+		boolean var0 = Keyboard.isKeyDown(28) && Keyboard.getEventCharacter() == 0;
+		return Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157) || isMacOs && (var0 || Keyboard.isKeyDown(219) || Keyboard.isKeyDown(220));
 	}
 	
 	public static boolean isShiftKeyDown()

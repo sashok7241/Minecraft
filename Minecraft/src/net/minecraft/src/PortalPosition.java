@@ -5,10 +5,10 @@ public class PortalPosition extends ChunkCoordinates
 	public long lastUpdateTime;
 	final Teleporter teleporterInstance;
 	
-	public PortalPosition(Teleporter par1Teleporter, int par2, int par3, int par4, long par5)
+	public PortalPosition(Teleporter p_i6815_1_, int p_i6815_2_, int p_i6815_3_, int p_i6815_4_, long p_i6815_5_)
 	{
-		super(par2, par3, par4);
-		teleporterInstance = par1Teleporter;
-		lastUpdateTime = par5;
+		super(p_i6815_2_, p_i6815_3_, p_i6815_4_);
+		teleporterInstance = p_i6815_1_;
+		lastUpdateTime = p_i6815_5_;
 	}
 }

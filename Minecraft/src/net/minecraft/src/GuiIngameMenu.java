@@ -2,8 +2,8 @@ package net.minecraft.src;
 
 public class GuiIngameMenu extends GuiScreen
 {
-	private int updateCounter2;
-	private int updateCounter;
+	private int updateCounter2 = 0;
+	private int updateCounter = 0;
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
 	{
@@ -50,18 +50,17 @@ public class GuiIngameMenu extends GuiScreen
 		updateCounter2 = 0;
 		buttonList.clear();
 		byte var1 = -16;
-		boolean var2 = true;
-		buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + var1, I18n.func_135053_a("menu.returnToMenu")));
+		buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + var1, StatCollector.translateToLocal("menu.returnToMenu")));
 		if(!mc.isIntegratedServerRunning())
 		{
-			((GuiButton) buttonList.get(0)).displayString = I18n.func_135053_a("menu.disconnect");
+			((GuiButton) buttonList.get(0)).displayString = StatCollector.translateToLocal("menu.disconnect");
 		}
-		buttonList.add(new GuiButton(4, width / 2 - 100, height / 4 + 24 + var1, I18n.func_135053_a("menu.returnToGame")));
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + var1, 98, 20, I18n.func_135053_a("menu.options")));
+		buttonList.add(new GuiButton(4, width / 2 - 100, height / 4 + 24 + var1, StatCollector.translateToLocal("menu.returnToGame")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + var1, 98, 20, StatCollector.translateToLocal("menu.options")));
 		GuiButton var3;
-		buttonList.add(var3 = new GuiButton(7, width / 2 + 2, height / 4 + 96 + var1, 98, 20, I18n.func_135053_a("menu.shareToLan")));
-		buttonList.add(new GuiButton(5, width / 2 - 100, height / 4 + 48 + var1, 98, 20, I18n.func_135053_a("gui.achievements")));
-		buttonList.add(new GuiButton(6, width / 2 + 2, height / 4 + 48 + var1, 98, 20, I18n.func_135053_a("gui.stats")));
+		buttonList.add(var3 = new GuiButton(7, width / 2 + 2, height / 4 + 96 + var1, 98, 20, StatCollector.translateToLocal("menu.shareToLan")));
+		buttonList.add(new GuiButton(5, width / 2 - 100, height / 4 + 48 + var1, 98, 20, StatCollector.translateToLocal("gui.achievements")));
+		buttonList.add(new GuiButton(6, width / 2 + 2, height / 4 + 48 + var1, 98, 20, StatCollector.translateToLocal("gui.stats")));
 		var3.enabled = mc.isSingleplayer() && !mc.getIntegratedServer().getPublic();
 	}
 	

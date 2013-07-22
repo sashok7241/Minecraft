@@ -1,26 +1,18 @@
 package net.minecraft.src;
 
-import java.util.UUID;
-
 public abstract class EntityCreature extends EntityLiving
 {
-	public static final UUID field_110179_h = UUID.fromString("E199AD21-BA8A-4C53-8D13-6182D5C69D3A");
-	public static final AttributeModifier field_110181_i = new AttributeModifier(field_110179_h, "Fleeing speed bonus", 2.0D, 2).func_111168_a(false);
 	private PathEntity pathToEntity;
 	protected Entity entityToAttack;
-	protected boolean hasAttacked;
-	protected int fleeingTick;
-	private ChunkCoordinates homePosition = new ChunkCoordinates(0, 0, 0);
-	private float maximumHomeDistance = -1.0F;
-	private EntityAIBase field_110178_bs = new EntityAIMoveTowardsRestriction(this, 1.0D);
-	private boolean field_110180_bt;
+	protected boolean hasAttacked = false;
+	protected int fleeingTick = 0;
 	
-	public EntityCreature(World par1World)
+	public EntityCreature(World p_i3450_1_)
 	{
-		super(par1World);
+		super(p_i3450_1_);
 	}
 	
-	protected void attackEntity(Entity par1Entity, float par2)
+	protected void attackEntity(Entity p_70785_1_, float p_70785_2_)
 	{
 	}
 	
@@ -29,96 +21,7 @@ public abstract class EntityCreature extends EntityLiving
 		return null;
 	}
 	
-	@Override protected void func_110159_bB()
-	{
-		super.func_110159_bB();
-		if(func_110167_bD() && func_110166_bE() != null && func_110166_bE().worldObj == worldObj)
-		{
-			Entity var1 = func_110166_bE();
-			func_110171_b((int) var1.posX, (int) var1.posY, (int) var1.posZ, 5);
-			float var2 = getDistanceToEntity(var1);
-			if(this instanceof EntityTameable && ((EntityTameable) this).isSitting())
-			{
-				if(var2 > 10.0F)
-				{
-					func_110160_i(true, true);
-				}
-				return;
-			}
-			if(!field_110180_bt)
-			{
-				tasks.addTask(2, field_110178_bs);
-				getNavigator().setAvoidsWater(false);
-				field_110180_bt = true;
-			}
-			func_142017_o(var2);
-			if(var2 > 4.0F)
-			{
-				getNavigator().tryMoveToEntityLiving(var1, 1.0D);
-			}
-			if(var2 > 6.0F)
-			{
-				double var3 = (var1.posX - posX) / var2;
-				double var5 = (var1.posY - posY) / var2;
-				double var7 = (var1.posZ - posZ) / var2;
-				motionX += var3 * Math.abs(var3) * 0.4D;
-				motionY += var5 * Math.abs(var5) * 0.4D;
-				motionZ += var7 * Math.abs(var7) * 0.4D;
-			}
-			if(var2 > 10.0F)
-			{
-				func_110160_i(true, true);
-			}
-		} else if(!func_110167_bD() && field_110180_bt)
-		{
-			field_110180_bt = false;
-			tasks.removeTask(field_110178_bs);
-			getNavigator().setAvoidsWater(true);
-			func_110177_bN();
-		}
-	}
-	
-	public void func_110171_b(int par1, int par2, int par3, int par4)
-	{
-		homePosition.set(par1, par2, par3);
-		maximumHomeDistance = par4;
-	}
-	
-	public ChunkCoordinates func_110172_bL()
-	{
-		return homePosition;
-	}
-	
-	public boolean func_110173_bK()
-	{
-		return func_110176_b(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ));
-	}
-	
-	public float func_110174_bM()
-	{
-		return maximumHomeDistance;
-	}
-	
-	public boolean func_110175_bO()
-	{
-		return maximumHomeDistance != -1.0F;
-	}
-	
-	public boolean func_110176_b(int par1, int par2, int par3)
-	{
-		return maximumHomeDistance == -1.0F ? true : homePosition.getDistanceSquared(par1, par2, par3) < maximumHomeDistance * maximumHomeDistance;
-	}
-	
-	public void func_110177_bN()
-	{
-		maximumHomeDistance = -1.0F;
-	}
-	
-	protected void func_142017_o(float par1)
-	{
-	}
-	
-	public float getBlockPathWeight(int par1, int par2, int par3)
+	public float getBlockPathWeight(int p_70783_1_, int p_70783_2_, int p_70783_3_)
 	{
 		return 0.0F;
 	}
@@ -136,6 +39,16 @@ public abstract class EntityCreature extends EntityLiving
 		return entityToAttack;
 	}
 	
+	@Override public float getSpeedModifier()
+	{
+		float var1 = super.getSpeedModifier();
+		if(fleeingTick > 0 && !isAIEnabled())
+		{
+			var1 *= 2.0F;
+		}
+		return var1;
+	}
+	
 	public boolean hasPath()
 	{
 		return pathToEntity != null;
@@ -146,32 +59,31 @@ public abstract class EntityCreature extends EntityLiving
 		return false;
 	}
 	
-	public void setPathToEntity(PathEntity par1PathEntity)
+	public void setPathToEntity(PathEntity p_70778_1_)
 	{
-		pathToEntity = par1PathEntity;
+		pathToEntity = p_70778_1_;
 	}
 	
-	public void setTarget(Entity par1Entity)
+	public void setTarget(Entity p_70784_1_)
 	{
-		entityToAttack = par1Entity;
+		entityToAttack = p_70784_1_;
 	}
 	
 	@Override protected void updateEntityActionState()
 	{
 		worldObj.theProfiler.startSection("ai");
-		if(fleeingTick > 0 && --fleeingTick == 0)
+		if(fleeingTick > 0)
 		{
-			AttributeInstance var1 = func_110148_a(SharedMonsterAttributes.field_111263_d);
-			var1.func_111124_b(field_110181_i);
+			--fleeingTick;
 		}
 		hasAttacked = isMovementCeased();
-		float var21 = 16.0F;
+		float var1 = 16.0F;
 		if(entityToAttack == null)
 		{
 			entityToAttack = findPlayerToAttack();
 			if(entityToAttack != null)
 			{
-				pathToEntity = worldObj.getPathEntityToEntity(this, entityToAttack, var21, true, false, false, true);
+				pathToEntity = worldObj.getPathEntityToEntity(this, entityToAttack, var1, true, false, false, true);
 			}
 		} else if(entityToAttack.isEntityAlive())
 		{
@@ -187,12 +99,12 @@ public abstract class EntityCreature extends EntityLiving
 		worldObj.theProfiler.endSection();
 		if(!hasAttacked && entityToAttack != null && (pathToEntity == null || rand.nextInt(20) == 0))
 		{
-			pathToEntity = worldObj.getPathEntityToEntity(this, entityToAttack, var21, true, false, false, true);
+			pathToEntity = worldObj.getPathEntityToEntity(this, entityToAttack, var1, true, false, false, true);
 		} else if(!hasAttacked && (pathToEntity == null && rand.nextInt(180) == 0 || rand.nextInt(120) == 0 || fleeingTick > 0) && entityAge < 100)
 		{
 			updateWanderPath();
 		}
-		int var22 = MathHelper.floor_double(boundingBox.minY + 0.5D);
+		int var21 = MathHelper.floor_double(boundingBox.minY + 0.5D);
 		boolean var3 = isInWater();
 		boolean var4 = handleLavaMovement();
 		rotationPitch = 0.0F;
@@ -218,10 +130,10 @@ public abstract class EntityCreature extends EntityLiving
 			{
 				double var8 = var5.xCoord - posX;
 				double var10 = var5.zCoord - posZ;
-				double var12 = var5.yCoord - var22;
+				double var12 = var5.yCoord - var21;
 				float var14 = (float) (Math.atan2(var10, var8) * 180.0D / Math.PI) - 90.0F;
 				float var15 = MathHelper.wrapAngleTo180_float(var14 - rotationYaw);
-				moveForward = (float) func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e();
+				moveForward = moveSpeed;
 				if(var15 > 30.0F)
 				{
 					var15 = 30.0F;

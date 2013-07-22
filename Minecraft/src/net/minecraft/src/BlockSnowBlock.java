@@ -4,29 +4,29 @@ import java.util.Random;
 
 public class BlockSnowBlock extends Block
 {
-	protected BlockSnowBlock(int par1)
+	protected BlockSnowBlock(int p_i9090_1_)
 	{
-		super(par1, Material.craftedSnow);
+		super(p_i9090_1_, Material.craftedSnow);
 		setTickRandomly(true);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return Item.snowball.itemID;
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
 		return 4;
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
-		if(par1World.getSavedLightValue(EnumSkyBlock.Block, par2, par3, par4) > 11)
+		if(p_71847_1_.getSavedLightValue(EnumSkyBlock.Block, p_71847_2_, p_71847_3_, p_71847_4_) > 11)
 		{
-			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockToAir(par2, par3, par4);
+			dropBlockAsItem(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_, p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_), 0);
+			p_71847_1_.setBlockToAir(p_71847_2_, p_71847_3_, p_71847_4_);
 		}
 	}
 }

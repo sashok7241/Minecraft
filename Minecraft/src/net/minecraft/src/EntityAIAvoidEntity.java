@@ -6,22 +6,22 @@ public class EntityAIAvoidEntity extends EntityAIBase
 {
 	public final IEntitySelector field_98218_a = new EntityAIAvoidEntitySelector(this);
 	private EntityCreature theEntity;
-	private double farSpeed;
-	private double nearSpeed;
+	private float farSpeed;
+	private float nearSpeed;
 	private Entity closestLivingEntity;
 	private float distanceFromEntity;
 	private PathEntity entityPathEntity;
 	private PathNavigate entityPathNavigate;
 	private Class targetEntityClass;
 	
-	public EntityAIAvoidEntity(EntityCreature par1EntityCreature, Class par2Class, float par3, double par4, double par6)
+	public EntityAIAvoidEntity(EntityCreature p_i3458_1_, Class p_i3458_2_, float p_i3458_3_, float p_i3458_4_, float p_i3458_5_)
 	{
-		theEntity = par1EntityCreature;
-		targetEntityClass = par2Class;
-		distanceFromEntity = par3;
-		farSpeed = par4;
-		nearSpeed = par6;
-		entityPathNavigate = par1EntityCreature.getNavigator();
+		theEntity = p_i3458_1_;
+		targetEntityClass = p_i3458_2_;
+		distanceFromEntity = p_i3458_3_;
+		farSpeed = p_i3458_4_;
+		nearSpeed = p_i3458_5_;
+		entityPathNavigate = p_i3458_1_.getNavigator();
 		setMutexBits(1);
 	}
 	
@@ -74,8 +74,8 @@ public class EntityAIAvoidEntity extends EntityAIBase
 		}
 	}
 	
-	static EntityCreature func_98217_a(EntityAIAvoidEntity par0EntityAIAvoidEntity)
+	static EntityCreature func_98217_a(EntityAIAvoidEntity p_98217_0_)
 	{
-		return par0EntityAIAvoidEntity.theEntity;
+		return p_98217_0_.theEntity;
 	}
 }

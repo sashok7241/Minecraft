@@ -6,9 +6,9 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandServerDeop extends CommandBase
 {
-	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
 	{
-		return par2ArrayOfStr.length == 1 ? getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getConfigurationManager().getOps()) : null;
+		return p_71516_2_.length == 1 ? getListOfStringsFromIterableMatchingLastWord(p_71516_2_, MinecraftServer.getServer().getConfigurationManager().getOps()) : null;
 	}
 	
 	@Override public String getCommandName()
@@ -16,9 +16,9 @@ public class CommandServerDeop extends CommandBase
 		return "deop";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	@Override public String getCommandUsage(ICommandSender p_71518_1_)
 	{
-		return "commands.deop.usage";
+		return p_71518_1_.translateString("commands.deop.usage", new Object[0]);
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -26,12 +26,12 @@ public class CommandServerDeop extends CommandBase
 		return 3;
 	}
 	
-	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
 	{
-		if(par2ArrayOfStr.length == 1 && par2ArrayOfStr[0].length() > 0)
+		if(p_71515_2_.length == 1 && p_71515_2_[0].length() > 0)
 		{
-			MinecraftServer.getServer().getConfigurationManager().removeOp(par2ArrayOfStr[0]);
-			notifyAdmins(par1ICommandSender, "commands.deop.success", new Object[] { par2ArrayOfStr[0] });
+			MinecraftServer.getServer().getConfigurationManager().removeOp(p_71515_2_[0]);
+			notifyAdmins(p_71515_1_, "commands.deop.success", new Object[] { p_71515_2_[0] });
 		} else throw new WrongUsageException("commands.deop.usage", new Object[0]);
 	}
 }

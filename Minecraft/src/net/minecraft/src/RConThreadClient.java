@@ -9,15 +9,15 @@ import java.net.SocketTimeoutException;
 
 public class RConThreadClient extends RConThreadBase
 {
-	private boolean loggedIn;
+	private boolean loggedIn = false;
 	private Socket clientSocket;
 	private byte[] buffer = new byte[1460];
 	private String rconPassword;
 	
-	RConThreadClient(IServer par1IServer, Socket par2Socket)
+	RConThreadClient(IServer p_i3407_1_, Socket p_i3407_2_)
 	{
-		super(par1IServer);
-		clientSocket = par2Socket;
+		super(p_i3407_1_);
+		clientSocket = p_i3407_2_;
 		try
 		{
 			clientSocket.setSoTimeout(0);
@@ -25,8 +25,8 @@ public class RConThreadClient extends RConThreadBase
 		{
 			running = false;
 		}
-		rconPassword = par1IServer.getStringProperty("rcon.password", "");
-		logInfo("Rcon connection from: " + par2Socket.getInetAddress());
+		rconPassword = p_i3407_1_.getStringProperty("rcon.password", "");
+		logInfo("Rcon connection from: " + p_i3407_2_.getInetAddress());
 	}
 	
 	private void closeSocket()
@@ -119,27 +119,26 @@ public class RConThreadClient extends RConThreadBase
 		sendResponse(-1, 2, "");
 	}
 	
-	private void sendMultipacketResponse(int par1, String par2Str) throws IOException
+	private void sendMultipacketResponse(int p_72655_1_, String p_72655_2_) throws IOException
 	{
-		int var3 = par2Str.length();
+		int var3 = p_72655_2_.length();
 		do
 		{
 			int var4 = 4096 <= var3 ? 4096 : var3;
-			sendResponse(par1, 0, par2Str.substring(0, var4));
-			par2Str = par2Str.substring(var4);
-			var3 = par2Str.length();
+			sendResponse(p_72655_1_, 0, p_72655_2_.substring(0, var4));
+			p_72655_2_ = p_72655_2_.substring(var4);
+			var3 = p_72655_2_.length();
 		} while(0 != var3);
 	}
 	
-	private void sendResponse(int par1, int par2, String par3Str) throws IOException
+	private void sendResponse(int p_72654_1_, int p_72654_2_, String p_72654_3_) throws IOException
 	{
 		ByteArrayOutputStream var4 = new ByteArrayOutputStream(1248);
 		DataOutputStream var5 = new DataOutputStream(var4);
-		byte[] var6 = par3Str.getBytes("UTF-8");
-		var5.writeInt(Integer.reverseBytes(var6.length + 10));
-		var5.writeInt(Integer.reverseBytes(par1));
-		var5.writeInt(Integer.reverseBytes(par2));
-		var5.write(var6);
+		var5.writeInt(Integer.reverseBytes(p_72654_3_.length() + 10));
+		var5.writeInt(Integer.reverseBytes(p_72654_1_));
+		var5.writeInt(Integer.reverseBytes(p_72654_2_));
+		var5.writeBytes(p_72654_3_);
 		var5.write(0);
 		var5.write(0);
 		clientSocket.getOutputStream().write(var4.toByteArray());

@@ -8,14 +8,14 @@ public class Vec3Pool
 	private final int truncateArrayResetThreshold;
 	private final int minimumSize;
 	private final List vec3Cache = new ArrayList();
-	private int nextFreeSpace;
-	private int maximumSizeSinceLastTruncation;
-	private int resetCount;
+	private int nextFreeSpace = 0;
+	private int maximumSizeSinceLastTruncation = 0;
+	private int resetCount = 0;
 	
-	public Vec3Pool(int par1, int par2)
+	public Vec3Pool(int p_i4035_1_, int p_i4035_2_)
 	{
-		truncateArrayResetThreshold = par1;
-		minimumSize = par2;
+		truncateArrayResetThreshold = p_i4035_1_;
+		minimumSize = p_i4035_2_;
 	}
 	
 	public void clear()
@@ -64,20 +64,20 @@ public class Vec3Pool
 		return vec3Cache.size();
 	}
 	
-	public Vec3 getVecFromPool(double par1, double par3, double par5)
+	public Vec3 getVecFromPool(double p_72345_1_, double p_72345_3_, double p_72345_5_)
 	{
-		if(func_82589_e()) return new Vec3(this, par1, par3, par5);
+		if(func_82589_e()) return new Vec3(this, p_72345_1_, p_72345_3_, p_72345_5_);
 		else
 		{
 			Vec3 var7;
 			if(nextFreeSpace >= vec3Cache.size())
 			{
-				var7 = new Vec3(this, par1, par3, par5);
+				var7 = new Vec3(this, p_72345_1_, p_72345_3_, p_72345_5_);
 				vec3Cache.add(var7);
 			} else
 			{
 				var7 = (Vec3) vec3Cache.get(nextFreeSpace);
-				var7.setComponents(par1, par3, par5);
+				var7.setComponents(p_72345_1_, p_72345_3_, p_72345_5_);
 			}
 			++nextFreeSpace;
 			return var7;

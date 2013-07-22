@@ -6,19 +6,19 @@ public class InventoryLargeChest implements IInventory
 	private IInventory upperChest;
 	private IInventory lowerChest;
 	
-	public InventoryLargeChest(String par1Str, IInventory par2IInventory, IInventory par3IInventory)
+	public InventoryLargeChest(String p_i3425_1_, IInventory p_i3425_2_, IInventory p_i3425_3_)
 	{
-		name = par1Str;
-		if(par2IInventory == null)
+		name = p_i3425_1_;
+		if(p_i3425_2_ == null)
 		{
-			par2IInventory = par3IInventory;
+			p_i3425_2_ = p_i3425_3_;
 		}
-		if(par3IInventory == null)
+		if(p_i3425_3_ == null)
 		{
-			par3IInventory = par2IInventory;
+			p_i3425_3_ = p_i3425_2_;
 		}
-		upperChest = par2IInventory;
-		lowerChest = par3IInventory;
+		upperChest = p_i3425_2_;
+		lowerChest = p_i3425_3_;
 	}
 	
 	@Override public void closeChest()
@@ -27,9 +27,9 @@ public class InventoryLargeChest implements IInventory
 		lowerChest.closeChest();
 	}
 	
-	@Override public ItemStack decrStackSize(int par1, int par2)
+	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
 	{
-		return par1 >= upperChest.getSizeInventory() ? lowerChest.decrStackSize(par1 - upperChest.getSizeInventory(), par2) : upperChest.decrStackSize(par1, par2);
+		return p_70298_1_ >= upperChest.getSizeInventory() ? lowerChest.decrStackSize(p_70298_1_ - upperChest.getSizeInventory(), p_70298_2_) : upperChest.decrStackSize(p_70298_1_, p_70298_2_);
 	}
 	
 	@Override public int getInventoryStackLimit()
@@ -47,14 +47,14 @@ public class InventoryLargeChest implements IInventory
 		return upperChest.getSizeInventory() + lowerChest.getSizeInventory();
 	}
 	
-	@Override public ItemStack getStackInSlot(int par1)
+	@Override public ItemStack getStackInSlot(int p_70301_1_)
 	{
-		return par1 >= upperChest.getSizeInventory() ? lowerChest.getStackInSlot(par1 - upperChest.getSizeInventory()) : upperChest.getStackInSlot(par1);
+		return p_70301_1_ >= upperChest.getSizeInventory() ? lowerChest.getStackInSlot(p_70301_1_ - upperChest.getSizeInventory()) : upperChest.getStackInSlot(p_70301_1_);
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int par1)
+	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
 	{
-		return par1 >= upperChest.getSizeInventory() ? lowerChest.getStackInSlotOnClosing(par1 - upperChest.getSizeInventory()) : upperChest.getStackInSlotOnClosing(par1);
+		return p_70304_1_ >= upperChest.getSizeInventory() ? lowerChest.getStackInSlotOnClosing(p_70304_1_ - upperChest.getSizeInventory()) : upperChest.getStackInSlotOnClosing(p_70304_1_);
 	}
 	
 	@Override public boolean isInvNameLocalized()
@@ -62,19 +62,19 @@ public class InventoryLargeChest implements IInventory
 		return upperChest.isInvNameLocalized() || lowerChest.isInvNameLocalized();
 	}
 	
-	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
+	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
 	{
 		return true;
 	}
 	
-	public boolean isPartOfLargeChest(IInventory par1IInventory)
+	public boolean isPartOfLargeChest(IInventory p_90010_1_)
 	{
-		return upperChest == par1IInventory || lowerChest == par1IInventory;
+		return upperChest == p_90010_1_ || lowerChest == p_90010_1_;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
 	{
-		return upperChest.isUseableByPlayer(par1EntityPlayer) && lowerChest.isUseableByPlayer(par1EntityPlayer);
+		return upperChest.isUseableByPlayer(p_70300_1_) && lowerChest.isUseableByPlayer(p_70300_1_);
 	}
 	
 	@Override public void onInventoryChanged()
@@ -89,14 +89,14 @@ public class InventoryLargeChest implements IInventory
 		lowerChest.openChest();
 	}
 	
-	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
 	{
-		if(par1 >= upperChest.getSizeInventory())
+		if(p_70299_1_ >= upperChest.getSizeInventory())
 		{
-			lowerChest.setInventorySlotContents(par1 - upperChest.getSizeInventory(), par2ItemStack);
+			lowerChest.setInventorySlotContents(p_70299_1_ - upperChest.getSizeInventory(), p_70299_2_);
 		} else
 		{
-			upperChest.setInventorySlotContents(par1, par2ItemStack);
+			upperChest.setInventorySlotContents(p_70299_1_, p_70299_2_);
 		}
 	}
 }

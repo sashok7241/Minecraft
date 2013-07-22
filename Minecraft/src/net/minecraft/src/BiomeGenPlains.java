@@ -2,10 +2,9 @@ package net.minecraft.src;
 
 public class BiomeGenPlains extends BiomeGenBase
 {
-	protected BiomeGenPlains(int par1)
+	protected BiomeGenPlains(int p_i3762_1_)
 	{
-		super(par1);
-		spawnableCreatureList.add(new SpawnListEntry(EntityHorse.class, 5, 2, 6));
+		super(p_i3762_1_);
 		theBiomeDecorator.treesPerChunk = -999;
 		theBiomeDecorator.flowersPerChunk = 4;
 		theBiomeDecorator.grassPerChunk = 10;

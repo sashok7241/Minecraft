@@ -11,7 +11,7 @@ public class FlatGeneratorInfo
 {
 	private final List flatLayers = new ArrayList();
 	private final Map worldFeatures = new HashMap();
-	private int biomeToUse;
+	private int biomeToUse = 0;
 	
 	public void func_82645_d()
 	{
@@ -39,9 +39,9 @@ public class FlatGeneratorInfo
 		return worldFeatures;
 	}
 	
-	public void setBiome(int par1)
+	public void setBiome(int p_82647_1_)
 	{
-		biomeToUse = par1;
+		biomeToUse = p_82647_1_;
 	}
 	
 	@Override public String toString()
@@ -100,12 +100,12 @@ public class FlatGeneratorInfo
 		return var1.toString();
 	}
 	
-	public static FlatGeneratorInfo createFlatGeneratorFromString(String par0Str)
+	public static FlatGeneratorInfo createFlatGeneratorFromString(String p_82651_0_)
 	{
-		if(par0Str == null) return getDefaultFlatGenerator();
+		if(p_82651_0_ == null) return getDefaultFlatGenerator();
 		else
 		{
-			String[] var1 = par0Str.split(";", -1);
+			String[] var1 = p_82651_0_.split(";", -1);
 			int var2 = var1.length == 1 ? 0 : MathHelper.parseIntWithDefault(var1[0], 0);
 			if(var2 >= 0 && var2 <= 2)
 			{
@@ -159,9 +159,9 @@ public class FlatGeneratorInfo
 		}
 	}
 	
-	private static FlatLayerInfo func_82646_a(String par0Str, int par1)
+	private static FlatLayerInfo func_82646_a(String p_82646_0_, int p_82646_1_)
 	{
-		String[] var2 = par0Str.split("x", 2);
+		String[] var2 = p_82646_0_.split("x", 2);
 		int var3 = 1;
 		int var5 = 0;
 		if(var2.length == 2)
@@ -169,9 +169,9 @@ public class FlatGeneratorInfo
 			try
 			{
 				var3 = Integer.parseInt(var2[0]);
-				if(par1 + var3 >= 256)
+				if(p_82646_1_ + var3 >= 256)
 				{
-					var3 = 256 - par1;
+					var3 = 256 - p_82646_1_;
 				}
 				if(var3 < 0)
 				{
@@ -206,16 +206,16 @@ public class FlatGeneratorInfo
 			return null;
 		}
 		FlatLayerInfo var9 = new FlatLayerInfo(var3, var4, var5);
-		var9.setMinY(par1);
+		var9.setMinY(p_82646_1_);
 		return var9;
 	}
 	
-	private static List func_82652_b(String par0Str)
+	private static List func_82652_b(String p_82652_0_)
 	{
-		if(par0Str != null && par0Str.length() >= 1)
+		if(p_82652_0_ != null && p_82652_0_.length() >= 1)
 		{
 			ArrayList var1 = new ArrayList();
-			String[] var2 = par0Str.split(",");
+			String[] var2 = p_82652_0_.split(",");
 			int var3 = 0;
 			String[] var4 = var2;
 			int var5 = var2.length;

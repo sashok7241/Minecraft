@@ -11,13 +11,13 @@ public class EntityFireworkSparkFX extends EntityFX
 	private float field_92052_aC;
 	private boolean field_92053_aD;
 	
-	public EntityFireworkSparkFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, EffectRenderer par14EffectRenderer)
+	public EntityFireworkSparkFX(World p_i8003_1_, double p_i8003_2_, double p_i8003_4_, double p_i8003_6_, double p_i8003_8_, double p_i8003_10_, double p_i8003_12_, EffectRenderer p_i8003_14_)
 	{
-		super(par1World, par2, par4, par6);
-		motionX = par8;
-		motionY = par10;
-		motionZ = par12;
-		field_92047_az = par14EffectRenderer;
+		super(p_i8003_1_, p_i8003_2_, p_i8003_4_, p_i8003_6_);
+		motionX = p_i8003_8_;
+		motionY = p_i8003_10_;
+		motionZ = p_i8003_12_;
+		field_92047_az = p_i8003_14_;
 		particleScale *= 0.75F;
 		particleMaxAge = 48 + rand.nextInt(12);
 		noClip = false;
@@ -60,7 +60,7 @@ public class EntityFireworkSparkFX extends EntityFX
 		return null;
 	}
 	
-	@Override public float getBrightness(float par1)
+	@Override public float getBrightness(float p_70013_1_)
 	{
 		return 1.0F;
 	}

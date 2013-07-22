@@ -8,9 +8,9 @@ public class CallableServerProfiler implements Callable
 {
 	final MinecraftServer mcServer;
 	
-	public CallableServerProfiler(MinecraftServer par1MinecraftServer)
+	public CallableServerProfiler(MinecraftServer p_i5008_1_)
 	{
-		mcServer = par1MinecraftServer;
+		mcServer = p_i5008_1_;
 	}
 	
 	@Override public Object call()

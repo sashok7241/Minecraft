@@ -5,20 +5,20 @@ import java.util.List;
 public class BlockAnvil extends BlockSand
 {
 	public static final String[] statuses = new String[] { "intact", "slightlyDamaged", "veryDamaged" };
-	private static final String[] anvilIconNames = new String[] { "anvil_top_damaged_0", "anvil_top_damaged_1", "anvil_top_damaged_2" };
-	public int field_82521_b;
+	private static final String[] anvilIconNames = new String[] { "anvil_top", "anvil_top_damaged_1", "anvil_top_damaged_2" };
+	public int field_82521_b = 0;
 	private Icon[] iconArray;
 	
-	protected BlockAnvil(int par1)
+	protected BlockAnvil(int p_i5098_1_)
 	{
-		super(par1, Material.anvil);
+		super(p_i5098_1_, Material.anvil);
 		setLightOpacity(0);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public int damageDropped(int par1)
+	@Override public int damageDropped(int p_71899_1_)
 	{
-		return par1 >> 2;
+		return p_71899_1_ >> 2;
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -47,48 +47,48 @@ public class BlockAnvil extends BlockSand
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
 	{
-		if(par1World.isRemote) return true;
+		if(p_71903_1_.isRemote) return true;
 		else
 		{
-			par5EntityPlayer.displayGUIAnvil(par2, par3, par4);
+			p_71903_5_.displayGUIAnvil(p_71903_2_, p_71903_3_, p_71903_4_);
 			return true;
 		}
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World p_71860_1_, int p_71860_2_, int p_71860_3_, int p_71860_4_, EntityLiving p_71860_5_, ItemStack p_71860_6_)
 	{
-		int var7 = MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		int var8 = par1World.getBlockMetadata(par2, par3, par4) >> 2;
+		int var7 = MathHelper.floor_double(p_71860_5_.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		int var8 = p_71860_1_.getBlockMetadata(p_71860_2_, p_71860_3_, p_71860_4_) >> 2;
 		++var7;
 		var7 %= 4;
 		if(var7 == 0)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, 2 | var8 << 2, 2);
+			p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, 2 | var8 << 2, 2);
 		}
 		if(var7 == 1)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, 3 | var8 << 2, 2);
+			p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, 3 | var8 << 2, 2);
 		}
 		if(var7 == 2)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, 0 | var8 << 2, 2);
+			p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, 0 | var8 << 2, 2);
 		}
 		if(var7 == 3)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, 1 | var8 << 2, 2);
+			p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, 1 | var8 << 2, 2);
 		}
 	}
 	
-	@Override public void onFinishFalling(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onFinishFalling(World p_82519_1_, int p_82519_2_, int p_82519_3_, int p_82519_4_, int p_82519_5_)
 	{
-		par1World.playAuxSFX(1022, par2, par3, par4, 0);
+		p_82519_1_.playAuxSFX(1022, p_82519_2_, p_82519_3_, p_82519_4_, 0);
 	}
 	
-	@Override protected void onStartFalling(EntityFallingSand par1EntityFallingSand)
+	@Override protected void onStartFalling(EntityFallingSand p_82520_1_)
 	{
-		par1EntityFallingSand.setIsAnvil(true);
+		p_82520_1_.setIsAnvil(true);
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
@@ -106,9 +106,9 @@ public class BlockAnvil extends BlockSand
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
-		int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 3;
+		int var5 = p_71902_1_.getBlockMetadata(p_71902_2_, p_71902_3_, p_71902_4_) & 3;
 		if(var5 != 3 && var5 != 1)
 		{
 			setBlockBounds(0.125F, 0.0F, 0.0F, 0.875F, 1.0F, 1.0F);

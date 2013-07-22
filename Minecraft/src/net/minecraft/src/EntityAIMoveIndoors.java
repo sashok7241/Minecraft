@@ -7,9 +7,9 @@ public class EntityAIMoveIndoors extends EntityAIBase
 	private int insidePosX = -1;
 	private int insidePosZ = -1;
 	
-	public EntityAIMoveIndoors(EntityCreature par1EntityCreature)
+	public EntityAIMoveIndoors(EntityCreature p_i3478_1_)
 	{
-		entityObj = par1EntityCreature;
+		entityObj = p_i3478_1_;
 		setMutexBits(1);
 	}
 	
@@ -52,11 +52,11 @@ public class EntityAIMoveIndoors extends EntityAIBase
 			Vec3 var1 = RandomPositionGenerator.findRandomTargetBlockTowards(entityObj, 14, 3, entityObj.worldObj.getWorldVec3Pool().getVecFromPool(doorInfo.getInsidePosX() + 0.5D, doorInfo.getInsidePosY(), doorInfo.getInsidePosZ() + 0.5D));
 			if(var1 != null)
 			{
-				entityObj.getNavigator().tryMoveToXYZ(var1.xCoord, var1.yCoord, var1.zCoord, 1.0D);
+				entityObj.getNavigator().tryMoveToXYZ(var1.xCoord, var1.yCoord, var1.zCoord, 0.3F);
 			}
 		} else
 		{
-			entityObj.getNavigator().tryMoveToXYZ(doorInfo.getInsidePosX() + 0.5D, doorInfo.getInsidePosY(), doorInfo.getInsidePosZ() + 0.5D, 1.0D);
+			entityObj.getNavigator().tryMoveToXYZ(doorInfo.getInsidePosX() + 0.5D, doorInfo.getInsidePosY(), doorInfo.getInsidePosZ() + 0.5D, 0.3F);
 		}
 	}
 }

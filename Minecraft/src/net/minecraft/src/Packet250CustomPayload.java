@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet250CustomPayload extends Packet
@@ -14,13 +14,13 @@ public class Packet250CustomPayload extends Packet
 	{
 	}
 	
-	public Packet250CustomPayload(String par1Str, byte[] par2ArrayOfByte)
+	public Packet250CustomPayload(String p_i3315_1_, byte[] p_i3315_2_)
 	{
-		channel = par1Str;
-		data = par2ArrayOfByte;
-		if(par2ArrayOfByte != null)
+		channel = p_i3315_1_;
+		data = p_i3315_2_;
+		if(p_i3315_2_ != null)
 		{
-			length = par2ArrayOfByte.length;
+			length = p_i3315_2_.length;
 			if(length > 32767) throw new IllegalArgumentException("Payload may not be larger than 32k");
 		}
 	}
@@ -30,29 +30,29 @@ public class Packet250CustomPayload extends Packet
 		return 2 + channel.length() * 2 + 2 + length;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleCustomPayload(this);
+		p_73279_1_.handleCustomPayload(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		channel = readString(par1DataInput, 20);
-		length = par1DataInput.readShort();
+		channel = readString(p_73267_1_, 20);
+		length = p_73267_1_.readShort();
 		if(length > 0 && length < 32767)
 		{
 			data = new byte[length];
-			par1DataInput.readFully(data);
+			p_73267_1_.readFully(data);
 		}
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		writeString(channel, par1DataOutput);
-		par1DataOutput.writeShort((short) length);
+		writeString(channel, p_73273_1_);
+		p_73273_1_.writeShort((short) length);
 		if(data != null)
 		{
-			par1DataOutput.write(data);
+			p_73273_1_.write(data);
 		}
 	}
 }

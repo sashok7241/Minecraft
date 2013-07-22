@@ -10,10 +10,10 @@ class ThreadConnectToOnlineServer extends Thread
 	final McoServer field_96597_a;
 	final GuiSlotOnlineServerList field_96596_b;
 	
-	ThreadConnectToOnlineServer(GuiSlotOnlineServerList par1GuiSlotOnlineServerList, McoServer par2McoServer)
+	ThreadConnectToOnlineServer(GuiSlotOnlineServerList p_i10009_1_, McoServer p_i10009_2_)
 	{
-		field_96596_b = par1GuiSlotOnlineServerList;
-		field_96597_a = par2McoServer;
+		field_96596_b = p_i10009_1_;
+		field_96597_a = p_i10009_2_;
 	}
 	
 	@Override public void run()
@@ -37,16 +37,16 @@ class ThreadConnectToOnlineServer extends Thread
 									field_96597_a.field_96411_l = true;
 									field_96597_a.field_96412_m = -2L;
 									field_96597_a.field_96414_k = "";
-									GuiScreenOnlineServers.func_140016_k();
+									GuiScreenOnlineServers.func_101014_j();
 									long var1 = System.nanoTime();
-									GuiScreenOnlineServers.func_140024_a(field_96596_b.field_96294_a, field_96597_a);
+									GuiScreenOnlineServers.func_101002_a(field_96596_b.field_96294_a, field_96597_a);
 									long var3 = System.nanoTime();
 									field_96597_a.field_96412_m = (var3 - var1) / 1000000L;
 									var27 = false;
 								} else if(field_96597_a.field_102022_m)
 								{
 									field_96597_a.field_102022_m = false;
-									GuiScreenOnlineServers.func_140024_a(field_96596_b.field_96294_a, field_96597_a);
+									GuiScreenOnlineServers.func_101002_a(field_96596_b.field_96294_a, field_96597_a);
 									var27 = false;
 								} else
 								{
@@ -81,45 +81,45 @@ class ThreadConnectToOnlineServer extends Thread
 							{
 								if(var27)
 								{
-									synchronized(GuiScreenOnlineServers.func_140029_i())
+									synchronized(GuiScreenOnlineServers.func_101007_h())
 									{
-										GuiScreenOnlineServers.func_140021_r();
+										GuiScreenOnlineServers.func_101013_k();
 									}
 								}
 							}
-							synchronized(GuiScreenOnlineServers.func_140029_i())
+							synchronized(GuiScreenOnlineServers.func_101007_h())
 							{
-								GuiScreenOnlineServers.func_140021_r();
+								GuiScreenOnlineServers.func_101013_k();
 								return;
 							}
 						}
-						synchronized(GuiScreenOnlineServers.func_140029_i())
+						synchronized(GuiScreenOnlineServers.func_101007_h())
 						{
-							GuiScreenOnlineServers.func_140021_r();
+							GuiScreenOnlineServers.func_101013_k();
 							return;
 						}
 					}
-					synchronized(GuiScreenOnlineServers.func_140029_i())
+					synchronized(GuiScreenOnlineServers.func_101007_h())
 					{
-						GuiScreenOnlineServers.func_140021_r();
+						GuiScreenOnlineServers.func_101013_k();
 						return;
 					}
 				}
-				synchronized(GuiScreenOnlineServers.func_140029_i())
+				synchronized(GuiScreenOnlineServers.func_101007_h())
 				{
-					GuiScreenOnlineServers.func_140021_r();
+					GuiScreenOnlineServers.func_101013_k();
 					return;
 				}
 			}
-			synchronized(GuiScreenOnlineServers.func_140029_i())
+			synchronized(GuiScreenOnlineServers.func_101007_h())
 			{
-				GuiScreenOnlineServers.func_140021_r();
+				GuiScreenOnlineServers.func_101013_k();
 				return;
 			}
 		}
-		synchronized(GuiScreenOnlineServers.func_140029_i())
+		synchronized(GuiScreenOnlineServers.func_101007_h())
 		{
-			GuiScreenOnlineServers.func_140021_r();
+			GuiScreenOnlineServers.func_101013_k();
 		}
 	}
 }

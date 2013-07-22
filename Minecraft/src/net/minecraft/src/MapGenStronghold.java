@@ -24,13 +24,13 @@ public class MapGenStronghold extends MapGenStructure
 		field_82672_i = 3;
 	}
 	
-	public MapGenStronghold(Map par1Map)
+	public MapGenStronghold(Map p_i5096_1_)
 	{
 		allowedBiomeGenBases = new BiomeGenBase[] { BiomeGenBase.desert, BiomeGenBase.forest, BiomeGenBase.extremeHills, BiomeGenBase.swampland, BiomeGenBase.taiga, BiomeGenBase.icePlains, BiomeGenBase.iceMountains, BiomeGenBase.desertHills, BiomeGenBase.forestHills, BiomeGenBase.extremeHillsEdge, BiomeGenBase.jungle, BiomeGenBase.jungleHills };
 		structureCoords = new ChunkCoordIntPair[3];
 		field_82671_h = 32.0D;
 		field_82672_i = 3;
-		Iterator var2 = par1Map.entrySet().iterator();
+		Iterator var2 = p_i5096_1_.entrySet().iterator();
 		while(var2.hasNext())
 		{
 			Entry var3 = (Entry) var2.next();
@@ -47,7 +47,7 @@ public class MapGenStronghold extends MapGenStructure
 		}
 	}
 	
-	@Override protected boolean canSpawnStructureAtCoords(int par1, int par2)
+	@Override protected boolean canSpawnStructureAtCoords(int p_75047_1_, int p_75047_2_)
 	{
 		if(!ranBiomeCheck)
 		{
@@ -83,7 +83,7 @@ public class MapGenStronghold extends MapGenStructure
 		for(int var5 = 0; var5 < var15; ++var5)
 		{
 			ChunkCoordIntPair var16 = var14[var5];
-			if(par1 == var16.chunkXPos && par2 == var16.chunkZPos) return true;
+			if(p_75047_1_ == var16.chunkXPos && p_75047_2_ == var16.chunkZPos) return true;
 		}
 		return false;
 	}
@@ -104,10 +104,10 @@ public class MapGenStronghold extends MapGenStructure
 		return var1;
 	}
 	
-	@Override protected StructureStart getStructureStart(int par1, int par2)
+	@Override protected StructureStart getStructureStart(int p_75049_1_, int p_75049_2_)
 	{
 		StructureStrongholdStart var3;
-		for(var3 = new StructureStrongholdStart(worldObj, rand, par1, par2); var3.getComponents().isEmpty() || ((ComponentStrongholdStairs2) var3.getComponents().get(0)).strongholdPortalRoom == null; var3 = new StructureStrongholdStart(worldObj, rand, par1, par2))
+		for(var3 = new StructureStrongholdStart(worldObj, rand, p_75049_1_, p_75049_2_); var3.getComponents().isEmpty() || ((ComponentStrongholdStairs2) var3.getComponents().get(0)).strongholdPortalRoom == null; var3 = new StructureStrongholdStart(worldObj, rand, p_75049_1_, p_75049_2_))
 		{
 			;
 		}

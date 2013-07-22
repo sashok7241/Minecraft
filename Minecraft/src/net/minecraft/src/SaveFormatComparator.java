@@ -11,21 +11,21 @@ public class SaveFormatComparator implements Comparable
 	private final boolean hardcore;
 	private final boolean cheatsEnabled;
 	
-	public SaveFormatComparator(String par1Str, String par2Str, long par3, long par5, EnumGameType par7EnumGameType, boolean par8, boolean par9, boolean par10)
+	public SaveFormatComparator(String p_i3917_1_, String p_i3917_2_, long p_i3917_3_, long p_i3917_5_, EnumGameType p_i3917_7_, boolean p_i3917_8_, boolean p_i3917_9_, boolean p_i3917_10_)
 	{
-		fileName = par1Str;
-		displayName = par2Str;
-		lastTimePlayed = par3;
-		sizeOnDisk = par5;
-		theEnumGameType = par7EnumGameType;
-		requiresConversion = par8;
-		hardcore = par9;
-		cheatsEnabled = par10;
+		fileName = p_i3917_1_;
+		displayName = p_i3917_2_;
+		lastTimePlayed = p_i3917_3_;
+		sizeOnDisk = p_i3917_5_;
+		theEnumGameType = p_i3917_7_;
+		requiresConversion = p_i3917_8_;
+		hardcore = p_i3917_9_;
+		cheatsEnabled = p_i3917_10_;
 	}
 	
-	@Override public int compareTo(Object par1Obj)
+	@Override public int compareTo(Object p_compareTo_1_)
 	{
-		return this.compareTo((SaveFormatComparator) par1Obj);
+		return this.compareTo((SaveFormatComparator) p_compareTo_1_);
 	}
 	
 	public int compareTo(SaveFormatComparator par1SaveFormatComparator)

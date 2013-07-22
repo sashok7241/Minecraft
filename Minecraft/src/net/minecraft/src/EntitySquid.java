@@ -2,46 +2,36 @@ package net.minecraft.src;
 
 public class EntitySquid extends EntityWaterMob
 {
-	public float squidPitch;
-	public float prevSquidPitch;
-	public float squidYaw;
-	public float prevSquidYaw;
-	public float field_70867_h;
-	public float field_70868_i;
-	public float tentacleAngle;
-	public float prevTentacleAngle;
-	private float randomMotionSpeed;
-	private float field_70864_bA;
-	private float field_70871_bB;
-	private float randomMotionVecX;
-	private float randomMotionVecY;
-	private float randomMotionVecZ;
+	public float squidPitch = 0.0F;
+	public float prevSquidPitch = 0.0F;
+	public float squidYaw = 0.0F;
+	public float prevSquidYaw = 0.0F;
+	public float field_70867_h = 0.0F;
+	public float field_70868_i = 0.0F;
+	public float tentacleAngle = 0.0F;
+	public float prevTentacleAngle = 0.0F;
+	private float randomMotionSpeed = 0.0F;
+	private float field_70864_bA = 0.0F;
+	private float field_70871_bB = 0.0F;
+	private float randomMotionVecX = 0.0F;
+	private float randomMotionVecY = 0.0F;
+	private float randomMotionVecZ = 0.0F;
 	
-	public EntitySquid(World par1World)
+	public EntitySquid(World p_i3523_1_)
 	{
-		super(par1World);
+		super(p_i3523_1_);
+		texture = "/mob/squid.png";
 		setSize(0.95F, 0.95F);
 		field_70864_bA = 1.0F / (rand.nextFloat() + 1.0F) * 0.2F;
 	}
 	
-	@Override protected boolean canTriggerWalking()
+	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
 	{
-		return false;
-	}
-	
-	@Override protected void dropFewItems(boolean par1, int par2)
-	{
-		int var3 = rand.nextInt(3 + par2) + 1;
+		int var3 = rand.nextInt(3 + p_70628_2_) + 1;
 		for(int var4 = 0; var4 < var3; ++var4)
 		{
 			entityDropItem(new ItemStack(Item.dyePowder, 1, 0), 0.0F);
 		}
-	}
-	
-	@Override protected void func_110147_ax()
-	{
-		super.func_110147_ax();
-		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
 	}
 	
 	@Override public boolean getCanSpawnHere()
@@ -69,6 +59,11 @@ public class EntitySquid extends EntityWaterMob
 		return null;
 	}
 	
+	@Override public int getMaxHealth()
+	{
+		return 10;
+	}
+	
 	@Override protected float getSoundVolume()
 	{
 		return 0.4F;
@@ -79,7 +74,7 @@ public class EntitySquid extends EntityWaterMob
 		return worldObj.handleMaterialAcceleration(boundingBox.expand(0.0D, -0.6000000238418579D, 0.0D), Material.water, this);
 	}
 	
-	@Override public void moveEntityWithHeading(float par1, float par2)
+	@Override public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_)
 	{
 		moveEntity(motionX, motionY, motionZ);
 	}

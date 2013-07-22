@@ -10,20 +10,20 @@ public class MovingObjectPosition
 	public Vec3 hitVec;
 	public Entity entityHit;
 	
-	public MovingObjectPosition(Entity par1Entity)
+	public MovingObjectPosition(Entity p_i4033_1_)
 	{
 		typeOfHit = EnumMovingObjectType.ENTITY;
-		entityHit = par1Entity;
-		hitVec = par1Entity.worldObj.getWorldVec3Pool().getVecFromPool(par1Entity.posX, par1Entity.posY, par1Entity.posZ);
+		entityHit = p_i4033_1_;
+		hitVec = p_i4033_1_.worldObj.getWorldVec3Pool().getVecFromPool(p_i4033_1_.posX, p_i4033_1_.posY, p_i4033_1_.posZ);
 	}
 	
-	public MovingObjectPosition(int par1, int par2, int par3, int par4, Vec3 par5Vec3)
+	public MovingObjectPosition(int p_i4032_1_, int p_i4032_2_, int p_i4032_3_, int p_i4032_4_, Vec3 p_i4032_5_)
 	{
 		typeOfHit = EnumMovingObjectType.TILE;
-		blockX = par1;
-		blockY = par2;
-		blockZ = par3;
-		sideHit = par4;
-		hitVec = par5Vec3.myVec3LocalPool.getVecFromPool(par5Vec3.xCoord, par5Vec3.yCoord, par5Vec3.zCoord);
+		blockX = p_i4032_1_;
+		blockY = p_i4032_2_;
+		blockZ = p_i4032_3_;
+		sideHit = p_i4032_4_;
+		hitVec = p_i4032_5_.myVec3LocalPool.getVecFromPool(p_i4032_5_.xCoord, p_i4032_5_.yCoord, p_i4032_5_.zCoord);
 	}
 }

@@ -4,14 +4,14 @@ class EntityMinecartMobSpawnerLogic extends MobSpawnerBaseLogic
 {
 	final EntityMinecartMobSpawner spawnerMinecart;
 	
-	EntityMinecartMobSpawnerLogic(EntityMinecartMobSpawner par1EntityMinecartMobSpawner)
+	EntityMinecartMobSpawnerLogic(EntityMinecartMobSpawner p_i11038_1_)
 	{
-		spawnerMinecart = par1EntityMinecartMobSpawner;
+		spawnerMinecart = p_i11038_1_;
 	}
 	
-	@Override public void func_98267_a(int par1)
+	@Override public void func_98267_a(int p_98267_1_)
 	{
-		spawnerMinecart.worldObj.setEntityState(spawnerMinecart, (byte) par1);
+		spawnerMinecart.worldObj.setEntityState(spawnerMinecart, (byte) p_98267_1_);
 	}
 	
 	@Override public World getSpawnerWorld()

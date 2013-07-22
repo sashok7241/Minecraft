@@ -6,22 +6,21 @@ import net.minecraft.client.Minecraft;
 
 public class GuiRepair extends GuiContainer implements ICrafting
 {
-	private static final ResourceLocation field_110429_t = new ResourceLocation("textures/gui/container/anvil.png");
 	private ContainerRepair repairContainer;
 	private GuiTextField itemNameField;
 	private InventoryPlayer field_82325_q;
 	
-	public GuiRepair(InventoryPlayer par1InventoryPlayer, World par2World, int par3, int par4, int par5)
+	public GuiRepair(InventoryPlayer p_i5006_1_, World p_i5006_2_, int p_i5006_3_, int p_i5006_4_, int p_i5006_5_)
 	{
-		super(new ContainerRepair(par1InventoryPlayer, par2World, par3, par4, par5, Minecraft.getMinecraft().thePlayer));
-		field_82325_q = par1InventoryPlayer;
+		super(new ContainerRepair(p_i5006_1_, p_i5006_2_, p_i5006_3_, p_i5006_4_, p_i5006_5_, Minecraft.getMinecraft().thePlayer));
+		field_82325_q = p_i5006_1_;
 		repairContainer = (ContainerRepair) inventorySlots;
 	}
 	
 	@Override protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.func_110434_K().func_110577_a(field_110429_t);
+		mc.renderEngine.bindTexture("/gui/repair.png");
 		int var4 = (width - xSize) / 2;
 		int var5 = (height - ySize) / 2;
 		drawTexturedModalRect(var4, var5, 0, 0, xSize, ySize);
@@ -35,15 +34,15 @@ public class GuiRepair extends GuiContainer implements ICrafting
 	@Override protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		GL11.glDisable(GL11.GL_LIGHTING);
-		fontRenderer.drawString(I18n.func_135053_a("container.repair"), 60, 6, 4210752);
+		fontRenderer.drawString(StatCollector.translateToLocal("container.repair"), 60, 6, 4210752);
 		if(repairContainer.maximumCost > 0)
 		{
 			int var3 = 8453920;
 			boolean var4 = true;
-			String var5 = I18n.func_135052_a("container.repair.cost", new Object[] { Integer.valueOf(repairContainer.maximumCost) });
+			String var5 = StatCollector.translateToLocalFormatted("container.repair.cost", new Object[] { Integer.valueOf(repairContainer.maximumCost) });
 			if(repairContainer.maximumCost >= 40 && !mc.thePlayer.capabilities.isCreativeMode)
 			{
-				var5 = I18n.func_135053_a("container.repair.expensive");
+				var5 = StatCollector.translateToLocal("container.repair.expensive");
 				var3 = 16736352;
 			} else if(!repairContainer.getSlot(2).getHasStack())
 			{
@@ -80,18 +79,6 @@ public class GuiRepair extends GuiContainer implements ICrafting
 		itemNameField.drawTextBox();
 	}
 	
-	private void func_135015_g()
-	{
-		String var1 = itemNameField.getText();
-		Slot var2 = repairContainer.getSlot(0);
-		if(var2 != null && var2.getHasStack() && !var2.getStack().hasDisplayName() && var1.equals(var2.getStack().getDisplayName()))
-		{
-			var1 = "";
-		}
-		repairContainer.updateItemName(var1);
-		mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", var1.getBytes()));
-	}
-	
 	@Override public void initGui()
 	{
 		super.initGui();
@@ -102,7 +89,7 @@ public class GuiRepair extends GuiContainer implements ICrafting
 		itemNameField.setTextColor(-1);
 		itemNameField.setDisabledTextColour(-1);
 		itemNameField.setEnableBackgroundDrawing(false);
-		itemNameField.setMaxStringLength(40);
+		itemNameField.setMaxStringLength(30);
 		inventorySlots.removeCraftingFromCrafters(this);
 		inventorySlots.addCraftingToCrafters(this);
 	}
@@ -111,7 +98,8 @@ public class GuiRepair extends GuiContainer implements ICrafting
 	{
 		if(itemNameField.textboxKeyTyped(par1, par2))
 		{
-			func_135015_g();
+			repairContainer.updateItemName(itemNameField.getText());
+			mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", itemNameField.getText().getBytes()));
 		} else
 		{
 			super.keyTyped(par1, par2);
@@ -131,24 +119,25 @@ public class GuiRepair extends GuiContainer implements ICrafting
 		inventorySlots.removeCraftingFromCrafters(this);
 	}
 	
-	@Override public void sendContainerAndContentsToPlayer(Container par1Container, List par2List)
+	@Override public void sendContainerAndContentsToPlayer(Container p_71110_1_, List p_71110_2_)
 	{
-		sendSlotContents(par1Container, 0, par1Container.getSlot(0).getStack());
+		sendSlotContents(p_71110_1_, 0, p_71110_1_.getSlot(0).getStack());
 	}
 	
-	@Override public void sendProgressBarUpdate(Container par1Container, int par2, int par3)
+	@Override public void sendProgressBarUpdate(Container p_71112_1_, int p_71112_2_, int p_71112_3_)
 	{
 	}
 	
-	@Override public void sendSlotContents(Container par1Container, int par2, ItemStack par3ItemStack)
+	@Override public void sendSlotContents(Container p_71111_1_, int p_71111_2_, ItemStack p_71111_3_)
 	{
-		if(par2 == 0)
+		if(p_71111_2_ == 0)
 		{
-			itemNameField.setText(par3ItemStack == null ? "" : par3ItemStack.getDisplayName());
-			itemNameField.setEnabled(par3ItemStack != null);
-			if(par3ItemStack != null)
+			itemNameField.setText(p_71111_3_ == null ? "" : p_71111_3_.getDisplayName());
+			itemNameField.setEnabled(p_71111_3_ != null);
+			if(p_71111_3_ != null)
 			{
-				func_135015_g();
+				repairContainer.updateItemName(itemNameField.getText());
+				mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", itemNameField.getText().getBytes()));
 			}
 		}
 	}

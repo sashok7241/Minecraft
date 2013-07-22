@@ -3,29 +3,19 @@ package net.minecraft.src;
 
 public class RenderMinecart extends Render
 {
-	private static final ResourceLocation field_110804_g = new ResourceLocation("textures/entity/minecart.png");
-	protected ModelBase modelMinecart = new ModelMinecart();
+	protected ModelBase modelMinecart;
 	protected final RenderBlocks field_94145_f;
 	
 	public RenderMinecart()
 	{
 		shadowSize = 0.5F;
+		modelMinecart = new ModelMinecart();
 		field_94145_f = new RenderBlocks();
 	}
 	
 	@Override public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
 		renderTheMinecart((EntityMinecart) par1Entity, par2, par4, par6, par8, par9);
-	}
-	
-	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
-	{
-		return func_110803_a((EntityMinecart) par1Entity);
-	}
-	
-	protected ResourceLocation func_110803_a(EntityMinecart par1EntityMinecart)
-	{
-		return field_110804_g;
 	}
 	
 	protected void renderBlockInMinecart(EntityMinecart par1EntityMinecart, float par2, Block par3Block, int par4)
@@ -39,7 +29,6 @@ public class RenderMinecart extends Render
 	public void renderTheMinecart(EntityMinecart par1EntityMinecart, double par2, double par4, double par6, float par8, float par9)
 	{
 		GL11.glPushMatrix();
-		func_110777_b(par1EntityMinecart);
 		long var10 = par1EntityMinecart.entityId * 493286711L;
 		var10 = var10 * var10 * 4392167121L + var10 * 98761L;
 		float var12 = (((var10 >> 16 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
@@ -94,15 +83,15 @@ public class RenderMinecart extends Render
 		if(var28 != null)
 		{
 			GL11.glPushMatrix();
-			func_110776_a(TextureMap.field_110575_b);
+			loadTexture("/terrain.png");
 			float var30 = 0.75F;
 			GL11.glScalef(var30, var30, var30);
 			GL11.glTranslatef(0.0F, var32 / 16.0F, 0.0F);
 			renderBlockInMinecart(par1EntityMinecart, par9, var28, var29);
 			GL11.glPopMatrix();
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			func_110777_b(par1EntityMinecart);
 		}
+		loadTexture("/item/cart.png");
 		GL11.glScalef(-1.0F, -1.0F, 1.0F);
 		modelMinecart.render(par1EntityMinecart, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		GL11.glPopMatrix();

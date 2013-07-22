@@ -13,12 +13,12 @@ public class StitchSlot
 	private List subSlots;
 	private StitchHolder holder;
 	
-	public StitchSlot(int par1, int par2, int par3, int par4)
+	public StitchSlot(int p_i9012_1_, int p_i9012_2_, int p_i9012_3_, int p_i9012_4_)
 	{
-		originX = par1;
-		originY = par2;
-		width = par3;
-		height = par4;
+		originX = p_i9012_1_;
+		originY = p_i9012_2_;
+		width = p_i9012_3_;
+		height = p_i9012_4_;
 	}
 	
 	public boolean func_94182_a(StitchHolder par1StitchHolder)

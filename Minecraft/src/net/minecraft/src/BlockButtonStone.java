@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BlockButtonStone extends BlockButton
 {
-	protected BlockButtonStone(int par1)
+	protected BlockButtonStone(int p_i9015_1_)
 	{
-		super(par1, false);
+		super(p_i9015_1_, false);
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)

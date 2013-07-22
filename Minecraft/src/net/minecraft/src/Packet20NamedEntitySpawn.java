@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,18 +22,18 @@ public class Packet20NamedEntitySpawn extends Packet
 	{
 	}
 	
-	public Packet20NamedEntitySpawn(EntityPlayer par1EntityPlayer)
+	public Packet20NamedEntitySpawn(EntityPlayer p_i3296_1_)
 	{
-		entityId = par1EntityPlayer.entityId;
-		name = par1EntityPlayer.getCommandSenderName();
-		xPosition = MathHelper.floor_double(par1EntityPlayer.posX * 32.0D);
-		yPosition = MathHelper.floor_double(par1EntityPlayer.posY * 32.0D);
-		zPosition = MathHelper.floor_double(par1EntityPlayer.posZ * 32.0D);
-		rotation = (byte) (int) (par1EntityPlayer.rotationYaw * 256.0F / 360.0F);
-		pitch = (byte) (int) (par1EntityPlayer.rotationPitch * 256.0F / 360.0F);
-		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
+		entityId = p_i3296_1_.entityId;
+		name = p_i3296_1_.username;
+		xPosition = MathHelper.floor_double(p_i3296_1_.posX * 32.0D);
+		yPosition = MathHelper.floor_double(p_i3296_1_.posY * 32.0D);
+		zPosition = MathHelper.floor_double(p_i3296_1_.posZ * 32.0D);
+		rotation = (byte) (int) (p_i3296_1_.rotationYaw * 256.0F / 360.0F);
+		pitch = (byte) (int) (p_i3296_1_.rotationPitch * 256.0F / 360.0F);
+		ItemStack var2 = p_i3296_1_.inventory.getCurrentItem();
 		currentItem = var2 == null ? 0 : var2.itemID;
-		metadata = par1EntityPlayer.getDataWatcher();
+		metadata = p_i3296_1_.getDataWatcher();
 	}
 	
 	@Override public int getPacketSize()
@@ -50,34 +50,34 @@ public class Packet20NamedEntitySpawn extends Packet
 		return metadataWatchableObjects;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleNamedEntitySpawn(this);
+		p_73279_1_.handleNamedEntitySpawn(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
-		name = readString(par1DataInput, 16);
-		xPosition = par1DataInput.readInt();
-		yPosition = par1DataInput.readInt();
-		zPosition = par1DataInput.readInt();
-		rotation = par1DataInput.readByte();
-		pitch = par1DataInput.readByte();
-		currentItem = par1DataInput.readShort();
-		metadataWatchableObjects = DataWatcher.readWatchableObjects(par1DataInput);
+		entityId = p_73267_1_.readInt();
+		name = readString(p_73267_1_, 16);
+		xPosition = p_73267_1_.readInt();
+		yPosition = p_73267_1_.readInt();
+		zPosition = p_73267_1_.readInt();
+		rotation = p_73267_1_.readByte();
+		pitch = p_73267_1_.readByte();
+		currentItem = p_73267_1_.readShort();
+		metadataWatchableObjects = DataWatcher.readWatchableObjects(p_73267_1_);
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
-		writeString(name, par1DataOutput);
-		par1DataOutput.writeInt(xPosition);
-		par1DataOutput.writeInt(yPosition);
-		par1DataOutput.writeInt(zPosition);
-		par1DataOutput.writeByte(rotation);
-		par1DataOutput.writeByte(pitch);
-		par1DataOutput.writeShort(currentItem);
-		metadata.writeWatchableObjects(par1DataOutput);
+		p_73273_1_.writeInt(entityId);
+		writeString(name, p_73273_1_);
+		p_73273_1_.writeInt(xPosition);
+		p_73273_1_.writeInt(yPosition);
+		p_73273_1_.writeInt(zPosition);
+		p_73273_1_.writeByte(rotation);
+		p_73273_1_.writeByte(pitch);
+		p_73273_1_.writeShort(currentItem);
+		metadata.writeWatchableObjects(p_73273_1_);
 	}
 }

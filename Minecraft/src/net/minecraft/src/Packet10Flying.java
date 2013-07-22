@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet10Flying extends Packet
@@ -20,12 +20,12 @@ public class Packet10Flying extends Packet
 	{
 	}
 	
-	public Packet10Flying(boolean par1)
+	public Packet10Flying(boolean p_i3335_1_)
 	{
-		onGround = par1;
+		onGround = p_i3335_1_;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
+	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
 	{
 		return true;
 	}
@@ -40,18 +40,18 @@ public class Packet10Flying extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleFlying(this);
+		p_73279_1_.handleFlying(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		onGround = par1DataInput.readUnsignedByte() != 0;
+		onGround = p_73267_1_.read() != 0;
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.write(onGround ? 1 : 0);
+		p_73273_1_.write(onGround ? 1 : 0);
 	}
 }

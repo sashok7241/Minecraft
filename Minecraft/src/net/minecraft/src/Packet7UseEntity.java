@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet7UseEntity extends Packet
@@ -14,11 +14,11 @@ public class Packet7UseEntity extends Packet
 	{
 	}
 	
-	public Packet7UseEntity(int par1, int par2, int par3)
+	public Packet7UseEntity(int p_i3321_1_, int p_i3321_2_, int p_i3321_3_)
 	{
-		playerEntityId = par1;
-		targetEntity = par2;
-		isLeftClick = par3;
+		playerEntityId = p_i3321_1_;
+		targetEntity = p_i3321_2_;
+		isLeftClick = p_i3321_3_;
 	}
 	
 	@Override public int getPacketSize()
@@ -26,22 +26,22 @@ public class Packet7UseEntity extends Packet
 		return 9;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleUseEntity(this);
+		p_73279_1_.handleUseEntity(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		playerEntityId = par1DataInput.readInt();
-		targetEntity = par1DataInput.readInt();
-		isLeftClick = par1DataInput.readByte();
+		playerEntityId = p_73267_1_.readInt();
+		targetEntity = p_73267_1_.readInt();
+		isLeftClick = p_73267_1_.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(playerEntityId);
-		par1DataOutput.writeInt(targetEntity);
-		par1DataOutput.writeByte(isLeftClick);
+		p_73273_1_.writeInt(playerEntityId);
+		p_73273_1_.writeInt(targetEntity);
+		p_73273_1_.writeByte(isLeftClick);
 	}
 }

@@ -2,20 +2,20 @@ package net.minecraft.src;
 
 public class EnchantmentDigging extends Enchantment
 {
-	protected EnchantmentDigging(int par1, int par2)
+	protected EnchantmentDigging(int p_i3708_1_, int p_i3708_2_)
 	{
-		super(par1, par2, EnumEnchantmentType.digger);
+		super(p_i3708_1_, p_i3708_2_, EnumEnchantmentType.digger);
 		setName("digging");
 	}
 	
-	@Override public boolean canApply(ItemStack par1ItemStack)
+	@Override public boolean canApply(ItemStack p_92089_1_)
 	{
-		return par1ItemStack.getItem().itemID == Item.shears.itemID ? true : super.canApply(par1ItemStack);
+		return p_92089_1_.getItem().itemID == Item.shears.itemID ? true : super.canApply(p_92089_1_);
 	}
 	
-	@Override public int getMaxEnchantability(int par1)
+	@Override public int getMaxEnchantability(int p_77317_1_)
 	{
-		return super.getMinEnchantability(par1) + 50;
+		return super.getMinEnchantability(p_77317_1_) + 50;
 	}
 	
 	@Override public int getMaxLevel()
@@ -23,8 +23,8 @@ public class EnchantmentDigging extends Enchantment
 		return 5;
 	}
 	
-	@Override public int getMinEnchantability(int par1)
+	@Override public int getMinEnchantability(int p_77321_1_)
 	{
-		return 1 + 10 * (par1 - 1);
+		return 1 + 10 * (p_77321_1_ - 1);
 	}
 }

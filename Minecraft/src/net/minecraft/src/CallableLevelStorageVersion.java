@@ -6,9 +6,9 @@ class CallableLevelStorageVersion implements Callable
 {
 	final WorldInfo worldInfoInstance;
 	
-	CallableLevelStorageVersion(WorldInfo par1WorldInfo)
+	CallableLevelStorageVersion(WorldInfo p_i6826_1_)
 	{
-		worldInfoInstance = par1WorldInfo;
+		worldInfoInstance = p_i6826_1_;
 	}
 	
 	@Override public Object call()

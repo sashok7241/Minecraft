@@ -1,14 +1,22 @@
 package net.minecraft.src;
 
+import java.util.List;
+
 final class CreativeTabTools extends CreativeTabs
 {
-	CreativeTabTools(int par1, String par2Str)
+	CreativeTabTools(int p_i3640_1_, String p_i3640_2_)
 	{
-		super(par1, par2Str);
+		super(p_i3640_1_, p_i3640_2_);
+	}
+	
+	@Override public void displayAllReleventItems(List par1List)
+	{
+		super.displayAllReleventItems(par1List);
+		addEnchantmentBooksToList(par1List, new EnumEnchantmentType[] { EnumEnchantmentType.digger });
 	}
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Item.swordGold.itemID;
+		return Item.axeIron.itemID;
 	}
 }

@@ -2,25 +2,25 @@ package net.minecraft.src;
 
 public class EntityWitherSkull extends EntityFireball
 {
-	public EntityWitherSkull(World par1World)
+	public EntityWitherSkull(World p_i5072_1_)
 	{
-		super(par1World);
+		super(p_i5072_1_);
 		setSize(0.3125F, 0.3125F);
 	}
 	
-	public EntityWitherSkull(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
+	public EntityWitherSkull(World p_i5074_1_, double p_i5074_2_, double p_i5074_4_, double p_i5074_6_, double p_i5074_8_, double p_i5074_10_, double p_i5074_12_)
 	{
-		super(par1World, par2, par4, par6, par8, par10, par12);
+		super(p_i5074_1_, p_i5074_2_, p_i5074_4_, p_i5074_6_, p_i5074_8_, p_i5074_10_, p_i5074_12_);
 		setSize(0.3125F, 0.3125F);
 	}
 	
-	public EntityWitherSkull(World par1World, EntityLivingBase par2EntityLivingBase, double par3, double par5, double par7)
+	public EntityWitherSkull(World p_i5073_1_, EntityLiving p_i5073_2_, double p_i5073_3_, double p_i5073_5_, double p_i5073_7_)
 	{
-		super(par1World, par2EntityLivingBase, par3, par5, par7);
+		super(p_i5073_1_, p_i5073_2_, p_i5073_3_, p_i5073_5_, p_i5073_7_);
 		setSize(0.3125F, 0.3125F);
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
+	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
 	{
 		return false;
 	}
@@ -35,10 +35,10 @@ public class EntityWitherSkull extends EntityFireball
 		dataWatcher.addObject(10, Byte.valueOf((byte) 0));
 	}
 	
-	@Override public float func_82146_a(Explosion par1Explosion, World par2World, int par3, int par4, int par5, Block par6Block)
+	@Override public float func_82146_a(Explosion p_82146_1_, World p_82146_2_, int p_82146_3_, int p_82146_4_, int p_82146_5_, Block p_82146_6_)
 	{
-		float var7 = super.func_82146_a(par1Explosion, par2World, par3, par4, par5, par6Block);
-		if(isInvulnerable() && par6Block != Block.bedrock && par6Block != Block.endPortal && par6Block != Block.endPortalFrame)
+		float var7 = super.func_82146_a(p_82146_1_, p_82146_2_, p_82146_3_, p_82146_4_, p_82146_5_, p_82146_6_);
+		if(isInvulnerable() && p_82146_6_ != Block.bedrock && p_82146_6_ != Block.endPortal && p_82146_6_ != Block.endPortalFrame)
 		{
 			var7 = Math.min(0.8F, var7);
 		}
@@ -60,23 +60,23 @@ public class EntityWitherSkull extends EntityFireball
 		return dataWatcher.getWatchableObjectByte(10) == 1;
 	}
 	
-	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+	@Override protected void onImpact(MovingObjectPosition p_70227_1_)
 	{
 		if(!worldObj.isRemote)
 		{
-			if(par1MovingObjectPosition.entityHit != null)
+			if(p_70227_1_.entityHit != null)
 			{
 				if(shootingEntity != null)
 				{
-					if(par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeMobDamage(shootingEntity), 8.0F) && !par1MovingObjectPosition.entityHit.isEntityAlive())
+					if(p_70227_1_.entityHit.attackEntityFrom(DamageSource.causeMobDamage(shootingEntity), 8) && !p_70227_1_.entityHit.isEntityAlive())
 					{
-						shootingEntity.heal(5.0F);
+						shootingEntity.heal(5);
 					}
 				} else
 				{
-					par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.magic, 5.0F);
+					p_70227_1_.entityHit.attackEntityFrom(DamageSource.magic, 5);
 				}
-				if(par1MovingObjectPosition.entityHit instanceof EntityLivingBase)
+				if(p_70227_1_.entityHit instanceof EntityLiving)
 				{
 					byte var2 = 0;
 					if(worldObj.difficultySetting > 1)
@@ -91,7 +91,7 @@ public class EntityWitherSkull extends EntityFireball
 					}
 					if(var2 > 0)
 					{
-						((EntityLivingBase) par1MovingObjectPosition.entityHit).addPotionEffect(new PotionEffect(Potion.wither.id, 20 * var2, 1));
+						((EntityLiving) p_70227_1_.entityHit).addPotionEffect(new PotionEffect(Potion.wither.id, 20 * var2, 1));
 					}
 				}
 			}
@@ -100,8 +100,8 @@ public class EntityWitherSkull extends EntityFireball
 		}
 	}
 	
-	public void setInvulnerable(boolean par1)
+	public void setInvulnerable(boolean p_82343_1_)
 	{
-		dataWatcher.updateObject(10, Byte.valueOf((byte) (par1 ? 1 : 0)));
+		dataWatcher.updateObject(10, Byte.valueOf((byte) (p_82343_1_ ? 1 : 0)));
 	}
 }

@@ -7,8 +7,8 @@ public class DemoWorldServer extends WorldServer
 	private static final long demoWorldSeed = "North Carolina".hashCode();
 	public static final WorldSettings demoWorldSettings = new WorldSettings(demoWorldSeed, EnumGameType.SURVIVAL, true, false, WorldType.DEFAULT).enableBonusChest();
 	
-	public DemoWorldServer(MinecraftServer par1MinecraftServer, ISaveHandler par2ISaveHandler, String par3Str, int par4, Profiler par5Profiler, ILogAgent par6ILogAgent)
+	public DemoWorldServer(MinecraftServer p_i11029_1_, ISaveHandler p_i11029_2_, String p_i11029_3_, int p_i11029_4_, Profiler p_i11029_5_, ILogAgent p_i11029_6_)
 	{
-		super(par1MinecraftServer, par2ISaveHandler, par3Str, par4, demoWorldSettings, par5Profiler, par6ILogAgent);
+		super(p_i11029_1_, p_i11029_2_, p_i11029_3_, p_i11029_4_, demoWorldSettings, p_i11029_5_, p_i11029_6_);
 	}
 }

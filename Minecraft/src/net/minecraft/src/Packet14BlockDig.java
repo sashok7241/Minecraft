@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet14BlockDig extends Packet
@@ -16,13 +16,13 @@ public class Packet14BlockDig extends Packet
 	{
 	}
 	
-	public Packet14BlockDig(int par1, int par2, int par3, int par4, int par5)
+	public Packet14BlockDig(int p_i3337_1_, int p_i3337_2_, int p_i3337_3_, int p_i3337_4_, int p_i3337_5_)
 	{
-		status = par1;
-		xPosition = par2;
-		yPosition = par3;
-		zPosition = par4;
-		face = par5;
+		status = p_i3337_1_;
+		xPosition = p_i3337_2_;
+		yPosition = p_i3337_3_;
+		zPosition = p_i3337_4_;
+		face = p_i3337_5_;
 	}
 	
 	@Override public int getPacketSize()
@@ -30,26 +30,26 @@ public class Packet14BlockDig extends Packet
 		return 11;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleBlockDig(this);
+		p_73279_1_.handleBlockDig(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		status = par1DataInput.readUnsignedByte();
-		xPosition = par1DataInput.readInt();
-		yPosition = par1DataInput.readUnsignedByte();
-		zPosition = par1DataInput.readInt();
-		face = par1DataInput.readUnsignedByte();
+		status = p_73267_1_.read();
+		xPosition = p_73267_1_.readInt();
+		yPosition = p_73267_1_.read();
+		zPosition = p_73267_1_.readInt();
+		face = p_73267_1_.read();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.write(status);
-		par1DataOutput.writeInt(xPosition);
-		par1DataOutput.write(yPosition);
-		par1DataOutput.writeInt(zPosition);
-		par1DataOutput.write(face);
+		p_73273_1_.write(status);
+		p_73273_1_.writeInt(xPosition);
+		p_73273_1_.write(yPosition);
+		p_73273_1_.writeInt(zPosition);
+		p_73273_1_.write(face);
 	}
 }

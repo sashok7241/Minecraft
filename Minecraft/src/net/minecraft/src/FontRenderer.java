@@ -13,16 +13,15 @@ import javax.imageio.ImageIO;
 
 import net.minecraft.client.Minecraft;
 
-public class FontRenderer implements ResourceManagerReloadListener
+public class FontRenderer
 {
-	private static final ResourceLocation[] field_111274_c = new ResourceLocation[256];
 	private int[] charWidth = new int[256];
 	public int FONT_HEIGHT = 9;
 	public Random fontRandom = new Random();
 	private byte[] glyphWidth = new byte[65536];
 	private int[] colorCode = new int[32];
-	private final ResourceLocation field_111273_g;
-	private final TextureManager renderEngine;
+	private final String fontTextureName;
+	private final RenderEngine renderEngine;
 	private float posX;
 	private float posY;
 	private boolean unicodeFlag;
@@ -32,18 +31,25 @@ public class FontRenderer implements ResourceManagerReloadListener
 	private float green;
 	private float alpha;
 	private int textColor;
-	private boolean randomStyle;
-	private boolean boldStyle;
-	private boolean italicStyle;
-	private boolean underlineStyle;
-	private boolean strikethroughStyle;
+	private boolean randomStyle = false;
+	private boolean boldStyle = false;
+	private boolean italicStyle = false;
+	private boolean underlineStyle = false;
+	private boolean strikethroughStyle = false;
 	
-	public FontRenderer(GameSettings par1GameSettings, ResourceLocation par2ResourceLocation, TextureManager par3TextureManager, boolean par4)
+	FontRenderer()
 	{
-		field_111273_g = par2ResourceLocation;
-		renderEngine = par3TextureManager;
-		unicodeFlag = par4;
-		par3TextureManager.func_110577_a(field_111273_g);
+		renderEngine = null;
+		fontTextureName = null;
+	}
+	
+	public FontRenderer(GameSettings p_i3067_1_, String p_i3067_2_, RenderEngine p_i3067_3_, boolean p_i3067_4_)
+	{
+		fontTextureName = p_i3067_2_;
+		renderEngine = p_i3067_3_;
+		unicodeFlag = p_i3067_4_;
+		readFontData();
+		p_i3067_3_.bindTexture(p_i3067_2_);
 		for(int var5 = 0; var5 < 32; ++var5)
 		{
 			int var6 = (var5 >> 3 & 1) * 85;
@@ -54,7 +60,7 @@ public class FontRenderer implements ResourceManagerReloadListener
 			{
 				var7 += 85;
 			}
-			if(par1GameSettings.anaglyph)
+			if(p_i3067_1_.anaglyph)
 			{
 				int var10 = (var7 * 30 + var8 * 59 + var9 * 11) / 100;
 				int var11 = (var7 * 30 + var8 * 70) / 100;
@@ -71,7 +77,6 @@ public class FontRenderer implements ResourceManagerReloadListener
 			}
 			colorCode[var5] = (var7 & 255) << 16 | (var8 & 255) << 8 | var9 & 255;
 		}
-		readGlyphSizes();
 	}
 	
 	private String bidiReorder(String par1Str)
@@ -173,76 +178,6 @@ public class FontRenderer implements ResourceManagerReloadListener
 		return this.drawString(par1Str, par2, par3, par4, true);
 	}
 	
-	@Override public void func_110549_a(ResourceManager par1ResourceManager)
-	{
-		func_111272_d();
-	}
-	
-	private ResourceLocation func_111271_a(int par1)
-	{
-		if(field_111274_c[par1] == null)
-		{
-			field_111274_c[par1] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", new Object[] { Integer.valueOf(par1) }));
-		}
-		return field_111274_c[par1];
-	}
-	
-	private void func_111272_d()
-	{
-		BufferedImage var1;
-		try
-		{
-			var1 = ImageIO.read(Minecraft.getMinecraft().func_110442_L().func_110536_a(field_111273_g).func_110527_b());
-		} catch(IOException var17)
-		{
-			throw new RuntimeException(var17);
-		}
-		int var2 = var1.getWidth();
-		int var3 = var1.getHeight();
-		int[] var4 = new int[var2 * var3];
-		var1.getRGB(0, 0, var2, var3, var4, 0, var2);
-		int var5 = var3 / 16;
-		int var6 = var2 / 16;
-		byte var7 = 1;
-		float var8 = 8.0F / var6;
-		int var9 = 0;
-		while(var9 < 256)
-		{
-			int var10 = var9 % 16;
-			int var11 = var9 / 16;
-			if(var9 == 32)
-			{
-				charWidth[var9] = 3 + var7;
-			}
-			int var12 = var6 - 1;
-			while(true)
-			{
-				if(var12 >= 0)
-				{
-					int var13 = var10 * var6 + var12;
-					boolean var14 = true;
-					for(int var15 = 0; var15 < var5 && var14; ++var15)
-					{
-						int var16 = (var11 * var6 + var15) * var2;
-						if((var4[var13 + var16] >> 24 & 255) != 0)
-						{
-							var14 = false;
-						}
-					}
-					if(var14)
-					{
-						--var12;
-						continue;
-					}
-				}
-				++var12;
-				charWidth[var9] = (int) (0.5D + var12 * var8) + var7;
-				++var9;
-				break;
-			}
-		}
-	}
-	
 	public boolean getBidiFlag()
 	{
 		return bidiFlag;
@@ -320,14 +255,73 @@ public class FontRenderer implements ResourceManagerReloadListener
 	
 	private void loadGlyphTexture(int par1)
 	{
-		renderEngine.func_110577_a(func_111271_a(par1));
+		String var2 = String.format("/font/glyph_%02X.png", new Object[] { Integer.valueOf(par1) });
+		renderEngine.bindTexture(var2);
+	}
+	
+	public void readFontData()
+	{
+		readGlyphSizes();
+		readFontTexture(fontTextureName);
+	}
+	
+	private void readFontTexture(String p_98305_1_)
+	{
+		BufferedImage var2;
+		try
+		{
+			var2 = ImageIO.read(RenderEngine.class.getResourceAsStream(p_98305_1_));
+		} catch(IOException var15)
+		{
+			throw new RuntimeException(var15);
+		}
+		int var3 = var2.getWidth();
+		int var4 = var2.getHeight();
+		int[] var5 = new int[var3 * var4];
+		var2.getRGB(0, 0, var3, var4, var5, 0, var3);
+		int var6 = 0;
+		while(var6 < 256)
+		{
+			int var7 = var6 % 16;
+			int var8 = var6 / 16;
+			int var9 = 7;
+			while(true)
+			{
+				if(var9 >= 0)
+				{
+					int var10 = var7 * 8 + var9;
+					boolean var11 = true;
+					for(int var12 = 0; var12 < 8 && var11; ++var12)
+					{
+						int var13 = (var8 * 8 + var12) * var3;
+						int var14 = var5[var10 + var13] & 255;
+						if(var14 > 0)
+						{
+							var11 = false;
+						}
+					}
+					if(var11)
+					{
+						--var9;
+						continue;
+					}
+				}
+				if(var6 == 32)
+				{
+					var9 = 2;
+				}
+				charWidth[var6] = var9 + 2;
+				++var6;
+				break;
+			}
+		}
 	}
 	
 	private void readGlyphSizes()
 	{
 		try
 		{
-			InputStream var1 = Minecraft.getMinecraft().func_110442_L().func_110536_a(new ResourceLocation("font/glyph_sizes.bin")).func_110527_b();
+			InputStream var1 = Minecraft.getMinecraft().texturePackList.getSelectedTexturePack().getResourceAsStream("/font/glyph_sizes.bin");
 			var1.read(glyphWidth);
 		} catch(IOException var2)
 		{
@@ -345,17 +339,17 @@ public class FontRenderer implements ResourceManagerReloadListener
 		float var3 = par1 % 16 * 8;
 		float var4 = par1 / 16 * 8;
 		float var5 = par2 ? 1.0F : 0.0F;
-		renderEngine.func_110577_a(field_111273_g);
+		renderEngine.bindTexture(fontTextureName);
 		float var6 = charWidth[par1] - 0.01F;
 		GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
 		GL11.glTexCoord2f(var3 / 128.0F, var4 / 128.0F);
 		GL11.glVertex3f(posX + var5, posY, 0.0F);
 		GL11.glTexCoord2f(var3 / 128.0F, (var4 + 7.99F) / 128.0F);
 		GL11.glVertex3f(posX - var5, posY + 7.99F, 0.0F);
-		GL11.glTexCoord2f((var3 + var6 - 1.0F) / 128.0F, var4 / 128.0F);
-		GL11.glVertex3f(posX + var6 - 1.0F + var5, posY, 0.0F);
-		GL11.glTexCoord2f((var3 + var6 - 1.0F) / 128.0F, (var4 + 7.99F) / 128.0F);
-		GL11.glVertex3f(posX + var6 - 1.0F - var5, posY + 7.99F, 0.0F);
+		GL11.glTexCoord2f((var3 + var6) / 128.0F, var4 / 128.0F);
+		GL11.glVertex3f(posX + var6 + var5, posY, 0.0F);
+		GL11.glTexCoord2f((var3 + var6) / 128.0F, (var4 + 7.99F) / 128.0F);
+		GL11.glVertex3f(posX + var6 - var5, posY + 7.99F, 0.0F);
 		GL11.glEnd();
 		return charWidth[par1];
 	}

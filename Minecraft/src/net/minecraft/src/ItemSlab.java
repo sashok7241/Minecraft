@@ -6,12 +6,12 @@ public class ItemSlab extends ItemBlock
 	private final BlockHalfSlab theHalfSlab;
 	private final BlockHalfSlab doubleSlab;
 	
-	public ItemSlab(int par1, BlockHalfSlab par2BlockHalfSlab, BlockHalfSlab par3BlockHalfSlab, boolean par4)
+	public ItemSlab(int p_i3689_1_, BlockHalfSlab p_i3689_2_, BlockHalfSlab p_i3689_3_, boolean p_i3689_4_)
 	{
-		super(par1);
-		theHalfSlab = par2BlockHalfSlab;
-		doubleSlab = par3BlockHalfSlab;
-		isFullBlock = par4;
+		super(p_i3689_1_);
+		theHalfSlab = p_i3689_2_;
+		doubleSlab = p_i3689_3_;
+		isFullBlock = p_i3689_4_;
 		setMaxDamage(0);
 		setHasSubtypes(true);
 	}
@@ -60,41 +60,41 @@ public class ItemSlab extends ItemBlock
 		}
 	}
 	
-	private boolean func_77888_a(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7)
+	private boolean func_77888_a(ItemStack p_77888_1_, EntityPlayer p_77888_2_, World p_77888_3_, int p_77888_4_, int p_77888_5_, int p_77888_6_, int p_77888_7_)
 	{
-		if(par7 == 0)
+		if(p_77888_7_ == 0)
 		{
-			--par5;
+			--p_77888_5_;
 		}
-		if(par7 == 1)
+		if(p_77888_7_ == 1)
 		{
-			++par5;
+			++p_77888_5_;
 		}
-		if(par7 == 2)
+		if(p_77888_7_ == 2)
 		{
-			--par6;
+			--p_77888_6_;
 		}
-		if(par7 == 3)
+		if(p_77888_7_ == 3)
 		{
-			++par6;
+			++p_77888_6_;
 		}
-		if(par7 == 4)
+		if(p_77888_7_ == 4)
 		{
-			--par4;
+			--p_77888_4_;
 		}
-		if(par7 == 5)
+		if(p_77888_7_ == 5)
 		{
-			++par4;
+			++p_77888_4_;
 		}
-		int var8 = par3World.getBlockId(par4, par5, par6);
-		int var9 = par3World.getBlockMetadata(par4, par5, par6);
+		int var8 = p_77888_3_.getBlockId(p_77888_4_, p_77888_5_, p_77888_6_);
+		int var9 = p_77888_3_.getBlockMetadata(p_77888_4_, p_77888_5_, p_77888_6_);
 		int var10 = var9 & 7;
-		if(var8 == theHalfSlab.blockID && var10 == par1ItemStack.getItemDamage())
+		if(var8 == theHalfSlab.blockID && var10 == p_77888_1_.getItemDamage())
 		{
-			if(par3World.checkNoEntityCollision(doubleSlab.getCollisionBoundingBoxFromPool(par3World, par4, par5, par6)) && par3World.setBlock(par4, par5, par6, doubleSlab.blockID, var10, 3))
+			if(p_77888_3_.checkNoEntityCollision(doubleSlab.getCollisionBoundingBoxFromPool(p_77888_3_, p_77888_4_, p_77888_5_, p_77888_6_)) && p_77888_3_.setBlock(p_77888_4_, p_77888_5_, p_77888_6_, doubleSlab.blockID, var10, 3))
 			{
-				par3World.playSoundEffect(par4 + 0.5F, par5 + 0.5F, par6 + 0.5F, doubleSlab.stepSound.getPlaceSound(), (doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, doubleSlab.stepSound.getPitch() * 0.8F);
-				--par1ItemStack.stackSize;
+				p_77888_3_.playSoundEffect(p_77888_4_ + 0.5F, p_77888_5_ + 0.5F, p_77888_6_ + 0.5F, doubleSlab.stepSound.getPlaceSound(), (doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, doubleSlab.stepSound.getPitch() * 0.8F);
+				--p_77888_1_.stackSize;
 			}
 			return true;
 		} else return false;
@@ -105,36 +105,36 @@ public class ItemSlab extends ItemBlock
 		return Block.blocksList[itemID].getIcon(2, par1);
 	}
 	
-	@Override public int getMetadata(int par1)
+	@Override public int getMetadata(int p_77647_1_)
 	{
-		return par1;
+		return p_77647_1_;
 	}
 	
-	@Override public String getUnlocalizedName(ItemStack par1ItemStack)
+	@Override public String getUnlocalizedName(ItemStack p_77667_1_)
 	{
-		return theHalfSlab.getFullSlabName(par1ItemStack.getItemDamage());
+		return theHalfSlab.getFullSlabName(p_77667_1_.getItemDamage());
 	}
 	
-	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
 	{
-		if(isFullBlock) return super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
-		else if(par1ItemStack.stackSize == 0) return false;
-		else if(!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack)) return false;
+		if(isFullBlock) return super.onItemUse(p_77648_1_, p_77648_2_, p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_8_, p_77648_9_, p_77648_10_);
+		else if(p_77648_1_.stackSize == 0) return false;
+		else if(!p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_1_)) return false;
 		else
 		{
-			int var11 = par3World.getBlockId(par4, par5, par6);
-			int var12 = par3World.getBlockMetadata(par4, par5, par6);
+			int var11 = p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_);
+			int var12 = p_77648_3_.getBlockMetadata(p_77648_4_, p_77648_5_, p_77648_6_);
 			int var13 = var12 & 7;
 			boolean var14 = (var12 & 8) != 0;
-			if((par7 == 1 && !var14 || par7 == 0 && var14) && var11 == theHalfSlab.blockID && var13 == par1ItemStack.getItemDamage())
+			if((p_77648_7_ == 1 && !var14 || p_77648_7_ == 0 && var14) && var11 == theHalfSlab.blockID && var13 == p_77648_1_.getItemDamage())
 			{
-				if(par3World.checkNoEntityCollision(doubleSlab.getCollisionBoundingBoxFromPool(par3World, par4, par5, par6)) && par3World.setBlock(par4, par5, par6, doubleSlab.blockID, var13, 3))
+				if(p_77648_3_.checkNoEntityCollision(doubleSlab.getCollisionBoundingBoxFromPool(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_)) && p_77648_3_.setBlock(p_77648_4_, p_77648_5_, p_77648_6_, doubleSlab.blockID, var13, 3))
 				{
-					par3World.playSoundEffect(par4 + 0.5F, par5 + 0.5F, par6 + 0.5F, doubleSlab.stepSound.getPlaceSound(), (doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, doubleSlab.stepSound.getPitch() * 0.8F);
-					--par1ItemStack.stackSize;
+					p_77648_3_.playSoundEffect(p_77648_4_ + 0.5F, p_77648_5_ + 0.5F, p_77648_6_ + 0.5F, doubleSlab.stepSound.getPlaceSound(), (doubleSlab.stepSound.getVolume() + 1.0F) / 2.0F, doubleSlab.stepSound.getPitch() * 0.8F);
+					--p_77648_1_.stackSize;
 				}
 				return true;
-			} else return func_77888_a(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7) ? true : super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
+			} else return func_77888_a(p_77648_1_, p_77648_2_, p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_) ? true : super.onItemUse(p_77648_1_, p_77648_2_, p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_8_, p_77648_9_, p_77648_10_);
 		}
 	}
 }

@@ -17,15 +17,15 @@ public class TileEntityMobSpawner extends TileEntity
 		return field_98050_a;
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
 	{
-		super.readFromNBT(par1NBTTagCompound);
-		field_98050_a.readFromNBT(par1NBTTagCompound);
+		super.readFromNBT(p_70307_1_);
+		field_98050_a.readFromNBT(p_70307_1_);
 	}
 	
-	@Override public boolean receiveClientEvent(int par1, int par2)
+	@Override public boolean receiveClientEvent(int p_70315_1_, int p_70315_2_)
 	{
-		return field_98050_a.setDelayToMin(par1) ? true : super.receiveClientEvent(par1, par2);
+		return field_98050_a.setDelayToMin(p_70315_1_) ? true : super.receiveClientEvent(p_70315_1_, p_70315_2_);
 	}
 	
 	@Override public void updateEntity()
@@ -34,9 +34,9 @@ public class TileEntityMobSpawner extends TileEntity
 		super.updateEntity();
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
 	{
-		super.writeToNBT(par1NBTTagCompound);
-		field_98050_a.writeToNBT(par1NBTTagCompound);
+		super.writeToNBT(p_70310_1_);
+		field_98050_a.writeToNBT(p_70310_1_);
 	}
 }

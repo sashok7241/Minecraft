@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class EntityAuraFX extends EntityFX
 {
-	public EntityAuraFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
+	public EntityAuraFX(World p_i3166_1_, double p_i3166_2_, double p_i3166_4_, double p_i3166_6_, double p_i3166_8_, double p_i3166_10_, double p_i3166_12_)
 	{
-		super(par1World, par2, par4, par6, par8, par10, par12);
+		super(p_i3166_1_, p_i3166_2_, p_i3166_4_, p_i3166_6_, p_i3166_8_, p_i3166_10_, p_i3166_12_);
 		float var14 = rand.nextFloat() * 0.1F + 0.2F;
 		particleRed = var14;
 		particleGreen = var14;

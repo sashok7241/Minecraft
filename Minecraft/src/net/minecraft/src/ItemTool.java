@@ -1,35 +1,32 @@
 package net.minecraft.src;
 
-
 public class ItemTool extends Item
 {
 	private Block[] blocksEffectiveAgainst;
 	protected float efficiencyOnProperMaterial = 4.0F;
-	private float damageVsEntity;
+	private int damageVsEntity;
 	protected EnumToolMaterial toolMaterial;
 	
-	protected ItemTool(int par1, float par2, EnumToolMaterial par3EnumToolMaterial, Block[] par4ArrayOfBlock)
+	protected ItemTool(int p_i3643_1_, int p_i3643_2_, EnumToolMaterial p_i3643_3_, Block[] p_i3643_4_)
 	{
-		super(par1);
-		toolMaterial = par3EnumToolMaterial;
-		blocksEffectiveAgainst = par4ArrayOfBlock;
+		super(p_i3643_1_);
+		toolMaterial = p_i3643_3_;
+		blocksEffectiveAgainst = p_i3643_4_;
 		maxStackSize = 1;
-		setMaxDamage(par3EnumToolMaterial.getMaxUses());
-		efficiencyOnProperMaterial = par3EnumToolMaterial.getEfficiencyOnProperMaterial();
-		damageVsEntity = par2 + par3EnumToolMaterial.getDamageVsEntity();
+		setMaxDamage(p_i3643_3_.getMaxUses());
+		efficiencyOnProperMaterial = p_i3643_3_.getEfficiencyOnProperMaterial();
+		damageVsEntity = p_i3643_2_ + p_i3643_3_.getDamageVsEntity();
 		setCreativeTab(CreativeTabs.tabTools);
 	}
 	
-	@Override public Multimap func_111205_h()
+	@Override public int getDamageVsEntity(Entity p_77649_1_)
 	{
-		Multimap var1 = super.func_111205_h();
-		var1.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Tool modifier", damageVsEntity, 0));
-		return var1;
+		return damageVsEntity;
 	}
 	
-	@Override public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
+	@Override public boolean getIsRepairable(ItemStack p_82789_1_, ItemStack p_82789_2_)
 	{
-		return toolMaterial.getToolCraftingMaterial() == par2ItemStack.itemID ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+		return toolMaterial.getToolCraftingMaterial() == p_82789_2_.itemID ? true : super.getIsRepairable(p_82789_1_, p_82789_2_);
 	}
 	
 	@Override public int getItemEnchantability()
@@ -37,11 +34,11 @@ public class ItemTool extends Item
 		return toolMaterial.getEnchantability();
 	}
 	
-	@Override public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block)
+	@Override public float getStrVsBlock(ItemStack p_77638_1_, Block p_77638_2_)
 	{
 		for(Block element : blocksEffectiveAgainst)
 		{
-			if(element == par2Block) return efficiencyOnProperMaterial;
+			if(element == p_77638_2_) return efficiencyOnProperMaterial;
 		}
 		return 1.0F;
 	}
@@ -51,9 +48,9 @@ public class ItemTool extends Item
 		return toolMaterial.toString();
 	}
 	
-	@Override public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
+	@Override public boolean hitEntity(ItemStack p_77644_1_, EntityLiving p_77644_2_, EntityLiving p_77644_3_)
 	{
-		par1ItemStack.damageItem(2, par3EntityLivingBase);
+		p_77644_1_.damageItem(2, p_77644_3_);
 		return true;
 	}
 	
@@ -62,11 +59,11 @@ public class ItemTool extends Item
 		return true;
 	}
 	
-	@Override public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase)
+	@Override public boolean onBlockDestroyed(ItemStack p_77660_1_, World p_77660_2_, int p_77660_3_, int p_77660_4_, int p_77660_5_, int p_77660_6_, EntityLiving p_77660_7_)
 	{
-		if(Block.blocksList[par3].getBlockHardness(par2World, par4, par5, par6) != 0.0D)
+		if(Block.blocksList[p_77660_3_].getBlockHardness(p_77660_2_, p_77660_4_, p_77660_5_, p_77660_6_) != 0.0D)
 		{
-			par1ItemStack.damageItem(1, par7EntityLivingBase);
+			p_77660_1_.damageItem(1, p_77660_7_);
 		}
 		return true;
 	}

@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class RequestGet extends Request
 {
-	public RequestGet(String par1Str, int par2, int par3)
+	public RequestGet(String p_i10030_1_, int p_i10030_2_, int p_i10030_3_)
 	{
-		super(par1Str, par2, par3);
+		super(p_i10030_1_, p_i10030_2_, p_i10030_3_);
 	}
 	
 	@Override public Request func_96359_e()

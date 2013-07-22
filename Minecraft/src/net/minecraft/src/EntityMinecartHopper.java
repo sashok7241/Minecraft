@@ -7,28 +7,19 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements Hop
 	private boolean isBlocked = true;
 	private int transferTicker = -1;
 	
-	public EntityMinecartHopper(World par1World)
+	public EntityMinecartHopper(World p_i10053_1_)
 	{
-		super(par1World);
+		super(p_i10053_1_);
 	}
 	
-	public EntityMinecartHopper(World par1World, double par2, double par4, double par6)
+	public EntityMinecartHopper(World p_i10054_1_, double p_i10054_2_, double p_i10054_4_, double p_i10054_6_)
 	{
-		super(par1World, par2, par4, par6);
+		super(p_i10054_1_, p_i10054_2_, p_i10054_4_, p_i10054_6_);
 	}
 	
 	public boolean canTransfer()
 	{
 		return transferTicker > 0;
-	}
-	
-	@Override public boolean func_130002_c(EntityPlayer par1EntityPlayer)
-	{
-		if(!worldObj.isRemote)
-		{
-			par1EntityPlayer.displayGUIHopperMinecart(this);
-		}
-		return true;
 	}
 	
 	public boolean func_96112_aD()
@@ -90,15 +81,24 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements Hop
 		return posZ;
 	}
 	
-	@Override public void killMinecart(DamageSource par1DamageSource)
+	@Override public boolean interact(EntityPlayer p_70085_1_)
 	{
-		super.killMinecart(par1DamageSource);
+		if(!worldObj.isRemote)
+		{
+			p_70085_1_.displayGUIHopperMinecart(this);
+		}
+		return true;
+	}
+	
+	@Override public void killMinecart(DamageSource p_94095_1_)
+	{
+		super.killMinecart(p_94095_1_);
 		dropItemWithOffset(Block.hopperBlock.blockID, 1, 0.0F);
 	}
 	
-	@Override public void onActivatorRailPass(int par1, int par2, int par3, boolean par4)
+	@Override public void onActivatorRailPass(int p_96095_1_, int p_96095_2_, int p_96095_3_, boolean p_96095_4_)
 	{
-		boolean var5 = !par4;
+		boolean var5 = !p_96095_4_;
 		if(var5 != getBlocked())
 		{
 			setBlocked(var5);
@@ -123,25 +123,25 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements Hop
 		}
 	}
 	
-	@Override protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		transferTicker = par1NBTTagCompound.getInteger("TransferCooldown");
+		super.readEntityFromNBT(p_70037_1_);
+		transferTicker = p_70037_1_.getInteger("TransferCooldown");
 	}
 	
-	public void setBlocked(boolean par1)
+	public void setBlocked(boolean p_96110_1_)
 	{
-		isBlocked = par1;
+		isBlocked = p_96110_1_;
 	}
 	
-	public void setTransferTicker(int par1)
+	public void setTransferTicker(int p_98042_1_)
 	{
-		transferTicker = par1;
+		transferTicker = p_98042_1_;
 	}
 	
-	@Override protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("TransferCooldown", transferTicker);
+		super.writeEntityToNBT(p_70014_1_);
+		p_70014_1_.setInteger("TransferCooldown", transferTicker);
 	}
 }

@@ -6,9 +6,9 @@ public enum EnumRarity
 	public final int rarityColor;
 	public final String rarityName;
 	
-	private EnumRarity(int par3, String par4Str)
+	private EnumRarity(int p_i3676_3_, String p_i3676_4_)
 	{
-		rarityColor = par3;
-		rarityName = par4Str;
+		rarityColor = p_i3676_3_;
+		rarityName = p_i3676_4_;
 	}
 }

@@ -12,18 +12,18 @@ public class ItemFood extends Item
 	private int potionAmplifier;
 	private float potionEffectProbability;
 	
-	public ItemFood(int par1, int par2, boolean par3)
+	public ItemFood(int p_i3654_1_, int p_i3654_2_, boolean p_i3654_3_)
 	{
-		this(par1, par2, 0.6F, par3);
+		this(p_i3654_1_, p_i3654_2_, 0.6F, p_i3654_3_);
 	}
 	
-	public ItemFood(int par1, int par2, float par3, boolean par4)
+	public ItemFood(int p_i3653_1_, int p_i3653_2_, float p_i3653_3_, boolean p_i3653_4_)
 	{
-		super(par1);
+		super(p_i3653_1_);
 		itemUseDuration = 32;
-		healAmount = par2;
-		isWolfsFavoriteMeat = par4;
-		saturationModifier = par3;
+		healAmount = p_i3653_2_;
+		isWolfsFavoriteMeat = p_i3653_4_;
+		saturationModifier = p_i3653_3_;
 		setCreativeTab(CreativeTabs.tabFood);
 	}
 	
@@ -32,12 +32,12 @@ public class ItemFood extends Item
 		return healAmount;
 	}
 	
-	@Override public EnumAction getItemUseAction(ItemStack par1ItemStack)
+	@Override public EnumAction getItemUseAction(ItemStack p_77661_1_)
 	{
 		return EnumAction.eat;
 	}
 	
-	@Override public int getMaxItemUseDuration(ItemStack par1ItemStack)
+	@Override public int getMaxItemUseDuration(ItemStack p_77626_1_)
 	{
 		return 32;
 	}
@@ -52,30 +52,30 @@ public class ItemFood extends Item
 		return isWolfsFavoriteMeat;
 	}
 	
-	@Override public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@Override public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
 	{
-		--par1ItemStack.stackSize;
-		par3EntityPlayer.getFoodStats().addStats(this);
-		par2World.playSoundAtEntity(par3EntityPlayer, "random.burp", 0.5F, par2World.rand.nextFloat() * 0.1F + 0.9F);
-		onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
-		return par1ItemStack;
+		--p_77654_1_.stackSize;
+		p_77654_3_.getFoodStats().addStats(this);
+		p_77654_2_.playSoundAtEntity(p_77654_3_, "random.burp", 0.5F, p_77654_2_.rand.nextFloat() * 0.1F + 0.9F);
+		onFoodEaten(p_77654_1_, p_77654_2_, p_77654_3_);
+		return p_77654_1_;
 	}
 	
-	protected void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	protected void onFoodEaten(ItemStack p_77849_1_, World p_77849_2_, EntityPlayer p_77849_3_)
 	{
-		if(!par2World.isRemote && potionId > 0 && par2World.rand.nextFloat() < potionEffectProbability)
+		if(!p_77849_2_.isRemote && potionId > 0 && p_77849_2_.rand.nextFloat() < potionEffectProbability)
 		{
-			par3EntityPlayer.addPotionEffect(new PotionEffect(potionId, potionDuration * 20, potionAmplifier));
+			p_77849_3_.addPotionEffect(new PotionEffect(potionId, potionDuration * 20, potionAmplifier));
 		}
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
 	{
-		if(par3EntityPlayer.canEat(alwaysEdible))
+		if(p_77659_3_.canEat(alwaysEdible))
 		{
-			par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
+			p_77659_3_.setItemInUse(p_77659_1_, getMaxItemUseDuration(p_77659_1_));
 		}
-		return par1ItemStack;
+		return p_77659_1_;
 	}
 	
 	public ItemFood setAlwaysEdible()
@@ -84,12 +84,12 @@ public class ItemFood extends Item
 		return this;
 	}
 	
-	public ItemFood setPotionEffect(int par1, int par2, int par3, float par4)
+	public ItemFood setPotionEffect(int p_77844_1_, int p_77844_2_, int p_77844_3_, float p_77844_4_)
 	{
-		potionId = par1;
-		potionDuration = par2;
-		potionAmplifier = par3;
-		potionEffectProbability = par4;
+		potionId = p_77844_1_;
+		potionDuration = p_77844_2_;
+		potionAmplifier = p_77844_3_;
+		potionEffectProbability = p_77844_4_;
 		return this;
 	}
 }

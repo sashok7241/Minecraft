@@ -85,38 +85,38 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 		} else return false;
 	}
 	
-	@Override public boolean canExtractItem(int par1, ItemStack par2ItemStack, int par3)
+	@Override public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_)
 	{
 		return true;
 	}
 	
-	@Override public boolean canInsertItem(int par1, ItemStack par2ItemStack, int par3)
+	@Override public boolean canInsertItem(int p_102007_1_, ItemStack p_102007_2_, int p_102007_3_)
 	{
-		return isItemValidForSlot(par1, par2ItemStack);
+		return isItemValidForSlot(p_102007_1_, p_102007_2_);
 	}
 	
 	@Override public void closeChest()
 	{
 	}
 	
-	@Override public ItemStack decrStackSize(int par1, int par2)
+	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
 	{
-		if(par1 >= 0 && par1 < brewingItemStacks.length)
+		if(p_70298_1_ >= 0 && p_70298_1_ < brewingItemStacks.length)
 		{
-			ItemStack var3 = brewingItemStacks[par1];
-			brewingItemStacks[par1] = null;
+			ItemStack var3 = brewingItemStacks[p_70298_1_];
+			brewingItemStacks[p_70298_1_] = null;
 			return var3;
 		} else return null;
 	}
 	
-	public void func_94131_a(String par1Str)
+	public void func_94131_a(String p_94131_1_)
 	{
-		field_94132_e = par1Str;
+		field_94132_e = p_94131_1_;
 	}
 	
-	@Override public int[] getAccessibleSlotsFromSide(int par1)
+	@Override public int[] getAccessibleSlotsFromSide(int p_94128_1_)
 	{
-		return par1 == 1 ? field_102017_a : field_102016_b;
+		return p_94128_1_ == 1 ? field_102017_a : field_102016_b;
 	}
 	
 	public int getBrewTime()
@@ -147,9 +147,9 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 		return isInvNameLocalized() ? field_94132_e : "container.brewing";
 	}
 	
-	private int getPotionResult(int par1, ItemStack par2ItemStack)
+	private int getPotionResult(int p_70352_1_, ItemStack p_70352_2_)
 	{
-		return par2ItemStack == null ? par1 : Item.itemsList[par2ItemStack.itemID].isPotionIngredient() ? PotionHelper.applyIngredient(par1, Item.itemsList[par2ItemStack.itemID].getPotionEffect()) : par1;
+		return p_70352_2_ == null ? p_70352_1_ : Item.itemsList[p_70352_2_.itemID].isPotionIngredient() ? PotionHelper.applyIngredient(p_70352_1_, Item.itemsList[p_70352_2_.itemID].getPotionEffect()) : p_70352_1_;
 	}
 	
 	@Override public int getSizeInventory()
@@ -157,17 +157,17 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 		return brewingItemStacks.length;
 	}
 	
-	@Override public ItemStack getStackInSlot(int par1)
+	@Override public ItemStack getStackInSlot(int p_70301_1_)
 	{
-		return par1 >= 0 && par1 < brewingItemStacks.length ? brewingItemStacks[par1] : null;
+		return p_70301_1_ >= 0 && p_70301_1_ < brewingItemStacks.length ? brewingItemStacks[p_70301_1_] : null;
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int par1)
+	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
 	{
-		if(par1 >= 0 && par1 < brewingItemStacks.length)
+		if(p_70304_1_ >= 0 && p_70304_1_ < brewingItemStacks.length)
 		{
-			ItemStack var2 = brewingItemStacks[par1];
-			brewingItemStacks[par1] = null;
+			ItemStack var2 = brewingItemStacks[p_70304_1_];
+			brewingItemStacks[p_70304_1_] = null;
 			return var2;
 		} else return null;
 	}
@@ -177,24 +177,24 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 		return field_94132_e != null && field_94132_e.length() > 0;
 	}
 	
-	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
+	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
 	{
-		return par1 == 3 ? Item.itemsList[par2ItemStack.itemID].isPotionIngredient() : par2ItemStack.itemID == Item.potion.itemID || par2ItemStack.itemID == Item.glassBottle.itemID;
+		return p_94041_1_ == 3 ? Item.itemsList[p_94041_2_.itemID].isPotionIngredient() : p_94041_2_.itemID == Item.potion.itemID || p_94041_2_.itemID == Item.glassBottle.itemID;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
 	{
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : par1EntityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : p_70300_1_.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
 	}
 	
 	@Override public void openChest()
 	{
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
 	{
-		super.readFromNBT(par1NBTTagCompound);
-		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
+		super.readFromNBT(p_70307_1_);
+		NBTTagList var2 = p_70307_1_.getTagList("Items");
 		brewingItemStacks = new ItemStack[getSizeInventory()];
 		for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
@@ -205,10 +205,10 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 				brewingItemStacks[var5] = ItemStack.loadItemStackFromNBT(var4);
 			}
 		}
-		brewTime = par1NBTTagCompound.getShort("BrewTime");
-		if(par1NBTTagCompound.hasKey("CustomName"))
+		brewTime = p_70307_1_.getShort("BrewTime");
+		if(p_70307_1_.hasKey("CustomName"))
 		{
-			field_94132_e = par1NBTTagCompound.getString("CustomName");
+			field_94132_e = p_70307_1_.getString("CustomName");
 		}
 	}
 	
@@ -217,11 +217,11 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 		brewTime = par1;
 	}
 	
-	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
 	{
-		if(par1 >= 0 && par1 < brewingItemStacks.length)
+		if(p_70299_1_ >= 0 && p_70299_1_ < brewingItemStacks.length)
 		{
-			brewingItemStacks[par1] = par2ItemStack;
+			brewingItemStacks[p_70299_1_] = p_70299_2_;
 		}
 	}
 	
@@ -257,10 +257,10 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 		super.updateEntity();
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
 	{
-		super.writeToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setShort("BrewTime", (short) brewTime);
+		super.writeToNBT(p_70310_1_);
+		p_70310_1_.setShort("BrewTime", (short) brewTime);
 		NBTTagList var2 = new NBTTagList();
 		for(int var3 = 0; var3 < brewingItemStacks.length; ++var3)
 		{
@@ -272,10 +272,10 @@ public class TileEntityBrewingStand extends TileEntity implements ISidedInventor
 				var2.appendTag(var4);
 			}
 		}
-		par1NBTTagCompound.setTag("Items", var2);
+		p_70310_1_.setTag("Items", var2);
 		if(isInvNameLocalized())
 		{
-			par1NBTTagCompound.setString("CustomName", field_94132_e);
+			p_70310_1_.setString("CustomName", field_94132_e);
 		}
 	}
 }

@@ -33,41 +33,41 @@ public abstract class Enchantment
 	public EnumEnchantmentType type;
 	protected String name;
 	
-	protected Enchantment(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType)
+	protected Enchantment(int p_i3709_1_, int p_i3709_2_, EnumEnchantmentType p_i3709_3_)
 	{
-		effectId = par1;
-		weight = par2;
-		type = par3EnumEnchantmentType;
-		if(enchantmentsList[par1] != null) throw new IllegalArgumentException("Duplicate enchantment id!");
+		effectId = p_i3709_1_;
+		weight = p_i3709_2_;
+		type = p_i3709_3_;
+		if(enchantmentsList[p_i3709_1_] != null) throw new IllegalArgumentException("Duplicate enchantment id!");
 		else
 		{
-			enchantmentsList[par1] = this;
+			enchantmentsList[p_i3709_1_] = this;
 		}
 	}
 	
-	public int calcModifierDamage(int par1, DamageSource par2DamageSource)
+	public int calcModifierDamage(int p_77318_1_, DamageSource p_77318_2_)
 	{
 		return 0;
 	}
 	
-	public float calcModifierLiving(int par1, EntityLivingBase par2EntityLivingBase)
+	public int calcModifierLiving(int p_77323_1_, EntityLiving p_77323_2_)
 	{
-		return 0.0F;
+		return 0;
 	}
 	
-	public boolean canApply(ItemStack par1ItemStack)
+	public boolean canApply(ItemStack p_92089_1_)
 	{
-		return type.canEnchantItem(par1ItemStack.getItem());
+		return type.canEnchantItem(p_92089_1_.getItem());
 	}
 	
-	public boolean canApplyTogether(Enchantment par1Enchantment)
+	public boolean canApplyTogether(Enchantment p_77326_1_)
 	{
-		return this != par1Enchantment;
+		return this != p_77326_1_;
 	}
 	
-	public int getMaxEnchantability(int par1)
+	public int getMaxEnchantability(int p_77317_1_)
 	{
-		return getMinEnchantability(par1) + 5;
+		return getMinEnchantability(p_77317_1_) + 5;
 	}
 	
 	public int getMaxLevel()
@@ -75,9 +75,9 @@ public abstract class Enchantment
 		return 1;
 	}
 	
-	public int getMinEnchantability(int par1)
+	public int getMinEnchantability(int p_77321_1_)
 	{
-		return 1 + par1 * 10;
+		return 1 + p_77321_1_ * 10;
 	}
 	
 	public int getMinLevel()
@@ -90,10 +90,10 @@ public abstract class Enchantment
 		return "enchantment." + name;
 	}
 	
-	public String getTranslatedName(int par1)
+	public String getTranslatedName(int p_77316_1_)
 	{
 		String var2 = StatCollector.translateToLocal(getName());
-		return var2 + " " + StatCollector.translateToLocal("enchantment.level." + par1);
+		return var2 + " " + StatCollector.translateToLocal("enchantment.level." + p_77316_1_);
 	}
 	
 	public int getWeight()
@@ -101,9 +101,9 @@ public abstract class Enchantment
 		return weight;
 	}
 	
-	public Enchantment setName(String par1Str)
+	public Enchantment setName(String p_77322_1_)
 	{
-		name = par1Str;
+		name = p_77322_1_;
 		return this;
 	}
 	

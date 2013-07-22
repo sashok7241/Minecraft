@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
-class StatStringFormatKeyInv implements IStatStringFormat
+public class StatStringFormatKeyInv implements IStatStringFormat
 {
 	final Minecraft mc;
 	
-	StatStringFormatKeyInv(Minecraft par1Minecraft)
+	public StatStringFormatKeyInv(Minecraft p_i3018_1_)
 	{
-		mc = par1Minecraft;
+		mc = p_i3018_1_;
 	}
 	
 	@Override public String formatString(String par1Str)

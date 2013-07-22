@@ -2,17 +2,16 @@ package net.minecraft.src;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class GuiWinGame extends GuiScreen
 {
-	private static final ResourceLocation field_110362_a = new ResourceLocation("textures/gui/title/minecraft.png");
-	private static final ResourceLocation field_110361_b = new ResourceLocation("textures/misc/vignette.png");
-	private int updateCounter;
+	private int updateCounter = 0;
 	private List lines;
-	private int field_73989_c;
+	private int field_73989_c = 0;
 	private float field_73987_d = 0.5F;
 	
 	@Override public boolean doesGuiPauseGame()
@@ -30,7 +29,7 @@ public class GuiWinGame extends GuiScreen
 		float var8 = -(updateCounter + par3) * field_73987_d;
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.0F, var8, 0.0F);
-		mc.func_110434_K().func_110577_a(field_110362_a);
+		mc.renderEngine.bindTexture("/title/mclogo.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		drawTexturedModalRect(var6, var7, 0, 0, 155, 44);
 		drawTexturedModalRect(var6 + 155, var7, 0, 45, 155, 44);
@@ -62,7 +61,7 @@ public class GuiWinGame extends GuiScreen
 			var9 += 12;
 		}
 		GL11.glPopMatrix();
-		mc.func_110434_K().func_110577_a(field_110361_b);
+		mc.renderEngine.bindTexture("%blur%/misc/vignette.png");
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_ZERO, GL11.GL_ONE_MINUS_SRC_COLOR);
 		var4.startDrawingQuads();
@@ -81,7 +80,7 @@ public class GuiWinGame extends GuiScreen
 	private void func_73986_b(int par1, int par2, float par3)
 	{
 		Tessellator var4 = Tessellator.instance;
-		mc.func_110434_K().func_110577_a(Gui.field_110325_k);
+		mc.renderEngine.bindTexture("%blur%/gui/background.png");
 		var4.startDrawingQuads();
 		var4.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
 		int var5 = width;
@@ -119,14 +118,14 @@ public class GuiWinGame extends GuiScreen
 				String var1 = "";
 				String var2 = "" + EnumChatFormatting.WHITE + EnumChatFormatting.OBFUSCATED + EnumChatFormatting.GREEN + EnumChatFormatting.AQUA;
 				short var3 = 274;
-				BufferedReader var4 = new BufferedReader(new InputStreamReader(mc.func_110442_L().func_110536_a(new ResourceLocation("texts/end.txt")).func_110527_b(), Charsets.UTF_8));
+				BufferedReader var4 = new BufferedReader(new InputStreamReader(GuiWinGame.class.getResourceAsStream("/title/win.txt"), Charset.forName("UTF-8")));
 				Random var5 = new Random(8124371L);
 				int var6;
 				while((var1 = var4.readLine()) != null)
 				{
 					String var7;
 					String var8;
-					for(var1 = var1.replaceAll("PLAYERNAME", mc.func_110432_I().func_111285_a()); var1.contains(var2); var1 = var7 + EnumChatFormatting.WHITE + EnumChatFormatting.OBFUSCATED + "XXXXXXXX".substring(0, var5.nextInt(4) + 3) + var8)
+					for(var1 = var1.replaceAll("PLAYERNAME", mc.session.username); var1.contains(var2); var1 = var7 + EnumChatFormatting.WHITE + EnumChatFormatting.OBFUSCATED + "XXXXXXXX".substring(0, var5.nextInt(4) + 3) + var8)
 					{
 						var6 = var1.indexOf(var2);
 						var7 = var1.substring(0, var6);
@@ -139,10 +138,10 @@ public class GuiWinGame extends GuiScreen
 				{
 					lines.add("");
 				}
-				var4 = new BufferedReader(new InputStreamReader(mc.func_110442_L().func_110536_a(new ResourceLocation("texts/credits.txt")).func_110527_b(), Charsets.UTF_8));
+				var4 = new BufferedReader(new InputStreamReader(GuiWinGame.class.getResourceAsStream("/title/credits.txt"), Charset.forName("UTF-8")));
 				while((var1 = var4.readLine()) != null)
 				{
-					var1 = var1.replaceAll("PLAYERNAME", mc.func_110432_I().func_111285_a());
+					var1 = var1.replaceAll("PLAYERNAME", mc.session.username);
 					var1 = var1.replaceAll("\t", "    ");
 					lines.addAll(mc.fontRenderer.listFormattedStringToWidth(var1, var3));
 					lines.add("");

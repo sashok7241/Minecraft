@@ -4,19 +4,19 @@ public class EntitySelectorArmoredMob implements IEntitySelector
 {
 	private final ItemStack field_96567_c;
 	
-	public EntitySelectorArmoredMob(ItemStack par1ItemStack)
+	public EntitySelectorArmoredMob(ItemStack p_i10049_1_)
 	{
-		field_96567_c = par1ItemStack;
+		field_96567_c = p_i10049_1_;
 	}
 	
-	@Override public boolean isEntityApplicable(Entity par1Entity)
+	@Override public boolean isEntityApplicable(Entity p_82704_1_)
 	{
-		if(!par1Entity.isEntityAlive()) return false;
-		else if(!(par1Entity instanceof EntityLivingBase)) return false;
+		if(!p_82704_1_.isEntityAlive()) return false;
+		else if(!(p_82704_1_ instanceof EntityLiving)) return false;
 		else
 		{
-			EntityLivingBase var2 = (EntityLivingBase) par1Entity;
-			return var2.getCurrentItemOrArmor(EntityLiving.getArmorPosition(field_96567_c)) != null ? false : var2 instanceof EntityLiving ? ((EntityLiving) var2).canPickUpLoot() : var2 instanceof EntityPlayer;
+			EntityLiving var2 = (EntityLiving) p_82704_1_;
+			return var2.getCurrentItemOrArmor(EntityLiving.getArmorPosition(field_96567_c)) != null ? false : var2.canPickUpLoot() || var2 instanceof EntityPlayer;
 		}
 	}
 }

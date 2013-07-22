@@ -4,30 +4,30 @@ public class EntityReddustFX extends EntityFX
 {
 	float reddustParticleScale;
 	
-	public EntityReddustFX(World par1World, double par2, double par4, double par6, float par8, float par9, float par10)
+	public EntityReddustFX(World p_i3178_1_, double p_i3178_2_, double p_i3178_4_, double p_i3178_6_, float p_i3178_8_, float p_i3178_9_, float p_i3178_10_)
 	{
-		this(par1World, par2, par4, par6, 1.0F, par8, par9, par10);
+		this(p_i3178_1_, p_i3178_2_, p_i3178_4_, p_i3178_6_, 1.0F, p_i3178_8_, p_i3178_9_, p_i3178_10_);
 	}
 	
-	public EntityReddustFX(World par1World, double par2, double par4, double par6, float par8, float par9, float par10, float par11)
+	public EntityReddustFX(World p_i3179_1_, double p_i3179_2_, double p_i3179_4_, double p_i3179_6_, float p_i3179_8_, float p_i3179_9_, float p_i3179_10_, float p_i3179_11_)
 	{
-		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
+		super(p_i3179_1_, p_i3179_2_, p_i3179_4_, p_i3179_6_, 0.0D, 0.0D, 0.0D);
 		motionX *= 0.10000000149011612D;
 		motionY *= 0.10000000149011612D;
 		motionZ *= 0.10000000149011612D;
-		if(par9 == 0.0F)
+		if(p_i3179_9_ == 0.0F)
 		{
-			par9 = 1.0F;
+			p_i3179_9_ = 1.0F;
 		}
 		float var12 = (float) Math.random() * 0.4F + 0.6F;
-		particleRed = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * par9 * var12;
-		particleGreen = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * par10 * var12;
-		particleBlue = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * par11 * var12;
+		particleRed = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * p_i3179_9_ * var12;
+		particleGreen = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * p_i3179_10_ * var12;
+		particleBlue = ((float) (Math.random() * 0.20000000298023224D) + 0.8F) * p_i3179_11_ * var12;
 		particleScale *= 0.75F;
-		particleScale *= par8;
+		particleScale *= p_i3179_8_;
 		reddustParticleScale = particleScale;
 		particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
-		particleMaxAge = (int) (particleMaxAge * par8);
+		particleMaxAge = (int) (particleMaxAge * p_i3179_8_);
 		noClip = false;
 	}
 	

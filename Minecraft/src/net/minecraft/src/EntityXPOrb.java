@@ -3,40 +3,40 @@ package net.minecraft.src;
 public class EntityXPOrb extends Entity
 {
 	public int xpColor;
-	public int xpOrbAge;
+	public int xpOrbAge = 0;
 	public int field_70532_c;
 	private int xpOrbHealth = 5;
 	private int xpValue;
 	private EntityPlayer closestPlayer;
 	private int xpTargetColor;
 	
-	public EntityXPOrb(World par1World)
+	public EntityXPOrb(World p_i3441_1_)
 	{
-		super(par1World);
+		super(p_i3441_1_);
 		setSize(0.25F, 0.25F);
 		yOffset = height / 2.0F;
 	}
 	
-	public EntityXPOrb(World par1World, double par2, double par4, double par6, int par8)
+	public EntityXPOrb(World p_i3440_1_, double p_i3440_2_, double p_i3440_4_, double p_i3440_6_, int p_i3440_8_)
 	{
-		super(par1World);
+		super(p_i3440_1_);
 		setSize(0.5F, 0.5F);
 		yOffset = height / 2.0F;
-		setPosition(par2, par4, par6);
+		setPosition(p_i3440_2_, p_i3440_4_, p_i3440_6_);
 		rotationYaw = (float) (Math.random() * 360.0D);
 		motionX = (float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F;
 		motionY = (float) (Math.random() * 0.2D) * 2.0F;
 		motionZ = (float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F;
-		xpValue = par8;
+		xpValue = p_i3440_8_;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
+	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
 		{
 			setBeenAttacked();
-			xpOrbHealth = (int) (xpOrbHealth - par2);
+			xpOrbHealth -= p_70097_2_;
 			if(xpOrbHealth <= 0)
 			{
 				setDead();
@@ -55,9 +55,9 @@ public class EntityXPOrb extends Entity
 		return false;
 	}
 	
-	@Override protected void dealFireDamage(int par1)
+	@Override protected void dealFireDamage(int p_70081_1_)
 	{
-		attackEntityFrom(DamageSource.inFire, par1);
+		attackEntityFrom(DamageSource.inFire, p_70081_1_);
 	}
 	
 	@Override protected void entityInit()
@@ -101,16 +101,16 @@ public class EntityXPOrb extends Entity
 		return worldObj.handleMaterialAcceleration(boundingBox, Material.water, this);
 	}
 	
-	@Override public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
+	@Override public void onCollideWithPlayer(EntityPlayer p_70100_1_)
 	{
 		if(!worldObj.isRemote)
 		{
-			if(field_70532_c == 0 && par1EntityPlayer.xpCooldown == 0)
+			if(field_70532_c == 0 && p_70100_1_.xpCooldown == 0)
 			{
-				par1EntityPlayer.xpCooldown = 2;
+				p_70100_1_.xpCooldown = 2;
 				playSound("random.orb", 0.1F, 0.5F * ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.8F));
-				par1EntityPlayer.onItemPickup(this, 1);
-				par1EntityPlayer.addExperience(xpValue);
+				p_70100_1_.onItemPickup(this, 1);
+				p_70100_1_.addExperience(xpValue);
 				setDead();
 			}
 		}
@@ -185,22 +185,22 @@ public class EntityXPOrb extends Entity
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		xpOrbHealth = par1NBTTagCompound.getShort("Health") & 255;
-		xpOrbAge = par1NBTTagCompound.getShort("Age");
-		xpValue = par1NBTTagCompound.getShort("Value");
+		xpOrbHealth = p_70037_1_.getShort("Health") & 255;
+		xpOrbAge = p_70037_1_.getShort("Age");
+		xpValue = p_70037_1_.getShort("Value");
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		par1NBTTagCompound.setShort("Health", (byte) xpOrbHealth);
-		par1NBTTagCompound.setShort("Age", (short) xpOrbAge);
-		par1NBTTagCompound.setShort("Value", (short) xpValue);
+		p_70014_1_.setShort("Health", (byte) xpOrbHealth);
+		p_70014_1_.setShort("Age", (short) xpOrbAge);
+		p_70014_1_.setShort("Value", (short) xpValue);
 	}
 	
-	public static int getXPSplit(int par0)
+	public static int getXPSplit(int p_70527_0_)
 	{
-		return par0 >= 2477 ? 2477 : par0 >= 1237 ? 1237 : par0 >= 617 ? 617 : par0 >= 307 ? 307 : par0 >= 149 ? 149 : par0 >= 73 ? 73 : par0 >= 37 ? 37 : par0 >= 17 ? 17 : par0 >= 7 ? 7 : par0 >= 3 ? 3 : 1;
+		return p_70527_0_ >= 2477 ? 2477 : p_70527_0_ >= 1237 ? 1237 : p_70527_0_ >= 617 ? 617 : p_70527_0_ >= 307 ? 307 : p_70527_0_ >= 149 ? 149 : p_70527_0_ >= 73 ? 73 : p_70527_0_ >= 37 ? 37 : p_70527_0_ >= 17 ? 17 : p_70527_0_ >= 7 ? 7 : p_70527_0_ >= 3 ? 3 : 1;
 	}
 }

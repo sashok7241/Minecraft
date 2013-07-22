@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 public class NextTickListEntry implements Comparable
 {
-	private static long nextTickEntryID;
+	private static long nextTickEntryID = 0L;
 	public int xCoord;
 	public int yCoord;
 	public int zCoord;
@@ -11,31 +11,31 @@ public class NextTickListEntry implements Comparable
 	public int priority;
 	private long tickEntryID;
 	
-	public NextTickListEntry(int par1, int par2, int par3, int par4)
+	public NextTickListEntry(int p_i3741_1_, int p_i3741_2_, int p_i3741_3_, int p_i3741_4_)
 	{
 		tickEntryID = nextTickEntryID++;
-		xCoord = par1;
-		yCoord = par2;
-		zCoord = par3;
-		blockID = par4;
+		xCoord = p_i3741_1_;
+		yCoord = p_i3741_2_;
+		zCoord = p_i3741_3_;
+		blockID = p_i3741_4_;
 	}
 	
-	public int comparer(NextTickListEntry par1NextTickListEntry)
+	public int comparer(NextTickListEntry p_77175_1_)
 	{
-		return scheduledTime < par1NextTickListEntry.scheduledTime ? -1 : scheduledTime > par1NextTickListEntry.scheduledTime ? 1 : priority != par1NextTickListEntry.priority ? priority - par1NextTickListEntry.priority : tickEntryID < par1NextTickListEntry.tickEntryID ? -1 : tickEntryID > par1NextTickListEntry.tickEntryID ? 1 : 0;
+		return scheduledTime < p_77175_1_.scheduledTime ? -1 : scheduledTime > p_77175_1_.scheduledTime ? 1 : priority != p_77175_1_.priority ? priority - p_77175_1_.priority : tickEntryID < p_77175_1_.tickEntryID ? -1 : tickEntryID > p_77175_1_.tickEntryID ? 1 : 0;
 	}
 	
-	@Override public int compareTo(Object par1Obj)
+	@Override public int compareTo(Object p_compareTo_1_)
 	{
-		return comparer((NextTickListEntry) par1Obj);
+		return comparer((NextTickListEntry) p_compareTo_1_);
 	}
 	
-	@Override public boolean equals(Object par1Obj)
+	@Override public boolean equals(Object p_equals_1_)
 	{
-		if(!(par1Obj instanceof NextTickListEntry)) return false;
+		if(!(p_equals_1_ instanceof NextTickListEntry)) return false;
 		else
 		{
-			NextTickListEntry var2 = (NextTickListEntry) par1Obj;
+			NextTickListEntry var2 = (NextTickListEntry) p_equals_1_;
 			return xCoord == var2.xCoord && yCoord == var2.yCoord && zCoord == var2.zCoord && Block.isAssociatedBlockID(blockID, var2.blockID);
 		}
 	}
@@ -45,14 +45,14 @@ public class NextTickListEntry implements Comparable
 		return (xCoord * 1024 * 1024 + zCoord * 1024 + yCoord) * 256;
 	}
 	
-	public void setPriority(int par1)
+	public void setPriority(int p_82753_1_)
 	{
-		priority = par1;
+		priority = p_82753_1_;
 	}
 	
-	public NextTickListEntry setScheduledTime(long par1)
+	public NextTickListEntry setScheduledTime(long p_77176_1_)
 	{
-		scheduledTime = par1;
+		scheduledTime = p_77176_1_;
 		return this;
 	}
 	

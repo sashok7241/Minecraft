@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,38 +14,38 @@ public class Packet209SetPlayerTeam extends Packet
 	public String teamPrefix = "";
 	public String teamSuffix = "";
 	public Collection playerNames = new ArrayList();
-	public int mode;
+	public int mode = 0;
 	public int friendlyFire;
 	
 	public Packet209SetPlayerTeam()
 	{
 	}
 	
-	public Packet209SetPlayerTeam(ScorePlayerTeam par1ScorePlayerTeam, Collection par2Collection, int par3)
+	public Packet209SetPlayerTeam(ScorePlayerTeam p_i10005_1_, Collection p_i10005_2_, int p_i10005_3_)
 	{
-		if(par3 != 3 && par3 != 4) throw new IllegalArgumentException("Method must be join or leave for player constructor");
-		else if(par2Collection != null && !par2Collection.isEmpty())
+		if(p_i10005_3_ != 3 && p_i10005_3_ != 4) throw new IllegalArgumentException("Method must be join or leave for player constructor");
+		else if(p_i10005_2_ != null && !p_i10005_2_.isEmpty())
 		{
-			mode = par3;
-			teamName = par1ScorePlayerTeam.func_96661_b();
-			playerNames.addAll(par2Collection);
+			mode = p_i10005_3_;
+			teamName = p_i10005_1_.func_96661_b();
+			playerNames.addAll(p_i10005_2_);
 		} else throw new IllegalArgumentException("Players cannot be null/empty");
 	}
 	
-	public Packet209SetPlayerTeam(ScorePlayerTeam par1ScorePlayerTeam, int par2)
+	public Packet209SetPlayerTeam(ScorePlayerTeam p_i10004_1_, int p_i10004_2_)
 	{
-		teamName = par1ScorePlayerTeam.func_96661_b();
-		mode = par2;
-		if(par2 == 0 || par2 == 2)
+		teamName = p_i10004_1_.func_96661_b();
+		mode = p_i10004_2_;
+		if(p_i10004_2_ == 0 || p_i10004_2_ == 2)
 		{
-			teamDisplayName = par1ScorePlayerTeam.func_96669_c();
-			teamPrefix = par1ScorePlayerTeam.getColorPrefix();
-			teamSuffix = par1ScorePlayerTeam.getColorSuffix();
-			friendlyFire = par1ScorePlayerTeam.func_98299_i();
+			teamDisplayName = p_i10004_1_.func_96669_c();
+			teamPrefix = p_i10004_1_.getColorPrefix();
+			teamSuffix = p_i10004_1_.getColorSuffix();
+			friendlyFire = p_i10004_1_.func_98299_i();
 		}
-		if(par2 == 0)
+		if(p_i10004_2_ == 0)
 		{
-			playerNames.addAll(par1ScorePlayerTeam.getMembershipCollection());
+			playerNames.addAll(p_i10004_1_.getMembershipCollection());
 		}
 	}
 	
@@ -54,51 +54,51 @@ public class Packet209SetPlayerTeam extends Packet
 		return 3 + teamName.length();
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleSetPlayerTeam(this);
+		p_73279_1_.handleSetPlayerTeam(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		teamName = readString(par1DataInput, 16);
-		mode = par1DataInput.readByte();
+		teamName = readString(p_73267_1_, 16);
+		mode = p_73267_1_.readByte();
 		if(mode == 0 || mode == 2)
 		{
-			teamDisplayName = readString(par1DataInput, 32);
-			teamPrefix = readString(par1DataInput, 16);
-			teamSuffix = readString(par1DataInput, 16);
-			friendlyFire = par1DataInput.readByte();
+			teamDisplayName = readString(p_73267_1_, 32);
+			teamPrefix = readString(p_73267_1_, 16);
+			teamSuffix = readString(p_73267_1_, 16);
+			friendlyFire = p_73267_1_.readByte();
 		}
 		if(mode == 0 || mode == 3 || mode == 4)
 		{
-			short var2 = par1DataInput.readShort();
+			short var2 = p_73267_1_.readShort();
 			for(int var3 = 0; var3 < var2; ++var3)
 			{
-				playerNames.add(readString(par1DataInput, 16));
+				playerNames.add(readString(p_73267_1_, 16));
 			}
 		}
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		writeString(teamName, par1DataOutput);
-		par1DataOutput.writeByte(mode);
+		writeString(teamName, p_73273_1_);
+		p_73273_1_.writeByte(mode);
 		if(mode == 0 || mode == 2)
 		{
-			writeString(teamDisplayName, par1DataOutput);
-			writeString(teamPrefix, par1DataOutput);
-			writeString(teamSuffix, par1DataOutput);
-			par1DataOutput.writeByte(friendlyFire);
+			writeString(teamDisplayName, p_73273_1_);
+			writeString(teamPrefix, p_73273_1_);
+			writeString(teamSuffix, p_73273_1_);
+			p_73273_1_.writeByte(friendlyFire);
 		}
 		if(mode == 0 || mode == 3 || mode == 4)
 		{
-			par1DataOutput.writeShort(playerNames.size());
+			p_73273_1_.writeShort(playerNames.size());
 			Iterator var2 = playerNames.iterator();
 			while(var2.hasNext())
 			{
 				String var3 = (String) var2.next();
-				writeString(var3, par1DataOutput);
+				writeString(var3, p_73273_1_);
 			}
 		}
 	}

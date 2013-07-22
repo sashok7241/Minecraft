@@ -8,17 +8,17 @@ public class BlockChest extends BlockContainer
 	private final Random random = new Random();
 	public final int isTrapped;
 	
-	protected BlockChest(int par1, int par2)
+	protected BlockChest(int p_i9045_1_, int p_i9045_2_)
 	{
-		super(par1, Material.wood);
-		isTrapped = par2;
+		super(p_i9045_1_, Material.wood);
+		isTrapped = p_i9045_2_;
 		setCreativeTab(CreativeTabs.tabDecorations);
 		setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
 	}
 	
-	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
+	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
 	{
-		TileEntityChest var7 = (TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4);
+		TileEntityChest var7 = (TileEntityChest) p_71852_1_.getBlockTileEntity(p_71852_2_, p_71852_3_, p_71852_4_);
 		if(var7 != null)
 		{
 			for(int var8 = 0; var8 < var7.getSizeInventory(); ++var8)
@@ -29,7 +29,7 @@ public class BlockChest extends BlockContainer
 					float var10 = random.nextFloat() * 0.8F + 0.1F;
 					float var11 = random.nextFloat() * 0.8F + 0.1F;
 					EntityItem var14;
-					for(float var12 = random.nextFloat() * 0.8F + 0.1F; var9.stackSize > 0; par1World.spawnEntityInWorld(var14))
+					for(float var12 = random.nextFloat() * 0.8F + 0.1F; var9.stackSize > 0; p_71852_1_.spawnEntityInWorld(var14))
 					{
 						int var13 = random.nextInt(21) + 10;
 						if(var13 > var9.stackSize)
@@ -37,7 +37,7 @@ public class BlockChest extends BlockContainer
 							var13 = var9.stackSize;
 						}
 						var9.stackSize -= var13;
-						var14 = new EntityItem(par1World, par2 + var10, par3 + var11, par4 + var12, new ItemStack(var9.itemID, var13, var9.getItemDamage()));
+						var14 = new EntityItem(p_71852_1_, p_71852_2_ + var10, p_71852_3_ + var11, p_71852_4_ + var12, new ItemStack(var9.itemID, var13, var9.getItemDamage()));
 						float var15 = 0.05F;
 						var14.motionX = (float) random.nextGaussian() * var15;
 						var14.motionY = (float) random.nextGaussian() * var15 + 0.2F;
@@ -49,31 +49,31 @@ public class BlockChest extends BlockContainer
 					}
 				}
 			}
-			par1World.func_96440_m(par2, par3, par4, par5);
+			p_71852_1_.func_96440_m(p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_);
 		}
-		super.breakBlock(par1World, par2, par3, par4, par5, par6);
+		super.breakBlock(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_, p_71852_6_);
 	}
 	
-	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
 	{
 		int var5 = 0;
-		if(par1World.getBlockId(par2 - 1, par3, par4) == blockID)
+		if(p_71930_1_.getBlockId(p_71930_2_ - 1, p_71930_3_, p_71930_4_) == blockID)
 		{
 			++var5;
 		}
-		if(par1World.getBlockId(par2 + 1, par3, par4) == blockID)
+		if(p_71930_1_.getBlockId(p_71930_2_ + 1, p_71930_3_, p_71930_4_) == blockID)
 		{
 			++var5;
 		}
-		if(par1World.getBlockId(par2, par3, par4 - 1) == blockID)
+		if(p_71930_1_.getBlockId(p_71930_2_, p_71930_3_, p_71930_4_ - 1) == blockID)
 		{
 			++var5;
 		}
-		if(par1World.getBlockId(par2, par3, par4 + 1) == blockID)
+		if(p_71930_1_.getBlockId(p_71930_2_, p_71930_3_, p_71930_4_ + 1) == blockID)
 		{
 			++var5;
 		}
-		return var5 > 1 ? false : isThereANeighborChest(par1World, par2 - 1, par3, par4) ? false : isThereANeighborChest(par1World, par2 + 1, par3, par4) ? false : isThereANeighborChest(par1World, par2, par3, par4 - 1) ? false : !isThereANeighborChest(par1World, par2, par3, par4 + 1);
+		return var5 > 1 ? false : isThereANeighborChest(p_71930_1_, p_71930_2_ - 1, p_71930_3_, p_71930_4_) ? false : isThereANeighborChest(p_71930_1_, p_71930_2_ + 1, p_71930_3_, p_71930_4_) ? false : isThereANeighborChest(p_71930_1_, p_71930_2_, p_71930_3_, p_71930_4_ - 1) ? false : !isThereANeighborChest(p_71930_1_, p_71930_2_, p_71930_3_, p_71930_4_ + 1);
 	}
 	
 	@Override public boolean canProvidePower()
@@ -81,44 +81,44 @@ public class BlockChest extends BlockContainer
 		return isTrapped == 1;
 	}
 	
-	@Override public TileEntity createNewTileEntity(World par1World)
+	@Override public TileEntity createNewTileEntity(World p_72274_1_)
 	{
 		TileEntityChest var2 = new TileEntityChest();
 		return var2;
 	}
 	
-	@Override public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
+	@Override public int getComparatorInputOverride(World p_94328_1_, int p_94328_2_, int p_94328_3_, int p_94328_4_, int p_94328_5_)
 	{
-		return Container.calcRedstoneFromInventory(getInventory(par1World, par2, par3, par4));
+		return Container.calcRedstoneFromInventory(getInventory(p_94328_1_, p_94328_2_, p_94328_3_, p_94328_4_));
 	}
 	
-	public IInventory getInventory(World par1World, int par2, int par3, int par4)
+	public IInventory getInventory(World p_94442_1_, int p_94442_2_, int p_94442_3_, int p_94442_4_)
 	{
-		Object var5 = par1World.getBlockTileEntity(par2, par3, par4);
+		Object var5 = p_94442_1_.getBlockTileEntity(p_94442_2_, p_94442_3_, p_94442_4_);
 		if(var5 == null) return null;
-		else if(par1World.isBlockNormalCube(par2, par3 + 1, par4)) return null;
-		else if(isOcelotBlockingChest(par1World, par2, par3, par4)) return null;
-		else if(par1World.getBlockId(par2 - 1, par3, par4) == blockID && (par1World.isBlockNormalCube(par2 - 1, par3 + 1, par4) || isOcelotBlockingChest(par1World, par2 - 1, par3, par4))) return null;
-		else if(par1World.getBlockId(par2 + 1, par3, par4) == blockID && (par1World.isBlockNormalCube(par2 + 1, par3 + 1, par4) || isOcelotBlockingChest(par1World, par2 + 1, par3, par4))) return null;
-		else if(par1World.getBlockId(par2, par3, par4 - 1) == blockID && (par1World.isBlockNormalCube(par2, par3 + 1, par4 - 1) || isOcelotBlockingChest(par1World, par2, par3, par4 - 1))) return null;
-		else if(par1World.getBlockId(par2, par3, par4 + 1) == blockID && (par1World.isBlockNormalCube(par2, par3 + 1, par4 + 1) || isOcelotBlockingChest(par1World, par2, par3, par4 + 1))) return null;
+		else if(p_94442_1_.isBlockNormalCube(p_94442_2_, p_94442_3_ + 1, p_94442_4_)) return null;
+		else if(isOcelotBlockingChest(p_94442_1_, p_94442_2_, p_94442_3_, p_94442_4_)) return null;
+		else if(p_94442_1_.getBlockId(p_94442_2_ - 1, p_94442_3_, p_94442_4_) == blockID && (p_94442_1_.isBlockNormalCube(p_94442_2_ - 1, p_94442_3_ + 1, p_94442_4_) || isOcelotBlockingChest(p_94442_1_, p_94442_2_ - 1, p_94442_3_, p_94442_4_))) return null;
+		else if(p_94442_1_.getBlockId(p_94442_2_ + 1, p_94442_3_, p_94442_4_) == blockID && (p_94442_1_.isBlockNormalCube(p_94442_2_ + 1, p_94442_3_ + 1, p_94442_4_) || isOcelotBlockingChest(p_94442_1_, p_94442_2_ + 1, p_94442_3_, p_94442_4_))) return null;
+		else if(p_94442_1_.getBlockId(p_94442_2_, p_94442_3_, p_94442_4_ - 1) == blockID && (p_94442_1_.isBlockNormalCube(p_94442_2_, p_94442_3_ + 1, p_94442_4_ - 1) || isOcelotBlockingChest(p_94442_1_, p_94442_2_, p_94442_3_, p_94442_4_ - 1))) return null;
+		else if(p_94442_1_.getBlockId(p_94442_2_, p_94442_3_, p_94442_4_ + 1) == blockID && (p_94442_1_.isBlockNormalCube(p_94442_2_, p_94442_3_ + 1, p_94442_4_ + 1) || isOcelotBlockingChest(p_94442_1_, p_94442_2_, p_94442_3_, p_94442_4_ + 1))) return null;
 		else
 		{
-			if(par1World.getBlockId(par2 - 1, par3, par4) == blockID)
+			if(p_94442_1_.getBlockId(p_94442_2_ - 1, p_94442_3_, p_94442_4_) == blockID)
 			{
-				var5 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) par1World.getBlockTileEntity(par2 - 1, par3, par4), (IInventory) var5);
+				var5 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) p_94442_1_.getBlockTileEntity(p_94442_2_ - 1, p_94442_3_, p_94442_4_), (IInventory) var5);
 			}
-			if(par1World.getBlockId(par2 + 1, par3, par4) == blockID)
+			if(p_94442_1_.getBlockId(p_94442_2_ + 1, p_94442_3_, p_94442_4_) == blockID)
 			{
-				var5 = new InventoryLargeChest("container.chestDouble", (IInventory) var5, (TileEntityChest) par1World.getBlockTileEntity(par2 + 1, par3, par4));
+				var5 = new InventoryLargeChest("container.chestDouble", (IInventory) var5, (TileEntityChest) p_94442_1_.getBlockTileEntity(p_94442_2_ + 1, p_94442_3_, p_94442_4_));
 			}
-			if(par1World.getBlockId(par2, par3, par4 - 1) == blockID)
+			if(p_94442_1_.getBlockId(p_94442_2_, p_94442_3_, p_94442_4_ - 1) == blockID)
 			{
-				var5 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4 - 1), (IInventory) var5);
+				var5 = new InventoryLargeChest("container.chestDouble", (TileEntityChest) p_94442_1_.getBlockTileEntity(p_94442_2_, p_94442_3_, p_94442_4_ - 1), (IInventory) var5);
 			}
-			if(par1World.getBlockId(par2, par3, par4 + 1) == blockID)
+			if(p_94442_1_.getBlockId(p_94442_2_, p_94442_3_, p_94442_4_ + 1) == blockID)
 			{
-				var5 = new InventoryLargeChest("container.chestDouble", (IInventory) var5, (TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4 + 1));
+				var5 = new InventoryLargeChest("container.chestDouble", (IInventory) var5, (TileEntityChest) p_94442_1_.getBlockTileEntity(p_94442_2_, p_94442_3_, p_94442_4_ + 1));
 			}
 			return (IInventory) var5;
 		}
@@ -139,74 +139,74 @@ public class BlockChest extends BlockContainer
 		return false;
 	}
 	
-	@Override public int isProvidingStrongPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override public int isProvidingStrongPower(IBlockAccess p_71855_1_, int p_71855_2_, int p_71855_3_, int p_71855_4_, int p_71855_5_)
 	{
-		return par5 == 1 ? isProvidingWeakPower(par1IBlockAccess, par2, par3, par4, par5) : 0;
+		return p_71855_5_ == 1 ? isProvidingWeakPower(p_71855_1_, p_71855_2_, p_71855_3_, p_71855_4_, p_71855_5_) : 0;
 	}
 	
-	@Override public int isProvidingWeakPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override public int isProvidingWeakPower(IBlockAccess p_71865_1_, int p_71865_2_, int p_71865_3_, int p_71865_4_, int p_71865_5_)
 	{
 		if(!canProvidePower()) return 0;
 		else
 		{
-			int var6 = ((TileEntityChest) par1IBlockAccess.getBlockTileEntity(par2, par3, par4)).numUsingPlayers;
+			int var6 = ((TileEntityChest) p_71865_1_.getBlockTileEntity(p_71865_2_, p_71865_3_, p_71865_4_)).numUsingPlayers;
 			return MathHelper.clamp_int(var6, 0, 15);
 		}
 	}
 	
-	private boolean isThereANeighborChest(World par1World, int par2, int par3, int par4)
+	private boolean isThereANeighborChest(World p_72291_1_, int p_72291_2_, int p_72291_3_, int p_72291_4_)
 	{
-		return par1World.getBlockId(par2, par3, par4) != blockID ? false : par1World.getBlockId(par2 - 1, par3, par4) == blockID ? true : par1World.getBlockId(par2 + 1, par3, par4) == blockID ? true : par1World.getBlockId(par2, par3, par4 - 1) == blockID ? true : par1World.getBlockId(par2, par3, par4 + 1) == blockID;
+		return p_72291_1_.getBlockId(p_72291_2_, p_72291_3_, p_72291_4_) != blockID ? false : p_72291_1_.getBlockId(p_72291_2_ - 1, p_72291_3_, p_72291_4_) == blockID ? true : p_72291_1_.getBlockId(p_72291_2_ + 1, p_72291_3_, p_72291_4_) == blockID ? true : p_72291_1_.getBlockId(p_72291_2_, p_72291_3_, p_72291_4_ - 1) == blockID ? true : p_72291_1_.getBlockId(p_72291_2_, p_72291_3_, p_72291_4_ + 1) == blockID;
 	}
 	
-	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
 	{
-		if(par1World.isRemote) return true;
+		if(p_71903_1_.isRemote) return true;
 		else
 		{
-			IInventory var10 = getInventory(par1World, par2, par3, par4);
+			IInventory var10 = getInventory(p_71903_1_, p_71903_2_, p_71903_3_, p_71903_4_);
 			if(var10 != null)
 			{
-				par5EntityPlayer.displayGUIChest(var10);
+				p_71903_5_.displayGUIChest(var10);
 			}
 			return true;
 		}
 	}
 	
-	@Override public void onBlockAdded(World par1World, int par2, int par3, int par4)
+	@Override public void onBlockAdded(World p_71861_1_, int p_71861_2_, int p_71861_3_, int p_71861_4_)
 	{
-		super.onBlockAdded(par1World, par2, par3, par4);
-		unifyAdjacentChests(par1World, par2, par3, par4);
-		int var5 = par1World.getBlockId(par2, par3, par4 - 1);
-		int var6 = par1World.getBlockId(par2, par3, par4 + 1);
-		int var7 = par1World.getBlockId(par2 - 1, par3, par4);
-		int var8 = par1World.getBlockId(par2 + 1, par3, par4);
+		super.onBlockAdded(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_);
+		unifyAdjacentChests(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_);
+		int var5 = p_71861_1_.getBlockId(p_71861_2_, p_71861_3_, p_71861_4_ - 1);
+		int var6 = p_71861_1_.getBlockId(p_71861_2_, p_71861_3_, p_71861_4_ + 1);
+		int var7 = p_71861_1_.getBlockId(p_71861_2_ - 1, p_71861_3_, p_71861_4_);
+		int var8 = p_71861_1_.getBlockId(p_71861_2_ + 1, p_71861_3_, p_71861_4_);
 		if(var5 == blockID)
 		{
-			unifyAdjacentChests(par1World, par2, par3, par4 - 1);
+			unifyAdjacentChests(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_ - 1);
 		}
 		if(var6 == blockID)
 		{
-			unifyAdjacentChests(par1World, par2, par3, par4 + 1);
+			unifyAdjacentChests(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_ + 1);
 		}
 		if(var7 == blockID)
 		{
-			unifyAdjacentChests(par1World, par2 - 1, par3, par4);
+			unifyAdjacentChests(p_71861_1_, p_71861_2_ - 1, p_71861_3_, p_71861_4_);
 		}
 		if(var8 == blockID)
 		{
-			unifyAdjacentChests(par1World, par2 + 1, par3, par4);
+			unifyAdjacentChests(p_71861_1_, p_71861_2_ + 1, p_71861_3_, p_71861_4_);
 		}
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World p_71860_1_, int p_71860_2_, int p_71860_3_, int p_71860_4_, EntityLiving p_71860_5_, ItemStack p_71860_6_)
 	{
-		int var7 = par1World.getBlockId(par2, par3, par4 - 1);
-		int var8 = par1World.getBlockId(par2, par3, par4 + 1);
-		int var9 = par1World.getBlockId(par2 - 1, par3, par4);
-		int var10 = par1World.getBlockId(par2 + 1, par3, par4);
+		int var7 = p_71860_1_.getBlockId(p_71860_2_, p_71860_3_, p_71860_4_ - 1);
+		int var8 = p_71860_1_.getBlockId(p_71860_2_, p_71860_3_, p_71860_4_ + 1);
+		int var9 = p_71860_1_.getBlockId(p_71860_2_ - 1, p_71860_3_, p_71860_4_);
+		int var10 = p_71860_1_.getBlockId(p_71860_2_ + 1, p_71860_3_, p_71860_4_);
 		byte var11 = 0;
-		int var12 = MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		int var12 = MathHelper.floor_double(p_71860_5_.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		if(var12 == 0)
 		{
 			var11 = 2;
@@ -225,42 +225,42 @@ public class BlockChest extends BlockContainer
 		}
 		if(var7 != blockID && var8 != blockID && var9 != blockID && var10 != blockID)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, var11, 3);
+			p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, var11, 3);
 		} else
 		{
 			if((var7 == blockID || var8 == blockID) && (var11 == 4 || var11 == 5))
 			{
 				if(var7 == blockID)
 				{
-					par1World.setBlockMetadataWithNotify(par2, par3, par4 - 1, var11, 3);
+					p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_ - 1, var11, 3);
 				} else
 				{
-					par1World.setBlockMetadataWithNotify(par2, par3, par4 + 1, var11, 3);
+					p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_ + 1, var11, 3);
 				}
-				par1World.setBlockMetadataWithNotify(par2, par3, par4, var11, 3);
+				p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, var11, 3);
 			}
 			if((var9 == blockID || var10 == blockID) && (var11 == 2 || var11 == 3))
 			{
 				if(var9 == blockID)
 				{
-					par1World.setBlockMetadataWithNotify(par2 - 1, par3, par4, var11, 3);
+					p_71860_1_.setBlockMetadataWithNotify(p_71860_2_ - 1, p_71860_3_, p_71860_4_, var11, 3);
 				} else
 				{
-					par1World.setBlockMetadataWithNotify(par2 + 1, par3, par4, var11, 3);
+					p_71860_1_.setBlockMetadataWithNotify(p_71860_2_ + 1, p_71860_3_, p_71860_4_, var11, 3);
 				}
-				par1World.setBlockMetadataWithNotify(par2, par3, par4, var11, 3);
+				p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, var11, 3);
 			}
 		}
-		if(par6ItemStack.hasDisplayName())
+		if(p_71860_6_.hasDisplayName())
 		{
-			((TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4)).setChestGuiName(par6ItemStack.getDisplayName());
+			((TileEntityChest) p_71860_1_.getBlockTileEntity(p_71860_2_, p_71860_3_, p_71860_4_)).setChestGuiName(p_71860_6_.getDisplayName());
 		}
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
-		super.onNeighborBlockChange(par1World, par2, par3, par4, par5);
-		TileEntityChest var6 = (TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4);
+		super.onNeighborBlockChange(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, p_71863_5_);
+		TileEntityChest var6 = (TileEntityChest) p_71863_1_.getBlockTileEntity(p_71863_2_, p_71863_3_, p_71863_4_);
 		if(var6 != null)
 		{
 			var6.updateContainingBlockInfo();
@@ -269,7 +269,7 @@ public class BlockChest extends BlockContainer
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("planks_oak");
+		blockIcon = par1IconRegister.registerIcon("wood");
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -277,18 +277,18 @@ public class BlockChest extends BlockContainer
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
-		if(par1IBlockAccess.getBlockId(par2, par3, par4 - 1) == blockID)
+		if(p_71902_1_.getBlockId(p_71902_2_, p_71902_3_, p_71902_4_ - 1) == blockID)
 		{
 			setBlockBounds(0.0625F, 0.0F, 0.0F, 0.9375F, 0.875F, 0.9375F);
-		} else if(par1IBlockAccess.getBlockId(par2, par3, par4 + 1) == blockID)
+		} else if(p_71902_1_.getBlockId(p_71902_2_, p_71902_3_, p_71902_4_ + 1) == blockID)
 		{
 			setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 1.0F);
-		} else if(par1IBlockAccess.getBlockId(par2 - 1, par3, par4) == blockID)
+		} else if(p_71902_1_.getBlockId(p_71902_2_ - 1, p_71902_3_, p_71902_4_) == blockID)
 		{
 			setBlockBounds(0.0F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
-		} else if(par1IBlockAccess.getBlockId(par2 + 1, par3, par4) == blockID)
+		} else if(p_71902_1_.getBlockId(p_71902_2_ + 1, p_71902_3_, p_71902_4_) == blockID)
 		{
 			setBlockBounds(0.0625F, 0.0F, 0.0625F, 1.0F, 0.875F, 0.9375F);
 		} else
@@ -297,14 +297,14 @@ public class BlockChest extends BlockContainer
 		}
 	}
 	
-	public void unifyAdjacentChests(World par1World, int par2, int par3, int par4)
+	public void unifyAdjacentChests(World p_72290_1_, int p_72290_2_, int p_72290_3_, int p_72290_4_)
 	{
-		if(!par1World.isRemote)
+		if(!p_72290_1_.isRemote)
 		{
-			int var5 = par1World.getBlockId(par2, par3, par4 - 1);
-			int var6 = par1World.getBlockId(par2, par3, par4 + 1);
-			int var7 = par1World.getBlockId(par2 - 1, par3, par4);
-			int var8 = par1World.getBlockId(par2 + 1, par3, par4);
+			int var5 = p_72290_1_.getBlockId(p_72290_2_, p_72290_3_, p_72290_4_ - 1);
+			int var6 = p_72290_1_.getBlockId(p_72290_2_, p_72290_3_, p_72290_4_ + 1);
+			int var7 = p_72290_1_.getBlockId(p_72290_2_ - 1, p_72290_3_, p_72290_4_);
+			int var8 = p_72290_1_.getBlockId(p_72290_2_ + 1, p_72290_3_, p_72290_4_);
 			boolean var9 = true;
 			int var10;
 			int var11;
@@ -334,16 +334,16 @@ public class BlockChest extends BlockContainer
 					}
 				} else
 				{
-					var10 = par1World.getBlockId(var7 == blockID ? par2 - 1 : par2 + 1, par3, par4 - 1);
-					var11 = par1World.getBlockId(var7 == blockID ? par2 - 1 : par2 + 1, par3, par4 + 1);
+					var10 = p_72290_1_.getBlockId(var7 == blockID ? p_72290_2_ - 1 : p_72290_2_ + 1, p_72290_3_, p_72290_4_ - 1);
+					var11 = p_72290_1_.getBlockId(var7 == blockID ? p_72290_2_ - 1 : p_72290_2_ + 1, p_72290_3_, p_72290_4_ + 1);
 					var13 = 3;
 					var12 = true;
 					if(var7 == blockID)
 					{
-						var14 = par1World.getBlockMetadata(par2 - 1, par3, par4);
+						var14 = p_72290_1_.getBlockMetadata(p_72290_2_ - 1, p_72290_3_, p_72290_4_);
 					} else
 					{
-						var14 = par1World.getBlockMetadata(par2 + 1, par3, par4);
+						var14 = p_72290_1_.getBlockMetadata(p_72290_2_ + 1, p_72290_3_, p_72290_4_);
 					}
 					if(var14 == 2)
 					{
@@ -360,16 +360,16 @@ public class BlockChest extends BlockContainer
 				}
 			} else
 			{
-				var10 = par1World.getBlockId(par2 - 1, par3, var5 == blockID ? par4 - 1 : par4 + 1);
-				var11 = par1World.getBlockId(par2 + 1, par3, var5 == blockID ? par4 - 1 : par4 + 1);
+				var10 = p_72290_1_.getBlockId(p_72290_2_ - 1, p_72290_3_, var5 == blockID ? p_72290_4_ - 1 : p_72290_4_ + 1);
+				var11 = p_72290_1_.getBlockId(p_72290_2_ + 1, p_72290_3_, var5 == blockID ? p_72290_4_ - 1 : p_72290_4_ + 1);
 				var13 = 5;
 				var12 = true;
 				if(var5 == blockID)
 				{
-					var14 = par1World.getBlockMetadata(par2, par3, par4 - 1);
+					var14 = p_72290_1_.getBlockMetadata(p_72290_2_, p_72290_3_, p_72290_4_ - 1);
 				} else
 				{
-					var14 = par1World.getBlockMetadata(par2, par3, par4 + 1);
+					var14 = p_72290_1_.getBlockMetadata(p_72290_2_, p_72290_3_, p_72290_4_ + 1);
 				}
 				if(var14 == 4)
 				{
@@ -384,13 +384,13 @@ public class BlockChest extends BlockContainer
 					var13 = 4;
 				}
 			}
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, var13, 3);
+			p_72290_1_.setBlockMetadataWithNotify(p_72290_2_, p_72290_3_, p_72290_4_, var13, 3);
 		}
 	}
 	
-	private static boolean isOcelotBlockingChest(World par0World, int par1, int par2, int par3)
+	private static boolean isOcelotBlockingChest(World p_72292_0_, int p_72292_1_, int p_72292_2_, int p_72292_3_)
 	{
-		Iterator var4 = par0World.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB(par1, par2 + 1, par3, par1 + 1, par2 + 2, par3 + 1)).iterator();
+		Iterator var4 = p_72292_0_.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB(p_72292_1_, p_72292_2_ + 1, p_72292_3_, p_72292_1_ + 1, p_72292_2_ + 2, p_72292_3_ + 1)).iterator();
 		EntityOcelot var6;
 		do
 		{

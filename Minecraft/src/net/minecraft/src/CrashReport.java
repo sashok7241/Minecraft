@@ -17,20 +17,27 @@ public class CrashReport
 	private final Throwable cause;
 	private final CrashReportCategory field_85061_c = new CrashReportCategory(this, "System Details");
 	private final List crashReportSections = new ArrayList();
-	private File crashReportFile;
+	private File crashReportFile = null;
 	private boolean field_85059_f = true;
 	private StackTraceElement[] field_85060_g = new StackTraceElement[0];
 	
-	public CrashReport(String par1Str, Throwable par2Throwable)
+	public CrashReport(String p_i3250_1_, Throwable p_i3250_2_)
 	{
-		description = par1Str;
-		cause = par2Throwable;
+		description = p_i3250_1_;
+		cause = p_i3250_2_;
 		populateEnvironment();
 	}
 	
 	public CrashReportCategory func_85056_g()
 	{
 		return field_85061_c;
+	}
+	
+	public String func_90021_c()
+	{
+		StringBuilder var1 = new StringBuilder();
+		getSectionsInStringBuilder(var1);
+		return var1.toString();
 	}
 	
 	public String getCauseStackTraceOrString()
@@ -103,43 +110,43 @@ public class CrashReport
 		return crashReportFile;
 	}
 	
-	public void getSectionsInStringBuilder(StringBuilder par1StringBuilder)
+	public void getSectionsInStringBuilder(StringBuilder p_71506_1_)
 	{
 		if(field_85060_g != null && field_85060_g.length > 0)
 		{
-			par1StringBuilder.append("-- Head --\n");
-			par1StringBuilder.append("Stacktrace:\n");
+			p_71506_1_.append("-- Head --\n");
+			p_71506_1_.append("Stacktrace:\n");
 			StackTraceElement[] var2 = field_85060_g;
 			int var3 = var2.length;
 			for(int var4 = 0; var4 < var3; ++var4)
 			{
 				StackTraceElement var5 = var2[var4];
-				par1StringBuilder.append("\t").append("at ").append(var5.toString());
-				par1StringBuilder.append("\n");
+				p_71506_1_.append("\t").append("at ").append(var5.toString());
+				p_71506_1_.append("\n");
 			}
-			par1StringBuilder.append("\n");
+			p_71506_1_.append("\n");
 		}
 		Iterator var6 = crashReportSections.iterator();
 		while(var6.hasNext())
 		{
 			CrashReportCategory var7 = (CrashReportCategory) var6.next();
-			var7.func_85072_a(par1StringBuilder);
-			par1StringBuilder.append("\n\n");
+			var7.func_85072_a(p_71506_1_);
+			p_71506_1_.append("\n\n");
 		}
-		field_85061_c.func_85072_a(par1StringBuilder);
+		field_85061_c.func_85072_a(p_71506_1_);
 	}
 	
-	public CrashReportCategory makeCategory(String par1Str)
+	public CrashReportCategory makeCategory(String p_85058_1_)
 	{
-		return makeCategoryDepth(par1Str, 1);
+		return makeCategoryDepth(p_85058_1_, 1);
 	}
 	
-	public CrashReportCategory makeCategoryDepth(String par1Str, int par2)
+	public CrashReportCategory makeCategoryDepth(String p_85057_1_, int p_85057_2_)
 	{
-		CrashReportCategory var3 = new CrashReportCategory(this, par1Str);
+		CrashReportCategory var3 = new CrashReportCategory(this, p_85057_1_);
 		if(field_85059_f)
 		{
-			int var4 = var3.func_85073_a(par2);
+			int var4 = var3.func_85073_a(p_85057_2_);
 			StackTraceElement[] var5 = cause.getStackTrace();
 			StackTraceElement var6 = null;
 			StackTraceElement var7 = null;
@@ -182,25 +189,25 @@ public class CrashReport
 		field_85061_c.addCrashSectionCallable("IntCache", new CallableIntCache(this));
 	}
 	
-	public boolean saveToFile(File par1File, ILogAgent par2ILogAgent)
+	public boolean saveToFile(File p_71508_1_, ILogAgent p_71508_2_)
 	{
 		if(crashReportFile != null) return false;
 		else
 		{
-			if(par1File.getParentFile() != null)
+			if(p_71508_1_.getParentFile() != null)
 			{
-				par1File.getParentFile().mkdirs();
+				p_71508_1_.getParentFile().mkdirs();
 			}
 			try
 			{
-				FileWriter var3 = new FileWriter(par1File);
+				FileWriter var3 = new FileWriter(p_71508_1_);
 				var3.write(getCompleteReport());
 				var3.close();
-				crashReportFile = par1File;
+				crashReportFile = p_71508_1_;
 				return true;
 			} catch(Throwable var4)
 			{
-				par2ILogAgent.logSevereException("Could not save crash report to " + par1File, var4);
+				p_71508_2_.logSevereException("Could not save crash report to " + p_71508_1_, var4);
 				return false;
 			}
 		}
@@ -218,15 +225,15 @@ public class CrashReport
 		}
 	}
 	
-	public static CrashReport makeCrashReport(Throwable par0Throwable, String par1Str)
+	public static CrashReport makeCrashReport(Throwable p_85055_0_, String p_85055_1_)
 	{
 		CrashReport var2;
-		if(par0Throwable instanceof ReportedException)
+		if(p_85055_0_ instanceof ReportedException)
 		{
-			var2 = ((ReportedException) par0Throwable).getCrashReport();
+			var2 = ((ReportedException) p_85055_0_).getCrashReport();
 		} else
 		{
-			var2 = new CrashReport(par1Str, par0Throwable);
+			var2 = new CrashReport(p_85055_1_, p_85055_0_);
 		}
 		return var2;
 	}

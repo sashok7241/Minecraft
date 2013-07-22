@@ -2,23 +2,23 @@ package net.minecraft.src;
 
 public class GenLayerSmooth extends GenLayer
 {
-	public GenLayerSmooth(long par1, GenLayer par3GenLayer)
+	public GenLayerSmooth(long p_i3897_1_, GenLayer p_i3897_3_)
 	{
-		super(par1);
-		super.parent = par3GenLayer;
+		super(p_i3897_1_);
+		super.parent = p_i3897_3_;
 	}
 	
-	@Override public int[] getInts(int par1, int par2, int par3, int par4)
+	@Override public int[] getInts(int p_75904_1_, int p_75904_2_, int p_75904_3_, int p_75904_4_)
 	{
-		int var5 = par1 - 1;
-		int var6 = par2 - 1;
-		int var7 = par3 + 2;
-		int var8 = par4 + 2;
+		int var5 = p_75904_1_ - 1;
+		int var6 = p_75904_2_ - 1;
+		int var7 = p_75904_3_ + 2;
+		int var8 = p_75904_4_ + 2;
 		int[] var9 = parent.getInts(var5, var6, var7, var8);
-		int[] var10 = IntCache.getIntCache(par3 * par4);
-		for(int var11 = 0; var11 < par4; ++var11)
+		int[] var10 = IntCache.getIntCache(p_75904_3_ * p_75904_4_);
+		for(int var11 = 0; var11 < p_75904_4_; ++var11)
 		{
-			for(int var12 = 0; var12 < par3; ++var12)
+			for(int var12 = 0; var12 < p_75904_3_; ++var12)
 			{
 				int var13 = var9[var12 + 0 + (var11 + 1) * var7];
 				int var14 = var9[var12 + 2 + (var11 + 1) * var7];
@@ -27,7 +27,7 @@ public class GenLayerSmooth extends GenLayer
 				int var17 = var9[var12 + 1 + (var11 + 1) * var7];
 				if(var13 == var14 && var15 == var16)
 				{
-					initChunkSeed(var12 + par1, var11 + par2);
+					initChunkSeed(var12 + p_75904_1_, var11 + p_75904_2_);
 					if(nextInt(2) == 0)
 					{
 						var17 = var13;
@@ -46,7 +46,7 @@ public class GenLayerSmooth extends GenLayer
 						var17 = var15;
 					}
 				}
-				var10[var12 + var11 * par3] = var17;
+				var10[var12 + var11 * p_75904_3_] = var17;
 			}
 		}
 		return var10;

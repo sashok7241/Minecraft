@@ -1,35 +1,32 @@
 package net.minecraft.src;
 
-import java.util.UUID;
-
 public class EntityEnderman extends EntityMob
 {
-	private static final UUID field_110192_bp = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
-	private static final AttributeModifier field_110193_bq = new AttributeModifier(field_110192_bp, "Attacking speed boost", 6.199999809265137D, 0).func_111168_a(false);
 	private static boolean[] carriableBlocks = new boolean[256];
-	private int teleportDelay;
-	private int field_70826_g;
-	private Entity field_110194_bu;
+	private int teleportDelay = 0;
+	private int field_70826_g = 0;
 	private boolean field_104003_g;
 	
-	public EntityEnderman(World par1World)
+	public EntityEnderman(World p_i3548_1_)
 	{
-		super(par1World);
+		super(p_i3548_1_);
+		texture = "/mob/enderman.png";
+		moveSpeed = 0.2F;
 		setSize(0.6F, 2.9F);
 		stepHeight = 1.0F;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
+	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
 		{
 			setScreaming(true);
-			if(par1DamageSource instanceof EntityDamageSource && par1DamageSource.getEntity() instanceof EntityPlayer)
+			if(p_70097_1_ instanceof EntityDamageSource && p_70097_1_.getEntity() instanceof EntityPlayer)
 			{
 				field_104003_g = true;
 			}
-			if(par1DamageSource instanceof EntityDamageSourceIndirect)
+			if(p_70097_1_ instanceof EntityDamageSourceIndirect)
 			{
 				field_104003_g = false;
 				for(int var3 = 0; var3 < 64; ++var3)
@@ -37,16 +34,16 @@ public class EntityEnderman extends EntityMob
 					if(teleportRandomly()) return true;
 				}
 				return false;
-			} else return super.attackEntityFrom(par1DamageSource, par2);
+			} else return super.attackEntityFrom(p_70097_1_, p_70097_2_);
 		}
 	}
 	
-	@Override protected void dropFewItems(boolean par1, int par2)
+	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
 	{
 		int var3 = getDropItemId();
 		if(var3 > 0)
 		{
-			int var4 = rand.nextInt(2 + par2);
+			int var4 = rand.nextInt(2 + p_70628_2_);
 			for(int var5 = 0; var5 < var4; ++var5)
 			{
 				dropItem(var3, 1);
@@ -88,12 +85,9 @@ public class EntityEnderman extends EntityMob
 		return null;
 	}
 	
-	@Override protected void func_110147_ax()
+	@Override public int getAttackStrength(Entity p_82193_1_)
 	{
-		super.func_110147_ax();
-		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(40.0D);
-		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
-		func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(7.0D);
+		return 7;
 	}
 	
 	public int getCarried()
@@ -126,6 +120,11 @@ public class EntityEnderman extends EntityMob
 		return isScreaming() ? "mob.endermen.scream" : "mob.endermen.idle";
 	}
 	
+	@Override public int getMaxHealth()
+	{
+		return 40;
+	}
+	
 	public boolean isScreaming()
 	{
 		return dataWatcher.getWatchableObjectByte(18) > 0;
@@ -135,19 +134,10 @@ public class EntityEnderman extends EntityMob
 	{
 		if(isWet())
 		{
-			attackEntityFrom(DamageSource.drown, 1.0F);
+			attackEntityFrom(DamageSource.drown, 1);
 		}
-		if(field_110194_bu != entityToAttack)
-		{
-			AttributeInstance var1 = func_110148_a(SharedMonsterAttributes.field_111263_d);
-			var1.func_111124_b(field_110193_bq);
-			if(entityToAttack != null)
-			{
-				var1.func_111121_a(field_110193_bq);
-			}
-		}
-		field_110194_bu = entityToAttack;
-		int var6;
+		moveSpeed = entityToAttack != null ? 6.5F : 0.3F;
+		int var1;
 		if(!worldObj.isRemote && worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
 		{
 			int var2;
@@ -157,39 +147,39 @@ public class EntityEnderman extends EntityMob
 			{
 				if(rand.nextInt(20) == 0)
 				{
-					var6 = MathHelper.floor_double(posX - 2.0D + rand.nextDouble() * 4.0D);
+					var1 = MathHelper.floor_double(posX - 2.0D + rand.nextDouble() * 4.0D);
 					var2 = MathHelper.floor_double(posY + rand.nextDouble() * 3.0D);
 					var3 = MathHelper.floor_double(posZ - 2.0D + rand.nextDouble() * 4.0D);
-					var4 = worldObj.getBlockId(var6, var2, var3);
+					var4 = worldObj.getBlockId(var1, var2, var3);
 					if(carriableBlocks[var4])
 					{
-						setCarried(worldObj.getBlockId(var6, var2, var3));
-						setCarryingData(worldObj.getBlockMetadata(var6, var2, var3));
-						worldObj.setBlock(var6, var2, var3, 0);
+						setCarried(worldObj.getBlockId(var1, var2, var3));
+						setCarryingData(worldObj.getBlockMetadata(var1, var2, var3));
+						worldObj.setBlock(var1, var2, var3, 0);
 					}
 				}
 			} else if(rand.nextInt(2000) == 0)
 			{
-				var6 = MathHelper.floor_double(posX - 1.0D + rand.nextDouble() * 2.0D);
+				var1 = MathHelper.floor_double(posX - 1.0D + rand.nextDouble() * 2.0D);
 				var2 = MathHelper.floor_double(posY + rand.nextDouble() * 2.0D);
 				var3 = MathHelper.floor_double(posZ - 1.0D + rand.nextDouble() * 2.0D);
-				var4 = worldObj.getBlockId(var6, var2, var3);
-				int var5 = worldObj.getBlockId(var6, var2 - 1, var3);
+				var4 = worldObj.getBlockId(var1, var2, var3);
+				int var5 = worldObj.getBlockId(var1, var2 - 1, var3);
 				if(var4 == 0 && var5 > 0 && Block.blocksList[var5].renderAsNormalBlock())
 				{
-					worldObj.setBlock(var6, var2, var3, getCarried(), getCarryingData(), 3);
+					worldObj.setBlock(var1, var2, var3, getCarried(), getCarryingData(), 3);
 					setCarried(0);
 				}
 			}
 		}
-		for(var6 = 0; var6 < 2; ++var6)
+		for(var1 = 0; var1 < 2; ++var1)
 		{
 			worldObj.spawnParticle("portal", posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height - 0.25D, posZ + (rand.nextDouble() - 0.5D) * width, (rand.nextDouble() - 0.5D) * 2.0D, -rand.nextDouble(), (rand.nextDouble() - 0.5D) * 2.0D);
 		}
 		if(worldObj.isDaytime() && !worldObj.isRemote)
 		{
-			float var7 = getBrightness(1.0F);
-			if(var7 > 0.5F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) && rand.nextFloat() * 30.0F < (var7 - 0.4F) * 2.0F)
+			float var6 = getBrightness(1.0F);
+			if(var6 > 0.5F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) && rand.nextFloat() * 30.0F < (var6 - 0.4F) * 2.0F)
 			{
 				entityToAttack = null;
 				setScreaming(false);
@@ -219,6 +209,8 @@ public class EntityEnderman extends EntityMob
 			{
 				if(entityToAttack instanceof EntityPlayer && shouldAttackPlayer((EntityPlayer) entityToAttack))
 				{
+					moveStrafing = moveForward = 0.0F;
+					moveSpeed = 0.0F;
 					if(entityToAttack.getDistanceSqToEntity(this) < 16.0D)
 					{
 						teleportRandomly();
@@ -237,40 +229,40 @@ public class EntityEnderman extends EntityMob
 		super.onLivingUpdate();
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		setCarried(par1NBTTagCompound.getShort("carried"));
-		setCarryingData(par1NBTTagCompound.getShort("carriedData"));
+		super.readEntityFromNBT(p_70037_1_);
+		setCarried(p_70037_1_.getShort("carried"));
+		setCarryingData(p_70037_1_.getShort("carriedData"));
 	}
 	
-	public void setCarried(int par1)
+	public void setCarried(int p_70818_1_)
 	{
-		dataWatcher.updateObject(16, Byte.valueOf((byte) (par1 & 255)));
+		dataWatcher.updateObject(16, Byte.valueOf((byte) (p_70818_1_ & 255)));
 	}
 	
-	public void setCarryingData(int par1)
+	public void setCarryingData(int p_70817_1_)
 	{
-		dataWatcher.updateObject(17, Byte.valueOf((byte) (par1 & 255)));
+		dataWatcher.updateObject(17, Byte.valueOf((byte) (p_70817_1_ & 255)));
 	}
 	
-	public void setScreaming(boolean par1)
+	public void setScreaming(boolean p_70819_1_)
 	{
-		dataWatcher.updateObject(18, Byte.valueOf((byte) (par1 ? 1 : 0)));
+		dataWatcher.updateObject(18, Byte.valueOf((byte) (p_70819_1_ ? 1 : 0)));
 	}
 	
-	private boolean shouldAttackPlayer(EntityPlayer par1EntityPlayer)
+	private boolean shouldAttackPlayer(EntityPlayer p_70821_1_)
 	{
-		ItemStack var2 = par1EntityPlayer.inventory.armorInventory[3];
+		ItemStack var2 = p_70821_1_.inventory.armorInventory[3];
 		if(var2 != null && var2.itemID == Block.pumpkin.blockID) return false;
 		else
 		{
-			Vec3 var3 = par1EntityPlayer.getLook(1.0F).normalize();
-			Vec3 var4 = worldObj.getWorldVec3Pool().getVecFromPool(posX - par1EntityPlayer.posX, boundingBox.minY + height / 2.0F - (par1EntityPlayer.posY + par1EntityPlayer.getEyeHeight()), posZ - par1EntityPlayer.posZ);
+			Vec3 var3 = p_70821_1_.getLook(1.0F).normalize();
+			Vec3 var4 = worldObj.getWorldVec3Pool().getVecFromPool(posX - p_70821_1_.posX, boundingBox.minY + height / 2.0F - (p_70821_1_.posY + p_70821_1_.getEyeHeight()), posZ - p_70821_1_.posZ);
 			double var5 = var4.lengthVector();
 			var4 = var4.normalize();
 			double var7 = var3.dotProduct(var4);
-			return var7 > 1.0D - 0.025D / var5 ? par1EntityPlayer.canEntityBeSeen(this) : false;
+			return var7 > 1.0D - 0.025D / var5 ? p_70821_1_.canEntityBeSeen(this) : false;
 		}
 	}
 	
@@ -282,14 +274,14 @@ public class EntityEnderman extends EntityMob
 		return teleportTo(var1, var3, var5);
 	}
 	
-	protected boolean teleportTo(double par1, double par3, double par5)
+	protected boolean teleportTo(double p_70825_1_, double p_70825_3_, double p_70825_5_)
 	{
 		double var7 = posX;
 		double var9 = posY;
 		double var11 = posZ;
-		posX = par1;
-		posY = par3;
-		posZ = par5;
+		posX = p_70825_1_;
+		posY = p_70825_3_;
+		posZ = p_70825_5_;
 		boolean var13 = false;
 		int var14 = MathHelper.floor_double(posX);
 		int var15 = MathHelper.floor_double(posY);
@@ -343,9 +335,9 @@ public class EntityEnderman extends EntityMob
 		}
 	}
 	
-	protected boolean teleportToEntity(Entity par1Entity)
+	protected boolean teleportToEntity(Entity p_70816_1_)
 	{
-		Vec3 var2 = worldObj.getWorldVec3Pool().getVecFromPool(posX - par1Entity.posX, boundingBox.minY + height / 2.0F - par1Entity.posY + par1Entity.getEyeHeight(), posZ - par1Entity.posZ);
+		Vec3 var2 = worldObj.getWorldVec3Pool().getVecFromPool(posX - p_70816_1_.posX, boundingBox.minY + height / 2.0F - p_70816_1_.posY + p_70816_1_.getEyeHeight(), posZ - p_70816_1_.posZ);
 		var2 = var2.normalize();
 		double var3 = 16.0D;
 		double var5 = posX + (rand.nextDouble() - 0.5D) * 8.0D - var2.xCoord * var3;
@@ -354,11 +346,11 @@ public class EntityEnderman extends EntityMob
 		return teleportTo(var5, var7, var9);
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setShort("carried", (short) getCarried());
-		par1NBTTagCompound.setShort("carriedData", (short) getCarryingData());
+		super.writeEntityToNBT(p_70014_1_);
+		p_70014_1_.setShort("carried", (short) getCarried());
+		p_70014_1_.setShort("carriedData", (short) getCarryingData());
 	}
 	
 	static

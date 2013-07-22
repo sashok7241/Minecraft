@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ItemMap extends ItemMapBase
 {
-	protected ItemMap(int par1)
+	protected ItemMap(int p_i3668_1_)
 	{
-		super(par1);
+		super(p_i3668_1_);
 		setHasSubtypes(true);
 	}
 	
@@ -26,39 +26,39 @@ public class ItemMap extends ItemMapBase
 		}
 	}
 	
-	@Override public Packet createMapDataPacket(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@Override public Packet createMapDataPacket(ItemStack p_77871_1_, World p_77871_2_, EntityPlayer p_77871_3_)
 	{
-		byte[] var4 = getMapData(par1ItemStack, par2World).getUpdatePacketData(par1ItemStack, par2World, par3EntityPlayer);
-		return var4 == null ? null : new Packet131MapData((short) Item.map.itemID, (short) par1ItemStack.getItemDamage(), var4);
+		byte[] var4 = getMapData(p_77871_1_, p_77871_2_).getUpdatePacketData(p_77871_1_, p_77871_2_, p_77871_3_);
+		return var4 == null ? null : new Packet131MapData((short) Item.map.itemID, (short) p_77871_1_.getItemDamage(), var4);
 	}
 	
-	public MapData getMapData(ItemStack par1ItemStack, World par2World)
+	public MapData getMapData(ItemStack p_77873_1_, World p_77873_2_)
 	{
-		String var3 = "map_" + par1ItemStack.getItemDamage();
-		MapData var4 = (MapData) par2World.loadItemData(MapData.class, var3);
-		if(var4 == null && !par2World.isRemote)
+		String var3 = "map_" + p_77873_1_.getItemDamage();
+		MapData var4 = (MapData) p_77873_2_.loadItemData(MapData.class, var3);
+		if(var4 == null && !p_77873_2_.isRemote)
 		{
-			par1ItemStack.setItemDamage(par2World.getUniqueDataId("map"));
-			var3 = "map_" + par1ItemStack.getItemDamage();
+			p_77873_1_.setItemDamage(p_77873_2_.getUniqueDataId("map"));
+			var3 = "map_" + p_77873_1_.getItemDamage();
 			var4 = new MapData(var3);
 			var4.scale = 3;
 			int var5 = 128 * (1 << var4.scale);
-			var4.xCenter = Math.round((float) par2World.getWorldInfo().getSpawnX() / (float) var5) * var5;
-			var4.zCenter = Math.round(par2World.getWorldInfo().getSpawnZ() / var5) * var5;
-			var4.dimension = (byte) par2World.provider.dimensionId;
+			var4.xCenter = Math.round((float) p_77873_2_.getWorldInfo().getSpawnX() / (float) var5) * var5;
+			var4.zCenter = Math.round(p_77873_2_.getWorldInfo().getSpawnZ() / var5) * var5;
+			var4.dimension = (byte) p_77873_2_.provider.dimensionId;
 			var4.markDirty();
-			par2World.setItemData(var3, var4);
+			p_77873_2_.setItemData(var3, var4);
 		}
 		return var4;
 	}
 	
-	@Override public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@Override public void onCreated(ItemStack p_77622_1_, World p_77622_2_, EntityPlayer p_77622_3_)
 	{
-		if(par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().getBoolean("map_is_scaling"))
+		if(p_77622_1_.hasTagCompound() && p_77622_1_.getTagCompound().getBoolean("map_is_scaling"))
 		{
-			MapData var4 = Item.map.getMapData(par1ItemStack, par2World);
-			par1ItemStack.setItemDamage(par2World.getUniqueDataId("map"));
-			MapData var5 = new MapData("map_" + par1ItemStack.getItemDamage());
+			MapData var4 = Item.map.getMapData(p_77622_1_, p_77622_2_);
+			p_77622_1_.setItemDamage(p_77622_2_.getUniqueDataId("map"));
+			MapData var5 = new MapData("map_" + p_77622_1_.getItemDamage());
 			var5.scale = (byte) (var4.scale + 1);
 			if(var5.scale > 4)
 			{
@@ -68,44 +68,44 @@ public class ItemMap extends ItemMapBase
 			var5.zCenter = var4.zCenter;
 			var5.dimension = var4.dimension;
 			var5.markDirty();
-			par2World.setItemData("map_" + par1ItemStack.getItemDamage(), var5);
+			p_77622_2_.setItemData("map_" + p_77622_1_.getItemDamage(), var5);
 		}
 	}
 	
-	@Override public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+	@Override public void onUpdate(ItemStack p_77663_1_, World p_77663_2_, Entity p_77663_3_, int p_77663_4_, boolean p_77663_5_)
 	{
-		if(!par2World.isRemote)
+		if(!p_77663_2_.isRemote)
 		{
-			MapData var6 = getMapData(par1ItemStack, par2World);
-			if(par3Entity instanceof EntityPlayer)
+			MapData var6 = getMapData(p_77663_1_, p_77663_2_);
+			if(p_77663_3_ instanceof EntityPlayer)
 			{
-				EntityPlayer var7 = (EntityPlayer) par3Entity;
-				var6.updateVisiblePlayers(var7, par1ItemStack);
+				EntityPlayer var7 = (EntityPlayer) p_77663_3_;
+				var6.updateVisiblePlayers(var7, p_77663_1_);
 			}
-			if(par5)
+			if(p_77663_5_)
 			{
-				updateMapData(par2World, par3Entity, var6);
+				updateMapData(p_77663_2_, p_77663_3_, var6);
 			}
 		}
 	}
 	
-	public void updateMapData(World par1World, Entity par2Entity, MapData par3MapData)
+	public void updateMapData(World p_77872_1_, Entity p_77872_2_, MapData p_77872_3_)
 	{
-		if(par1World.provider.dimensionId == par3MapData.dimension && par2Entity instanceof EntityPlayer)
+		if(p_77872_1_.provider.dimensionId == p_77872_3_.dimension && p_77872_2_ instanceof EntityPlayer)
 		{
 			short var4 = 128;
 			short var5 = 128;
-			int var6 = 1 << par3MapData.scale;
-			int var7 = par3MapData.xCenter;
-			int var8 = par3MapData.zCenter;
-			int var9 = MathHelper.floor_double(par2Entity.posX - var7) / var6 + var4 / 2;
-			int var10 = MathHelper.floor_double(par2Entity.posZ - var8) / var6 + var5 / 2;
+			int var6 = 1 << p_77872_3_.scale;
+			int var7 = p_77872_3_.xCenter;
+			int var8 = p_77872_3_.zCenter;
+			int var9 = MathHelper.floor_double(p_77872_2_.posX - var7) / var6 + var4 / 2;
+			int var10 = MathHelper.floor_double(p_77872_2_.posZ - var8) / var6 + var5 / 2;
 			int var11 = 128 / var6;
-			if(par1World.provider.hasNoSky)
+			if(p_77872_1_.provider.hasNoSky)
 			{
 				var11 /= 2;
 			}
-			MapInfo var12 = par3MapData.func_82568_a((EntityPlayer) par2Entity);
+			MapInfo var12 = p_77872_3_.func_82568_a((EntityPlayer) p_77872_2_);
 			++var12.field_82569_d;
 			for(int var13 = var9 - var11 + 1; var13 < var9 + var11; ++var13)
 			{
@@ -124,7 +124,7 @@ public class ItemMap extends ItemMapBase
 							int var22 = (var7 / var6 + var13 - var4 / 2) * var6;
 							int var23 = (var8 / var6 + var18 - var5 / 2) * var6;
 							int[] var24 = new int[256];
-							Chunk var25 = par1World.getChunkFromBlockCoords(var22, var23);
+							Chunk var25 = p_77872_1_.getChunkFromBlockCoords(var22, var23);
 							if(!var25.isEmpty())
 							{
 								int var26 = var22 & 15;
@@ -135,7 +135,7 @@ public class ItemMap extends ItemMapBase
 								int var32;
 								int var33;
 								int var36;
-								if(par1World.provider.hasNoSky)
+								if(p_77872_1_.provider.hasNoSky)
 								{
 									var31 = var22 + var23 * 231871;
 									var31 = var31 * var31 * 31287121 + var31 * 11;
@@ -239,7 +239,7 @@ public class ItemMap extends ItemMapBase
 								var16 = var29;
 								if(var18 >= 0 && var19 * var19 + var20 * var20 < var11 * var11 && (!var21 || (var13 + var18 & 1) != 0))
 								{
-									byte var41 = par3MapData.colors[var13 + var18 * var4];
+									byte var41 = p_77872_3_.colors[var13 + var18 * var4];
 									byte var38 = (byte) (var36 * 4 + var39);
 									if(var41 != var38)
 									{
@@ -251,7 +251,7 @@ public class ItemMap extends ItemMapBase
 										{
 											var15 = var18;
 										}
-										par3MapData.colors[var13 + var18 * var4] = var38;
+										p_77872_3_.colors[var13 + var18 * var4] = var38;
 									}
 								}
 							}
@@ -259,7 +259,7 @@ public class ItemMap extends ItemMapBase
 					}
 					if(var14 <= var15)
 					{
-						par3MapData.setColumnDirty(var13, var14, var15);
+						p_77872_3_.setColumnDirty(var13, var14, var15);
 					}
 				}
 			}

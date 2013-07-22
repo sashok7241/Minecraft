@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet35EntityHeadRotation extends Packet
@@ -13,10 +13,10 @@ public class Packet35EntityHeadRotation extends Packet
 	{
 	}
 	
-	public Packet35EntityHeadRotation(int par1, byte par2)
+	public Packet35EntityHeadRotation(int p_i3343_1_, byte p_i3343_2_)
 	{
-		entityId = par1;
-		headRotationYaw = par2;
+		entityId = p_i3343_1_;
+		headRotationYaw = p_i3343_2_;
 	}
 	
 	@Override public boolean canProcessAsync()
@@ -24,9 +24,9 @@ public class Packet35EntityHeadRotation extends Packet
 		return true;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
+	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
 	{
-		Packet35EntityHeadRotation var2 = (Packet35EntityHeadRotation) par1Packet;
+		Packet35EntityHeadRotation var2 = (Packet35EntityHeadRotation) p_73268_1_;
 		return var2.entityId == entityId;
 	}
 	
@@ -40,20 +40,20 @@ public class Packet35EntityHeadRotation extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleEntityHeadRotation(this);
+		p_73279_1_.handleEntityHeadRotation(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
-		headRotationYaw = par1DataInput.readByte();
+		entityId = p_73267_1_.readInt();
+		headRotationYaw = p_73267_1_.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
-		par1DataOutput.writeByte(headRotationYaw);
+		p_73273_1_.writeInt(entityId);
+		p_73273_1_.writeByte(headRotationYaw);
 	}
 }

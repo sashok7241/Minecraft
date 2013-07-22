@@ -2,58 +2,57 @@ package net.minecraft.src;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 public class EntityWitch extends EntityMob implements IRangedAttackMob
 {
-	private static final UUID field_110184_bp = UUID.fromString("5CD17E52-A79A-43D3-A529-90FDE04B181E");
-	private static final AttributeModifier field_110185_bq = new AttributeModifier(field_110184_bp, "Drinking speed penalty", -0.25D, 0).func_111168_a(false);
 	private static final int[] witchDrops = new int[] { Item.glowstone.itemID, Item.sugar.itemID, Item.redstone.itemID, Item.spiderEye.itemID, Item.glassBottle.itemID, Item.gunpowder.itemID, Item.stick.itemID, Item.stick.itemID };
-	private int witchAttackTimer;
+	private int witchAttackTimer = 0;
 	
-	public EntityWitch(World par1World)
+	public EntityWitch(World p_i5066_1_)
 	{
-		super(par1World);
+		super(p_i5066_1_);
+		texture = "/mob/villager/witch.png";
+		moveSpeed = 0.25F;
 		tasks.addTask(1, new EntityAISwimming(this));
-		tasks.addTask(2, new EntityAIArrowAttack(this, 1.0D, 60, 10.0F));
-		tasks.addTask(2, new EntityAIWander(this, 1.0D));
+		tasks.addTask(2, new EntityAIArrowAttack(this, moveSpeed, 60, 10.0F));
+		tasks.addTask(2, new EntityAIWander(this, moveSpeed));
 		tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(3, new EntityAILookIdle(this));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 16.0F, 0, true));
 	}
 	
-	@Override protected float applyPotionDamageCalculations(DamageSource par1DamageSource, float par2)
+	@Override protected int applyPotionDamageCalculations(DamageSource p_70672_1_, int p_70672_2_)
 	{
-		par2 = super.applyPotionDamageCalculations(par1DamageSource, par2);
-		if(par1DamageSource.getEntity() == this)
+		p_70672_2_ = super.applyPotionDamageCalculations(p_70672_1_, p_70672_2_);
+		if(p_70672_1_.getEntity() == this)
 		{
-			par2 = 0.0F;
+			p_70672_2_ = 0;
 		}
-		if(par1DamageSource.isMagicDamage())
+		if(p_70672_1_.isMagicDamage())
 		{
-			par2 = (float) (par2 * 0.15D);
+			p_70672_2_ = (int) (p_70672_2_ * 0.15D);
 		}
-		return par2;
+		return p_70672_2_;
 	}
 	
-	@Override public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2)
+	@Override public void attackEntityWithRangedAttack(EntityLiving p_82196_1_, float p_82196_2_)
 	{
 		if(!getAggressive())
 		{
 			EntityPotion var3 = new EntityPotion(worldObj, this, 32732);
 			var3.rotationPitch -= -20.0F;
-			double var4 = par1EntityLivingBase.posX + par1EntityLivingBase.motionX - posX;
-			double var6 = par1EntityLivingBase.posY + par1EntityLivingBase.getEyeHeight() - 1.100000023841858D - posY;
-			double var8 = par1EntityLivingBase.posZ + par1EntityLivingBase.motionZ - posZ;
+			double var4 = p_82196_1_.posX + p_82196_1_.motionX - posX;
+			double var6 = p_82196_1_.posY + p_82196_1_.getEyeHeight() - 1.100000023841858D - posY;
+			double var8 = p_82196_1_.posZ + p_82196_1_.motionZ - posZ;
 			float var10 = MathHelper.sqrt_double(var4 * var4 + var8 * var8);
-			if(var10 >= 8.0F && !par1EntityLivingBase.isPotionActive(Potion.moveSlowdown))
+			if(var10 >= 8.0F && !p_82196_1_.isPotionActive(Potion.moveSlowdown))
 			{
 				var3.setPotionDamage(32698);
-			} else if(par1EntityLivingBase.func_110143_aJ() >= 8.0F && !par1EntityLivingBase.isPotionActive(Potion.poison))
+			} else if(p_82196_1_.getHealth() >= 8 && !p_82196_1_.isPotionActive(Potion.poison))
 			{
 				var3.setPotionDamage(32660);
-			} else if(var10 <= 3.0F && !par1EntityLivingBase.isPotionActive(Potion.weakness) && rand.nextFloat() < 0.25F)
+			} else if(var10 <= 3.0F && !p_82196_1_.isPotionActive(Potion.weakness) && rand.nextFloat() < 0.25F)
 			{
 				var3.setPotionDamage(32696);
 			}
@@ -62,16 +61,16 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 		}
 	}
 	
-	@Override protected void dropFewItems(boolean par1, int par2)
+	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
 	{
 		int var3 = rand.nextInt(3) + 1;
 		for(int var4 = 0; var4 < var3; ++var4)
 		{
 			int var5 = rand.nextInt(3);
 			int var6 = witchDrops[rand.nextInt(witchDrops.length)];
-			if(par2 > 0)
+			if(p_70628_2_ > 0)
 			{
-				var5 += rand.nextInt(par2 + 1);
+				var5 += rand.nextInt(p_70628_2_ + 1);
 			}
 			for(int var7 = 0; var7 < var5; ++var7)
 			{
@@ -84,13 +83,6 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 	{
 		super.entityInit();
 		getDataWatcher().addObject(21, Byte.valueOf((byte) 0));
-	}
-	
-	@Override protected void func_110147_ax()
-	{
-		super.func_110147_ax();
-		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(26.0D);
-		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
 	}
 	
 	public boolean getAggressive()
@@ -111,6 +103,21 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 	@Override protected String getLivingSound()
 	{
 		return "mob.witch.idle";
+	}
+	
+	@Override public int getMaxHealth()
+	{
+		return 26;
+	}
+	
+	@Override public float getSpeedModifier()
+	{
+		float var1 = super.getSpeedModifier();
+		if(getAggressive())
+		{
+			var1 *= 0.75F;
+		}
+		return var1;
 	}
 	
 	@Override public void handleHealthUpdate(byte par1)
@@ -156,7 +163,6 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 							}
 						}
 					}
-					func_110148_a(SharedMonsterAttributes.field_111263_d).func_111124_b(field_110185_bq);
 				}
 			} else
 			{
@@ -164,7 +170,7 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 				if(rand.nextFloat() < 0.15F && isBurning() && !this.isPotionActive(Potion.fireResistance))
 				{
 					var5 = 16307;
-				} else if(rand.nextFloat() < 0.05F && func_110143_aJ() < func_110138_aP())
+				} else if(rand.nextFloat() < 0.05F && health < getMaxHealth())
 				{
 					var5 = 16341;
 				} else if(rand.nextFloat() < 0.25F && getAttackTarget() != null && !this.isPotionActive(Potion.moveSpeed) && getAttackTarget().getDistanceSqToEntity(this) > 121.0D)
@@ -179,9 +185,6 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 					setCurrentItemOrArmor(0, new ItemStack(Item.potion, 1, var5));
 					witchAttackTimer = getHeldItem().getMaxItemUseDuration();
 					setAggressive(true);
-					AttributeInstance var6 = func_110148_a(SharedMonsterAttributes.field_111263_d);
-					var6.func_111124_b(field_110185_bq);
-					var6.func_111121_a(field_110185_bq);
 				}
 			}
 			if(rand.nextFloat() < 7.5E-4F)
@@ -192,8 +195,8 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
 		super.onLivingUpdate();
 	}
 	
-	public void setAggressive(boolean par1)
+	public void setAggressive(boolean p_82197_1_)
 	{
-		getDataWatcher().updateObject(21, Byte.valueOf((byte) (par1 ? 1 : 0)));
+		getDataWatcher().updateObject(21, Byte.valueOf((byte) (p_82197_1_ ? 1 : 0)));
 	}
 }

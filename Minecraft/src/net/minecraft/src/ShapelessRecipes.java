@@ -9,13 +9,13 @@ public class ShapelessRecipes implements IRecipe
 	private final ItemStack recipeOutput;
 	private final List recipeItems;
 	
-	public ShapelessRecipes(ItemStack par1ItemStack, List par2List)
+	public ShapelessRecipes(ItemStack p_i3701_1_, List p_i3701_2_)
 	{
-		recipeOutput = par1ItemStack;
-		recipeItems = par2List;
+		recipeOutput = p_i3701_1_;
+		recipeItems = p_i3701_2_;
 	}
 	
-	@Override public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
+	@Override public ItemStack getCraftingResult(InventoryCrafting p_77572_1_)
 	{
 		return recipeOutput.copy();
 	}
@@ -30,14 +30,14 @@ public class ShapelessRecipes implements IRecipe
 		return recipeItems.size();
 	}
 	
-	@Override public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
+	@Override public boolean matches(InventoryCrafting p_77569_1_, World p_77569_2_)
 	{
 		ArrayList var3 = new ArrayList(recipeItems);
 		for(int var4 = 0; var4 < 3; ++var4)
 		{
 			for(int var5 = 0; var5 < 3; ++var5)
 			{
-				ItemStack var6 = par1InventoryCrafting.getStackInRowAndColumn(var5, var4);
+				ItemStack var6 = p_77569_1_.getStackInRowAndColumn(var5, var4);
 				if(var6 != null)
 				{
 					boolean var7 = false;

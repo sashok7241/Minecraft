@@ -4,9 +4,9 @@ class TcpMonitorThread extends Thread
 {
 	final TcpConnection theTcpConnection;
 	
-	TcpMonitorThread(TcpConnection par1TcpConnection)
+	TcpMonitorThread(TcpConnection p_i3286_1_)
 	{
-		theTcpConnection = par1TcpConnection;
+		theTcpConnection = p_i3286_1_;
 	}
 	
 	@Override public void run()

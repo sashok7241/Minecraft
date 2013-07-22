@@ -8,11 +8,11 @@ class CallableMouseLocation implements Callable
 	final int field_90024_b;
 	final EntityRenderer theEntityRenderer;
 	
-	CallableMouseLocation(EntityRenderer par1EntityRenderer, int par2, int par3)
+	CallableMouseLocation(EntityRenderer p_i7005_1_, int p_i7005_2_, int p_i7005_3_)
 	{
-		theEntityRenderer = par1EntityRenderer;
-		field_90026_a = par2;
-		field_90024_b = par3;
+		theEntityRenderer = p_i7005_1_;
+		field_90026_a = p_i7005_2_;
+		field_90024_b = p_i7005_3_;
 	}
 	
 	@Override public Object call()

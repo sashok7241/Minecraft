@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class BiomeGenSwamp extends BiomeGenBase
 {
-	protected BiomeGenSwamp(int par1)
+	protected BiomeGenSwamp(int p_i3764_1_)
 	{
-		super(par1);
+		super(p_i3764_1_);
 		theBiomeDecorator.treesPerChunk = 2;
 		theBiomeDecorator.flowersPerChunk = -999;
 		theBiomeDecorator.deadBushPerChunk = 1;
@@ -32,7 +32,7 @@ public class BiomeGenSwamp extends BiomeGenBase
 		return ((ColorizerGrass.getGrassColor(var1, var3) & 16711422) + 5115470) / 2;
 	}
 	
-	@Override public WorldGenerator getRandomWorldGenForTrees(Random par1Random)
+	@Override public WorldGenerator getRandomWorldGenForTrees(Random p_76740_1_)
 	{
 		return worldGeneratorSwamp;
 	}

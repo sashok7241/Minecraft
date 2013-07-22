@@ -7,10 +7,10 @@ class CallableEntityTracker implements Callable
 	final int field_96570_a;
 	final EntityTracker theEntityTracker;
 	
-	CallableEntityTracker(EntityTracker par1EntityTracker, int par2)
+	CallableEntityTracker(EntityTracker p_i10045_1_, int p_i10045_2_)
 	{
-		theEntityTracker = par1EntityTracker;
-		field_96570_a = par2;
+		theEntityTracker = p_i10045_1_;
+		field_96570_a = p_i10045_2_;
 	}
 	
 	@Override public Object call()

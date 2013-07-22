@@ -1,52 +1,43 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet19EntityAction extends Packet
 {
 	public int entityId;
 	public int state;
-	public int field_111009_c;
 	
 	public Packet19EntityAction()
 	{
 	}
 	
-	public Packet19EntityAction(Entity par1Entity, int par2)
+	public Packet19EntityAction(Entity p_i3338_1_, int p_i3338_2_)
 	{
-		this(par1Entity, par2, 0);
-	}
-	
-	public Packet19EntityAction(Entity par1Entity, int par2, int par3)
-	{
-		entityId = par1Entity.entityId;
-		state = par2;
-		field_111009_c = par3;
+		entityId = p_i3338_1_.entityId;
+		state = p_i3338_2_;
 	}
 	
 	@Override public int getPacketSize()
 	{
-		return 9;
+		return 5;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleEntityAction(this);
+		p_73279_1_.handleEntityAction(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
-		state = par1DataInput.readByte();
-		field_111009_c = par1DataInput.readInt();
+		entityId = p_73267_1_.readInt();
+		state = p_73267_1_.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
-		par1DataOutput.writeByte(state);
-		par1DataOutput.writeInt(field_111009_c);
+		p_73273_1_.writeInt(entityId);
+		p_73273_1_.writeByte(state);
 	}
 }

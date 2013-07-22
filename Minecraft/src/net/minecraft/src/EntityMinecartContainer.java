@@ -5,14 +5,14 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 	private ItemStack[] minecartContainerItems = new ItemStack[36];
 	private boolean dropContentsWhenDead = true;
 	
-	public EntityMinecartContainer(World par1World)
+	public EntityMinecartContainer(World p_i10051_1_)
 	{
-		super(par1World);
+		super(p_i10051_1_);
 	}
 	
-	public EntityMinecartContainer(World par1World, double par2, double par4, double par6)
+	public EntityMinecartContainer(World p_i10052_1_, double p_i10052_2_, double p_i10052_4_, double p_i10052_6_)
 	{
-		super(par1World, par2, par4, par6);
+		super(p_i10052_1_, p_i10052_2_, p_i10052_4_, p_i10052_6_);
 	}
 	
 	@Override protected void applyDrag()
@@ -28,35 +28,26 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 	{
 	}
 	
-	@Override public ItemStack decrStackSize(int par1, int par2)
+	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
 	{
-		if(minecartContainerItems[par1] != null)
+		if(minecartContainerItems[p_70298_1_] != null)
 		{
 			ItemStack var3;
-			if(minecartContainerItems[par1].stackSize <= par2)
+			if(minecartContainerItems[p_70298_1_].stackSize <= p_70298_2_)
 			{
-				var3 = minecartContainerItems[par1];
-				minecartContainerItems[par1] = null;
+				var3 = minecartContainerItems[p_70298_1_];
+				minecartContainerItems[p_70298_1_] = null;
 				return var3;
 			} else
 			{
-				var3 = minecartContainerItems[par1].splitStack(par2);
-				if(minecartContainerItems[par1].stackSize == 0)
+				var3 = minecartContainerItems[p_70298_1_].splitStack(p_70298_2_);
+				if(minecartContainerItems[p_70298_1_].stackSize == 0)
 				{
-					minecartContainerItems[par1] = null;
+					minecartContainerItems[p_70298_1_] = null;
 				}
 				return var3;
 			}
 		} else return null;
-	}
-	
-	@Override public boolean func_130002_c(EntityPlayer par1EntityPlayer)
-	{
-		if(!worldObj.isRemote)
-		{
-			par1EntityPlayer.displayGUIChest(this);
-		}
-		return true;
 	}
 	
 	@Override public int getInventoryStackLimit()
@@ -69,34 +60,43 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 		return isInvNameLocalized() ? func_95999_t() : "container.minecart";
 	}
 	
-	@Override public ItemStack getStackInSlot(int par1)
+	@Override public ItemStack getStackInSlot(int p_70301_1_)
 	{
-		return minecartContainerItems[par1];
+		return minecartContainerItems[p_70301_1_];
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int par1)
+	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
 	{
-		if(minecartContainerItems[par1] != null)
+		if(minecartContainerItems[p_70304_1_] != null)
 		{
-			ItemStack var2 = minecartContainerItems[par1];
-			minecartContainerItems[par1] = null;
+			ItemStack var2 = minecartContainerItems[p_70304_1_];
+			minecartContainerItems[p_70304_1_] = null;
 			return var2;
 		} else return null;
 	}
 	
-	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
+	@Override public boolean interact(EntityPlayer p_70085_1_)
+	{
+		if(!worldObj.isRemote)
+		{
+			p_70085_1_.displayGUIChest(this);
+		}
+		return true;
+	}
+	
+	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
 	{
 		return true;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
 	{
-		return isDead ? false : par1EntityPlayer.getDistanceSqToEntity(this) <= 64.0D;
+		return isDead ? false : p_70300_1_.getDistanceSqToEntity(this) <= 64.0D;
 	}
 	
-	@Override public void killMinecart(DamageSource par1DamageSource)
+	@Override public void killMinecart(DamageSource p_94095_1_)
 	{
-		super.killMinecart(par1DamageSource);
+		super.killMinecart(p_94095_1_);
 		for(int var2 = 0; var2 < getSizeInventory(); ++var2)
 		{
 			ItemStack var3 = getStackInSlot(var2);
@@ -132,10 +132,10 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 	{
 	}
 	
-	@Override protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
+		super.readEntityFromNBT(p_70037_1_);
+		NBTTagList var2 = p_70037_1_.getTagList("Items");
 		minecartContainerItems = new ItemStack[getSizeInventory()];
 		for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
@@ -185,24 +185,24 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 		super.setDead();
 	}
 	
-	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
 	{
-		minecartContainerItems[par1] = par2ItemStack;
-		if(par2ItemStack != null && par2ItemStack.stackSize > getInventoryStackLimit())
+		minecartContainerItems[p_70299_1_] = p_70299_2_;
+		if(p_70299_2_ != null && p_70299_2_.stackSize > getInventoryStackLimit())
 		{
-			par2ItemStack.stackSize = getInventoryStackLimit();
+			p_70299_2_.stackSize = getInventoryStackLimit();
 		}
 	}
 	
-	@Override public void travelToDimension(int par1)
+	@Override public void travelToDimension(int p_71027_1_)
 	{
 		dropContentsWhenDead = false;
-		super.travelToDimension(par1);
+		super.travelToDimension(p_71027_1_);
 	}
 	
-	@Override protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
+		super.writeEntityToNBT(p_70014_1_);
 		NBTTagList var2 = new NBTTagList();
 		for(int var3 = 0; var3 < minecartContainerItems.length; ++var3)
 		{
@@ -214,6 +214,6 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 				var2.appendTag(var4);
 			}
 		}
-		par1NBTTagCompound.setTag("Items", var2);
+		p_70014_1_.setTag("Items", var2);
 	}
 }

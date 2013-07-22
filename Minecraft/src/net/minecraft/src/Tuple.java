@@ -5,10 +5,10 @@ public class Tuple
 	private Object first;
 	private Object second;
 	
-	public Tuple(Object par1Obj, Object par2Obj)
+	public Tuple(Object p_i3422_1_, Object p_i3422_2_)
 	{
-		first = par1Obj;
-		second = par2Obj;
+		first = p_i3422_1_;
+		second = p_i3422_2_;
 	}
 	
 	public Object getFirst()

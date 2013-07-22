@@ -6,27 +6,27 @@ public abstract class BlockBasePressurePlate extends Block
 {
 	private String pressurePlateIconName;
 	
-	protected BlockBasePressurePlate(int par1, String par2Str, Material par3Material)
+	protected BlockBasePressurePlate(int p_i9036_1_, String p_i9036_2_, Material p_i9036_3_)
 	{
-		super(par1, par3Material);
-		pressurePlateIconName = par2Str;
+		super(p_i9036_1_, p_i9036_3_);
+		pressurePlateIconName = p_i9036_2_;
 		setCreativeTab(CreativeTabs.tabRedstone);
 		setTickRandomly(true);
 		func_94353_c_(getMetaFromWeight(15));
 	}
 	
-	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
+	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
 	{
-		if(getPowerSupply(par6) > 0)
+		if(getPowerSupply(p_71852_6_) > 0)
 		{
-			func_94354_b_(par1World, par2, par3, par4);
+			func_94354_b_(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_);
 		}
-		super.breakBlock(par1World, par2, par3, par4, par5, par6);
+		super.breakBlock(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_, p_71852_6_);
 	}
 	
-	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
 	{
-		return par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4) || BlockFence.isIdAFence(par1World.getBlockId(par2, par3 - 1, par4));
+		return p_71930_1_.doesBlockHaveSolidTopSurface(p_71930_2_, p_71930_3_ - 1, p_71930_4_) || BlockFence.isIdAFence(p_71930_1_.getBlockId(p_71930_2_, p_71930_3_ - 1, p_71930_4_));
 	}
 	
 	@Override public boolean canProvidePower()
@@ -34,9 +34,9 @@ public abstract class BlockBasePressurePlate extends Block
 		return true;
 	}
 	
-	protected void func_94353_c_(int par1)
+	protected void func_94353_c_(int p_94353_1_)
 	{
-		boolean var2 = getPowerSupply(par1) > 0;
+		boolean var2 = getPowerSupply(p_94353_1_) > 0;
 		float var3 = 0.0625F;
 		if(var2)
 		{
@@ -47,18 +47,18 @@ public abstract class BlockBasePressurePlate extends Block
 		}
 	}
 	
-	protected void func_94354_b_(World par1World, int par2, int par3, int par4)
+	protected void func_94354_b_(World p_94354_1_, int p_94354_2_, int p_94354_3_, int p_94354_4_)
 	{
-		par1World.notifyBlocksOfNeighborChange(par2, par3, par4, blockID);
-		par1World.notifyBlocksOfNeighborChange(par2, par3 - 1, par4, blockID);
+		p_94354_1_.notifyBlocksOfNeighborChange(p_94354_2_, p_94354_3_, p_94354_4_, blockID);
+		p_94354_1_.notifyBlocksOfNeighborChange(p_94354_2_, p_94354_3_ - 1, p_94354_4_, blockID);
 	}
 	
-	@Override public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public boolean getBlocksMovement(IBlockAccess p_71918_1_, int p_71918_2_, int p_71918_3_, int p_71918_4_)
 	{
 		return true;
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
 	{
 		return null;
 	}
@@ -74,10 +74,10 @@ public abstract class BlockBasePressurePlate extends Block
 	
 	protected abstract int getPowerSupply(int var1);
 	
-	protected AxisAlignedBB getSensitiveAABB(int par1, int par2, int par3)
+	protected AxisAlignedBB getSensitiveAABB(int p_94352_1_, int p_94352_2_, int p_94352_3_)
 	{
 		float var4 = 0.125F;
-		return AxisAlignedBB.getAABBPool().getAABB(par1 + var4, par2, par3 + var4, par1 + 1 - var4, par2 + 0.25D, par3 + 1 - var4);
+		return AxisAlignedBB.getAABBPool().getAABB(p_94352_1_ + var4, p_94352_2_, p_94352_3_ + var4, p_94352_1_ + 1 - var4, p_94352_2_ + 0.25D, p_94352_3_ + 1 - var4);
 	}
 	
 	@Override public boolean isOpaqueCube()
@@ -85,39 +85,39 @@ public abstract class BlockBasePressurePlate extends Block
 		return false;
 	}
 	
-	@Override public int isProvidingStrongPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override public int isProvidingStrongPower(IBlockAccess p_71855_1_, int p_71855_2_, int p_71855_3_, int p_71855_4_, int p_71855_5_)
 	{
-		return par5 == 1 ? getPowerSupply(par1IBlockAccess.getBlockMetadata(par2, par3, par4)) : 0;
+		return p_71855_5_ == 1 ? getPowerSupply(p_71855_1_.getBlockMetadata(p_71855_2_, p_71855_3_, p_71855_4_)) : 0;
 	}
 	
-	@Override public int isProvidingWeakPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override public int isProvidingWeakPower(IBlockAccess p_71865_1_, int p_71865_2_, int p_71865_3_, int p_71865_4_, int p_71865_5_)
 	{
-		return getPowerSupply(par1IBlockAccess.getBlockMetadata(par2, par3, par4));
+		return getPowerSupply(p_71865_1_.getBlockMetadata(p_71865_2_, p_71865_3_, p_71865_4_));
 	}
 	
-	@Override public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
+	@Override public void onEntityCollidedWithBlock(World p_71869_1_, int p_71869_2_, int p_71869_3_, int p_71869_4_, Entity p_71869_5_)
 	{
-		if(!par1World.isRemote)
+		if(!p_71869_1_.isRemote)
 		{
-			int var6 = getPowerSupply(par1World.getBlockMetadata(par2, par3, par4));
+			int var6 = getPowerSupply(p_71869_1_.getBlockMetadata(p_71869_2_, p_71869_3_, p_71869_4_));
 			if(var6 == 0)
 			{
-				setStateIfMobInteractsWithPlate(par1World, par2, par3, par4, var6);
+				setStateIfMobInteractsWithPlate(p_71869_1_, p_71869_2_, p_71869_3_, p_71869_4_, var6);
 			}
 		}
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
 		boolean var6 = false;
-		if(!par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4) && !BlockFence.isIdAFence(par1World.getBlockId(par2, par3 - 1, par4)))
+		if(!p_71863_1_.doesBlockHaveSolidTopSurface(p_71863_2_, p_71863_3_ - 1, p_71863_4_) && !BlockFence.isIdAFence(p_71863_1_.getBlockId(p_71863_2_, p_71863_3_ - 1, p_71863_4_)))
 		{
 			var6 = true;
 		}
 		if(var6)
 		{
-			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockToAir(par2, par3, par4);
+			dropBlockAsItem(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, p_71863_1_.getBlockMetadata(p_71863_2_, p_71863_3_, p_71863_4_), 0);
+			p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
 		}
 	}
 	
@@ -131,9 +131,9 @@ public abstract class BlockBasePressurePlate extends Block
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
-		func_94353_c_(par1IBlockAccess.getBlockMetadata(par2, par3, par4));
+		func_94353_c_(p_71902_1_.getBlockMetadata(p_71902_2_, p_71902_3_, p_71902_4_));
 	}
 	
 	@Override public void setBlockBoundsForItemRender()
@@ -144,43 +144,43 @@ public abstract class BlockBasePressurePlate extends Block
 		setBlockBounds(0.5F - var1, 0.5F - var2, 0.5F - var3, 0.5F + var1, 0.5F + var2, 0.5F + var3);
 	}
 	
-	protected void setStateIfMobInteractsWithPlate(World par1World, int par2, int par3, int par4, int par5)
+	protected void setStateIfMobInteractsWithPlate(World p_72193_1_, int p_72193_2_, int p_72193_3_, int p_72193_4_, int p_72193_5_)
 	{
-		int var6 = getPlateState(par1World, par2, par3, par4);
-		boolean var7 = par5 > 0;
+		int var6 = getPlateState(p_72193_1_, p_72193_2_, p_72193_3_, p_72193_4_);
+		boolean var7 = p_72193_5_ > 0;
 		boolean var8 = var6 > 0;
-		if(par5 != var6)
+		if(p_72193_5_ != var6)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, getMetaFromWeight(var6), 2);
-			func_94354_b_(par1World, par2, par3, par4);
-			par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
+			p_72193_1_.setBlockMetadataWithNotify(p_72193_2_, p_72193_3_, p_72193_4_, getMetaFromWeight(var6), 2);
+			func_94354_b_(p_72193_1_, p_72193_2_, p_72193_3_, p_72193_4_);
+			p_72193_1_.markBlockRangeForRenderUpdate(p_72193_2_, p_72193_3_, p_72193_4_, p_72193_2_, p_72193_3_, p_72193_4_);
 		}
 		if(!var8 && var7)
 		{
-			par1World.playSoundEffect(par2 + 0.5D, par3 + 0.1D, par4 + 0.5D, "random.click", 0.3F, 0.5F);
+			p_72193_1_.playSoundEffect(p_72193_2_ + 0.5D, p_72193_3_ + 0.1D, p_72193_4_ + 0.5D, "random.click", 0.3F, 0.5F);
 		} else if(var8 && !var7)
 		{
-			par1World.playSoundEffect(par2 + 0.5D, par3 + 0.1D, par4 + 0.5D, "random.click", 0.3F, 0.6F);
+			p_72193_1_.playSoundEffect(p_72193_2_ + 0.5D, p_72193_3_ + 0.1D, p_72193_4_ + 0.5D, "random.click", 0.3F, 0.6F);
 		}
 		if(var8)
 		{
-			par1World.scheduleBlockUpdate(par2, par3, par4, blockID, tickRate(par1World));
+			p_72193_1_.scheduleBlockUpdate(p_72193_2_, p_72193_3_, p_72193_4_, blockID, tickRate(p_72193_1_));
 		}
 	}
 	
-	@Override public int tickRate(World par1World)
+	@Override public int tickRate(World p_71859_1_)
 	{
 		return 20;
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
-		if(!par1World.isRemote)
+		if(!p_71847_1_.isRemote)
 		{
-			int var6 = getPowerSupply(par1World.getBlockMetadata(par2, par3, par4));
+			int var6 = getPowerSupply(p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_));
 			if(var6 > 0)
 			{
-				setStateIfMobInteractsWithPlate(par1World, par2, par3, par4, var6);
+				setStateIfMobInteractsWithPlate(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_, var6);
 			}
 		}
 	}

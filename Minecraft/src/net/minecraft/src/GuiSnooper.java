@@ -17,10 +17,10 @@ public class GuiSnooper extends GuiScreen
 	private GuiSnooperList snooperList;
 	private GuiButton buttonAllowSnooping;
 	
-	public GuiSnooper(GuiScreen par1GuiScreen, GameSettings par2GameSettings)
+	public GuiSnooper(GuiScreen p_i3041_1_, GameSettings p_i3041_2_)
 	{
-		snooperGuiScreen = par1GuiScreen;
-		snooperGameSettings = par2GameSettings;
+		snooperGuiScreen = p_i3041_1_;
+		snooperGameSettings = p_i3041_2_;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -60,8 +60,8 @@ public class GuiSnooper extends GuiScreen
 	
 	@Override public void initGui()
 	{
-		snooperTitle = I18n.func_135053_a("options.snooper.title");
-		String var1 = I18n.func_135053_a("options.snooper.desc");
+		snooperTitle = StatCollector.translateToLocal("options.snooper.title");
+		String var1 = StatCollector.translateToLocal("options.snooper.desc");
 		ArrayList var2 = new ArrayList();
 		Iterator var3 = fontRenderer.listFormattedStringToWidth(var1, width - 30).iterator();
 		while(var3.hasNext())
@@ -73,7 +73,7 @@ public class GuiSnooper extends GuiScreen
 		field_74098_c.clear();
 		field_74096_d.clear();
 		buttonList.add(buttonAllowSnooping = new GuiButton(1, width / 2 - 152, height - 30, 150, 20, snooperGameSettings.getKeyBinding(EnumOptions.SNOOPER_ENABLED)));
-		buttonList.add(new GuiButton(2, width / 2 + 2, height - 30, 150, 20, I18n.func_135053_a("gui.done")));
+		buttonList.add(new GuiButton(2, width / 2 + 2, height - 30, 150, 20, StatCollector.translateToLocal("gui.done")));
 		boolean var6 = mc.getIntegratedServer() != null && mc.getIntegratedServer().getPlayerUsageSnooper() != null;
 		Iterator var7 = new TreeMap(mc.getPlayerUsageSnooper().getCurrentStats()).entrySet().iterator();
 		Entry var5;

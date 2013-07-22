@@ -11,19 +11,19 @@ public final class WorldSettings
 	private boolean bonusChestEnabled;
 	private String field_82751_h;
 	
-	public WorldSettings(long par1, EnumGameType par3EnumGameType, boolean par4, boolean par5, WorldType par6WorldType)
+	public WorldSettings(long p_i3735_1_, EnumGameType p_i3735_3_, boolean p_i3735_4_, boolean p_i3735_5_, WorldType p_i3735_6_)
 	{
 		field_82751_h = "";
-		seed = par1;
-		theGameType = par3EnumGameType;
-		mapFeaturesEnabled = par4;
-		hardcoreEnabled = par5;
-		terrainType = par6WorldType;
+		seed = p_i3735_1_;
+		theGameType = p_i3735_3_;
+		mapFeaturesEnabled = p_i3735_4_;
+		hardcoreEnabled = p_i3735_5_;
+		terrainType = p_i3735_6_;
 	}
 	
-	public WorldSettings(WorldInfo par1WorldInfo)
+	public WorldSettings(WorldInfo p_i3736_1_)
 	{
-		this(par1WorldInfo.getSeed(), par1WorldInfo.getGameType(), par1WorldInfo.isMapFeaturesEnabled(), par1WorldInfo.isHardcoreModeEnabled(), par1WorldInfo.getTerrainType());
+		this(p_i3736_1_.getSeed(), p_i3736_1_.getGameType(), p_i3736_1_.isMapFeaturesEnabled(), p_i3736_1_.isHardcoreModeEnabled(), p_i3736_1_.getTerrainType());
 	}
 	
 	public boolean areCommandsAllowed()
@@ -48,9 +48,9 @@ public final class WorldSettings
 		return field_82751_h;
 	}
 	
-	public WorldSettings func_82750_a(String par1Str)
+	public WorldSettings func_82750_a(String p_82750_1_)
 	{
-		field_82751_h = par1Str;
+		field_82751_h = p_82750_1_;
 		return this;
 	}
 	
@@ -84,8 +84,8 @@ public final class WorldSettings
 		return mapFeaturesEnabled;
 	}
 	
-	public static EnumGameType getGameTypeById(int par0)
+	public static EnumGameType getGameTypeById(int p_77161_0_)
 	{
-		return EnumGameType.getByID(par0);
+		return EnumGameType.getByID(p_77161_0_);
 	}
 }

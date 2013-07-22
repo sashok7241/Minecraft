@@ -4,62 +4,62 @@ public class ItemReed extends Item
 {
 	private int spawnID;
 	
-	public ItemReed(int par1, Block par2Block)
+	public ItemReed(int p_i3691_1_, Block p_i3691_2_)
 	{
-		super(par1);
-		spawnID = par2Block.blockID;
+		super(p_i3691_1_);
+		spawnID = p_i3691_2_.blockID;
 	}
 	
-	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
 	{
-		int var11 = par3World.getBlockId(par4, par5, par6);
-		if(var11 == Block.snow.blockID && (par3World.getBlockMetadata(par4, par5, par6) & 7) < 1)
+		int var11 = p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_);
+		if(var11 == Block.snow.blockID && (p_77648_3_.getBlockMetadata(p_77648_4_, p_77648_5_, p_77648_6_) & 7) < 1)
 		{
-			par7 = 1;
+			p_77648_7_ = 1;
 		} else if(var11 != Block.vine.blockID && var11 != Block.tallGrass.blockID && var11 != Block.deadBush.blockID)
 		{
-			if(par7 == 0)
+			if(p_77648_7_ == 0)
 			{
-				--par5;
+				--p_77648_5_;
 			}
-			if(par7 == 1)
+			if(p_77648_7_ == 1)
 			{
-				++par5;
+				++p_77648_5_;
 			}
-			if(par7 == 2)
+			if(p_77648_7_ == 2)
 			{
-				--par6;
+				--p_77648_6_;
 			}
-			if(par7 == 3)
+			if(p_77648_7_ == 3)
 			{
-				++par6;
+				++p_77648_6_;
 			}
-			if(par7 == 4)
+			if(p_77648_7_ == 4)
 			{
-				--par4;
+				--p_77648_4_;
 			}
-			if(par7 == 5)
+			if(p_77648_7_ == 5)
 			{
-				++par4;
+				++p_77648_4_;
 			}
 		}
-		if(!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack)) return false;
-		else if(par1ItemStack.stackSize == 0) return false;
+		if(!p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_1_)) return false;
+		else if(p_77648_1_.stackSize == 0) return false;
 		else
 		{
-			if(par3World.canPlaceEntityOnSide(spawnID, par4, par5, par6, false, par7, (Entity) null, par1ItemStack))
+			if(p_77648_3_.canPlaceEntityOnSide(spawnID, p_77648_4_, p_77648_5_, p_77648_6_, false, p_77648_7_, (Entity) null, p_77648_1_))
 			{
 				Block var12 = Block.blocksList[spawnID];
-				int var13 = var12.onBlockPlaced(par3World, par4, par5, par6, par7, par8, par9, par10, 0);
-				if(par3World.setBlock(par4, par5, par6, spawnID, var13, 3))
+				int var13 = var12.onBlockPlaced(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_8_, p_77648_9_, p_77648_10_, 0);
+				if(p_77648_3_.setBlock(p_77648_4_, p_77648_5_, p_77648_6_, spawnID, var13, 3))
 				{
-					if(par3World.getBlockId(par4, par5, par6) == spawnID)
+					if(p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_) == spawnID)
 					{
-						Block.blocksList[spawnID].onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer, par1ItemStack);
-						Block.blocksList[spawnID].onPostBlockPlaced(par3World, par4, par5, par6, var13);
+						Block.blocksList[spawnID].onBlockPlacedBy(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_2_, p_77648_1_);
+						Block.blocksList[spawnID].onPostBlockPlaced(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, var13);
 					}
-					par3World.playSoundEffect(par4 + 0.5F, par5 + 0.5F, par6 + 0.5F, var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
-					--par1ItemStack.stackSize;
+					p_77648_3_.playSoundEffect(p_77648_4_ + 0.5F, p_77648_5_ + 0.5F, p_77648_6_ + 0.5F, var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
+					--p_77648_1_.stackSize;
 				}
 			}
 			return true;

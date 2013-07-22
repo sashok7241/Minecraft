@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet28EntityVelocity extends Packet
@@ -15,47 +15,47 @@ public class Packet28EntityVelocity extends Packet
 	{
 	}
 	
-	public Packet28EntityVelocity(Entity par1Entity)
+	public Packet28EntityVelocity(Entity p_i3348_1_)
 	{
-		this(par1Entity.entityId, par1Entity.motionX, par1Entity.motionY, par1Entity.motionZ);
+		this(p_i3348_1_.entityId, p_i3348_1_.motionX, p_i3348_1_.motionY, p_i3348_1_.motionZ);
 	}
 	
-	public Packet28EntityVelocity(int par1, double par2, double par4, double par6)
+	public Packet28EntityVelocity(int p_i3349_1_, double p_i3349_2_, double p_i3349_4_, double p_i3349_6_)
 	{
-		entityId = par1;
+		entityId = p_i3349_1_;
 		double var8 = 3.9D;
-		if(par2 < -var8)
+		if(p_i3349_2_ < -var8)
 		{
-			par2 = -var8;
+			p_i3349_2_ = -var8;
 		}
-		if(par4 < -var8)
+		if(p_i3349_4_ < -var8)
 		{
-			par4 = -var8;
+			p_i3349_4_ = -var8;
 		}
-		if(par6 < -var8)
+		if(p_i3349_6_ < -var8)
 		{
-			par6 = -var8;
+			p_i3349_6_ = -var8;
 		}
-		if(par2 > var8)
+		if(p_i3349_2_ > var8)
 		{
-			par2 = var8;
+			p_i3349_2_ = var8;
 		}
-		if(par4 > var8)
+		if(p_i3349_4_ > var8)
 		{
-			par4 = var8;
+			p_i3349_4_ = var8;
 		}
-		if(par6 > var8)
+		if(p_i3349_6_ > var8)
 		{
-			par6 = var8;
+			p_i3349_6_ = var8;
 		}
-		motionX = (int) (par2 * 8000.0D);
-		motionY = (int) (par4 * 8000.0D);
-		motionZ = (int) (par6 * 8000.0D);
+		motionX = (int) (p_i3349_2_ * 8000.0D);
+		motionY = (int) (p_i3349_4_ * 8000.0D);
+		motionZ = (int) (p_i3349_6_ * 8000.0D);
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
+	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
 	{
-		Packet28EntityVelocity var2 = (Packet28EntityVelocity) par1Packet;
+		Packet28EntityVelocity var2 = (Packet28EntityVelocity) p_73268_1_;
 		return var2.entityId == entityId;
 	}
 	
@@ -69,24 +69,24 @@ public class Packet28EntityVelocity extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleEntityVelocity(this);
+		p_73279_1_.handleEntityVelocity(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
-		motionX = par1DataInput.readShort();
-		motionY = par1DataInput.readShort();
-		motionZ = par1DataInput.readShort();
+		entityId = p_73267_1_.readInt();
+		motionX = p_73267_1_.readShort();
+		motionY = p_73267_1_.readShort();
+		motionZ = p_73267_1_.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
-		par1DataOutput.writeShort(motionX);
-		par1DataOutput.writeShort(motionY);
-		par1DataOutput.writeShort(motionZ);
+		p_73273_1_.writeInt(entityId);
+		p_73273_1_.writeShort(motionX);
+		p_73273_1_.writeShort(motionY);
+		p_73273_1_.writeShort(motionZ);
 	}
 }

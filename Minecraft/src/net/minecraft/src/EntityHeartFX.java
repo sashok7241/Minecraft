@@ -4,20 +4,20 @@ public class EntityHeartFX extends EntityFX
 {
 	float particleScaleOverTime;
 	
-	public EntityHeartFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
+	public EntityHeartFX(World p_i3174_1_, double p_i3174_2_, double p_i3174_4_, double p_i3174_6_, double p_i3174_8_, double p_i3174_10_, double p_i3174_12_)
 	{
-		this(par1World, par2, par4, par6, par8, par10, par12, 2.0F);
+		this(p_i3174_1_, p_i3174_2_, p_i3174_4_, p_i3174_6_, p_i3174_8_, p_i3174_10_, p_i3174_12_, 2.0F);
 	}
 	
-	public EntityHeartFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, float par14)
+	public EntityHeartFX(World p_i3175_1_, double p_i3175_2_, double p_i3175_4_, double p_i3175_6_, double p_i3175_8_, double p_i3175_10_, double p_i3175_12_, float p_i3175_14_)
 	{
-		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
+		super(p_i3175_1_, p_i3175_2_, p_i3175_4_, p_i3175_6_, 0.0D, 0.0D, 0.0D);
 		motionX *= 0.009999999776482582D;
 		motionY *= 0.009999999776482582D;
 		motionZ *= 0.009999999776482582D;
 		motionY += 0.1D;
 		particleScale *= 0.75F;
-		particleScale *= par14;
+		particleScale *= p_i3175_14_;
 		particleScaleOverTime = particleScale;
 		particleMaxAge = 16;
 		noClip = false;

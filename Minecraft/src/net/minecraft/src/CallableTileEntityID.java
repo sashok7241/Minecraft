@@ -6,9 +6,9 @@ class CallableTileEntityID implements Callable
 {
 	final TileEntity theTileEntity;
 	
-	CallableTileEntityID(TileEntity par1TileEntity)
+	CallableTileEntityID(TileEntity p_i9103_1_)
 	{
-		theTileEntity = par1TileEntity;
+		theTileEntity = p_i9103_1_;
 	}
 	
 	@Override public Object call()

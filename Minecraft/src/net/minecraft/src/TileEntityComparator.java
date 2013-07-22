@@ -2,27 +2,27 @@ package net.minecraft.src;
 
 public class TileEntityComparator extends TileEntity
 {
-	private int outputSignal;
+	private int outputSignal = 0;
 	
 	public int getOutputSignal()
 	{
 		return outputSignal;
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
 	{
-		super.readFromNBT(par1NBTTagCompound);
-		outputSignal = par1NBTTagCompound.getInteger("OutputSignal");
+		super.readFromNBT(p_70307_1_);
+		outputSignal = p_70307_1_.getInteger("OutputSignal");
 	}
 	
-	public void setOutputSignal(int par1)
+	public void setOutputSignal(int p_96099_1_)
 	{
-		outputSignal = par1;
+		outputSignal = p_96099_1_;
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
 	{
-		super.writeToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("OutputSignal", outputSignal);
+		super.writeToNBT(p_70310_1_);
+		p_70310_1_.setInteger("OutputSignal", outputSignal);
 	}
 }

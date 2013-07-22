@@ -7,14 +7,14 @@ public class WorldProviderEnd extends WorldProvider
 		return null;
 	}
 	
-	@Override public float calculateCelestialAngle(long par1, float par3)
+	@Override public float calculateCelestialAngle(long p_76563_1_, float p_76563_3_)
 	{
 		return 0.0F;
 	}
 	
-	@Override public boolean canCoordinateBeSpawn(int par1, int par2)
+	@Override public boolean canCoordinateBeSpawn(int p_76566_1_, int p_76566_2_)
 	{
-		int var3 = worldObj.getFirstUncoveredBlock(par1, par2);
+		int var3 = worldObj.getFirstUncoveredBlock(p_76566_1_, p_76566_2_);
 		return var3 == 0 ? false : Block.blocksList[var3].blockMaterial.blocksMovement();
 	}
 	

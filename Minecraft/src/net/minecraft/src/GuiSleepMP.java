@@ -16,7 +16,8 @@ public class GuiSleepMP extends GuiChat
 	@Override public void initGui()
 	{
 		super.initGui();
-		buttonList.add(new GuiButton(1, width / 2 - 100, height - 40, I18n.func_135053_a("multiplayer.stopSleeping")));
+		StringTranslate var1 = StringTranslate.getInstance();
+		buttonList.add(new GuiButton(1, width / 2 - 100, height - 40, var1.translateKey("multiplayer.stopSleeping")));
 	}
 	
 	@Override protected void keyTyped(char par1, int par2)
@@ -24,10 +25,7 @@ public class GuiSleepMP extends GuiChat
 		if(par2 == 1)
 		{
 			wakeEntity();
-		} else if(par2 != 28 && par2 != 156)
-		{
-			super.keyTyped(par1, par2);
-		} else
+		} else if(par2 == 28)
 		{
 			String var3 = inputField.getText().trim();
 			if(var3.length() > 0)
@@ -36,6 +34,9 @@ public class GuiSleepMP extends GuiChat
 			}
 			inputField.setText("");
 			mc.ingameGUI.getChatGUI().resetScroll();
+		} else
+		{
+			super.keyTyped(par1, par2);
 		}
 	}
 	

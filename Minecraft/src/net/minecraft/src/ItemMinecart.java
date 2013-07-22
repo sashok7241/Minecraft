@@ -5,30 +5,30 @@ public class ItemMinecart extends Item
 	private static final IBehaviorDispenseItem dispenserMinecartBehavior = new BehaviorDispenseMinecart();
 	public int minecartType;
 	
-	public ItemMinecart(int par1, int par2)
+	public ItemMinecart(int p_i3670_1_, int p_i3670_2_)
 	{
-		super(par1);
+		super(p_i3670_1_);
 		maxStackSize = 1;
-		minecartType = par2;
+		minecartType = p_i3670_2_;
 		setCreativeTab(CreativeTabs.tabTransport);
 		BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenserMinecartBehavior);
 	}
 	
-	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
 	{
-		int var11 = par3World.getBlockId(par4, par5, par6);
+		int var11 = p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_);
 		if(BlockRailBase.isRailBlock(var11))
 		{
-			if(!par3World.isRemote)
+			if(!p_77648_3_.isRemote)
 			{
-				EntityMinecart var12 = EntityMinecart.createMinecart(par3World, par4 + 0.5F, par5 + 0.5F, par6 + 0.5F, minecartType);
-				if(par1ItemStack.hasDisplayName())
+				EntityMinecart var12 = EntityMinecart.createMinecart(p_77648_3_, p_77648_4_ + 0.5F, p_77648_5_ + 0.5F, p_77648_6_ + 0.5F, minecartType);
+				if(p_77648_1_.hasDisplayName())
 				{
-					var12.setMinecartName(par1ItemStack.getDisplayName());
+					var12.setMinecartName(p_77648_1_.getDisplayName());
 				}
-				par3World.spawnEntityInWorld(var12);
+				p_77648_3_.spawnEntityInWorld(var12);
 			}
-			--par1ItemStack.stackSize;
+			--p_77648_1_.stackSize;
 			return true;
 		} else return false;
 	}

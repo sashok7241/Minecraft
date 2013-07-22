@@ -5,14 +5,14 @@ public class EntityLookHelper
 	private EntityLiving entity;
 	private float deltaLookYaw;
 	private float deltaLookPitch;
-	private boolean isLooking;
+	private boolean isLooking = false;
 	private double posX;
 	private double posY;
 	private double posZ;
 	
-	public EntityLookHelper(EntityLiving par1EntityLiving)
+	public EntityLookHelper(EntityLiving p_i3455_1_)
 	{
-		entity = par1EntityLiving;
+		entity = p_i3455_1_;
 	}
 	
 	public void onUpdateLook()
@@ -47,43 +47,43 @@ public class EntityLookHelper
 		}
 	}
 	
-	public void setLookPosition(double par1, double par3, double par5, float par7, float par8)
+	public void setLookPosition(double p_75650_1_, double p_75650_3_, double p_75650_5_, float p_75650_7_, float p_75650_8_)
 	{
-		posX = par1;
-		posY = par3;
-		posZ = par5;
-		deltaLookYaw = par7;
-		deltaLookPitch = par8;
+		posX = p_75650_1_;
+		posY = p_75650_3_;
+		posZ = p_75650_5_;
+		deltaLookYaw = p_75650_7_;
+		deltaLookPitch = p_75650_8_;
 		isLooking = true;
 	}
 	
-	public void setLookPositionWithEntity(Entity par1Entity, float par2, float par3)
+	public void setLookPositionWithEntity(Entity p_75651_1_, float p_75651_2_, float p_75651_3_)
 	{
-		posX = par1Entity.posX;
-		if(par1Entity instanceof EntityLivingBase)
+		posX = p_75651_1_.posX;
+		if(p_75651_1_ instanceof EntityLiving)
 		{
-			posY = par1Entity.posY + par1Entity.getEyeHeight();
+			posY = p_75651_1_.posY + p_75651_1_.getEyeHeight();
 		} else
 		{
-			posY = (par1Entity.boundingBox.minY + par1Entity.boundingBox.maxY) / 2.0D;
+			posY = (p_75651_1_.boundingBox.minY + p_75651_1_.boundingBox.maxY) / 2.0D;
 		}
-		posZ = par1Entity.posZ;
-		deltaLookYaw = par2;
-		deltaLookPitch = par3;
+		posZ = p_75651_1_.posZ;
+		deltaLookYaw = p_75651_2_;
+		deltaLookPitch = p_75651_3_;
 		isLooking = true;
 	}
 	
-	private float updateRotation(float par1, float par2, float par3)
+	private float updateRotation(float p_75652_1_, float p_75652_2_, float p_75652_3_)
 	{
-		float var4 = MathHelper.wrapAngleTo180_float(par2 - par1);
-		if(var4 > par3)
+		float var4 = MathHelper.wrapAngleTo180_float(p_75652_2_ - p_75652_1_);
+		if(var4 > p_75652_3_)
 		{
-			var4 = par3;
+			var4 = p_75652_3_;
 		}
-		if(var4 < -par3)
+		if(var4 < -p_75652_3_)
 		{
-			var4 = -par3;
+			var4 = -p_75652_3_;
 		}
-		return par1 + var4;
+		return p_75652_1_ + var4;
 	}
 }

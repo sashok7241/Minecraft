@@ -1,14 +1,22 @@
 package net.minecraft.src;
 
+import java.util.List;
+
 final class CreativeTabCombat extends CreativeTabs
 {
-	CreativeTabCombat(int par1, String par2Str)
+	CreativeTabCombat(int p_i3641_1_, String p_i3641_2_)
 	{
-		super(par1, par2Str);
+		super(p_i3641_1_, p_i3641_2_);
+	}
+	
+	@Override public void displayAllReleventItems(List par1List)
+	{
+		super.displayAllReleventItems(par1List);
+		addEnchantmentBooksToList(par1List, new EnumEnchantmentType[] { EnumEnchantmentType.armor, EnumEnchantmentType.armor_feet, EnumEnchantmentType.armor_head, EnumEnchantmentType.armor_legs, EnumEnchantmentType.armor_torso, EnumEnchantmentType.bow, EnumEnchantmentType.weapon });
 	}
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Block.brick.blockID;
+		return Item.swordGold.itemID;
 	}
 }

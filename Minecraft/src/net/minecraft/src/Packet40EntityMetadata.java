@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -14,15 +14,15 @@ public class Packet40EntityMetadata extends Packet
 	{
 	}
 	
-	public Packet40EntityMetadata(int par1, DataWatcher par2DataWatcher, boolean par3)
+	public Packet40EntityMetadata(int p_i5034_1_, DataWatcher p_i5034_2_, boolean p_i5034_3_)
 	{
-		entityId = par1;
-		if(par3)
+		entityId = p_i5034_1_;
+		if(p_i5034_3_)
 		{
-			metadata = par2DataWatcher.getAllWatched();
+			metadata = p_i5034_2_.getAllWatched();
 		} else
 		{
-			metadata = par2DataWatcher.unwatchAndReturnAllWatched();
+			metadata = p_i5034_2_.unwatchAndReturnAllWatched();
 		}
 	}
 	
@@ -36,20 +36,20 @@ public class Packet40EntityMetadata extends Packet
 		return 5;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleEntityMetadata(this);
+		p_73279_1_.handleEntityMetadata(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
-		metadata = DataWatcher.readWatchableObjects(par1DataInput);
+		entityId = p_73267_1_.readInt();
+		metadata = DataWatcher.readWatchableObjects(p_73267_1_);
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
-		DataWatcher.writeObjectsInListToStream(metadata, par1DataOutput);
+		p_73273_1_.writeInt(entityId);
+		DataWatcher.writeObjectsInListToStream(metadata, p_73273_1_);
 	}
 }

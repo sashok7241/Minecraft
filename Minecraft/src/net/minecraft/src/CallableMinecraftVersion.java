@@ -6,9 +6,9 @@ class CallableMinecraftVersion implements Callable
 {
 	final CrashReport theCrashReport;
 	
-	CallableMinecraftVersion(CrashReport par1CrashReport)
+	CallableMinecraftVersion(CrashReport p_i3244_1_)
 	{
-		theCrashReport = par1CrashReport;
+		theCrashReport = p_i3244_1_;
 	}
 	
 	@Override public Object call()
@@ -18,6 +18,6 @@ class CallableMinecraftVersion implements Callable
 	
 	public String minecraftVersion()
 	{
-		return "1.6.2";
+		return "1.5.2";
 	}
 }

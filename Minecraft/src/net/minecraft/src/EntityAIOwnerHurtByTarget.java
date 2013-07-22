@@ -3,13 +3,12 @@ package net.minecraft.src;
 public class EntityAIOwnerHurtByTarget extends EntityAITarget
 {
 	EntityTameable theDefendingTameable;
-	EntityLivingBase theOwnerAttacker;
-	private int field_142051_e;
+	EntityLiving theOwnerAttacker;
 	
-	public EntityAIOwnerHurtByTarget(EntityTameable par1EntityTameable)
+	public EntityAIOwnerHurtByTarget(EntityTameable p_i3503_1_)
 	{
-		super(par1EntityTameable, false);
-		theDefendingTameable = par1EntityTameable;
+		super(p_i3503_1_, 32.0F, false);
+		theDefendingTameable = p_i3503_1_;
 		setMutexBits(1);
 	}
 	
@@ -18,13 +17,12 @@ public class EntityAIOwnerHurtByTarget extends EntityAITarget
 		if(!theDefendingTameable.isTamed()) return false;
 		else
 		{
-			EntityLivingBase var1 = theDefendingTameable.func_130012_q();
+			EntityLiving var1 = theDefendingTameable.getOwner();
 			if(var1 == null) return false;
 			else
 			{
 				theOwnerAttacker = var1.getAITarget();
-				int var2 = var1.func_142015_aE();
-				return var2 != field_142051_e && isSuitableTarget(theOwnerAttacker, false) && theDefendingTameable.func_142018_a(theOwnerAttacker, var1);
+				return isSuitableTarget(theOwnerAttacker, false);
 			}
 		}
 	}
@@ -32,11 +30,6 @@ public class EntityAIOwnerHurtByTarget extends EntityAITarget
 	@Override public void startExecuting()
 	{
 		taskOwner.setAttackTarget(theOwnerAttacker);
-		EntityLivingBase var1 = theDefendingTameable.func_130012_q();
-		if(var1 != null)
-		{
-			field_142051_e = var1.func_142015_aE();
-		}
 		super.startExecuting();
 	}
 }

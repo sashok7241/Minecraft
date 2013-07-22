@@ -1,16 +1,27 @@
 package net.minecraft.src;
 
+
 public abstract class TileEntitySpecialRenderer
 {
 	protected TileEntityRenderer tileEntityRenderer;
 	
-	protected void func_110628_a(ResourceLocation par1ResourceLocation)
+	protected void bindTextureByName(String p_76897_1_)
 	{
-		TextureManager var2 = tileEntityRenderer.renderEngine;
+		RenderEngine var2 = tileEntityRenderer.renderEngine;
 		if(var2 != null)
 		{
-			var2.func_110577_a(par1ResourceLocation);
+			var2.bindTexture(p_76897_1_);
 		}
+	}
+	
+	protected void bindTextureByURL(String p_82392_1_, String p_82392_2_)
+	{
+		RenderEngine var3 = tileEntityRenderer.renderEngine;
+		if(var3 != null)
+		{
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, var3.getTextureForDownloadableImage(p_82392_1_, p_82392_2_));
+		}
+		var3.resetBoundTexture();
 	}
 	
 	public FontRenderer getFontRenderer()

@@ -8,7 +8,7 @@ public class InventoryCraftResult implements IInventory
 	{
 	}
 	
-	@Override public ItemStack decrStackSize(int par1, int par2)
+	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
 	{
 		if(stackResult[0] != null)
 		{
@@ -33,12 +33,12 @@ public class InventoryCraftResult implements IInventory
 		return 1;
 	}
 	
-	@Override public ItemStack getStackInSlot(int par1)
+	@Override public ItemStack getStackInSlot(int p_70301_1_)
 	{
 		return stackResult[0];
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int par1)
+	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
 	{
 		if(stackResult[0] != null)
 		{
@@ -53,12 +53,12 @@ public class InventoryCraftResult implements IInventory
 		return false;
 	}
 	
-	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
+	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
 	{
 		return true;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
 	{
 		return true;
 	}
@@ -71,8 +71,8 @@ public class InventoryCraftResult implements IInventory
 	{
 	}
 	
-	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
 	{
-		stackResult[0] = par2ItemStack;
+		stackResult[0] = p_70299_2_;
 	}
 }

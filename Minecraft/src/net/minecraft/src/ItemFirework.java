@@ -5,9 +5,9 @@ import java.util.List;
 
 public class ItemFirework extends Item
 {
-	public ItemFirework(int par1)
+	public ItemFirework(int p_i8013_1_)
 	{
-		super(par1);
+		super(p_i8013_1_);
 	}
 	
 	@Override public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
@@ -43,15 +43,15 @@ public class ItemFirework extends Item
 		}
 	}
 	
-	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
 	{
-		if(!par3World.isRemote)
+		if(!p_77648_3_.isRemote)
 		{
-			EntityFireworkRocket var11 = new EntityFireworkRocket(par3World, par4 + par8, par5 + par9, par6 + par10, par1ItemStack);
-			par3World.spawnEntityInWorld(var11);
-			if(!par2EntityPlayer.capabilities.isCreativeMode)
+			EntityFireworkRocket var11 = new EntityFireworkRocket(p_77648_3_, p_77648_4_ + p_77648_8_, p_77648_5_ + p_77648_9_, p_77648_6_ + p_77648_10_, p_77648_1_);
+			p_77648_3_.spawnEntityInWorld(var11);
+			if(!p_77648_2_.capabilities.isCreativeMode)
 			{
-				--par1ItemStack.stackSize;
+				--p_77648_1_.stackSize;
 			}
 			return true;
 		} else return false;

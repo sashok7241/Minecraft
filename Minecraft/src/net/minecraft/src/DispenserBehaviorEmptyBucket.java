@@ -4,13 +4,13 @@ final class DispenserBehaviorEmptyBucket extends BehaviorDefaultDispenseItem
 {
 	private final BehaviorDefaultDispenseItem defaultDispenserItemBehavior = new BehaviorDefaultDispenseItem();
 	
-	@Override public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
+	@Override public ItemStack dispenseStack(IBlockSource p_82487_1_, ItemStack p_82487_2_)
 	{
-		EnumFacing var3 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
-		World var4 = par1IBlockSource.getWorld();
-		int var5 = par1IBlockSource.getXInt() + var3.getFrontOffsetX();
-		int var6 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
-		int var7 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
+		EnumFacing var3 = BlockDispenser.getFacing(p_82487_1_.getBlockMetadata());
+		World var4 = p_82487_1_.getWorld();
+		int var5 = p_82487_1_.getXInt() + var3.getFrontOffsetX();
+		int var6 = p_82487_1_.getYInt() + var3.getFrontOffsetY();
+		int var7 = p_82487_1_.getZInt() + var3.getFrontOffsetZ();
 		Material var8 = var4.getBlockMaterial(var5, var6, var7);
 		int var9 = var4.getBlockMetadata(var5, var6, var7);
 		Item var10;
@@ -19,18 +19,18 @@ final class DispenserBehaviorEmptyBucket extends BehaviorDefaultDispenseItem
 			var10 = Item.bucketWater;
 		} else
 		{
-			if(!Material.lava.equals(var8) || var9 != 0) return super.dispenseStack(par1IBlockSource, par2ItemStack);
+			if(!Material.lava.equals(var8) || var9 != 0) return super.dispenseStack(p_82487_1_, p_82487_2_);
 			var10 = Item.bucketLava;
 		}
 		var4.setBlockToAir(var5, var6, var7);
-		if(--par2ItemStack.stackSize == 0)
+		if(--p_82487_2_.stackSize == 0)
 		{
-			par2ItemStack.itemID = var10.itemID;
-			par2ItemStack.stackSize = 1;
-		} else if(((TileEntityDispenser) par1IBlockSource.getBlockTileEntity()).addItem(new ItemStack(var10)) < 0)
+			p_82487_2_.itemID = var10.itemID;
+			p_82487_2_.stackSize = 1;
+		} else if(((TileEntityDispenser) p_82487_1_.getBlockTileEntity()).addItem(new ItemStack(var10)) < 0)
 		{
-			defaultDispenserItemBehavior.dispense(par1IBlockSource, new ItemStack(var10));
+			defaultDispenserItemBehavior.dispense(p_82487_1_, new ItemStack(var10));
 		}
-		return par2ItemStack;
+		return p_82487_2_;
 	}
 }

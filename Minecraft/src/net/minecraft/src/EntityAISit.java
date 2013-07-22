@@ -3,11 +3,11 @@ package net.minecraft.src;
 public class EntityAISit extends EntityAIBase
 {
 	private EntityTameable theEntity;
-	private boolean isSitting;
+	private boolean isSitting = false;
 	
-	public EntityAISit(EntityTameable par1EntityTameable)
+	public EntityAISit(EntityTameable p_i3492_1_)
 	{
-		theEntity = par1EntityTameable;
+		theEntity = p_i3492_1_;
 		setMutexBits(5);
 	}
 	
@@ -16,9 +16,9 @@ public class EntityAISit extends EntityAIBase
 		theEntity.setSitting(false);
 	}
 	
-	public void setSitting(boolean par1)
+	public void setSitting(boolean p_75270_1_)
 	{
-		isSitting = par1;
+		isSitting = p_75270_1_;
 	}
 	
 	@Override public boolean shouldExecute()
@@ -28,7 +28,7 @@ public class EntityAISit extends EntityAIBase
 		else if(!theEntity.onGround) return false;
 		else
 		{
-			EntityLivingBase var1 = theEntity.func_130012_q();
+			EntityLiving var1 = theEntity.getOwner();
 			return var1 == null ? true : theEntity.getDistanceSqToEntity(var1) < 144.0D && var1.getAITarget() != null ? false : isSitting;
 		}
 	}

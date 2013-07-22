@@ -8,26 +8,26 @@ public class MapGenBase
 	protected Random rand = new Random();
 	protected World worldObj;
 	
-	public void generate(IChunkProvider par1IChunkProvider, World par2World, int par3, int par4, byte[] par5ArrayOfByte)
+	public void generate(IChunkProvider p_75036_1_, World p_75036_2_, int p_75036_3_, int p_75036_4_, byte[] p_75036_5_)
 	{
 		int var6 = range;
-		worldObj = par2World;
-		rand.setSeed(par2World.getSeed());
+		worldObj = p_75036_2_;
+		rand.setSeed(p_75036_2_.getSeed());
 		long var7 = rand.nextLong();
 		long var9 = rand.nextLong();
-		for(int var11 = par3 - var6; var11 <= par3 + var6; ++var11)
+		for(int var11 = p_75036_3_ - var6; var11 <= p_75036_3_ + var6; ++var11)
 		{
-			for(int var12 = par4 - var6; var12 <= par4 + var6; ++var12)
+			for(int var12 = p_75036_4_ - var6; var12 <= p_75036_4_ + var6; ++var12)
 			{
 				long var13 = var11 * var7;
 				long var15 = var12 * var9;
-				rand.setSeed(var13 ^ var15 ^ par2World.getSeed());
-				recursiveGenerate(par2World, var11, var12, par3, par4, par5ArrayOfByte);
+				rand.setSeed(var13 ^ var15 ^ p_75036_2_.getSeed());
+				recursiveGenerate(p_75036_2_, var11, var12, p_75036_3_, p_75036_4_, p_75036_5_);
 			}
 		}
 	}
 	
-	protected void recursiveGenerate(World par1World, int par2, int par3, int par4, int par5, byte[] par6ArrayOfByte)
+	protected void recursiveGenerate(World p_75037_1_, int p_75037_2_, int p_75037_3_, int p_75037_4_, int p_75037_5_, byte[] p_75037_6_)
 	{
 	}
 }

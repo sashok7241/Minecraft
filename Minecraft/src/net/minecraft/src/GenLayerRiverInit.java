@@ -2,22 +2,22 @@ package net.minecraft.src;
 
 public class GenLayerRiverInit extends GenLayer
 {
-	public GenLayerRiverInit(long par1, GenLayer par3GenLayer)
+	public GenLayerRiverInit(long p_i3893_1_, GenLayer p_i3893_3_)
 	{
-		super(par1);
-		parent = par3GenLayer;
+		super(p_i3893_1_);
+		parent = p_i3893_3_;
 	}
 	
-	@Override public int[] getInts(int par1, int par2, int par3, int par4)
+	@Override public int[] getInts(int p_75904_1_, int p_75904_2_, int p_75904_3_, int p_75904_4_)
 	{
-		int[] var5 = parent.getInts(par1, par2, par3, par4);
-		int[] var6 = IntCache.getIntCache(par3 * par4);
-		for(int var7 = 0; var7 < par4; ++var7)
+		int[] var5 = parent.getInts(p_75904_1_, p_75904_2_, p_75904_3_, p_75904_4_);
+		int[] var6 = IntCache.getIntCache(p_75904_3_ * p_75904_4_);
+		for(int var7 = 0; var7 < p_75904_4_; ++var7)
 		{
-			for(int var8 = 0; var8 < par3; ++var8)
+			for(int var8 = 0; var8 < p_75904_3_; ++var8)
 			{
-				initChunkSeed(var8 + par1, var7 + par2);
-				var6[var8 + var7 * par3] = var5[var8 + var7 * par3] > 0 ? nextInt(2) + 2 : 0;
+				initChunkSeed(var8 + p_75904_1_, var7 + p_75904_2_);
+				var6[var8 + var7 * p_75904_3_] = var5[var8 + var7 * p_75904_3_] > 0 ? nextInt(2) + 2 : 0;
 			}
 		}
 		return var6;

@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet107CreativeSetSlot extends Packet
@@ -13,10 +13,10 @@ public class Packet107CreativeSetSlot extends Packet
 	{
 	}
 	
-	public Packet107CreativeSetSlot(int par1, ItemStack par2ItemStack)
+	public Packet107CreativeSetSlot(int p_i3346_1_, ItemStack p_i3346_2_)
 	{
-		slot = par1;
-		itemStack = par2ItemStack != null ? par2ItemStack.copy() : null;
+		slot = p_i3346_1_;
+		itemStack = p_i3346_2_ != null ? p_i3346_2_.copy() : null;
 	}
 	
 	@Override public int getPacketSize()
@@ -24,20 +24,20 @@ public class Packet107CreativeSetSlot extends Packet
 		return 8;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleCreativeSetSlot(this);
+		p_73279_1_.handleCreativeSetSlot(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		slot = par1DataInput.readShort();
-		itemStack = readItemStack(par1DataInput);
+		slot = p_73267_1_.readShort();
+		itemStack = readItemStack(p_73267_1_);
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeShort(slot);
-		writeItemStack(itemStack, par1DataOutput);
+		p_73273_1_.writeShort(slot);
+		writeItemStack(itemStack, p_73273_1_);
 	}
 }

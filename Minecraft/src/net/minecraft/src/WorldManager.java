@@ -9,79 +9,79 @@ public class WorldManager implements IWorldAccess
 	private MinecraftServer mcServer;
 	private WorldServer theWorldServer;
 	
-	public WorldManager(MinecraftServer par1MinecraftServer, WorldServer par2WorldServer)
+	public WorldManager(MinecraftServer p_i3390_1_, WorldServer p_i3390_2_)
 	{
-		mcServer = par1MinecraftServer;
-		theWorldServer = par2WorldServer;
+		mcServer = p_i3390_1_;
+		theWorldServer = p_i3390_2_;
 	}
 	
-	@Override public void broadcastSound(int par1, int par2, int par3, int par4, int par5)
+	@Override public void broadcastSound(int p_82746_1_, int p_82746_2_, int p_82746_3_, int p_82746_4_, int p_82746_5_)
 	{
-		mcServer.getConfigurationManager().sendPacketToAllPlayers(new Packet61DoorChange(par1, par2, par3, par4, par5, true));
+		mcServer.getConfigurationManager().sendPacketToAllPlayers(new Packet61DoorChange(p_82746_1_, p_82746_2_, p_82746_3_, p_82746_4_, p_82746_5_, true));
 	}
 	
-	@Override public void destroyBlockPartially(int par1, int par2, int par3, int par4, int par5)
+	@Override public void destroyBlockPartially(int p_72705_1_, int p_72705_2_, int p_72705_3_, int p_72705_4_, int p_72705_5_)
 	{
 		Iterator var6 = mcServer.getConfigurationManager().playerEntityList.iterator();
 		while(var6.hasNext())
 		{
 			EntityPlayerMP var7 = (EntityPlayerMP) var6.next();
-			if(var7 != null && var7.worldObj == theWorldServer && var7.entityId != par1)
+			if(var7 != null && var7.worldObj == theWorldServer && var7.entityId != p_72705_1_)
 			{
-				double var8 = par2 - var7.posX;
-				double var10 = par3 - var7.posY;
-				double var12 = par4 - var7.posZ;
+				double var8 = p_72705_2_ - var7.posX;
+				double var10 = p_72705_3_ - var7.posY;
+				double var12 = p_72705_4_ - var7.posZ;
 				if(var8 * var8 + var10 * var10 + var12 * var12 < 1024.0D)
 				{
-					var7.playerNetServerHandler.sendPacketToPlayer(new Packet55BlockDestroy(par1, par2, par3, par4, par5));
+					var7.playerNetServerHandler.sendPacketToPlayer(new Packet55BlockDestroy(p_72705_1_, p_72705_2_, p_72705_3_, p_72705_4_, p_72705_5_));
 				}
 			}
 		}
 	}
 	
-	@Override public void markBlockForRenderUpdate(int par1, int par2, int par3)
+	@Override public void markBlockForRenderUpdate(int p_72711_1_, int p_72711_2_, int p_72711_3_)
 	{
 	}
 	
-	@Override public void markBlockForUpdate(int par1, int par2, int par3)
+	@Override public void markBlockForUpdate(int p_72710_1_, int p_72710_2_, int p_72710_3_)
 	{
-		theWorldServer.getPlayerManager().markBlockForUpdate(par1, par2, par3);
+		theWorldServer.getPlayerManager().markBlockForUpdate(p_72710_1_, p_72710_2_, p_72710_3_);
 	}
 	
-	@Override public void markBlockRangeForRenderUpdate(int par1, int par2, int par3, int par4, int par5, int par6)
-	{
-	}
-	
-	@Override public void onEntityCreate(Entity par1Entity)
-	{
-		theWorldServer.getEntityTracker().addEntityToTracker(par1Entity);
-	}
-	
-	@Override public void onEntityDestroy(Entity par1Entity)
-	{
-		theWorldServer.getEntityTracker().removeEntityFromAllTrackingPlayers(par1Entity);
-	}
-	
-	@Override public void playAuxSFX(EntityPlayer par1EntityPlayer, int par2, int par3, int par4, int par5, int par6)
-	{
-		mcServer.getConfigurationManager().sendToAllNearExcept(par1EntityPlayer, par3, par4, par5, 64.0D, theWorldServer.provider.dimensionId, new Packet61DoorChange(par2, par3, par4, par5, par6, false));
-	}
-	
-	@Override public void playRecord(String par1Str, int par2, int par3, int par4)
+	@Override public void markBlockRangeForRenderUpdate(int p_72707_1_, int p_72707_2_, int p_72707_3_, int p_72707_4_, int p_72707_5_, int p_72707_6_)
 	{
 	}
 	
-	@Override public void playSound(String par1Str, double par2, double par4, double par6, float par8, float par9)
+	@Override public void onEntityCreate(Entity p_72703_1_)
 	{
-		mcServer.getConfigurationManager().sendToAllNear(par2, par4, par6, par8 > 1.0F ? (double) (16.0F * par8) : 16.0D, theWorldServer.provider.dimensionId, new Packet62LevelSound(par1Str, par2, par4, par6, par8, par9));
+		theWorldServer.getEntityTracker().addEntityToTracker(p_72703_1_);
 	}
 	
-	@Override public void playSoundToNearExcept(EntityPlayer par1EntityPlayer, String par2Str, double par3, double par5, double par7, float par9, float par10)
+	@Override public void onEntityDestroy(Entity p_72709_1_)
 	{
-		mcServer.getConfigurationManager().sendToAllNearExcept(par1EntityPlayer, par3, par5, par7, par9 > 1.0F ? (double) (16.0F * par9) : 16.0D, theWorldServer.provider.dimensionId, new Packet62LevelSound(par2Str, par3, par5, par7, par9, par10));
+		theWorldServer.getEntityTracker().removeEntityFromAllTrackingPlayers(p_72709_1_);
 	}
 	
-	@Override public void spawnParticle(String par1Str, double par2, double par4, double par6, double par8, double par10, double par12)
+	@Override public void playAuxSFX(EntityPlayer p_72706_1_, int p_72706_2_, int p_72706_3_, int p_72706_4_, int p_72706_5_, int p_72706_6_)
+	{
+		mcServer.getConfigurationManager().sendToAllNearExcept(p_72706_1_, p_72706_3_, p_72706_4_, p_72706_5_, 64.0D, theWorldServer.provider.dimensionId, new Packet61DoorChange(p_72706_2_, p_72706_3_, p_72706_4_, p_72706_5_, p_72706_6_, false));
+	}
+	
+	@Override public void playRecord(String p_72702_1_, int p_72702_2_, int p_72702_3_, int p_72702_4_)
+	{
+	}
+	
+	@Override public void playSound(String p_72704_1_, double p_72704_2_, double p_72704_4_, double p_72704_6_, float p_72704_8_, float p_72704_9_)
+	{
+		mcServer.getConfigurationManager().sendToAllNear(p_72704_2_, p_72704_4_, p_72704_6_, p_72704_8_ > 1.0F ? (double) (16.0F * p_72704_8_) : 16.0D, theWorldServer.provider.dimensionId, new Packet62LevelSound(p_72704_1_, p_72704_2_, p_72704_4_, p_72704_6_, p_72704_8_, p_72704_9_));
+	}
+	
+	@Override public void playSoundToNearExcept(EntityPlayer p_85102_1_, String p_85102_2_, double p_85102_3_, double p_85102_5_, double p_85102_7_, float p_85102_9_, float p_85102_10_)
+	{
+		mcServer.getConfigurationManager().sendToAllNearExcept(p_85102_1_, p_85102_3_, p_85102_5_, p_85102_7_, p_85102_9_ > 1.0F ? (double) (16.0F * p_85102_9_) : 16.0D, theWorldServer.provider.dimensionId, new Packet62LevelSound(p_85102_2_, p_85102_3_, p_85102_5_, p_85102_7_, p_85102_9_, p_85102_10_));
+	}
+	
+	@Override public void spawnParticle(String p_72708_1_, double p_72708_2_, double p_72708_4_, double p_72708_6_, double p_72708_8_, double p_72708_10_, double p_72708_12_)
 	{
 	}
 }

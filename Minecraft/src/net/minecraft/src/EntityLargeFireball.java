@@ -4,46 +4,46 @@ public class EntityLargeFireball extends EntityFireball
 {
 	public int field_92057_e = 1;
 	
-	public EntityLargeFireball(World par1World)
+	public EntityLargeFireball(World p_i5067_1_)
 	{
-		super(par1World);
+		super(p_i5067_1_);
 	}
 	
-	public EntityLargeFireball(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
+	public EntityLargeFireball(World p_i5068_1_, double p_i5068_2_, double p_i5068_4_, double p_i5068_6_, double p_i5068_8_, double p_i5068_10_, double p_i5068_12_)
 	{
-		super(par1World, par2, par4, par6, par8, par10, par12);
+		super(p_i5068_1_, p_i5068_2_, p_i5068_4_, p_i5068_6_, p_i5068_8_, p_i5068_10_, p_i5068_12_);
 	}
 	
-	public EntityLargeFireball(World par1World, EntityLivingBase par2EntityLivingBase, double par3, double par5, double par7)
+	public EntityLargeFireball(World p_i5069_1_, EntityLiving p_i5069_2_, double p_i5069_3_, double p_i5069_5_, double p_i5069_7_)
 	{
-		super(par1World, par2EntityLivingBase, par3, par5, par7);
+		super(p_i5069_1_, p_i5069_2_, p_i5069_3_, p_i5069_5_, p_i5069_7_);
 	}
 	
-	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+	@Override protected void onImpact(MovingObjectPosition p_70227_1_)
 	{
 		if(!worldObj.isRemote)
 		{
-			if(par1MovingObjectPosition.entityHit != null)
+			if(p_70227_1_.entityHit != null)
 			{
-				par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, shootingEntity), 6.0F);
+				p_70227_1_.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, shootingEntity), 6);
 			}
 			worldObj.newExplosion((Entity) null, posX, posY, posZ, field_92057_e, true, worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
 			setDead();
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		if(par1NBTTagCompound.hasKey("ExplosionPower"))
+		super.readEntityFromNBT(p_70037_1_);
+		if(p_70037_1_.hasKey("ExplosionPower"))
 		{
-			field_92057_e = par1NBTTagCompound.getInteger("ExplosionPower");
+			field_92057_e = p_70037_1_.getInteger("ExplosionPower");
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("ExplosionPower", field_92057_e);
+		super.writeEntityToNBT(p_70014_1_);
+		p_70014_1_.setInteger("ExplosionPower", field_92057_e);
 	}
 }

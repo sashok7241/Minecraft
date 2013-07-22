@@ -6,9 +6,9 @@ public class EntityAILookAtVillager extends EntityAIBase
 	private EntityVillager theVillager;
 	private int lookTime;
 	
-	public EntityAILookAtVillager(EntityIronGolem par1EntityIronGolem)
+	public EntityAILookAtVillager(EntityIronGolem p_i3483_1_)
 	{
-		theGolem = par1EntityIronGolem;
+		theGolem = p_i3483_1_;
 		setMutexBits(3);
 	}
 	

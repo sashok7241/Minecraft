@@ -13,31 +13,31 @@ public class ServerListenThread extends Thread
 {
 	private final List pendingConnections = Collections.synchronizedList(new ArrayList());
 	private final HashMap recentConnections = new HashMap();
-	private int connectionCounter;
+	private int connectionCounter = 0;
 	private final ServerSocket myServerSocket;
 	private NetworkListenThread myNetworkListenThread;
 	private final InetAddress myServerAddress;
 	private final int myPort;
 	
-	public ServerListenThread(NetworkListenThread par1NetworkListenThread, InetAddress par2InetAddress, int par3) throws IOException
+	public ServerListenThread(NetworkListenThread p_i3384_1_, InetAddress p_i3384_2_, int p_i3384_3_) throws IOException
 	{
 		super("Listen thread");
-		myNetworkListenThread = par1NetworkListenThread;
-		myPort = par3;
-		myServerSocket = new ServerSocket(par3, 0, par2InetAddress);
-		myServerAddress = par2InetAddress == null ? myServerSocket.getInetAddress() : par2InetAddress;
+		myNetworkListenThread = p_i3384_1_;
+		myPort = p_i3384_3_;
+		myServerSocket = new ServerSocket(p_i3384_3_, 0, p_i3384_2_);
+		myServerAddress = p_i3384_2_ == null ? myServerSocket.getInetAddress() : p_i3384_2_;
 		myServerSocket.setPerformancePreferences(0, 2, 1);
 	}
 	
-	private void addPendingConnection(NetLoginHandler par1NetLoginHandler)
+	private void addPendingConnection(NetLoginHandler p_71764_1_)
 	{
-		if(par1NetLoginHandler == null) throw new IllegalArgumentException("Got null pendingconnection!");
+		if(p_71764_1_ == null) throw new IllegalArgumentException("Got null pendingconnection!");
 		else
 		{
 			List var2 = pendingConnections;
 			synchronized(pendingConnections)
 			{
-				pendingConnections.add(par1NetLoginHandler);
+				pendingConnections.add(p_71764_1_);
 			}
 		}
 	}
@@ -53,16 +53,21 @@ public class ServerListenThread extends Thread
 		}
 	}
 	
-	public void func_71769_a(InetAddress par1InetAddress)
+	public void func_71769_a(InetAddress p_71769_1_)
 	{
-		if(par1InetAddress != null)
+		if(p_71769_1_ != null)
 		{
 			HashMap var2 = recentConnections;
 			synchronized(recentConnections)
 			{
-				recentConnections.remove(par1InetAddress);
+				recentConnections.remove(p_71769_1_);
 			}
 		}
+	}
+	
+	public InetAddress getInetAddress()
+	{
+		return myServerAddress;
 	}
 	
 	public int getMyPort()

@@ -7,10 +7,10 @@ class CallableLvl1 implements Callable
 	final int field_85179_a;
 	final World theWorld;
 	
-	CallableLvl1(World par1World, int par2)
+	CallableLvl1(World p_i6814_1_, int p_i6814_2_)
 	{
-		theWorld = par1World;
-		field_85179_a = par2;
+		theWorld = p_i6814_1_;
+		field_85179_a = p_i6814_2_;
 	}
 	
 	@Override public Object call()

@@ -4,18 +4,18 @@ final class DispenserBehaviorFilledBucket extends BehaviorDefaultDispenseItem
 {
 	private final BehaviorDefaultDispenseItem defaultDispenserItemBehavior = new BehaviorDefaultDispenseItem();
 	
-	@Override public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
+	@Override public ItemStack dispenseStack(IBlockSource p_82487_1_, ItemStack p_82487_2_)
 	{
-		ItemBucket var3 = (ItemBucket) par2ItemStack.getItem();
-		int var4 = par1IBlockSource.getXInt();
-		int var5 = par1IBlockSource.getYInt();
-		int var6 = par1IBlockSource.getZInt();
-		EnumFacing var7 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
-		if(var3.tryPlaceContainedLiquid(par1IBlockSource.getWorld(), var4 + var7.getFrontOffsetX(), var5 + var7.getFrontOffsetY(), var6 + var7.getFrontOffsetZ()))
+		ItemBucket var3 = (ItemBucket) p_82487_2_.getItem();
+		int var4 = p_82487_1_.getXInt();
+		int var5 = p_82487_1_.getYInt();
+		int var6 = p_82487_1_.getZInt();
+		EnumFacing var7 = BlockDispenser.getFacing(p_82487_1_.getBlockMetadata());
+		if(var3.tryPlaceContainedLiquid(p_82487_1_.getWorld(), var4, var5, var6, var4 + var7.getFrontOffsetX(), var5 + var7.getFrontOffsetY(), var6 + var7.getFrontOffsetZ()))
 		{
-			par2ItemStack.itemID = Item.bucketEmpty.itemID;
-			par2ItemStack.stackSize = 1;
-			return par2ItemStack;
-		} else return defaultDispenserItemBehavior.dispense(par1IBlockSource, par2ItemStack);
+			p_82487_2_.itemID = Item.bucketEmpty.itemID;
+			p_82487_2_.stackSize = 1;
+			return p_82487_2_;
+		} else return defaultDispenserItemBehavior.dispense(p_82487_1_, p_82487_2_);
 	}
 }

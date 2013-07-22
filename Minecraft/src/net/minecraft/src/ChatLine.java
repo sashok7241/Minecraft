@@ -6,11 +6,11 @@ public class ChatLine
 	private final String lineString;
 	private final int chatLineID;
 	
-	public ChatLine(int par1, String par2Str, int par3)
+	public ChatLine(int p_i3021_1_, String p_i3021_2_, int p_i3021_3_)
 	{
-		lineString = par2Str;
-		updateCounterCreated = par1;
-		chatLineID = par3;
+		lineString = p_i3021_2_;
+		updateCounterCreated = p_i3021_1_;
+		chatLineID = p_i3021_3_;
 	}
 	
 	public int getChatLineID()

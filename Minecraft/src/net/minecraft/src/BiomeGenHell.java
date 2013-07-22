@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BiomeGenHell extends BiomeGenBase
 {
-	public BiomeGenHell(int par1)
+	public BiomeGenHell(int p_i3757_1_)
 	{
-		super(par1);
+		super(p_i3757_1_);
 		spawnableMonsterList.clear();
 		spawnableCreatureList.clear();
 		spawnableWaterCreatureList.clear();

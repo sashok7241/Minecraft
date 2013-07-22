@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet255KickDisconnect extends Packet
@@ -12,12 +12,12 @@ public class Packet255KickDisconnect extends Packet
 	{
 	}
 	
-	public Packet255KickDisconnect(String par1Str)
+	public Packet255KickDisconnect(String p_i3316_1_)
 	{
-		reason = par1Str;
+		reason = p_i3316_1_;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
+	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
 	{
 		return true;
 	}
@@ -32,18 +32,18 @@ public class Packet255KickDisconnect extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleKickDisconnect(this);
+		p_73279_1_.handleKickDisconnect(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		reason = readString(par1DataInput, 256);
+		reason = readString(p_73267_1_, 256);
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		writeString(reason, par1DataOutput);
+		writeString(reason, p_73273_1_);
 	}
 }

@@ -11,29 +11,29 @@ class LogFormatter extends Formatter
 	private SimpleDateFormat field_98228_b;
 	final LogAgent field_98229_a;
 	
-	private LogFormatter(LogAgent par1LogAgent)
+	private LogFormatter(LogAgent p_i11034_1_)
 	{
-		field_98229_a = par1LogAgent;
+		field_98229_a = p_i11034_1_;
 		field_98228_b = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	}
 	
-	LogFormatter(LogAgent par1LogAgent, LogAgentEmptyAnon par2LogAgentEmptyAnon)
+	LogFormatter(LogAgent p_i11035_1_, LogAgentINNER1 p_i11035_2_)
 	{
-		this(par1LogAgent);
+		this(p_i11035_1_);
 	}
 	
-	@Override public String format(LogRecord par1LogRecord)
+	@Override public String format(LogRecord p_format_1_)
 	{
 		StringBuilder var2 = new StringBuilder();
-		var2.append(field_98228_b.format(Long.valueOf(par1LogRecord.getMillis())));
+		var2.append(field_98228_b.format(Long.valueOf(p_format_1_.getMillis())));
 		if(LogAgent.func_98237_a(field_98229_a) != null)
 		{
 			var2.append(LogAgent.func_98237_a(field_98229_a));
 		}
-		var2.append(" [").append(par1LogRecord.getLevel().getName()).append("] ");
-		var2.append(formatMessage(par1LogRecord));
+		var2.append(" [").append(p_format_1_.getLevel().getName()).append("] ");
+		var2.append(formatMessage(p_format_1_));
 		var2.append('\n');
-		Throwable var3 = par1LogRecord.getThrown();
+		Throwable var3 = p_format_1_.getThrown();
 		if(var3 != null)
 		{
 			StringWriter var4 = new StringWriter();

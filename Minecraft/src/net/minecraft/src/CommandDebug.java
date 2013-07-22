@@ -10,12 +10,12 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandDebug extends CommandBase
 {
-	private long startTime;
-	private int startTicks;
+	private long startTime = 0L;
+	private int startTicks = 0;
 	
-	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
 	{
-		return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] { "start", "stop" }) : null;
+		return p_71516_2_.length == 1 ? getListOfStringsMatchingLastWord(p_71516_2_, new String[] { "start", "stop" }) : null;
 	}
 	
 	@Override public String getCommandName()
@@ -23,54 +23,49 @@ public class CommandDebug extends CommandBase
 		return "debug";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	private void getProfileDump(int p_71546_1_, String p_71546_2_, StringBuilder p_71546_3_)
 	{
-		return "commands.debug.usage";
-	}
-	
-	private void getProfileDump(int par1, String par2Str, StringBuilder par3StringBuilder)
-	{
-		List var4 = MinecraftServer.getServer().theProfiler.getProfilingData(par2Str);
+		List var4 = MinecraftServer.getServer().theProfiler.getProfilingData(p_71546_2_);
 		if(var4 != null && var4.size() >= 3)
 		{
 			for(int var5 = 1; var5 < var4.size(); ++var5)
 			{
 				ProfilerResult var6 = (ProfilerResult) var4.get(var5);
-				par3StringBuilder.append(String.format("[%02d] ", new Object[] { Integer.valueOf(par1) }));
-				for(int var7 = 0; var7 < par1; ++var7)
+				p_71546_3_.append(String.format("[%02d] ", new Object[] { Integer.valueOf(p_71546_1_) }));
+				for(int var7 = 0; var7 < p_71546_1_; ++var7)
 				{
-					par3StringBuilder.append(" ");
+					p_71546_3_.append(" ");
 				}
-				par3StringBuilder.append(var6.field_76331_c);
-				par3StringBuilder.append(" - ");
-				par3StringBuilder.append(String.format("%.2f", new Object[] { Double.valueOf(var6.field_76332_a) }));
-				par3StringBuilder.append("%/");
-				par3StringBuilder.append(String.format("%.2f", new Object[] { Double.valueOf(var6.field_76330_b) }));
-				par3StringBuilder.append("%\n");
+				p_71546_3_.append(var6.field_76331_c);
+				p_71546_3_.append(" - ");
+				p_71546_3_.append(String.format("%.2f", new Object[] { Double.valueOf(var6.field_76332_a) }));
+				p_71546_3_.append("%/");
+				p_71546_3_.append(String.format("%.2f", new Object[] { Double.valueOf(var6.field_76330_b) }));
+				p_71546_3_.append("%\n");
 				if(!var6.field_76331_c.equals("unspecified"))
 				{
 					try
 					{
-						getProfileDump(par1 + 1, par2Str + "." + var6.field_76331_c, par3StringBuilder);
+						getProfileDump(p_71546_1_ + 1, p_71546_2_ + "." + var6.field_76331_c, p_71546_3_);
 					} catch(Exception var8)
 					{
-						par3StringBuilder.append("[[ EXCEPTION " + var8 + " ]]");
+						p_71546_3_.append("[[ EXCEPTION " + var8 + " ]]");
 					}
 				}
 			}
 		}
 	}
 	
-	private String getProfilerResults(long par1, int par3)
+	private String getProfilerResults(long p_71547_1_, int p_71547_3_)
 	{
 		StringBuilder var4 = new StringBuilder();
 		var4.append("---- Minecraft Profiler Results ----\n");
 		var4.append("// ");
 		var4.append(getWittyComment());
 		var4.append("\n\n");
-		var4.append("Time span: ").append(par1).append(" ms\n");
-		var4.append("Tick span: ").append(par3).append(" ticks\n");
-		var4.append("// This is approximately ").append(String.format("%.2f", new Object[] { Float.valueOf(par3 / (par1 / 1000.0F)) })).append(" ticks per second. It should be ").append(20).append(" ticks per second\n\n");
+		var4.append("Time span: ").append(p_71547_1_).append(" ms\n");
+		var4.append("Tick span: ").append(p_71547_3_).append(" ticks\n");
+		var4.append("// This is approximately ").append(String.format("%.2f", new Object[] { Float.valueOf(p_71547_3_ / (p_71547_1_ / 1000.0F)) })).append(" ticks per second. It should be ").append(20).append(" ticks per second\n\n");
 		var4.append("--- BEGIN PROFILE DUMP ---\n\n");
 		getProfileDump(0, "root", var4);
 		var4.append("--- END PROFILE DUMP ---\n\n");
@@ -82,42 +77,42 @@ public class CommandDebug extends CommandBase
 		return 3;
 	}
 	
-	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
 	{
-		if(par2ArrayOfStr.length == 1)
+		if(p_71515_2_.length == 1)
 		{
-			if(par2ArrayOfStr[0].equals("start"))
+			if(p_71515_2_[0].equals("start"))
 			{
-				notifyAdmins(par1ICommandSender, "commands.debug.start", new Object[0]);
+				notifyAdmins(p_71515_1_, "commands.debug.start", new Object[0]);
 				MinecraftServer.getServer().enableProfiling();
-				startTime = MinecraftServer.func_130071_aq();
+				startTime = System.currentTimeMillis();
 				startTicks = MinecraftServer.getServer().getTickCounter();
 				return;
 			}
-			if(par2ArrayOfStr[0].equals("stop"))
+			if(p_71515_2_[0].equals("stop"))
 			{
 				if(!MinecraftServer.getServer().theProfiler.profilingEnabled) throw new CommandException("commands.debug.notStarted", new Object[0]);
-				long var3 = MinecraftServer.func_130071_aq();
+				long var3 = System.currentTimeMillis();
 				int var5 = MinecraftServer.getServer().getTickCounter();
 				long var6 = var3 - startTime;
 				int var8 = var5 - startTicks;
 				saveProfilerResults(var6, var8);
 				MinecraftServer.getServer().theProfiler.profilingEnabled = false;
-				notifyAdmins(par1ICommandSender, "commands.debug.stop", new Object[] { Float.valueOf(var6 / 1000.0F), Integer.valueOf(var8) });
+				notifyAdmins(p_71515_1_, "commands.debug.stop", new Object[] { Float.valueOf(var6 / 1000.0F), Integer.valueOf(var8) });
 				return;
 			}
 		}
 		throw new WrongUsageException("commands.debug.usage", new Object[0]);
 	}
 	
-	private void saveProfilerResults(long par1, int par3)
+	private void saveProfilerResults(long p_71548_1_, int p_71548_3_)
 	{
 		File var4 = new File(MinecraftServer.getServer().getFile("debug"), "profile-results-" + new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date()) + ".txt");
 		var4.getParentFile().mkdirs();
 		try
 		{
 			FileWriter var5 = new FileWriter(var4);
-			var5.write(getProfilerResults(par1, par3));
+			var5.write(getProfilerResults(p_71548_1_, p_71548_3_));
 			var5.close();
 		} catch(Throwable var6)
 		{

@@ -8,20 +8,20 @@ public class BlockEndPortalFrame extends Block
 	private Icon field_94400_a;
 	private Icon field_94399_b;
 	
-	public BlockEndPortalFrame(int par1)
+	public BlockEndPortalFrame(int p_i4004_1_)
 	{
-		super(par1, Material.rock);
+		super(p_i4004_1_, Material.rock);
 	}
 	
-	@Override public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)
+	@Override public void addCollisionBoxesToList(World p_71871_1_, int p_71871_2_, int p_71871_3_, int p_71871_4_, AxisAlignedBB p_71871_5_, List p_71871_6_, Entity p_71871_7_)
 	{
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.8125F, 1.0F);
-		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
-		int var8 = par1World.getBlockMetadata(par2, par3, par4);
+		super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
+		int var8 = p_71871_1_.getBlockMetadata(p_71871_2_, p_71871_3_, p_71871_4_);
 		if(isEnderEyeInserted(var8))
 		{
 			setBlockBounds(0.3125F, 0.8125F, 0.3125F, 0.6875F, 1.0F, 0.6875F);
-			super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
+			super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
 		}
 		setBlockBoundsForItemRender();
 	}
@@ -29,12 +29,6 @@ public class BlockEndPortalFrame extends Block
 	public Icon func_94398_p()
 	{
 		return field_94399_b;
-	}
-	
-	@Override public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
-	{
-		int var6 = par1World.getBlockMetadata(par2, par3, par4);
-		return isEnderEyeInserted(var6) ? 15 : 0;
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -47,12 +41,7 @@ public class BlockEndPortalFrame extends Block
 		return 26;
 	}
 	
-	@Override public boolean hasComparatorInputOverride()
-	{
-		return true;
-	}
-	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return 0;
 	}
@@ -62,17 +51,17 @@ public class BlockEndPortalFrame extends Block
 		return false;
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World p_71860_1_, int p_71860_2_, int p_71860_3_, int p_71860_4_, EntityLiving p_71860_5_, ItemStack p_71860_6_)
 	{
-		int var7 = ((MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 2) % 4;
-		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
+		int var7 = ((MathHelper.floor_double(p_71860_5_.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 2) % 4;
+		p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, var7, 2);
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
-		field_94400_a = par1IconRegister.registerIcon(func_111023_E() + "_top");
-		field_94399_b = par1IconRegister.registerIcon(func_111023_E() + "_eye");
+		blockIcon = par1IconRegister.registerIcon("endframe_side");
+		field_94400_a = par1IconRegister.registerIcon("endframe_top");
+		field_94399_b = par1IconRegister.registerIcon("endframe_eye");
 	}
 	
 	@Override public void setBlockBoundsForItemRender()
@@ -80,8 +69,8 @@ public class BlockEndPortalFrame extends Block
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.8125F, 1.0F);
 	}
 	
-	public static boolean isEnderEyeInserted(int par0)
+	public static boolean isEnderEyeInserted(int p_72165_0_)
 	{
-		return (par0 & 4) != 0;
+		return (p_72165_0_ & 4) != 0;
 	}
 }

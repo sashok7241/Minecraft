@@ -4,9 +4,9 @@ import java.net.URI;
 
 public class GuiButtonLink extends GuiButton
 {
-	public GuiButtonLink(int par1, int par2, int par3, int par4, int par5, String par6Str)
+	public GuiButtonLink(int p_i10001_1_, int p_i10001_2_, int p_i10001_3_, int p_i10001_4_, int p_i10001_5_, String p_i10001_6_)
 	{
-		super(par1, par2, par3, par4, par5, par6Str);
+		super(p_i10001_1_, p_i10001_2_, p_i10001_3_, p_i10001_4_, p_i10001_5_, p_i10001_6_);
 	}
 	
 	public void func_96135_a(String par1Str)

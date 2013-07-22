@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet204ClientInfo extends Packet
@@ -17,17 +17,17 @@ public class Packet204ClientInfo extends Packet
 	{
 	}
 	
-	public Packet204ClientInfo(String par1Str, int par2, int par3, boolean par4, int par5, boolean par6)
+	public Packet204ClientInfo(String p_i5031_1_, int p_i5031_2_, int p_i5031_3_, boolean p_i5031_4_, int p_i5031_5_, boolean p_i5031_6_)
 	{
-		language = par1Str;
-		renderDistance = par2;
-		chatVisisble = par3;
-		chatColours = par4;
-		gameDifficulty = par5;
-		showCape = par6;
+		language = p_i5031_1_;
+		renderDistance = p_i5031_2_;
+		chatVisisble = p_i5031_3_;
+		chatColours = p_i5031_4_;
+		gameDifficulty = p_i5031_5_;
+		showCape = p_i5031_6_;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
+	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
 	{
 		return true;
 	}
@@ -72,28 +72,28 @@ public class Packet204ClientInfo extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleClientInfo(this);
+		p_73279_1_.handleClientInfo(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		language = readString(par1DataInput, 7);
-		renderDistance = par1DataInput.readByte();
-		byte var2 = par1DataInput.readByte();
+		language = readString(p_73267_1_, 7);
+		renderDistance = p_73267_1_.readByte();
+		byte var2 = p_73267_1_.readByte();
 		chatVisisble = var2 & 7;
 		chatColours = (var2 & 8) == 8;
-		gameDifficulty = par1DataInput.readByte();
-		showCape = par1DataInput.readBoolean();
+		gameDifficulty = p_73267_1_.readByte();
+		showCape = p_73267_1_.readBoolean();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		writeString(language, par1DataOutput);
-		par1DataOutput.writeByte(renderDistance);
-		par1DataOutput.writeByte(chatVisisble | (chatColours ? 1 : 0) << 3);
-		par1DataOutput.writeByte(gameDifficulty);
-		par1DataOutput.writeBoolean(showCape);
+		writeString(language, p_73273_1_);
+		p_73273_1_.writeByte(renderDistance);
+		p_73273_1_.writeByte(chatVisisble | (chatColours ? 1 : 0) << 3);
+		p_73273_1_.writeByte(gameDifficulty);
+		p_73273_1_.writeBoolean(showCape);
 	}
 }

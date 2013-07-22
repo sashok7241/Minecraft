@@ -7,12 +7,12 @@ public class BlockSourceImpl implements IBlockSource
 	private final int yPos;
 	private final int zPos;
 	
-	public BlockSourceImpl(World par1World, int par2, int par3, int par4)
+	public BlockSourceImpl(World p_i5025_1_, int p_i5025_2_, int p_i5025_3_, int p_i5025_4_)
 	{
-		worldObj = par1World;
-		xPos = par2;
-		yPos = par3;
-		zPos = par4;
+		worldObj = p_i5025_1_;
+		xPos = p_i5025_2_;
+		yPos = p_i5025_3_;
+		zPos = p_i5025_4_;
 	}
 	
 	@Override public int getBlockMetadata()

@@ -6,9 +6,9 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandEnchant extends CommandBase
 {
-	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
 	{
-		return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, getListOfPlayers()) : null;
+		return p_71516_2_.length == 1 ? getListOfStringsMatchingLastWord(p_71516_2_, getListOfPlayers()) : null;
 	}
 	
 	@Override public String getCommandName()
@@ -16,9 +16,9 @@ public class CommandEnchant extends CommandBase
 		return "enchant";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	@Override public String getCommandUsage(ICommandSender p_71518_1_)
 	{
-		return "commands.enchant.usage";
+		return p_71518_1_.translateString("commands.enchant.usage", new Object[0]);
 	}
 	
 	protected String[] getListOfPlayers()
@@ -31,31 +31,35 @@ public class CommandEnchant extends CommandBase
 		return 2;
 	}
 	
-	@Override public boolean isUsernameIndex(String[] par1ArrayOfStr, int par2)
+	@Override public boolean isUsernameIndex(String[] p_82358_1_, int p_82358_2_)
 	{
-		return par2 == 0;
+		return p_82358_2_ == 0;
 	}
 	
-	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
 	{
-		if(par2ArrayOfStr.length < 2) throw new WrongUsageException("commands.enchant.usage", new Object[0]);
+		if(p_71515_2_.length < 2) throw new WrongUsageException("commands.enchant.usage", new Object[0]);
 		else
 		{
-			EntityPlayerMP var3 = func_82359_c(par1ICommandSender, par2ArrayOfStr[0]);
-			int var4 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[1], 0, Enchantment.enchantmentsList.length - 1);
+			EntityPlayerMP var3 = func_82359_c(p_71515_1_, p_71515_2_[0]);
+			int var4 = parseIntBounded(p_71515_1_, p_71515_2_[1], 0, Enchantment.enchantmentsList.length - 1);
 			int var5 = 1;
 			ItemStack var6 = var3.getCurrentEquippedItem();
-			if(var6 == null) throw new CommandException("commands.enchant.noItem", new Object[0]);
-			else
+			if(var6 == null)
+			{
+				notifyAdmins(p_71515_1_, "commands.enchant.noItem", new Object[0]);
+			} else
 			{
 				Enchantment var7 = Enchantment.enchantmentsList[var4];
 				if(var7 == null) throw new NumberInvalidException("commands.enchant.notFound", new Object[] { Integer.valueOf(var4) });
-				else if(!var7.canApply(var6)) throw new CommandException("commands.enchant.cantEnchant", new Object[0]);
-				else
+				else if(!var7.canApply(var6))
 				{
-					if(par2ArrayOfStr.length >= 3)
+					notifyAdmins(p_71515_1_, "commands.enchant.cantEnchant", new Object[0]);
+				} else
+				{
+					if(p_71515_2_.length >= 3)
 					{
-						var5 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[2], var7.getMinLevel(), var7.getMaxLevel());
+						var5 = parseIntBounded(p_71515_1_, p_71515_2_[2], var7.getMinLevel(), var7.getMaxLevel());
 					}
 					if(var6.hasTagCompound())
 					{
@@ -68,13 +72,17 @@ public class CommandEnchant extends CommandBase
 								if(Enchantment.enchantmentsList[var10] != null)
 								{
 									Enchantment var11 = Enchantment.enchantmentsList[var10];
-									if(!var11.canApplyTogether(var7)) throw new CommandException("commands.enchant.cantCombine", new Object[] { var7.getTranslatedName(var5), var11.getTranslatedName(((NBTTagCompound) var8.tagAt(var9)).getShort("lvl")) });
+									if(!var11.canApplyTogether(var7))
+									{
+										notifyAdmins(p_71515_1_, "commands.enchant.cantCombine", new Object[] { var7.getTranslatedName(var5), var11.getTranslatedName(((NBTTagCompound) var8.tagAt(var9)).getShort("lvl")) });
+										return;
+									}
 								}
 							}
 						}
 					}
 					var6.addEnchantment(var7, var5);
-					notifyAdmins(par1ICommandSender, "commands.enchant.success", new Object[0]);
+					notifyAdmins(p_71515_1_, "commands.enchant.success", new Object[0]);
 				}
 			}
 		}

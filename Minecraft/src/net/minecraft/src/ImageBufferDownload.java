@@ -39,6 +39,35 @@ public class ImageBufferDownload implements IImageBuffer
 			setAreaOpaque(0, 0, 32, 16);
 			setAreaTransparent(32, 0, 64, 32);
 			setAreaOpaque(0, 16, 64, 32);
+			boolean var4 = false;
+			int var5;
+			int var6;
+			int var7;
+			for(var5 = 32; var5 < 64; ++var5)
+			{
+				for(var6 = 0; var6 < 16; ++var6)
+				{
+					var7 = imageData[var5 + var6 * 64];
+					if((var7 >> 24 & 255) < 128)
+					{
+						var4 = true;
+					}
+				}
+			}
+			if(!var4)
+			{
+				for(var5 = 32; var5 < 64; ++var5)
+				{
+					for(var6 = 0; var6 < 16; ++var6)
+					{
+						var7 = imageData[var5 + var6 * 64];
+						if((var7 >> 24 & 255) < 128)
+						{
+							var4 = true;
+						}
+					}
+				}
+			}
 			return var2;
 		}
 	}

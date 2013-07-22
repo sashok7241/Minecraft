@@ -13,40 +13,40 @@ public class MerchantRecipeList extends ArrayList
 	{
 	}
 	
-	public MerchantRecipeList(NBTTagCompound par1NBTTagCompound)
+	public MerchantRecipeList(NBTTagCompound p_i3725_1_)
 	{
-		readRecipiesFromTags(par1NBTTagCompound);
+		readRecipiesFromTags(p_i3725_1_);
 	}
 	
-	public void addToListWithCheck(MerchantRecipe par1MerchantRecipe)
+	public void addToListWithCheck(MerchantRecipe p_77205_1_)
 	{
 		for(int var2 = 0; var2 < size(); ++var2)
 		{
 			MerchantRecipe var3 = (MerchantRecipe) get(var2);
-			if(par1MerchantRecipe.hasSameIDsAs(var3))
+			if(p_77205_1_.hasSameIDsAs(var3))
 			{
-				if(par1MerchantRecipe.hasSameItemsAs(var3))
+				if(p_77205_1_.hasSameItemsAs(var3))
 				{
-					set(var2, par1MerchantRecipe);
+					set(var2, p_77205_1_);
 				}
 				return;
 			}
 		}
-		this.add(par1MerchantRecipe);
+		this.add(p_77205_1_);
 	}
 	
-	public MerchantRecipe canRecipeBeUsed(ItemStack par1ItemStack, ItemStack par2ItemStack, int par3)
+	public MerchantRecipe canRecipeBeUsed(ItemStack p_77203_1_, ItemStack p_77203_2_, int p_77203_3_)
 	{
-		if(par3 > 0 && par3 < size())
+		if(p_77203_3_ > 0 && p_77203_3_ < size())
 		{
-			MerchantRecipe var6 = (MerchantRecipe) get(par3);
-			return par1ItemStack.itemID == var6.getItemToBuy().itemID && (par2ItemStack == null && !var6.hasSecondItemToBuy() || var6.hasSecondItemToBuy() && par2ItemStack != null && var6.getSecondItemToBuy().itemID == par2ItemStack.itemID) && par1ItemStack.stackSize >= var6.getItemToBuy().stackSize && (!var6.hasSecondItemToBuy() || par2ItemStack.stackSize >= var6.getSecondItemToBuy().stackSize) ? var6 : null;
+			MerchantRecipe var6 = (MerchantRecipe) get(p_77203_3_);
+			return p_77203_1_.itemID == var6.getItemToBuy().itemID && (p_77203_2_ == null && !var6.hasSecondItemToBuy() || var6.hasSecondItemToBuy() && p_77203_2_ != null && var6.getSecondItemToBuy().itemID == p_77203_2_.itemID) && p_77203_1_.stackSize >= var6.getItemToBuy().stackSize && (!var6.hasSecondItemToBuy() || p_77203_2_.stackSize >= var6.getSecondItemToBuy().stackSize) ? var6 : null;
 		} else
 		{
 			for(int var4 = 0; var4 < size(); ++var4)
 			{
 				MerchantRecipe var5 = (MerchantRecipe) get(var4);
-				if(par1ItemStack.itemID == var5.getItemToBuy().itemID && par1ItemStack.stackSize >= var5.getItemToBuy().stackSize && (!var5.hasSecondItemToBuy() && par2ItemStack == null || var5.hasSecondItemToBuy() && par2ItemStack != null && var5.getSecondItemToBuy().itemID == par2ItemStack.itemID && par2ItemStack.stackSize >= var5.getSecondItemToBuy().stackSize)) return var5;
+				if(p_77203_1_.itemID == var5.getItemToBuy().itemID && p_77203_1_.stackSize >= var5.getItemToBuy().stackSize && (!var5.hasSecondItemToBuy() && p_77203_2_ == null || var5.hasSecondItemToBuy() && p_77203_2_ != null && var5.getSecondItemToBuy().itemID == p_77203_2_.itemID && p_77203_2_.stackSize >= var5.getSecondItemToBuy().stackSize)) return var5;
 			}
 			return null;
 		}
@@ -65,9 +65,9 @@ public class MerchantRecipeList extends ArrayList
 		return var1;
 	}
 	
-	public void readRecipiesFromTags(NBTTagCompound par1NBTTagCompound)
+	public void readRecipiesFromTags(NBTTagCompound p_77201_1_)
 	{
-		NBTTagList var2 = par1NBTTagCompound.getTagList("Recipes");
+		NBTTagList var2 = p_77201_1_.getTagList("Recipes");
 		for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
 			NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
@@ -75,21 +75,21 @@ public class MerchantRecipeList extends ArrayList
 		}
 	}
 	
-	public void writeRecipiesToStream(DataOutputStream par1DataOutputStream) throws IOException
+	public void writeRecipiesToStream(DataOutputStream p_77200_1_) throws IOException
 	{
-		par1DataOutputStream.writeByte((byte) (size() & 255));
+		p_77200_1_.writeByte((byte) (size() & 255));
 		for(int var2 = 0; var2 < size(); ++var2)
 		{
 			MerchantRecipe var3 = (MerchantRecipe) get(var2);
-			Packet.writeItemStack(var3.getItemToBuy(), par1DataOutputStream);
-			Packet.writeItemStack(var3.getItemToSell(), par1DataOutputStream);
+			Packet.writeItemStack(var3.getItemToBuy(), p_77200_1_);
+			Packet.writeItemStack(var3.getItemToSell(), p_77200_1_);
 			ItemStack var4 = var3.getSecondItemToBuy();
-			par1DataOutputStream.writeBoolean(var4 != null);
+			p_77200_1_.writeBoolean(var4 != null);
 			if(var4 != null)
 			{
-				Packet.writeItemStack(var4, par1DataOutputStream);
+				Packet.writeItemStack(var4, p_77200_1_);
 			}
-			par1DataOutputStream.writeBoolean(var3.func_82784_g());
+			p_77200_1_.writeBoolean(var3.func_82784_g());
 		}
 	}
 	

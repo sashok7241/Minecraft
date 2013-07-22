@@ -30,8 +30,6 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		registerCommand(new CommandGameRule());
 		registerCommand(new CommandClearInventory());
 		registerCommand(new ServerCommandTestFor());
-		registerCommand(new CommandSpreadPlayers());
-		registerCommand(new CommandPlaySound());
 		registerCommand(new ServerCommandScoreboard());
 		if(MinecraftServer.getServer().isDedicatedServer())
 		{
@@ -56,35 +54,32 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		CommandBase.setAdminCommander(this);
 	}
 	
-	@Override public void notifyAdmins(ICommandSender par1ICommandSender, int par2, String par3Str, Object ... par4ArrayOfObj)
+	@Override public void notifyAdmins(ICommandSender p_71563_1_, int p_71563_2_, String p_71563_3_, Object ... p_71563_4_)
 	{
 		boolean var5 = true;
-		if(par1ICommandSender instanceof TileEntityCommandBlock && !MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput"))
+		if(p_71563_1_ instanceof TileEntityCommandBlock && !MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput"))
 		{
 			var5 = false;
 		}
-		ChatMessageComponent var6 = ChatMessageComponent.func_111082_b("chat.type.admin", new Object[] { par1ICommandSender.getCommandSenderName(), ChatMessageComponent.func_111082_b(par3Str, par4ArrayOfObj) });
-		var6.func_111059_a(EnumChatFormatting.GRAY);
-		var6.func_111063_b(Boolean.valueOf(true));
 		if(var5)
 		{
-			Iterator var7 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
-			while(var7.hasNext())
+			Iterator var6 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
+			while(var6.hasNext())
 			{
-				EntityPlayerMP var8 = (EntityPlayerMP) var7.next();
-				if(var8 != par1ICommandSender && MinecraftServer.getServer().getConfigurationManager().areCommandsAllowed(var8.getCommandSenderName()))
+				EntityPlayerMP var7 = (EntityPlayerMP) var6.next();
+				if(var7 != p_71563_1_ && MinecraftServer.getServer().getConfigurationManager().areCommandsAllowed(var7.username))
 				{
-					var8.sendChatToPlayer(var6);
+					var7.sendChatToPlayer("" + EnumChatFormatting.GRAY + "" + EnumChatFormatting.ITALIC + "[" + p_71563_1_.getCommandSenderName() + ": " + var7.translateString(p_71563_3_, p_71563_4_) + "]");
 				}
 			}
 		}
-		if(par1ICommandSender != MinecraftServer.getServer())
+		if(p_71563_1_ != MinecraftServer.getServer())
 		{
-			MinecraftServer.getServer().sendChatToPlayer(var6);
+			MinecraftServer.getServer().getLogAgent().logInfo("[" + p_71563_1_.getCommandSenderName() + ": " + MinecraftServer.getServer().translateString(p_71563_3_, p_71563_4_) + "]");
 		}
-		if((par2 & 1) != 1)
+		if((p_71563_2_ & 1) != 1)
 		{
-			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b(par3Str, par4ArrayOfObj));
+			p_71563_1_.sendChatToPlayer(p_71563_1_.translateString(p_71563_3_, p_71563_4_));
 		}
 	}
 }

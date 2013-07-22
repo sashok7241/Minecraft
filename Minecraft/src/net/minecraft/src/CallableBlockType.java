@@ -6,9 +6,9 @@ final class CallableBlockType implements Callable
 {
 	final int blockID;
 	
-	CallableBlockType(int par1)
+	CallableBlockType(int p_i6805_1_)
 	{
-		blockID = par1;
+		blockID = p_i6805_1_;
 	}
 	
 	@Override public Object call()

@@ -6,15 +6,15 @@ public class RenderSnowball extends Render
 	private Item field_94151_a;
 	private int field_94150_f;
 	
-	public RenderSnowball(Item par1Item)
+	public RenderSnowball(Item p_i9008_1_)
 	{
-		this(par1Item, 0);
+		this(p_i9008_1_, 0);
 	}
 	
-	public RenderSnowball(Item par1Item, int par2)
+	public RenderSnowball(Item p_i9007_1_, int p_i9007_2_)
 	{
-		field_94151_a = par1Item;
-		field_94150_f = par2;
+		field_94151_a = p_i9007_1_;
+		field_94150_f = p_i9007_2_;
 	}
 	
 	@Override public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
@@ -26,9 +26,9 @@ public class RenderSnowball extends Render
 			GL11.glTranslatef((float) par2, (float) par4, (float) par6);
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
-			func_110777_b(par1Entity);
+			loadTexture("/gui/items.png");
 			Tessellator var11 = Tessellator.instance;
-			if(var10 == ItemPotion.func_94589_d("bottle_splash"))
+			if(var10 == ItemPotion.func_94589_d("potion_splash"))
 			{
 				int var12 = PotionHelper.func_77915_a(((EntityPotion) par1Entity).getPotionDamage(), false);
 				float var13 = (var12 >> 16 & 255) / 255.0F;
@@ -36,7 +36,7 @@ public class RenderSnowball extends Render
 				float var15 = (var12 & 255) / 255.0F;
 				GL11.glColor3f(var13, var14, var15);
 				GL11.glPushMatrix();
-				func_77026_a(var11, ItemPotion.func_94589_d("overlay"));
+				func_77026_a(var11, ItemPotion.func_94589_d("potion_contents"));
 				GL11.glPopMatrix();
 				GL11.glColor3f(1.0F, 1.0F, 1.0F);
 			}
@@ -44,11 +44,6 @@ public class RenderSnowball extends Render
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 			GL11.glPopMatrix();
 		}
-	}
-	
-	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
-	{
-		return TextureMap.field_110576_c;
 	}
 	
 	private void func_77026_a(Tessellator par1Tessellator, Icon par2Icon)

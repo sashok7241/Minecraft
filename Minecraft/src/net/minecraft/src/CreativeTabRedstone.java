@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 final class CreativeTabRedstone extends CreativeTabs
 {
-	CreativeTabRedstone(int par1, String par2Str)
+	CreativeTabRedstone(int p_i3635_1_, String p_i3635_2_)
 	{
-		super(par1, par2Str);
+		super(p_i3635_1_, p_i3635_2_);
 	}
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Block.railPowered.blockID;
+		return Item.redstone.itemID;
 	}
 }

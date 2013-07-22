@@ -19,9 +19,9 @@ public class TileEntityEnderChest extends TileEntity
 		super.invalidate();
 	}
 	
-	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+	public boolean isUseableByPlayer(EntityPlayer p_70365_1_)
 	{
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : par1EntityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : p_70365_1_.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
 	}
 	
 	public void openChest()
@@ -30,13 +30,13 @@ public class TileEntityEnderChest extends TileEntity
 		worldObj.addBlockEvent(xCoord, yCoord, zCoord, Block.enderChest.blockID, 1, numUsingPlayers);
 	}
 	
-	@Override public boolean receiveClientEvent(int par1, int par2)
+	@Override public boolean receiveClientEvent(int p_70315_1_, int p_70315_2_)
 	{
-		if(par1 == 1)
+		if(p_70315_1_ == 1)
 		{
-			numUsingPlayers = par2;
+			numUsingPlayers = p_70315_2_;
 			return true;
-		} else return super.receiveClientEvent(par1, par2);
+		} else return super.receiveClientEvent(p_70315_1_, p_70315_2_);
 	}
 	
 	@Override public void updateEntity()

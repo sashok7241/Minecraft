@@ -4,9 +4,9 @@ public class DerivedWorldInfo extends WorldInfo
 {
 	private final WorldInfo theWorldInfo;
 	
-	public DerivedWorldInfo(WorldInfo par1WorldInfo)
+	public DerivedWorldInfo(WorldInfo p_i3911_1_)
 	{
-		theWorldInfo = par1WorldInfo;
+		theWorldInfo = p_i3911_1_;
 	}
 	
 	@Override public boolean areCommandsAllowed()
@@ -14,9 +14,9 @@ public class DerivedWorldInfo extends WorldInfo
 		return theWorldInfo.areCommandsAllowed();
 	}
 	
-	@Override public NBTTagCompound cloneNBTCompound(NBTTagCompound par1NBTTagCompound)
+	@Override public NBTTagCompound cloneNBTCompound(NBTTagCompound p_76082_1_)
 	{
-		return theWorldInfo.cloneNBTCompound(par1NBTTagCompound);
+		return theWorldInfo.cloneNBTCompound(p_76082_1_);
 	}
 	
 	@Override public GameRules getGameRulesInstance()
@@ -109,7 +109,7 @@ public class DerivedWorldInfo extends WorldInfo
 		return theWorldInfo.getWorldTotalTime();
 	}
 	
-	@Override public void incrementTotalWorldTime(long par1)
+	@Override public void incrementTotalWorldTime(long p_82572_1_)
 	{
 	}
 	
@@ -138,23 +138,23 @@ public class DerivedWorldInfo extends WorldInfo
 		return theWorldInfo.isThundering();
 	}
 	
-	@Override public void setRaining(boolean par1)
+	@Override public void setRaining(boolean p_76084_1_)
 	{
 	}
 	
-	@Override public void setRainTime(int par1)
+	@Override public void setRainTime(int p_76080_1_)
 	{
 	}
 	
-	@Override public void setSaveVersion(int par1)
+	@Override public void setSaveVersion(int p_76078_1_)
 	{
 	}
 	
-	@Override public void setServerInitialized(boolean par1)
+	@Override public void setServerInitialized(boolean p_76091_1_)
 	{
 	}
 	
-	@Override public void setSpawnPosition(int par1, int par2, int par3)
+	@Override public void setSpawnPosition(int p_76081_1_, int p_76081_2_, int p_76081_3_)
 	{
 	}
 	
@@ -170,23 +170,23 @@ public class DerivedWorldInfo extends WorldInfo
 	{
 	}
 	
-	@Override public void setTerrainType(WorldType par1WorldType)
+	@Override public void setTerrainType(WorldType p_76085_1_)
 	{
 	}
 	
-	@Override public void setThundering(boolean par1)
+	@Override public void setThundering(boolean p_76069_1_)
 	{
 	}
 	
-	@Override public void setThunderTime(int par1)
+	@Override public void setThunderTime(int p_76090_1_)
 	{
 	}
 	
-	@Override public void setWorldName(String par1Str)
+	@Override public void setWorldName(String p_76062_1_)
 	{
 	}
 	
-	@Override public void setWorldTime(long par1)
+	@Override public void setWorldTime(long p_76068_1_)
 	{
 	}
 }

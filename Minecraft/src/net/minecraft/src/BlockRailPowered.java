@@ -4,127 +4,127 @@ public class BlockRailPowered extends BlockRailBase
 {
 	protected Icon theIcon;
 	
-	protected BlockRailPowered(int par1)
+	protected BlockRailPowered(int p_i9014_1_)
 	{
-		super(par1, true);
+		super(p_i9014_1_, true);
 	}
 	
-	@Override protected void func_94358_a(World par1World, int par2, int par3, int par4, int par5, int par6, int par7)
+	@Override protected void func_94358_a(World p_94358_1_, int p_94358_2_, int p_94358_3_, int p_94358_4_, int p_94358_5_, int p_94358_6_, int p_94358_7_)
 	{
-		boolean var8 = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
-		var8 = var8 || func_94360_a(par1World, par2, par3, par4, par5, true, 0) || func_94360_a(par1World, par2, par3, par4, par5, false, 0);
+		boolean var8 = p_94358_1_.isBlockIndirectlyGettingPowered(p_94358_2_, p_94358_3_, p_94358_4_);
+		var8 = var8 || func_94360_a(p_94358_1_, p_94358_2_, p_94358_3_, p_94358_4_, p_94358_5_, true, 0) || func_94360_a(p_94358_1_, p_94358_2_, p_94358_3_, p_94358_4_, p_94358_5_, false, 0);
 		boolean var9 = false;
-		if(var8 && (par5 & 8) == 0)
+		if(var8 && (p_94358_5_ & 8) == 0)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, par6 | 8, 3);
+			p_94358_1_.setBlockMetadataWithNotify(p_94358_2_, p_94358_3_, p_94358_4_, p_94358_6_ | 8, 3);
 			var9 = true;
-		} else if(!var8 && (par5 & 8) != 0)
+		} else if(!var8 && (p_94358_5_ & 8) != 0)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, par6, 3);
+			p_94358_1_.setBlockMetadataWithNotify(p_94358_2_, p_94358_3_, p_94358_4_, p_94358_6_, 3);
 			var9 = true;
 		}
 		if(var9)
 		{
-			par1World.notifyBlocksOfNeighborChange(par2, par3 - 1, par4, blockID);
-			if(par6 == 2 || par6 == 3 || par6 == 4 || par6 == 5)
+			p_94358_1_.notifyBlocksOfNeighborChange(p_94358_2_, p_94358_3_ - 1, p_94358_4_, blockID);
+			if(p_94358_6_ == 2 || p_94358_6_ == 3 || p_94358_6_ == 4 || p_94358_6_ == 5)
 			{
-				par1World.notifyBlocksOfNeighborChange(par2, par3 + 1, par4, blockID);
+				p_94358_1_.notifyBlocksOfNeighborChange(p_94358_2_, p_94358_3_ + 1, p_94358_4_, blockID);
 			}
 		}
 	}
 	
-	protected boolean func_94360_a(World par1World, int par2, int par3, int par4, int par5, boolean par6, int par7)
+	protected boolean func_94360_a(World p_94360_1_, int p_94360_2_, int p_94360_3_, int p_94360_4_, int p_94360_5_, boolean p_94360_6_, int p_94360_7_)
 	{
-		if(par7 >= 8) return false;
+		if(p_94360_7_ >= 8) return false;
 		else
 		{
-			int var8 = par5 & 7;
+			int var8 = p_94360_5_ & 7;
 			boolean var9 = true;
 			switch(var8)
 			{
 				case 0:
-					if(par6)
+					if(p_94360_6_)
 					{
-						++par4;
+						++p_94360_4_;
 					} else
 					{
-						--par4;
+						--p_94360_4_;
 					}
 					break;
 				case 1:
-					if(par6)
+					if(p_94360_6_)
 					{
-						--par2;
+						--p_94360_2_;
 					} else
 					{
-						++par2;
+						++p_94360_2_;
 					}
 					break;
 				case 2:
-					if(par6)
+					if(p_94360_6_)
 					{
-						--par2;
+						--p_94360_2_;
 					} else
 					{
-						++par2;
-						++par3;
+						++p_94360_2_;
+						++p_94360_3_;
 						var9 = false;
 					}
 					var8 = 1;
 					break;
 				case 3:
-					if(par6)
+					if(p_94360_6_)
 					{
-						--par2;
-						++par3;
+						--p_94360_2_;
+						++p_94360_3_;
 						var9 = false;
 					} else
 					{
-						++par2;
+						++p_94360_2_;
 					}
 					var8 = 1;
 					break;
 				case 4:
-					if(par6)
+					if(p_94360_6_)
 					{
-						++par4;
+						++p_94360_4_;
 					} else
 					{
-						--par4;
-						++par3;
+						--p_94360_4_;
+						++p_94360_3_;
 						var9 = false;
 					}
 					var8 = 0;
 					break;
 				case 5:
-					if(par6)
+					if(p_94360_6_)
 					{
-						++par4;
-						++par3;
+						++p_94360_4_;
+						++p_94360_3_;
 						var9 = false;
 					} else
 					{
-						--par4;
+						--p_94360_4_;
 					}
 					var8 = 0;
 			}
-			return func_94361_a(par1World, par2, par3, par4, par6, par7, var8) ? true : var9 && func_94361_a(par1World, par2, par3 - 1, par4, par6, par7, var8);
+			return func_94361_a(p_94360_1_, p_94360_2_, p_94360_3_, p_94360_4_, p_94360_6_, p_94360_7_, var8) ? true : var9 && func_94361_a(p_94360_1_, p_94360_2_, p_94360_3_ - 1, p_94360_4_, p_94360_6_, p_94360_7_, var8);
 		}
 	}
 	
-	protected boolean func_94361_a(World par1World, int par2, int par3, int par4, boolean par5, int par6, int par7)
+	protected boolean func_94361_a(World p_94361_1_, int p_94361_2_, int p_94361_3_, int p_94361_4_, boolean p_94361_5_, int p_94361_6_, int p_94361_7_)
 	{
-		int var8 = par1World.getBlockId(par2, par3, par4);
+		int var8 = p_94361_1_.getBlockId(p_94361_2_, p_94361_3_, p_94361_4_);
 		if(var8 == blockID)
 		{
-			int var9 = par1World.getBlockMetadata(par2, par3, par4);
+			int var9 = p_94361_1_.getBlockMetadata(p_94361_2_, p_94361_3_, p_94361_4_);
 			int var10 = var9 & 7;
-			if(par7 == 1 && (var10 == 0 || var10 == 4 || var10 == 5)) return false;
-			if(par7 == 0 && (var10 == 1 || var10 == 2 || var10 == 3)) return false;
+			if(p_94361_7_ == 1 && (var10 == 0 || var10 == 4 || var10 == 5)) return false;
+			if(p_94361_7_ == 0 && (var10 == 1 || var10 == 2 || var10 == 3)) return false;
 			if((var9 & 8) != 0)
 			{
-				if(par1World.isBlockIndirectlyGettingPowered(par2, par3, par4)) return true;
-				return func_94360_a(par1World, par2, par3, par4, var9, par5, par6 + 1);
+				if(p_94361_1_.isBlockIndirectlyGettingPowered(p_94361_2_, p_94361_3_, p_94361_4_)) return true;
+				return func_94360_a(p_94361_1_, p_94361_2_, p_94361_3_, p_94361_4_, var9, p_94361_5_, p_94361_6_ + 1);
 			}
 		}
 		return false;
@@ -138,6 +138,6 @@ public class BlockRailPowered extends BlockRailBase
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		super.registerIcons(par1IconRegister);
-		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_powered");
+		theIcon = par1IconRegister.registerIcon(getUnlocalizedName2() + "_powered");
 	}
 }

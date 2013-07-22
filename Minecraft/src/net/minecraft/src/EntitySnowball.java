@@ -2,31 +2,31 @@ package net.minecraft.src;
 
 public class EntitySnowball extends EntityThrowable
 {
-	public EntitySnowball(World par1World)
+	public EntitySnowball(World p_i3580_1_)
 	{
-		super(par1World);
+		super(p_i3580_1_);
 	}
 	
-	public EntitySnowball(World par1World, double par2, double par4, double par6)
+	public EntitySnowball(World p_i3582_1_, double p_i3582_2_, double p_i3582_4_, double p_i3582_6_)
 	{
-		super(par1World, par2, par4, par6);
+		super(p_i3582_1_, p_i3582_2_, p_i3582_4_, p_i3582_6_);
 	}
 	
-	public EntitySnowball(World par1World, EntityLivingBase par2EntityLivingBase)
+	public EntitySnowball(World p_i3581_1_, EntityLiving p_i3581_2_)
 	{
-		super(par1World, par2EntityLivingBase);
+		super(p_i3581_1_, p_i3581_2_);
 	}
 	
-	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+	@Override protected void onImpact(MovingObjectPosition p_70184_1_)
 	{
-		if(par1MovingObjectPosition.entityHit != null)
+		if(p_70184_1_.entityHit != null)
 		{
 			byte var2 = 0;
-			if(par1MovingObjectPosition.entityHit instanceof EntityBlaze)
+			if(p_70184_1_.entityHit instanceof EntityBlaze)
 			{
 				var2 = 3;
 			}
-			par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), var2);
+			p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), var2);
 		}
 		for(int var3 = 0; var3 < 8; ++var3)
 		{

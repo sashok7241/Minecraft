@@ -32,14 +32,14 @@ public class GuiGameOver extends GuiScreen
 		GL11.glPushMatrix();
 		GL11.glScalef(2.0F, 2.0F, 2.0F);
 		boolean var4 = mc.theWorld.getWorldInfo().isHardcoreModeEnabled();
-		String var5 = var4 ? I18n.func_135053_a("deathScreen.title.hardcore") : I18n.func_135053_a("deathScreen.title");
+		String var5 = var4 ? StatCollector.translateToLocal("deathScreen.title.hardcore") : StatCollector.translateToLocal("deathScreen.title");
 		drawCenteredString(fontRenderer, var5, width / 2 / 2, 30, 16777215);
 		GL11.glPopMatrix();
 		if(var4)
 		{
-			drawCenteredString(fontRenderer, I18n.func_135053_a("deathScreen.hardcoreInfo"), width / 2, 144, 16777215);
+			drawCenteredString(fontRenderer, StatCollector.translateToLocal("deathScreen.hardcoreInfo"), width / 2, 144, 16777215);
 		}
-		drawCenteredString(fontRenderer, I18n.func_135053_a("deathScreen.score") + ": " + EnumChatFormatting.YELLOW + mc.thePlayer.getScore(), width / 2, 100, 16777215);
+		drawCenteredString(fontRenderer, StatCollector.translateToLocal("deathScreen.score") + ": " + EnumChatFormatting.YELLOW + mc.thePlayer.getScore(), width / 2, 100, 16777215);
 		super.drawScreen(par1, par2, par3);
 	}
 	
@@ -50,16 +50,16 @@ public class GuiGameOver extends GuiScreen
 		{
 			if(mc.isIntegratedServerRunning())
 			{
-				buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 96, I18n.func_135053_a("deathScreen.deleteWorld")));
+				buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 96, StatCollector.translateToLocal("deathScreen.deleteWorld")));
 			} else
 			{
-				buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 96, I18n.func_135053_a("deathScreen.leaveServer")));
+				buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 96, StatCollector.translateToLocal("deathScreen.leaveServer")));
 			}
 		} else
 		{
-			buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 72, I18n.func_135053_a("deathScreen.respawn")));
-			buttonList.add(new GuiButton(2, width / 2 - 100, height / 4 + 96, I18n.func_135053_a("deathScreen.titleScreen")));
-			if(mc.func_110432_I() == null)
+			buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 72, StatCollector.translateToLocal("deathScreen.respawn")));
+			buttonList.add(new GuiButton(2, width / 2 - 100, height / 4 + 96, StatCollector.translateToLocal("deathScreen.titleScreen")));
+			if(mc.session == null)
 			{
 				((GuiButton) buttonList.get(1)).enabled = false;
 			}

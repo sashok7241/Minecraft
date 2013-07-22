@@ -15,16 +15,6 @@ public class RenderTNTPrimed extends Render
 		renderPrimedTNT((EntityTNTPrimed) par1Entity, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
-	{
-		return func_110808_a((EntityTNTPrimed) par1Entity);
-	}
-	
-	protected ResourceLocation func_110808_a(EntityTNTPrimed par1EntityTNTPrimed)
-	{
-		return TextureMap.field_110575_b;
-	}
-	
 	public void renderPrimedTNT(EntityTNTPrimed par1EntityTNTPrimed, double par2, double par4, double par6, float par8, float par9)
 	{
 		GL11.glPushMatrix();
@@ -47,7 +37,7 @@ public class RenderTNTPrimed extends Render
 			GL11.glScalef(var11, var11, var11);
 		}
 		var10 = (1.0F - (par1EntityTNTPrimed.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
-		func_110777_b(par1EntityTNTPrimed);
+		loadTexture("/terrain.png");
 		blockRenderer.renderBlockAsItem(Block.tnt, 0, par1EntityTNTPrimed.getBrightness(par9));
 		if(par1EntityTNTPrimed.fuse / 5 % 2 == 0)
 		{

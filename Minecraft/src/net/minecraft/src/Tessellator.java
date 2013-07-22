@@ -8,46 +8,46 @@ import java.nio.ShortBuffer;
 
 public class Tessellator
 {
-	private static boolean convertQuadsToTriangles;
-	private static boolean tryVBO;
+	private static boolean convertQuadsToTriangles = false;
+	private static boolean tryVBO = false;
 	private ByteBuffer byteBuffer;
 	private IntBuffer intBuffer;
 	private FloatBuffer floatBuffer;
 	private ShortBuffer shortBuffer;
 	private int[] rawBuffer;
-	private int vertexCount;
+	private int vertexCount = 0;
 	private double textureU;
 	private double textureV;
 	private int brightness;
 	private int color;
-	private boolean hasColor;
-	private boolean hasTexture;
-	private boolean hasBrightness;
-	private boolean hasNormals;
-	private int rawBufferIndex;
-	private int addedVertices;
-	private boolean isColorDisabled;
+	private boolean hasColor = false;
+	private boolean hasTexture = false;
+	private boolean hasBrightness = false;
+	private boolean hasNormals = false;
+	private int rawBufferIndex = 0;
+	private int addedVertices = 0;
+	private boolean isColorDisabled = false;
 	private int drawMode;
 	private double xOffset;
 	private double yOffset;
 	private double zOffset;
 	private int normal;
 	public static final Tessellator instance = new Tessellator(2097152);
-	private boolean isDrawing;
-	private boolean useVBO;
+	private boolean isDrawing = false;
+	private boolean useVBO = false;
 	private IntBuffer vertexBuffers;
-	private int vboIndex;
+	private int vboIndex = 0;
 	private int vboCount = 10;
 	private int bufferSize;
 	
-	private Tessellator(int par1)
+	private Tessellator(int p_i3191_1_)
 	{
-		bufferSize = par1;
-		byteBuffer = GLAllocation.createDirectByteBuffer(par1 * 4);
+		bufferSize = p_i3191_1_;
+		byteBuffer = GLAllocation.createDirectByteBuffer(p_i3191_1_ * 4);
 		intBuffer = byteBuffer.asIntBuffer();
 		floatBuffer = byteBuffer.asFloatBuffer();
 		shortBuffer = byteBuffer.asShortBuffer();
-		rawBuffer = new int[par1];
+		rawBuffer = new int[p_i3191_1_];
 		useVBO = tryVBO && GLContext.getCapabilities().GL_ARB_vertex_buffer_object;
 		if(useVBO)
 		{

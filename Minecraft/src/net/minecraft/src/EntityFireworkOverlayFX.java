@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class EntityFireworkOverlayFX extends EntityFX
 {
-	protected EntityFireworkOverlayFX(World par1World, double par2, double par4, double par6)
+	protected EntityFireworkOverlayFX(World p_i8004_1_, double p_i8004_2_, double p_i8004_4_, double p_i8004_6_)
 	{
-		super(par1World, par2, par4, par6);
+		super(p_i8004_1_, p_i8004_2_, p_i8004_4_, p_i8004_6_);
 		particleMaxAge = 4;
 	}
 	

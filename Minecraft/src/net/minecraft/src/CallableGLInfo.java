@@ -4,13 +4,13 @@ import java.util.concurrent.Callable;
 
 import net.minecraft.client.Minecraft;
 
-class CallableGLInfo implements Callable
+public class CallableGLInfo implements Callable
 {
 	final Minecraft mc;
 	
-	CallableGLInfo(Minecraft par1Minecraft)
+	public CallableGLInfo(Minecraft p_i3016_1_)
 	{
-		mc = par1Minecraft;
+		mc = p_i3016_1_;
 	}
 	
 	@Override public Object call()

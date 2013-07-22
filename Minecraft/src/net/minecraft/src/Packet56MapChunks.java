@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -24,19 +24,19 @@ public class Packet56MapChunks extends Packet
 	{
 	}
 	
-	public Packet56MapChunks(List par1List)
+	public Packet56MapChunks(List p_i3324_1_)
 	{
-		int var2 = par1List.size();
+		int var2 = p_i3324_1_.size();
 		chunkPostX = new int[var2];
 		chunkPosZ = new int[var2];
 		field_73590_a = new int[var2];
 		field_73588_b = new int[var2];
 		field_73584_f = new byte[var2][];
-		skyLightSent = !par1List.isEmpty() && !((Chunk) par1List.get(0)).worldObj.provider.hasNoSky;
+		skyLightSent = !p_i3324_1_.isEmpty() && !((Chunk) p_i3324_1_.get(0)).worldObj.provider.hasNoSky;
 		int var3 = 0;
 		for(int var4 = 0; var4 < var2; ++var4)
 		{
-			Chunk var5 = (Chunk) par1List.get(var4);
+			Chunk var5 = (Chunk) p_i3324_1_.get(var4);
 			Packet51MapChunkData var6 = Packet51MapChunk.getMapChunkData(var5, true, 65535);
 			if(chunkDataNotCompressed.length < var3 + var6.compressedData.length)
 			{
@@ -90,16 +90,16 @@ public class Packet56MapChunks extends Packet
 		return 6 + dataLength + 12 * getNumberOfChunkInPacket();
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleMapChunks(this);
+		p_73279_1_.handleMapChunks(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		short var2 = par1DataInput.readShort();
-		dataLength = par1DataInput.readInt();
-		skyLightSent = par1DataInput.readBoolean();
+		short var2 = p_73267_1_.readShort();
+		dataLength = p_73267_1_.readInt();
+		skyLightSent = p_73267_1_.readBoolean();
 		chunkPostX = new int[var2];
 		chunkPosZ = new int[var2];
 		field_73590_a = new int[var2];
@@ -109,7 +109,7 @@ public class Packet56MapChunks extends Packet
 		{
 			chunkDataNotCompressed = new byte[dataLength];
 		}
-		par1DataInput.readFully(chunkDataNotCompressed, 0, dataLength);
+		p_73267_1_.readFully(chunkDataNotCompressed, 0, dataLength);
 		byte[] var3 = new byte[196864 * var2];
 		Inflater var4 = new Inflater();
 		var4.setInput(chunkDataNotCompressed, 0, dataLength);
@@ -126,10 +126,10 @@ public class Packet56MapChunks extends Packet
 		int var5 = 0;
 		for(int var6 = 0; var6 < var2; ++var6)
 		{
-			chunkPostX[var6] = par1DataInput.readInt();
-			chunkPosZ[var6] = par1DataInput.readInt();
-			field_73590_a[var6] = par1DataInput.readShort();
-			field_73588_b[var6] = par1DataInput.readShort();
+			chunkPostX[var6] = p_73267_1_.readInt();
+			chunkPosZ[var6] = p_73267_1_.readInt();
+			field_73590_a[var6] = p_73267_1_.readShort();
+			field_73588_b[var6] = p_73267_1_.readShort();
 			int var7 = 0;
 			int var8 = 0;
 			int var9;
@@ -150,18 +150,18 @@ public class Packet56MapChunks extends Packet
 		}
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeShort(chunkPostX.length);
-		par1DataOutput.writeInt(dataLength);
-		par1DataOutput.writeBoolean(skyLightSent);
-		par1DataOutput.write(chunkDataBuffer, 0, dataLength);
+		p_73273_1_.writeShort(chunkPostX.length);
+		p_73273_1_.writeInt(dataLength);
+		p_73273_1_.writeBoolean(skyLightSent);
+		p_73273_1_.write(chunkDataBuffer, 0, dataLength);
 		for(int var2 = 0; var2 < chunkPostX.length; ++var2)
 		{
-			par1DataOutput.writeInt(chunkPostX[var2]);
-			par1DataOutput.writeInt(chunkPosZ[var2]);
-			par1DataOutput.writeShort((short) (field_73590_a[var2] & 65535));
-			par1DataOutput.writeShort((short) (field_73588_b[var2] & 65535));
+			p_73273_1_.writeInt(chunkPostX[var2]);
+			p_73273_1_.writeInt(chunkPosZ[var2]);
+			p_73273_1_.writeShort((short) (field_73590_a[var2] & 65535));
+			p_73273_1_.writeShort((short) (field_73588_b[var2] & 65535));
 		}
 	}
 }

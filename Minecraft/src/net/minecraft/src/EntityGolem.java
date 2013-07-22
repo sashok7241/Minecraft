@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public abstract class EntityGolem extends EntityCreature implements IAnimals
 {
-	public EntityGolem(World par1World)
+	public EntityGolem(World p_i3517_1_)
 	{
-		super(par1World);
+		super(p_i3517_1_);
 	}
 	
 	@Override protected boolean canDespawn()
@@ -12,7 +12,7 @@ public abstract class EntityGolem extends EntityCreature implements IAnimals
 		return false;
 	}
 	
-	@Override protected void fall(float par1)
+	@Override protected void fall(float p_70069_1_)
 	{
 	}
 	

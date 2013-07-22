@@ -19,7 +19,6 @@ public class Material
 	public static final Material fire = new MaterialTransparent(MapColor.airColor).setNoPushMobility();
 	public static final Material sand = new Material(MapColor.sandColor);
 	public static final Material circuits = new MaterialLogic(MapColor.airColor).setNoPushMobility();
-	public static final Material field_111018_r = new MaterialLogic(MapColor.clothColor).setBurning();
 	public static final Material glass = new Material(MapColor.airColor).setTranslucent().setAdventureModeExempt();
 	public static final Material redstoneLight = new Material(MapColor.airColor).setAdventureModeExempt();
 	public static final Material tnt = new Material(MapColor.tntColor).setBurning().setTranslucent();
@@ -43,9 +42,9 @@ public class Material
 	private int mobilityFlag;
 	private boolean isAdventureModeExempt;
 	
-	public Material(MapColor par1MapColor)
+	public Material(MapColor p_i3882_1_)
 	{
-		materialMapColor = par1MapColor;
+		materialMapColor = p_i3882_1_;
 	}
 	
 	public boolean blocksMovement()

@@ -1,15 +1,15 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet202PlayerAbilities extends Packet
 {
-	private boolean disableDamage;
-	private boolean isFlying;
-	private boolean allowFlying;
-	private boolean isCreativeMode;
+	private boolean disableDamage = false;
+	private boolean isFlying = false;
+	private boolean allowFlying = false;
+	private boolean isCreativeMode = false;
 	private float flySpeed;
 	private float walkSpeed;
 	
@@ -17,17 +17,17 @@ public class Packet202PlayerAbilities extends Packet
 	{
 	}
 	
-	public Packet202PlayerAbilities(PlayerCapabilities par1PlayerCapabilities)
+	public Packet202PlayerAbilities(PlayerCapabilities p_i3336_1_)
 	{
-		setDisableDamage(par1PlayerCapabilities.disableDamage);
-		setFlying(par1PlayerCapabilities.isFlying);
-		setAllowFlying(par1PlayerCapabilities.allowFlying);
-		setCreativeMode(par1PlayerCapabilities.isCreativeMode);
-		setFlySpeed(par1PlayerCapabilities.getFlySpeed());
-		setWalkSpeed(par1PlayerCapabilities.getWalkSpeed());
+		setDisableDamage(p_i3336_1_.disableDamage);
+		setFlying(p_i3336_1_.isFlying);
+		setAllowFlying(p_i3336_1_.allowFlying);
+		setCreativeMode(p_i3336_1_.isCreativeMode);
+		setFlySpeed(p_i3336_1_.getFlySpeed());
+		setWalkSpeed(p_i3336_1_.getWalkSpeed());
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
+	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
 	{
 		return true;
 	}
@@ -72,53 +72,53 @@ public class Packet202PlayerAbilities extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handlePlayerAbilities(this);
+		p_73279_1_.handlePlayerAbilities(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		byte var2 = par1DataInput.readByte();
+		byte var2 = p_73267_1_.readByte();
 		setDisableDamage((var2 & 1) > 0);
 		setFlying((var2 & 2) > 0);
 		setAllowFlying((var2 & 4) > 0);
 		setCreativeMode((var2 & 8) > 0);
-		setFlySpeed(par1DataInput.readFloat());
-		setWalkSpeed(par1DataInput.readFloat());
+		setFlySpeed(p_73267_1_.readByte() / 255.0F);
+		setWalkSpeed(p_73267_1_.readByte() / 255.0F);
 	}
 	
-	public void setAllowFlying(boolean par1)
+	public void setAllowFlying(boolean p_73354_1_)
 	{
-		allowFlying = par1;
+		allowFlying = p_73354_1_;
 	}
 	
-	public void setCreativeMode(boolean par1)
+	public void setCreativeMode(boolean p_73356_1_)
 	{
-		isCreativeMode = par1;
+		isCreativeMode = p_73356_1_;
 	}
 	
-	public void setDisableDamage(boolean par1)
+	public void setDisableDamage(boolean p_73353_1_)
 	{
-		disableDamage = par1;
+		disableDamage = p_73353_1_;
 	}
 	
-	public void setFlying(boolean par1)
+	public void setFlying(boolean p_73349_1_)
 	{
-		isFlying = par1;
+		isFlying = p_73349_1_;
 	}
 	
-	public void setFlySpeed(float par1)
+	public void setFlySpeed(float p_73351_1_)
 	{
-		flySpeed = par1;
+		flySpeed = p_73351_1_;
 	}
 	
-	public void setWalkSpeed(float par1)
+	public void setWalkSpeed(float p_73355_1_)
 	{
-		walkSpeed = par1;
+		walkSpeed = p_73355_1_;
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
 		byte var2 = 0;
 		if(getDisableDamage())
@@ -137,8 +137,8 @@ public class Packet202PlayerAbilities extends Packet
 		{
 			var2 = (byte) (var2 | 8);
 		}
-		par1DataOutput.writeByte(var2);
-		par1DataOutput.writeFloat(flySpeed);
-		par1DataOutput.writeFloat(walkSpeed);
+		p_73273_1_.writeByte(var2);
+		p_73273_1_.writeByte((int) (flySpeed * 255.0F));
+		p_73273_1_.writeByte((int) (walkSpeed * 255.0F));
 	}
 }

@@ -3,18 +3,18 @@ package net.minecraft.src;
 public class EntityAIOcelotSit extends EntityAIBase
 {
 	private final EntityOcelot theOcelot;
-	private final double field_75404_b;
-	private int currentTick;
-	private int field_75402_d;
-	private int maxSittingTicks;
-	private int sitableBlockX;
-	private int sitableBlockY;
-	private int sitableBlockZ;
+	private final float field_75404_b;
+	private int currentTick = 0;
+	private int field_75402_d = 0;
+	private int maxSittingTicks = 0;
+	private int sitableBlockX = 0;
+	private int sitableBlockY = 0;
+	private int sitableBlockZ = 0;
 	
-	public EntityAIOcelotSit(EntityOcelot par1EntityOcelot, double par2)
+	public EntityAIOcelotSit(EntityOcelot p_i3482_1_, float p_i3482_2_)
 	{
-		theOcelot = par1EntityOcelot;
-		field_75404_b = par2;
+		theOcelot = p_i3482_1_;
+		field_75404_b = p_i3482_2_;
 		setMutexBits(5);
 	}
 	
@@ -47,13 +47,13 @@ public class EntityAIOcelotSit extends EntityAIBase
 		return var2 < 2.147483647E9D;
 	}
 	
-	private boolean isSittableBlock(World par1World, int par2, int par3, int par4)
+	private boolean isSittableBlock(World p_75398_1_, int p_75398_2_, int p_75398_3_, int p_75398_4_)
 	{
-		int var5 = par1World.getBlockId(par2, par3, par4);
-		int var6 = par1World.getBlockMetadata(par2, par3, par4);
+		int var5 = p_75398_1_.getBlockId(p_75398_2_, p_75398_3_, p_75398_4_);
+		int var6 = p_75398_1_.getBlockMetadata(p_75398_2_, p_75398_3_, p_75398_4_);
 		if(var5 == Block.chest.blockID)
 		{
-			TileEntityChest var7 = (TileEntityChest) par1World.getBlockTileEntity(par2, par3, par4);
+			TileEntityChest var7 = (TileEntityChest) p_75398_1_.getBlockTileEntity(p_75398_2_, p_75398_3_, p_75398_4_);
 			if(var7.numUsingPlayers < 1) return true;
 		} else
 		{

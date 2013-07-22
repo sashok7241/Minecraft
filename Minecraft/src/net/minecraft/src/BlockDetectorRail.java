@@ -7,9 +7,9 @@ public class BlockDetectorRail extends BlockRailBase
 {
 	private Icon[] iconArray;
 	
-	public BlockDetectorRail(int par1)
+	public BlockDetectorRail(int p_i9051_1_)
 	{
-		super(par1, true);
+		super(p_i9051_1_, true);
 		setTickRandomly(true);
 	}
 	
@@ -18,12 +18,12 @@ public class BlockDetectorRail extends BlockRailBase
 		return true;
 	}
 	
-	@Override public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
+	@Override public int getComparatorInputOverride(World p_94328_1_, int p_94328_2_, int p_94328_3_, int p_94328_4_, int p_94328_5_)
 	{
-		if((par1World.getBlockMetadata(par2, par3, par4) & 8) > 0)
+		if((p_94328_1_.getBlockMetadata(p_94328_2_, p_94328_3_, p_94328_4_) & 8) > 0)
 		{
 			float var6 = 0.125F;
-			List var7 = par1World.selectEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB(par2 + var6, par3, par4 + var6, par2 + 1 - var6, par3 + 1 - var6, par4 + 1 - var6), IEntitySelector.selectInventories);
+			List var7 = p_94328_1_.selectEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB(p_94328_2_ + var6, p_94328_3_, p_94328_4_ + var6, p_94328_2_ + 1 - var6, p_94328_3_ + 1 - var6, p_94328_4_ + 1 - var6), IEntitySelector.selectInventories);
 			if(var7.size() > 0) return Container.calcRedstoneFromInventory((IInventory) var7.get(0));
 		}
 		return 0;
@@ -39,30 +39,30 @@ public class BlockDetectorRail extends BlockRailBase
 		return true;
 	}
 	
-	@Override public int isProvidingStrongPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override public int isProvidingStrongPower(IBlockAccess p_71855_1_, int p_71855_2_, int p_71855_3_, int p_71855_4_, int p_71855_5_)
 	{
-		return (par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 8) == 0 ? 0 : par5 == 1 ? 15 : 0;
+		return (p_71855_1_.getBlockMetadata(p_71855_2_, p_71855_3_, p_71855_4_) & 8) == 0 ? 0 : p_71855_5_ == 1 ? 15 : 0;
 	}
 	
-	@Override public int isProvidingWeakPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
+	@Override public int isProvidingWeakPower(IBlockAccess p_71865_1_, int p_71865_2_, int p_71865_3_, int p_71865_4_, int p_71865_5_)
 	{
-		return (par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 8) != 0 ? 15 : 0;
+		return (p_71865_1_.getBlockMetadata(p_71865_2_, p_71865_3_, p_71865_4_) & 8) != 0 ? 15 : 0;
 	}
 	
-	@Override public void onBlockAdded(World par1World, int par2, int par3, int par4)
+	@Override public void onBlockAdded(World p_71861_1_, int p_71861_2_, int p_71861_3_, int p_71861_4_)
 	{
-		super.onBlockAdded(par1World, par2, par3, par4);
-		setStateIfMinecartInteractsWithRail(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4));
+		super.onBlockAdded(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_);
+		setStateIfMinecartInteractsWithRail(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_, p_71861_1_.getBlockMetadata(p_71861_2_, p_71861_3_, p_71861_4_));
 	}
 	
-	@Override public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
+	@Override public void onEntityCollidedWithBlock(World p_71869_1_, int p_71869_2_, int p_71869_3_, int p_71869_4_, Entity p_71869_5_)
 	{
-		if(!par1World.isRemote)
+		if(!p_71869_1_.isRemote)
 		{
-			int var6 = par1World.getBlockMetadata(par2, par3, par4);
+			int var6 = p_71869_1_.getBlockMetadata(p_71869_2_, p_71869_3_, p_71869_4_);
 			if((var6 & 8) == 0)
 			{
-				setStateIfMinecartInteractsWithRail(par1World, par2, par3, par4, var6);
+				setStateIfMinecartInteractsWithRail(p_71869_1_, p_71869_2_, p_71869_3_, p_71869_4_, var6);
 			}
 		}
 	}
@@ -70,54 +70,54 @@ public class BlockDetectorRail extends BlockRailBase
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		iconArray = new Icon[2];
-		iconArray[0] = par1IconRegister.registerIcon(func_111023_E());
-		iconArray[1] = par1IconRegister.registerIcon(func_111023_E() + "_powered");
+		iconArray[0] = par1IconRegister.registerIcon("detectorRail");
+		iconArray[1] = par1IconRegister.registerIcon("detectorRail_on");
 	}
 	
-	private void setStateIfMinecartInteractsWithRail(World par1World, int par2, int par3, int par4, int par5)
+	private void setStateIfMinecartInteractsWithRail(World p_72187_1_, int p_72187_2_, int p_72187_3_, int p_72187_4_, int p_72187_5_)
 	{
-		boolean var6 = (par5 & 8) != 0;
+		boolean var6 = (p_72187_5_ & 8) != 0;
 		boolean var7 = false;
 		float var8 = 0.125F;
-		List var9 = par1World.getEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB(par2 + var8, par3, par4 + var8, par2 + 1 - var8, par3 + 1 - var8, par4 + 1 - var8));
+		List var9 = p_72187_1_.getEntitiesWithinAABB(EntityMinecart.class, AxisAlignedBB.getAABBPool().getAABB(p_72187_2_ + var8, p_72187_3_, p_72187_4_ + var8, p_72187_2_ + 1 - var8, p_72187_3_ + 1 - var8, p_72187_4_ + 1 - var8));
 		if(!var9.isEmpty())
 		{
 			var7 = true;
 		}
 		if(var7 && !var6)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, par5 | 8, 3);
-			par1World.notifyBlocksOfNeighborChange(par2, par3, par4, blockID);
-			par1World.notifyBlocksOfNeighborChange(par2, par3 - 1, par4, blockID);
-			par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
+			p_72187_1_.setBlockMetadataWithNotify(p_72187_2_, p_72187_3_, p_72187_4_, p_72187_5_ | 8, 3);
+			p_72187_1_.notifyBlocksOfNeighborChange(p_72187_2_, p_72187_3_, p_72187_4_, blockID);
+			p_72187_1_.notifyBlocksOfNeighborChange(p_72187_2_, p_72187_3_ - 1, p_72187_4_, blockID);
+			p_72187_1_.markBlockRangeForRenderUpdate(p_72187_2_, p_72187_3_, p_72187_4_, p_72187_2_, p_72187_3_, p_72187_4_);
 		}
 		if(!var7 && var6)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, par5 & 7, 3);
-			par1World.notifyBlocksOfNeighborChange(par2, par3, par4, blockID);
-			par1World.notifyBlocksOfNeighborChange(par2, par3 - 1, par4, blockID);
-			par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
+			p_72187_1_.setBlockMetadataWithNotify(p_72187_2_, p_72187_3_, p_72187_4_, p_72187_5_ & 7, 3);
+			p_72187_1_.notifyBlocksOfNeighborChange(p_72187_2_, p_72187_3_, p_72187_4_, blockID);
+			p_72187_1_.notifyBlocksOfNeighborChange(p_72187_2_, p_72187_3_ - 1, p_72187_4_, blockID);
+			p_72187_1_.markBlockRangeForRenderUpdate(p_72187_2_, p_72187_3_, p_72187_4_, p_72187_2_, p_72187_3_, p_72187_4_);
 		}
 		if(var7)
 		{
-			par1World.scheduleBlockUpdate(par2, par3, par4, blockID, tickRate(par1World));
+			p_72187_1_.scheduleBlockUpdate(p_72187_2_, p_72187_3_, p_72187_4_, blockID, tickRate(p_72187_1_));
 		}
-		par1World.func_96440_m(par2, par3, par4, blockID);
+		p_72187_1_.func_96440_m(p_72187_2_, p_72187_3_, p_72187_4_, blockID);
 	}
 	
-	@Override public int tickRate(World par1World)
+	@Override public int tickRate(World p_71859_1_)
 	{
 		return 20;
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
-		if(!par1World.isRemote)
+		if(!p_71847_1_.isRemote)
 		{
-			int var6 = par1World.getBlockMetadata(par2, par3, par4);
+			int var6 = p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_);
 			if((var6 & 8) != 0)
 			{
-				setStateIfMinecartInteractsWithRail(par1World, par2, par3, par4, var6);
+				setStateIfMinecartInteractsWithRail(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_, var6);
 			}
 		}
 	}

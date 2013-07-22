@@ -20,21 +20,21 @@ public abstract class GuiScreenSelectLocation
 	private float field_104099_n;
 	private float field_104100_o;
 	private int field_104111_p = -1;
-	private long field_104110_q;
+	private long field_104110_q = 0L;
 	private boolean field_104109_r = true;
 	private boolean field_104108_s;
 	private int field_104107_t;
 	
-	public GuiScreenSelectLocation(Minecraft par1Minecraft, int par2, int par3, int par4, int par5, int par6)
+	public GuiScreenSelectLocation(Minecraft p_i23001_1_, int p_i23001_2_, int p_i23001_3_, int p_i23001_4_, int p_i23001_5_, int p_i23001_6_)
 	{
-		field_104092_f = par1Minecraft;
-		field_104093_g = par2;
-		field_104105_h = par3;
-		field_104098_a = par4;
-		field_104096_b = par5;
-		field_104097_c = par6;
+		field_104092_f = p_i23001_1_;
+		field_104093_g = p_i23001_2_;
+		field_104105_h = p_i23001_3_;
+		field_104098_a = p_i23001_4_;
+		field_104096_b = p_i23001_5_;
+		field_104097_c = p_i23001_6_;
 		field_104103_j = 0;
-		field_104106_i = par2;
+		field_104106_i = p_i23001_2_;
 	}
 	
 	public void actionPerformed(GuiButton par1GuiButton)
@@ -55,11 +55,13 @@ public abstract class GuiScreenSelectLocation
 		}
 	}
 	
+	protected abstract void drawBackground();
+	
 	public void drawScreen(int par1, int par2, float par3)
 	{
 		field_104094_d = par1;
 		field_104095_e = par2;
-		func_130004_c();
+		drawBackground();
 		int var4 = getSize();
 		int var5 = func_104090_g();
 		int var6 = var5 + 6;
@@ -98,7 +100,7 @@ public abstract class GuiScreenSelectLocation
 						{
 							var19 = 1;
 						}
-						var13 = (int) ((float) ((field_104096_b - field_104098_a) * (field_104096_b - field_104098_a)) / (float) func_130003_b());
+						var13 = (int) ((float) ((field_104096_b - field_104098_a) * (field_104096_b - field_104098_a)) / (float) getContentHeight());
 						if(var13 < 32)
 						{
 							var13 = 32;
@@ -151,7 +153,7 @@ public abstract class GuiScreenSelectLocation
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_FOG);
 		Tessellator var18 = Tessellator.instance;
-		field_104092_f.func_110434_K().func_110577_a(Gui.field_110325_k);
+		field_104092_f.renderEngine.bindTexture("/gui/background.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float var17 = 32.0F;
 		var18.startDrawingQuads();
@@ -241,7 +243,7 @@ public abstract class GuiScreenSelectLocation
 		var19 = func_104085_d();
 		if(var19 > 0)
 		{
-			var13 = (field_104096_b - field_104098_a) * (field_104096_b - field_104098_a) / func_130003_b();
+			var13 = (field_104096_b - field_104098_a) * (field_104096_b - field_104098_a) / getContentHeight();
 			if(var13 < 32)
 			{
 				var13 = 32;
@@ -291,7 +293,7 @@ public abstract class GuiScreenSelectLocation
 	private void func_104083_b(int par1, int par2, int par3, int par4)
 	{
 		Tessellator var5 = Tessellator.instance;
-		field_104092_f.func_110434_K().func_110577_a(Gui.field_110325_k);
+		field_104092_f.renderEngine.bindTexture("/gui/background.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float var6 = 32.0F;
 		var5.startDrawingQuads();
@@ -316,7 +318,7 @@ public abstract class GuiScreenSelectLocation
 	
 	public int func_104085_d()
 	{
-		return func_130003_b() - (field_104096_b - field_104098_a - 4);
+		return getContentHeight() - (field_104096_b - field_104098_a - 4);
 	}
 	
 	protected abstract boolean func_104086_b(int var1);
@@ -355,12 +357,10 @@ public abstract class GuiScreenSelectLocation
 		}
 	}
 	
-	protected int func_130003_b()
+	protected int getContentHeight()
 	{
 		return getSize() * field_104097_c + field_104107_t;
 	}
-	
-	protected abstract void func_130004_c();
 	
 	protected abstract int getSize();
 	

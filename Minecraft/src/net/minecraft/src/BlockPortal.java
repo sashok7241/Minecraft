@@ -4,13 +4,13 @@ import java.util.Random;
 
 public class BlockPortal extends BlockBreakable
 {
-	public BlockPortal(int par1)
+	public BlockPortal(int p_i9077_1_)
 	{
-		super(par1, "portal", Material.portal, false);
+		super(p_i9077_1_, "portal", Material.portal, false);
 		setTickRandomly(true);
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
 	{
 		return null;
 	}
@@ -30,60 +30,60 @@ public class BlockPortal extends BlockBreakable
 		return false;
 	}
 	
-	@Override public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
+	@Override public void onEntityCollidedWithBlock(World p_71869_1_, int p_71869_2_, int p_71869_3_, int p_71869_4_, Entity p_71869_5_)
 	{
-		if(par5Entity.ridingEntity == null && par5Entity.riddenByEntity == null)
+		if(p_71869_5_.ridingEntity == null && p_71869_5_.riddenByEntity == null)
 		{
-			par5Entity.setInPortal();
+			p_71869_5_.setInPortal();
 		}
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
 		byte var6 = 0;
 		byte var7 = 1;
-		if(par1World.getBlockId(par2 - 1, par3, par4) == blockID || par1World.getBlockId(par2 + 1, par3, par4) == blockID)
+		if(p_71863_1_.getBlockId(p_71863_2_ - 1, p_71863_3_, p_71863_4_) == blockID || p_71863_1_.getBlockId(p_71863_2_ + 1, p_71863_3_, p_71863_4_) == blockID)
 		{
 			var6 = 1;
 			var7 = 0;
 		}
 		int var8;
-		for(var8 = par3; par1World.getBlockId(par2, var8 - 1, par4) == blockID; --var8)
+		for(var8 = p_71863_3_; p_71863_1_.getBlockId(p_71863_2_, var8 - 1, p_71863_4_) == blockID; --var8)
 		{
 			;
 		}
-		if(par1World.getBlockId(par2, var8 - 1, par4) != Block.obsidian.blockID)
+		if(p_71863_1_.getBlockId(p_71863_2_, var8 - 1, p_71863_4_) != Block.obsidian.blockID)
 		{
-			par1World.setBlockToAir(par2, par3, par4);
+			p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
 		} else
 		{
 			int var9;
-			for(var9 = 1; var9 < 4 && par1World.getBlockId(par2, var8 + var9, par4) == blockID; ++var9)
+			for(var9 = 1; var9 < 4 && p_71863_1_.getBlockId(p_71863_2_, var8 + var9, p_71863_4_) == blockID; ++var9)
 			{
 				;
 			}
-			if(var9 == 3 && par1World.getBlockId(par2, var8 + var9, par4) == Block.obsidian.blockID)
+			if(var9 == 3 && p_71863_1_.getBlockId(p_71863_2_, var8 + var9, p_71863_4_) == Block.obsidian.blockID)
 			{
-				boolean var10 = par1World.getBlockId(par2 - 1, par3, par4) == blockID || par1World.getBlockId(par2 + 1, par3, par4) == blockID;
-				boolean var11 = par1World.getBlockId(par2, par3, par4 - 1) == blockID || par1World.getBlockId(par2, par3, par4 + 1) == blockID;
+				boolean var10 = p_71863_1_.getBlockId(p_71863_2_ - 1, p_71863_3_, p_71863_4_) == blockID || p_71863_1_.getBlockId(p_71863_2_ + 1, p_71863_3_, p_71863_4_) == blockID;
+				boolean var11 = p_71863_1_.getBlockId(p_71863_2_, p_71863_3_, p_71863_4_ - 1) == blockID || p_71863_1_.getBlockId(p_71863_2_, p_71863_3_, p_71863_4_ + 1) == blockID;
 				if(var10 && var11)
 				{
-					par1World.setBlockToAir(par2, par3, par4);
+					p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
 				} else
 				{
-					if((par1World.getBlockId(par2 + var6, par3, par4 + var7) != Block.obsidian.blockID || par1World.getBlockId(par2 - var6, par3, par4 - var7) != blockID) && (par1World.getBlockId(par2 - var6, par3, par4 - var7) != Block.obsidian.blockID || par1World.getBlockId(par2 + var6, par3, par4 + var7) != blockID))
+					if((p_71863_1_.getBlockId(p_71863_2_ + var6, p_71863_3_, p_71863_4_ + var7) != Block.obsidian.blockID || p_71863_1_.getBlockId(p_71863_2_ - var6, p_71863_3_, p_71863_4_ - var7) != blockID) && (p_71863_1_.getBlockId(p_71863_2_ - var6, p_71863_3_, p_71863_4_ - var7) != Block.obsidian.blockID || p_71863_1_.getBlockId(p_71863_2_ + var6, p_71863_3_, p_71863_4_ + var7) != blockID))
 					{
-						par1World.setBlockToAir(par2, par3, par4);
+						p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
 					}
 				}
 			} else
 			{
-				par1World.setBlockToAir(par2, par3, par4);
+				p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
 			}
 		}
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
 		return 0;
 	}
@@ -124,11 +124,11 @@ public class BlockPortal extends BlockBreakable
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
 		float var5;
 		float var6;
-		if(par1IBlockAccess.getBlockId(par2 - 1, par3, par4) != blockID && par1IBlockAccess.getBlockId(par2 + 1, par3, par4) != blockID)
+		if(p_71902_1_.getBlockId(p_71902_2_ - 1, p_71902_3_, p_71902_4_) != blockID && p_71902_1_.getBlockId(p_71902_2_ + 1, p_71902_3_, p_71902_4_) != blockID)
 		{
 			var5 = 0.125F;
 			var6 = 0.5F;
@@ -156,25 +156,25 @@ public class BlockPortal extends BlockBreakable
 		}
 	}
 	
-	public boolean tryToCreatePortal(World par1World, int par2, int par3, int par4)
+	public boolean tryToCreatePortal(World p_72246_1_, int p_72246_2_, int p_72246_3_, int p_72246_4_)
 	{
 		byte var5 = 0;
 		byte var6 = 0;
-		if(par1World.getBlockId(par2 - 1, par3, par4) == Block.obsidian.blockID || par1World.getBlockId(par2 + 1, par3, par4) == Block.obsidian.blockID)
+		if(p_72246_1_.getBlockId(p_72246_2_ - 1, p_72246_3_, p_72246_4_) == Block.obsidian.blockID || p_72246_1_.getBlockId(p_72246_2_ + 1, p_72246_3_, p_72246_4_) == Block.obsidian.blockID)
 		{
 			var5 = 1;
 		}
-		if(par1World.getBlockId(par2, par3, par4 - 1) == Block.obsidian.blockID || par1World.getBlockId(par2, par3, par4 + 1) == Block.obsidian.blockID)
+		if(p_72246_1_.getBlockId(p_72246_2_, p_72246_3_, p_72246_4_ - 1) == Block.obsidian.blockID || p_72246_1_.getBlockId(p_72246_2_, p_72246_3_, p_72246_4_ + 1) == Block.obsidian.blockID)
 		{
 			var6 = 1;
 		}
 		if(var5 == var6) return false;
 		else
 		{
-			if(par1World.getBlockId(par2 - var5, par3, par4 - var6) == 0)
+			if(p_72246_1_.getBlockId(p_72246_2_ - var5, p_72246_3_, p_72246_4_ - var6) == 0)
 			{
-				par2 -= var5;
-				par4 -= var6;
+				p_72246_2_ -= var5;
+				p_72246_4_ -= var6;
 			}
 			int var7;
 			int var8;
@@ -185,7 +185,7 @@ public class BlockPortal extends BlockBreakable
 					boolean var9 = var7 == -1 || var7 == 2 || var8 == -1 || var8 == 3;
 					if(var7 != -1 && var7 != 2 || var8 != -1 && var8 != 3)
 					{
-						int var10 = par1World.getBlockId(par2 + var5 * var7, par3 + var8, par4 + var6 * var7);
+						int var10 = p_72246_1_.getBlockId(p_72246_2_ + var5 * var7, p_72246_3_ + var8, p_72246_4_ + var6 * var7);
 						if(var9)
 						{
 							if(var10 != Block.obsidian.blockID) return false;
@@ -197,26 +197,26 @@ public class BlockPortal extends BlockBreakable
 			{
 				for(var8 = 0; var8 < 3; ++var8)
 				{
-					par1World.setBlock(par2 + var5 * var7, par3 + var8, par4 + var6 * var7, Block.portal.blockID, 0, 2);
+					p_72246_1_.setBlock(p_72246_2_ + var5 * var7, p_72246_3_ + var8, p_72246_4_ + var6 * var7, Block.portal.blockID, 0, 2);
 				}
 			}
 			return true;
 		}
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
-		super.updateTick(par1World, par2, par3, par4, par5Random);
-		if(par1World.provider.isSurfaceWorld() && par5Random.nextInt(2000) < par1World.difficultySetting)
+		super.updateTick(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_, p_71847_5_);
+		if(p_71847_1_.provider.isSurfaceWorld() && p_71847_5_.nextInt(2000) < p_71847_1_.difficultySetting)
 		{
 			int var6;
-			for(var6 = par3; !par1World.doesBlockHaveSolidTopSurface(par2, var6, par4) && var6 > 0; --var6)
+			for(var6 = p_71847_3_; !p_71847_1_.doesBlockHaveSolidTopSurface(p_71847_2_, var6, p_71847_4_) && var6 > 0; --var6)
 			{
 				;
 			}
-			if(var6 > 0 && !par1World.isBlockNormalCube(par2, var6 + 1, par4))
+			if(var6 > 0 && !p_71847_1_.isBlockNormalCube(p_71847_2_, var6 + 1, p_71847_4_))
 			{
-				Entity var7 = ItemMonsterPlacer.spawnCreature(par1World, 57, par2 + 0.5D, var6 + 1.1D, par4 + 0.5D);
+				Entity var7 = ItemMonsterPlacer.spawnCreature(p_71847_1_, 57, p_71847_2_ + 0.5D, var6 + 1.1D, p_71847_4_ + 0.5D);
 				if(var7 != null)
 				{
 					var7.timeUntilPortal = var7.getPortalCooldown();

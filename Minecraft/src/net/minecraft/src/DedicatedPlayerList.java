@@ -14,15 +14,15 @@ public class DedicatedPlayerList extends ServerConfigurationManager
 	private File opsList;
 	private File whiteList;
 	
-	public DedicatedPlayerList(DedicatedServer par1DedicatedServer)
+	public DedicatedPlayerList(DedicatedServer p_i3378_1_)
 	{
-		super(par1DedicatedServer);
-		opsList = par1DedicatedServer.getFile("ops.txt");
-		whiteList = par1DedicatedServer.getFile("white-list.txt");
-		viewDistance = par1DedicatedServer.getIntProperty("view-distance", 10);
-		maxPlayers = par1DedicatedServer.getIntProperty("max-players", 20);
-		setWhiteListEnabled(par1DedicatedServer.getBooleanProperty("white-list", false));
-		if(!par1DedicatedServer.isSinglePlayer())
+		super(p_i3378_1_);
+		opsList = p_i3378_1_.getFile("ops.txt");
+		whiteList = p_i3378_1_.getFile("white-list.txt");
+		viewDistance = p_i3378_1_.getIntProperty("view-distance", 10);
+		maxPlayers = p_i3378_1_.getIntProperty("max-players", 20);
+		setWhiteListEnabled(p_i3378_1_.getBooleanProperty("white-list", false));
+		if(!p_i3378_1_.isSinglePlayer())
 		{
 			getBannedPlayers().setListActive(true);
 			getBannedIPs().setListActive(true);
@@ -40,15 +40,15 @@ public class DedicatedPlayerList extends ServerConfigurationManager
 		}
 	}
 	
-	@Override public void addOp(String par1Str)
+	@Override public void addOp(String p_72386_1_)
 	{
-		super.addOp(par1Str);
+		super.addOp(p_72386_1_);
 		saveOpsList();
 	}
 	
-	@Override public void addToWhiteList(String par1Str)
+	@Override public void addToWhiteList(String p_72359_1_)
 	{
-		super.addToWhiteList(par1Str);
+		super.addToWhiteList(p_72359_1_);
 		saveWhiteList();
 	}
 	
@@ -62,10 +62,10 @@ public class DedicatedPlayerList extends ServerConfigurationManager
 		return getDedicatedServerInstance();
 	}
 	
-	@Override public boolean isAllowedToLogin(String par1Str)
+	@Override public boolean isAllowedToLogin(String p_72370_1_)
 	{
-		par1Str = par1Str.trim().toLowerCase();
-		return !isWhiteListEnabled() || areCommandsAllowed(par1Str) || getWhiteListedPlayers().contains(par1Str);
+		p_72370_1_ = p_72370_1_.trim().toLowerCase();
+		return !isWhiteListEnabled() || areCommandsAllowed(p_72370_1_) || getWhiteListedPlayers().contains(p_72370_1_);
 	}
 	
 	private void loadOpsList()
@@ -109,15 +109,15 @@ public class DedicatedPlayerList extends ServerConfigurationManager
 		}
 	}
 	
-	@Override public void removeFromWhitelist(String par1Str)
+	@Override public void removeFromWhitelist(String p_72379_1_)
 	{
-		super.removeFromWhitelist(par1Str);
+		super.removeFromWhitelist(p_72379_1_);
 		saveWhiteList();
 	}
 	
-	@Override public void removeOp(String par1Str)
+	@Override public void removeOp(String p_72360_1_)
 	{
-		super.removeOp(par1Str);
+		super.removeOp(p_72360_1_);
 		saveOpsList();
 	}
 	
@@ -157,10 +157,10 @@ public class DedicatedPlayerList extends ServerConfigurationManager
 		}
 	}
 	
-	@Override public void setWhiteListEnabled(boolean par1)
+	@Override public void setWhiteListEnabled(boolean p_72371_1_)
 	{
-		super.setWhiteListEnabled(par1);
-		getDedicatedServerInstance().setProperty("white-list", Boolean.valueOf(par1));
+		super.setWhiteListEnabled(p_72371_1_);
+		getDedicatedServerInstance().setProperty("white-list", Boolean.valueOf(p_72371_1_));
 		getDedicatedServerInstance().saveProperties();
 	}
 }

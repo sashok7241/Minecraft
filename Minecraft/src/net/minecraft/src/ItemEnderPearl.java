@@ -2,25 +2,26 @@ package net.minecraft.src;
 
 public class ItemEnderPearl extends Item
 {
-	public ItemEnderPearl(int par1)
+	public ItemEnderPearl(int p_i3648_1_)
 	{
-		super(par1);
+		super(p_i3648_1_);
 		maxStackSize = 16;
 		setCreativeTab(CreativeTabs.tabMisc);
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
 	{
-		if(par3EntityPlayer.capabilities.isCreativeMode) return par1ItemStack;
+		if(p_77659_3_.capabilities.isCreativeMode) return p_77659_1_;
+		else if(p_77659_3_.ridingEntity != null) return p_77659_1_;
 		else
 		{
-			--par1ItemStack.stackSize;
-			par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-			if(!par2World.isRemote)
+			--p_77659_1_.stackSize;
+			p_77659_2_.playSoundAtEntity(p_77659_3_, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			if(!p_77659_2_.isRemote)
 			{
-				par2World.spawnEntityInWorld(new EntityEnderPearl(par2World, par3EntityPlayer));
+				p_77659_2_.spawnEntityInWorld(new EntityEnderPearl(p_77659_2_, p_77659_3_));
 			}
-			return par1ItemStack;
+			return p_77659_1_;
 		}
 	}
 }

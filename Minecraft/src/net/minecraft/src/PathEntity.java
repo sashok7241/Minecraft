@@ -6,10 +6,10 @@ public class PathEntity
 	private int currentPathIndex;
 	private int pathLength;
 	
-	public PathEntity(PathPoint[] par1ArrayOfPathPoint)
+	public PathEntity(PathPoint[] p_i3902_1_)
 	{
-		points = par1ArrayOfPathPoint;
-		pathLength = par1ArrayOfPathPoint.length;
+		points = p_i3902_1_;
+		pathLength = p_i3902_1_.length;
 	}
 	
 	public int getCurrentPathIndex()
@@ -27,22 +27,22 @@ public class PathEntity
 		return pathLength > 0 ? points[pathLength - 1] : null;
 	}
 	
-	public PathPoint getPathPointFromIndex(int par1)
+	public PathPoint getPathPointFromIndex(int p_75877_1_)
 	{
-		return points[par1];
+		return points[p_75877_1_];
 	}
 	
-	public Vec3 getPosition(Entity par1Entity)
+	public Vec3 getPosition(Entity p_75878_1_)
 	{
-		return getVectorFromIndex(par1Entity, currentPathIndex);
+		return getVectorFromIndex(p_75878_1_, currentPathIndex);
 	}
 	
-	public Vec3 getVectorFromIndex(Entity par1Entity, int par2)
+	public Vec3 getVectorFromIndex(Entity p_75881_1_, int p_75881_2_)
 	{
-		double var3 = points[par2].xCoord + (int) (par1Entity.width + 1.0F) * 0.5D;
-		double var5 = points[par2].yCoord;
-		double var7 = points[par2].zCoord + (int) (par1Entity.width + 1.0F) * 0.5D;
-		return par1Entity.worldObj.getWorldVec3Pool().getVecFromPool(var3, var5, var7);
+		double var3 = points[p_75881_2_].xCoord + (int) (p_75881_1_.width + 1.0F) * 0.5D;
+		double var5 = points[p_75881_2_].yCoord;
+		double var7 = points[p_75881_2_].zCoord + (int) (p_75881_1_.width + 1.0F) * 0.5D;
+		return p_75881_1_.worldObj.getWorldVec3Pool().getVecFromPool(var3, var5, var7);
 	}
 	
 	public void incrementPathIndex()
@@ -50,10 +50,10 @@ public class PathEntity
 		++currentPathIndex;
 	}
 	
-	public boolean isDestinationSame(Vec3 par1Vec3)
+	public boolean isDestinationSame(Vec3 p_75880_1_)
 	{
 		PathPoint var2 = getFinalPathPoint();
-		return var2 == null ? false : var2.xCoord == (int) par1Vec3.xCoord && var2.zCoord == (int) par1Vec3.zCoord;
+		return var2 == null ? false : var2.xCoord == (int) p_75880_1_.xCoord && var2.zCoord == (int) p_75880_1_.zCoord;
 	}
 	
 	public boolean isFinished()
@@ -61,27 +61,27 @@ public class PathEntity
 		return currentPathIndex >= pathLength;
 	}
 	
-	public boolean isSamePath(PathEntity par1PathEntity)
+	public boolean isSamePath(PathEntity p_75876_1_)
 	{
-		if(par1PathEntity == null) return false;
-		else if(par1PathEntity.points.length != points.length) return false;
+		if(p_75876_1_ == null) return false;
+		else if(p_75876_1_.points.length != points.length) return false;
 		else
 		{
 			for(int var2 = 0; var2 < points.length; ++var2)
 			{
-				if(points[var2].xCoord != par1PathEntity.points[var2].xCoord || points[var2].yCoord != par1PathEntity.points[var2].yCoord || points[var2].zCoord != par1PathEntity.points[var2].zCoord) return false;
+				if(points[var2].xCoord != p_75876_1_.points[var2].xCoord || points[var2].yCoord != p_75876_1_.points[var2].yCoord || points[var2].zCoord != p_75876_1_.points[var2].zCoord) return false;
 			}
 			return true;
 		}
 	}
 	
-	public void setCurrentPathIndex(int par1)
+	public void setCurrentPathIndex(int p_75872_1_)
 	{
-		currentPathIndex = par1;
+		currentPathIndex = p_75872_1_;
 	}
 	
-	public void setCurrentPathLength(int par1)
+	public void setCurrentPathLength(int p_75871_1_)
 	{
-		pathLength = par1;
+		pathLength = p_75871_1_;
 	}
 }

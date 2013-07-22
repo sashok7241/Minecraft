@@ -1,12 +1,12 @@
 package net.minecraft.src;
 
-public abstract class EntityTameable extends EntityAnimal implements EntityOwnable
+public abstract class EntityTameable extends EntityAnimal
 {
 	protected EntityAISit aiSit = new EntityAISit(this);
 	
-	public EntityTameable(World par1World)
+	public EntityTameable(World p_i3452_1_)
 	{
-		super(par1World);
+		super(p_i3452_1_);
 	}
 	
 	@Override protected void entityInit()
@@ -16,50 +16,19 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
 		dataWatcher.addObject(17, "");
 	}
 	
-	public EntityLivingBase func_130012_q()
-	{
-		return worldObj.getPlayerEntityByName(getOwnerName());
-	}
-	
-	@Override public boolean func_142014_c(EntityLivingBase par1EntityLivingBase)
-	{
-		if(isTamed())
-		{
-			EntityLivingBase var2 = func_130012_q();
-			if(par1EntityLivingBase == var2) return true;
-			if(var2 != null) return var2.func_142014_c(par1EntityLivingBase);
-		}
-		return super.func_142014_c(par1EntityLivingBase);
-	}
-	
-	public boolean func_142018_a(EntityLivingBase par1EntityLivingBase, EntityLivingBase par2EntityLivingBase)
-	{
-		return true;
-	}
-	
 	public EntityAISit func_70907_r()
 	{
 		return aiSit;
 	}
 	
-	@Override public Entity getOwner()
+	public EntityLiving getOwner()
 	{
-		return func_130012_q();
+		return worldObj.getPlayerEntityByName(getOwnerName());
 	}
 	
-	@Override public String getOwnerName()
+	public String getOwnerName()
 	{
 		return dataWatcher.getWatchableObjectString(17);
-	}
-	
-	@Override public Team getTeam()
-	{
-		if(isTamed())
-		{
-			EntityLivingBase var1 = func_130012_q();
-			if(var1 != null) return var1.getTeam();
-		}
-		return super.getTeam();
 	}
 	
 	@Override public void handleHealthUpdate(byte par1)
@@ -86,10 +55,10 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
 		return (dataWatcher.getWatchableObjectByte(16) & 4) != 0;
 	}
 	
-	protected void playTameEffect(boolean par1)
+	protected void playTameEffect(boolean p_70908_1_)
 	{
 		String var2 = "heart";
-		if(!par1)
+		if(!p_70908_1_)
 		{
 			var2 = "smoke";
 		}
@@ -102,28 +71,28 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		String var2 = par1NBTTagCompound.getString("Owner");
+		super.readEntityFromNBT(p_70037_1_);
+		String var2 = p_70037_1_.getString("Owner");
 		if(var2.length() > 0)
 		{
 			setOwner(var2);
 			setTamed(true);
 		}
-		aiSit.setSitting(par1NBTTagCompound.getBoolean("Sitting"));
-		setSitting(par1NBTTagCompound.getBoolean("Sitting"));
+		aiSit.setSitting(p_70037_1_.getBoolean("Sitting"));
+		setSitting(p_70037_1_.getBoolean("Sitting"));
 	}
 	
-	public void setOwner(String par1Str)
+	public void setOwner(String p_70910_1_)
 	{
-		dataWatcher.updateObject(17, par1Str);
+		dataWatcher.updateObject(17, p_70910_1_);
 	}
 	
-	public void setSitting(boolean par1)
+	public void setSitting(boolean p_70904_1_)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
-		if(par1)
+		if(p_70904_1_)
 		{
 			dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 1)));
 		} else
@@ -132,10 +101,10 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
 		}
 	}
 	
-	public void setTamed(boolean par1)
+	public void setTamed(boolean p_70903_1_)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
-		if(par1)
+		if(p_70903_1_)
 		{
 			dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 4)));
 		} else
@@ -144,16 +113,16 @@ public abstract class EntityTameable extends EntityAnimal implements EntityOwnab
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
+		super.writeEntityToNBT(p_70014_1_);
 		if(getOwnerName() == null)
 		{
-			par1NBTTagCompound.setString("Owner", "");
+			p_70014_1_.setString("Owner", "");
 		} else
 		{
-			par1NBTTagCompound.setString("Owner", getOwnerName());
+			p_70014_1_.setString("Owner", getOwnerName());
 		}
-		par1NBTTagCompound.setBoolean("Sitting", isSitting());
+		p_70014_1_.setBoolean("Sitting", isSitting());
 	}
 }

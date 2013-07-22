@@ -23,10 +23,10 @@ public class MapGenScatteredFeature extends MapGenStructure
 		scatteredFeatureSpawnList.add(new SpawnListEntry(EntityWitch.class, 1, 1, 1));
 	}
 	
-	public MapGenScatteredFeature(Map par1Map)
+	public MapGenScatteredFeature(Map p_i5094_1_)
 	{
 		this();
-		Iterator var2 = par1Map.entrySet().iterator();
+		Iterator var2 = p_i5094_1_.entrySet().iterator();
 		while(var2.hasNext())
 		{
 			Entry var3 = (Entry) var2.next();
@@ -37,20 +37,20 @@ public class MapGenScatteredFeature extends MapGenStructure
 		}
 	}
 	
-	@Override protected boolean canSpawnStructureAtCoords(int par1, int par2)
+	@Override protected boolean canSpawnStructureAtCoords(int p_75047_1_, int p_75047_2_)
 	{
-		int var3 = par1;
-		int var4 = par2;
-		if(par1 < 0)
+		int var3 = p_75047_1_;
+		int var4 = p_75047_2_;
+		if(p_75047_1_ < 0)
 		{
-			par1 -= maxDistanceBetweenScatteredFeatures - 1;
+			p_75047_1_ -= maxDistanceBetweenScatteredFeatures - 1;
 		}
-		if(par2 < 0)
+		if(p_75047_2_ < 0)
 		{
-			par2 -= maxDistanceBetweenScatteredFeatures - 1;
+			p_75047_2_ -= maxDistanceBetweenScatteredFeatures - 1;
 		}
-		int var5 = par1 / maxDistanceBetweenScatteredFeatures;
-		int var6 = par2 / maxDistanceBetweenScatteredFeatures;
+		int var5 = p_75047_1_ / maxDistanceBetweenScatteredFeatures;
+		int var6 = p_75047_2_ / maxDistanceBetweenScatteredFeatures;
 		Random var7 = worldObj.setRandomSeed(var5, var6, 14357617);
 		var5 *= maxDistanceBetweenScatteredFeatures;
 		var6 *= maxDistanceBetweenScatteredFeatures;
@@ -74,8 +74,8 @@ public class MapGenScatteredFeature extends MapGenStructure
 		return scatteredFeatureSpawnList;
 	}
 	
-	@Override protected StructureStart getStructureStart(int par1, int par2)
+	@Override protected StructureStart getStructureStart(int p_75049_1_, int p_75049_2_)
 	{
-		return new StructureScatteredFeatureStart(worldObj, rand, par1, par2);
+		return new StructureScatteredFeatureStart(worldObj, rand, p_75049_1_, p_75049_2_);
 	}
 }

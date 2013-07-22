@@ -6,9 +6,9 @@ class CallableMemoryInfo implements Callable
 {
 	final CrashReport theCrashReport;
 	
-	CallableMemoryInfo(CrashReport par1CrashReport)
+	CallableMemoryInfo(CrashReport p_i3248_1_)
 	{
-		theCrashReport = par1CrashReport;
+		theCrashReport = p_i3248_1_;
 	}
 	
 	@Override public Object call()

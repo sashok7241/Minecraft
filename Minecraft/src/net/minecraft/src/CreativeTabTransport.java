@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 final class CreativeTabTransport extends CreativeTabs
 {
-	CreativeTabTransport(int par1, String par2Str)
+	CreativeTabTransport(int p_i3636_1_, String p_i3636_2_)
 	{
-		super(par1, par2Str);
+		super(p_i3636_1_, p_i3636_2_);
 	}
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Item.bucketLava.itemID;
+		return Block.railPowered.blockID;
 	}
 }

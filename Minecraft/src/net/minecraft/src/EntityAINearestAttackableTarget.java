@@ -1,34 +1,36 @@
 package net.minecraft.src;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class EntityAINearestAttackableTarget extends EntityAITarget
 {
-	private final Class targetClass;
-	private final int targetChance;
-	private final EntityAINearestAttackableTargetSorter theNearestAttackableTargetSorter;
+	EntityLiving targetEntity;
+	Class targetClass;
+	int targetChance;
 	private final IEntitySelector field_82643_g;
-	private EntityLivingBase targetEntity;
+	private EntityAINearestAttackableTargetSorter theNearestAttackableTargetSorter;
 	
-	public EntityAINearestAttackableTarget(EntityCreature par1EntityCreature, Class par2Class, int par3, boolean par4)
+	public EntityAINearestAttackableTarget(EntityLiving p_i3500_1_, Class p_i3500_2_, float p_i3500_3_, int p_i3500_4_, boolean p_i3500_5_)
 	{
-		this(par1EntityCreature, par2Class, par3, par4, false);
+		this(p_i3500_1_, p_i3500_2_, p_i3500_3_, p_i3500_4_, p_i3500_5_, false);
 	}
 	
-	public EntityAINearestAttackableTarget(EntityCreature par1EntityCreature, Class par2Class, int par3, boolean par4, boolean par5)
+	public EntityAINearestAttackableTarget(EntityLiving p_i3501_1_, Class p_i3501_2_, float p_i3501_3_, int p_i3501_4_, boolean p_i3501_5_, boolean p_i3501_6_)
 	{
-		this(par1EntityCreature, par2Class, par3, par4, par5, (IEntitySelector) null);
+		this(p_i3501_1_, p_i3501_2_, p_i3501_3_, p_i3501_4_, p_i3501_5_, p_i3501_6_, (IEntitySelector) null);
 	}
 	
-	public EntityAINearestAttackableTarget(EntityCreature par1EntityCreature, Class par2Class, int par3, boolean par4, boolean par5, IEntitySelector par6IEntitySelector)
+	public EntityAINearestAttackableTarget(EntityLiving p_i5011_1_, Class p_i5011_2_, float p_i5011_3_, int p_i5011_4_, boolean p_i5011_5_, boolean p_i5011_6_, IEntitySelector p_i5011_7_)
 	{
-		super(par1EntityCreature, par4, par5);
-		targetClass = par2Class;
-		targetChance = par3;
-		theNearestAttackableTargetSorter = new EntityAINearestAttackableTargetSorter(par1EntityCreature);
+		super(p_i5011_1_, p_i5011_3_, p_i5011_5_, p_i5011_6_);
+		targetClass = p_i5011_2_;
+		targetDistance = p_i5011_3_;
+		targetChance = p_i5011_4_;
+		theNearestAttackableTargetSorter = new EntityAINearestAttackableTargetSorter(this, p_i5011_1_);
+		field_82643_g = p_i5011_7_;
 		setMutexBits(1);
-		field_82643_g = new EntityAINearestAttackableTargetSelector(this, par6IEntitySelector);
 	}
 	
 	@Override public boolean shouldExecute()
@@ -36,15 +38,31 @@ public class EntityAINearestAttackableTarget extends EntityAITarget
 		if(targetChance > 0 && taskOwner.getRNG().nextInt(targetChance) != 0) return false;
 		else
 		{
-			double var1 = func_111175_f();
-			List var3 = taskOwner.worldObj.selectEntitiesWithinAABB(targetClass, taskOwner.boundingBox.expand(var1, 4.0D, var1), field_82643_g);
-			Collections.sort(var3, theNearestAttackableTargetSorter);
-			if(var3.isEmpty()) return false;
-			else
+			if(targetClass == EntityPlayer.class)
 			{
-				targetEntity = (EntityLivingBase) var3.get(0);
-				return true;
+				EntityPlayer var1 = taskOwner.worldObj.getClosestVulnerablePlayerToEntity(taskOwner, targetDistance);
+				if(isSuitableTarget(var1, false))
+				{
+					targetEntity = var1;
+					return true;
+				}
+			} else
+			{
+				List var5 = taskOwner.worldObj.selectEntitiesWithinAABB(targetClass, taskOwner.boundingBox.expand(targetDistance, 4.0D, targetDistance), field_82643_g);
+				Collections.sort(var5, theNearestAttackableTargetSorter);
+				Iterator var2 = var5.iterator();
+				while(var2.hasNext())
+				{
+					Entity var3 = (Entity) var2.next();
+					EntityLiving var4 = (EntityLiving) var3;
+					if(isSuitableTarget(var4, false))
+					{
+						targetEntity = var4;
+						return true;
+					}
+				}
 			}
+			return false;
 		}
 	}
 	

@@ -7,10 +7,10 @@ class GuiSlotStatsBlock extends GuiSlotStats
 {
 	final GuiStats theStats;
 	
-	public GuiSlotStatsBlock(GuiStats par1GuiStats)
+	public GuiSlotStatsBlock(GuiStats p_i3074_1_)
 	{
-		super(par1GuiStats);
-		theStats = par1GuiStats;
+		super(p_i3074_1_);
+		theStats = p_i3074_1_;
 		field_77266_h = new ArrayList();
 		Iterator var2 = StatList.objectMineStats.iterator();
 		while(var2.hasNext())
@@ -18,13 +18,13 @@ class GuiSlotStatsBlock extends GuiSlotStats
 			StatCrafting var3 = (StatCrafting) var2.next();
 			boolean var4 = false;
 			int var5 = var3.getItemID();
-			if(GuiStats.getStatsFileWriter(par1GuiStats).writeStat(var3) > 0)
+			if(GuiStats.getStatsFileWriter(p_i3074_1_).writeStat(var3) > 0)
 			{
 				var4 = true;
-			} else if(StatList.objectUseStats[var5] != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectUseStats[var5]) > 0)
+			} else if(StatList.objectUseStats[var5] != null && GuiStats.getStatsFileWriter(p_i3074_1_).writeStat(StatList.objectUseStats[var5]) > 0)
 			{
 				var4 = true;
-			} else if(StatList.objectCraftStats[var5] != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectCraftStats[var5]) > 0)
+			} else if(StatList.objectCraftStats[var5] != null && GuiStats.getStatsFileWriter(p_i3074_1_).writeStat(StatList.objectCraftStats[var5]) > 0)
 			{
 				var4 = true;
 			}
@@ -33,7 +33,7 @@ class GuiSlotStatsBlock extends GuiSlotStats
 				field_77266_h.add(var3);
 			}
 		}
-		field_77267_i = new SorterStatsBlock(this, par1GuiStats);
+		field_77267_i = new SorterStatsBlock(this, p_i3074_1_);
 	}
 	
 	@Override protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)

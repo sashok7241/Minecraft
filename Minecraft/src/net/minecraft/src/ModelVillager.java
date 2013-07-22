@@ -9,36 +9,36 @@ public class ModelVillager extends ModelBase
 	public ModelRenderer leftVillagerLeg;
 	public ModelRenderer villagerNose;
 	
-	public ModelVillager(float par1)
+	public ModelVillager(float p_i3138_1_)
 	{
-		this(par1, 0.0F, 64, 64);
+		this(p_i3138_1_, 0.0F, 64, 64);
 	}
 	
-	public ModelVillager(float par1, float par2, int par3, int par4)
+	public ModelVillager(float p_i5022_1_, float p_i5022_2_, int p_i5022_3_, int p_i5022_4_)
 	{
-		villagerHead = new ModelRenderer(this).setTextureSize(par3, par4);
-		villagerHead.setRotationPoint(0.0F, 0.0F + par2, 0.0F);
-		villagerHead.setTextureOffset(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8, 10, 8, par1);
-		villagerNose = new ModelRenderer(this).setTextureSize(par3, par4);
-		villagerNose.setRotationPoint(0.0F, par2 - 2.0F, 0.0F);
-		villagerNose.setTextureOffset(24, 0).addBox(-1.0F, -1.0F, -6.0F, 2, 4, 2, par1);
+		villagerHead = new ModelRenderer(this).setTextureSize(p_i5022_3_, p_i5022_4_);
+		villagerHead.setRotationPoint(0.0F, 0.0F + p_i5022_2_, 0.0F);
+		villagerHead.setTextureOffset(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8, 10, 8, p_i5022_1_);
+		villagerNose = new ModelRenderer(this).setTextureSize(p_i5022_3_, p_i5022_4_);
+		villagerNose.setRotationPoint(0.0F, p_i5022_2_ - 2.0F, 0.0F);
+		villagerNose.setTextureOffset(24, 0).addBox(-1.0F, -1.0F, -6.0F, 2, 4, 2, p_i5022_1_);
 		villagerHead.addChild(villagerNose);
-		villagerBody = new ModelRenderer(this).setTextureSize(par3, par4);
-		villagerBody.setRotationPoint(0.0F, 0.0F + par2, 0.0F);
-		villagerBody.setTextureOffset(16, 20).addBox(-4.0F, 0.0F, -3.0F, 8, 12, 6, par1);
-		villagerBody.setTextureOffset(0, 38).addBox(-4.0F, 0.0F, -3.0F, 8, 18, 6, par1 + 0.5F);
-		villagerArms = new ModelRenderer(this).setTextureSize(par3, par4);
-		villagerArms.setRotationPoint(0.0F, 0.0F + par2 + 2.0F, 0.0F);
-		villagerArms.setTextureOffset(44, 22).addBox(-8.0F, -2.0F, -2.0F, 4, 8, 4, par1);
-		villagerArms.setTextureOffset(44, 22).addBox(4.0F, -2.0F, -2.0F, 4, 8, 4, par1);
-		villagerArms.setTextureOffset(40, 38).addBox(-4.0F, 2.0F, -2.0F, 8, 4, 4, par1);
-		rightVillagerLeg = new ModelRenderer(this, 0, 22).setTextureSize(par3, par4);
-		rightVillagerLeg.setRotationPoint(-2.0F, 12.0F + par2, 0.0F);
-		rightVillagerLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, par1);
-		leftVillagerLeg = new ModelRenderer(this, 0, 22).setTextureSize(par3, par4);
+		villagerBody = new ModelRenderer(this).setTextureSize(p_i5022_3_, p_i5022_4_);
+		villagerBody.setRotationPoint(0.0F, 0.0F + p_i5022_2_, 0.0F);
+		villagerBody.setTextureOffset(16, 20).addBox(-4.0F, 0.0F, -3.0F, 8, 12, 6, p_i5022_1_);
+		villagerBody.setTextureOffset(0, 38).addBox(-4.0F, 0.0F, -3.0F, 8, 18, 6, p_i5022_1_ + 0.5F);
+		villagerArms = new ModelRenderer(this).setTextureSize(p_i5022_3_, p_i5022_4_);
+		villagerArms.setRotationPoint(0.0F, 0.0F + p_i5022_2_ + 2.0F, 0.0F);
+		villagerArms.setTextureOffset(44, 22).addBox(-8.0F, -2.0F, -2.0F, 4, 8, 4, p_i5022_1_);
+		villagerArms.setTextureOffset(44, 22).addBox(4.0F, -2.0F, -2.0F, 4, 8, 4, p_i5022_1_);
+		villagerArms.setTextureOffset(40, 38).addBox(-4.0F, 2.0F, -2.0F, 8, 4, 4, p_i5022_1_);
+		rightVillagerLeg = new ModelRenderer(this, 0, 22).setTextureSize(p_i5022_3_, p_i5022_4_);
+		rightVillagerLeg.setRotationPoint(-2.0F, 12.0F + p_i5022_2_, 0.0F);
+		rightVillagerLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, p_i5022_1_);
+		leftVillagerLeg = new ModelRenderer(this, 0, 22).setTextureSize(p_i5022_3_, p_i5022_4_);
 		leftVillagerLeg.mirror = true;
-		leftVillagerLeg.setRotationPoint(2.0F, 12.0F + par2, 0.0F);
-		leftVillagerLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, par1);
+		leftVillagerLeg.setRotationPoint(2.0F, 12.0F + p_i5022_2_, 0.0F);
+		leftVillagerLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, p_i5022_1_);
 	}
 	
 	@Override public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)

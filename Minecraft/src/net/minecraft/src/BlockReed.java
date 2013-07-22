@@ -4,35 +4,35 @@ import java.util.Random;
 
 public class BlockReed extends Block
 {
-	protected BlockReed(int par1)
+	protected BlockReed(int p_i9087_1_)
 	{
-		super(par1, Material.plants);
+		super(p_i9087_1_, Material.plants);
 		float var2 = 0.375F;
 		setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, 1.0F, 0.5F + var2);
 		setTickRandomly(true);
 	}
 	
-	@Override public boolean canBlockStay(World par1World, int par2, int par3, int par4)
+	@Override public boolean canBlockStay(World p_71854_1_, int p_71854_2_, int p_71854_3_, int p_71854_4_)
 	{
-		return canPlaceBlockAt(par1World, par2, par3, par4);
+		return canPlaceBlockAt(p_71854_1_, p_71854_2_, p_71854_3_, p_71854_4_);
 	}
 	
-	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
 	{
-		int var5 = par1World.getBlockId(par2, par3 - 1, par4);
-		return var5 == blockID ? true : var5 != Block.grass.blockID && var5 != Block.dirt.blockID && var5 != Block.sand.blockID ? false : par1World.getBlockMaterial(par2 - 1, par3 - 1, par4) == Material.water ? true : par1World.getBlockMaterial(par2 + 1, par3 - 1, par4) == Material.water ? true : par1World.getBlockMaterial(par2, par3 - 1, par4 - 1) == Material.water ? true : par1World.getBlockMaterial(par2, par3 - 1, par4 + 1) == Material.water;
+		int var5 = p_71930_1_.getBlockId(p_71930_2_, p_71930_3_ - 1, p_71930_4_);
+		return var5 == blockID ? true : var5 != Block.grass.blockID && var5 != Block.dirt.blockID && var5 != Block.sand.blockID ? false : p_71930_1_.getBlockMaterial(p_71930_2_ - 1, p_71930_3_ - 1, p_71930_4_) == Material.water ? true : p_71930_1_.getBlockMaterial(p_71930_2_ + 1, p_71930_3_ - 1, p_71930_4_) == Material.water ? true : p_71930_1_.getBlockMaterial(p_71930_2_, p_71930_3_ - 1, p_71930_4_ - 1) == Material.water ? true : p_71930_1_.getBlockMaterial(p_71930_2_, p_71930_3_ - 1, p_71930_4_ + 1) == Material.water;
 	}
 	
-	protected final void checkBlockCoordValid(World par1World, int par2, int par3, int par4)
+	protected final void checkBlockCoordValid(World p_72167_1_, int p_72167_2_, int p_72167_3_, int p_72167_4_)
 	{
-		if(!canBlockStay(par1World, par2, par3, par4))
+		if(!canBlockStay(p_72167_1_, p_72167_2_, p_72167_3_, p_72167_4_))
 		{
-			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockToAir(par2, par3, par4);
+			dropBlockAsItem(p_72167_1_, p_72167_2_, p_72167_3_, p_72167_4_, p_72167_1_.getBlockMetadata(p_72167_2_, p_72167_3_, p_72167_4_), 0);
+			p_72167_1_.setBlockToAir(p_72167_2_, p_72167_3_, p_72167_4_);
 		}
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
 	{
 		return null;
 	}
@@ -42,7 +42,7 @@ public class BlockReed extends Block
 		return 1;
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return Item.reed.itemID;
 	}
@@ -57,9 +57,9 @@ public class BlockReed extends Block
 		return false;
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
-		checkBlockCoordValid(par1World, par2, par3, par4);
+		checkBlockCoordValid(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_);
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -67,25 +67,25 @@ public class BlockReed extends Block
 		return false;
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
-		if(par1World.isAirBlock(par2, par3 + 1, par4))
+		if(p_71847_1_.isAirBlock(p_71847_2_, p_71847_3_ + 1, p_71847_4_))
 		{
 			int var6;
-			for(var6 = 1; par1World.getBlockId(par2, par3 - var6, par4) == blockID; ++var6)
+			for(var6 = 1; p_71847_1_.getBlockId(p_71847_2_, p_71847_3_ - var6, p_71847_4_) == blockID; ++var6)
 			{
 				;
 			}
 			if(var6 < 3)
 			{
-				int var7 = par1World.getBlockMetadata(par2, par3, par4);
+				int var7 = p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_);
 				if(var7 == 15)
 				{
-					par1World.setBlock(par2, par3 + 1, par4, blockID);
-					par1World.setBlockMetadataWithNotify(par2, par3, par4, 0, 4);
+					p_71847_1_.setBlock(p_71847_2_, p_71847_3_ + 1, p_71847_4_, blockID);
+					p_71847_1_.setBlockMetadataWithNotify(p_71847_2_, p_71847_3_, p_71847_4_, 0, 4);
 				} else
 				{
-					par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 + 1, 4);
+					p_71847_1_.setBlockMetadataWithNotify(p_71847_2_, p_71847_3_, p_71847_4_, var7 + 1, 4);
 				}
 			}
 		}

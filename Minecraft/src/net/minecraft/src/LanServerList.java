@@ -17,20 +17,24 @@ public class LanServerList
 		String var4 = ThreadLanServerPing.getAdFromPingResponse(par1Str);
 		if(var4 != null)
 		{
-			var4 = par2InetAddress.getHostAddress() + ":" + var4;
-			boolean var5 = false;
-			Iterator var6 = listOfLanServers.iterator();
-			while(var6.hasNext())
+			int var5 = var4.indexOf(58);
+			if(var5 > 0)
 			{
-				LanServer var7 = (LanServer) var6.next();
-				if(var7.getServerIpPort().equals(var4))
+				var4 = par2InetAddress.getHostAddress() + var4.substring(var5);
+			}
+			boolean var6 = false;
+			Iterator var7 = listOfLanServers.iterator();
+			while(var7.hasNext())
+			{
+				LanServer var8 = (LanServer) var7.next();
+				if(var8.getServerIpPort().equals(var4))
 				{
-					var7.updateLastSeen();
-					var5 = true;
+					var8.updateLastSeen();
+					var6 = true;
 					break;
 				}
 			}
-			if(!var5)
+			if(!var6)
 			{
 				listOfLanServers.add(new LanServer(var3, var4));
 				wasUpdated = true;

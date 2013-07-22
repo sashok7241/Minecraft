@@ -4,9 +4,9 @@ public class MovementInputFromOptions extends MovementInput
 {
 	private GameSettings gameSettings;
 	
-	public MovementInputFromOptions(GameSettings par1GameSettings)
+	public MovementInputFromOptions(GameSettings p_i3115_1_)
 	{
-		gameSettings = par1GameSettings;
+		gameSettings = p_i3115_1_;
 	}
 	
 	@Override public void updatePlayerMoveState()

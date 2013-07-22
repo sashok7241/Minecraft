@@ -9,11 +9,11 @@ public class ModelSkeletonHead extends ModelBase
 		this(0, 35, 64, 64);
 	}
 	
-	public ModelSkeletonHead(int par1, int par2, int par3, int par4)
+	public ModelSkeletonHead(int p_i5015_1_, int p_i5015_2_, int p_i5015_3_, int p_i5015_4_)
 	{
-		textureWidth = par3;
-		textureHeight = par4;
-		skeletonHead = new ModelRenderer(this, par1, par2);
+		textureWidth = p_i5015_3_;
+		textureHeight = p_i5015_4_;
+		skeletonHead = new ModelRenderer(this, p_i5015_1_, p_i5015_2_);
 		skeletonHead.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, 0.0F);
 		skeletonHead.setRotationPoint(0.0F, 0.0F, 0.0F);
 	}

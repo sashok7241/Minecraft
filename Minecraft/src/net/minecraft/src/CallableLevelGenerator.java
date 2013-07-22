@@ -6,9 +6,9 @@ class CallableLevelGenerator implements Callable
 {
 	final WorldInfo worldInfoInstance;
 	
-	CallableLevelGenerator(WorldInfo par1WorldInfo)
+	CallableLevelGenerator(WorldInfo p_i6821_1_)
 	{
-		worldInfoInstance = par1WorldInfo;
+		worldInfoInstance = p_i6821_1_;
 	}
 	
 	@Override public Object call()

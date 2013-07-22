@@ -7,12 +7,12 @@ public class ScoreObjective
 	private final ScoreObjectiveCriteria objectiveCriteria;
 	private String displayName;
 	
-	public ScoreObjective(Scoreboard par1Scoreboard, String par2Str, ScoreObjectiveCriteria par3ScoreObjectiveCriteria)
+	public ScoreObjective(Scoreboard p_i10061_1_, String p_i10061_2_, ScoreObjectiveCriteria p_i10061_3_)
 	{
-		theScoreboard = par1Scoreboard;
-		name = par2Str;
-		objectiveCriteria = par3ScoreObjectiveCriteria;
-		displayName = par2Str;
+		theScoreboard = p_i10061_1_;
+		name = p_i10061_2_;
+		objectiveCriteria = p_i10061_3_;
+		displayName = p_i10061_2_;
 	}
 	
 	public ScoreObjectiveCriteria getCriteria()
@@ -35,9 +35,9 @@ public class ScoreObjective
 		return theScoreboard;
 	}
 	
-	public void setDisplayName(String par1Str)
+	public void setDisplayName(String p_96681_1_)
 	{
-		displayName = par1Str;
+		displayName = p_96681_1_;
 		theScoreboard.func_96532_b(this);
 	}
 }

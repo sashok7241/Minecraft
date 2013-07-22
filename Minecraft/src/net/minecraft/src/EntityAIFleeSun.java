@@ -8,14 +8,14 @@ public class EntityAIFleeSun extends EntityAIBase
 	private double shelterX;
 	private double shelterY;
 	private double shelterZ;
-	private double movementSpeed;
+	private float movementSpeed;
 	private World theWorld;
 	
-	public EntityAIFleeSun(EntityCreature par1EntityCreature, double par2)
+	public EntityAIFleeSun(EntityCreature p_i3464_1_, float p_i3464_2_)
 	{
-		theCreature = par1EntityCreature;
-		movementSpeed = par2;
-		theWorld = par1EntityCreature.worldObj;
+		theCreature = p_i3464_1_;
+		movementSpeed = p_i3464_2_;
+		theWorld = p_i3464_1_.worldObj;
 		setMutexBits(1);
 	}
 	

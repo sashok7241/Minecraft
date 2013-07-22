@@ -8,32 +8,32 @@ public class MerchantRecipe
 	private int toolUses;
 	private int maxTradeUses;
 	
-	public MerchantRecipe(ItemStack par1ItemStack, Item par2Item)
+	public MerchantRecipe(ItemStack p_i3724_1_, Item p_i3724_2_)
 	{
-		this(par1ItemStack, new ItemStack(par2Item));
+		this(p_i3724_1_, new ItemStack(p_i3724_2_));
 	}
 	
-	public MerchantRecipe(ItemStack par1ItemStack, ItemStack par2ItemStack)
+	public MerchantRecipe(ItemStack p_i3723_1_, ItemStack p_i3723_2_)
 	{
-		this(par1ItemStack, (ItemStack) null, par2ItemStack);
+		this(p_i3723_1_, (ItemStack) null, p_i3723_2_);
 	}
 	
-	public MerchantRecipe(ItemStack par1ItemStack, ItemStack par2ItemStack, ItemStack par3ItemStack)
+	public MerchantRecipe(ItemStack p_i3722_1_, ItemStack p_i3722_2_, ItemStack p_i3722_3_)
 	{
-		itemToBuy = par1ItemStack;
-		secondItemToBuy = par2ItemStack;
-		itemToSell = par3ItemStack;
+		itemToBuy = p_i3722_1_;
+		secondItemToBuy = p_i3722_2_;
+		itemToSell = p_i3722_3_;
 		maxTradeUses = 7;
 	}
 	
-	public MerchantRecipe(NBTTagCompound par1NBTTagCompound)
+	public MerchantRecipe(NBTTagCompound p_i3721_1_)
 	{
-		readFromTags(par1NBTTagCompound);
+		readFromTags(p_i3721_1_);
 	}
 	
-	public void func_82783_a(int par1)
+	public void func_82783_a(int p_82783_1_)
 	{
-		maxTradeUses += par1;
+		maxTradeUses += p_82783_1_;
 	}
 	
 	public boolean func_82784_g()
@@ -61,14 +61,14 @@ public class MerchantRecipe
 		return secondItemToBuy;
 	}
 	
-	public boolean hasSameIDsAs(MerchantRecipe par1MerchantRecipe)
+	public boolean hasSameIDsAs(MerchantRecipe p_77393_1_)
 	{
-		return itemToBuy.itemID == par1MerchantRecipe.itemToBuy.itemID && itemToSell.itemID == par1MerchantRecipe.itemToSell.itemID ? secondItemToBuy == null && par1MerchantRecipe.secondItemToBuy == null || secondItemToBuy != null && par1MerchantRecipe.secondItemToBuy != null && secondItemToBuy.itemID == par1MerchantRecipe.secondItemToBuy.itemID : false;
+		return itemToBuy.itemID == p_77393_1_.itemToBuy.itemID && itemToSell.itemID == p_77393_1_.itemToSell.itemID ? secondItemToBuy == null && p_77393_1_.secondItemToBuy == null || secondItemToBuy != null && p_77393_1_.secondItemToBuy != null && secondItemToBuy.itemID == p_77393_1_.secondItemToBuy.itemID : false;
 	}
 	
-	public boolean hasSameItemsAs(MerchantRecipe par1MerchantRecipe)
+	public boolean hasSameItemsAs(MerchantRecipe p_77391_1_)
 	{
-		return hasSameIDsAs(par1MerchantRecipe) && (itemToBuy.stackSize < par1MerchantRecipe.itemToBuy.stackSize || secondItemToBuy != null && secondItemToBuy.stackSize < par1MerchantRecipe.secondItemToBuy.stackSize);
+		return hasSameIDsAs(p_77391_1_) && (itemToBuy.stackSize < p_77391_1_.itemToBuy.stackSize || secondItemToBuy != null && secondItemToBuy.stackSize < p_77391_1_.secondItemToBuy.stackSize);
 	}
 	
 	public boolean hasSecondItemToBuy()
@@ -81,23 +81,23 @@ public class MerchantRecipe
 		++toolUses;
 	}
 	
-	public void readFromTags(NBTTagCompound par1NBTTagCompound)
+	public void readFromTags(NBTTagCompound p_77390_1_)
 	{
-		NBTTagCompound var2 = par1NBTTagCompound.getCompoundTag("buy");
+		NBTTagCompound var2 = p_77390_1_.getCompoundTag("buy");
 		itemToBuy = ItemStack.loadItemStackFromNBT(var2);
-		NBTTagCompound var3 = par1NBTTagCompound.getCompoundTag("sell");
+		NBTTagCompound var3 = p_77390_1_.getCompoundTag("sell");
 		itemToSell = ItemStack.loadItemStackFromNBT(var3);
-		if(par1NBTTagCompound.hasKey("buyB"))
+		if(p_77390_1_.hasKey("buyB"))
 		{
-			secondItemToBuy = ItemStack.loadItemStackFromNBT(par1NBTTagCompound.getCompoundTag("buyB"));
+			secondItemToBuy = ItemStack.loadItemStackFromNBT(p_77390_1_.getCompoundTag("buyB"));
 		}
-		if(par1NBTTagCompound.hasKey("uses"))
+		if(p_77390_1_.hasKey("uses"))
 		{
-			toolUses = par1NBTTagCompound.getInteger("uses");
+			toolUses = p_77390_1_.getInteger("uses");
 		}
-		if(par1NBTTagCompound.hasKey("maxUses"))
+		if(p_77390_1_.hasKey("maxUses"))
 		{
-			maxTradeUses = par1NBTTagCompound.getInteger("maxUses");
+			maxTradeUses = p_77390_1_.getInteger("maxUses");
 		} else
 		{
 			maxTradeUses = 7;

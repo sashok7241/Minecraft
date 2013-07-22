@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class BlockIce extends BlockBreakable
 {
-	public BlockIce(int par1)
+	public BlockIce(int p_i9066_1_)
 	{
-		super(par1, "ice", Material.ice, false);
+		super(p_i9066_1_, "ice", Material.ice, false);
 		slipperiness = 0.98F;
 		setTickRandomly(true);
 		setCreativeTab(CreativeTabs.tabBlock);
@@ -22,35 +22,35 @@ public class BlockIce extends BlockBreakable
 		return 1;
 	}
 	
-	@Override public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6)
+	@Override public void harvestBlock(World p_71893_1_, EntityPlayer p_71893_2_, int p_71893_3_, int p_71893_4_, int p_71893_5_, int p_71893_6_)
 	{
-		par2EntityPlayer.addStat(StatList.mineBlockStatArray[blockID], 1);
-		par2EntityPlayer.addExhaustion(0.025F);
-		if(canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(par2EntityPlayer))
+		p_71893_2_.addStat(StatList.mineBlockStatArray[blockID], 1);
+		p_71893_2_.addExhaustion(0.025F);
+		if(canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(p_71893_2_))
 		{
-			ItemStack var9 = createStackedBlock(par6);
+			ItemStack var9 = createStackedBlock(p_71893_6_);
 			if(var9 != null)
 			{
-				dropBlockAsItem_do(par1World, par3, par4, par5, var9);
+				dropBlockAsItem_do(p_71893_1_, p_71893_3_, p_71893_4_, p_71893_5_, var9);
 			}
 		} else
 		{
-			if(par1World.provider.isHellWorld)
+			if(p_71893_1_.provider.isHellWorld)
 			{
-				par1World.setBlockToAir(par3, par4, par5);
+				p_71893_1_.setBlockToAir(p_71893_3_, p_71893_4_, p_71893_5_);
 				return;
 			}
-			int var7 = EnchantmentHelper.getFortuneModifier(par2EntityPlayer);
-			dropBlockAsItem(par1World, par3, par4, par5, par6, var7);
-			Material var8 = par1World.getBlockMaterial(par3, par4 - 1, par5);
+			int var7 = EnchantmentHelper.getFortuneModifier(p_71893_2_);
+			dropBlockAsItem(p_71893_1_, p_71893_3_, p_71893_4_, p_71893_5_, p_71893_6_, var7);
+			Material var8 = p_71893_1_.getBlockMaterial(p_71893_3_, p_71893_4_ - 1, p_71893_5_);
 			if(var8.blocksMovement() || var8.isLiquid())
 			{
-				par1World.setBlock(par3, par4, par5, Block.waterMoving.blockID);
+				p_71893_1_.setBlock(p_71893_3_, p_71893_4_, p_71893_5_, Block.waterMoving.blockID);
 			}
 		}
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
 		return 0;
 	}
@@ -60,17 +60,17 @@ public class BlockIce extends BlockBreakable
 		return super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, 1 - par5);
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
-		if(par1World.getSavedLightValue(EnumSkyBlock.Block, par2, par3, par4) > 11 - Block.lightOpacity[blockID])
+		if(p_71847_1_.getSavedLightValue(EnumSkyBlock.Block, p_71847_2_, p_71847_3_, p_71847_4_) > 11 - Block.lightOpacity[blockID])
 		{
-			if(par1World.provider.isHellWorld)
+			if(p_71847_1_.provider.isHellWorld)
 			{
-				par1World.setBlockToAir(par2, par3, par4);
+				p_71847_1_.setBlockToAir(p_71847_2_, p_71847_3_, p_71847_4_);
 				return;
 			}
-			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlock(par2, par3, par4, Block.waterStill.blockID);
+			dropBlockAsItem(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_, p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_), 0);
+			p_71847_1_.setBlock(p_71847_2_, p_71847_3_, p_71847_4_, Block.waterStill.blockID);
 		}
 	}
 }

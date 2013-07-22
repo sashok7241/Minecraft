@@ -2,20 +2,20 @@ package net.minecraft.src;
 
 final class EnchantmentModifierLiving implements IEnchantmentModifier
 {
-	public float livingModifier;
-	public EntityLivingBase entityLiving;
+	public int livingModifier;
+	public EntityLiving entityLiving;
 	
 	private EnchantmentModifierLiving()
 	{
 	}
 	
-	EnchantmentModifierLiving(Empty3 par1Empty3)
+	EnchantmentModifierLiving(Empty3 p_i3711_1_)
 	{
 		this();
 	}
 	
-	@Override public void calculateModifier(Enchantment par1Enchantment, int par2)
+	@Override public void calculateModifier(Enchantment p_77493_1_, int p_77493_2_)
 	{
-		livingModifier += par1Enchantment.calcModifierLiving(par2, entityLiving);
+		livingModifier += p_77493_1_.calcModifierLiving(p_77493_2_, entityLiving);
 	}
 }

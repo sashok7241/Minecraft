@@ -6,9 +6,9 @@ class CallableEntityName implements Callable
 {
 	final Entity theEntity;
 	
-	CallableEntityName(Entity par1Entity)
+	CallableEntityName(Entity p_i10048_1_)
 	{
-		theEntity = par1Entity;
+		theEntity = p_i10048_1_;
 	}
 	
 	@Override public Object call()

@@ -10,10 +10,10 @@ public class ServerAddress
 	private final String ipAddress;
 	private final int serverPort;
 	
-	private ServerAddress(String par1Str, int par2)
+	private ServerAddress(String p_i3096_1_, int p_i3096_2_)
 	{
-		ipAddress = par1Str;
-		serverPort = par2;
+		ipAddress = p_i3096_1_;
+		serverPort = p_i3096_2_;
 	}
 	
 	public String getIP()
@@ -69,7 +69,6 @@ public class ServerAddress
 	{
 		try
 		{
-			String var1 = "com.sun.jndi.dns.DnsContextFactory";
 			Class.forName("com.sun.jndi.dns.DnsContextFactory");
 			Hashtable var2 = new Hashtable();
 			var2.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");

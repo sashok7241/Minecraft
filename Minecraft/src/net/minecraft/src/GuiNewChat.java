@@ -12,12 +12,12 @@ public class GuiNewChat extends Gui
 	private final List sentMessages = new ArrayList();
 	private final List chatLines = new ArrayList();
 	private final List field_96134_d = new ArrayList();
-	private int field_73768_d;
-	private boolean field_73769_e;
+	private int field_73768_d = 0;
+	private boolean field_73769_e = false;
 	
-	public GuiNewChat(Minecraft par1Minecraft)
+	public GuiNewChat(Minecraft p_i3043_1_)
 	{
-		mc = par1Minecraft;
+		mc = p_i3043_1_;
 	}
 	
 	public void addToSentMessages(String par1Str)
@@ -30,7 +30,7 @@ public class GuiNewChat extends Gui
 	
 	public void addTranslatedMessage(String par1Str, Object ... par2ArrayOfObj)
 	{
-		printChatMessage(I18n.func_135052_a(par1Str, par2ArrayOfObj));
+		printChatMessage(StringTranslate.getInstance().translateKeyFormat(par1Str, par2ArrayOfObj));
 	}
 	
 	public void clearChatMessages()
@@ -260,7 +260,7 @@ public class GuiNewChat extends Gui
 	public void printChatMessageWithOptionalDeletion(String par1Str, int par2)
 	{
 		func_96129_a(par1Str, par2, mc.ingameGUI.getUpdateCounter(), false);
-		mc.getLogAgent().logInfo("[CHAT] " + EnumChatFormatting.func_110646_a(par1Str));
+		mc.getLogAgent().logInfo("[CHAT] " + par1Str);
 	}
 	
 	public void resetScroll()

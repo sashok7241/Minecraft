@@ -5,16 +5,16 @@ class SlotCreativeInventory extends Slot
 	private final Slot theSlot;
 	final GuiContainerCreative theCreativeInventory;
 	
-	public SlotCreativeInventory(GuiContainerCreative par1GuiContainerCreative, Slot par2Slot, int par3)
+	public SlotCreativeInventory(GuiContainerCreative p_i3088_1_, Slot p_i3088_2_, int p_i3088_3_)
 	{
-		super(par2Slot.inventory, par3, 0, 0);
-		theCreativeInventory = par1GuiContainerCreative;
-		theSlot = par2Slot;
+		super(p_i3088_2_.inventory, p_i3088_3_, 0, 0);
+		theCreativeInventory = p_i3088_1_;
+		theSlot = p_i3088_2_;
 	}
 	
-	@Override public ItemStack decrStackSize(int par1)
+	@Override public ItemStack decrStackSize(int p_75209_1_)
 	{
-		return theSlot.decrStackSize(par1);
+		return theSlot.decrStackSize(p_75209_1_);
 	}
 	
 	@Override public Icon getBackgroundIconIndex()
@@ -37,19 +37,19 @@ class SlotCreativeInventory extends Slot
 		return theSlot.getStack();
 	}
 	
-	@Override public boolean isItemValid(ItemStack par1ItemStack)
+	@Override public boolean isItemValid(ItemStack p_75214_1_)
 	{
-		return theSlot.isItemValid(par1ItemStack);
+		return theSlot.isItemValid(p_75214_1_);
 	}
 	
-	@Override public boolean isSlotInInventory(IInventory par1IInventory, int par2)
+	@Override public boolean isSlotInInventory(IInventory p_75217_1_, int p_75217_2_)
 	{
-		return theSlot.isSlotInInventory(par1IInventory, par2);
+		return theSlot.isSlotInInventory(p_75217_1_, p_75217_2_);
 	}
 	
-	@Override public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
+	@Override public void onPickupFromSlot(EntityPlayer p_82870_1_, ItemStack p_82870_2_)
 	{
-		theSlot.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
+		theSlot.onPickupFromSlot(p_82870_1_, p_82870_2_);
 	}
 	
 	@Override public void onSlotChanged()
@@ -57,9 +57,9 @@ class SlotCreativeInventory extends Slot
 		theSlot.onSlotChanged();
 	}
 	
-	@Override public void putStack(ItemStack par1ItemStack)
+	@Override public void putStack(ItemStack p_75215_1_)
 	{
-		theSlot.putStack(par1ItemStack);
+		theSlot.putStack(p_75215_1_);
 	}
 	
 	static Slot func_75240_a(SlotCreativeInventory par0SlotCreativeInventory)

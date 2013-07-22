@@ -2,14 +2,14 @@ package net.minecraft.src;
 
 public class StatBasic extends StatBase
 {
-	public StatBasic(int par1, String par2Str)
+	public StatBasic(int p_i3413_1_, String p_i3413_2_)
 	{
-		super(par1, par2Str);
+		super(p_i3413_1_, p_i3413_2_);
 	}
 	
-	public StatBasic(int par1, String par2Str, IStatType par3IStatType)
+	public StatBasic(int p_i3412_1_, String p_i3412_2_, IStatType p_i3412_3_)
 	{
-		super(par1, par2Str, par3IStatType);
+		super(p_i3412_1_, p_i3412_2_, p_i3412_3_);
 	}
 	
 	@Override public StatBase registerStat()

@@ -7,15 +7,15 @@ public class EntityPortalFX extends EntityFX
 	private double portalPosY;
 	private double portalPosZ;
 	
-	public EntityPortalFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
+	public EntityPortalFX(World p_i3177_1_, double p_i3177_2_, double p_i3177_4_, double p_i3177_6_, double p_i3177_8_, double p_i3177_10_, double p_i3177_12_)
 	{
-		super(par1World, par2, par4, par6, par8, par10, par12);
-		motionX = par8;
-		motionY = par10;
-		motionZ = par12;
-		portalPosX = posX = par2;
-		portalPosY = posY = par4;
-		portalPosZ = posZ = par6;
+		super(p_i3177_1_, p_i3177_2_, p_i3177_4_, p_i3177_6_, p_i3177_8_, p_i3177_10_, p_i3177_12_);
+		motionX = p_i3177_8_;
+		motionY = p_i3177_10_;
+		motionZ = p_i3177_12_;
+		portalPosX = posX = p_i3177_2_;
+		portalPosY = posY = p_i3177_4_;
+		portalPosZ = posZ = p_i3177_6_;
 		float var14 = rand.nextFloat() * 0.6F + 0.4F;
 		portalParticleScale = particleScale = rand.nextFloat() * 0.2F + 0.5F;
 		particleRed = particleGreen = particleBlue = 1.0F * var14;
@@ -26,9 +26,9 @@ public class EntityPortalFX extends EntityFX
 		setParticleTextureIndex((int) (Math.random() * 8.0D));
 	}
 	
-	@Override public float getBrightness(float par1)
+	@Override public float getBrightness(float p_70013_1_)
 	{
-		float var2 = super.getBrightness(par1);
+		float var2 = super.getBrightness(p_70013_1_);
 		float var3 = (float) particleAge / (float) particleMaxAge;
 		var3 = var3 * var3 * var3 * var3;
 		return var2 * (1.0F - var3) + var3;

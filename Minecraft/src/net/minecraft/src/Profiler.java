@@ -11,7 +11,7 @@ public class Profiler
 {
 	private final List sectionList = new ArrayList();
 	private final List timestampList = new ArrayList();
-	public boolean profilingEnabled;
+	public boolean profilingEnabled = false;
 	private String profilingSection = "";
 	private final Map profilingMap = new HashMap();
 	
@@ -45,10 +45,10 @@ public class Profiler
 		}
 	}
 	
-	public void endStartSection(String par1Str)
+	public void endStartSection(String p_76318_1_)
 	{
 		endSection();
-		startSection(par1Str);
+		startSection(p_76318_1_);
 	}
 	
 	public String getNameOfLastSection()
@@ -56,24 +56,24 @@ public class Profiler
 		return sectionList.size() == 0 ? "[UNKNOWN]" : (String) sectionList.get(sectionList.size() - 1);
 	}
 	
-	public List getProfilingData(String par1Str)
+	public List getProfilingData(String p_76321_1_)
 	{
 		if(!profilingEnabled) return null;
 		else
 		{
 			long var3 = profilingMap.containsKey("root") ? ((Long) profilingMap.get("root")).longValue() : 0L;
-			long var5 = profilingMap.containsKey(par1Str) ? ((Long) profilingMap.get(par1Str)).longValue() : -1L;
+			long var5 = profilingMap.containsKey(p_76321_1_) ? ((Long) profilingMap.get(p_76321_1_)).longValue() : -1L;
 			ArrayList var7 = new ArrayList();
-			if(par1Str.length() > 0)
+			if(p_76321_1_.length() > 0)
 			{
-				par1Str = par1Str + ".";
+				p_76321_1_ = p_76321_1_ + ".";
 			}
 			long var8 = 0L;
 			Iterator var10 = profilingMap.keySet().iterator();
 			while(var10.hasNext())
 			{
 				String var11 = (String) var10.next();
-				if(var11.length() > par1Str.length() && var11.startsWith(par1Str) && var11.indexOf(".", par1Str.length() + 1) < 0)
+				if(var11.length() > p_76321_1_.length() && var11.startsWith(p_76321_1_) && var11.indexOf(".", p_76321_1_.length() + 1) < 0)
 				{
 					var8 += ((Long) profilingMap.get(var11)).longValue();
 				}
@@ -92,12 +92,12 @@ public class Profiler
 			while(var20.hasNext())
 			{
 				var12 = (String) var20.next();
-				if(var12.length() > par1Str.length() && var12.startsWith(par1Str) && var12.indexOf(".", par1Str.length() + 1) < 0)
+				if(var12.length() > p_76321_1_.length() && var12.startsWith(p_76321_1_) && var12.indexOf(".", p_76321_1_.length() + 1) < 0)
 				{
 					long var13 = ((Long) profilingMap.get(var12)).longValue();
 					double var15 = var13 * 100.0D / var8;
 					double var17 = var13 * 100.0D / var3;
-					String var19 = var12.substring(par1Str.length());
+					String var19 = var12.substring(p_76321_1_.length());
 					var7.add(new ProfilerResult(var19, var15, var17));
 				}
 			}
@@ -112,12 +112,12 @@ public class Profiler
 				var7.add(new ProfilerResult("unspecified", (var8 - var21) * 100.0D / var8, (var8 - var21) * 100.0D / var3));
 			}
 			Collections.sort(var7);
-			var7.add(0, new ProfilerResult(par1Str, 100.0D, var8 * 100.0D / var3));
+			var7.add(0, new ProfilerResult(p_76321_1_, 100.0D, var8 * 100.0D / var3));
 			return var7;
 		}
 	}
 	
-	public void startSection(String par1Str)
+	public void startSection(String p_76320_1_)
 	{
 		if(profilingEnabled)
 		{
@@ -125,7 +125,7 @@ public class Profiler
 			{
 				profilingSection = profilingSection + ".";
 			}
-			profilingSection = profilingSection + par1Str;
+			profilingSection = profilingSection + p_76320_1_;
 			sectionList.add(profilingSection);
 			timestampList.add(Long.valueOf(System.nanoTime()));
 		}

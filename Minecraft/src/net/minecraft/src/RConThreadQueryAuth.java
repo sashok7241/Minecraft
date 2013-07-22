@@ -13,11 +13,11 @@ class RConThreadQueryAuth
 	private String requestIdAsString;
 	final RConThreadQuery queryThread;
 	
-	public RConThreadQueryAuth(RConThreadQuery par1RConThreadQuery, DatagramPacket par2DatagramPacket)
+	public RConThreadQueryAuth(RConThreadQuery p_i3405_1_, DatagramPacket p_i3405_2_)
 	{
-		queryThread = par1RConThreadQuery;
+		queryThread = p_i3405_1_;
 		timestamp = new Date().getTime();
-		byte[] var3 = par2DatagramPacket.getData();
+		byte[] var3 = p_i3405_2_.getData();
 		requestId = new byte[4];
 		requestId[0] = var3[3];
 		requestId[1] = var3[4];
@@ -43,8 +43,8 @@ class RConThreadQueryAuth
 		return requestId;
 	}
 	
-	public Boolean hasExpired(long par1)
+	public Boolean hasExpired(long p_72593_1_)
 	{
-		return Boolean.valueOf(timestamp < par1);
+		return Boolean.valueOf(timestamp < p_72593_1_);
 	}
 }

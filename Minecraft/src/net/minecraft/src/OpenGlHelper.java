@@ -5,7 +5,7 @@ public class OpenGlHelper
 {
 	public static int defaultTexUnit;
 	public static int lightmapTexUnit;
-	private static boolean useMultitextureARB;
+	private static boolean useMultitextureARB = false;
 	
 	public static void initializeTextures()
 	{

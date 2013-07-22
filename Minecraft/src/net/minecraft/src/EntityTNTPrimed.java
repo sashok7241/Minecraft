@@ -3,29 +3,30 @@ package net.minecraft.src;
 public class EntityTNTPrimed extends Entity
 {
 	public int fuse;
-	private EntityLivingBase tntPlacedBy;
+	private EntityLiving tntPlacedBy;
 	
-	public EntityTNTPrimed(World par1World)
+	public EntityTNTPrimed(World p_i3543_1_)
 	{
-		super(par1World);
+		super(p_i3543_1_);
+		fuse = 0;
 		preventEntitySpawning = true;
 		setSize(0.98F, 0.98F);
 		yOffset = height / 2.0F;
 	}
 	
-	public EntityTNTPrimed(World par1World, double par2, double par4, double par6, EntityLivingBase par8EntityLivingBase)
+	public EntityTNTPrimed(World p_i9030_1_, double p_i9030_2_, double p_i9030_4_, double p_i9030_6_, EntityLiving p_i9030_8_)
 	{
-		this(par1World);
-		setPosition(par2, par4, par6);
+		this(p_i9030_1_);
+		setPosition(p_i9030_2_, p_i9030_4_, p_i9030_6_);
 		float var9 = (float) (Math.random() * Math.PI * 2.0D);
 		motionX = -((float) Math.sin(var9)) * 0.02F;
 		motionY = 0.20000000298023224D;
 		motionZ = -((float) Math.cos(var9)) * 0.02F;
 		fuse = 80;
-		prevPosX = par2;
-		prevPosY = par4;
-		prevPosZ = par6;
-		tntPlacedBy = par8EntityLivingBase;
+		prevPosX = p_i9030_2_;
+		prevPosY = p_i9030_4_;
+		prevPosZ = p_i9030_6_;
+		tntPlacedBy = p_i9030_8_;
 	}
 	
 	@Override public boolean canBeCollidedWith()
@@ -53,7 +54,7 @@ public class EntityTNTPrimed extends Entity
 		return 0.0F;
 	}
 	
-	public EntityLivingBase getTntPlacedBy()
+	public EntityLiving getTntPlacedBy()
 	{
 		return tntPlacedBy;
 	}
@@ -87,13 +88,13 @@ public class EntityTNTPrimed extends Entity
 		}
 	}
 	
-	@Override protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		fuse = par1NBTTagCompound.getByte("Fuse");
+		fuse = p_70037_1_.getByte("Fuse");
 	}
 	
-	@Override protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		par1NBTTagCompound.setByte("Fuse", (byte) fuse);
+		p_70014_1_.setByte("Fuse", (byte) fuse);
 	}
 }

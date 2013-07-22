@@ -2,13 +2,15 @@ package net.minecraft.src;
 
 public class EntitySpider extends EntityMob
 {
-	public EntitySpider(World par1World)
+	public EntitySpider(World p_i3557_1_)
 	{
-		super(par1World);
+		super(p_i3557_1_);
+		texture = "/mob/spider.png";
 		setSize(1.4F, 0.9F);
+		moveSpeed = 0.8F;
 	}
 	
-	@Override protected void attackEntity(Entity par1Entity, float par2)
+	@Override protected void attackEntity(Entity p_70785_1_, float p_70785_2_)
 	{
 		float var3 = getBrightness(1.0F);
 		if(var3 > 0.5F && rand.nextInt(100) == 0)
@@ -16,12 +18,12 @@ public class EntitySpider extends EntityMob
 			entityToAttack = null;
 		} else
 		{
-			if(par2 > 2.0F && par2 < 6.0F && rand.nextInt(10) == 0)
+			if(p_70785_2_ > 2.0F && p_70785_2_ < 6.0F && rand.nextInt(10) == 0)
 			{
 				if(onGround)
 				{
-					double var4 = par1Entity.posX - posX;
-					double var6 = par1Entity.posZ - posZ;
+					double var4 = p_70785_1_.posX - posX;
+					double var6 = p_70785_1_.posZ - posZ;
 					float var8 = MathHelper.sqrt_double(var4 * var4 + var6 * var6);
 					motionX = var4 / var8 * 0.5D * 0.800000011920929D + motionX * 0.20000000298023224D;
 					motionZ = var6 / var8 * 0.5D * 0.800000011920929D + motionZ * 0.20000000298023224D;
@@ -29,15 +31,15 @@ public class EntitySpider extends EntityMob
 				}
 			} else
 			{
-				super.attackEntity(par1Entity, par2);
+				super.attackEntity(p_70785_1_, p_70785_2_);
 			}
 		}
 	}
 	
-	@Override protected void dropFewItems(boolean par1, int par2)
+	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
 	{
-		super.dropFewItems(par1, par2);
-		if(par1 && (rand.nextInt(3) == 0 || rand.nextInt(1 + par2) > 0))
+		super.dropFewItems(p_70628_1_, p_70628_2_);
+		if(p_70628_1_ && (rand.nextInt(3) == 0 || rand.nextInt(1 + p_70628_2_) > 0))
 		{
 			dropItem(Item.spiderEye.itemID, 1);
 		}
@@ -57,43 +59,6 @@ public class EntitySpider extends EntityMob
 			double var2 = 16.0D;
 			return worldObj.getClosestVulnerablePlayerToEntity(this, var2);
 		} else return null;
-	}
-	
-	@Override protected void func_110147_ax()
-	{
-		super.func_110147_ax();
-		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(16.0D);
-		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.800000011920929D);
-	}
-	
-	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
-	{
-		Object par1EntityLivingData1 = super.func_110161_a(par1EntityLivingData);
-		if(worldObj.rand.nextInt(100) == 0)
-		{
-			EntitySkeleton var2 = new EntitySkeleton(worldObj);
-			var2.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
-			var2.func_110161_a((EntityLivingData) null);
-			worldObj.spawnEntityInWorld(var2);
-			var2.mountEntity(this);
-		}
-		if(par1EntityLivingData1 == null)
-		{
-			par1EntityLivingData1 = new SpiderEffectsGroupData();
-			if(worldObj.difficultySetting > 2 && worldObj.rand.nextFloat() < 0.1F * worldObj.func_110746_b(posX, posY, posZ))
-			{
-				((SpiderEffectsGroupData) par1EntityLivingData1).func_111104_a(worldObj.rand);
-			}
-		}
-		if(par1EntityLivingData1 instanceof SpiderEffectsGroupData)
-		{
-			int var4 = ((SpiderEffectsGroupData) par1EntityLivingData1).field_111105_a;
-			if(var4 > 0 && Potion.potionTypes[var4] != null)
-			{
-				addPotionEffect(new PotionEffect(var4, Integer.MAX_VALUE));
-			}
-		}
-		return (EntityLivingData) par1EntityLivingData1;
 	}
 	
 	@Override public EnumCreatureAttribute getCreatureAttribute()
@@ -121,6 +86,28 @@ public class EntitySpider extends EntityMob
 		return "mob.spider.say";
 	}
 	
+	@Override public int getMaxHealth()
+	{
+		return 16;
+	}
+	
+	@Override public double getMountedYOffset()
+	{
+		return height * 0.75D - 0.5D;
+	}
+	
+	@Override public void initCreature()
+	{
+		if(worldObj.rand.nextInt(100) == 0)
+		{
+			EntitySkeleton var1 = new EntitySkeleton(worldObj);
+			var1.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
+			var1.initCreature();
+			worldObj.spawnEntityInWorld(var1);
+			var1.mountEntity(this);
+		}
+	}
+	
 	public boolean isBesideClimbableBlock()
 	{
 		return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
@@ -131,9 +118,9 @@ public class EntitySpider extends EntityMob
 		return isBesideClimbableBlock();
 	}
 	
-	@Override public boolean isPotionApplicable(PotionEffect par1PotionEffect)
+	@Override public boolean isPotionApplicable(PotionEffect p_70687_1_)
 	{
-		return par1PotionEffect.getPotionID() == Potion.poison.id ? false : super.isPotionApplicable(par1PotionEffect);
+		return p_70687_1_.getPotionID() == Potion.poison.id ? false : super.isPotionApplicable(p_70687_1_);
 	}
 	
 	@Override public void onUpdate()
@@ -145,15 +132,15 @@ public class EntitySpider extends EntityMob
 		}
 	}
 	
-	@Override protected void playStepSound(int par1, int par2, int par3, int par4)
+	@Override protected void playStepSound(int p_70036_1_, int p_70036_2_, int p_70036_3_, int p_70036_4_)
 	{
 		playSound("mob.spider.step", 0.15F, 1.0F);
 	}
 	
-	public void setBesideClimbableBlock(boolean par1)
+	public void setBesideClimbableBlock(boolean p_70839_1_)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
-		if(par1)
+		if(p_70839_1_)
 		{
 			var2 = (byte) (var2 | 1);
 		} else
@@ -165,5 +152,10 @@ public class EntitySpider extends EntityMob
 	
 	@Override public void setInWeb()
 	{
+	}
+	
+	public float spiderScaleAmount()
+	{
+		return 1.0F;
 	}
 }

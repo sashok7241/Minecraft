@@ -2,8 +2,6 @@ package net.minecraft.src;
 
 public interface IMerchant
 {
-	void func_110297_a_(ItemStack var1);
-	
 	EntityPlayer getCustomer();
 	
 	MerchantRecipeList getRecipes(EntityPlayer var1);

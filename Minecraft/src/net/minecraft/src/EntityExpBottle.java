@@ -2,19 +2,19 @@ package net.minecraft.src;
 
 public class EntityExpBottle extends EntityThrowable
 {
-	public EntityExpBottle(World par1World)
+	public EntityExpBottle(World p_i3592_1_)
 	{
-		super(par1World);
+		super(p_i3592_1_);
 	}
 	
-	public EntityExpBottle(World par1World, double par2, double par4, double par6)
+	public EntityExpBottle(World p_i3594_1_, double p_i3594_2_, double p_i3594_4_, double p_i3594_6_)
 	{
-		super(par1World, par2, par4, par6);
+		super(p_i3594_1_, p_i3594_2_, p_i3594_4_, p_i3594_6_);
 	}
 	
-	public EntityExpBottle(World par1World, EntityLivingBase par2EntityLivingBase)
+	public EntityExpBottle(World p_i3593_1_, EntityLiving p_i3593_2_)
 	{
-		super(par1World, par2EntityLivingBase);
+		super(p_i3593_1_, p_i3593_2_);
 	}
 	
 	@Override protected float func_70182_d()
@@ -32,7 +32,7 @@ public class EntityExpBottle extends EntityThrowable
 		return 0.07F;
 	}
 	
-	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+	@Override protected void onImpact(MovingObjectPosition p_70184_1_)
 	{
 		if(!worldObj.isRemote)
 		{

@@ -6,9 +6,9 @@ class CallableType3 implements Callable
 {
 	final IntegratedServer theIntegratedServer;
 	
-	CallableType3(IntegratedServer par1IntegratedServer)
+	CallableType3(IntegratedServer p_i3120_1_)
 	{
-		theIntegratedServer = par1IntegratedServer;
+		theIntegratedServer = p_i3120_1_;
 	}
 	
 	@Override public Object call()

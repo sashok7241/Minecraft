@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 final class StepSoundAnvil extends StepSound
 {
-	StepSoundAnvil(String par1Str, float par2, float par3)
+	StepSoundAnvil(String p_i5107_1_, float p_i5107_2_, float p_i5107_3_)
 	{
-		super(par1Str, par2, par3);
+		super(p_i5107_1_, p_i5107_2_, p_i5107_3_);
 	}
 	
 	@Override public String getBreakSound()

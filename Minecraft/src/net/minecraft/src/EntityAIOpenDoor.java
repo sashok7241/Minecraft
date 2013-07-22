@@ -5,11 +5,11 @@ public class EntityAIOpenDoor extends EntityAIDoorInteract
 	boolean field_75361_i;
 	int field_75360_j;
 	
-	public EntityAIOpenDoor(EntityLiving par1EntityLiving, boolean par2)
+	public EntityAIOpenDoor(EntityLiving p_i3484_1_, boolean p_i3484_2_)
 	{
-		super(par1EntityLiving);
-		theEntity = par1EntityLiving;
-		field_75361_i = par2;
+		super(p_i3484_1_);
+		theEntity = p_i3484_1_;
+		field_75361_i = p_i3484_2_;
 	}
 	
 	@Override public boolean continueExecuting()

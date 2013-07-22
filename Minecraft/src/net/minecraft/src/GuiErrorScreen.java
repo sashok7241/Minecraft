@@ -5,10 +5,10 @@ public class GuiErrorScreen extends GuiScreen
 	private String message1;
 	private String message2;
 	
-	public GuiErrorScreen(String par1Str, String par2Str)
+	public GuiErrorScreen(String p_i11003_1_, String p_i11003_2_)
 	{
-		message1 = par1Str;
-		message2 = par2Str;
+		message1 = p_i11003_1_;
+		message2 = p_i11003_2_;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -27,7 +27,7 @@ public class GuiErrorScreen extends GuiScreen
 	@Override public void initGui()
 	{
 		super.initGui();
-		buttonList.add(new GuiButton(0, width / 2 - 100, 140, I18n.func_135053_a("gui.cancel")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, 140, StatCollector.translateToLocal("gui.cancel")));
 	}
 	
 	@Override protected void keyTyped(char par1, int par2)

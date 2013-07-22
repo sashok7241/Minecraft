@@ -20,21 +20,20 @@ public class PlayerUsageSnooper
 	private final IPlayerUsage playerStatsCollector;
 	private final java.util.Timer threadTrigger = new java.util.Timer("Snooper Timer", true);
 	private final Object syncLock = new Object();
-	private final long field_98224_g;
-	private boolean isRunning;
-	private int selfCounter;
+	private final long field_98224_g = System.currentTimeMillis();
+	private boolean isRunning = false;
+	private int selfCounter = 0;
 	
-	public PlayerUsageSnooper(String par1Str, IPlayerUsage par2IPlayerUsage, long par3)
+	public PlayerUsageSnooper(String p_i3428_1_, IPlayerUsage p_i3428_2_)
 	{
 		try
 		{
-			serverUrl = new URL("http://snoop.minecraft.net/" + par1Str + "?version=" + 1);
-		} catch(MalformedURLException var6)
+			serverUrl = new URL("http://snoop.minecraft.net/" + p_i3428_1_ + "?version=" + 1);
+		} catch(MalformedURLException var4)
 		{
 			throw new IllegalArgumentException();
 		}
-		playerStatsCollector = par2IPlayerUsage;
-		field_98224_g = par3;
+		playerStatsCollector = p_i3428_2_;
 	}
 	
 	private void addBaseDataToSnooper()
@@ -45,16 +44,16 @@ public class PlayerUsageSnooper
 		addData("os_version", System.getProperty("os.version"));
 		addData("os_architecture", System.getProperty("os.arch"));
 		addData("java_version", System.getProperty("java.version"));
-		addData("version", "1.6.2");
+		addData("version", "1.5.2");
 		playerStatsCollector.addServerTypeToSnooper(this);
 	}
 	
-	public void addData(String par1Str, Object par2Obj)
+	public void addData(String p_76472_1_, Object p_76472_2_)
 	{
 		Object var3 = syncLock;
 		synchronized(syncLock)
 		{
-			dataMap.put(par1Str, par2Obj);
+			dataMap.put(p_76472_1_, p_76472_2_);
 		}
 	}
 	
@@ -81,12 +80,8 @@ public class PlayerUsageSnooper
 		addData("memory_max", Long.valueOf(Runtime.getRuntime().maxMemory()));
 		addData("memory_free", Long.valueOf(Runtime.getRuntime().freeMemory()));
 		addData("cpu_cores", Integer.valueOf(Runtime.getRuntime().availableProcessors()));
+		addData("run_time", Long.valueOf((System.currentTimeMillis() - field_98224_g) / 60L * 1000L));
 		playerStatsCollector.addServerStatsToSnooper(this);
-	}
-	
-	public long func_130105_g()
-	{
-		return field_98224_g;
 	}
 	
 	public Map getCurrentStats()
@@ -131,28 +126,28 @@ public class PlayerUsageSnooper
 		threadTrigger.cancel();
 	}
 	
-	static Map getDataMapFor(PlayerUsageSnooper par0PlayerUsageSnooper)
+	static Map getDataMapFor(PlayerUsageSnooper p_76469_0_)
 	{
-		return par0PlayerUsageSnooper.dataMap;
+		return p_76469_0_.dataMap;
 	}
 	
-	static int getSelfCounterFor(PlayerUsageSnooper par0PlayerUsageSnooper)
+	static int getSelfCounterFor(PlayerUsageSnooper p_76466_0_)
 	{
-		return par0PlayerUsageSnooper.selfCounter++;
+		return p_76466_0_.selfCounter++;
 	}
 	
-	static URL getServerUrlFor(PlayerUsageSnooper par0PlayerUsageSnooper)
+	static URL getServerUrlFor(PlayerUsageSnooper p_76475_0_)
 	{
-		return par0PlayerUsageSnooper.serverUrl;
+		return p_76475_0_.serverUrl;
 	}
 	
-	static IPlayerUsage getStatsCollectorFor(PlayerUsageSnooper par0PlayerUsageSnooper)
+	static IPlayerUsage getStatsCollectorFor(PlayerUsageSnooper p_76473_0_)
 	{
-		return par0PlayerUsageSnooper.playerStatsCollector;
+		return p_76473_0_.playerStatsCollector;
 	}
 	
-	static Object getSyncLockFor(PlayerUsageSnooper par0PlayerUsageSnooper)
+	static Object getSyncLockFor(PlayerUsageSnooper p_76474_0_)
 	{
-		return par0PlayerUsageSnooper.syncLock;
+		return p_76474_0_.syncLock;
 	}
 }

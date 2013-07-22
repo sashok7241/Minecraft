@@ -9,8 +9,8 @@ public class NumberInvalidException extends CommandException
 		this("commands.generic.num.invalid", new Object[0]);
 	}
 	
-	public NumberInvalidException(String par1Str, Object ... par2ArrayOfObj)
+	public NumberInvalidException(String p_i3255_1_, Object ... p_i3255_2_)
 	{
-		super(par1Str, par2ArrayOfObj);
+		super(p_i3255_1_, p_i3255_2_);
 	}
 }

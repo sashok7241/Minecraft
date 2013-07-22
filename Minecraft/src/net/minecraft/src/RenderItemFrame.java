@@ -1,26 +1,14 @@
 package net.minecraft.src;
 
-import net.minecraft.client.Minecraft;
 
 public class RenderItemFrame extends Render
 {
-	private static final ResourceLocation field_110789_a = new ResourceLocation("textures/map/map_background.png");
 	private final RenderBlocks renderBlocksInstance = new RenderBlocks();
 	private Icon field_94147_f;
 	
 	@Override public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
 		func_82404_a((EntityItemFrame) par1Entity, par2, par4, par6, par8, par9);
-	}
-	
-	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
-	{
-		return func_110788_a((EntityItemFrame) par1Entity);
-	}
-	
-	protected ResourceLocation func_110788_a(EntityItemFrame par1EntityItemFrame)
-	{
-		return null;
 	}
 	
 	private void func_82402_b(EntityItemFrame par1EntityItemFrame)
@@ -48,7 +36,7 @@ public class RenderItemFrame extends Render
 			}
 			if(var3.getEntityItem().getItem() == Item.map)
 			{
-				renderManager.renderEngine.func_110577_a(field_110789_a);
+				renderManager.renderEngine.bindTexture("/misc/mapbg.png");
 				Tessellator var4 = Tessellator.instance;
 				GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
 				GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
@@ -70,33 +58,25 @@ public class RenderItemFrame extends Render
 				}
 			} else
 			{
+				TextureCompass var9;
 				if(var3.getEntityItem().getItem() == Item.compass)
 				{
-					TextureManager var11 = Minecraft.getMinecraft().func_110434_K();
-					var11.func_110577_a(TextureMap.field_110576_c);
-					TextureAtlasSprite var13 = ((TextureMap) var11.func_110581_b(TextureMap.field_110576_c)).func_110572_b(Item.compass.getIconIndex(var3.getEntityItem()).getIconName());
-					if(var13 instanceof TextureCompass)
-					{
-						TextureCompass var14 = (TextureCompass) var13;
-						double var7 = var14.currentAngle;
-						double var9 = var14.angleDelta;
-						var14.currentAngle = 0.0D;
-						var14.angleDelta = 0.0D;
-						var14.updateCompass(par1EntityItemFrame.worldObj, par1EntityItemFrame.posX, par1EntityItemFrame.posZ, MathHelper.wrapAngleTo180_float(180 + par1EntityItemFrame.hangingDirection * 90), false, true);
-						var14.currentAngle = var7;
-						var14.angleDelta = var9;
-					}
+					var9 = TextureCompass.compassTexture;
+					double var10 = var9.currentAngle;
+					double var7 = var9.angleDelta;
+					var9.currentAngle = 0.0D;
+					var9.angleDelta = 0.0D;
+					var9.updateCompass(par1EntityItemFrame.worldObj, par1EntityItemFrame.posX, par1EntityItemFrame.posZ, MathHelper.wrapAngleTo180_float(180 + par1EntityItemFrame.hangingDirection * 90), false, true);
+					var9.currentAngle = var10;
+					var9.angleDelta = var7;
 				}
 				RenderItem.renderInFrame = true;
 				RenderManager.instance.renderEntityWithPosYaw(var3, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 				RenderItem.renderInFrame = false;
 				if(var3.getEntityItem().getItem() == Item.compass)
 				{
-					TextureAtlasSprite var12 = ((TextureMap) Minecraft.getMinecraft().func_110434_K().func_110581_b(TextureMap.field_110576_c)).func_110572_b(Item.compass.getIconIndex(var3.getEntityItem()).getIconName());
-					if(var12.func_110970_k() > 0)
-					{
-						var12.updateAnimation();
-					}
+					var9 = TextureCompass.compassTexture;
+					var9.updateAnimation();
 				}
 			}
 			GL11.glPopMatrix();
@@ -121,8 +101,8 @@ public class RenderItemFrame extends Render
 	private void renderFrameItemAsBlock(EntityItemFrame par1EntityItemFrame)
 	{
 		GL11.glPushMatrix();
+		renderManager.renderEngine.bindTexture("/terrain.png");
 		GL11.glRotatef(par1EntityItemFrame.rotationYaw, 0.0F, 1.0F, 0.0F);
-		renderManager.renderEngine.func_110577_a(TextureMap.field_110575_b);
 		Block var2 = Block.planks;
 		float var3 = 0.0625F;
 		float var4 = 0.75F;
@@ -158,6 +138,6 @@ public class RenderItemFrame extends Render
 	
 	@Override public void updateIcons(IconRegister par1IconRegister)
 	{
-		field_94147_f = par1IconRegister.registerIcon("itemframe_background");
+		field_94147_f = par1IconRegister.registerIcon("itemframe_back");
 	}
 }

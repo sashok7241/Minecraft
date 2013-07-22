@@ -10,26 +10,24 @@ public class IntegratedServer extends MinecraftServer
 {
 	private final Minecraft mc;
 	private final WorldSettings theWorldSettings;
-	private final ILogAgent serverLogAgent;
+	private final ILogAgent serverLogAgent = new LogAgent("Minecraft-Server", " [SERVER]", new File(Minecraft.getMinecraftDir(), "output-server.log").getAbsolutePath());
 	private IntegratedServerListenThread theServerListeningThread;
-	private boolean isGamePaused;
+	private boolean isGamePaused = false;
 	private boolean isPublic;
 	private ThreadLanServerPing lanServerPing;
 	
-	public IntegratedServer(Minecraft par1Minecraft, String par2Str, String par3Str, WorldSettings par4WorldSettings)
+	public IntegratedServer(Minecraft p_i3118_1_, String p_i3118_2_, String p_i3118_3_, WorldSettings p_i3118_4_)
 	{
-		super(new File(par1Minecraft.mcDataDir, "saves"));
-		serverLogAgent = new LogAgent("Minecraft-Server", " [SERVER]", new File(par1Minecraft.mcDataDir, "output-server.log").getAbsolutePath());
-		setServerOwner(par1Minecraft.func_110432_I().func_111285_a());
-		setFolderName(par2Str);
-		setWorldName(par3Str);
-		setDemo(par1Minecraft.isDemo());
-		canCreateBonusChest(par4WorldSettings.isBonusChestEnabled());
+		super(new File(Minecraft.getMinecraftDir(), "saves"));
+		setServerOwner(p_i3118_1_.session.username);
+		setFolderName(p_i3118_2_);
+		setWorldName(p_i3118_3_);
+		setDemo(p_i3118_1_.isDemo());
+		canCreateBonusChest(p_i3118_4_.isBonusChestEnabled());
 		setBuildLimit(256);
 		setConfigurationManager(new IntegratedPlayerList(this));
-		mc = par1Minecraft;
-		field_110456_c = par1Minecraft.func_110437_J();
-		theWorldSettings = par4WorldSettings;
+		mc = p_i3118_1_;
+		theWorldSettings = p_i3118_4_;
 		try
 		{
 			theServerListeningThread = new IntegratedServerListenThread(this);
@@ -39,18 +37,18 @@ public class IntegratedServer extends MinecraftServer
 		}
 	}
 	
-	@Override public CrashReport addServerInfoToCrashReport(CrashReport par1CrashReport)
+	@Override public CrashReport addServerInfoToCrashReport(CrashReport p_71230_1_)
 	{
-		par1CrashReport = super.addServerInfoToCrashReport(par1CrashReport);
-		par1CrashReport.func_85056_g().addCrashSectionCallable("Type", new CallableType3(this));
-		par1CrashReport.func_85056_g().addCrashSectionCallable("Is Modded", new CallableIsModded(this));
-		return par1CrashReport;
+		p_71230_1_ = super.addServerInfoToCrashReport(p_71230_1_);
+		p_71230_1_.func_85056_g().addCrashSectionCallable("Type", new CallableType3(this));
+		p_71230_1_.func_85056_g().addCrashSectionCallable("Is Modded", new CallableIsModded(this));
+		return p_71230_1_;
 	}
 	
-	@Override public void addServerStatsToSnooper(PlayerUsageSnooper par1PlayerUsageSnooper)
+	@Override public void addServerStatsToSnooper(PlayerUsageSnooper p_70000_1_)
 	{
-		super.addServerStatsToSnooper(par1PlayerUsageSnooper);
-		par1PlayerUsageSnooper.addData("snooper_partner", mc.getPlayerUsageSnooper().getUniqueID());
+		super.addServerStatsToSnooper(p_70000_1_);
+		p_70000_1_.addData("snooper_partner", mc.getPlayerUsageSnooper().getUniqueID());
 	}
 	
 	@Override public boolean canStructuresSpawn()
@@ -58,14 +56,9 @@ public class IntegratedServer extends MinecraftServer
 		return false;
 	}
 	
-	@Override protected void finalTick(CrashReport par1CrashReport)
+	@Override protected void finalTick(CrashReport p_71228_1_)
 	{
-		mc.crashed(par1CrashReport);
-	}
-	
-	@Override public int func_110455_j()
-	{
-		return 4;
+		mc.crashed(p_71228_1_);
 	}
 	
 	@Override protected File getDataDirectory()
@@ -133,12 +126,12 @@ public class IntegratedServer extends MinecraftServer
 		return Minecraft.getMinecraft().isSnooperEnabled();
 	}
 	
-	@Override protected void loadAllWorlds(String par1Str, String par2Str, long par3, WorldType par5WorldType, String par6Str)
+	@Override protected void loadAllWorlds(String p_71247_1_, String p_71247_2_, long p_71247_3_, WorldType p_71247_5_, String p_71247_6_)
 	{
-		convertMapIfNeeded(par1Str);
+		convertMapIfNeeded(p_71247_1_);
 		worldServers = new WorldServer[3];
 		timeOfLastDimensionTick = new long[worldServers.length][100];
-		ISaveHandler var7 = getActiveAnvilConverter().getSaveLoader(par1Str, true);
+		ISaveHandler var7 = getActiveAnvilConverter().getSaveLoader(p_71247_1_, true);
 		for(int var8 = 0; var8 < worldServers.length; ++var8)
 		{
 			byte var9 = 0;
@@ -154,14 +147,14 @@ public class IntegratedServer extends MinecraftServer
 			{
 				if(isDemo())
 				{
-					worldServers[var8] = new DemoWorldServer(this, var7, par2Str, var9, theProfiler, getLogAgent());
+					worldServers[var8] = new DemoWorldServer(this, var7, p_71247_2_, var9, theProfiler, getLogAgent());
 				} else
 				{
-					worldServers[var8] = new WorldServer(this, var7, par2Str, var9, theWorldSettings, theProfiler, getLogAgent());
+					worldServers[var8] = new WorldServer(this, var7, p_71247_2_, var9, theWorldSettings, theProfiler, getLogAgent());
 				}
 			} else
 			{
-				worldServers[var8] = new WorldServerMulti(this, var7, par2Str, var9, theWorldSettings, worldServers[0], theProfiler, getLogAgent());
+				worldServers[var8] = new WorldServerMulti(this, var7, p_71247_2_, var9, theWorldSettings, worldServers[0], theProfiler, getLogAgent());
 			}
 			worldServers[var8].addWorldAccess(new WorldManager(this, worldServers[var8]));
 			getConfigurationManager().setPlayerManager(worldServers);
@@ -170,12 +163,12 @@ public class IntegratedServer extends MinecraftServer
 		initialWorldChunkLoad();
 	}
 	
-	@Override public void setGameType(EnumGameType par1EnumGameType)
+	@Override public void setGameType(EnumGameType p_71235_1_)
 	{
-		getConfigurationManager().setGameType(par1EnumGameType);
+		getConfigurationManager().setGameType(p_71235_1_);
 	}
 	
-	@Override public String shareToLAN(EnumGameType par1EnumGameType, boolean par2)
+	@Override public String shareToLAN(EnumGameType p_71206_1_, boolean p_71206_2_)
 	{
 		try
 		{
@@ -184,8 +177,8 @@ public class IntegratedServer extends MinecraftServer
 			isPublic = true;
 			lanServerPing = new ThreadLanServerPing(getMOTD(), var3);
 			lanServerPing.start();
-			getConfigurationManager().setGameType(par1EnumGameType);
-			getConfigurationManager().setCommandsAllowedForAll(par2);
+			getConfigurationManager().setGameType(p_71206_1_);
+			getConfigurationManager().setCommandsAllowedForAll(p_71206_2_);
 			return var3;
 		} catch(IOException var4)
 		{
@@ -195,7 +188,7 @@ public class IntegratedServer extends MinecraftServer
 	
 	@Override protected boolean startServer() throws IOException
 	{
-		serverLogAgent.logInfo("Starting integrated minecraft server version 1.6.2");
+		serverLogAgent.logInfo("Starting integrated minecraft server version 1.5.2");
 		setOnlineMode(false);
 		setCanSpawnAnimals(true);
 		setCanSpawnNPCs(true);

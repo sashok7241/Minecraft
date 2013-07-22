@@ -2,22 +2,12 @@ package net.minecraft.src;
 
 public class Session
 {
-	private final String username;
-	private final String sessionId;
+	public String username;
+	public String sessionId;
 	
-	public Session(String par1Str, String par2Str)
+	public Session(String p_i3014_1_, String p_i3014_2_)
 	{
-		username = par1Str;
-		sessionId = par2Str;
-	}
-	
-	public String func_111285_a()
-	{
-		return username;
-	}
-	
-	public String func_111286_b()
-	{
-		return sessionId;
+		username = p_i3014_1_;
+		sessionId = p_i3014_2_;
 	}
 }

@@ -4,14 +4,14 @@ class GuiBeaconButtonConfirm extends GuiBeaconButton
 {
 	final GuiBeacon beaconGui;
 	
-	public GuiBeaconButtonConfirm(GuiBeacon par1GuiBeacon, int par2, int par3, int par4)
+	public GuiBeaconButtonConfirm(GuiBeacon p_i5011_1_, int p_i5011_2_, int p_i5011_3_, int p_i5011_4_)
 	{
-		super(par2, par3, par4, GuiBeacon.func_110427_g(), 90, 220);
-		beaconGui = par1GuiBeacon;
+		super(p_i5011_2_, p_i5011_3_, p_i5011_4_, "/gui/beacon.png", 90, 220);
+		beaconGui = p_i5011_1_;
 	}
 	
 	@Override public void func_82251_b(int par1, int par2)
 	{
-		beaconGui.drawCreativeTabHoveringText(I18n.func_135053_a("gui.done"), par1, par2);
+		beaconGui.drawCreativeTabHoveringText(StatCollector.translateToLocal("gui.done"), par1, par2);
 	}
 }

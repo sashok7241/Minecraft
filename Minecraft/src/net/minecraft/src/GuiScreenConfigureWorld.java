@@ -21,13 +21,12 @@ public class GuiScreenConfigureWorld extends GuiScreen
 	private GuiButton field_98128_v;
 	private GuiButton field_98127_w;
 	private GuiButton field_98129_x;
-	private GuiButton field_110381_z;
 	private boolean field_102020_y;
 	
-	public GuiScreenConfigureWorld(GuiScreen par1GuiScreen, McoServer par2McoServer)
+	public GuiScreenConfigureWorld(GuiScreen p_i10006_1_, McoServer p_i10006_2_)
 	{
-		field_96285_a = par1GuiScreen;
-		field_96280_b = par2McoServer;
+		field_96285_a = p_i10006_1_;
+		field_96280_b = p_i10006_2_;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -46,9 +45,10 @@ public class GuiScreenConfigureWorld extends GuiScreen
 				mc.displayGuiScreen(new GuiScreenEditOnlineWorld(this, field_96285_a, field_96280_b));
 			} else if(par1GuiButton.id == 1)
 			{
-				String var2 = I18n.func_135053_a("mco.configure.world.close.question.line1");
-				String var3 = I18n.func_135053_a("mco.configure.world.close.question.line2");
-				mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Info, var2, var3, 1));
+				StringTranslate var2 = StringTranslate.getInstance();
+				String var3 = var2.translateKey("mco.configure.world.close.question.line1");
+				String var4 = var2.translateKey("mco.configure.world.close.question.line2");
+				mc.displayGuiScreen(new GuiScreenConfirmation(this, "Warning!", var3, var4, 1));
 			} else if(par1GuiButton.id == 0)
 			{
 				func_96268_g();
@@ -64,9 +64,6 @@ public class GuiScreenConfigureWorld extends GuiScreen
 			} else if(par1GuiButton.id == 7)
 			{
 				mc.displayGuiScreen(new GuiScreenSubscription(this, field_96280_b));
-			} else if(par1GuiButton.id == 8)
-			{
-				mc.displayGuiScreen(new GuiScreenBackup(this, field_96280_b.field_96408_a));
 			}
 		}
 	}
@@ -77,13 +74,13 @@ public class GuiScreenConfigureWorld extends GuiScreen
 		{
 			if(par1)
 			{
-				McoClient var3 = new McoClient(mc.func_110432_I());
+				McoClient var3 = new McoClient(mc.session);
 				try
 				{
 					var3.func_96381_a(field_96280_b.field_96408_a, field_96283_q);
 				} catch(ExceptionMcoService var5)
 				{
-					mc.getLogAgent().logSevere(var5.toString());
+					System.err.println("Could not uninvite the selected user");
 				}
 				func_96267_d(field_96284_p);
 			}
@@ -101,16 +98,17 @@ public class GuiScreenConfigureWorld extends GuiScreen
 	
 	@Override public void drawScreen(int par1, int par2, float par3)
 	{
+		StringTranslate var4 = StringTranslate.getInstance();
 		drawDefaultBackground();
 		field_96282_c.func_96612_a(par1, par2, par3);
-		drawCenteredString(fontRenderer, I18n.func_135053_a("mco.configure.world.title"), width / 2, 17, 16777215);
-		drawString(fontRenderer, I18n.func_135053_a("mco.configure.world.name"), field_96277_d, func_96264_a(1), 10526880);
+		drawCenteredString(fontRenderer, var4.translateKey("mco.configure.world.title"), width / 2, 17, 16777215);
+		drawString(fontRenderer, var4.translateKey("mco.configure.world.name"), field_96277_d, func_96264_a(1), 10526880);
 		drawString(fontRenderer, field_96280_b.func_96398_b(), field_96277_d, func_96264_a(2), 16777215);
-		drawString(fontRenderer, I18n.func_135053_a("mco.configure.world.description"), field_96277_d, func_96264_a(4), 10526880);
+		drawString(fontRenderer, var4.translateKey("mco.configure.world.description"), field_96277_d, func_96264_a(4), 10526880);
 		drawString(fontRenderer, field_96280_b.func_96397_a(), field_96277_d, func_96264_a(5), 16777215);
-		drawString(fontRenderer, I18n.func_135053_a("mco.configure.world.status"), field_96277_d, func_96264_a(7), 10526880);
+		drawString(fontRenderer, var4.translateKey("mco.configure.world.status"), field_96277_d, func_96264_a(7), 10526880);
 		drawString(fontRenderer, func_104045_j(), field_96277_d, func_96264_a(8), 16777215);
-		drawString(fontRenderer, I18n.func_135053_a("mco.configure.world.invited"), field_96287_o, func_96264_a(1), 10526880);
+		drawString(fontRenderer, var4.translateKey("mco.configure.world.invited"), field_96287_o, func_96264_a(1), 10526880);
 		super.drawScreen(par1, par2, par3);
 	}
 	
@@ -136,7 +134,7 @@ public class GuiScreenConfigureWorld extends GuiScreen
 	
 	private void func_96268_g()
 	{
-		McoClient var1 = new McoClient(mc.func_110432_I());
+		McoClient var1 = new McoClient(mc.session);
 		try
 		{
 			Boolean var2 = var1.func_96383_b(field_96280_b.field_96408_a);
@@ -148,10 +146,10 @@ public class GuiScreenConfigureWorld extends GuiScreen
 			}
 		} catch(ExceptionMcoService var3)
 		{
-			mc.getLogAgent().logSevere(var3.toString());
+			;
 		} catch(IOException var4)
 		{
-			mc.getLogAgent().logWarning("Realms: could not parse response");
+			;
 		}
 	}
 	
@@ -160,14 +158,15 @@ public class GuiScreenConfigureWorld extends GuiScreen
 		if(field_96284_p >= 0 && field_96284_p < field_96280_b.field_96402_f.size())
 		{
 			field_96283_q = (String) field_96280_b.field_96402_f.get(field_96284_p);
-			GuiYesNo var1 = new GuiYesNo(this, "Warning!", I18n.func_135053_a("mco.configure.world.uninvite.question") + " \'" + field_96283_q + "\'", 3);
-			mc.displayGuiScreen(var1);
+			StringTranslate var1 = StringTranslate.getInstance();
+			GuiYesNo var2 = new GuiYesNo(this, "Warning!", var1.translateKey("mco.configure.world.uninvite.question") + " \'" + field_96283_q + "\'", 3);
+			mc.displayGuiScreen(var2);
 		}
 	}
 	
 	private void func_96275_h()
 	{
-		McoClient var1 = new McoClient(mc.func_110432_I());
+		McoClient var1 = new McoClient(mc.session);
 		try
 		{
 			boolean var2 = var1.func_96378_c(field_96280_b.field_96408_a).booleanValue();
@@ -179,15 +178,16 @@ public class GuiScreenConfigureWorld extends GuiScreen
 			}
 		} catch(ExceptionMcoService var3)
 		{
-			mc.getLogAgent().logSevere(var3.toString());
+			;
 		} catch(IOException var4)
 		{
-			mc.getLogAgent().logWarning("Realms: could not parse response");
+			;
 		}
 	}
 	
 	@Override public void initGui()
 	{
+		StringTranslate var1 = StringTranslate.getInstance();
 		field_96277_d = width / 2 - 200;
 		field_96286_n = 180;
 		field_96287_o = width / 2;
@@ -195,26 +195,24 @@ public class GuiScreenConfigureWorld extends GuiScreen
 		buttonList.clear();
 		if(field_96280_b.field_96404_d.equals("CLOSED"))
 		{
-			buttonList.add(field_96281_r = new GuiButton(0, field_96277_d, func_96264_a(12), field_96286_n / 2 - 2, 20, I18n.func_135053_a("mco.configure.world.buttons.open")));
+			buttonList.add(field_96281_r = new GuiButton(0, field_96277_d, func_96264_a(12), field_96286_n / 2 - 2, 20, var1.translateKey("mco.configure.world.buttons.open")));
 			field_96281_r.enabled = !field_96280_b.field_98166_h;
 		} else
 		{
-			buttonList.add(field_96279_s = new GuiButton(1, field_96277_d, func_96264_a(12), field_96286_n / 2 - 2, 20, I18n.func_135053_a("mco.configure.world.buttons.close")));
+			buttonList.add(field_96279_s = new GuiButton(1, field_96277_d, func_96264_a(12), field_96286_n / 2 - 2, 20, var1.translateKey("mco.configure.world.buttons.close")));
 			field_96279_s.enabled = !field_96280_b.field_98166_h;
 		}
-		buttonList.add(field_98129_x = new GuiButton(7, field_96277_d + field_96286_n / 2 + 2, func_96264_a(12), field_96286_n / 2 - 2, 20, I18n.func_135053_a("mco.configure.world.buttons.subscription")));
-		buttonList.add(field_96278_t = new GuiButton(5, field_96277_d, func_96264_a(10), field_96286_n / 2 - 2, 20, I18n.func_135053_a("mco.configure.world.buttons.edit")));
-		buttonList.add(field_96276_u = new GuiButton(6, field_96277_d + field_96286_n / 2 + 2, func_96264_a(10), field_96286_n / 2 - 2, 20, I18n.func_135053_a("mco.configure.world.buttons.reset")));
-		buttonList.add(field_98128_v = new GuiButton(4, field_96287_o, func_96264_a(10), field_96286_n / 2 - 2, 20, I18n.func_135053_a("mco.configure.world.buttons.invite")));
-		buttonList.add(field_98127_w = new GuiButton(3, field_96287_o + field_96286_n / 2 + 2, func_96264_a(10), field_96286_n / 2 - 2, 20, I18n.func_135053_a("mco.configure.world.buttons.uninvite")));
-		buttonList.add(field_110381_z = new GuiButton(8, field_96287_o, func_96264_a(12), field_96286_n / 2 - 2, 20, I18n.func_135053_a("mco.configure.world.buttons.backup")));
-		buttonList.add(new GuiButton(10, field_96287_o + field_96286_n / 2 + 2, func_96264_a(12), field_96286_n / 2 - 2, 20, I18n.func_135053_a("gui.back")));
+		buttonList.add(field_98129_x = new GuiButton(7, field_96277_d + field_96286_n / 2 + 2, func_96264_a(12), field_96286_n / 2 - 2, 20, var1.translateKey("mco.configure.world.buttons.subscription")));
+		buttonList.add(field_96278_t = new GuiButton(5, field_96277_d, func_96264_a(10), field_96286_n / 2 - 2, 20, var1.translateKey("mco.configure.world.buttons.edit")));
+		buttonList.add(field_96276_u = new GuiButton(6, field_96277_d + field_96286_n / 2 + 2, func_96264_a(10), field_96286_n / 2 - 2, 20, var1.translateKey("mco.configure.world.buttons.reset")));
+		buttonList.add(field_98128_v = new GuiButton(4, field_96287_o, func_96264_a(10), field_96286_n / 2 - 2, 20, var1.translateKey("mco.configure.world.buttons.invite")));
+		buttonList.add(field_98127_w = new GuiButton(3, field_96287_o + field_96286_n / 2 + 2, func_96264_a(10), field_96286_n / 2 - 2, 20, var1.translateKey("mco.configure.world.buttons.uninvite")));
+		buttonList.add(new GuiButton(10, field_96287_o, func_96264_a(12), field_96286_n, 20, var1.translateKey("gui.back")));
 		field_96282_c = new SelectionListInvited(this);
 		field_96278_t.enabled = !field_96280_b.field_98166_h;
 		field_96276_u.enabled = !field_96280_b.field_98166_h;
 		field_98128_v.enabled = !field_96280_b.field_98166_h;
 		field_98127_w.enabled = !field_96280_b.field_98166_h;
-		field_110381_z.enabled = !field_96280_b.field_98166_h;
 	}
 	
 	@Override protected void keyTyped(char par1, int par2)

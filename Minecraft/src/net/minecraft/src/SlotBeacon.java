@@ -4,10 +4,10 @@ class SlotBeacon extends Slot
 {
 	final ContainerBeacon beacon;
 	
-	public SlotBeacon(ContainerBeacon par1ContainerBeacon, IInventory par2IInventory, int par3, int par4, int par5)
+	public SlotBeacon(ContainerBeacon p_i5075_1_, IInventory p_i5075_2_, int p_i5075_3_, int p_i5075_4_, int p_i5075_5_)
 	{
-		super(par2IInventory, par3, par4, par5);
-		beacon = par1ContainerBeacon;
+		super(p_i5075_2_, p_i5075_3_, p_i5075_4_, p_i5075_5_);
+		beacon = p_i5075_1_;
 	}
 	
 	@Override public int getSlotStackLimit()
@@ -15,8 +15,8 @@ class SlotBeacon extends Slot
 		return 1;
 	}
 	
-	@Override public boolean isItemValid(ItemStack par1ItemStack)
+	@Override public boolean isItemValid(ItemStack p_75214_1_)
 	{
-		return par1ItemStack == null ? false : par1ItemStack.itemID == Item.emerald.itemID || par1ItemStack.itemID == Item.diamond.itemID || par1ItemStack.itemID == Item.ingotGold.itemID || par1ItemStack.itemID == Item.ingotIron.itemID;
+		return p_75214_1_ == null ? false : p_75214_1_.itemID == Item.emerald.itemID || p_75214_1_.itemID == Item.diamond.itemID || p_75214_1_.itemID == Item.ingotGold.itemID || p_75214_1_.itemID == Item.ingotIron.itemID;
 	}
 }

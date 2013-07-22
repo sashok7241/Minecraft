@@ -4,31 +4,31 @@ import java.util.Random;
 
 public class BlockDeadBush extends BlockFlower
 {
-	protected BlockDeadBush(int par1)
+	protected BlockDeadBush(int p_i9050_1_)
 	{
-		super(par1, Material.vine);
+		super(p_i9050_1_, Material.vine);
 		float var2 = 0.4F;
 		setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, 0.8F, 0.5F + var2);
 	}
 	
-	@Override protected boolean canThisPlantGrowOnThisBlockID(int par1)
+	@Override protected boolean canThisPlantGrowOnThisBlockID(int p_72263_1_)
 	{
-		return par1 == Block.sand.blockID;
+		return p_72263_1_ == Block.sand.blockID;
 	}
 	
-	@Override public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6)
+	@Override public void harvestBlock(World p_71893_1_, EntityPlayer p_71893_2_, int p_71893_3_, int p_71893_4_, int p_71893_5_, int p_71893_6_)
 	{
-		if(!par1World.isRemote && par2EntityPlayer.getCurrentEquippedItem() != null && par2EntityPlayer.getCurrentEquippedItem().itemID == Item.shears.itemID)
+		if(!p_71893_1_.isRemote && p_71893_2_.getCurrentEquippedItem() != null && p_71893_2_.getCurrentEquippedItem().itemID == Item.shears.itemID)
 		{
-			par2EntityPlayer.addStat(StatList.mineBlockStatArray[blockID], 1);
-			dropBlockAsItem_do(par1World, par3, par4, par5, new ItemStack(Block.deadBush, 1, par6));
+			p_71893_2_.addStat(StatList.mineBlockStatArray[blockID], 1);
+			dropBlockAsItem_do(p_71893_1_, p_71893_3_, p_71893_4_, p_71893_5_, new ItemStack(Block.deadBush, 1, p_71893_6_));
 		} else
 		{
-			super.harvestBlock(par1World, par2EntityPlayer, par3, par4, par5, par6);
+			super.harvestBlock(p_71893_1_, p_71893_2_, p_71893_3_, p_71893_4_, p_71893_5_, p_71893_6_);
 		}
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return -1;
 	}

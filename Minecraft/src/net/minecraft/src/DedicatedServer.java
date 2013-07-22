@@ -20,33 +20,33 @@ public class DedicatedServer extends MinecraftServer implements IServer
 	private boolean canSpawnStructures;
 	private EnumGameType gameType;
 	private NetworkListenThread networkThread;
-	private boolean guiIsEnabled;
+	private boolean guiIsEnabled = false;
 	
-	public DedicatedServer(File par1File)
+	public DedicatedServer(File p_i3382_1_)
 	{
-		super(par1File);
-		field_98131_l = new LogAgent("Minecraft-Server", (String) null, new File(par1File, "server.log").getAbsolutePath());
+		super(p_i3382_1_);
+		field_98131_l = new LogAgent("Minecraft-Server", (String) null, new File(p_i3382_1_, "server.log").getAbsolutePath());
 		new DedicatedServerSleepThread(this);
 	}
 	
-	public void addPendingCommand(String par1Str, ICommandSender par2ICommandSender)
+	public void addPendingCommand(String p_71331_1_, ICommandSender p_71331_2_)
 	{
-		pendingCommandList.add(new ServerCommand(par1Str, par2ICommandSender));
+		pendingCommandList.add(new ServerCommand(p_71331_1_, p_71331_2_));
 	}
 	
-	@Override public CrashReport addServerInfoToCrashReport(CrashReport par1CrashReport)
+	@Override public CrashReport addServerInfoToCrashReport(CrashReport p_71230_1_)
 	{
-		par1CrashReport = super.addServerInfoToCrashReport(par1CrashReport);
-		par1CrashReport.func_85056_g().addCrashSectionCallable("Is Modded", new CallableType(this));
-		par1CrashReport.func_85056_g().addCrashSectionCallable("Type", new CallableServerType(this));
-		return par1CrashReport;
+		p_71230_1_ = super.addServerInfoToCrashReport(p_71230_1_);
+		p_71230_1_.func_85056_g().addCrashSectionCallable("Is Modded", new CallableType(this));
+		p_71230_1_.func_85056_g().addCrashSectionCallable("Type", new CallableServerType(this));
+		return p_71230_1_;
 	}
 	
-	@Override public void addServerStatsToSnooper(PlayerUsageSnooper par1PlayerUsageSnooper)
+	@Override public void addServerStatsToSnooper(PlayerUsageSnooper p_70000_1_)
 	{
-		par1PlayerUsageSnooper.addData("whitelist_enabled", Boolean.valueOf(getDedicatedPlayerList().isWhiteListEnabled()));
-		par1PlayerUsageSnooper.addData("whitelist_count", Integer.valueOf(getDedicatedPlayerList().getWhiteListedPlayers().size()));
-		super.addServerStatsToSnooper(par1PlayerUsageSnooper);
+		p_70000_1_.addData("whitelist_enabled", Boolean.valueOf(getDedicatedPlayerList().isWhiteListEnabled()));
+		p_70000_1_.addData("whitelist_count", Integer.valueOf(getDedicatedPlayerList().getWhiteListedPlayers().size()));
+		super.addServerStatsToSnooper(p_70000_1_);
 	}
 	
 	@Override public boolean allowSpawnMonsters()
@@ -68,7 +68,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
 		}
 	}
 	
-	@Override protected void finalTick(CrashReport par1CrashReport)
+	@Override protected void finalTick(CrashReport p_71228_1_)
 	{
 		while(isServerRunning())
 		{
@@ -83,22 +83,17 @@ public class DedicatedServer extends MinecraftServer implements IServer
 		}
 	}
 	
-	@Override public int func_110455_j()
+	@Override public boolean func_96290_a(World p_96290_1_, int p_96290_2_, int p_96290_3_, int p_96290_4_, EntityPlayer p_96290_5_)
 	{
-		return settings.getIntProperty("op-permission-level", 4);
-	}
-	
-	@Override public boolean func_96290_a(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
-	{
-		if(par1World.provider.dimensionId != 0) return false;
+		if(p_96290_1_.provider.dimensionId != 0) return false;
 		else if(getDedicatedPlayerList().getOps().isEmpty()) return false;
-		else if(getDedicatedPlayerList().areCommandsAllowed(par5EntityPlayer.getCommandSenderName())) return false;
+		else if(getDedicatedPlayerList().areCommandsAllowed(p_96290_5_.username)) return false;
 		else if(getSpawnProtectionSize() <= 0) return false;
 		else
 		{
-			ChunkCoordinates var6 = par1World.getSpawnPoint();
-			int var7 = MathHelper.abs_int(par2 - var6.posX);
-			int var8 = MathHelper.abs_int(par4 - var6.posZ);
+			ChunkCoordinates var6 = p_96290_1_.getSpawnPoint();
+			int var7 = MathHelper.abs_int(p_96290_2_ - var6.posX);
+			int var8 = MathHelper.abs_int(p_96290_4_ - var6.posZ);
 			int var9 = Math.max(var7, var8);
 			return var9 <= getSpawnProtectionSize();
 		}
@@ -109,9 +104,9 @@ public class DedicatedServer extends MinecraftServer implements IServer
 		return settings.getBooleanProperty("allow-nether", true);
 	}
 	
-	public boolean getBooleanProperty(String par1Str, boolean par2)
+	public boolean getBooleanProperty(String p_71332_1_, boolean p_71332_2_)
 	{
-		return settings.getBooleanProperty(par1Str, par2);
+		return settings.getBooleanProperty(p_71332_1_, p_71332_2_);
 	}
 	
 	@Override public ServerConfigurationManager getConfigurationManager()
@@ -139,9 +134,9 @@ public class DedicatedServer extends MinecraftServer implements IServer
 		return guiIsEnabled;
 	}
 	
-	@Override public int getIntProperty(String par1Str, int par2)
+	@Override public int getIntProperty(String p_71327_1_, int p_71327_2_)
 	{
-		return settings.getIntProperty(par1Str, par2);
+		return settings.getIntProperty(p_71327_1_, p_71327_2_);
 	}
 	
 	@Override public ILogAgent getLogAgent()
@@ -165,9 +160,9 @@ public class DedicatedServer extends MinecraftServer implements IServer
 		return settings.getIntProperty("spawn-protection", super.getSpawnProtectionSize());
 	}
 	
-	@Override public String getStringProperty(String par1Str, String par2Str)
+	@Override public String getStringProperty(String p_71330_1_, String p_71330_2_)
 	{
-		return settings.getProperty(par1Str, par2Str);
+		return settings.getProperty(p_71330_1_, p_71330_2_);
 	}
 	
 	@Override public boolean isCommandBlockEnabled()
@@ -195,12 +190,12 @@ public class DedicatedServer extends MinecraftServer implements IServer
 		settings.saveProperties();
 	}
 	
-	@Override public void setProperty(String par1Str, Object par2Obj)
+	@Override public void setProperty(String p_71328_1_, Object p_71328_2_)
 	{
-		settings.setProperty(par1Str, par2Obj);
+		settings.setProperty(p_71328_1_, p_71328_2_);
 	}
 	
-	@Override public String shareToLAN(EnumGameType par1EnumGameType, boolean par2)
+	@Override public String shareToLAN(EnumGameType p_71206_1_, boolean p_71206_2_)
 	{
 		return "";
 	}
@@ -210,7 +205,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
 		DedicatedServerCommandThread var1 = new DedicatedServerCommandThread(this);
 		var1.setDaemon(true);
 		var1.start();
-		getLogAgent().logInfo("Starting minecraft server version 1.6.2");
+		getLogAgent().logInfo("Starting minecraft server version 1.5.2");
 		if(Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L)
 		{
 			getLogAgent().logWarning("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");

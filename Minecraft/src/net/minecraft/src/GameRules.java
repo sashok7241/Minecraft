@@ -17,24 +17,22 @@ public class GameRules
 		addGameRule("doMobLoot", "true");
 		addGameRule("doTileDrops", "true");
 		addGameRule("commandBlockOutput", "true");
-		addGameRule("naturalRegeneration", "true");
-		addGameRule("doDaylightCycle", "true");
 	}
 	
-	public void addGameRule(String par1Str, String par2Str)
+	public void addGameRule(String p_82769_1_, String p_82769_2_)
 	{
-		theGameRules.put(par1Str, new GameRuleValue(par2Str));
+		theGameRules.put(p_82769_1_, new GameRuleValue(p_82769_2_));
 	}
 	
-	public boolean getGameRuleBooleanValue(String par1Str)
+	public boolean getGameRuleBooleanValue(String p_82766_1_)
 	{
-		GameRuleValue var2 = (GameRuleValue) theGameRules.get(par1Str);
+		GameRuleValue var2 = (GameRuleValue) theGameRules.get(p_82766_1_);
 		return var2 != null ? var2.getGameRuleBooleanValue() : false;
 	}
 	
-	public String getGameRuleStringValue(String par1Str)
+	public String getGameRuleStringValue(String p_82767_1_)
 	{
-		GameRuleValue var2 = (GameRuleValue) theGameRules.get(par1Str);
+		GameRuleValue var2 = (GameRuleValue) theGameRules.get(p_82767_1_);
 		return var2 != null ? var2.getGameRuleStringValue() : "";
 	}
 	
@@ -43,33 +41,33 @@ public class GameRules
 		return (String[]) theGameRules.keySet().toArray(new String[0]);
 	}
 	
-	public boolean hasRule(String par1Str)
+	public boolean hasRule(String p_82765_1_)
 	{
-		return theGameRules.containsKey(par1Str);
+		return theGameRules.containsKey(p_82765_1_);
 	}
 	
-	public void readGameRulesFromNBT(NBTTagCompound par1NBTTagCompound)
+	public void readGameRulesFromNBT(NBTTagCompound p_82768_1_)
 	{
-		Collection var2 = par1NBTTagCompound.getTags();
+		Collection var2 = p_82768_1_.getTags();
 		Iterator var3 = var2.iterator();
 		while(var3.hasNext())
 		{
 			NBTBase var4 = (NBTBase) var3.next();
 			String var5 = var4.getName();
-			String var6 = par1NBTTagCompound.getString(var4.getName());
+			String var6 = p_82768_1_.getString(var4.getName());
 			setOrCreateGameRule(var5, var6);
 		}
 	}
 	
-	public void setOrCreateGameRule(String par1Str, String par2Str)
+	public void setOrCreateGameRule(String p_82764_1_, String p_82764_2_)
 	{
-		GameRuleValue var3 = (GameRuleValue) theGameRules.get(par1Str);
+		GameRuleValue var3 = (GameRuleValue) theGameRules.get(p_82764_1_);
 		if(var3 != null)
 		{
-			var3.setValue(par2Str);
+			var3.setValue(p_82764_2_);
 		} else
 		{
-			addGameRule(par1Str, par2Str);
+			addGameRule(p_82764_1_, p_82764_2_);
 		}
 	}
 	

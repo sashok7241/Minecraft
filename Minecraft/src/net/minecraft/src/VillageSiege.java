@@ -6,7 +6,7 @@ import java.util.List;
 public class VillageSiege
 {
 	private World worldObj;
-	private boolean field_75535_b;
+	private boolean field_75535_b = false;
 	private int field_75536_c = -1;
 	private int field_75533_d;
 	private int field_75534_e;
@@ -15,18 +15,18 @@ public class VillageSiege
 	private int field_75538_h;
 	private int field_75539_i;
 	
-	public VillageSiege(World par1World)
+	public VillageSiege(World p_i3512_1_)
 	{
-		worldObj = par1World;
+		worldObj = p_i3512_1_;
 	}
 	
-	private Vec3 func_75527_a(int par1, int par2, int par3)
+	private Vec3 func_75527_a(int p_75527_1_, int p_75527_2_, int p_75527_3_)
 	{
 		for(int var4 = 0; var4 < 10; ++var4)
 		{
-			int var5 = par1 + worldObj.rand.nextInt(16) - 8;
-			int var6 = par2 + worldObj.rand.nextInt(6) - 3;
-			int var7 = par3 + worldObj.rand.nextInt(16) - 8;
+			int var5 = p_75527_1_ + worldObj.rand.nextInt(16) - 8;
+			int var6 = p_75527_2_ + worldObj.rand.nextInt(6) - 3;
+			int var7 = p_75527_3_ + worldObj.rand.nextInt(16) - 8;
 			if(theVillage.isInRange(var5, var6, var7) && SpawnerAnimals.canCreatureTypeSpawnAtLocation(EnumCreatureType.monster, worldObj, var5, var6, var7))
 			{
 				worldObj.getWorldVec3Pool().getVecFromPool(var5, var6, var7);
@@ -98,7 +98,7 @@ public class VillageSiege
 			try
 			{
 				var2 = new EntityZombie(worldObj);
-				var2.func_110161_a((EntityLivingData) null);
+				var2.initCreature();
 				var2.setVillager(false);
 			} catch(Exception var4)
 			{
@@ -108,7 +108,7 @@ public class VillageSiege
 			var2.setLocationAndAngles(var1.xCoord, var1.yCoord, var1.zCoord, worldObj.rand.nextFloat() * 360.0F, 0.0F);
 			worldObj.spawnEntityInWorld(var2);
 			ChunkCoordinates var3 = theVillage.getCenter();
-			var2.func_110171_b(var3.posX, var3.posY, var3.posZ, theVillage.getVillageRadius());
+			var2.setHomeArea(var3.posX, var3.posY, var3.posZ, theVillage.getVillageRadius());
 			return true;
 		}
 	}

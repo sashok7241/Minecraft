@@ -54,7 +54,7 @@ public abstract class BiomeGenBase
 	protected WorldGenForest worldGeneratorForest;
 	protected WorldGenSwamp worldGeneratorSwamp;
 	
-	protected BiomeGenBase(int par1)
+	protected BiomeGenBase(int p_i3747_1_)
 	{
 		topBlock = (byte) Block.grass.blockID;
 		fillerBlock = (byte) Block.dirt.blockID;
@@ -73,8 +73,8 @@ public abstract class BiomeGenBase
 		worldGeneratorBigTree = new WorldGenBigTree(false);
 		worldGeneratorForest = new WorldGenForest(false);
 		worldGeneratorSwamp = new WorldGenSwamp();
-		biomeID = par1;
-		biomeList[par1] = this;
+		biomeID = p_i3747_1_;
+		biomeList[p_i3747_1_] = this;
 		theBiomeDecorator = createBiomeDecorator();
 		spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 12, 4, 4));
 		spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 10, 4, 4));
@@ -100,14 +100,14 @@ public abstract class BiomeGenBase
 		return new BiomeDecorator(this);
 	}
 	
-	public void decorate(World par1World, Random par2Random, int par3, int par4)
+	public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
 	{
-		theBiomeDecorator.decorate(par1World, par2Random, par3, par4);
+		theBiomeDecorator.decorate(p_76728_1_, p_76728_2_, p_76728_3_, p_76728_4_);
 	}
 	
-	protected BiomeGenBase func_76733_a(int par1)
+	protected BiomeGenBase func_76733_a(int p_76733_1_)
 	{
-		field_76754_C = par1;
+		field_76754_C = p_76733_1_;
 		return this;
 	}
 	
@@ -150,14 +150,14 @@ public abstract class BiomeGenBase
 		return (int) (temperature * 65536.0F);
 	}
 	
-	public WorldGenerator getRandomWorldGenForGrass(Random par1Random)
+	public WorldGenerator getRandomWorldGenForGrass(Random p_76730_1_)
 	{
 		return new WorldGenTallGrass(Block.tallGrass.blockID, 1);
 	}
 	
-	public WorldGenerator getRandomWorldGenForTrees(Random par1Random)
+	public WorldGenerator getRandomWorldGenForTrees(Random p_76740_1_)
 	{
-		return par1Random.nextInt(10) == 0 ? worldGeneratorBigTree : worldGeneratorTrees;
+		return p_76740_1_.nextInt(10) == 0 ? worldGeneratorBigTree : worldGeneratorTrees;
 	}
 	
 	public int getSkyColorByTemp(float par1)
@@ -174,9 +174,9 @@ public abstract class BiomeGenBase
 		return Color.getHSBColor(0.62222224F - par1 * 0.05F, 0.5F + par1 * 0.1F, 1.0F).getRGB();
 	}
 	
-	public List getSpawnableList(EnumCreatureType par1EnumCreatureType)
+	public List getSpawnableList(EnumCreatureType p_76747_1_)
 	{
-		return par1EnumCreatureType == EnumCreatureType.monster ? spawnableMonsterList : par1EnumCreatureType == EnumCreatureType.creature ? spawnableCreatureList : par1EnumCreatureType == EnumCreatureType.waterCreature ? spawnableWaterCreatureList : par1EnumCreatureType == EnumCreatureType.ambient ? spawnableCaveCreatureList : null;
+		return p_76747_1_ == EnumCreatureType.monster ? spawnableMonsterList : p_76747_1_ == EnumCreatureType.creature ? spawnableCreatureList : p_76747_1_ == EnumCreatureType.waterCreature ? spawnableWaterCreatureList : p_76747_1_ == EnumCreatureType.ambient ? spawnableCaveCreatureList : null;
 	}
 	
 	public float getSpawningChance()
@@ -189,15 +189,15 @@ public abstract class BiomeGenBase
 		return rainfall > 0.85F;
 	}
 	
-	protected BiomeGenBase setBiomeName(String par1Str)
+	protected BiomeGenBase setBiomeName(String p_76735_1_)
 	{
-		biomeName = par1Str;
+		biomeName = p_76735_1_;
 		return this;
 	}
 	
-	protected BiomeGenBase setColor(int par1)
+	protected BiomeGenBase setColor(int p_76739_1_)
 	{
-		color = par1;
+		color = p_76739_1_;
 		return this;
 	}
 	
@@ -213,20 +213,20 @@ public abstract class BiomeGenBase
 		return this;
 	}
 	
-	private BiomeGenBase setMinMaxHeight(float par1, float par2)
+	private BiomeGenBase setMinMaxHeight(float p_76725_1_, float p_76725_2_)
 	{
-		minHeight = par1;
-		maxHeight = par2;
+		minHeight = p_76725_1_;
+		maxHeight = p_76725_2_;
 		return this;
 	}
 	
-	private BiomeGenBase setTemperatureRainfall(float par1, float par2)
+	private BiomeGenBase setTemperatureRainfall(float p_76732_1_, float p_76732_2_)
 	{
-		if(par1 > 0.1F && par1 < 0.2F) throw new IllegalArgumentException("Please avoid temperatures in the range 0.1 - 0.2 because of snow");
+		if(p_76732_1_ > 0.1F && p_76732_1_ < 0.2F) throw new IllegalArgumentException("Please avoid temperatures in the range 0.1 - 0.2 because of snow");
 		else
 		{
-			temperature = par1;
-			rainfall = par2;
+			temperature = p_76732_1_;
+			rainfall = p_76732_2_;
 			return this;
 		}
 	}

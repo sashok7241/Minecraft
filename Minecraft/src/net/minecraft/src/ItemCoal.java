@@ -4,19 +4,12 @@ import java.util.List;
 
 public class ItemCoal extends Item
 {
-	private Icon field_111220_a;
-	
-	public ItemCoal(int par1)
+	public ItemCoal(int p_i3627_1_)
 	{
-		super(par1);
+		super(p_i3627_1_);
 		setHasSubtypes(true);
 		setMaxDamage(0);
 		setCreativeTab(CreativeTabs.tabMaterials);
-	}
-	
-	@Override public Icon getIconFromDamage(int par1)
-	{
-		return par1 == 1 ? field_111220_a : super.getIconFromDamage(par1);
 	}
 	
 	@Override public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
@@ -25,14 +18,8 @@ public class ItemCoal extends Item
 		par3List.add(new ItemStack(par1, 1, 1));
 	}
 	
-	@Override public String getUnlocalizedName(ItemStack par1ItemStack)
+	@Override public String getUnlocalizedName(ItemStack p_77667_1_)
 	{
-		return par1ItemStack.getItemDamage() == 1 ? "item.charcoal" : "item.coal";
-	}
-	
-	@Override public void registerIcons(IconRegister par1IconRegister)
-	{
-		super.registerIcons(par1IconRegister);
-		field_111220_a = par1IconRegister.registerIcon("charcoal");
+		return p_77667_1_.getItemDamage() == 1 ? "item.charcoal" : "item.coal";
 	}
 }

@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet34EntityTeleport extends Packet
@@ -17,29 +17,29 @@ public class Packet34EntityTeleport extends Packet
 	{
 	}
 	
-	public Packet34EntityTeleport(Entity par1Entity)
+	public Packet34EntityTeleport(Entity p_i3359_1_)
 	{
-		entityId = par1Entity.entityId;
-		xPosition = MathHelper.floor_double(par1Entity.posX * 32.0D);
-		yPosition = MathHelper.floor_double(par1Entity.posY * 32.0D);
-		zPosition = MathHelper.floor_double(par1Entity.posZ * 32.0D);
-		yaw = (byte) (int) (par1Entity.rotationYaw * 256.0F / 360.0F);
-		pitch = (byte) (int) (par1Entity.rotationPitch * 256.0F / 360.0F);
+		entityId = p_i3359_1_.entityId;
+		xPosition = MathHelper.floor_double(p_i3359_1_.posX * 32.0D);
+		yPosition = MathHelper.floor_double(p_i3359_1_.posY * 32.0D);
+		zPosition = MathHelper.floor_double(p_i3359_1_.posZ * 32.0D);
+		yaw = (byte) (int) (p_i3359_1_.rotationYaw * 256.0F / 360.0F);
+		pitch = (byte) (int) (p_i3359_1_.rotationPitch * 256.0F / 360.0F);
 	}
 	
-	public Packet34EntityTeleport(int par1, int par2, int par3, int par4, byte par5, byte par6)
+	public Packet34EntityTeleport(int p_i3360_1_, int p_i3360_2_, int p_i3360_3_, int p_i3360_4_, byte p_i3360_5_, byte p_i3360_6_)
 	{
-		entityId = par1;
-		xPosition = par2;
-		yPosition = par3;
-		zPosition = par4;
-		yaw = par5;
-		pitch = par6;
+		entityId = p_i3360_1_;
+		xPosition = p_i3360_2_;
+		yPosition = p_i3360_3_;
+		zPosition = p_i3360_4_;
+		yaw = p_i3360_5_;
+		pitch = p_i3360_6_;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
+	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
 	{
-		Packet34EntityTeleport var2 = (Packet34EntityTeleport) par1Packet;
+		Packet34EntityTeleport var2 = (Packet34EntityTeleport) p_73268_1_;
 		return var2.entityId == entityId;
 	}
 	
@@ -53,28 +53,28 @@ public class Packet34EntityTeleport extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleEntityTeleport(this);
+		p_73279_1_.handleEntityTeleport(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
-		xPosition = par1DataInput.readInt();
-		yPosition = par1DataInput.readInt();
-		zPosition = par1DataInput.readInt();
-		yaw = par1DataInput.readByte();
-		pitch = par1DataInput.readByte();
+		entityId = p_73267_1_.readInt();
+		xPosition = p_73267_1_.readInt();
+		yPosition = p_73267_1_.readInt();
+		zPosition = p_73267_1_.readInt();
+		yaw = (byte) p_73267_1_.read();
+		pitch = (byte) p_73267_1_.read();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
-		par1DataOutput.writeInt(xPosition);
-		par1DataOutput.writeInt(yPosition);
-		par1DataOutput.writeInt(zPosition);
-		par1DataOutput.write(yaw);
-		par1DataOutput.write(pitch);
+		p_73273_1_.writeInt(entityId);
+		p_73273_1_.writeInt(xPosition);
+		p_73273_1_.writeInt(yPosition);
+		p_73273_1_.writeInt(zPosition);
+		p_73273_1_.write(yaw);
+		p_73273_1_.write(pitch);
 	}
 }

@@ -11,39 +11,39 @@ public class PathPoint
 	float distanceToNext;
 	float distanceToTarget;
 	PathPoint previous;
-	public boolean isFirst;
+	public boolean isFirst = false;
 	
-	public PathPoint(int par1, int par2, int par3)
+	public PathPoint(int p_i3901_1_, int p_i3901_2_, int p_i3901_3_)
 	{
-		xCoord = par1;
-		yCoord = par2;
-		zCoord = par3;
-		hash = makeHash(par1, par2, par3);
+		xCoord = p_i3901_1_;
+		yCoord = p_i3901_2_;
+		zCoord = p_i3901_3_;
+		hash = makeHash(p_i3901_1_, p_i3901_2_, p_i3901_3_);
 	}
 	
-	public float distanceTo(PathPoint par1PathPoint)
+	public float distanceTo(PathPoint p_75829_1_)
 	{
-		float var2 = par1PathPoint.xCoord - xCoord;
-		float var3 = par1PathPoint.yCoord - yCoord;
-		float var4 = par1PathPoint.zCoord - zCoord;
+		float var2 = p_75829_1_.xCoord - xCoord;
+		float var3 = p_75829_1_.yCoord - yCoord;
+		float var4 = p_75829_1_.zCoord - zCoord;
 		return MathHelper.sqrt_float(var2 * var2 + var3 * var3 + var4 * var4);
 	}
 	
-	@Override public boolean equals(Object par1Obj)
+	@Override public boolean equals(Object p_equals_1_)
 	{
-		if(!(par1Obj instanceof PathPoint)) return false;
+		if(!(p_equals_1_ instanceof PathPoint)) return false;
 		else
 		{
-			PathPoint var2 = (PathPoint) par1Obj;
+			PathPoint var2 = (PathPoint) p_equals_1_;
 			return hash == var2.hash && xCoord == var2.xCoord && yCoord == var2.yCoord && zCoord == var2.zCoord;
 		}
 	}
 	
-	public float func_75832_b(PathPoint par1PathPoint)
+	public float func_75832_b(PathPoint p_75832_1_)
 	{
-		float var2 = par1PathPoint.xCoord - xCoord;
-		float var3 = par1PathPoint.yCoord - yCoord;
-		float var4 = par1PathPoint.zCoord - zCoord;
+		float var2 = p_75832_1_.xCoord - xCoord;
+		float var3 = p_75832_1_.yCoord - yCoord;
+		float var4 = p_75832_1_.zCoord - zCoord;
 		return var2 * var2 + var3 * var3 + var4 * var4;
 	}
 	
@@ -62,8 +62,8 @@ public class PathPoint
 		return xCoord + ", " + yCoord + ", " + zCoord;
 	}
 	
-	public static int makeHash(int par0, int par1, int par2)
+	public static int makeHash(int p_75830_0_, int p_75830_1_, int p_75830_2_)
 	{
-		return par1 & 255 | (par0 & 32767) << 8 | (par2 & 32767) << 24 | (par0 < 0 ? Integer.MIN_VALUE : 0) | (par2 < 0 ? 32768 : 0);
+		return p_75830_1_ & 255 | (p_75830_0_ & 32767) << 8 | (p_75830_2_ & 32767) << 24 | (p_75830_0_ < 0 ? Integer.MIN_VALUE : 0) | (p_75830_2_ < 0 ? 32768 : 0);
 	}
 }

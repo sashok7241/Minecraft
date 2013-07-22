@@ -5,24 +5,24 @@ public class EntityFireworkRocket extends Entity
 	private int fireworkAge;
 	private int lifetime;
 	
-	public EntityFireworkRocket(World par1World)
+	public EntityFireworkRocket(World p_i8008_1_)
 	{
-		super(par1World);
+		super(p_i8008_1_);
 		setSize(0.25F, 0.25F);
 	}
 	
-	public EntityFireworkRocket(World par1World, double par2, double par4, double par6, ItemStack par8ItemStack)
+	public EntityFireworkRocket(World p_i8009_1_, double p_i8009_2_, double p_i8009_4_, double p_i8009_6_, ItemStack p_i8009_8_)
 	{
-		super(par1World);
+		super(p_i8009_1_);
 		fireworkAge = 0;
 		setSize(0.25F, 0.25F);
-		setPosition(par2, par4, par6);
+		setPosition(p_i8009_2_, p_i8009_4_, p_i8009_6_);
 		yOffset = 0.0F;
 		int var9 = 1;
-		if(par8ItemStack != null && par8ItemStack.hasTagCompound())
+		if(p_i8009_8_ != null && p_i8009_8_.hasTagCompound())
 		{
-			dataWatcher.updateObject(8, par8ItemStack);
-			NBTTagCompound var10 = par8ItemStack.getTagCompound();
+			dataWatcher.updateObject(8, p_i8009_8_);
+			NBTTagCompound var10 = p_i8009_8_.getTagCompound();
 			NBTTagCompound var11 = var10.getCompoundTag("Fireworks");
 			if(var11 != null)
 			{
@@ -45,9 +45,9 @@ public class EntityFireworkRocket extends Entity
 		dataWatcher.addObjectByDataType(8, 5);
 	}
 	
-	@Override public float getBrightness(float par1)
+	@Override public float getBrightness(float p_70013_1_)
 	{
-		return super.getBrightness(par1);
+		return super.getBrightness(p_70013_1_);
 	}
 	
 	@Override public int getBrightnessForRender(float par1)
@@ -126,11 +126,11 @@ public class EntityFireworkRocket extends Entity
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		fireworkAge = par1NBTTagCompound.getInteger("Life");
-		lifetime = par1NBTTagCompound.getInteger("LifeTime");
-		NBTTagCompound var2 = par1NBTTagCompound.getCompoundTag("FireworksItem");
+		fireworkAge = p_70037_1_.getInteger("Life");
+		lifetime = p_70037_1_.getInteger("LifeTime");
+		NBTTagCompound var2 = p_70037_1_.getCompoundTag("FireworksItem");
 		if(var2 != null)
 		{
 			ItemStack var3 = ItemStack.loadItemStackFromNBT(var2);
@@ -154,16 +154,16 @@ public class EntityFireworkRocket extends Entity
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		par1NBTTagCompound.setInteger("Life", fireworkAge);
-		par1NBTTagCompound.setInteger("LifeTime", lifetime);
+		p_70014_1_.setInteger("Life", fireworkAge);
+		p_70014_1_.setInteger("LifeTime", lifetime);
 		ItemStack var2 = dataWatcher.getWatchableObjectItemStack(8);
 		if(var2 != null)
 		{
 			NBTTagCompound var3 = new NBTTagCompound();
 			var2.writeToNBT(var3);
-			par1NBTTagCompound.setCompoundTag("FireworksItem", var3);
+			p_70014_1_.setCompoundTag("FireworksItem", var3);
 		}
 	}
 }

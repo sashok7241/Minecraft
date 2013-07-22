@@ -4,13 +4,13 @@ public class ItemAxe extends ItemTool
 {
 	private static Block[] blocksEffectiveAgainst = new Block[] { Block.planks, Block.bookShelf, Block.wood, Block.chest, Block.stoneDoubleSlab, Block.stoneSingleSlab, Block.pumpkin, Block.pumpkinLantern };
 	
-	protected ItemAxe(int par1, EnumToolMaterial par2EnumToolMaterial)
+	protected ItemAxe(int p_i3656_1_, EnumToolMaterial p_i3656_2_)
 	{
-		super(par1, 3.0F, par2EnumToolMaterial, blocksEffectiveAgainst);
+		super(p_i3656_1_, 3, p_i3656_2_, blocksEffectiveAgainst);
 	}
 	
-	@Override public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block)
+	@Override public float getStrVsBlock(ItemStack p_77638_1_, Block p_77638_2_)
 	{
-		return par2Block != null && (par2Block.blockMaterial == Material.wood || par2Block.blockMaterial == Material.plants || par2Block.blockMaterial == Material.vine) ? efficiencyOnProperMaterial : super.getStrVsBlock(par1ItemStack, par2Block);
+		return p_77638_2_ != null && (p_77638_2_.blockMaterial == Material.wood || p_77638_2_.blockMaterial == Material.plants || p_77638_2_.blockMaterial == Material.vine) ? efficiencyOnProperMaterial : super.getStrVsBlock(p_77638_1_, p_77638_2_);
 	}
 }

@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -14,13 +14,13 @@ public class Packet104WindowItems extends Packet
 	{
 	}
 	
-	public Packet104WindowItems(int par1, List par2List)
+	public Packet104WindowItems(int p_i3312_1_, List p_i3312_2_)
 	{
-		windowId = par1;
-		itemStack = new ItemStack[par2List.size()];
+		windowId = p_i3312_1_;
+		itemStack = new ItemStack[p_i3312_2_.size()];
 		for(int var3 = 0; var3 < itemStack.length; ++var3)
 		{
-			ItemStack var4 = (ItemStack) par2List.get(var3);
+			ItemStack var4 = (ItemStack) p_i3312_2_.get(var3);
 			itemStack[var3] = var4 == null ? null : var4.copy();
 		}
 	}
@@ -30,29 +30,29 @@ public class Packet104WindowItems extends Packet
 		return 3 + itemStack.length * 5;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleWindowItems(this);
+		p_73279_1_.handleWindowItems(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		windowId = par1DataInput.readByte();
-		short var2 = par1DataInput.readShort();
+		windowId = p_73267_1_.readByte();
+		short var2 = p_73267_1_.readShort();
 		itemStack = new ItemStack[var2];
 		for(int var3 = 0; var3 < var2; ++var3)
 		{
-			itemStack[var3] = readItemStack(par1DataInput);
+			itemStack[var3] = readItemStack(p_73267_1_);
 		}
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeByte(windowId);
-		par1DataOutput.writeShort(itemStack.length);
+		p_73273_1_.writeByte(windowId);
+		p_73273_1_.writeShort(itemStack.length);
 		for(ItemStack element : itemStack)
 		{
-			writeItemStack(element, par1DataOutput);
+			writeItemStack(element, p_73273_1_);
 		}
 	}
 }

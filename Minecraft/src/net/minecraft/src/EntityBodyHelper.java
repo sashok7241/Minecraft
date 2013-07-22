@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 public class EntityBodyHelper
 {
-	private EntityLivingBase theLiving;
-	private int field_75666_b;
-	private float field_75667_c;
+	private EntityLiving theLiving;
+	private int field_75666_b = 0;
+	private float field_75667_c = 0.0F;
 	
-	public EntityBodyHelper(EntityLivingBase par1EntityLivingBase)
+	public EntityBodyHelper(EntityLiving p_i3453_1_)
 	{
-		theLiving = par1EntityLivingBase;
+		theLiving = p_i3453_1_;
 	}
 	
 	public void func_75664_a()
@@ -31,7 +31,6 @@ public class EntityBodyHelper
 			} else
 			{
 				++field_75666_b;
-				boolean var6 = true;
 				if(field_75666_b > 10)
 				{
 					var5 = Math.max(1.0F - (field_75666_b - 10) / 10.0F, 0.0F) * 75.0F;
@@ -41,17 +40,17 @@ public class EntityBodyHelper
 		}
 	}
 	
-	private float func_75665_a(float par1, float par2, float par3)
+	private float func_75665_a(float p_75665_1_, float p_75665_2_, float p_75665_3_)
 	{
-		float var4 = MathHelper.wrapAngleTo180_float(par1 - par2);
-		if(var4 < -par3)
+		float var4 = MathHelper.wrapAngleTo180_float(p_75665_1_ - p_75665_2_);
+		if(var4 < -p_75665_3_)
 		{
-			var4 = -par3;
+			var4 = -p_75665_3_;
 		}
-		if(var4 >= par3)
+		if(var4 >= p_75665_3_)
 		{
-			var4 = par3;
+			var4 = p_75665_3_;
 		}
-		return par1 - var4;
+		return p_75665_1_ - var4;
 	}
 }

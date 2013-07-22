@@ -9,117 +9,117 @@ public class ComponentStrongholdRoomCrossing extends ComponentStronghold
 	protected final EnumDoor doorType;
 	protected final int roomType;
 	
-	public ComponentStrongholdRoomCrossing(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
+	public ComponentStrongholdRoomCrossing(int p_i3848_1_, Random p_i3848_2_, StructureBoundingBox p_i3848_3_, int p_i3848_4_)
 	{
-		super(par1);
-		coordBaseMode = par4;
-		doorType = getRandomDoor(par2Random);
-		boundingBox = par3StructureBoundingBox;
-		roomType = par2Random.nextInt(5);
+		super(p_i3848_1_);
+		coordBaseMode = p_i3848_4_;
+		doorType = getRandomDoor(p_i3848_2_);
+		boundingBox = p_i3848_3_;
+		roomType = p_i3848_2_.nextInt(5);
 	}
 	
-	@Override public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
+	@Override public boolean addComponentParts(World p_74875_1_, Random p_74875_2_, StructureBoundingBox p_74875_3_)
 	{
-		if(isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox)) return false;
+		if(isLiquidInStructureBoundingBox(p_74875_1_, p_74875_3_)) return false;
 		else
 		{
-			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 10, 6, 10, true, par2Random, StructureStrongholdPieces.getStrongholdStones());
-			placeDoor(par1World, par2Random, par3StructureBoundingBox, doorType, 4, 1, 0);
-			fillWithBlocks(par1World, par3StructureBoundingBox, 4, 1, 10, 6, 3, 10, 0, 0, false);
-			fillWithBlocks(par1World, par3StructureBoundingBox, 0, 1, 4, 0, 3, 6, 0, 0, false);
-			fillWithBlocks(par1World, par3StructureBoundingBox, 10, 1, 4, 10, 3, 6, 0, 0, false);
+			fillWithRandomizedBlocks(p_74875_1_, p_74875_3_, 0, 0, 0, 10, 6, 10, true, p_74875_2_, StructureStrongholdPieces.getStrongholdStones());
+			placeDoor(p_74875_1_, p_74875_2_, p_74875_3_, doorType, 4, 1, 0);
+			fillWithBlocks(p_74875_1_, p_74875_3_, 4, 1, 10, 6, 3, 10, 0, 0, false);
+			fillWithBlocks(p_74875_1_, p_74875_3_, 0, 1, 4, 0, 3, 6, 0, 0, false);
+			fillWithBlocks(p_74875_1_, p_74875_3_, 10, 1, 4, 10, 3, 6, 0, 0, false);
 			int var4;
 			switch(roomType)
 			{
 				case 0:
-					placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 5, 1, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 5, 2, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 5, 3, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 4, 3, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 6, 3, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 5, 3, 4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 5, 3, 6, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 4, 1, 4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 4, 1, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 4, 1, 6, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 6, 1, 4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 6, 1, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 6, 1, 6, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 5, 1, 4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneSingleSlab.blockID, 0, 5, 1, 6, par3StructureBoundingBox);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 5, 1, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 5, 2, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 5, 3, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 4, 3, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 6, 3, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 5, 3, 4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 5, 3, 6, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneSingleSlab.blockID, 0, 4, 1, 4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneSingleSlab.blockID, 0, 4, 1, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneSingleSlab.blockID, 0, 4, 1, 6, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneSingleSlab.blockID, 0, 6, 1, 4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneSingleSlab.blockID, 0, 6, 1, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneSingleSlab.blockID, 0, 6, 1, 6, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneSingleSlab.blockID, 0, 5, 1, 4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneSingleSlab.blockID, 0, 5, 1, 6, p_74875_3_);
 					break;
 				case 1:
 					for(var4 = 0; var4 < 5; ++var4)
 					{
-						placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3, 1, 3 + var4, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 7, 1, 3 + var4, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3 + var4, 1, 3, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 3 + var4, 1, 7, par3StructureBoundingBox);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 3, 1, 3 + var4, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 7, 1, 3 + var4, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 3 + var4, 1, 3, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 3 + var4, 1, 7, p_74875_3_);
 					}
-					placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 5, 1, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 5, 2, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, 5, 3, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.waterMoving.blockID, 0, 5, 4, 5, par3StructureBoundingBox);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 5, 1, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 5, 2, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.stoneBrick.blockID, 0, 5, 3, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.waterMoving.blockID, 0, 5, 4, 5, p_74875_3_);
 					break;
 				case 2:
 					for(var4 = 1; var4 <= 9; ++var4)
 					{
-						placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 1, 3, var4, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 9, 3, var4, par3StructureBoundingBox);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 1, 3, var4, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 9, 3, var4, p_74875_3_);
 					}
 					for(var4 = 1; var4 <= 9; ++var4)
 					{
-						placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, var4, 3, 1, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, var4, 3, 9, par3StructureBoundingBox);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, var4, 3, 1, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, var4, 3, 9, p_74875_3_);
 					}
-					placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 5, 1, 4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 5, 1, 6, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 5, 3, 4, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 5, 3, 6, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, 1, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 6, 1, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, 3, 5, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 6, 3, 5, par3StructureBoundingBox);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 5, 1, 4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 5, 1, 6, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 5, 3, 4, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 5, 3, 6, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 4, 1, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 6, 1, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 4, 3, 5, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 6, 3, 5, p_74875_3_);
 					for(var4 = 1; var4 <= 3; ++var4)
 					{
-						placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, var4, 4, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 6, var4, 4, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, var4, 6, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 6, var4, 6, par3StructureBoundingBox);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 4, var4, 4, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 6, var4, 4, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 4, var4, 6, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 6, var4, 6, p_74875_3_);
 					}
-					placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 5, 3, 5, par3StructureBoundingBox);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 5, 3, 5, p_74875_3_);
 					for(var4 = 2; var4 <= 8; ++var4)
 					{
-						placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 2, 3, var4, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 3, 3, var4, par3StructureBoundingBox);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.planks.blockID, 0, 2, 3, var4, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.planks.blockID, 0, 3, 3, var4, p_74875_3_);
 						if(var4 <= 3 || var4 >= 7)
 						{
-							placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 4, 3, var4, par3StructureBoundingBox);
-							placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 5, 3, var4, par3StructureBoundingBox);
-							placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 6, 3, var4, par3StructureBoundingBox);
+							placeBlockAtCurrentPosition(p_74875_1_, Block.planks.blockID, 0, 4, 3, var4, p_74875_3_);
+							placeBlockAtCurrentPosition(p_74875_1_, Block.planks.blockID, 0, 5, 3, var4, p_74875_3_);
+							placeBlockAtCurrentPosition(p_74875_1_, Block.planks.blockID, 0, 6, 3, var4, p_74875_3_);
 						}
-						placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 7, 3, var4, par3StructureBoundingBox);
-						placeBlockAtCurrentPosition(par1World, Block.planks.blockID, 0, 8, 3, var4, par3StructureBoundingBox);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.planks.blockID, 0, 7, 3, var4, p_74875_3_);
+						placeBlockAtCurrentPosition(p_74875_1_, Block.planks.blockID, 0, 8, 3, var4, p_74875_3_);
 					}
-					placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, getMetadataWithOffset(Block.ladder.blockID, 4), 9, 1, 3, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, getMetadataWithOffset(Block.ladder.blockID, 4), 9, 2, 3, par3StructureBoundingBox);
-					placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, getMetadataWithOffset(Block.ladder.blockID, 4), 9, 3, 3, par3StructureBoundingBox);
-					generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 4, 8, WeightedRandomChestContent.func_92080_a(strongholdRoomCrossingChestContents, new WeightedRandomChestContent[] { Item.enchantedBook.func_92114_b(par2Random) }), 1 + par2Random.nextInt(4));
+					placeBlockAtCurrentPosition(p_74875_1_, Block.ladder.blockID, getMetadataWithOffset(Block.ladder.blockID, 4), 9, 1, 3, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.ladder.blockID, getMetadataWithOffset(Block.ladder.blockID, 4), 9, 2, 3, p_74875_3_);
+					placeBlockAtCurrentPosition(p_74875_1_, Block.ladder.blockID, getMetadataWithOffset(Block.ladder.blockID, 4), 9, 3, 3, p_74875_3_);
+					generateStructureChestContents(p_74875_1_, p_74875_3_, p_74875_2_, 3, 4, 8, WeightedRandomChestContent.func_92080_a(strongholdRoomCrossingChestContents, new WeightedRandomChestContent[] { Item.enchantedBook.func_92114_b(p_74875_2_) }), 1 + p_74875_2_.nextInt(4));
 			}
 			return true;
 		}
 	}
 	
-	@Override public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
+	@Override public void buildComponent(StructureComponent p_74861_1_, List p_74861_2_, Random p_74861_3_)
 	{
-		getNextComponentNormal((ComponentStrongholdStairs2) par1StructureComponent, par2List, par3Random, 4, 1);
-		getNextComponentX((ComponentStrongholdStairs2) par1StructureComponent, par2List, par3Random, 1, 4);
-		getNextComponentZ((ComponentStrongholdStairs2) par1StructureComponent, par2List, par3Random, 1, 4);
+		getNextComponentNormal((ComponentStrongholdStairs2) p_74861_1_, p_74861_2_, p_74861_3_, 4, 1);
+		getNextComponentX((ComponentStrongholdStairs2) p_74861_1_, p_74861_2_, p_74861_3_, 1, 4);
+		getNextComponentZ((ComponentStrongholdStairs2) p_74861_1_, p_74861_2_, p_74861_3_, 1, 4);
 	}
 	
-	public static ComponentStrongholdRoomCrossing findValidPlacement(List par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
+	public static ComponentStrongholdRoomCrossing findValidPlacement(List p_75012_0_, Random p_75012_1_, int p_75012_2_, int p_75012_3_, int p_75012_4_, int p_75012_5_, int p_75012_6_)
 	{
-		StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -4, -1, 0, 11, 7, 11, par5);
-		return canStrongholdGoDeeper(var7) && StructureComponent.findIntersecting(par0List, var7) == null ? new ComponentStrongholdRoomCrossing(par6, par1Random, var7, par5) : null;
+		StructureBoundingBox var7 = StructureBoundingBox.getComponentToAddBoundingBox(p_75012_2_, p_75012_3_, p_75012_4_, -4, -1, 0, 11, 7, 11, p_75012_5_);
+		return canStrongholdGoDeeper(var7) && StructureComponent.findIntersecting(p_75012_0_, var7) == null ? new ComponentStrongholdRoomCrossing(p_75012_6_, p_75012_1_, var7, p_75012_5_) : null;
 	}
 }

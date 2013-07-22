@@ -2,8 +2,8 @@ package net.minecraft.src;
 
 public class StatPlaceholder extends StatBase
 {
-	public StatPlaceholder(int par1)
+	public StatPlaceholder(int p_i10046_1_)
 	{
-		super(par1, "Unknown stat");
+		super(p_i10046_1_, "Unknown stat");
 	}
 }

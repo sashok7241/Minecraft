@@ -4,8 +4,6 @@ import java.net.URI;
 
 public class GuiScreenDemo extends GuiScreen
 {
-	private static final ResourceLocation field_110407_a = new ResourceLocation("textures/gui/demo_background.png");
-	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
 	{
 		switch(par1GuiButton.id)
@@ -32,7 +30,7 @@ public class GuiScreenDemo extends GuiScreen
 	{
 		super.drawDefaultBackground();
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.func_110434_K().func_110577_a(field_110407_a);
+		mc.renderEngine.bindTexture("/gui/demo_bg.png");
 		int var1 = (width - 248) / 2;
 		int var2 = (height - 166) / 2;
 		drawTexturedModalRect(var1, var2, 0, 0, 248, 166);
@@ -43,14 +41,21 @@ public class GuiScreenDemo extends GuiScreen
 		drawDefaultBackground();
 		int var4 = (width - 248) / 2 + 10;
 		int var5 = (height - 166) / 2 + 8;
-		fontRenderer.drawString(I18n.func_135053_a("demo.help.title"), var4, var5, 2039583);
+		fontRenderer.drawString(StatCollector.translateToLocal("demo.help.title"), var4, var5, 2039583);
 		var5 += 12;
-		GameSettings var6 = mc.gameSettings;
-		fontRenderer.drawString(I18n.func_135052_a("demo.help.movementShort", new Object[] { GameSettings.getKeyDisplayString(var6.keyBindForward.keyCode), GameSettings.getKeyDisplayString(var6.keyBindLeft.keyCode), GameSettings.getKeyDisplayString(var6.keyBindBack.keyCode), GameSettings.getKeyDisplayString(var6.keyBindRight.keyCode) }), var4, var5, 5197647);
-		fontRenderer.drawString(I18n.func_135053_a("demo.help.movementMouse"), var4, var5 + 12, 5197647);
-		fontRenderer.drawString(I18n.func_135052_a("demo.help.jump", new Object[] { GameSettings.getKeyDisplayString(var6.keyBindJump.keyCode) }), var4, var5 + 24, 5197647);
-		fontRenderer.drawString(I18n.func_135052_a("demo.help.inventory", new Object[] { GameSettings.getKeyDisplayString(var6.keyBindInventory.keyCode) }), var4, var5 + 36, 5197647);
-		fontRenderer.drawSplitString(I18n.func_135053_a("demo.help.fullWrapped"), var4, var5 + 68, 218, 2039583);
+		GameSettings var7 = mc.gameSettings;
+		String var6 = StatCollector.translateToLocal("demo.help.movementShort");
+		var6 = String.format(var6, new Object[] { Keyboard.getKeyName(var7.keyBindForward.keyCode), Keyboard.getKeyName(var7.keyBindLeft.keyCode), Keyboard.getKeyName(var7.keyBindBack.keyCode), Keyboard.getKeyName(var7.keyBindRight.keyCode) });
+		fontRenderer.drawString(var6, var4, var5, 5197647);
+		var6 = StatCollector.translateToLocal("demo.help.movementMouse");
+		fontRenderer.drawString(var6, var4, var5 + 12, 5197647);
+		var6 = StatCollector.translateToLocal("demo.help.jump");
+		var6 = String.format(var6, new Object[] { Keyboard.getKeyName(var7.keyBindJump.keyCode) });
+		fontRenderer.drawString(var6, var4, var5 + 24, 5197647);
+		var6 = StatCollector.translateToLocal("demo.help.inventory");
+		var6 = String.format(var6, new Object[] { Keyboard.getKeyName(var7.keyBindInventory.keyCode) });
+		fontRenderer.drawString(var6, var4, var5 + 36, 5197647);
+		fontRenderer.drawSplitString(StatCollector.translateToLocal("demo.help.fullWrapped"), var4, var5 + 68, 218, 2039583);
 		super.drawScreen(par1, par2, par3);
 	}
 	
@@ -58,8 +63,8 @@ public class GuiScreenDemo extends GuiScreen
 	{
 		buttonList.clear();
 		byte var1 = -16;
-		buttonList.add(new GuiButton(1, width / 2 - 116, height / 2 + 62 + var1, 114, 20, I18n.func_135053_a("demo.help.buy")));
-		buttonList.add(new GuiButton(2, width / 2 + 2, height / 2 + 62 + var1, 114, 20, I18n.func_135053_a("demo.help.later")));
+		buttonList.add(new GuiButton(1, width / 2 - 116, height / 2 + 62 + var1, 114, 20, StatCollector.translateToLocal("demo.help.buy")));
+		buttonList.add(new GuiButton(2, width / 2 + 2, height / 2 + 62 + var1, 114, 20, StatCollector.translateToLocal("demo.help.later")));
 	}
 	
 	@Override public void updateScreen()

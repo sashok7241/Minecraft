@@ -7,13 +7,13 @@ class AnvilSaveConverterFileFilter implements FilenameFilter
 {
 	final AnvilSaveConverter parent;
 	
-	AnvilSaveConverterFileFilter(AnvilSaveConverter par1AnvilSaveConverter)
+	AnvilSaveConverterFileFilter(AnvilSaveConverter p_i3909_1_)
 	{
-		parent = par1AnvilSaveConverter;
+		parent = p_i3909_1_;
 	}
 	
-	@Override public boolean accept(File par1File, String par2Str)
+	@Override public boolean accept(File p_accept_1_, String p_accept_2_)
 	{
-		return par2Str.endsWith(".mcr");
+		return p_accept_2_.endsWith(".mcr");
 	}
 }

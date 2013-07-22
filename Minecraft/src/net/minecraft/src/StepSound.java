@@ -6,11 +6,11 @@ public class StepSound
 	public final float stepSoundVolume;
 	public final float stepSoundPitch;
 	
-	public StepSound(String par1Str, float par2, float par3)
+	public StepSound(String p_i4008_1_, float p_i4008_2_, float p_i4008_3_)
 	{
-		stepSoundName = par1Str;
-		stepSoundVolume = par2;
-		stepSoundPitch = par3;
+		stepSoundName = p_i4008_1_;
+		stepSoundVolume = p_i4008_2_;
+		stepSoundPitch = p_i4008_3_;
 	}
 	
 	public String getBreakSound()

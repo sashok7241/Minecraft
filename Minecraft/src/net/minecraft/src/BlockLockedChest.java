@@ -4,12 +4,12 @@ import java.util.Random;
 
 public class BlockLockedChest extends Block
 {
-	protected BlockLockedChest(int par1)
+	protected BlockLockedChest(int p_i3967_1_)
 	{
-		super(par1, Material.wood);
+		super(p_i3967_1_, Material.wood);
 	}
 	
-	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
 	{
 		return true;
 	}
@@ -18,8 +18,8 @@ public class BlockLockedChest extends Block
 	{
 	}
 	
-	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
 	{
-		par1World.setBlockToAir(par2, par3, par4);
+		p_71847_1_.setBlockToAir(p_71847_2_, p_71847_3_, p_71847_4_);
 	}
 }

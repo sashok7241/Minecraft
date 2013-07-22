@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,20 +25,20 @@ public class Packet24MobSpawn extends Packet
 	{
 	}
 	
-	public Packet24MobSpawn(EntityLivingBase par1EntityLivingBase)
+	public Packet24MobSpawn(EntityLiving p_i3294_1_)
 	{
-		entityId = par1EntityLivingBase.entityId;
-		type = (byte) EntityList.getEntityID(par1EntityLivingBase);
-		xPosition = par1EntityLivingBase.myEntitySize.multiplyBy32AndRound(par1EntityLivingBase.posX);
-		yPosition = MathHelper.floor_double(par1EntityLivingBase.posY * 32.0D);
-		zPosition = par1EntityLivingBase.myEntitySize.multiplyBy32AndRound(par1EntityLivingBase.posZ);
-		yaw = (byte) (int) (par1EntityLivingBase.rotationYaw * 256.0F / 360.0F);
-		pitch = (byte) (int) (par1EntityLivingBase.rotationPitch * 256.0F / 360.0F);
-		headYaw = (byte) (int) (par1EntityLivingBase.rotationYawHead * 256.0F / 360.0F);
+		entityId = p_i3294_1_.entityId;
+		type = (byte) EntityList.getEntityID(p_i3294_1_);
+		xPosition = p_i3294_1_.myEntitySize.multiplyBy32AndRound(p_i3294_1_.posX);
+		yPosition = MathHelper.floor_double(p_i3294_1_.posY * 32.0D);
+		zPosition = p_i3294_1_.myEntitySize.multiplyBy32AndRound(p_i3294_1_.posZ);
+		yaw = (byte) (int) (p_i3294_1_.rotationYaw * 256.0F / 360.0F);
+		pitch = (byte) (int) (p_i3294_1_.rotationPitch * 256.0F / 360.0F);
+		headYaw = (byte) (int) (p_i3294_1_.rotationYawHead * 256.0F / 360.0F);
 		double var2 = 3.9D;
-		double var4 = par1EntityLivingBase.motionX;
-		double var6 = par1EntityLivingBase.motionY;
-		double var8 = par1EntityLivingBase.motionZ;
+		double var4 = p_i3294_1_.motionX;
+		double var6 = p_i3294_1_.motionY;
+		double var8 = p_i3294_1_.motionZ;
 		if(var4 < -var2)
 		{
 			var4 = -var2;
@@ -66,7 +66,7 @@ public class Packet24MobSpawn extends Packet
 		velocityX = (int) (var4 * 8000.0D);
 		velocityY = (int) (var6 * 8000.0D);
 		velocityZ = (int) (var8 * 8000.0D);
-		metaData = par1EntityLivingBase.getDataWatcher();
+		metaData = p_i3294_1_.getDataWatcher();
 	}
 	
 	public List getMetadata()
@@ -83,40 +83,40 @@ public class Packet24MobSpawn extends Packet
 		return 26;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleMobSpawn(this);
+		p_73279_1_.handleMobSpawn(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
-		type = par1DataInput.readByte() & 255;
-		xPosition = par1DataInput.readInt();
-		yPosition = par1DataInput.readInt();
-		zPosition = par1DataInput.readInt();
-		yaw = par1DataInput.readByte();
-		pitch = par1DataInput.readByte();
-		headYaw = par1DataInput.readByte();
-		velocityX = par1DataInput.readShort();
-		velocityY = par1DataInput.readShort();
-		velocityZ = par1DataInput.readShort();
-		metadata = DataWatcher.readWatchableObjects(par1DataInput);
+		entityId = p_73267_1_.readInt();
+		type = p_73267_1_.readByte() & 255;
+		xPosition = p_73267_1_.readInt();
+		yPosition = p_73267_1_.readInt();
+		zPosition = p_73267_1_.readInt();
+		yaw = p_73267_1_.readByte();
+		pitch = p_73267_1_.readByte();
+		headYaw = p_73267_1_.readByte();
+		velocityX = p_73267_1_.readShort();
+		velocityY = p_73267_1_.readShort();
+		velocityZ = p_73267_1_.readShort();
+		metadata = DataWatcher.readWatchableObjects(p_73267_1_);
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
-		par1DataOutput.writeByte(type & 255);
-		par1DataOutput.writeInt(xPosition);
-		par1DataOutput.writeInt(yPosition);
-		par1DataOutput.writeInt(zPosition);
-		par1DataOutput.writeByte(yaw);
-		par1DataOutput.writeByte(pitch);
-		par1DataOutput.writeByte(headYaw);
-		par1DataOutput.writeShort(velocityX);
-		par1DataOutput.writeShort(velocityY);
-		par1DataOutput.writeShort(velocityZ);
-		metaData.writeWatchableObjects(par1DataOutput);
+		p_73273_1_.writeInt(entityId);
+		p_73273_1_.writeByte(type & 255);
+		p_73273_1_.writeInt(xPosition);
+		p_73273_1_.writeInt(yPosition);
+		p_73273_1_.writeInt(zPosition);
+		p_73273_1_.writeByte(yaw);
+		p_73273_1_.writeByte(pitch);
+		p_73273_1_.writeByte(headYaw);
+		p_73273_1_.writeShort(velocityX);
+		p_73273_1_.writeShort(velocityY);
+		p_73273_1_.writeShort(velocityZ);
+		metaData.writeWatchableObjects(p_73273_1_);
 	}
 }

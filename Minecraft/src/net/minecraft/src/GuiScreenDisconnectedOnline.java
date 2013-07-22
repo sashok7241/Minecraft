@@ -11,12 +11,13 @@ public class GuiScreenDisconnectedOnline extends GuiScreen
 	private List field_98110_d;
 	private final GuiScreen field_98114_n;
 	
-	public GuiScreenDisconnectedOnline(GuiScreen par1GuiScreen, String par2Str, String par3Str, Object ... par4ArrayOfObj)
+	public GuiScreenDisconnectedOnline(GuiScreen p_i11007_1_, String p_i11007_2_, String p_i11007_3_, Object ... p_i11007_4_)
 	{
-		field_98114_n = par1GuiScreen;
-		field_98113_a = I18n.func_135053_a(par2Str);
-		field_98111_b = par3Str;
-		field_98112_c = par4ArrayOfObj;
+		StringTranslate var5 = StringTranslate.getInstance();
+		field_98114_n = p_i11007_1_;
+		field_98113_a = var5.translateKey(p_i11007_2_);
+		field_98111_b = p_i11007_3_;
+		field_98112_c = p_i11007_4_;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -45,14 +46,15 @@ public class GuiScreenDisconnectedOnline extends GuiScreen
 	
 	@Override public void initGui()
 	{
+		StringTranslate var1 = StringTranslate.getInstance();
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, I18n.func_135053_a("gui.back")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, var1.translateKey("gui.back")));
 		if(field_98112_c != null)
 		{
-			field_98110_d = fontRenderer.listFormattedStringToWidth(I18n.func_135052_a(field_98111_b, field_98112_c), width - 50);
+			field_98110_d = fontRenderer.listFormattedStringToWidth(var1.translateKeyFormat(field_98111_b, field_98112_c), width - 50);
 		} else
 		{
-			field_98110_d = fontRenderer.listFormattedStringToWidth(I18n.func_135053_a(field_98111_b), width - 50);
+			field_98110_d = fontRenderer.listFormattedStringToWidth(var1.translateKey(field_98111_b), width - 50);
 		}
 	}
 	

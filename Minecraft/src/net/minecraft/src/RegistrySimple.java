@@ -5,20 +5,15 @@ import java.util.Map;
 
 public class RegistrySimple implements IRegistry
 {
-	protected final Map registryObjects = func_111054_a();
+	protected final Map registryObjects = new HashMap();
 	
-	protected HashMap func_111054_a()
+	@Override public Object func_82594_a(Object p_82594_1_)
 	{
-		return Maps.newHashMap();
+		return registryObjects.get(p_82594_1_);
 	}
 	
-	@Override public Object func_82594_a(Object par1Obj)
+	@Override public void putObject(Object p_82595_1_, Object p_82595_2_)
 	{
-		return registryObjects.get(par1Obj);
-	}
-	
-	@Override public void putObject(Object par1Obj, Object par2Obj)
-	{
-		registryObjects.put(par1Obj, par2Obj);
+		registryObjects.put(p_82595_1_, p_82595_2_);
 	}
 }

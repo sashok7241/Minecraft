@@ -13,13 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.crypto.SecretKey;
-
-import net.minecraft.server.MinecraftServer;
 
 public class TcpConnection implements INetworkManager
 {
@@ -33,7 +29,7 @@ public class TcpConnection implements INetworkManager
 	private volatile DataOutputStream socketOutputStream;
 	private volatile boolean isRunning;
 	private volatile boolean isTerminating;
-	private Queue readPackets;
+	private List readPackets;
 	private List dataPackets;
 	private List chunkDataPackets;
 	private NetHandler theNetHandler;
@@ -53,50 +49,59 @@ public class TcpConnection implements INetworkManager
 	private PrivateKey field_74463_A;
 	private int chunkDataPacketsDelay;
 	
-	public TcpConnection(ILogAgent par1ILogAgent, Socket par2Socket, String par3Str, NetHandler par4NetHandler) throws IOException
+	public TcpConnection(ILogAgent p_i11026_1_, Socket p_i11026_2_, String p_i11026_3_, NetHandler p_i11026_4_) throws IOException
 	{
-		this(par1ILogAgent, par2Socket, par3Str, par4NetHandler, (PrivateKey) null);
+		this(p_i11026_1_, p_i11026_2_, p_i11026_3_, p_i11026_4_, (PrivateKey) null);
 	}
 	
-	public TcpConnection(ILogAgent par1ILogAgent, Socket par2Socket, String par3Str, NetHandler par4NetHandler, PrivateKey par5PrivateKey) throws IOException
+	public TcpConnection(ILogAgent p_i11027_1_, Socket p_i11027_2_, String p_i11027_3_, NetHandler p_i11027_4_, PrivateKey p_i11027_5_) throws IOException
 	{
 		sendQueueLock = new Object();
 		isRunning = true;
-		readPackets = new ConcurrentLinkedQueue();
+		isTerminating = false;
+		readPackets = Collections.synchronizedList(new ArrayList());
 		dataPackets = Collections.synchronizedList(new ArrayList());
 		chunkDataPackets = Collections.synchronizedList(new ArrayList());
+		isServerTerminating = false;
 		terminationReason = "";
+		field_74490_x = 0;
+		sendQueueByteLength = 0;
+		field_74468_e = 0;
+		isInputBeingDecrypted = false;
+		isOutputEncrypted = false;
+		sharedKeyForEncryption = null;
+		field_74463_A = null;
 		chunkDataPacketsDelay = 50;
-		field_74463_A = par5PrivateKey;
-		networkSocket = par2Socket;
-		field_98215_i = par1ILogAgent;
-		remoteSocketAddress = par2Socket.getRemoteSocketAddress();
-		theNetHandler = par4NetHandler;
+		field_74463_A = p_i11027_5_;
+		networkSocket = p_i11027_2_;
+		field_98215_i = p_i11027_1_;
+		remoteSocketAddress = p_i11027_2_.getRemoteSocketAddress();
+		theNetHandler = p_i11027_4_;
 		try
 		{
-			par2Socket.setSoTimeout(30000);
-			par2Socket.setTrafficClass(24);
+			p_i11027_2_.setSoTimeout(30000);
+			p_i11027_2_.setTrafficClass(24);
 		} catch(SocketException var7)
 		{
 			System.err.println(var7.getMessage());
 		}
-		socketInputStream = new DataInputStream(par2Socket.getInputStream());
-		socketOutputStream = new DataOutputStream(new BufferedOutputStream(par2Socket.getOutputStream(), 5120));
-		readThread = new TcpReaderThread(this, par3Str + " read thread");
-		writeThread = new TcpWriterThread(this, par3Str + " write thread");
+		socketInputStream = new DataInputStream(p_i11027_2_.getInputStream());
+		socketOutputStream = new DataOutputStream(new BufferedOutputStream(p_i11027_2_.getOutputStream(), 5120));
+		readThread = new TcpReaderThread(this, p_i11027_3_ + " read thread");
+		writeThread = new TcpWriterThread(this, p_i11027_3_ + " write thread");
 		readThread.start();
 		writeThread.start();
 	}
 	
-	@Override public void addToSendQueue(Packet par1Packet)
+	@Override public void addToSendQueue(Packet p_74429_1_)
 	{
 		if(!isServerTerminating)
 		{
 			Object var2 = sendQueueLock;
 			synchronized(sendQueueLock)
 			{
-				sendQueueByteLength += par1Packet.getPacketSize() + 1;
-				dataPackets.add(par1Packet);
+				sendQueueByteLength += p_74429_1_.getPacketSize() + 1;
+				dataPackets.add(p_74429_1_);
 			}
 		}
 	}
@@ -123,27 +128,27 @@ public class TcpConnection implements INetworkManager
 		socketOutputStream = new DataOutputStream(var1);
 	}
 	
-	private boolean func_74454_a(Packet par1Packet, boolean par2)
+	private boolean func_74454_a(Packet p_74454_1_, boolean p_74454_2_)
 	{
-		if(!par1Packet.isRealPacket()) return false;
+		if(!p_74454_1_.isRealPacket()) return false;
 		else
 		{
-			List var3 = par2 ? chunkDataPackets : dataPackets;
+			List var3 = p_74454_2_ ? chunkDataPackets : dataPackets;
 			Iterator var4 = var3.iterator();
 			Packet var5;
 			do
 			{
 				if(!var4.hasNext()) return false;
 				var5 = (Packet) var4.next();
-			} while(var5.getPacketId() != par1Packet.getPacketId());
-			return par1Packet.containsSameEntityIDAs(var5);
+			} while(var5.getPacketId() != p_74454_1_.getPacketId());
+			return p_74454_1_.containsSameEntityIDAs(var5);
 		}
 	}
 	
-	private Packet func_74460_a(boolean par1)
+	private Packet func_74460_a(boolean p_74460_1_)
 	{
 		Packet var2 = null;
-		List var3 = par1 ? chunkDataPackets : dataPackets;
+		List var3 = p_74460_1_ ? chunkDataPackets : dataPackets;
 		Object var4 = sendQueueLock;
 		synchronized(sendQueueLock)
 		{
@@ -151,7 +156,7 @@ public class TcpConnection implements INetworkManager
 			{
 				var2 = (Packet) var3.remove(0);
 				sendQueueByteLength -= var2.getPacketSize() + 1;
-				if(func_74454_a(var2, par1))
+				if(func_74454_a(var2, p_74460_1_))
 				{
 					var2 = null;
 				}
@@ -170,13 +175,13 @@ public class TcpConnection implements INetworkManager
 		return remoteSocketAddress;
 	}
 	
-	@Override public void networkShutdown(String par1Str, Object ... par2ArrayOfObj)
+	@Override public void networkShutdown(String p_74424_1_, Object ... p_74424_2_)
 	{
 		if(isRunning)
 		{
 			isTerminating = true;
-			terminationReason = par1Str;
-			field_74480_w = par2ArrayOfObj;
+			terminationReason = p_74424_1_;
+			field_74480_w = p_74424_2_;
 			isRunning = false;
 			new TcpMasterThread(this).start();
 			try
@@ -206,10 +211,10 @@ public class TcpConnection implements INetworkManager
 		}
 	}
 	
-	private void onNetworkError(Exception par1Exception)
+	private void onNetworkError(Exception p_74455_1_)
 	{
-		par1Exception.printStackTrace();
-		networkShutdown("disconnect.genericReason", new Object[] { "Internal exception: " + par1Exception.toString() });
+		p_74455_1_.printStackTrace();
+		networkShutdown("disconnect.genericReason", new Object[] { "Internal exception: " + p_74455_1_.toString() });
 	}
 	
 	@Override public int packetSize()
@@ -234,13 +239,10 @@ public class TcpConnection implements INetworkManager
 			field_74490_x = 0;
 		}
 		int var1 = 1000;
-		while(var1-- >= 0)
+		while(!readPackets.isEmpty() && var1-- >= 0)
 		{
-			Packet var2 = (Packet) readPackets.poll();
-			if(var2 != null && !theNetHandler.func_142032_c())
-			{
-				var2.processPacket(theNetHandler);
-			}
+			Packet var2 = (Packet) readPackets.remove(0);
+			var2.processPacket(theNetHandler);
 		}
 		wakeThreads();
 		if(isTerminating && readPackets.isEmpty())
@@ -303,7 +305,7 @@ public class TcpConnection implements INetworkManager
 			Packet var2;
 			int var10001;
 			int[] var10000;
-			if(field_74468_e == 0 || !dataPackets.isEmpty() && MinecraftServer.func_130071_aq() - ((Packet) dataPackets.get(0)).creationTimeMillis >= field_74468_e)
+			if(field_74468_e == 0 || !dataPackets.isEmpty() && System.currentTimeMillis() - ((Packet) dataPackets.get(0)).creationTimeMillis >= field_74468_e)
 			{
 				var2 = func_74460_a(false);
 				if(var2 != null)
@@ -323,7 +325,7 @@ public class TcpConnection implements INetworkManager
 					var1 = true;
 				}
 			}
-			if(chunkDataPacketsDelay-- <= 0 && (field_74468_e == 0 || !chunkDataPackets.isEmpty() && MinecraftServer.func_130071_aq() - ((Packet) chunkDataPackets.get(0)).creationTimeMillis >= field_74468_e))
+			if(chunkDataPacketsDelay-- <= 0 && (field_74468_e == 0 || !chunkDataPackets.isEmpty() && System.currentTimeMillis() - ((Packet) chunkDataPackets.get(0)).creationTimeMillis >= field_74468_e))
 			{
 				var2 = func_74460_a(true);
 				if(var2 != null)
@@ -358,9 +360,9 @@ public class TcpConnection implements INetworkManager
 		}
 	}
 	
-	@Override public void setNetHandler(NetHandler par1NetHandler)
+	@Override public void setNetHandler(NetHandler p_74425_1_)
 	{
-		theNetHandler = par1NetHandler;
+		theNetHandler = p_74425_1_;
 	}
 	
 	@Override public void wakeThreads()
@@ -375,48 +377,48 @@ public class TcpConnection implements INetworkManager
 		}
 	}
 	
-	static DataOutputStream getOutputStream(TcpConnection par0TcpConnection)
+	static DataOutputStream getOutputStream(TcpConnection p_74453_0_)
 	{
-		return par0TcpConnection.socketOutputStream;
+		return p_74453_0_.socketOutputStream;
 	}
 	
-	static Thread getReadThread(TcpConnection par0TcpConnection)
+	static Thread getReadThread(TcpConnection p_74457_0_)
 	{
-		return par0TcpConnection.readThread;
+		return p_74457_0_.readThread;
 	}
 	
-	static Thread getWriteThread(TcpConnection par0TcpConnection)
+	static Thread getWriteThread(TcpConnection p_74461_0_)
 	{
-		return par0TcpConnection.writeThread;
+		return p_74461_0_.writeThread;
 	}
 	
-	static boolean isRunning(TcpConnection par0TcpConnection)
+	static boolean isRunning(TcpConnection p_74462_0_)
 	{
-		return par0TcpConnection.isRunning;
+		return p_74462_0_.isRunning;
 	}
 	
-	static boolean isServerTerminating(TcpConnection par0TcpConnection)
+	static boolean isServerTerminating(TcpConnection p_74449_0_)
 	{
-		return par0TcpConnection.isServerTerminating;
+		return p_74449_0_.isServerTerminating;
 	}
 	
-	static boolean isTerminating(TcpConnection par0TcpConnection)
+	static boolean isTerminating(TcpConnection p_74456_0_)
 	{
-		return par0TcpConnection.isTerminating;
+		return p_74456_0_.isTerminating;
 	}
 	
-	static boolean readNetworkPacket(TcpConnection par0TcpConnection)
+	static boolean readNetworkPacket(TcpConnection p_74450_0_)
 	{
-		return par0TcpConnection.readPacket();
+		return p_74450_0_.readPacket();
 	}
 	
-	static void sendError(TcpConnection par0TcpConnection, Exception par1Exception)
+	static void sendError(TcpConnection p_74458_0_, Exception p_74458_1_)
 	{
-		par0TcpConnection.onNetworkError(par1Exception);
+		p_74458_0_.onNetworkError(p_74458_1_);
 	}
 	
-	static boolean sendNetworkPacket(TcpConnection par0TcpConnection)
+	static boolean sendNetworkPacket(TcpConnection p_74451_0_)
 	{
-		return par0TcpConnection.sendPacket();
+		return p_74451_0_.sendPacket();
 	}
 }

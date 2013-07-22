@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 
 public class GuiAchievement extends Gui
 {
-	private static final ResourceLocation field_110331_a = new ResourceLocation("textures/gui/achievement/achievement_background.png");
 	private Minecraft theGame;
 	private int achievementWindowWidth;
 	private int achievementWindowHeight;
@@ -15,15 +14,15 @@ public class GuiAchievement extends Gui
 	private RenderItem itemRender;
 	private boolean haveAchiement;
 	
-	public GuiAchievement(Minecraft par1Minecraft)
+	public GuiAchievement(Minecraft p_i3069_1_)
 	{
-		theGame = par1Minecraft;
+		theGame = p_i3069_1_;
 		itemRender = new RenderItem();
 	}
 	
 	public void queueAchievementInformation(Achievement par1Achievement)
 	{
-		achievementGetLocalText = I18n.func_135053_a(par1Achievement.getName());
+		achievementGetLocalText = StatCollector.translateToLocal(par1Achievement.getName());
 		achievementStatName = par1Achievement.getDescription();
 		achievementTime = Minecraft.getSystemTime() - 2500L;
 		theAchievement = par1Achievement;
@@ -32,8 +31,8 @@ public class GuiAchievement extends Gui
 	
 	public void queueTakenAchievement(Achievement par1Achievement)
 	{
-		achievementGetLocalText = I18n.func_135053_a("achievement.get");
-		achievementStatName = I18n.func_135053_a(par1Achievement.getName());
+		achievementGetLocalText = StatCollector.translateToLocal("achievement.get");
+		achievementStatName = StatCollector.translateToLocal(par1Achievement.getName());
 		achievementTime = Minecraft.getSystemTime();
 		theAchievement = par1Achievement;
 		haveAchiement = false;
@@ -69,7 +68,7 @@ public class GuiAchievement extends Gui
 				int var6 = 0 - (int) (var3 * 36.0D);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				theGame.func_110434_K().func_110577_a(field_110331_a);
+				theGame.renderEngine.bindTexture("/achievement/bg.png");
 				GL11.glDisable(GL11.GL_LIGHTING);
 				drawTexturedModalRect(var5, var6, 96, 202, 160, 32);
 				if(haveAchiement)
@@ -85,7 +84,7 @@ public class GuiAchievement extends Gui
 				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 				GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 				GL11.glEnable(GL11.GL_LIGHTING);
-				itemRender.renderItemAndEffectIntoGUI(theGame.fontRenderer, theGame.func_110434_K(), theAchievement.theItemStack, var5 + 8, var6 + 8);
+				itemRender.renderItemAndEffectIntoGUI(theGame.fontRenderer, theGame.renderEngine, theAchievement.theItemStack, var5 + 8, var6 + 8);
 				GL11.glDisable(GL11.GL_LIGHTING);
 				GL11.glDepthMask(true);
 				GL11.glEnable(GL11.GL_DEPTH_TEST);

@@ -7,10 +7,10 @@ public class GuiOptions extends GuiScreen
 	private final GameSettings options;
 	protected String screenTitle = "Options";
 	
-	public GuiOptions(GuiScreen par1GuiScreen, GameSettings par2GameSettings)
+	public GuiOptions(GuiScreen p_i3042_1_, GameSettings p_i3042_2_)
 	{
-		parentScreen = par1GuiScreen;
-		options = par2GameSettings;
+		parentScreen = p_i3042_1_;
+		options = p_i3042_2_;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -35,7 +35,7 @@ public class GuiOptions extends GuiScreen
 			if(par1GuiButton.id == 102)
 			{
 				mc.gameSettings.saveOptions();
-				mc.displayGuiScreen(new GuiLanguage(this, options, mc.func_135016_M()));
+				mc.displayGuiScreen(new GuiLanguage(this, options));
 			}
 			if(par1GuiButton.id == 103)
 			{
@@ -55,7 +55,7 @@ public class GuiOptions extends GuiScreen
 			if(par1GuiButton.id == 105)
 			{
 				mc.gameSettings.saveOptions();
-				mc.displayGuiScreen(new GuiScreenTemporaryResourcePackSelect(this, options));
+				mc.displayGuiScreen(new GuiTexturePacks(this, options));
 			}
 		}
 	}
@@ -69,34 +69,35 @@ public class GuiOptions extends GuiScreen
 	
 	@Override public void initGui()
 	{
-		int var1 = 0;
-		screenTitle = I18n.func_135053_a("options.title");
-		EnumOptions[] var2 = relevantOptions;
-		int var3 = var2.length;
-		for(int var4 = 0; var4 < var3; ++var4)
+		StringTranslate var1 = StringTranslate.getInstance();
+		int var2 = 0;
+		screenTitle = var1.translateKey("options.title");
+		EnumOptions[] var3 = relevantOptions;
+		int var4 = var3.length;
+		for(int var5 = 0; var5 < var4; ++var5)
 		{
-			EnumOptions var5 = var2[var4];
-			if(var5.getEnumFloat())
+			EnumOptions var6 = var3[var5];
+			if(var6.getEnumFloat())
 			{
-				buttonList.add(new GuiSlider(var5.returnEnumOrdinal(), width / 2 - 155 + var1 % 2 * 160, height / 6 - 12 + 24 * (var1 >> 1), var5, options.getKeyBinding(var5), options.getOptionFloatValue(var5)));
+				buttonList.add(new GuiSlider(var6.returnEnumOrdinal(), width / 2 - 155 + var2 % 2 * 160, height / 6 - 12 + 24 * (var2 >> 1), var6, options.getKeyBinding(var6), options.getOptionFloatValue(var6)));
 			} else
 			{
-				GuiSmallButton var6 = new GuiSmallButton(var5.returnEnumOrdinal(), width / 2 - 155 + var1 % 2 * 160, height / 6 - 12 + 24 * (var1 >> 1), var5, options.getKeyBinding(var5));
-				if(var5 == EnumOptions.DIFFICULTY && mc.theWorld != null && mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
+				GuiSmallButton var7 = new GuiSmallButton(var6.returnEnumOrdinal(), width / 2 - 155 + var2 % 2 * 160, height / 6 - 12 + 24 * (var2 >> 1), var6, options.getKeyBinding(var6));
+				if(var6 == EnumOptions.DIFFICULTY && mc.theWorld != null && mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
 				{
-					var6.enabled = false;
-					var6.displayString = I18n.func_135053_a("options.difficulty") + ": " + I18n.func_135053_a("options.difficulty.hardcore");
+					var7.enabled = false;
+					var7.displayString = StatCollector.translateToLocal("options.difficulty") + ": " + StatCollector.translateToLocal("options.difficulty.hardcore");
 				}
-				buttonList.add(var6);
+				buttonList.add(var7);
 			}
-			++var1;
+			++var2;
 		}
-		buttonList.add(new GuiButton(101, width / 2 - 152, height / 6 + 96 - 6, 150, 20, I18n.func_135053_a("options.video")));
-		buttonList.add(new GuiButton(100, width / 2 + 2, height / 6 + 96 - 6, 150, 20, I18n.func_135053_a("options.controls")));
-		buttonList.add(new GuiButton(102, width / 2 - 152, height / 6 + 120 - 6, 150, 20, I18n.func_135053_a("options.language")));
-		buttonList.add(new GuiButton(103, width / 2 + 2, height / 6 + 120 - 6, 150, 20, I18n.func_135053_a("options.multiplayer.title")));
-		buttonList.add(new GuiButton(105, width / 2 - 152, height / 6 + 144 - 6, 150, 20, I18n.func_135053_a("options.resourcepack")));
-		buttonList.add(new GuiButton(104, width / 2 + 2, height / 6 + 144 - 6, 150, 20, I18n.func_135053_a("options.snooper.view")));
-		buttonList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168, I18n.func_135053_a("gui.done")));
+		buttonList.add(new GuiButton(101, width / 2 - 152, height / 6 + 96 - 6, 150, 20, var1.translateKey("options.video")));
+		buttonList.add(new GuiButton(100, width / 2 + 2, height / 6 + 96 - 6, 150, 20, var1.translateKey("options.controls")));
+		buttonList.add(new GuiButton(102, width / 2 - 152, height / 6 + 120 - 6, 150, 20, var1.translateKey("options.language")));
+		buttonList.add(new GuiButton(103, width / 2 + 2, height / 6 + 120 - 6, 150, 20, var1.translateKey("options.multiplayer.title")));
+		buttonList.add(new GuiButton(105, width / 2 - 152, height / 6 + 144 - 6, 150, 20, var1.translateKey("options.texture.pack")));
+		buttonList.add(new GuiButton(104, width / 2 + 2, height / 6 + 144 - 6, 150, 20, var1.translateKey("options.snooper.view")));
+		buttonList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168, var1.translateKey("gui.done")));
 	}
 }

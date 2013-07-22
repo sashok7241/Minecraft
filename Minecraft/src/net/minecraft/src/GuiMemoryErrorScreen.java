@@ -31,9 +31,10 @@ public class GuiMemoryErrorScreen extends GuiScreen
 	
 	@Override public void initGui()
 	{
+		StringTranslate var1 = StringTranslate.getInstance();
 		buttonList.clear();
-		buttonList.add(new GuiSmallButton(0, width / 2 - 155, height / 4 + 120 + 12, I18n.func_135053_a("gui.toMenu")));
-		buttonList.add(new GuiSmallButton(1, width / 2 - 155 + 160, height / 4 + 120 + 12, I18n.func_135053_a("menu.quit")));
+		buttonList.add(new GuiSmallButton(0, width / 2 - 155, height / 4 + 120 + 12, var1.translateKey("gui.toMenu")));
+		buttonList.add(new GuiSmallButton(1, width / 2 - 155 + 160, height / 4 + 120 + 12, var1.translateKey("menu.quit")));
 	}
 	
 	@Override protected void keyTyped(char par1, int par2)

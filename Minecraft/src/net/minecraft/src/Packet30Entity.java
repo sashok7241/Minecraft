@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet30Entity extends Packet
@@ -12,20 +12,20 @@ public class Packet30Entity extends Packet
 	public byte zPosition;
 	public byte yaw;
 	public byte pitch;
-	public boolean rotating;
+	public boolean rotating = false;
 	
 	public Packet30Entity()
 	{
 	}
 	
-	public Packet30Entity(int par1)
+	public Packet30Entity(int p_i3331_1_)
 	{
-		entityId = par1;
+		entityId = p_i3331_1_;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
+	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
 	{
-		Packet30Entity var2 = (Packet30Entity) par1Packet;
+		Packet30Entity var2 = (Packet30Entity) p_73268_1_;
 		return var2.entityId == entityId;
 	}
 	
@@ -39,14 +39,14 @@ public class Packet30Entity extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleEntity(this);
+		p_73279_1_.handleEntity(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
+		entityId = p_73267_1_.readInt();
 	}
 	
 	@Override public String toString()
@@ -54,8 +54,8 @@ public class Packet30Entity extends Packet
 		return "Entity_" + super.toString();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
+		p_73273_1_.writeInt(entityId);
 	}
 }

@@ -5,13 +5,13 @@ public class EntityAIVillagerMate extends EntityAIBase
 	private EntityVillager villagerObj;
 	private EntityVillager mate;
 	private World worldObj;
-	private int matingTimeout;
+	private int matingTimeout = 0;
 	Village villageObj;
 	
-	public EntityAIVillagerMate(EntityVillager par1EntityVillager)
+	public EntityAIVillagerMate(EntityVillager p_i3475_1_)
 	{
-		villagerObj = par1EntityVillager;
-		worldObj = par1EntityVillager.worldObj;
+		villagerObj = p_i3475_1_;
+		worldObj = p_i3475_1_.worldObj;
 		setMutexBits(3);
 	}
 	
@@ -82,7 +82,7 @@ public class EntityAIVillagerMate extends EntityAIBase
 		villagerObj.getLookHelper().setLookPositionWithEntity(mate, 10.0F, 30.0F);
 		if(villagerObj.getDistanceSqToEntity(mate) > 2.25D)
 		{
-			villagerObj.getNavigator().tryMoveToEntityLiving(mate, 0.25D);
+			villagerObj.getNavigator().tryMoveToEntityLiving(mate, 0.25F);
 		} else if(matingTimeout == 0 && mate.isMating())
 		{
 			giveBirth();

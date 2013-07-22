@@ -6,9 +6,9 @@ public class StringUtils
 {
 	private static final Pattern patternControlCode = Pattern.compile("(?i)\\u00A7[0-9A-FK-OR]");
 	
-	public static String stripControlCodes(String par0Str)
+	public static String stripControlCodes(String p_76338_0_)
 	{
-		return patternControlCode.matcher(par0Str).replaceAll("");
+		return patternControlCode.matcher(p_76338_0_).replaceAll("");
 	}
 	
 	public static String ticksToElapsedTime(int par0)

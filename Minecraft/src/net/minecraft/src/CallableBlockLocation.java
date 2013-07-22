@@ -8,11 +8,11 @@ final class CallableBlockLocation implements Callable
 	final int blockYCoord;
 	final int blockZCoord;
 	
-	CallableBlockLocation(int par1, int par2, int par3)
+	CallableBlockLocation(int p_i6807_1_, int p_i6807_2_, int p_i6807_3_)
 	{
-		blockXCoord = par1;
-		blockYCoord = par2;
-		blockZCoord = par3;
+		blockXCoord = p_i6807_1_;
+		blockYCoord = p_i6807_2_;
+		blockZCoord = p_i6807_3_;
 	}
 	
 	@Override public Object call()

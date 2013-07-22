@@ -4,22 +4,12 @@ import java.net.URL;
 
 public class SoundPoolEntry
 {
-	private final String soundName;
-	private final URL soundUrl;
+	public String soundName;
+	public URL soundUrl;
 	
-	public SoundPoolEntry(String par1Str, URL par2URL)
+	public SoundPoolEntry(String p_i3127_1_, URL p_i3127_2_)
 	{
-		soundName = par1Str;
-		soundUrl = par2URL;
-	}
-	
-	public URL func_110457_b()
-	{
-		return soundUrl;
-	}
-	
-	public String func_110458_a()
-	{
-		return soundName;
+		soundName = p_i3127_1_;
+		soundUrl = p_i3127_2_;
 	}
 }

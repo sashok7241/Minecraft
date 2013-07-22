@@ -2,25 +2,25 @@ package net.minecraft.src;
 
 public class EnchantmentUntouching extends Enchantment
 {
-	protected EnchantmentUntouching(int par1, int par2)
+	protected EnchantmentUntouching(int p_i3719_1_, int p_i3719_2_)
 	{
-		super(par1, par2, EnumEnchantmentType.digger);
+		super(p_i3719_1_, p_i3719_2_, EnumEnchantmentType.digger);
 		setName("untouching");
 	}
 	
-	@Override public boolean canApply(ItemStack par1ItemStack)
+	@Override public boolean canApply(ItemStack p_92089_1_)
 	{
-		return par1ItemStack.getItem().itemID == Item.shears.itemID ? true : super.canApply(par1ItemStack);
+		return p_92089_1_.getItem().itemID == Item.shears.itemID ? true : super.canApply(p_92089_1_);
 	}
 	
-	@Override public boolean canApplyTogether(Enchantment par1Enchantment)
+	@Override public boolean canApplyTogether(Enchantment p_77326_1_)
 	{
-		return super.canApplyTogether(par1Enchantment) && par1Enchantment.effectId != fortune.effectId;
+		return super.canApplyTogether(p_77326_1_) && p_77326_1_.effectId != fortune.effectId;
 	}
 	
-	@Override public int getMaxEnchantability(int par1)
+	@Override public int getMaxEnchantability(int p_77317_1_)
 	{
-		return super.getMinEnchantability(par1) + 50;
+		return super.getMinEnchantability(p_77317_1_) + 50;
 	}
 	
 	@Override public int getMaxLevel()
@@ -28,7 +28,7 @@ public class EnchantmentUntouching extends Enchantment
 		return 1;
 	}
 	
-	@Override public int getMinEnchantability(int par1)
+	@Override public int getMinEnchantability(int p_77321_1_)
 	{
 		return 15;
 	}

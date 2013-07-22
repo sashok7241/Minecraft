@@ -3,7 +3,7 @@ package net.minecraft.src;
 
 public class RenderFallingSand extends Render
 {
-	private final RenderBlocks sandRenderBlocks = new RenderBlocks();
+	private RenderBlocks sandRenderBlocks = new RenderBlocks();
 	
 	public RenderFallingSand()
 	{
@@ -23,7 +23,7 @@ public class RenderFallingSand extends Render
 		{
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float) par2, (float) par4, (float) par6);
-			func_110777_b(par1EntityFallingSand);
+			loadTexture("/terrain.png");
 			GL11.glDisable(GL11.GL_LIGHTING);
 			Tessellator var12;
 			if(var11 instanceof BlockAnvil && var11.getRenderType() == 35)
@@ -52,15 +52,5 @@ public class RenderFallingSand extends Render
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glPopMatrix();
 		}
-	}
-	
-	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
-	{
-		return func_110783_a((EntityFallingSand) par1Entity);
-	}
-	
-	protected ResourceLocation func_110783_a(EntityFallingSand par1EntityFallingSand)
-	{
-		return TextureMap.field_110575_b;
 	}
 }

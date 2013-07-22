@@ -4,9 +4,9 @@ public class ItemFishingRod extends Item
 {
 	private Icon theIcon;
 	
-	public ItemFishingRod(int par1)
+	public ItemFishingRod(int p_i3651_1_)
 	{
-		super(par1);
+		super(p_i3651_1_);
 		setMaxDamage(64);
 		setMaxStackSize(1);
 		setCreativeTab(CreativeTabs.tabTools);
@@ -22,29 +22,29 @@ public class ItemFishingRod extends Item
 		return true;
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
 	{
-		if(par3EntityPlayer.fishEntity != null)
+		if(p_77659_3_.fishEntity != null)
 		{
-			int var4 = par3EntityPlayer.fishEntity.catchFish();
-			par1ItemStack.damageItem(var4, par3EntityPlayer);
-			par3EntityPlayer.swingItem();
+			int var4 = p_77659_3_.fishEntity.catchFish();
+			p_77659_1_.damageItem(var4, p_77659_3_);
+			p_77659_3_.swingItem();
 		} else
 		{
-			par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-			if(!par2World.isRemote)
+			p_77659_2_.playSoundAtEntity(p_77659_3_, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			if(!p_77659_2_.isRemote)
 			{
-				par2World.spawnEntityInWorld(new EntityFishHook(par2World, par3EntityPlayer));
+				p_77659_2_.spawnEntityInWorld(new EntityFishHook(p_77659_2_, p_77659_3_));
 			}
-			par3EntityPlayer.swingItem();
+			p_77659_3_.swingItem();
 		}
-		return par1ItemStack;
+		return p_77659_1_;
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		itemIcon = par1IconRegister.registerIcon(func_111208_A() + "_uncast");
-		theIcon = par1IconRegister.registerIcon(func_111208_A() + "_cast");
+		super.registerIcons(par1IconRegister);
+		theIcon = par1IconRegister.registerIcon("fishingRod_empty");
 	}
 	
 	@Override public boolean shouldRotateAroundWhenRendering()

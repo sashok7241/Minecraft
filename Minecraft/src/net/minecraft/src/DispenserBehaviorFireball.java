@@ -4,25 +4,25 @@ import java.util.Random;
 
 final class DispenserBehaviorFireball extends BehaviorDefaultDispenseItem
 {
-	@Override public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
+	@Override public ItemStack dispenseStack(IBlockSource p_82487_1_, ItemStack p_82487_2_)
 	{
-		EnumFacing var3 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
-		IPosition var4 = BlockDispenser.getIPositionFromBlockSource(par1IBlockSource);
+		EnumFacing var3 = BlockDispenser.getFacing(p_82487_1_.getBlockMetadata());
+		IPosition var4 = BlockDispenser.getIPositionFromBlockSource(p_82487_1_);
 		double var5 = var4.getX() + var3.getFrontOffsetX() * 0.3F;
 		double var7 = var4.getY() + var3.getFrontOffsetX() * 0.3F;
 		double var9 = var4.getZ() + var3.getFrontOffsetZ() * 0.3F;
-		World var11 = par1IBlockSource.getWorld();
+		World var11 = p_82487_1_.getWorld();
 		Random var12 = var11.rand;
 		double var13 = var12.nextGaussian() * 0.05D + var3.getFrontOffsetX();
 		double var15 = var12.nextGaussian() * 0.05D + var3.getFrontOffsetY();
 		double var17 = var12.nextGaussian() * 0.05D + var3.getFrontOffsetZ();
 		var11.spawnEntityInWorld(new EntitySmallFireball(var11, var5, var7, var9, var13, var15, var17));
-		par2ItemStack.splitStack(1);
-		return par2ItemStack;
+		p_82487_2_.splitStack(1);
+		return p_82487_2_;
 	}
 	
-	@Override protected void playDispenseSound(IBlockSource par1IBlockSource)
+	@Override protected void playDispenseSound(IBlockSource p_82485_1_)
 	{
-		par1IBlockSource.getWorld().playAuxSFX(1009, par1IBlockSource.getXInt(), par1IBlockSource.getYInt(), par1IBlockSource.getZInt(), 0);
+		p_82485_1_.getWorld().playAuxSFX(1009, p_82485_1_.getXInt(), p_82485_1_.getYInt(), p_82485_1_.getZInt(), 0);
 	}
 }

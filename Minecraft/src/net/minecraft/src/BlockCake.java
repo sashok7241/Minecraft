@@ -8,45 +8,45 @@ public class BlockCake extends Block
 	private Icon cakeBottomIcon;
 	private Icon field_94382_c;
 	
-	protected BlockCake(int par1)
+	protected BlockCake(int p_i9044_1_)
 	{
-		super(par1, Material.cake);
+		super(p_i9044_1_, Material.cake);
 		setTickRandomly(true);
 	}
 	
-	@Override public boolean canBlockStay(World par1World, int par2, int par3, int par4)
+	@Override public boolean canBlockStay(World p_71854_1_, int p_71854_2_, int p_71854_3_, int p_71854_4_)
 	{
-		return par1World.getBlockMaterial(par2, par3 - 1, par4).isSolid();
+		return p_71854_1_.getBlockMaterial(p_71854_2_, p_71854_3_ - 1, p_71854_4_).isSolid();
 	}
 	
-	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
 	{
-		return !super.canPlaceBlockAt(par1World, par2, par3, par4) ? false : canBlockStay(par1World, par2, par3, par4);
+		return !super.canPlaceBlockAt(p_71930_1_, p_71930_2_, p_71930_3_, p_71930_4_) ? false : canBlockStay(p_71930_1_, p_71930_2_, p_71930_3_, p_71930_4_);
 	}
 	
-	private void eatCakeSlice(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
+	private void eatCakeSlice(World p_72259_1_, int p_72259_2_, int p_72259_3_, int p_72259_4_, EntityPlayer p_72259_5_)
 	{
-		if(par5EntityPlayer.canEat(false))
+		if(p_72259_5_.canEat(false))
 		{
-			par5EntityPlayer.getFoodStats().addStats(2, 0.1F);
-			int var6 = par1World.getBlockMetadata(par2, par3, par4) + 1;
+			p_72259_5_.getFoodStats().addStats(2, 0.1F);
+			int var6 = p_72259_1_.getBlockMetadata(p_72259_2_, p_72259_3_, p_72259_4_) + 1;
 			if(var6 >= 6)
 			{
-				par1World.setBlockToAir(par2, par3, par4);
+				p_72259_1_.setBlockToAir(p_72259_2_, p_72259_3_, p_72259_4_);
 			} else
 			{
-				par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 2);
+				p_72259_1_.setBlockMetadataWithNotify(p_72259_2_, p_72259_3_, p_72259_4_, var6, 2);
 			}
 		}
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
 	{
-		int var5 = par1World.getBlockMetadata(par2, par3, par4);
+		int var5 = p_71872_1_.getBlockMetadata(p_71872_2_, p_71872_3_, p_71872_4_);
 		float var6 = 0.0625F;
 		float var7 = (1 + var5 * 2) / 16.0F;
 		float var8 = 0.5F;
-		return AxisAlignedBB.getAABBPool().getAABB(par2 + var7, par3, par4 + var6, par2 + 1 - var6, par3 + var8 - var6, par4 + 1 - var6);
+		return AxisAlignedBB.getAABBPool().getAABB(p_71872_2_ + var7, p_71872_3_, p_71872_4_ + var6, p_71872_2_ + 1 - var6, p_71872_3_ + var8 - var6, p_71872_4_ + 1 - var6);
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -63,7 +63,7 @@ public class BlockCake extends Block
 		return AxisAlignedBB.getAABBPool().getAABB(par2 + var7, par3, par4 + var6, par2 + 1 - var6, par3 + var8, par4 + 1 - var6);
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return 0;
 	}
@@ -78,36 +78,36 @@ public class BlockCake extends Block
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
 	{
-		eatCakeSlice(par1World, par2, par3, par4, par5EntityPlayer);
+		eatCakeSlice(p_71903_1_, p_71903_2_, p_71903_3_, p_71903_4_, p_71903_5_);
 		return true;
 	}
 	
-	@Override public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
+	@Override public void onBlockClicked(World p_71921_1_, int p_71921_2_, int p_71921_3_, int p_71921_4_, EntityPlayer p_71921_5_)
 	{
-		eatCakeSlice(par1World, par2, par3, par4, par5EntityPlayer);
+		eatCakeSlice(p_71921_1_, p_71921_2_, p_71921_3_, p_71921_4_, p_71921_5_);
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
-		if(!canBlockStay(par1World, par2, par3, par4))
+		if(!canBlockStay(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_))
 		{
-			par1World.setBlockToAir(par2, par3, par4);
+			p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
 		}
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
 		return 0;
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
-		field_94382_c = par1IconRegister.registerIcon(func_111023_E() + "_inner");
-		cakeTopIcon = par1IconRegister.registerIcon(func_111023_E() + "_top");
-		cakeBottomIcon = par1IconRegister.registerIcon(func_111023_E() + "_bottom");
+		blockIcon = par1IconRegister.registerIcon("cake_side");
+		field_94382_c = par1IconRegister.registerIcon("cake_inner");
+		cakeTopIcon = par1IconRegister.registerIcon("cake_top");
+		cakeBottomIcon = par1IconRegister.registerIcon("cake_bottom");
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -115,9 +115,9 @@ public class BlockCake extends Block
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
-		int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+		int var5 = p_71902_1_.getBlockMetadata(p_71902_2_, p_71902_3_, p_71902_4_);
 		float var6 = 0.0625F;
 		float var7 = (1 + var5 * 2) / 16.0F;
 		float var8 = 0.5F;

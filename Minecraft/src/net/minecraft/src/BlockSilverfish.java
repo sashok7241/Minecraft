@@ -7,30 +7,30 @@ public class BlockSilverfish extends Block
 {
 	public static final String[] silverfishStoneTypes = new String[] { "stone", "cobble", "brick" };
 	
-	public BlockSilverfish(int par1)
+	public BlockSilverfish(int p_i3999_1_)
 	{
-		super(par1, Material.clay);
+		super(p_i3999_1_, Material.clay);
 		setHardness(0.0F);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override protected ItemStack createStackedBlock(int par1)
+	@Override protected ItemStack createStackedBlock(int p_71880_1_)
 	{
 		Block var2 = Block.stone;
-		if(par1 == 1)
+		if(p_71880_1_ == 1)
 		{
 			var2 = Block.cobblestone;
 		}
-		if(par1 == 2)
+		if(p_71880_1_ == 2)
 		{
 			var2 = Block.stoneBrick;
 		}
 		return new ItemStack(var2);
 	}
 	
-	@Override public int getDamageValue(World par1World, int par2, int par3, int par4)
+	@Override public int getDamageValue(World p_71873_1_, int p_71873_2_, int p_71873_3_, int p_71873_4_)
 	{
-		return par1World.getBlockMetadata(par2, par3, par4);
+		return p_71873_1_.getBlockMetadata(p_71873_2_, p_71873_3_, p_71873_4_);
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -46,19 +46,19 @@ public class BlockSilverfish extends Block
 		}
 	}
 	
-	@Override public void onBlockDestroyedByPlayer(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onBlockDestroyedByPlayer(World p_71898_1_, int p_71898_2_, int p_71898_3_, int p_71898_4_, int p_71898_5_)
 	{
-		if(!par1World.isRemote)
+		if(!p_71898_1_.isRemote)
 		{
-			EntitySilverfish var6 = new EntitySilverfish(par1World);
-			var6.setLocationAndAngles(par2 + 0.5D, par3, par4 + 0.5D, 0.0F, 0.0F);
-			par1World.spawnEntityInWorld(var6);
+			EntitySilverfish var6 = new EntitySilverfish(p_71898_1_);
+			var6.setLocationAndAngles(p_71898_2_ + 0.5D, p_71898_3_, p_71898_4_ + 0.5D, 0.0F, 0.0F);
+			p_71898_1_.spawnEntityInWorld(var6);
 			var6.spawnExplosionParticle();
 		}
-		super.onBlockDestroyedByPlayer(par1World, par2, par3, par4, par5);
+		super.onBlockDestroyedByPlayer(p_71898_1_, p_71898_2_, p_71898_3_, p_71898_4_, p_71898_5_);
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
 		return 0;
 	}
@@ -67,13 +67,13 @@ public class BlockSilverfish extends Block
 	{
 	}
 	
-	public static int getMetadataForBlockType(int par0)
+	public static int getMetadataForBlockType(int p_72153_0_)
 	{
-		return par0 == Block.cobblestone.blockID ? 1 : par0 == Block.stoneBrick.blockID ? 2 : 0;
+		return p_72153_0_ == Block.cobblestone.blockID ? 1 : p_72153_0_ == Block.stoneBrick.blockID ? 2 : 0;
 	}
 	
-	public static boolean getPosingIdByMetadata(int par0)
+	public static boolean getPosingIdByMetadata(int p_72154_0_)
 	{
-		return par0 == Block.stone.blockID || par0 == Block.cobblestone.blockID || par0 == Block.stoneBrick.blockID;
+		return p_72154_0_ == Block.stone.blockID || p_72154_0_ == Block.cobblestone.blockID || p_72154_0_ == Block.stoneBrick.blockID;
 	}
 }

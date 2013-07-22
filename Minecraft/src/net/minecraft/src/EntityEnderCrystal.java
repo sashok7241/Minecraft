@@ -5,9 +5,10 @@ public class EntityEnderCrystal extends Entity
 	public int innerRotation;
 	public int health;
 	
-	public EntityEnderCrystal(World par1World)
+	public EntityEnderCrystal(World p_i3529_1_)
 	{
-		super(par1World);
+		super(p_i3529_1_);
+		innerRotation = 0;
 		preventEntitySpawning = true;
 		setSize(2.0F, 2.0F);
 		yOffset = height / 2.0F;
@@ -15,13 +16,13 @@ public class EntityEnderCrystal extends Entity
 		innerRotation = rand.nextInt(100000);
 	}
 	
-	public EntityEnderCrystal(World par1World, double par2, double par4, double par6)
+	public EntityEnderCrystal(World p_i3530_1_, double p_i3530_2_, double p_i3530_4_, double p_i3530_6_)
 	{
-		this(par1World);
-		setPosition(par2, par4, par6);
+		this(p_i3530_1_);
+		setPosition(p_i3530_2_, p_i3530_4_, p_i3530_6_);
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
+	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -78,11 +79,11 @@ public class EntityEnderCrystal extends Entity
 		}
 	}
 	
-	@Override protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
 	}
 	
-	@Override protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
 	}
 }

@@ -2,78 +2,78 @@ package net.minecraft.src;
 
 public class BlockNote extends BlockContainer
 {
-	public BlockNote(int par1)
+	public BlockNote(int p_i3972_1_)
 	{
-		super(par1, Material.wood);
+		super(p_i3972_1_, Material.wood);
 		setCreativeTab(CreativeTabs.tabRedstone);
 	}
 	
-	@Override public TileEntity createNewTileEntity(World par1World)
+	@Override public TileEntity createNewTileEntity(World p_72274_1_)
 	{
 		return new TileEntityNote();
 	}
 	
-	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
 	{
-		if(par1World.isRemote) return true;
+		if(p_71903_1_.isRemote) return true;
 		else
 		{
-			TileEntityNote var10 = (TileEntityNote) par1World.getBlockTileEntity(par2, par3, par4);
+			TileEntityNote var10 = (TileEntityNote) p_71903_1_.getBlockTileEntity(p_71903_2_, p_71903_3_, p_71903_4_);
 			if(var10 != null)
 			{
 				var10.changePitch();
-				var10.triggerNote(par1World, par2, par3, par4);
+				var10.triggerNote(p_71903_1_, p_71903_2_, p_71903_3_, p_71903_4_);
 			}
 			return true;
 		}
 	}
 	
-	@Override public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
+	@Override public void onBlockClicked(World p_71921_1_, int p_71921_2_, int p_71921_3_, int p_71921_4_, EntityPlayer p_71921_5_)
 	{
-		if(!par1World.isRemote)
+		if(!p_71921_1_.isRemote)
 		{
-			TileEntityNote var6 = (TileEntityNote) par1World.getBlockTileEntity(par2, par3, par4);
+			TileEntityNote var6 = (TileEntityNote) p_71921_1_.getBlockTileEntity(p_71921_2_, p_71921_3_, p_71921_4_);
 			if(var6 != null)
 			{
-				var6.triggerNote(par1World, par2, par3, par4);
+				var6.triggerNote(p_71921_1_, p_71921_2_, p_71921_3_, p_71921_4_);
 			}
 		}
 	}
 	
-	@Override public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6)
+	@Override public boolean onBlockEventReceived(World p_71883_1_, int p_71883_2_, int p_71883_3_, int p_71883_4_, int p_71883_5_, int p_71883_6_)
 	{
-		float var7 = (float) Math.pow(2.0D, (par6 - 12) / 12.0D);
+		float var7 = (float) Math.pow(2.0D, (p_71883_6_ - 12) / 12.0D);
 		String var8 = "harp";
-		if(par5 == 1)
+		if(p_71883_5_ == 1)
 		{
 			var8 = "bd";
 		}
-		if(par5 == 2)
+		if(p_71883_5_ == 2)
 		{
 			var8 = "snare";
 		}
-		if(par5 == 3)
+		if(p_71883_5_ == 3)
 		{
 			var8 = "hat";
 		}
-		if(par5 == 4)
+		if(p_71883_5_ == 4)
 		{
 			var8 = "bassattack";
 		}
-		par1World.playSoundEffect(par2 + 0.5D, par3 + 0.5D, par4 + 0.5D, "note." + var8, 3.0F, var7);
-		par1World.spawnParticle("note", par2 + 0.5D, par3 + 1.2D, par4 + 0.5D, par6 / 24.0D, 0.0D, 0.0D);
+		p_71883_1_.playSoundEffect(p_71883_2_ + 0.5D, p_71883_3_ + 0.5D, p_71883_4_ + 0.5D, "note." + var8, 3.0F, var7);
+		p_71883_1_.spawnParticle("note", p_71883_2_ + 0.5D, p_71883_3_ + 1.2D, p_71883_4_ + 0.5D, p_71883_6_ / 24.0D, 0.0D, 0.0D);
 		return true;
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
-		boolean var6 = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4);
-		TileEntityNote var7 = (TileEntityNote) par1World.getBlockTileEntity(par2, par3, par4);
+		boolean var6 = p_71863_1_.isBlockIndirectlyGettingPowered(p_71863_2_, p_71863_3_, p_71863_4_);
+		TileEntityNote var7 = (TileEntityNote) p_71863_1_.getBlockTileEntity(p_71863_2_, p_71863_3_, p_71863_4_);
 		if(var7 != null && var7.previousRedstoneState != var6)
 		{
 			if(var6)
 			{
-				var7.triggerNote(par1World, par2, par3, par4);
+				var7.triggerNote(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_);
 			}
 			var7.previousRedstoneState = var6;
 		}

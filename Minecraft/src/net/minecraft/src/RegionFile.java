@@ -12,8 +12,6 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
 
-import net.minecraft.server.MinecraftServer;
-
 public class RegionFile
 {
 	private static final byte[] emptySector = new byte[4096];
@@ -23,19 +21,19 @@ public class RegionFile
 	private final int[] chunkTimestamps = new int[1024];
 	private ArrayList sectorFree;
 	private int sizeDelta;
-	private long lastModified;
+	private long lastModified = 0L;
 	
-	public RegionFile(File par1File)
+	public RegionFile(File p_i3777_1_)
 	{
-		fileName = par1File;
+		fileName = p_i3777_1_;
 		sizeDelta = 0;
 		try
 		{
-			if(par1File.exists())
+			if(p_i3777_1_.exists())
 			{
-				lastModified = par1File.lastModified();
+				lastModified = p_i3777_1_.lastModified();
 			}
-			dataFile = new RandomAccessFile(par1File, "rw");
+			dataFile = new RandomAccessFile(p_i3777_1_, "rw");
 			int var2;
 			if(dataFile.length() < 4096L)
 			{
@@ -98,14 +96,14 @@ public class RegionFile
 		}
 	}
 	
-	public synchronized DataInputStream getChunkDataInputStream(int par1, int par2)
+	public synchronized DataInputStream getChunkDataInputStream(int p_76704_1_, int p_76704_2_)
 	{
-		if(outOfBounds(par1, par2)) return null;
+		if(outOfBounds(p_76704_1_, p_76704_2_)) return null;
 		else
 		{
 			try
 			{
-				int var3 = getOffset(par1, par2);
+				int var3 = getOffset(p_76704_1_, p_76704_2_);
 				if(var3 == 0) return null;
 				else
 				{
@@ -143,60 +141,60 @@ public class RegionFile
 		}
 	}
 	
-	public DataOutputStream getChunkDataOutputStream(int par1, int par2)
+	public DataOutputStream getChunkDataOutputStream(int p_76710_1_, int p_76710_2_)
 	{
-		return outOfBounds(par1, par2) ? null : new DataOutputStream(new DeflaterOutputStream(new RegionFileChunkBuffer(this, par1, par2)));
+		return outOfBounds(p_76710_1_, p_76710_2_) ? null : new DataOutputStream(new DeflaterOutputStream(new RegionFileChunkBuffer(this, p_76710_1_, p_76710_2_)));
 	}
 	
-	private int getOffset(int par1, int par2)
+	private int getOffset(int p_76707_1_, int p_76707_2_)
 	{
-		return offsets[par1 + par2 * 32];
+		return offsets[p_76707_1_ + p_76707_2_ * 32];
 	}
 	
-	public boolean isChunkSaved(int par1, int par2)
+	public boolean isChunkSaved(int p_76709_1_, int p_76709_2_)
 	{
-		return getOffset(par1, par2) != 0;
+		return getOffset(p_76709_1_, p_76709_2_) != 0;
 	}
 	
-	private boolean outOfBounds(int par1, int par2)
+	private boolean outOfBounds(int p_76705_1_, int p_76705_2_)
 	{
-		return par1 < 0 || par1 >= 32 || par2 < 0 || par2 >= 32;
+		return p_76705_1_ < 0 || p_76705_1_ >= 32 || p_76705_2_ < 0 || p_76705_2_ >= 32;
 	}
 	
-	private void setChunkTimestamp(int par1, int par2, int par3) throws IOException
+	private void setChunkTimestamp(int p_76713_1_, int p_76713_2_, int p_76713_3_) throws IOException
 	{
-		chunkTimestamps[par1 + par2 * 32] = par3;
-		dataFile.seek(4096 + (par1 + par2 * 32) * 4);
-		dataFile.writeInt(par3);
+		chunkTimestamps[p_76713_1_ + p_76713_2_ * 32] = p_76713_3_;
+		dataFile.seek(4096 + (p_76713_1_ + p_76713_2_ * 32) * 4);
+		dataFile.writeInt(p_76713_3_);
 	}
 	
-	private void setOffset(int par1, int par2, int par3) throws IOException
+	private void setOffset(int p_76711_1_, int p_76711_2_, int p_76711_3_) throws IOException
 	{
-		offsets[par1 + par2 * 32] = par3;
-		dataFile.seek((par1 + par2 * 32) * 4);
-		dataFile.writeInt(par3);
+		offsets[p_76711_1_ + p_76711_2_ * 32] = p_76711_3_;
+		dataFile.seek((p_76711_1_ + p_76711_2_ * 32) * 4);
+		dataFile.writeInt(p_76711_3_);
 	}
 	
-	private void write(int par1, byte[] par2ArrayOfByte, int par3) throws IOException
+	private void write(int p_76712_1_, byte[] p_76712_2_, int p_76712_3_) throws IOException
 	{
-		dataFile.seek(par1 * 4096);
-		dataFile.writeInt(par3 + 1);
+		dataFile.seek(p_76712_1_ * 4096);
+		dataFile.writeInt(p_76712_3_ + 1);
 		dataFile.writeByte(2);
-		dataFile.write(par2ArrayOfByte, 0, par3);
+		dataFile.write(p_76712_2_, 0, p_76712_3_);
 	}
 	
-	protected synchronized void write(int par1, int par2, byte[] par3ArrayOfByte, int par4)
+	protected synchronized void write(int p_76706_1_, int p_76706_2_, byte[] p_76706_3_, int p_76706_4_)
 	{
 		try
 		{
-			int var5 = getOffset(par1, par2);
+			int var5 = getOffset(p_76706_1_, p_76706_2_);
 			int var6 = var5 >> 8;
 			int var7 = var5 & 255;
-			int var8 = (par4 + 5) / 4096 + 1;
+			int var8 = (p_76706_4_ + 5) / 4096 + 1;
 			if(var8 >= 256) return;
 			if(var6 != 0 && var7 == var8)
 			{
-				this.write(var6, par3ArrayOfByte, par4);
+				this.write(var6, p_76706_3_, p_76706_4_);
 			} else
 			{
 				int var9;
@@ -234,12 +232,12 @@ public class RegionFile
 				if(var10 >= var8)
 				{
 					var6 = var9;
-					setOffset(par1, par2, var9 << 8 | var8);
+					setOffset(p_76706_1_, p_76706_2_, var9 << 8 | var8);
 					for(var11 = 0; var11 < var8; ++var11)
 					{
 						sectorFree.set(var6 + var11, Boolean.valueOf(false));
 					}
-					this.write(var6, par3ArrayOfByte, par4);
+					this.write(var6, p_76706_3_, p_76706_4_);
 				} else
 				{
 					dataFile.seek(dataFile.length());
@@ -250,11 +248,11 @@ public class RegionFile
 						sectorFree.add(Boolean.valueOf(false));
 					}
 					sizeDelta += 4096 * var8;
-					this.write(var6, par3ArrayOfByte, par4);
-					setOffset(par1, par2, var6 << 8 | var8);
+					this.write(var6, p_76706_3_, p_76706_4_);
+					setOffset(p_76706_1_, p_76706_2_, var6 << 8 | var8);
 				}
 			}
-			setChunkTimestamp(par1, par2, (int) (MinecraftServer.func_130071_aq() / 1000L));
+			setChunkTimestamp(p_76706_1_, p_76706_2_, (int) (System.currentTimeMillis() / 1000L));
 		} catch(IOException var12)
 		{
 			var12.printStackTrace();

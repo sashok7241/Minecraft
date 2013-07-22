@@ -15,9 +15,9 @@ public class ScoreboardSaveData extends WorldSavedData
 		this("scoreboard");
 	}
 	
-	public ScoreboardSaveData(String par1Str)
+	public ScoreboardSaveData(String p_i10064_1_)
 	{
-		super(par1Str);
+		super(p_i10064_1_);
 	}
 	
 	protected NBTTagList func_96496_a()
@@ -48,7 +48,7 @@ public class ScoreboardSaveData extends WorldSavedData
 		return var1;
 	}
 	
-	protected void func_96497_d(NBTTagCompound par1NBTTagCompound)
+	protected void func_96497_d(NBTTagCompound p_96497_1_)
 	{
 		NBTTagCompound var2 = new NBTTagCompound();
 		boolean var3 = false;
@@ -63,15 +63,15 @@ public class ScoreboardSaveData extends WorldSavedData
 		}
 		if(var3)
 		{
-			par1NBTTagCompound.setCompoundTag("DisplaySlots", var2);
+			p_96497_1_.setCompoundTag("DisplaySlots", var2);
 		}
 	}
 	
-	protected void func_96498_a(NBTTagList par1NBTTagList)
+	protected void func_96498_a(NBTTagList p_96498_1_)
 	{
-		for(int var2 = 0; var2 < par1NBTTagList.tagCount(); ++var2)
+		for(int var2 = 0; var2 < p_96498_1_.tagCount(); ++var2)
 		{
-			NBTTagCompound var3 = (NBTTagCompound) par1NBTTagList.tagAt(var2);
+			NBTTagCompound var3 = (NBTTagCompound) p_96498_1_.tagAt(var2);
 			ScorePlayerTeam var4 = field_96507_a.func_96527_f(var3.getString("Name"));
 			var4.func_96664_a(var3.getString("DisplayName"));
 			var4.func_96666_b(var3.getString("Prefix"));
@@ -88,42 +88,42 @@ public class ScoreboardSaveData extends WorldSavedData
 		}
 	}
 	
-	public void func_96499_a(Scoreboard par1Scoreboard)
+	public void func_96499_a(Scoreboard p_96499_1_)
 	{
-		field_96507_a = par1Scoreboard;
+		field_96507_a = p_96499_1_;
 		if(field_96506_b != null)
 		{
 			readFromNBT(field_96506_b);
 		}
 	}
 	
-	protected void func_96500_c(NBTTagList par1NBTTagList)
+	protected void func_96500_c(NBTTagList p_96500_1_)
 	{
-		for(int var2 = 0; var2 < par1NBTTagList.tagCount(); ++var2)
+		for(int var2 = 0; var2 < p_96500_1_.tagCount(); ++var2)
 		{
-			NBTTagCompound var3 = (NBTTagCompound) par1NBTTagList.tagAt(var2);
+			NBTTagCompound var3 = (NBTTagCompound) p_96500_1_.tagAt(var2);
 			ScoreObjective var4 = field_96507_a.getObjective(var3.getString("Objective"));
 			Score var5 = field_96507_a.func_96529_a(var3.getString("Name"), var4);
 			var5.func_96647_c(var3.getInteger("Score"));
 		}
 	}
 	
-	protected void func_96501_b(NBTTagList par1NBTTagList)
+	protected void func_96501_b(NBTTagList p_96501_1_)
 	{
-		for(int var2 = 0; var2 < par1NBTTagList.tagCount(); ++var2)
+		for(int var2 = 0; var2 < p_96501_1_.tagCount(); ++var2)
 		{
-			NBTTagCompound var3 = (NBTTagCompound) par1NBTTagList.tagAt(var2);
+			NBTTagCompound var3 = (NBTTagCompound) p_96501_1_.tagAt(var2);
 			ScoreObjectiveCriteria var4 = (ScoreObjectiveCriteria) ScoreObjectiveCriteria.field_96643_a.get(var3.getString("CriteriaName"));
 			ScoreObjective var5 = field_96507_a.func_96535_a(var3.getString("Name"), var4);
 			var5.setDisplayName(var3.getString("DisplayName"));
 		}
 	}
 	
-	protected void func_96502_a(ScorePlayerTeam par1ScorePlayerTeam, NBTTagList par2NBTTagList)
+	protected void func_96502_a(ScorePlayerTeam p_96502_1_, NBTTagList p_96502_2_)
 	{
-		for(int var3 = 0; var3 < par2NBTTagList.tagCount(); ++var3)
+		for(int var3 = 0; var3 < p_96502_2_.tagCount(); ++var3)
 		{
-			field_96507_a.func_96521_a(((NBTTagString) par2NBTTagList.tagAt(var3)).data, par1ScorePlayerTeam);
+			field_96507_a.func_96521_a(((NBTTagString) p_96502_2_.tagAt(var3)).data, p_96502_1_);
 		}
 	}
 	
@@ -144,13 +144,13 @@ public class ScoreboardSaveData extends WorldSavedData
 		return var1;
 	}
 	
-	protected void func_96504_c(NBTTagCompound par1NBTTagCompound)
+	protected void func_96504_c(NBTTagCompound p_96504_1_)
 	{
 		for(int var2 = 0; var2 < 3; ++var2)
 		{
-			if(par1NBTTagCompound.hasKey("slot_" + var2))
+			if(p_96504_1_.hasKey("slot_" + var2))
 			{
-				String var3 = par1NBTTagCompound.getString("slot_" + var2);
+				String var3 = p_96504_1_.getString("slot_" + var2);
 				ScoreObjective var4 = field_96507_a.getObjective(var3);
 				field_96507_a.func_96530_a(var2, var4);
 			}
@@ -174,37 +174,37 @@ public class ScoreboardSaveData extends WorldSavedData
 		return var1;
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readFromNBT(NBTTagCompound p_76184_1_)
 	{
 		if(field_96507_a == null)
 		{
-			field_96506_b = par1NBTTagCompound;
+			field_96506_b = p_76184_1_;
 		} else
 		{
-			func_96501_b(par1NBTTagCompound.getTagList("Objectives"));
-			func_96500_c(par1NBTTagCompound.getTagList("PlayerScores"));
-			if(par1NBTTagCompound.hasKey("DisplaySlots"))
+			func_96501_b(p_76184_1_.getTagList("Objectives"));
+			func_96500_c(p_76184_1_.getTagList("PlayerScores"));
+			if(p_76184_1_.hasKey("DisplaySlots"))
 			{
-				func_96504_c(par1NBTTagCompound.getCompoundTag("DisplaySlots"));
+				func_96504_c(p_76184_1_.getCompoundTag("DisplaySlots"));
 			}
-			if(par1NBTTagCompound.hasKey("Teams"))
+			if(p_76184_1_.hasKey("Teams"))
 			{
-				func_96498_a(par1NBTTagCompound.getTagList("Teams"));
+				func_96498_a(p_76184_1_.getTagList("Teams"));
 			}
 		}
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeToNBT(NBTTagCompound p_76187_1_)
 	{
 		if(field_96507_a == null)
 		{
 			MinecraftServer.getServer().getLogAgent().logWarning("Tried to save scoreboard without having a scoreboard...");
 		} else
 		{
-			par1NBTTagCompound.setTag("Objectives", func_96505_b());
-			par1NBTTagCompound.setTag("PlayerScores", func_96503_e());
-			par1NBTTagCompound.setTag("Teams", func_96496_a());
-			func_96497_d(par1NBTTagCompound);
+			p_76187_1_.setTag("Objectives", func_96505_b());
+			p_76187_1_.setTag("PlayerScores", func_96503_e());
+			p_76187_1_.setTag("Teams", func_96496_a());
+			func_96497_d(p_76187_1_);
 		}
 	}
 }

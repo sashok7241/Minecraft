@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet102WindowClick extends Packet
@@ -17,14 +17,14 @@ public class Packet102WindowClick extends Packet
 	{
 	}
 	
-	public Packet102WindowClick(int par1, int par2, int par3, int par4, ItemStack par5ItemStack, short par6)
+	public Packet102WindowClick(int p_i5032_1_, int p_i5032_2_, int p_i5032_3_, int p_i5032_4_, ItemStack p_i5032_5_, short p_i5032_6_)
 	{
-		window_Id = par1;
-		inventorySlot = par2;
-		mouseClick = par3;
-		itemStack = par5ItemStack != null ? par5ItemStack.copy() : null;
-		action = par6;
-		holdingShift = par4;
+		window_Id = p_i5032_1_;
+		inventorySlot = p_i5032_2_;
+		mouseClick = p_i5032_3_;
+		itemStack = p_i5032_5_ != null ? p_i5032_5_.copy() : null;
+		action = p_i5032_6_;
+		holdingShift = p_i5032_4_;
 	}
 	
 	@Override public int getPacketSize()
@@ -32,28 +32,28 @@ public class Packet102WindowClick extends Packet
 		return 11;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleWindowClick(this);
+		p_73279_1_.handleWindowClick(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		window_Id = par1DataInput.readByte();
-		inventorySlot = par1DataInput.readShort();
-		mouseClick = par1DataInput.readByte();
-		action = par1DataInput.readShort();
-		holdingShift = par1DataInput.readByte();
-		itemStack = readItemStack(par1DataInput);
+		window_Id = p_73267_1_.readByte();
+		inventorySlot = p_73267_1_.readShort();
+		mouseClick = p_73267_1_.readByte();
+		action = p_73267_1_.readShort();
+		holdingShift = p_73267_1_.readByte();
+		itemStack = readItemStack(p_73267_1_);
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeByte(window_Id);
-		par1DataOutput.writeShort(inventorySlot);
-		par1DataOutput.writeByte(mouseClick);
-		par1DataOutput.writeShort(action);
-		par1DataOutput.writeByte(holdingShift);
-		writeItemStack(itemStack, par1DataOutput);
+		p_73273_1_.writeByte(window_Id);
+		p_73273_1_.writeShort(inventorySlot);
+		p_73273_1_.writeByte(mouseClick);
+		p_73273_1_.writeShort(action);
+		p_73273_1_.writeByte(holdingShift);
+		writeItemStack(itemStack, p_73273_1_);
 	}
 }

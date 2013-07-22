@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ItemEditableBook extends Item
 {
-	public ItemEditableBook(int par1)
+	public ItemEditableBook(int p_i3698_1_)
 	{
-		super(par1);
+		super(p_i3698_1_);
 		setMaxStackSize(1);
 	}
 	
@@ -23,15 +23,15 @@ public class ItemEditableBook extends Item
 		}
 	}
 	
-	@Override public String getItemDisplayName(ItemStack par1ItemStack)
+	@Override public String getItemDisplayName(ItemStack p_77628_1_)
 	{
-		if(par1ItemStack.hasTagCompound())
+		if(p_77628_1_.hasTagCompound())
 		{
-			NBTTagCompound var2 = par1ItemStack.getTagCompound();
+			NBTTagCompound var2 = p_77628_1_.getTagCompound();
 			NBTTagString var3 = (NBTTagString) var2.getTag("title");
 			if(var3 != null) return var3.toString();
 		}
-		return super.getItemDisplayName(par1ItemStack);
+		return super.getItemDisplayName(p_77628_1_);
 	}
 	
 	@Override public boolean getShareTag()
@@ -44,20 +44,20 @@ public class ItemEditableBook extends Item
 		return true;
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
 	{
-		par3EntityPlayer.displayGUIBook(par1ItemStack);
-		return par1ItemStack;
+		p_77659_3_.displayGUIBook(p_77659_1_);
+		return p_77659_1_;
 	}
 	
-	public static boolean validBookTagContents(NBTTagCompound par0NBTTagCompound)
+	public static boolean validBookTagContents(NBTTagCompound p_77828_0_)
 	{
-		if(!ItemWritableBook.validBookTagPages(par0NBTTagCompound)) return false;
-		else if(!par0NBTTagCompound.hasKey("title")) return false;
+		if(!ItemWritableBook.validBookTagPages(p_77828_0_)) return false;
+		else if(!p_77828_0_.hasKey("title")) return false;
 		else
 		{
-			String var1 = par0NBTTagCompound.getString("title");
-			return var1 != null && var1.length() <= 16 ? par0NBTTagCompound.hasKey("author") : false;
+			String var1 = p_77828_0_.getString("title");
+			return var1 != null && var1.length() <= 16 ? p_77828_0_.hasKey("author") : false;
 		}
 	}
 }

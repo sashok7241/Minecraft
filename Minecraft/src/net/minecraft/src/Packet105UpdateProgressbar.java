@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet105UpdateProgressbar extends Packet
@@ -14,11 +14,11 @@ public class Packet105UpdateProgressbar extends Packet
 	{
 	}
 	
-	public Packet105UpdateProgressbar(int par1, int par2, int par3)
+	public Packet105UpdateProgressbar(int p_i3313_1_, int p_i3313_2_, int p_i3313_3_)
 	{
-		windowId = par1;
-		progressBar = par2;
-		progressBarValue = par3;
+		windowId = p_i3313_1_;
+		progressBar = p_i3313_2_;
+		progressBarValue = p_i3313_3_;
 	}
 	
 	@Override public int getPacketSize()
@@ -26,22 +26,22 @@ public class Packet105UpdateProgressbar extends Packet
 		return 5;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleUpdateProgressbar(this);
+		p_73279_1_.handleUpdateProgressbar(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		windowId = par1DataInput.readByte();
-		progressBar = par1DataInput.readShort();
-		progressBarValue = par1DataInput.readShort();
+		windowId = p_73267_1_.readByte();
+		progressBar = p_73267_1_.readShort();
+		progressBarValue = p_73267_1_.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeByte(windowId);
-		par1DataOutput.writeShort(progressBar);
-		par1DataOutput.writeShort(progressBarValue);
+		p_73273_1_.writeByte(windowId);
+		p_73273_1_.writeShort(progressBar);
+		p_73273_1_.writeShort(progressBarValue);
 	}
 }

@@ -4,11 +4,11 @@ public class EntitySpellParticleFX extends EntityFX
 {
 	private int baseSpellTextureIndex = 128;
 	
-	public EntitySpellParticleFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
+	public EntitySpellParticleFX(World p_i3156_1_, double p_i3156_2_, double p_i3156_4_, double p_i3156_6_, double p_i3156_8_, double p_i3156_10_, double p_i3156_12_)
 	{
-		super(par1World, par2, par4, par6, par8, par10, par12);
+		super(p_i3156_1_, p_i3156_2_, p_i3156_4_, p_i3156_6_, p_i3156_8_, p_i3156_10_, p_i3156_12_);
 		motionY *= 0.20000000298023224D;
-		if(par8 == 0.0D && par12 == 0.0D)
+		if(p_i3156_8_ == 0.0D && p_i3156_12_ == 0.0D)
 		{
 			motionX *= 0.10000000149011612D;
 			motionZ *= 0.10000000149011612D;

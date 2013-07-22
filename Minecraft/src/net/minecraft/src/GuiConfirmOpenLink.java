@@ -7,14 +7,15 @@ public class GuiConfirmOpenLink extends GuiYesNo
 	private String field_92028_p;
 	private boolean field_92027_q = true;
 	
-	public GuiConfirmOpenLink(GuiScreen par1GuiScreen, String par2Str, int par3, boolean par4)
+	public GuiConfirmOpenLink(GuiScreen p_i23004_1_, String p_i23004_2_, int p_i23004_3_, boolean p_i23004_4_)
 	{
-		super(par1GuiScreen, I18n.func_135053_a(par4 ? "chat.link.confirmTrusted" : "chat.link.confirm"), par2Str, par3);
-		buttonText1 = I18n.func_135053_a(par4 ? "chat.link.open" : "gui.yes");
-		buttonText2 = I18n.func_135053_a(par4 ? "gui.cancel" : "gui.no");
-		copyLinkButtonText = I18n.func_135053_a("chat.copy");
-		openLinkWarning = I18n.func_135053_a("chat.link.warning");
-		field_92028_p = par2Str;
+		super(p_i23004_1_, StringTranslate.getInstance().translateKey(p_i23004_4_ ? "chat.link.confirmTrusted" : "chat.link.confirm"), p_i23004_2_, p_i23004_3_);
+		StringTranslate var5 = StringTranslate.getInstance();
+		buttonText1 = var5.translateKey(p_i23004_4_ ? "chat.link.open" : "gui.yes");
+		buttonText2 = var5.translateKey(p_i23004_4_ ? "gui.cancel" : "gui.no");
+		copyLinkButtonText = var5.translateKey("chat.copy");
+		openLinkWarning = var5.translateKey("chat.link.warning");
+		field_92028_p = p_i23004_2_;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)

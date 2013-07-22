@@ -7,10 +7,10 @@ class CallableTagCompound2 implements Callable
 	final int field_82588_a;
 	final NBTTagCompound theNBTTagCompound;
 	
-	CallableTagCompound2(NBTTagCompound par1NBTTagCompound, int par2)
+	CallableTagCompound2(NBTTagCompound p_i5030_1_, int p_i5030_2_)
 	{
-		theNBTTagCompound = par1NBTTagCompound;
-		field_82588_a = par2;
+		theNBTTagCompound = p_i5030_1_;
+		field_82588_a = p_i5030_2_;
 	}
 	
 	@Override public Object call()

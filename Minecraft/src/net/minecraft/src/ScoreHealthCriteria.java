@@ -5,24 +5,35 @@ import java.util.List;
 
 public class ScoreHealthCriteria extends ScoreDummyCriteria
 {
-	public ScoreHealthCriteria(String par1Str)
+	public ScoreHealthCriteria(String p_i10066_1_)
 	{
-		super(par1Str);
+		super(p_i10066_1_);
 	}
 	
-	@Override public int func_96635_a(List par1List)
+	@Override public int func_96635_a(List p_96635_1_)
 	{
 		float var2 = 0.0F;
-		EntityPlayer var4;
-		for(Iterator var3 = par1List.iterator(); var3.hasNext(); var2 += var4.func_110143_aJ() + var4.func_110139_bj())
+		int var5;
+		float var6;
+		for(Iterator var3 = p_96635_1_.iterator(); var3.hasNext(); var2 += var5 / var6)
 		{
-			var4 = (EntityPlayer) var3.next();
+			EntityPlayer var4 = (EntityPlayer) var3.next();
+			var5 = var4.getHealth();
+			var6 = var4.getMaxHealth();
+			if(var5 < 0)
+			{
+				var5 = 0;
+			}
+			if(var5 > var6)
+			{
+				var5 = var4.getMaxHealth();
+			}
 		}
-		if(par1List.size() > 0)
+		if(p_96635_1_.size() > 0)
 		{
-			var2 /= par1List.size();
+			var2 /= p_96635_1_.size();
 		}
-		return MathHelper.ceiling_float_int(var2);
+		return MathHelper.floor_float(var2 * 19.0F) + (var2 > 0.0F ? 1 : 0);
 	}
 	
 	@Override public boolean isReadOnly()

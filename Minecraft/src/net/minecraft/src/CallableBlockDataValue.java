@@ -6,9 +6,9 @@ final class CallableBlockDataValue implements Callable
 {
 	final int field_85063_a;
 	
-	CallableBlockDataValue(int par1)
+	CallableBlockDataValue(int p_i6806_1_)
 	{
-		field_85063_a = par1;
+		field_85063_a = p_i6806_1_;
 	}
 	
 	@Override public Object call()

@@ -6,10 +6,10 @@ public class ThreadMinecraftServer extends Thread
 {
 	final MinecraftServer theServer;
 	
-	public ThreadMinecraftServer(MinecraftServer par1MinecraftServer, String par2Str)
+	public ThreadMinecraftServer(MinecraftServer p_i10043_1_, String p_i10043_2_)
 	{
-		super(par2Str);
-		theServer = par1MinecraftServer;
+		super(p_i10043_2_);
+		theServer = p_i10043_1_;
 	}
 	
 	@Override public void run()

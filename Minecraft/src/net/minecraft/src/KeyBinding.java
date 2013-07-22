@@ -11,14 +11,14 @@ public class KeyBinding
 	public String keyDescription;
 	public int keyCode;
 	public boolean pressed;
-	public int pressTime;
+	public int pressTime = 0;
 	
-	public KeyBinding(String par1Str, int par2)
+	public KeyBinding(String p_i3003_1_, int p_i3003_2_)
 	{
-		keyDescription = par1Str;
-		keyCode = par2;
+		keyDescription = p_i3003_1_;
+		keyCode = p_i3003_2_;
 		keybindArray.add(this);
-		hash.addKey(par2, this);
+		hash.addKey(p_i3003_2_, this);
 	}
 	
 	public boolean isPressed()

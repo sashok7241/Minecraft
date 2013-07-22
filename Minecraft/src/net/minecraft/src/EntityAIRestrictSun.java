@@ -4,9 +4,9 @@ public class EntityAIRestrictSun extends EntityAIBase
 {
 	private EntityCreature theEntity;
 	
-	public EntityAIRestrictSun(EntityCreature par1EntityCreature)
+	public EntityAIRestrictSun(EntityCreature p_i3491_1_)
 	{
-		theEntity = par1EntityCreature;
+		theEntity = p_i3491_1_;
 	}
 	
 	@Override public void resetTask()

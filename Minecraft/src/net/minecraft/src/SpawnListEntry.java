@@ -6,11 +6,11 @@ public class SpawnListEntry extends WeightedRandomItem
 	public int minGroupCount;
 	public int maxGroupCount;
 	
-	public SpawnListEntry(Class par1Class, int par2, int par3, int par4)
+	public SpawnListEntry(Class p_i3746_1_, int p_i3746_2_, int p_i3746_3_, int p_i3746_4_)
 	{
-		super(par2);
-		entityClass = par1Class;
-		minGroupCount = par3;
-		maxGroupCount = par4;
+		super(p_i3746_2_);
+		entityClass = p_i3746_1_;
+		minGroupCount = p_i3746_3_;
+		maxGroupCount = p_i3746_4_;
 	}
 }

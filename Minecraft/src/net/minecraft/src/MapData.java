@@ -17,37 +17,37 @@ public class MapData extends WorldSavedData
 	private Map playersHashMap = new HashMap();
 	public Map playersVisibleOnMap = new LinkedHashMap();
 	
-	public MapData(String par1Str)
+	public MapData(String p_i3906_1_)
 	{
-		super(par1Str);
+		super(p_i3906_1_);
 	}
 	
-	private void func_82567_a(int par1, World par2World, String par3Str, double par4, double par6, double par8)
+	private void func_82567_a(int p_82567_1_, World p_82567_2_, String p_82567_3_, double p_82567_4_, double p_82567_6_, double p_82567_8_)
 	{
 		int var10 = 1 << scale;
-		float var11 = (float) (par4 - xCenter) / var10;
-		float var12 = (float) (par6 - zCenter) / var10;
+		float var11 = (float) (p_82567_4_ - xCenter) / var10;
+		float var12 = (float) (p_82567_6_ - zCenter) / var10;
 		byte var13 = (byte) (int) (var11 * 2.0F + 0.5D);
 		byte var14 = (byte) (int) (var12 * 2.0F + 0.5D);
 		byte var16 = 63;
 		byte var15;
 		if(var11 >= -var16 && var12 >= -var16 && var11 <= var16 && var12 <= var16)
 		{
-			par8 += par8 < 0.0D ? -8.0D : 8.0D;
-			var15 = (byte) (int) (par8 * 16.0D / 360.0D);
+			p_82567_8_ += p_82567_8_ < 0.0D ? -8.0D : 8.0D;
+			var15 = (byte) (int) (p_82567_8_ * 16.0D / 360.0D);
 			if(dimension < 0)
 			{
-				int var17 = (int) (par2World.getWorldInfo().getWorldTime() / 10L);
+				int var17 = (int) (p_82567_2_.getWorldInfo().getWorldTime() / 10L);
 				var15 = (byte) (var17 * var17 * 34187121 + var17 * 121 >> 15 & 15);
 			}
 		} else
 		{
 			if(Math.abs(var11) >= 320.0F || Math.abs(var12) >= 320.0F)
 			{
-				playersVisibleOnMap.remove(par3Str);
+				playersVisibleOnMap.remove(p_82567_3_);
 				return;
 			}
-			par1 = 6;
+			p_82567_1_ = 6;
 			var15 = 0;
 			if(var11 <= -var16)
 			{
@@ -66,33 +66,33 @@ public class MapData extends WorldSavedData
 				var14 = (byte) (var16 * 2 + 1);
 			}
 		}
-		playersVisibleOnMap.put(par3Str, new MapCoord(this, (byte) par1, var13, var14, var15));
+		playersVisibleOnMap.put(p_82567_3_, new MapCoord(this, (byte) p_82567_1_, var13, var14, var15));
 	}
 	
-	public MapInfo func_82568_a(EntityPlayer par1EntityPlayer)
+	public MapInfo func_82568_a(EntityPlayer p_82568_1_)
 	{
-		MapInfo var2 = (MapInfo) playersHashMap.get(par1EntityPlayer);
+		MapInfo var2 = (MapInfo) playersHashMap.get(p_82568_1_);
 		if(var2 == null)
 		{
-			var2 = new MapInfo(this, par1EntityPlayer);
-			playersHashMap.put(par1EntityPlayer, var2);
+			var2 = new MapInfo(this, p_82568_1_);
+			playersHashMap.put(p_82568_1_, var2);
 			playersArrayList.add(var2);
 		}
 		return var2;
 	}
 	
-	public byte[] getUpdatePacketData(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public byte[] getUpdatePacketData(ItemStack p_76193_1_, World p_76193_2_, EntityPlayer p_76193_3_)
 	{
-		MapInfo var4 = (MapInfo) playersHashMap.get(par3EntityPlayer);
-		return var4 == null ? null : var4.getPlayersOnMap(par1ItemStack);
+		MapInfo var4 = (MapInfo) playersHashMap.get(p_76193_3_);
+		return var4 == null ? null : var4.getPlayersOnMap(p_76193_1_);
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readFromNBT(NBTTagCompound p_76184_1_)
 	{
-		dimension = par1NBTTagCompound.getByte("dimension");
-		xCenter = par1NBTTagCompound.getInteger("xCenter");
-		zCenter = par1NBTTagCompound.getInteger("zCenter");
-		scale = par1NBTTagCompound.getByte("scale");
+		dimension = p_76184_1_.getByte("dimension");
+		xCenter = p_76184_1_.getInteger("xCenter");
+		zCenter = p_76184_1_.getInteger("zCenter");
+		scale = p_76184_1_.getByte("scale");
 		if(scale < 0)
 		{
 			scale = 0;
@@ -101,14 +101,14 @@ public class MapData extends WorldSavedData
 		{
 			scale = 4;
 		}
-		short var2 = par1NBTTagCompound.getShort("width");
-		short var3 = par1NBTTagCompound.getShort("height");
+		short var2 = p_76184_1_.getShort("width");
+		short var3 = p_76184_1_.getShort("height");
 		if(var2 == 128 && var3 == 128)
 		{
-			colors = par1NBTTagCompound.getByteArray("colors");
+			colors = p_76184_1_.getByteArray("colors");
 		} else
 		{
-			byte[] var4 = par1NBTTagCompound.getByteArray("colors");
+			byte[] var4 = p_76184_1_.getByteArray("colors");
 			colors = new byte[16384];
 			int var5 = (128 - var2) / 2;
 			int var6 = (128 - var3) / 2;
@@ -130,19 +130,19 @@ public class MapData extends WorldSavedData
 		}
 	}
 	
-	public void setColumnDirty(int par1, int par2, int par3)
+	public void setColumnDirty(int p_76194_1_, int p_76194_2_, int p_76194_3_)
 	{
 		super.markDirty();
 		for(int var4 = 0; var4 < playersArrayList.size(); ++var4)
 		{
 			MapInfo var5 = (MapInfo) playersArrayList.get(var4);
-			if(var5.field_76209_b[par1] < 0 || var5.field_76209_b[par1] > par2)
+			if(var5.field_76209_b[p_76194_1_] < 0 || var5.field_76209_b[p_76194_1_] > p_76194_2_)
 			{
-				var5.field_76209_b[par1] = par2;
+				var5.field_76209_b[p_76194_1_] = p_76194_2_;
 			}
-			if(var5.field_76210_c[par1] < 0 || var5.field_76210_c[par1] < par3)
+			if(var5.field_76210_c[p_76194_1_] < 0 || var5.field_76210_c[p_76194_1_] < p_76194_3_)
 			{
-				var5.field_76210_c[par1] = par3;
+				var5.field_76210_c[p_76194_1_] = p_76194_3_;
 			}
 		}
 	}
@@ -176,24 +176,24 @@ public class MapData extends WorldSavedData
 		}
 	}
 	
-	public void updateVisiblePlayers(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
+	public void updateVisiblePlayers(EntityPlayer p_76191_1_, ItemStack p_76191_2_)
 	{
-		if(!playersHashMap.containsKey(par1EntityPlayer))
+		if(!playersHashMap.containsKey(p_76191_1_))
 		{
-			MapInfo var3 = new MapInfo(this, par1EntityPlayer);
-			playersHashMap.put(par1EntityPlayer, var3);
+			MapInfo var3 = new MapInfo(this, p_76191_1_);
+			playersHashMap.put(p_76191_1_, var3);
 			playersArrayList.add(var3);
 		}
-		if(!par1EntityPlayer.inventory.hasItemStack(par2ItemStack))
+		if(!p_76191_1_.inventory.hasItemStack(p_76191_2_))
 		{
-			playersVisibleOnMap.remove(par1EntityPlayer.getCommandSenderName());
+			playersVisibleOnMap.remove(p_76191_1_.getCommandSenderName());
 		}
 		for(int var5 = 0; var5 < playersArrayList.size(); ++var5)
 		{
 			MapInfo var4 = (MapInfo) playersArrayList.get(var5);
-			if(!var4.entityplayerObj.isDead && (var4.entityplayerObj.inventory.hasItemStack(par2ItemStack) || par2ItemStack.isOnItemFrame()))
+			if(!var4.entityplayerObj.isDead && (var4.entityplayerObj.inventory.hasItemStack(p_76191_2_) || p_76191_2_.isOnItemFrame()))
 			{
-				if(!par2ItemStack.isOnItemFrame() && var4.entityplayerObj.dimension == dimension)
+				if(!p_76191_2_.isOnItemFrame() && var4.entityplayerObj.dimension == dimension)
 				{
 					func_82567_a(0, var4.entityplayerObj.worldObj, var4.entityplayerObj.getCommandSenderName(), var4.entityplayerObj.posX, var4.entityplayerObj.posZ, var4.entityplayerObj.rotationYaw);
 				}
@@ -203,20 +203,20 @@ public class MapData extends WorldSavedData
 				playersArrayList.remove(var4);
 			}
 		}
-		if(par2ItemStack.isOnItemFrame())
+		if(p_76191_2_.isOnItemFrame())
 		{
-			func_82567_a(1, par1EntityPlayer.worldObj, "frame-" + par2ItemStack.getItemFrame().entityId, par2ItemStack.getItemFrame().xPosition, par2ItemStack.getItemFrame().zPosition, par2ItemStack.getItemFrame().hangingDirection * 90);
+			func_82567_a(1, p_76191_1_.worldObj, "frame-" + p_76191_2_.getItemFrame().entityId, p_76191_2_.getItemFrame().xPosition, p_76191_2_.getItemFrame().zPosition, p_76191_2_.getItemFrame().hangingDirection * 90);
 		}
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeToNBT(NBTTagCompound p_76187_1_)
 	{
-		par1NBTTagCompound.setByte("dimension", dimension);
-		par1NBTTagCompound.setInteger("xCenter", xCenter);
-		par1NBTTagCompound.setInteger("zCenter", zCenter);
-		par1NBTTagCompound.setByte("scale", scale);
-		par1NBTTagCompound.setShort("width", (short) 128);
-		par1NBTTagCompound.setShort("height", (short) 128);
-		par1NBTTagCompound.setByteArray("colors", colors);
+		p_76187_1_.setByte("dimension", dimension);
+		p_76187_1_.setInteger("xCenter", xCenter);
+		p_76187_1_.setInteger("zCenter", zCenter);
+		p_76187_1_.setByte("scale", scale);
+		p_76187_1_.setShort("width", (short) 128);
+		p_76187_1_.setShort("height", (short) 128);
+		p_76187_1_.setByteArray("colors", colors);
 	}
 }

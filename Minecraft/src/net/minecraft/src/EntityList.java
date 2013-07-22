@@ -13,30 +13,30 @@ public class EntityList
 	private static Map stringToIDMapping = new HashMap();
 	public static HashMap entityEggs = new LinkedHashMap();
 	
-	private static void addMapping(Class par0Class, String par1Str, int par2)
+	private static void addMapping(Class p_75618_0_, String p_75618_1_, int p_75618_2_)
 	{
-		stringToClassMapping.put(par1Str, par0Class);
-		classToStringMapping.put(par0Class, par1Str);
-		IDtoClassMapping.put(Integer.valueOf(par2), par0Class);
-		classToIDMapping.put(par0Class, Integer.valueOf(par2));
-		stringToIDMapping.put(par1Str, Integer.valueOf(par2));
+		stringToClassMapping.put(p_75618_1_, p_75618_0_);
+		classToStringMapping.put(p_75618_0_, p_75618_1_);
+		IDtoClassMapping.put(Integer.valueOf(p_75618_2_), p_75618_0_);
+		classToIDMapping.put(p_75618_0_, Integer.valueOf(p_75618_2_));
+		stringToIDMapping.put(p_75618_1_, Integer.valueOf(p_75618_2_));
 	}
 	
-	private static void addMapping(Class par0Class, String par1Str, int par2, int par3, int par4)
+	private static void addMapping(Class p_75614_0_, String p_75614_1_, int p_75614_2_, int p_75614_3_, int p_75614_4_)
 	{
-		addMapping(par0Class, par1Str, par2);
-		entityEggs.put(Integer.valueOf(par2), new EntityEggInfo(par2, par3, par4));
+		addMapping(p_75614_0_, p_75614_1_, p_75614_2_);
+		entityEggs.put(Integer.valueOf(p_75614_2_), new EntityEggInfo(p_75614_2_, p_75614_3_, p_75614_4_));
 	}
 	
-	public static Entity createEntityByID(int par0, World par1World)
+	public static Entity createEntityByID(int p_75616_0_, World p_75616_1_)
 	{
 		Entity var2 = null;
 		try
 		{
-			Class var3 = getClassFromID(par0);
+			Class var3 = getClassFromID(p_75616_0_);
 			if(var3 != null)
 			{
-				var2 = (Entity) var3.getConstructor(new Class[] { World.class }).newInstance(new Object[] { par1World });
+				var2 = (Entity) var3.getConstructor(new Class[] { World.class }).newInstance(new Object[] { p_75616_1_ });
 			}
 		} catch(Exception var4)
 		{
@@ -44,20 +44,20 @@ public class EntityList
 		}
 		if(var2 == null)
 		{
-			par1World.getWorldLogAgent().logWarning("Skipping Entity with id " + par0);
+			p_75616_1_.getWorldLogAgent().logWarning("Skipping Entity with id " + p_75616_0_);
 		}
 		return var2;
 	}
 	
-	public static Entity createEntityByName(String par0Str, World par1World)
+	public static Entity createEntityByName(String p_75620_0_, World p_75620_1_)
 	{
 		Entity var2 = null;
 		try
 		{
-			Class var3 = (Class) stringToClassMapping.get(par0Str);
+			Class var3 = (Class) stringToClassMapping.get(p_75620_0_);
 			if(var3 != null)
 			{
-				var2 = (Entity) var3.getConstructor(new Class[] { World.class }).newInstance(new Object[] { par1World });
+				var2 = (Entity) var3.getConstructor(new Class[] { World.class }).newInstance(new Object[] { p_75620_1_ });
 			}
 		} catch(Exception var4)
 		{
@@ -66,30 +66,30 @@ public class EntityList
 		return var2;
 	}
 	
-	public static Entity createEntityFromNBT(NBTTagCompound par0NBTTagCompound, World par1World)
+	public static Entity createEntityFromNBT(NBTTagCompound p_75615_0_, World p_75615_1_)
 	{
 		Entity var2 = null;
-		if("Minecart".equals(par0NBTTagCompound.getString("id")))
+		if("Minecart".equals(p_75615_0_.getString("id")))
 		{
-			switch(par0NBTTagCompound.getInteger("Type"))
+			switch(p_75615_0_.getInteger("Type"))
 			{
 				case 0:
-					par0NBTTagCompound.setString("id", "MinecartRideable");
+					p_75615_0_.setString("id", "MinecartRideable");
 					break;
 				case 1:
-					par0NBTTagCompound.setString("id", "MinecartChest");
+					p_75615_0_.setString("id", "MinecartChest");
 					break;
 				case 2:
-					par0NBTTagCompound.setString("id", "MinecartFurnace");
+					p_75615_0_.setString("id", "MinecartFurnace");
 			}
-			par0NBTTagCompound.removeTag("Type");
+			p_75615_0_.removeTag("Type");
 		}
 		try
 		{
-			Class var3 = (Class) stringToClassMapping.get(par0NBTTagCompound.getString("id"));
+			Class var3 = (Class) stringToClassMapping.get(p_75615_0_.getString("id"));
 			if(var3 != null)
 			{
-				var2 = (Entity) var3.getConstructor(new Class[] { World.class }).newInstance(new Object[] { par1World });
+				var2 = (Entity) var3.getConstructor(new Class[] { World.class }).newInstance(new Object[] { p_75615_1_ });
 			}
 		} catch(Exception var4)
 		{
@@ -97,33 +97,33 @@ public class EntityList
 		}
 		if(var2 != null)
 		{
-			var2.readFromNBT(par0NBTTagCompound);
+			var2.readFromNBT(p_75615_0_);
 		} else
 		{
-			par1World.getWorldLogAgent().logWarning("Skipping Entity with id " + par0NBTTagCompound.getString("id"));
+			p_75615_1_.getWorldLogAgent().logWarning("Skipping Entity with id " + p_75615_0_.getString("id"));
 		}
 		return var2;
 	}
 	
-	public static Class getClassFromID(int par0)
+	public static Class getClassFromID(int p_90035_0_)
 	{
-		return (Class) IDtoClassMapping.get(Integer.valueOf(par0));
+		return (Class) IDtoClassMapping.get(Integer.valueOf(p_90035_0_));
 	}
 	
-	public static int getEntityID(Entity par0Entity)
+	public static int getEntityID(Entity p_75619_0_)
 	{
-		Class var1 = par0Entity.getClass();
+		Class var1 = p_75619_0_.getClass();
 		return classToIDMapping.containsKey(var1) ? ((Integer) classToIDMapping.get(var1)).intValue() : 0;
 	}
 	
-	public static String getEntityString(Entity par0Entity)
+	public static String getEntityString(Entity p_75621_0_)
 	{
-		return (String) classToStringMapping.get(par0Entity.getClass());
+		return (String) classToStringMapping.get(p_75621_0_.getClass());
 	}
 	
-	public static String getStringFromID(int par0)
+	public static String getStringFromID(int p_75617_0_)
 	{
-		Class var1 = getClassFromID(par0);
+		Class var1 = getClassFromID(p_75617_0_);
 		return var1 != null ? (String) classToStringMapping.get(var1) : null;
 	}
 	
@@ -131,7 +131,6 @@ public class EntityList
 	{
 		addMapping(EntityItem.class, "Item", 1);
 		addMapping(EntityXPOrb.class, "XPOrb", 2);
-		addMapping(EntityLeashKnot.class, "LeashKnot", 8);
 		addMapping(EntityPainting.class, "Painting", 9);
 		addMapping(EntityArrow.class, "Arrow", 10);
 		addMapping(EntitySnowball.class, "Snowball", 11);
@@ -182,7 +181,6 @@ public class EntityList
 		addMapping(EntitySnowman.class, "SnowMan", 97);
 		addMapping(EntityOcelot.class, "Ozelot", 98, 15720061, 5653556);
 		addMapping(EntityIronGolem.class, "VillagerGolem", 99);
-		addMapping(EntityHorse.class, "EntityHorse", 100, 12623485, 15656192);
 		addMapping(EntityVillager.class, "Villager", 120, 5651507, 12422002);
 		addMapping(EntityEnderCrystal.class, "EnderCrystal", 200);
 	}

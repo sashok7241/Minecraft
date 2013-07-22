@@ -9,19 +9,14 @@ public class CommandServerStop extends CommandBase
 		return "stop";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
-	{
-		return "commands.stop.usage";
-	}
-	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 4;
 	}
 	
-	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
 	{
-		notifyAdmins(par1ICommandSender, "commands.stop.start", new Object[0]);
+		notifyAdmins(p_71515_1_, "commands.stop.start", new Object[0]);
 		MinecraftServer.getServer().initiateShutdown();
 	}
 }

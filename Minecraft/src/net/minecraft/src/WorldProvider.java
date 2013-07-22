@@ -2,15 +2,14 @@ package net.minecraft.src;
 
 public abstract class WorldProvider
 {
-	public static final float[] field_111203_a = new float[] { 1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F };
 	public World worldObj;
 	public WorldType terrainType;
 	public String field_82913_c;
 	public WorldChunkManager worldChunkMgr;
-	public boolean isHellWorld;
-	public boolean hasNoSky;
+	public boolean isHellWorld = false;
+	public boolean hasNoSky = false;
 	public float[] lightBrightnessTable = new float[16];
-	public int dimensionId;
+	public int dimensionId = 0;
 	private float[] colorsSunriseSunset = new float[4];
 	
 	public float[] calcSunriseSunsetColors(float par1, float par2)
@@ -31,10 +30,10 @@ public abstract class WorldProvider
 		} else return null;
 	}
 	
-	public float calculateCelestialAngle(long par1, float par3)
+	public float calculateCelestialAngle(long p_76563_1_, float p_76563_3_)
 	{
-		int var4 = (int) (par1 % 24000L);
-		float var5 = (var4 + par3) / 24000.0F - 0.25F;
+		int var4 = (int) (p_76563_1_ % 24000L);
+		float var5 = (var4 + p_76563_3_) / 24000.0F - 0.25F;
 		if(var5 < 0.0F)
 		{
 			++var5;
@@ -49,9 +48,9 @@ public abstract class WorldProvider
 		return var5;
 	}
 	
-	public boolean canCoordinateBeSpawn(int par1, int par2)
+	public boolean canCoordinateBeSpawn(int p_76566_1_, int p_76566_2_)
 	{
-		int var3 = worldObj.getFirstUncoveredBlock(par1, par2);
+		int var3 = worldObj.getFirstUncoveredBlock(p_76566_1_, p_76566_2_);
 		return var3 == Block.grass.blockID;
 	}
 	
@@ -117,9 +116,9 @@ public abstract class WorldProvider
 		return worldObj.getWorldVec3Pool().getVecFromPool(var4, var5, var6);
 	}
 	
-	public int getMoonPhase(long par1)
+	public int getMoonPhase(long p_76559_1_)
 	{
-		return (int) (par1 / 24000L) % 8;
+		return (int) (p_76559_1_ / 24000L) % 8;
 	}
 	
 	public double getVoidFogYFactor()
@@ -142,11 +141,11 @@ public abstract class WorldProvider
 		return true;
 	}
 	
-	public final void registerWorld(World par1World)
+	public final void registerWorld(World p_76558_1_)
 	{
-		worldObj = par1World;
-		terrainType = par1World.getWorldInfo().getTerrainType();
-		field_82913_c = par1World.getWorldInfo().getGeneratorOptions();
+		worldObj = p_76558_1_;
+		terrainType = p_76558_1_.getWorldInfo().getTerrainType();
+		field_82913_c = p_76558_1_.getWorldInfo().getGeneratorOptions();
 		registerWorldChunkManager();
 		generateLightBrightnessTable();
 	}
@@ -163,8 +162,8 @@ public abstract class WorldProvider
 		}
 	}
 	
-	public static WorldProvider getProviderForDimension(int par0)
+	public static WorldProvider getProviderForDimension(int p_76570_0_)
 	{
-		return par0 == -1 ? new WorldProviderHell() : par0 == 0 ? new WorldProviderSurface() : par0 == 1 ? new WorldProviderEnd() : null;
+		return p_76570_0_ == -1 ? new WorldProviderHell() : p_76570_0_ == 0 ? new WorldProviderSurface() : p_76570_0_ == 1 ? new WorldProviderEnd() : null;
 	}
 }

@@ -4,26 +4,26 @@ public class EntitySmokeFX extends EntityFX
 {
 	float smokeParticleScale;
 	
-	public EntitySmokeFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
+	public EntitySmokeFX(World p_i3152_1_, double p_i3152_2_, double p_i3152_4_, double p_i3152_6_, double p_i3152_8_, double p_i3152_10_, double p_i3152_12_)
 	{
-		this(par1World, par2, par4, par6, par8, par10, par12, 1.0F);
+		this(p_i3152_1_, p_i3152_2_, p_i3152_4_, p_i3152_6_, p_i3152_8_, p_i3152_10_, p_i3152_12_, 1.0F);
 	}
 	
-	public EntitySmokeFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, float par14)
+	public EntitySmokeFX(World p_i3153_1_, double p_i3153_2_, double p_i3153_4_, double p_i3153_6_, double p_i3153_8_, double p_i3153_10_, double p_i3153_12_, float p_i3153_14_)
 	{
-		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
+		super(p_i3153_1_, p_i3153_2_, p_i3153_4_, p_i3153_6_, 0.0D, 0.0D, 0.0D);
 		motionX *= 0.10000000149011612D;
 		motionY *= 0.10000000149011612D;
 		motionZ *= 0.10000000149011612D;
-		motionX += par8;
-		motionY += par10;
-		motionZ += par12;
+		motionX += p_i3153_8_;
+		motionY += p_i3153_10_;
+		motionZ += p_i3153_12_;
 		particleRed = particleGreen = particleBlue = (float) (Math.random() * 0.30000001192092896D);
 		particleScale *= 0.75F;
-		particleScale *= par14;
+		particleScale *= p_i3153_14_;
 		smokeParticleScale = particleScale;
 		particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
-		particleMaxAge = (int) (particleMaxAge * par14);
+		particleMaxAge = (int) (particleMaxAge * p_i3153_14_);
 		noClip = false;
 	}
 	

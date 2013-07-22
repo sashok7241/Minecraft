@@ -7,17 +7,17 @@ public class BlockSign extends BlockContainer
 	private Class signEntityClass;
 	private boolean isFreestanding;
 	
-	protected BlockSign(int par1, Class par2Class, boolean par3)
+	protected BlockSign(int p_i3993_1_, Class p_i3993_2_, boolean p_i3993_3_)
 	{
-		super(par1, Material.wood);
-		isFreestanding = par3;
-		signEntityClass = par2Class;
+		super(p_i3993_1_, Material.wood);
+		isFreestanding = p_i3993_3_;
+		signEntityClass = p_i3993_2_;
 		float var4 = 0.25F;
 		float var5 = 1.0F;
 		setBlockBounds(0.5F - var4, 0.0F, 0.5F - var4, 0.5F + var4, var5, 0.5F + var4);
 	}
 	
-	@Override public TileEntity createNewTileEntity(World par1World)
+	@Override public TileEntity createNewTileEntity(World p_72274_1_)
 	{
 		try
 		{
@@ -28,12 +28,12 @@ public class BlockSign extends BlockContainer
 		}
 	}
 	
-	@Override public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public boolean getBlocksMovement(IBlockAccess p_71918_1_, int p_71918_2_, int p_71918_3_, int p_71918_4_)
 	{
 		return true;
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
 	{
 		return null;
 	}
@@ -54,7 +54,7 @@ public class BlockSign extends BlockContainer
 		return super.getSelectedBoundingBoxFromPool(par1World, par2, par3, par4);
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return Item.sign.itemID;
 	}
@@ -69,42 +69,42 @@ public class BlockSign extends BlockContainer
 		return false;
 	}
 	
-	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
 	{
 		boolean var6 = false;
 		if(isFreestanding)
 		{
-			if(!par1World.getBlockMaterial(par2, par3 - 1, par4).isSolid())
+			if(!p_71863_1_.getBlockMaterial(p_71863_2_, p_71863_3_ - 1, p_71863_4_).isSolid())
 			{
 				var6 = true;
 			}
 		} else
 		{
-			int var7 = par1World.getBlockMetadata(par2, par3, par4);
+			int var7 = p_71863_1_.getBlockMetadata(p_71863_2_, p_71863_3_, p_71863_4_);
 			var6 = true;
-			if(var7 == 2 && par1World.getBlockMaterial(par2, par3, par4 + 1).isSolid())
+			if(var7 == 2 && p_71863_1_.getBlockMaterial(p_71863_2_, p_71863_3_, p_71863_4_ + 1).isSolid())
 			{
 				var6 = false;
 			}
-			if(var7 == 3 && par1World.getBlockMaterial(par2, par3, par4 - 1).isSolid())
+			if(var7 == 3 && p_71863_1_.getBlockMaterial(p_71863_2_, p_71863_3_, p_71863_4_ - 1).isSolid())
 			{
 				var6 = false;
 			}
-			if(var7 == 4 && par1World.getBlockMaterial(par2 + 1, par3, par4).isSolid())
+			if(var7 == 4 && p_71863_1_.getBlockMaterial(p_71863_2_ + 1, p_71863_3_, p_71863_4_).isSolid())
 			{
 				var6 = false;
 			}
-			if(var7 == 5 && par1World.getBlockMaterial(par2 - 1, par3, par4).isSolid())
+			if(var7 == 5 && p_71863_1_.getBlockMaterial(p_71863_2_ - 1, p_71863_3_, p_71863_4_).isSolid())
 			{
 				var6 = false;
 			}
 		}
 		if(var6)
 		{
-			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockToAir(par2, par3, par4);
+			dropBlockAsItem(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, p_71863_1_.getBlockMetadata(p_71863_2_, p_71863_3_, p_71863_4_), 0);
+			p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
 		}
-		super.onNeighborBlockChange(par1World, par2, par3, par4, par5);
+		super.onNeighborBlockChange(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, p_71863_5_);
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
@@ -116,11 +116,11 @@ public class BlockSign extends BlockContainer
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
 		if(!isFreestanding)
 		{
-			int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+			int var5 = p_71902_1_.getBlockMetadata(p_71902_2_, p_71902_3_, p_71902_4_);
 			float var6 = 0.28125F;
 			float var7 = 0.78125F;
 			float var8 = 0.0F;

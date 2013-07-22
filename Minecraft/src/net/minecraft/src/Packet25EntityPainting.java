@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet25EntityPainting extends Packet
@@ -17,14 +17,14 @@ public class Packet25EntityPainting extends Packet
 	{
 	}
 	
-	public Packet25EntityPainting(EntityPainting par1EntityPainting)
+	public Packet25EntityPainting(EntityPainting p_i3295_1_)
 	{
-		entityId = par1EntityPainting.entityId;
-		xPosition = par1EntityPainting.xPosition;
-		yPosition = par1EntityPainting.yPosition;
-		zPosition = par1EntityPainting.zPosition;
-		direction = par1EntityPainting.hangingDirection;
-		title = par1EntityPainting.art.title;
+		entityId = p_i3295_1_.entityId;
+		xPosition = p_i3295_1_.xPosition;
+		yPosition = p_i3295_1_.yPosition;
+		zPosition = p_i3295_1_.zPosition;
+		direction = p_i3295_1_.hangingDirection;
+		title = p_i3295_1_.art.title;
 	}
 	
 	@Override public int getPacketSize()
@@ -32,28 +32,28 @@ public class Packet25EntityPainting extends Packet
 		return 24;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleEntityPainting(this);
+		p_73279_1_.handleEntityPainting(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
-		title = readString(par1DataInput, EnumArt.maxArtTitleLength);
-		xPosition = par1DataInput.readInt();
-		yPosition = par1DataInput.readInt();
-		zPosition = par1DataInput.readInt();
-		direction = par1DataInput.readInt();
+		entityId = p_73267_1_.readInt();
+		title = readString(p_73267_1_, EnumArt.maxArtTitleLength);
+		xPosition = p_73267_1_.readInt();
+		yPosition = p_73267_1_.readInt();
+		zPosition = p_73267_1_.readInt();
+		direction = p_73267_1_.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
-		writeString(title, par1DataOutput);
-		par1DataOutput.writeInt(xPosition);
-		par1DataOutput.writeInt(yPosition);
-		par1DataOutput.writeInt(zPosition);
-		par1DataOutput.writeInt(direction);
+		p_73273_1_.writeInt(entityId);
+		writeString(title, p_73273_1_);
+		p_73273_1_.writeInt(xPosition);
+		p_73273_1_.writeInt(yPosition);
+		p_73273_1_.writeInt(zPosition);
+		p_73273_1_.writeInt(direction);
 	}
 }

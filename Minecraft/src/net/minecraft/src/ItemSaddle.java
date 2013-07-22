@@ -2,30 +2,30 @@ package net.minecraft.src;
 
 public class ItemSaddle extends Item
 {
-	public ItemSaddle(int par1)
+	public ItemSaddle(int p_i3679_1_)
 	{
-		super(par1);
+		super(p_i3679_1_);
 		maxStackSize = 1;
 		setCreativeTab(CreativeTabs.tabTransport);
 	}
 	
-	@Override public boolean func_111207_a(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase)
+	@Override public boolean hitEntity(ItemStack p_77644_1_, EntityLiving p_77644_2_, EntityLiving p_77644_3_)
 	{
-		if(par3EntityLivingBase instanceof EntityPig)
+		itemInteractionForEntity(p_77644_1_, p_77644_2_);
+		return true;
+	}
+	
+	@Override public boolean itemInteractionForEntity(ItemStack p_77646_1_, EntityLiving p_77646_2_)
+	{
+		if(p_77646_2_ instanceof EntityPig)
 		{
-			EntityPig var4 = (EntityPig) par3EntityLivingBase;
-			if(!var4.getSaddled() && !var4.isChild())
+			EntityPig var3 = (EntityPig) p_77646_2_;
+			if(!var3.getSaddled() && !var3.isChild())
 			{
-				var4.setSaddled(true);
-				--par1ItemStack.stackSize;
+				var3.setSaddled(true);
+				--p_77646_1_.stackSize;
 			}
 			return true;
 		} else return false;
-	}
-	
-	@Override public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
-	{
-		func_111207_a(par1ItemStack, (EntityPlayer) null, par2EntityLivingBase);
-		return true;
 	}
 }

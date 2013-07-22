@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class StatsSyncher
 {
-	private volatile boolean isBusy;
-	private volatile Map field_77430_b;
-	private volatile Map field_77431_c;
+	private volatile boolean isBusy = false;
+	private volatile Map field_77430_b = null;
+	private volatile Map field_77431_c = null;
 	private StatFileWriter statFileWriter;
 	private File unsentDataFile;
 	private File dataFile;
@@ -21,33 +21,31 @@ public class StatsSyncher
 	private File unsentOldFile;
 	private File oldFile;
 	private Session theSession;
-	private int field_77433_l;
-	private int field_77434_m;
+	private int field_77433_l = 0;
+	private int field_77434_m = 0;
 	
-	public StatsSyncher(Session par1Session, StatFileWriter par2StatFileWriter, File par3File)
+	public StatsSyncher(Session p_i3216_1_, StatFileWriter p_i3216_2_, File p_i3216_3_)
 	{
-		String var4 = par1Session.func_111285_a();
-		String var5 = var4.toLowerCase();
-		unsentDataFile = new File(par3File, "stats_" + var5 + "_unsent.dat");
-		dataFile = new File(par3File, "stats_" + var5 + ".dat");
-		unsentOldFile = new File(par3File, "stats_" + var5 + "_unsent.old");
-		oldFile = new File(par3File, "stats_" + var5 + ".old");
-		unsentTempFile = new File(par3File, "stats_" + var5 + "_unsent.tmp");
-		tempFile = new File(par3File, "stats_" + var5 + ".tmp");
-		if(!var5.equals(var4))
+		unsentDataFile = new File(p_i3216_3_, "stats_" + p_i3216_1_.username.toLowerCase() + "_unsent.dat");
+		dataFile = new File(p_i3216_3_, "stats_" + p_i3216_1_.username.toLowerCase() + ".dat");
+		unsentOldFile = new File(p_i3216_3_, "stats_" + p_i3216_1_.username.toLowerCase() + "_unsent.old");
+		oldFile = new File(p_i3216_3_, "stats_" + p_i3216_1_.username.toLowerCase() + ".old");
+		unsentTempFile = new File(p_i3216_3_, "stats_" + p_i3216_1_.username.toLowerCase() + "_unsent.tmp");
+		tempFile = new File(p_i3216_3_, "stats_" + p_i3216_1_.username.toLowerCase() + ".tmp");
+		if(!p_i3216_1_.username.toLowerCase().equals(p_i3216_1_.username))
 		{
-			func_77412_a(par3File, "stats_" + var4 + "_unsent.dat", unsentDataFile);
-			func_77412_a(par3File, "stats_" + var4 + ".dat", dataFile);
-			func_77412_a(par3File, "stats_" + var4 + "_unsent.old", unsentOldFile);
-			func_77412_a(par3File, "stats_" + var4 + ".old", oldFile);
-			func_77412_a(par3File, "stats_" + var4 + "_unsent.tmp", unsentTempFile);
-			func_77412_a(par3File, "stats_" + var4 + ".tmp", tempFile);
+			func_77412_a(p_i3216_3_, "stats_" + p_i3216_1_.username + "_unsent.dat", unsentDataFile);
+			func_77412_a(p_i3216_3_, "stats_" + p_i3216_1_.username + ".dat", dataFile);
+			func_77412_a(p_i3216_3_, "stats_" + p_i3216_1_.username + "_unsent.old", unsentOldFile);
+			func_77412_a(p_i3216_3_, "stats_" + p_i3216_1_.username + ".old", oldFile);
+			func_77412_a(p_i3216_3_, "stats_" + p_i3216_1_.username + "_unsent.tmp", unsentTempFile);
+			func_77412_a(p_i3216_3_, "stats_" + p_i3216_1_.username + ".tmp", tempFile);
 		}
-		statFileWriter = par2StatFileWriter;
-		theSession = par1Session;
+		statFileWriter = p_i3216_2_;
+		theSession = p_i3216_1_;
 		if(unsentDataFile.exists())
 		{
-			par2StatFileWriter.writeStats(func_77417_a(unsentDataFile, unsentTempFile, unsentOldFile));
+			p_i3216_2_.writeStats(func_77417_a(unsentDataFile, unsentTempFile, unsentOldFile));
 		}
 		beginReceiveStats();
 	}
@@ -126,7 +124,7 @@ public class StatsSyncher
 		PrintWriter var5 = new PrintWriter(new FileWriter(par3File, false));
 		try
 		{
-			var5.print(StatFileWriter.func_77441_a(theSession.func_111285_a(), "local", par1Map));
+			var5.print(StatFileWriter.func_77441_a(theSession.username, "local", par1Map));
 		} finally
 		{
 			var5.close();

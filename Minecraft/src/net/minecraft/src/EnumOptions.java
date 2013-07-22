@@ -7,11 +7,11 @@ public enum EnumOptions
 	private final boolean enumBoolean;
 	private final String enumString;
 	
-	private EnumOptions(String par3Str, boolean par4, boolean par5)
+	private EnumOptions(String p_i3011_3_, boolean p_i3011_4_, boolean p_i3011_5_)
 	{
-		enumString = par3Str;
-		enumFloat = par4;
-		enumBoolean = par5;
+		enumString = p_i3011_3_;
+		enumFloat = p_i3011_4_;
+		enumBoolean = p_i3011_5_;
 	}
 	
 	public boolean getEnumBoolean()

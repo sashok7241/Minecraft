@@ -5,35 +5,35 @@ import java.util.List;
 public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 {
 	private int inLove;
-	private int breeding;
+	private int breeding = 0;
 	
-	public EntityAnimal(World par1World)
+	public EntityAnimal(World p_i3514_1_)
 	{
-		super(par1World);
+		super(p_i3514_1_);
 	}
 	
-	@Override protected void attackEntity(Entity par1Entity, float par2)
+	@Override protected void attackEntity(Entity p_70785_1_, float p_70785_2_)
 	{
-		if(par1Entity instanceof EntityPlayer)
+		if(p_70785_1_ instanceof EntityPlayer)
 		{
-			if(par2 < 3.0F)
+			if(p_70785_2_ < 3.0F)
 			{
-				double var3 = par1Entity.posX - posX;
-				double var5 = par1Entity.posZ - posZ;
+				double var3 = p_70785_1_.posX - posX;
+				double var5 = p_70785_1_.posZ - posZ;
 				rotationYaw = (float) (Math.atan2(var5, var3) * 180.0D / Math.PI) - 90.0F;
 				hasAttacked = true;
 			}
-			EntityPlayer var7 = (EntityPlayer) par1Entity;
+			EntityPlayer var7 = (EntityPlayer) p_70785_1_;
 			if(var7.getCurrentEquippedItem() == null || !isBreedingItem(var7.getCurrentEquippedItem()))
 			{
 				entityToAttack = null;
 			}
-		} else if(par1Entity instanceof EntityAnimal)
+		} else if(p_70785_1_ instanceof EntityAnimal)
 		{
-			EntityAnimal var8 = (EntityAnimal) par1Entity;
+			EntityAnimal var8 = (EntityAnimal) p_70785_1_;
 			if(getGrowingAge() > 0 && var8.getGrowingAge() < 0)
 			{
-				if(par2 < 2.5D)
+				if(p_70785_2_ < 2.5D)
 				{
 					hasAttacked = true;
 				}
@@ -43,7 +43,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 				{
 					var8.entityToAttack = this;
 				}
-				if(var8.entityToAttack == this && par2 < 3.5D)
+				if(var8.entityToAttack == this && p_70785_2_ < 3.5D)
 				{
 					++var8.inLove;
 					++inLove;
@@ -54,7 +54,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 					}
 					if(breeding == 60)
 					{
-						procreate((EntityAnimal) par1Entity);
+						procreate((EntityAnimal) p_70785_1_);
 					}
 				} else
 				{
@@ -68,23 +68,15 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		}
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
+	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
 		{
 			fleeingTick = 60;
-			if(!isAIEnabled())
-			{
-				AttributeInstance var3 = func_110148_a(SharedMonsterAttributes.field_111263_d);
-				if(var3.func_111127_a(field_110179_h) == null)
-				{
-					var3.func_111121_a(field_110181_i);
-				}
-			}
 			entityToAttack = null;
 			inLove = 0;
-			return super.attackEntityFrom(par1DamageSource, par2);
+			return super.attackEntityFrom(p_70097_1_, p_70097_2_);
 		}
 	}
 	
@@ -93,9 +85,9 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		return false;
 	}
 	
-	public boolean canMateWith(EntityAnimal par1EntityAnimal)
+	public boolean canMateWith(EntityAnimal p_70878_1_)
 	{
-		return par1EntityAnimal == this ? false : par1EntityAnimal.getClass() != this.getClass() ? false : isInLove() && par1EntityAnimal.isInLove();
+		return p_70878_1_ == this ? false : p_70878_1_.getClass() != this.getClass() ? false : isInLove() && p_70878_1_.isInLove();
 	}
 	
 	@Override protected Entity findPlayerToAttack()
@@ -136,16 +128,9 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		}
 	}
 	
-	public void func_110196_bT()
+	@Override public float getBlockPathWeight(int p_70783_1_, int p_70783_2_, int p_70783_3_)
 	{
-		inLove = 600;
-		entityToAttack = null;
-		worldObj.setEntityState(this, (byte) 18);
-	}
-	
-	@Override public float getBlockPathWeight(int par1, int par2, int par3)
-	{
-		return worldObj.getBlockId(par1, par2 - 1, par3) == Block.grass.blockID ? 10.0F : worldObj.getLightBrightness(par1, par2, par3) - 0.5F;
+		return worldObj.getBlockId(p_70783_1_, p_70783_2_ - 1, p_70783_3_) == Block.grass.blockID ? 10.0F : worldObj.getLightBrightness(p_70783_1_, p_70783_2_, p_70783_3_) - 0.5F;
 	}
 	
 	@Override public boolean getCanSpawnHere()
@@ -156,7 +141,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		return worldObj.getBlockId(var1, var2 - 1, var3) == Block.grass.blockID && worldObj.getFullBlockLightValue(var1, var2, var3) > 8 && super.getCanSpawnHere();
 	}
 	
-	@Override protected int getExperiencePoints(EntityPlayer par1EntityPlayer)
+	@Override protected int getExperiencePoints(EntityPlayer p_70693_1_)
 	{
 		return 1 + worldObj.rand.nextInt(3);
 	}
@@ -166,44 +151,35 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		return 120;
 	}
 	
-	@Override public void handleHealthUpdate(byte par1)
+	@Override public boolean interact(EntityPlayer p_70085_1_)
 	{
-		if(par1 == 18)
-		{
-			for(int var2 = 0; var2 < 7; ++var2)
-			{
-				double var3 = rand.nextGaussian() * 0.02D;
-				double var5 = rand.nextGaussian() * 0.02D;
-				double var7 = rand.nextGaussian() * 0.02D;
-				worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, var3, var5, var7);
-			}
-		} else
-		{
-			super.handleHealthUpdate(par1);
-		}
-	}
-	
-	@Override public boolean interact(EntityPlayer par1EntityPlayer)
-	{
-		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
+		ItemStack var2 = p_70085_1_.inventory.getCurrentItem();
 		if(var2 != null && isBreedingItem(var2) && getGrowingAge() == 0 && inLove <= 0)
 		{
-			if(!par1EntityPlayer.capabilities.isCreativeMode)
+			if(!p_70085_1_.capabilities.isCreativeMode)
 			{
 				--var2.stackSize;
 				if(var2.stackSize <= 0)
 				{
-					par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
+					p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack) null);
 				}
 			}
-			func_110196_bT();
+			inLove = 600;
+			entityToAttack = null;
+			for(int var3 = 0; var3 < 7; ++var3)
+			{
+				double var4 = rand.nextGaussian() * 0.02D;
+				double var6 = rand.nextGaussian() * 0.02D;
+				double var8 = rand.nextGaussian() * 0.02D;
+				worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, var4, var6, var8);
+			}
 			return true;
-		} else return super.interact(par1EntityPlayer);
+		} else return super.interact(p_70085_1_);
 	}
 	
-	public boolean isBreedingItem(ItemStack par1ItemStack)
+	public boolean isBreedingItem(ItemStack p_70877_1_)
 	{
-		return par1ItemStack.itemID == Item.wheat.itemID;
+		return p_70877_1_.itemID == Item.wheat.itemID;
 	}
 	
 	public boolean isInLove()
@@ -235,19 +211,19 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		}
 	}
 	
-	private void procreate(EntityAnimal par1EntityAnimal)
+	private void procreate(EntityAnimal p_70876_1_)
 	{
-		EntityAgeable var2 = createChild(par1EntityAnimal);
+		EntityAgeable var2 = createChild(p_70876_1_);
 		if(var2 != null)
 		{
 			setGrowingAge(6000);
-			par1EntityAnimal.setGrowingAge(6000);
+			p_70876_1_.setGrowingAge(6000);
 			inLove = 0;
 			breeding = 0;
 			entityToAttack = null;
-			par1EntityAnimal.entityToAttack = null;
-			par1EntityAnimal.breeding = 0;
-			par1EntityAnimal.inLove = 0;
+			p_70876_1_.entityToAttack = null;
+			p_70876_1_.breeding = 0;
+			p_70876_1_.inLove = 0;
 			var2.setGrowingAge(-24000);
 			var2.setLocationAndAngles(posX, posY, posZ, rotationYaw, rotationPitch);
 			for(int var3 = 0; var3 < 7; ++var3)
@@ -261,10 +237,10 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		inLove = par1NBTTagCompound.getInteger("InLove");
+		super.readEntityFromNBT(p_70037_1_);
+		inLove = p_70037_1_.getInteger("InLove");
 	}
 	
 	public void resetInLove()
@@ -281,9 +257,9 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		super.updateAITick();
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("InLove", inLove);
+		super.writeEntityToNBT(p_70014_1_);
+		p_70014_1_.setInteger("InLove", inLove);
 	}
 }

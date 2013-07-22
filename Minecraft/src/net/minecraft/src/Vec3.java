@@ -8,29 +8,29 @@ public class Vec3
 	public double yCoord;
 	public double zCoord;
 	
-	protected Vec3(Vec3Pool par1Vec3Pool, double par2, double par4, double par6)
+	protected Vec3(Vec3Pool p_i5109_1_, double p_i5109_2_, double p_i5109_4_, double p_i5109_6_)
 	{
-		if(par2 == -0.0D)
+		if(p_i5109_2_ == -0.0D)
 		{
-			par2 = 0.0D;
+			p_i5109_2_ = 0.0D;
 		}
-		if(par4 == -0.0D)
+		if(p_i5109_4_ == -0.0D)
 		{
-			par4 = 0.0D;
+			p_i5109_4_ = 0.0D;
 		}
-		if(par6 == -0.0D)
+		if(p_i5109_6_ == -0.0D)
 		{
-			par6 = 0.0D;
+			p_i5109_6_ = 0.0D;
 		}
-		xCoord = par2;
-		yCoord = par4;
-		zCoord = par6;
-		myVec3LocalPool = par1Vec3Pool;
+		xCoord = p_i5109_2_;
+		yCoord = p_i5109_4_;
+		zCoord = p_i5109_6_;
+		myVec3LocalPool = p_i5109_1_;
 	}
 	
-	public Vec3 addVector(double par1, double par3, double par5)
+	public Vec3 addVector(double p_72441_1_, double p_72441_3_, double p_72441_5_)
 	{
-		return myVec3LocalPool.getVecFromPool(xCoord + par1, yCoord + par3, zCoord + par5);
+		return myVec3LocalPool.getVecFromPool(xCoord + p_72441_1_, yCoord + p_72441_3_, zCoord + p_72441_5_);
 	}
 	
 	public Vec3 crossProduct(Vec3 par1Vec3)
@@ -38,54 +38,54 @@ public class Vec3
 		return myVec3LocalPool.getVecFromPool(yCoord * par1Vec3.zCoord - zCoord * par1Vec3.yCoord, zCoord * par1Vec3.xCoord - xCoord * par1Vec3.zCoord, xCoord * par1Vec3.yCoord - yCoord * par1Vec3.xCoord);
 	}
 	
-	public double distanceTo(Vec3 par1Vec3)
+	public double distanceTo(Vec3 p_72438_1_)
 	{
-		double var2 = par1Vec3.xCoord - xCoord;
-		double var4 = par1Vec3.yCoord - yCoord;
-		double var6 = par1Vec3.zCoord - zCoord;
+		double var2 = p_72438_1_.xCoord - xCoord;
+		double var4 = p_72438_1_.yCoord - yCoord;
+		double var6 = p_72438_1_.zCoord - zCoord;
 		return MathHelper.sqrt_double(var2 * var2 + var4 * var4 + var6 * var6);
 	}
 	
-	public double dotProduct(Vec3 par1Vec3)
+	public double dotProduct(Vec3 p_72430_1_)
 	{
-		return xCoord * par1Vec3.xCoord + yCoord * par1Vec3.yCoord + zCoord * par1Vec3.zCoord;
+		return xCoord * p_72430_1_.xCoord + yCoord * p_72430_1_.yCoord + zCoord * p_72430_1_.zCoord;
 	}
 	
-	public Vec3 getIntermediateWithXValue(Vec3 par1Vec3, double par2)
+	public Vec3 getIntermediateWithXValue(Vec3 p_72429_1_, double p_72429_2_)
 	{
-		double var4 = par1Vec3.xCoord - xCoord;
-		double var6 = par1Vec3.yCoord - yCoord;
-		double var8 = par1Vec3.zCoord - zCoord;
+		double var4 = p_72429_1_.xCoord - xCoord;
+		double var6 = p_72429_1_.yCoord - yCoord;
+		double var8 = p_72429_1_.zCoord - zCoord;
 		if(var4 * var4 < 1.0000000116860974E-7D) return null;
 		else
 		{
-			double var10 = (par2 - xCoord) / var4;
+			double var10 = (p_72429_2_ - xCoord) / var4;
 			return var10 >= 0.0D && var10 <= 1.0D ? myVec3LocalPool.getVecFromPool(xCoord + var4 * var10, yCoord + var6 * var10, zCoord + var8 * var10) : null;
 		}
 	}
 	
-	public Vec3 getIntermediateWithYValue(Vec3 par1Vec3, double par2)
+	public Vec3 getIntermediateWithYValue(Vec3 p_72435_1_, double p_72435_2_)
 	{
-		double var4 = par1Vec3.xCoord - xCoord;
-		double var6 = par1Vec3.yCoord - yCoord;
-		double var8 = par1Vec3.zCoord - zCoord;
+		double var4 = p_72435_1_.xCoord - xCoord;
+		double var6 = p_72435_1_.yCoord - yCoord;
+		double var8 = p_72435_1_.zCoord - zCoord;
 		if(var6 * var6 < 1.0000000116860974E-7D) return null;
 		else
 		{
-			double var10 = (par2 - yCoord) / var6;
+			double var10 = (p_72435_2_ - yCoord) / var6;
 			return var10 >= 0.0D && var10 <= 1.0D ? myVec3LocalPool.getVecFromPool(xCoord + var4 * var10, yCoord + var6 * var10, zCoord + var8 * var10) : null;
 		}
 	}
 	
-	public Vec3 getIntermediateWithZValue(Vec3 par1Vec3, double par2)
+	public Vec3 getIntermediateWithZValue(Vec3 p_72434_1_, double p_72434_2_)
 	{
-		double var4 = par1Vec3.xCoord - xCoord;
-		double var6 = par1Vec3.yCoord - yCoord;
-		double var8 = par1Vec3.zCoord - zCoord;
+		double var4 = p_72434_1_.xCoord - xCoord;
+		double var6 = p_72434_1_.yCoord - yCoord;
+		double var8 = p_72434_1_.zCoord - zCoord;
 		if(var8 * var8 < 1.0000000116860974E-7D) return null;
 		else
 		{
-			double var10 = (par2 - zCoord) / var8;
+			double var10 = (p_72434_2_ - zCoord) / var8;
 			return var10 >= 0.0D && var10 <= 1.0D ? myVec3LocalPool.getVecFromPool(xCoord + var4 * var10, yCoord + var6 * var10, zCoord + var8 * var10) : null;
 		}
 	}
@@ -101,10 +101,10 @@ public class Vec3
 		return var1 < 1.0E-4D ? myVec3LocalPool.getVecFromPool(0.0D, 0.0D, 0.0D) : myVec3LocalPool.getVecFromPool(xCoord / var1, yCoord / var1, zCoord / var1);
 	}
 	
-	public void rotateAroundX(float par1)
+	public void rotateAroundX(float p_72440_1_)
 	{
-		float var2 = MathHelper.cos(par1);
-		float var3 = MathHelper.sin(par1);
+		float var2 = MathHelper.cos(p_72440_1_);
+		float var3 = MathHelper.sin(p_72440_1_);
 		double var4 = xCoord;
 		double var6 = yCoord * var2 + zCoord * var3;
 		double var8 = zCoord * var2 - yCoord * var3;
@@ -113,10 +113,10 @@ public class Vec3
 		zCoord = var8;
 	}
 	
-	public void rotateAroundY(float par1)
+	public void rotateAroundY(float p_72442_1_)
 	{
-		float var2 = MathHelper.cos(par1);
-		float var3 = MathHelper.sin(par1);
+		float var2 = MathHelper.cos(p_72442_1_);
+		float var3 = MathHelper.sin(p_72442_1_);
 		double var4 = xCoord * var2 + zCoord * var3;
 		double var6 = yCoord;
 		double var8 = zCoord * var2 - xCoord * var3;
@@ -137,27 +137,27 @@ public class Vec3
 		zCoord = var8;
 	}
 	
-	protected Vec3 setComponents(double par1, double par3, double par5)
+	protected Vec3 setComponents(double p_72439_1_, double p_72439_3_, double p_72439_5_)
 	{
-		xCoord = par1;
-		yCoord = par3;
-		zCoord = par5;
+		xCoord = p_72439_1_;
+		yCoord = p_72439_3_;
+		zCoord = p_72439_5_;
 		return this;
 	}
 	
-	public double squareDistanceTo(double par1, double par3, double par5)
+	public double squareDistanceTo(double p_72445_1_, double p_72445_3_, double p_72445_5_)
 	{
-		double var7 = par1 - xCoord;
-		double var9 = par3 - yCoord;
-		double var11 = par5 - zCoord;
+		double var7 = p_72445_1_ - xCoord;
+		double var9 = p_72445_3_ - yCoord;
+		double var11 = p_72445_5_ - zCoord;
 		return var7 * var7 + var9 * var9 + var11 * var11;
 	}
 	
-	public double squareDistanceTo(Vec3 par1Vec3)
+	public double squareDistanceTo(Vec3 p_72436_1_)
 	{
-		double var2 = par1Vec3.xCoord - xCoord;
-		double var4 = par1Vec3.yCoord - yCoord;
-		double var6 = par1Vec3.zCoord - zCoord;
+		double var2 = p_72436_1_.xCoord - xCoord;
+		double var4 = p_72436_1_.yCoord - yCoord;
+		double var6 = p_72436_1_.zCoord - zCoord;
 		return var2 * var2 + var4 * var4 + var6 * var6;
 	}
 	
@@ -171,8 +171,8 @@ public class Vec3
 		return "(" + xCoord + ", " + yCoord + ", " + zCoord + ")";
 	}
 	
-	public static Vec3 createVectorHelper(double par0, double par2, double par4)
+	public static Vec3 createVectorHelper(double p_72443_0_, double p_72443_2_, double p_72443_4_)
 	{
-		return new Vec3(fakePool, par0, par2, par4);
+		return new Vec3(fakePool, p_72443_0_, p_72443_2_, p_72443_4_);
 	}
 }

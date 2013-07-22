@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,18 +22,18 @@ public class Packet60Explosion extends Packet
 	{
 	}
 	
-	public Packet60Explosion(double par1, double par3, double par5, float par7, List par8List, Vec3 par9Vec3)
+	public Packet60Explosion(double p_i3319_1_, double p_i3319_3_, double p_i3319_5_, float p_i3319_7_, List p_i3319_8_, Vec3 p_i3319_9_)
 	{
-		explosionX = par1;
-		explosionY = par3;
-		explosionZ = par5;
-		explosionSize = par7;
-		chunkPositionRecords = new ArrayList(par8List);
-		if(par9Vec3 != null)
+		explosionX = p_i3319_1_;
+		explosionY = p_i3319_3_;
+		explosionZ = p_i3319_5_;
+		explosionSize = p_i3319_7_;
+		chunkPositionRecords = new ArrayList(p_i3319_8_);
+		if(p_i3319_9_ != null)
 		{
-			playerVelocityX = (float) par9Vec3.xCoord;
-			playerVelocityY = (float) par9Vec3.yCoord;
-			playerVelocityZ = (float) par9Vec3.zCoord;
+			playerVelocityX = (float) p_i3319_9_.xCoord;
+			playerVelocityY = (float) p_i3319_9_.yCoord;
+			playerVelocityZ = (float) p_i3319_9_.zCoord;
 		}
 	}
 	
@@ -57,41 +57,41 @@ public class Packet60Explosion extends Packet
 		return playerVelocityZ;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleExplosion(this);
+		p_73279_1_.handleExplosion(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		explosionX = par1DataInput.readDouble();
-		explosionY = par1DataInput.readDouble();
-		explosionZ = par1DataInput.readDouble();
-		explosionSize = par1DataInput.readFloat();
-		int var2 = par1DataInput.readInt();
+		explosionX = p_73267_1_.readDouble();
+		explosionY = p_73267_1_.readDouble();
+		explosionZ = p_73267_1_.readDouble();
+		explosionSize = p_73267_1_.readFloat();
+		int var2 = p_73267_1_.readInt();
 		chunkPositionRecords = new ArrayList(var2);
 		int var3 = (int) explosionX;
 		int var4 = (int) explosionY;
 		int var5 = (int) explosionZ;
 		for(int var6 = 0; var6 < var2; ++var6)
 		{
-			int var7 = par1DataInput.readByte() + var3;
-			int var8 = par1DataInput.readByte() + var4;
-			int var9 = par1DataInput.readByte() + var5;
+			int var7 = p_73267_1_.readByte() + var3;
+			int var8 = p_73267_1_.readByte() + var4;
+			int var9 = p_73267_1_.readByte() + var5;
 			chunkPositionRecords.add(new ChunkPosition(var7, var8, var9));
 		}
-		playerVelocityX = par1DataInput.readFloat();
-		playerVelocityY = par1DataInput.readFloat();
-		playerVelocityZ = par1DataInput.readFloat();
+		playerVelocityX = p_73267_1_.readFloat();
+		playerVelocityY = p_73267_1_.readFloat();
+		playerVelocityZ = p_73267_1_.readFloat();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeDouble(explosionX);
-		par1DataOutput.writeDouble(explosionY);
-		par1DataOutput.writeDouble(explosionZ);
-		par1DataOutput.writeFloat(explosionSize);
-		par1DataOutput.writeInt(chunkPositionRecords.size());
+		p_73273_1_.writeDouble(explosionX);
+		p_73273_1_.writeDouble(explosionY);
+		p_73273_1_.writeDouble(explosionZ);
+		p_73273_1_.writeFloat(explosionSize);
+		p_73273_1_.writeInt(chunkPositionRecords.size());
 		int var2 = (int) explosionX;
 		int var3 = (int) explosionY;
 		int var4 = (int) explosionZ;
@@ -102,12 +102,12 @@ public class Packet60Explosion extends Packet
 			int var7 = var6.x - var2;
 			int var8 = var6.y - var3;
 			int var9 = var6.z - var4;
-			par1DataOutput.writeByte(var7);
-			par1DataOutput.writeByte(var8);
-			par1DataOutput.writeByte(var9);
+			p_73273_1_.writeByte(var7);
+			p_73273_1_.writeByte(var8);
+			p_73273_1_.writeByte(var9);
 		}
-		par1DataOutput.writeFloat(playerVelocityX);
-		par1DataOutput.writeFloat(playerVelocityY);
-		par1DataOutput.writeFloat(playerVelocityZ);
+		p_73273_1_.writeFloat(playerVelocityX);
+		p_73273_1_.writeFloat(playerVelocityY);
+		p_73273_1_.writeFloat(playerVelocityZ);
 	}
 }

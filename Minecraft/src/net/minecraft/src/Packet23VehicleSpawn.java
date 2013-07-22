@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet23VehicleSpawn extends Packet
@@ -22,26 +22,26 @@ public class Packet23VehicleSpawn extends Packet
 	{
 	}
 	
-	public Packet23VehicleSpawn(Entity par1Entity, int par2)
+	public Packet23VehicleSpawn(Entity p_i3289_1_, int p_i3289_2_)
 	{
-		this(par1Entity, par2, 0);
+		this(p_i3289_1_, p_i3289_2_, 0);
 	}
 	
-	public Packet23VehicleSpawn(Entity par1Entity, int par2, int par3)
+	public Packet23VehicleSpawn(Entity p_i3290_1_, int p_i3290_2_, int p_i3290_3_)
 	{
-		entityId = par1Entity.entityId;
-		xPosition = MathHelper.floor_double(par1Entity.posX * 32.0D);
-		yPosition = MathHelper.floor_double(par1Entity.posY * 32.0D);
-		zPosition = MathHelper.floor_double(par1Entity.posZ * 32.0D);
-		pitch = MathHelper.floor_float(par1Entity.rotationPitch * 256.0F / 360.0F);
-		yaw = MathHelper.floor_float(par1Entity.rotationYaw * 256.0F / 360.0F);
-		type = par2;
-		throwerEntityId = par3;
-		if(par3 > 0)
+		entityId = p_i3290_1_.entityId;
+		xPosition = MathHelper.floor_double(p_i3290_1_.posX * 32.0D);
+		yPosition = MathHelper.floor_double(p_i3290_1_.posY * 32.0D);
+		zPosition = MathHelper.floor_double(p_i3290_1_.posZ * 32.0D);
+		pitch = MathHelper.floor_float(p_i3290_1_.rotationPitch * 256.0F / 360.0F);
+		yaw = MathHelper.floor_float(p_i3290_1_.rotationYaw * 256.0F / 360.0F);
+		type = p_i3290_2_;
+		throwerEntityId = p_i3290_3_;
+		if(p_i3290_3_ > 0)
 		{
-			double var4 = par1Entity.motionX;
-			double var6 = par1Entity.motionY;
-			double var8 = par1Entity.motionZ;
+			double var4 = p_i3290_1_.motionX;
+			double var6 = p_i3290_1_.motionY;
+			double var8 = p_i3290_1_.motionZ;
 			double var10 = 3.9D;
 			if(var4 < -var10)
 			{
@@ -78,44 +78,44 @@ public class Packet23VehicleSpawn extends Packet
 		return 21 + throwerEntityId > 0 ? 6 : 0;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleVehicleSpawn(this);
+		p_73279_1_.handleVehicleSpawn(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = par1DataInput.readInt();
-		type = par1DataInput.readByte();
-		xPosition = par1DataInput.readInt();
-		yPosition = par1DataInput.readInt();
-		zPosition = par1DataInput.readInt();
-		pitch = par1DataInput.readByte();
-		yaw = par1DataInput.readByte();
-		throwerEntityId = par1DataInput.readInt();
+		entityId = p_73267_1_.readInt();
+		type = p_73267_1_.readByte();
+		xPosition = p_73267_1_.readInt();
+		yPosition = p_73267_1_.readInt();
+		zPosition = p_73267_1_.readInt();
+		pitch = p_73267_1_.readByte();
+		yaw = p_73267_1_.readByte();
+		throwerEntityId = p_73267_1_.readInt();
 		if(throwerEntityId > 0)
 		{
-			speedX = par1DataInput.readShort();
-			speedY = par1DataInput.readShort();
-			speedZ = par1DataInput.readShort();
+			speedX = p_73267_1_.readShort();
+			speedY = p_73267_1_.readShort();
+			speedZ = p_73267_1_.readShort();
 		}
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(entityId);
-		par1DataOutput.writeByte(type);
-		par1DataOutput.writeInt(xPosition);
-		par1DataOutput.writeInt(yPosition);
-		par1DataOutput.writeInt(zPosition);
-		par1DataOutput.writeByte(pitch);
-		par1DataOutput.writeByte(yaw);
-		par1DataOutput.writeInt(throwerEntityId);
+		p_73273_1_.writeInt(entityId);
+		p_73273_1_.writeByte(type);
+		p_73273_1_.writeInt(xPosition);
+		p_73273_1_.writeInt(yPosition);
+		p_73273_1_.writeInt(zPosition);
+		p_73273_1_.writeByte(pitch);
+		p_73273_1_.writeByte(yaw);
+		p_73273_1_.writeInt(throwerEntityId);
 		if(throwerEntityId > 0)
 		{
-			par1DataOutput.writeShort(speedX);
-			par1DataOutput.writeShort(speedY);
-			par1DataOutput.writeShort(speedZ);
+			p_73273_1_.writeShort(speedX);
+			p_73273_1_.writeShort(speedY);
+			p_73273_1_.writeShort(speedZ);
 		}
 	}
 }

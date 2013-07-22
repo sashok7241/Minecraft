@@ -5,9 +5,8 @@ public class StitcherException extends RuntimeException
 	private static final long serialVersionUID = 1L;
 	private final StitchHolder field_98149_a;
 	
-	public StitcherException(StitchHolder par1StitchHolder, String par2Str)
+	public StitcherException(StitchHolder p_i11020_1_)
 	{
-		super(par2Str);
-		field_98149_a = par1StitchHolder;
+		field_98149_a = p_i11020_1_;
 	}
 }

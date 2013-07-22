@@ -4,10 +4,7 @@ import java.util.Random;
 
 public class RenderDragon extends RenderLiving
 {
-	private static final ResourceLocation field_110842_f = new ResourceLocation("textures/entity/enderdragon/dragon_exploding.png");
-	private static final ResourceLocation field_110843_g = new ResourceLocation("textures/entity/endercrystal/endercrystal_beam.png");
-	private static final ResourceLocation field_110845_h = new ResourceLocation("textures/entity/enderdragon/dragon_eyes.png");
-	private static final ResourceLocation field_110844_k = new ResourceLocation("textures/entity/enderdragon/dragon.png");
+	private static int updateModelState = 0;
 	protected ModelDragon modelDragon;
 	
 	public RenderDragon()
@@ -27,19 +24,14 @@ public class RenderDragon extends RenderLiving
 		renderDragon((EntityDragon) par1EntityLiving, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
-	{
-		return func_110841_a((EntityDragon) par1Entity);
-	}
-	
-	protected ResourceLocation func_110841_a(EntityDragon par1EntityDragon)
-	{
-		return field_110844_k;
-	}
-	
 	public void renderDragon(EntityDragon par1EntityDragon, double par2, double par4, double par6, float par8, float par9)
 	{
 		BossStatus.func_82824_a(par1EntityDragon, false);
+		if(updateModelState != 4)
+		{
+			mainModel = new ModelDragon(0.0F);
+			updateModelState = 4;
+		}
 		super.doRenderLiving(par1EntityDragon, par2, par4, par6, par8, par9);
 		if(par1EntityDragon.healingEnderCrystal != null)
 		{
@@ -58,7 +50,7 @@ public class RenderDragon extends RenderLiving
 			Tessellator var17 = Tessellator.instance;
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_CULL_FACE);
-			func_110776_a(field_110843_g);
+			loadTexture("/mob/enderdragon/beam.png");
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			float var18 = 0.0F - (par1EntityDragon.ticksExisted + par9) * 0.01F;
 			float var19 = MathHelper.sqrt_float(var12 * var12 + var13 * var13 + var14 * var14) / 32.0F - (par1EntityDragon.ticksExisted + par9) * 0.01F;
@@ -145,12 +137,12 @@ public class RenderDragon extends RenderLiving
 			GL11.glDepthFunc(GL11.GL_LEQUAL);
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			GL11.glAlphaFunc(GL11.GL_GREATER, var8);
-			func_110776_a(field_110842_f);
+			loadTexture("/mob/enderdragon/shuffle.png");
 			mainModel.render(par1EntityDragon, par2, par3, par4, par5, par6, par7);
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 			GL11.glDepthFunc(GL11.GL_EQUAL);
 		}
-		func_110777_b(par1EntityDragon);
+		loadTexture(par1EntityDragon.getTexture());
 		mainModel.render(par1EntityDragon, par2, par3, par4, par5, par6, par7);
 		if(par1EntityDragon.hurtTime > 0)
 		{
@@ -166,7 +158,7 @@ public class RenderDragon extends RenderLiving
 		}
 	}
 	
-	@Override protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
+	@Override protected void renderEquippedItems(EntityLiving par1EntityLivingBase, float par2)
 	{
 		renderDragonDying((EntityDragon) par1EntityLivingBase, par2);
 	}
@@ -180,7 +172,7 @@ public class RenderDragon extends RenderLiving
 		if(par2 != 0) return -1;
 		else
 		{
-			func_110776_a(field_110845_h);
+			loadTexture("/mob/enderdragon/ender_eyes.png");
 			float var4 = 1.0F;
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -198,17 +190,12 @@ public class RenderDragon extends RenderLiving
 		}
 	}
 	
-	@Override protected void renderModel(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4, float par5, float par6, float par7)
+	@Override protected void renderModel(EntityLiving par1EntityLivingBase, float par2, float par3, float par4, float par5, float par6, float par7)
 	{
 		renderDragonModel((EntityDragon) par1EntityLivingBase, par2, par3, par4, par5, par6, par7);
 	}
 	
-	@Override public void renderPlayer(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
-	{
-		renderDragon((EntityDragon) par1EntityLivingBase, par2, par4, par6, par8, par9);
-	}
-	
-	@Override protected void rotateCorpse(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
+	@Override protected void rotateCorpse(EntityLiving par1EntityLivingBase, float par2, float par3, float par4)
 	{
 		rotateDragonBody((EntityDragon) par1EntityLivingBase, par2, par3, par4);
 	}
@@ -232,7 +219,7 @@ public class RenderDragon extends RenderLiving
 		}
 	}
 	
-	@Override protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
+	@Override protected int shouldRenderPass(EntityLiving par1EntityLivingBase, int par2, float par3)
 	{
 		return renderGlow((EntityDragon) par1EntityLivingBase, par2, par3);
 	}

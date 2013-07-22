@@ -3,23 +3,24 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
-public class BlockLog extends BlockRotatedPillar
+public class BlockLog extends Block
 {
 	public static final String[] woodType = new String[] { "oak", "spruce", "birch", "jungle" };
-	private Icon[] field_111052_c;
-	private Icon[] tree_top;
+	public static final String[] treeTextureTypes = new String[] { "tree_side", "tree_spruce", "tree_birch", "tree_jungle" };
+	private Icon[] iconArray;
+	private Icon tree_top;
 	
-	protected BlockLog(int par1)
+	protected BlockLog(int p_i4016_1_)
 	{
-		super(par1, Material.wood);
+		super(p_i4016_1_, Material.wood);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
+	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
 	{
 		byte var7 = 4;
 		int var8 = var7 + 1;
-		if(par1World.checkChunksExist(par2 - var8, par3 - var8, par4 - var8, par2 + var8, par3 + var8, par4 + var8))
+		if(p_71852_1_.checkChunksExist(p_71852_2_ - var8, p_71852_3_ - var8, p_71852_4_ - var8, p_71852_2_ + var8, p_71852_3_ + var8, p_71852_4_ + var8))
 		{
 			for(int var9 = -var7; var9 <= var7; ++var9)
 			{
@@ -27,13 +28,13 @@ public class BlockLog extends BlockRotatedPillar
 				{
 					for(int var11 = -var7; var11 <= var7; ++var11)
 					{
-						int var12 = par1World.getBlockId(par2 + var9, par3 + var10, par4 + var11);
+						int var12 = p_71852_1_.getBlockId(p_71852_2_ + var9, p_71852_3_ + var10, p_71852_4_ + var11);
 						if(var12 == Block.leaves.blockID)
 						{
-							int var13 = par1World.getBlockMetadata(par2 + var9, par3 + var10, par4 + var11);
+							int var13 = p_71852_1_.getBlockMetadata(p_71852_2_ + var9, p_71852_3_ + var10, p_71852_4_ + var11);
 							if((var13 & 8) == 0)
 							{
-								par1World.setBlockMetadataWithNotify(par2 + var9, par3 + var10, par4 + var11, var13 | 8, 4);
+								p_71852_1_.setBlockMetadataWithNotify(p_71852_2_ + var9, p_71852_3_ + var10, p_71852_4_ + var11, var13 | 8, 4);
 							}
 						}
 					}
@@ -42,14 +43,26 @@ public class BlockLog extends BlockRotatedPillar
 		}
 	}
 	
-	@Override protected Icon func_111048_c(int par1)
+	@Override protected ItemStack createStackedBlock(int p_71880_1_)
 	{
-		return field_111052_c[par1];
+		return new ItemStack(blockID, 1, limitToValidMetadata(p_71880_1_));
 	}
 	
-	@Override protected Icon func_111049_d(int par1)
+	@Override public int damageDropped(int p_71899_1_)
 	{
-		return tree_top[par1];
+		return p_71899_1_ & 3;
+	}
+	
+	@Override public Icon getIcon(int par1, int par2)
+	{
+		int var3 = par2 & 12;
+		int var4 = par2 & 3;
+		return var3 == 0 && (par1 == 1 || par1 == 0) ? tree_top : var3 == 4 && (par1 == 5 || par1 == 4) ? tree_top : var3 == 8 && (par1 == 2 || par1 == 3) ? tree_top : iconArray[var4];
+	}
+	
+	@Override public int getRenderType()
+	{
+		return 31;
 	}
 	
 	@Override public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
@@ -60,29 +73,49 @@ public class BlockLog extends BlockRotatedPillar
 		par3List.add(new ItemStack(par1, 1, 3));
 	}
 	
-	@Override public int idDropped(int par1, Random par2Random, int par3)
+	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
 	{
 		return Block.wood.blockID;
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int onBlockPlaced(World p_85104_1_, int p_85104_2_, int p_85104_3_, int p_85104_4_, int p_85104_5_, float p_85104_6_, float p_85104_7_, float p_85104_8_, int p_85104_9_)
+	{
+		int var10 = p_85104_9_ & 3;
+		byte var11 = 0;
+		switch(p_85104_5_)
+		{
+			case 0:
+			case 1:
+				var11 = 0;
+				break;
+			case 2:
+			case 3:
+				var11 = 8;
+				break;
+			case 4:
+			case 5:
+				var11 = 4;
+		}
+		return var10 | var11;
+	}
+	
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
 		return 1;
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		field_111052_c = new Icon[woodType.length];
-		tree_top = new Icon[woodType.length];
-		for(int var2 = 0; var2 < field_111052_c.length; ++var2)
+		tree_top = par1IconRegister.registerIcon("tree_top");
+		iconArray = new Icon[treeTextureTypes.length];
+		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			field_111052_c[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + woodType[var2]);
-			tree_top[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + woodType[var2] + "_top");
+			iconArray[var2] = par1IconRegister.registerIcon(treeTextureTypes[var2]);
 		}
 	}
 	
-	public static int limitToValidMetadata(int par0)
+	public static int limitToValidMetadata(int p_72141_0_)
 	{
-		return par0 & 3;
+		return p_72141_0_ & 3;
 	}
 }

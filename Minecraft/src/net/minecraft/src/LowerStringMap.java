@@ -15,14 +15,14 @@ public class LowerStringMap implements Map
 		internalMap.clear();
 	}
 	
-	@Override public boolean containsKey(Object par1Obj)
+	@Override public boolean containsKey(Object p_containsKey_1_)
 	{
-		return internalMap.containsKey(par1Obj.toString().toLowerCase());
+		return internalMap.containsKey(p_containsKey_1_.toString().toLowerCase());
 	}
 	
-	@Override public boolean containsValue(Object par1Obj)
+	@Override public boolean containsValue(Object p_containsValue_1_)
 	{
-		return internalMap.containsKey(par1Obj);
+		return internalMap.containsKey(p_containsValue_1_);
 	}
 	
 	@Override public Set entrySet()
@@ -30,9 +30,9 @@ public class LowerStringMap implements Map
 		return internalMap.entrySet();
 	}
 	
-	@Override public Object get(Object par1Obj)
+	@Override public Object get(Object p_get_1_)
 	{
-		return internalMap.get(par1Obj.toString().toLowerCase());
+		return internalMap.get(p_get_1_.toString().toLowerCase());
 	}
 	
 	@Override public boolean isEmpty()
@@ -45,14 +45,14 @@ public class LowerStringMap implements Map
 		return internalMap.keySet();
 	}
 	
-	@Override public Object put(Object par1Obj, Object par2Obj)
+	@Override public Object put(Object p_put_1_, Object p_put_2_)
 	{
-		return putLower((String) par1Obj, par2Obj);
+		return putLower((String) p_put_1_, p_put_2_);
 	}
 	
-	@Override public void putAll(Map par1Map)
+	@Override public void putAll(Map p_putAll_1_)
 	{
-		Iterator var2 = par1Map.entrySet().iterator();
+		Iterator var2 = p_putAll_1_.entrySet().iterator();
 		while(var2.hasNext())
 		{
 			Entry var3 = (Entry) var2.next();
@@ -60,14 +60,14 @@ public class LowerStringMap implements Map
 		}
 	}
 	
-	public Object putLower(String par1Str, Object par2Obj)
+	public Object putLower(String p_76116_1_, Object p_76116_2_)
 	{
-		return internalMap.put(par1Str.toLowerCase(), par2Obj);
+		return internalMap.put(p_76116_1_.toLowerCase(), p_76116_2_);
 	}
 	
-	@Override public Object remove(Object par1Obj)
+	@Override public Object remove(Object p_remove_1_)
 	{
-		return internalMap.remove(par1Obj.toString().toLowerCase());
+		return internalMap.remove(p_remove_1_.toString().toLowerCase());
 	}
 	
 	@Override public int size()

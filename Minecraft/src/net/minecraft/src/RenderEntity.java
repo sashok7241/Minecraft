@@ -9,9 +9,4 @@ public class RenderEntity extends Render
 		renderOffsetAABB(par1Entity.boundingBox, par2 - par1Entity.lastTickPosX, par4 - par1Entity.lastTickPosY, par6 - par1Entity.lastTickPosZ);
 		GL11.glPopMatrix();
 	}
-	
-	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
-	{
-		return null;
-	}
 }

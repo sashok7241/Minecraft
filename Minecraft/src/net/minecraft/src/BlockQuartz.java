@@ -5,27 +5,27 @@ import java.util.List;
 public class BlockQuartz extends Block
 {
 	public static final String[] quartzBlockTypes = new String[] { "default", "chiseled", "lines" };
-	private static final String[] quartzBlockTextureTypes = new String[] { "side", "chiseled", "lines", null, null };
+	private static final String[] quartzBlockTextureTypes = new String[] { "quartzblock_side", "quartzblock_chiseled", "quartzblock_lines", null, null };
 	private Icon[] quartzblockIcons;
 	private Icon quartzblock_chiseled_top;
 	private Icon quartzblock_lines_top;
 	private Icon quartzblock_top;
 	private Icon quartzblock_bottom;
 	
-	public BlockQuartz(int par1)
+	public BlockQuartz(int p_i9082_1_)
 	{
-		super(par1, Material.rock);
+		super(p_i9082_1_, Material.rock);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	@Override protected ItemStack createStackedBlock(int par1)
+	@Override protected ItemStack createStackedBlock(int p_71880_1_)
 	{
-		return par1 != 3 && par1 != 4 ? super.createStackedBlock(par1) : new ItemStack(blockID, 1, 2);
+		return p_71880_1_ != 3 && p_71880_1_ != 4 ? super.createStackedBlock(p_71880_1_) : new ItemStack(blockID, 1, 2);
 	}
 	
-	@Override public int damageDropped(int par1)
+	@Override public int damageDropped(int p_71899_1_)
 	{
-		return par1 != 3 && par1 != 4 ? par1 : 2;
+		return p_71899_1_ != 3 && p_71899_1_ != 4 ? p_71899_1_ : 2;
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -59,26 +59,26 @@ public class BlockQuartz extends Block
 		par3List.add(new ItemStack(par1, 1, 2));
 	}
 	
-	@Override public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
+	@Override public int onBlockPlaced(World p_85104_1_, int p_85104_2_, int p_85104_3_, int p_85104_4_, int p_85104_5_, float p_85104_6_, float p_85104_7_, float p_85104_8_, int p_85104_9_)
 	{
-		if(par9 == 2)
+		if(p_85104_9_ == 2)
 		{
-			switch(par5)
+			switch(p_85104_5_)
 			{
 				case 0:
 				case 1:
-					par9 = 2;
+					p_85104_9_ = 2;
 					break;
 				case 2:
 				case 3:
-					par9 = 4;
+					p_85104_9_ = 4;
 					break;
 				case 4:
 				case 5:
-					par9 = 3;
+					p_85104_9_ = 3;
 			}
 		}
-		return par9;
+		return p_85104_9_;
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
@@ -91,12 +91,12 @@ public class BlockQuartz extends Block
 				quartzblockIcons[var2] = quartzblockIcons[var2 - 1];
 			} else
 			{
-				quartzblockIcons[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + quartzBlockTextureTypes[var2]);
+				quartzblockIcons[var2] = par1IconRegister.registerIcon(quartzBlockTextureTypes[var2]);
 			}
 		}
-		quartzblock_top = par1IconRegister.registerIcon(func_111023_E() + "_" + "top");
-		quartzblock_chiseled_top = par1IconRegister.registerIcon(func_111023_E() + "_" + "chiseled_top");
-		quartzblock_lines_top = par1IconRegister.registerIcon(func_111023_E() + "_" + "lines_top");
-		quartzblock_bottom = par1IconRegister.registerIcon(func_111023_E() + "_" + "bottom");
+		quartzblock_top = par1IconRegister.registerIcon("quartzblock_top");
+		quartzblock_chiseled_top = par1IconRegister.registerIcon("quartzblock_chiseled_top");
+		quartzblock_lines_top = par1IconRegister.registerIcon("quartzblock_lines_top");
+		quartzblock_bottom = par1IconRegister.registerIcon("quartzblock_bottom");
 	}
 }

@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.security.PublicKey;
 
@@ -15,11 +15,11 @@ public class Packet253ServerAuthData extends Packet
 	{
 	}
 	
-	public Packet253ServerAuthData(String par1Str, PublicKey par2PublicKey, byte[] par3ArrayOfByte)
+	public Packet253ServerAuthData(String p_i3344_1_, PublicKey p_i3344_2_, byte[] p_i3344_3_)
 	{
-		serverId = par1Str;
-		publicKey = par2PublicKey;
-		verifyToken = par3ArrayOfByte;
+		serverId = p_i3344_1_;
+		publicKey = p_i3344_2_;
+		verifyToken = p_i3344_3_;
 	}
 	
 	@Override public int getPacketSize()
@@ -42,22 +42,22 @@ public class Packet253ServerAuthData extends Packet
 		return verifyToken;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleServerAuthData(this);
+		p_73279_1_.handleServerAuthData(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		serverId = readString(par1DataInput, 20);
-		publicKey = CryptManager.decodePublicKey(readBytesFromStream(par1DataInput));
-		verifyToken = readBytesFromStream(par1DataInput);
+		serverId = readString(p_73267_1_, 20);
+		publicKey = CryptManager.decodePublicKey(readBytesFromStream(p_73267_1_));
+		verifyToken = readBytesFromStream(p_73267_1_);
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		writeString(serverId, par1DataOutput);
-		writeByteArray(par1DataOutput, publicKey.getEncoded());
-		writeByteArray(par1DataOutput, verifyToken);
+		writeString(serverId, p_73273_1_);
+		writeByteArray(p_73273_1_, publicKey.getEncoded());
+		writeByteArray(p_73273_1_, verifyToken);
 	}
 }

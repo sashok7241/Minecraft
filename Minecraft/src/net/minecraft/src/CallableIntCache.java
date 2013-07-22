@@ -6,9 +6,9 @@ class CallableIntCache implements Callable
 {
 	final CrashReport theCrashReport;
 	
-	CallableIntCache(CrashReport par1CrashReport)
+	CallableIntCache(CrashReport p_i6804_1_)
 	{
-		theCrashReport = par1CrashReport;
+		theCrashReport = p_i6804_1_;
 	}
 	
 	@Override public Object call()

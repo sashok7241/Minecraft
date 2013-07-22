@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet101CloseWindow extends Packet
@@ -12,9 +12,9 @@ public class Packet101CloseWindow extends Packet
 	{
 	}
 	
-	public Packet101CloseWindow(int par1)
+	public Packet101CloseWindow(int p_i3310_1_)
 	{
-		windowId = par1;
+		windowId = p_i3310_1_;
 	}
 	
 	@Override public int getPacketSize()
@@ -22,18 +22,18 @@ public class Packet101CloseWindow extends Packet
 		return 1;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleCloseWindow(this);
+		p_73279_1_.handleCloseWindow(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		windowId = par1DataInput.readByte();
+		windowId = p_73267_1_.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeByte(windowId);
+		p_73273_1_.writeByte(windowId);
 	}
 }

@@ -2,26 +2,26 @@ package net.minecraft.src;
 
 public class EntityEnderPearl extends EntityThrowable
 {
-	public EntityEnderPearl(World par1World)
+	public EntityEnderPearl(World p_i3589_1_)
 	{
-		super(par1World);
+		super(p_i3589_1_);
 	}
 	
-	public EntityEnderPearl(World par1World, double par2, double par4, double par6)
+	public EntityEnderPearl(World p_i3591_1_, double p_i3591_2_, double p_i3591_4_, double p_i3591_6_)
 	{
-		super(par1World, par2, par4, par6);
+		super(p_i3591_1_, p_i3591_2_, p_i3591_4_, p_i3591_6_);
 	}
 	
-	public EntityEnderPearl(World par1World, EntityLivingBase par2EntityLivingBase)
+	public EntityEnderPearl(World p_i3590_1_, EntityLiving p_i3590_2_)
 	{
-		super(par1World, par2EntityLivingBase);
+		super(p_i3590_1_, p_i3590_2_);
 	}
 	
-	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+	@Override protected void onImpact(MovingObjectPosition p_70184_1_)
 	{
-		if(par1MovingObjectPosition.entityHit != null)
+		if(p_70184_1_.entityHit != null)
 		{
-			par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0.0F);
+			p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0);
 		}
 		for(int var2 = 0; var2 < 32; ++var2)
 		{
@@ -34,13 +34,9 @@ public class EntityEnderPearl extends EntityThrowable
 				EntityPlayerMP var3 = (EntityPlayerMP) getThrower();
 				if(!var3.playerNetServerHandler.connectionClosed && var3.worldObj == worldObj)
 				{
-					if(getThrower().isRiding())
-					{
-						getThrower().mountEntity((Entity) null);
-					}
 					getThrower().setPositionAndUpdate(posX, posY, posZ);
 					getThrower().fallDistance = 0.0F;
-					getThrower().attackEntityFrom(DamageSource.fall, 5.0F);
+					getThrower().attackEntityFrom(DamageSource.fall, 5);
 				}
 			}
 			setDead();

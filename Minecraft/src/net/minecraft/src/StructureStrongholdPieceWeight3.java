@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 final class StructureStrongholdPieceWeight3 extends StructureStrongholdPieceWeight
 {
-	StructureStrongholdPieceWeight3(Class par1Class, int par2, int par3)
+	StructureStrongholdPieceWeight3(Class p_i3839_1_, int p_i3839_2_, int p_i3839_3_)
 	{
-		super(par1Class, par2, par3);
+		super(p_i3839_1_, p_i3839_2_, p_i3839_3_);
 	}
 	
-	@Override public boolean canSpawnMoreStructuresOfType(int par1)
+	@Override public boolean canSpawnMoreStructuresOfType(int p_75189_1_)
 	{
-		return super.canSpawnMoreStructuresOfType(par1) && par1 > 5;
+		return super.canSpawnMoreStructuresOfType(p_75189_1_) && p_75189_1_ > 5;
 	}
 }

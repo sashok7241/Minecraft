@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet54PlayNoteBlock extends Packet
@@ -17,14 +17,14 @@ public class Packet54PlayNoteBlock extends Packet
 	{
 	}
 	
-	public Packet54PlayNoteBlock(int par1, int par2, int par3, int par4, int par5, int par6)
+	public Packet54PlayNoteBlock(int p_i3363_1_, int p_i3363_2_, int p_i3363_3_, int p_i3363_4_, int p_i3363_5_, int p_i3363_6_)
 	{
-		xLocation = par1;
-		yLocation = par2;
-		zLocation = par3;
-		instrumentType = par5;
-		pitch = par6;
-		blockId = par4;
+		xLocation = p_i3363_1_;
+		yLocation = p_i3363_2_;
+		zLocation = p_i3363_3_;
+		instrumentType = p_i3363_5_;
+		pitch = p_i3363_6_;
+		blockId = p_i3363_4_;
 	}
 	
 	@Override public int getPacketSize()
@@ -32,28 +32,28 @@ public class Packet54PlayNoteBlock extends Packet
 		return 14;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleBlockEvent(this);
+		p_73279_1_.handleBlockEvent(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		xLocation = par1DataInput.readInt();
-		yLocation = par1DataInput.readShort();
-		zLocation = par1DataInput.readInt();
-		instrumentType = par1DataInput.readUnsignedByte();
-		pitch = par1DataInput.readUnsignedByte();
-		blockId = par1DataInput.readShort() & 4095;
+		xLocation = p_73267_1_.readInt();
+		yLocation = p_73267_1_.readShort();
+		zLocation = p_73267_1_.readInt();
+		instrumentType = p_73267_1_.read();
+		pitch = p_73267_1_.read();
+		blockId = p_73267_1_.readShort() & 4095;
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeInt(xLocation);
-		par1DataOutput.writeShort(yLocation);
-		par1DataOutput.writeInt(zLocation);
-		par1DataOutput.write(instrumentType);
-		par1DataOutput.write(pitch);
-		par1DataOutput.writeShort(blockId & 4095);
+		p_73273_1_.writeInt(xLocation);
+		p_73273_1_.writeShort(yLocation);
+		p_73273_1_.writeInt(zLocation);
+		p_73273_1_.write(instrumentType);
+		p_73273_1_.write(pitch);
+		p_73273_1_.writeShort(blockId & 4095);
 	}
 }

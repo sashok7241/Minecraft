@@ -6,35 +6,35 @@ public class InventoryCrafting implements IInventory
 	private int inventoryWidth;
 	private Container eventHandler;
 	
-	public InventoryCrafting(Container par1Container, int par2, int par3)
+	public InventoryCrafting(Container p_i3602_1_, int p_i3602_2_, int p_i3602_3_)
 	{
-		int var4 = par2 * par3;
+		int var4 = p_i3602_2_ * p_i3602_3_;
 		stackList = new ItemStack[var4];
-		eventHandler = par1Container;
-		inventoryWidth = par2;
+		eventHandler = p_i3602_1_;
+		inventoryWidth = p_i3602_2_;
 	}
 	
 	@Override public void closeChest()
 	{
 	}
 	
-	@Override public ItemStack decrStackSize(int par1, int par2)
+	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
 	{
-		if(stackList[par1] != null)
+		if(stackList[p_70298_1_] != null)
 		{
 			ItemStack var3;
-			if(stackList[par1].stackSize <= par2)
+			if(stackList[p_70298_1_].stackSize <= p_70298_2_)
 			{
-				var3 = stackList[par1];
-				stackList[par1] = null;
+				var3 = stackList[p_70298_1_];
+				stackList[p_70298_1_] = null;
 				eventHandler.onCraftMatrixChanged(this);
 				return var3;
 			} else
 			{
-				var3 = stackList[par1].splitStack(par2);
-				if(stackList[par1].stackSize == 0)
+				var3 = stackList[p_70298_1_].splitStack(p_70298_2_);
+				if(stackList[p_70298_1_].stackSize == 0)
 				{
-					stackList[par1] = null;
+					stackList[p_70298_1_] = null;
 				}
 				eventHandler.onCraftMatrixChanged(this);
 				return var3;
@@ -57,26 +57,26 @@ public class InventoryCrafting implements IInventory
 		return stackList.length;
 	}
 	
-	public ItemStack getStackInRowAndColumn(int par1, int par2)
+	public ItemStack getStackInRowAndColumn(int p_70463_1_, int p_70463_2_)
 	{
-		if(par1 >= 0 && par1 < inventoryWidth)
+		if(p_70463_1_ >= 0 && p_70463_1_ < inventoryWidth)
 		{
-			int var3 = par1 + par2 * inventoryWidth;
+			int var3 = p_70463_1_ + p_70463_2_ * inventoryWidth;
 			return getStackInSlot(var3);
 		} else return null;
 	}
 	
-	@Override public ItemStack getStackInSlot(int par1)
+	@Override public ItemStack getStackInSlot(int p_70301_1_)
 	{
-		return par1 >= getSizeInventory() ? null : stackList[par1];
+		return p_70301_1_ >= getSizeInventory() ? null : stackList[p_70301_1_];
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int par1)
+	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
 	{
-		if(stackList[par1] != null)
+		if(stackList[p_70304_1_] != null)
 		{
-			ItemStack var2 = stackList[par1];
-			stackList[par1] = null;
+			ItemStack var2 = stackList[p_70304_1_];
+			stackList[p_70304_1_] = null;
 			return var2;
 		} else return null;
 	}
@@ -86,12 +86,12 @@ public class InventoryCrafting implements IInventory
 		return false;
 	}
 	
-	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
+	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
 	{
 		return true;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
+	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
 	{
 		return true;
 	}
@@ -104,9 +104,9 @@ public class InventoryCrafting implements IInventory
 	{
 	}
 	
-	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
 	{
-		stackList[par1] = par2ItemStack;
+		stackList[p_70299_1_] = p_70299_2_;
 		eventHandler.onCraftMatrixChanged(this);
 	}
 }

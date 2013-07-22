@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class ItemLeaves extends ItemBlock
 {
-	public ItemLeaves(int par1)
+	public ItemLeaves(int p_i3667_1_)
 	{
-		super(par1);
+		super(p_i3667_1_);
 		setMaxDamage(0);
 		setHasSubtypes(true);
 	}
@@ -20,14 +20,14 @@ public class ItemLeaves extends ItemBlock
 		return Block.leaves.getIcon(0, par1);
 	}
 	
-	@Override public int getMetadata(int par1)
+	@Override public int getMetadata(int p_77647_1_)
 	{
-		return par1 | 4;
+		return p_77647_1_ | 4;
 	}
 	
-	@Override public String getUnlocalizedName(ItemStack par1ItemStack)
+	@Override public String getUnlocalizedName(ItemStack p_77667_1_)
 	{
-		int var2 = par1ItemStack.getItemDamage();
+		int var2 = p_77667_1_.getItemDamage();
 		if(var2 < 0 || var2 >= BlockLeaves.LEAF_TYPES.length)
 		{
 			var2 = 0;

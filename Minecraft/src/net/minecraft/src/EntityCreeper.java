@@ -7,21 +7,22 @@ public class EntityCreeper extends EntityMob
 	private int fuseTime = 30;
 	private int explosionRadius = 3;
 	
-	public EntityCreeper(World par1World)
+	public EntityCreeper(World p_i3547_1_)
 	{
-		super(par1World);
+		super(p_i3547_1_);
+		texture = "/mob/creeper.png";
 		tasks.addTask(1, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAICreeperSwell(this));
-		tasks.addTask(3, new EntityAIAvoidEntity(this, EntityOcelot.class, 6.0F, 1.0D, 1.2D));
-		tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
-		tasks.addTask(5, new EntityAIWander(this, 0.8D));
+		tasks.addTask(3, new EntityAIAvoidEntity(this, EntityOcelot.class, 6.0F, 0.25F, 0.3F));
+		tasks.addTask(4, new EntityAIAttackOnCollide(this, 0.25F, false));
+		tasks.addTask(5, new EntityAIWander(this, 0.2F));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(6, new EntityAILookIdle(this));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 16.0F, 0, true));
 		targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
 	}
 	
-	@Override public boolean attackEntityAsMob(Entity par1Entity)
+	@Override public boolean attackEntityAsMob(Entity p_70652_1_)
 	{
 		return true;
 	}
@@ -33,25 +34,19 @@ public class EntityCreeper extends EntityMob
 		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 	
-	@Override protected void fall(float par1)
+	@Override protected void fall(float p_70069_1_)
 	{
-		super.fall(par1);
-		timeSinceIgnited = (int) (timeSinceIgnited + par1 * 1.5F);
+		super.fall(p_70069_1_);
+		timeSinceIgnited = (int) (timeSinceIgnited + p_70069_1_ * 1.5F);
 		if(timeSinceIgnited > fuseTime - 5)
 		{
 			timeSinceIgnited = fuseTime - 5;
 		}
 	}
 	
-	@Override protected void func_110147_ax()
-	{
-		super.func_110147_ax();
-		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
-	}
-	
 	@Override public int func_82143_as()
 	{
-		return getAttackTarget() == null ? 3 : 3 + (int) (func_110143_aJ() - 1.0F);
+		return getAttackTarget() == null ? 3 : 3 + health - 1;
 	}
 	
 	public float getCreeperFlashIntensity(float par1)
@@ -79,6 +74,11 @@ public class EntityCreeper extends EntityMob
 		return "mob.creeper.say";
 	}
 	
+	@Override public int getMaxHealth()
+	{
+		return 20;
+	}
+	
 	public boolean getPowered()
 	{
 		return dataWatcher.getWatchableObjectByte(17) == 1;
@@ -89,19 +89,19 @@ public class EntityCreeper extends EntityMob
 		return true;
 	}
 	
-	@Override public void onDeath(DamageSource par1DamageSource)
+	@Override public void onDeath(DamageSource p_70645_1_)
 	{
-		super.onDeath(par1DamageSource);
-		if(par1DamageSource.getEntity() instanceof EntitySkeleton)
+		super.onDeath(p_70645_1_);
+		if(p_70645_1_.getEntity() instanceof EntitySkeleton)
 		{
 			int var2 = Item.record13.itemID + rand.nextInt(Item.recordWait.itemID - Item.record13.itemID + 1);
 			dropItem(var2, 1);
 		}
 	}
 	
-	@Override public void onStruckByLightning(EntityLightningBolt par1EntityLightningBolt)
+	@Override public void onStruckByLightning(EntityLightningBolt p_70077_1_)
 	{
-		super.onStruckByLightning(par1EntityLightningBolt);
+		super.onStruckByLightning(p_70077_1_);
 		dataWatcher.updateObject(17, Byte.valueOf((byte) 1));
 	}
 	
@@ -140,33 +140,33 @@ public class EntityCreeper extends EntityMob
 		super.onUpdate();
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		dataWatcher.updateObject(17, Byte.valueOf((byte) (par1NBTTagCompound.getBoolean("powered") ? 1 : 0)));
-		if(par1NBTTagCompound.hasKey("Fuse"))
+		super.readEntityFromNBT(p_70037_1_);
+		dataWatcher.updateObject(17, Byte.valueOf((byte) (p_70037_1_.getBoolean("powered") ? 1 : 0)));
+		if(p_70037_1_.hasKey("Fuse"))
 		{
-			fuseTime = par1NBTTagCompound.getShort("Fuse");
+			fuseTime = p_70037_1_.getShort("Fuse");
 		}
-		if(par1NBTTagCompound.hasKey("ExplosionRadius"))
+		if(p_70037_1_.hasKey("ExplosionRadius"))
 		{
-			explosionRadius = par1NBTTagCompound.getByte("ExplosionRadius");
+			explosionRadius = p_70037_1_.getByte("ExplosionRadius");
 		}
 	}
 	
-	public void setCreeperState(int par1)
+	public void setCreeperState(int p_70829_1_)
 	{
-		dataWatcher.updateObject(16, Byte.valueOf((byte) par1));
+		dataWatcher.updateObject(16, Byte.valueOf((byte) p_70829_1_));
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
+		super.writeEntityToNBT(p_70014_1_);
 		if(dataWatcher.getWatchableObjectByte(17) == 1)
 		{
-			par1NBTTagCompound.setBoolean("powered", true);
+			p_70014_1_.setBoolean("powered", true);
 		}
-		par1NBTTagCompound.setShort("Fuse", (short) fuseTime);
-		par1NBTTagCompound.setByte("ExplosionRadius", (byte) explosionRadius);
+		p_70014_1_.setShort("Fuse", (short) fuseTime);
+		p_70014_1_.setByte("ExplosionRadius", (byte) explosionRadius);
 	}
 }

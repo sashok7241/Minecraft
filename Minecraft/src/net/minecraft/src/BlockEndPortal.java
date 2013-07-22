@@ -5,19 +5,19 @@ import java.util.Random;
 
 public class BlockEndPortal extends BlockContainer
 {
-	public static boolean bossDefeated;
+	public static boolean bossDefeated = false;
 	
-	protected BlockEndPortal(int par1, Material par2Material)
+	protected BlockEndPortal(int p_i4003_1_, Material p_i4003_2_)
 	{
-		super(par1, par2Material);
+		super(p_i4003_1_, p_i4003_2_);
 		setLightValue(1.0F);
 	}
 	
-	@Override public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)
+	@Override public void addCollisionBoxesToList(World p_71871_1_, int p_71871_2_, int p_71871_3_, int p_71871_4_, AxisAlignedBB p_71871_5_, List p_71871_6_, Entity p_71871_7_)
 	{
 	}
 	
-	@Override public TileEntity createNewTileEntity(World par1World)
+	@Override public TileEntity createNewTileEntity(World p_72274_1_)
 	{
 		return new TileEntityEndPortal();
 	}
@@ -37,26 +37,26 @@ public class BlockEndPortal extends BlockContainer
 		return false;
 	}
 	
-	@Override public void onBlockAdded(World par1World, int par2, int par3, int par4)
+	@Override public void onBlockAdded(World p_71861_1_, int p_71861_2_, int p_71861_3_, int p_71861_4_)
 	{
 		if(!bossDefeated)
 		{
-			if(par1World.provider.dimensionId != 0)
+			if(p_71861_1_.provider.dimensionId != 0)
 			{
-				par1World.setBlockToAir(par2, par3, par4);
+				p_71861_1_.setBlockToAir(p_71861_2_, p_71861_3_, p_71861_4_);
 			}
 		}
 	}
 	
-	@Override public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
+	@Override public void onEntityCollidedWithBlock(World p_71869_1_, int p_71869_2_, int p_71869_3_, int p_71869_4_, Entity p_71869_5_)
 	{
-		if(par5Entity.ridingEntity == null && par5Entity.riddenByEntity == null && !par1World.isRemote)
+		if(p_71869_5_.ridingEntity == null && p_71869_5_.riddenByEntity == null && !p_71869_1_.isRemote)
 		{
-			par5Entity.travelToDimension(1);
+			p_71869_5_.travelToDimension(1);
 		}
 	}
 	
-	@Override public int quantityDropped(Random par1Random)
+	@Override public int quantityDropped(Random p_71925_1_)
 	{
 		return 0;
 	}
@@ -82,7 +82,7 @@ public class BlockEndPortal extends BlockContainer
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
 	{
 		float var5 = 0.0625F;
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, var5, 1.0F);

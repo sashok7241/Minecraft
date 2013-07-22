@@ -3,7 +3,6 @@ package net.minecraft.src;
 
 public class RenderEnchantmentTable extends TileEntitySpecialRenderer
 {
-	private static final ResourceLocation field_110636_a = new ResourceLocation("textures/entity/enchanting_table_book.png");
 	private ModelBook enchantmentBook = new ModelBook();
 	
 	@Override public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
@@ -29,7 +28,7 @@ public class RenderEnchantmentTable extends TileEntitySpecialRenderer
 		float var11 = par1TileEntityEnchantmentTable.bookRotationPrev + var10 * par8;
 		GL11.glRotatef(-var11 * 180.0F / (float) Math.PI, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(80.0F, 0.0F, 0.0F, 1.0F);
-		func_110628_a(field_110636_a);
+		bindTextureByName("/item/book.png");
 		float var12 = par1TileEntityEnchantmentTable.pageFlipPrev + (par1TileEntityEnchantmentTable.pageFlip - par1TileEntityEnchantmentTable.pageFlipPrev) * par8 + 0.25F;
 		float var13 = par1TileEntityEnchantmentTable.pageFlipPrev + (par1TileEntityEnchantmentTable.pageFlip - par1TileEntityEnchantmentTable.pageFlipPrev) * par8 + 0.75F;
 		var12 = (var12 - MathHelper.truncateDoubleToInt(var12)) * 1.6F - 0.3F;

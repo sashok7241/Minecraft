@@ -7,9 +7,9 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandWeather extends CommandBase
 {
-	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
 	{
-		return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] { "clear", "rain", "thunder" }) : null;
+		return p_71516_2_.length == 1 ? getListOfStringsMatchingLastWord(p_71516_2_, new String[] { "clear", "rain", "thunder" }) : null;
 	}
 	
 	@Override public String getCommandName()
@@ -17,46 +17,41 @@ public class CommandWeather extends CommandBase
 		return "weather";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
-	{
-		return "commands.weather.usage";
-	}
-	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 2;
 	}
 	
-	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
 	{
-		if(par2ArrayOfStr.length >= 1 && par2ArrayOfStr.length <= 2)
+		if(p_71515_2_.length < 1) throw new WrongUsageException("commands.weather.usage", new Object[0]);
+		else
 		{
 			int var3 = (300 + new Random().nextInt(600)) * 20;
-			if(par2ArrayOfStr.length >= 2)
+			if(p_71515_2_.length >= 2)
 			{
-				var3 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[1], 1, 1000000) * 20;
+				var3 = parseIntBounded(p_71515_1_, p_71515_2_[1], 1, 1000000) * 20;
 			}
 			WorldServer var4 = MinecraftServer.getServer().worldServers[0];
 			WorldInfo var5 = var4.getWorldInfo();
 			var5.setRainTime(var3);
 			var5.setThunderTime(var3);
-			if("clear".equalsIgnoreCase(par2ArrayOfStr[0]))
+			if("clear".equalsIgnoreCase(p_71515_2_[0]))
 			{
 				var5.setRaining(false);
 				var5.setThundering(false);
-				notifyAdmins(par1ICommandSender, "commands.weather.clear", new Object[0]);
-			} else if("rain".equalsIgnoreCase(par2ArrayOfStr[0]))
+				notifyAdmins(p_71515_1_, "commands.weather.clear", new Object[0]);
+			} else if("rain".equalsIgnoreCase(p_71515_2_[0]))
 			{
 				var5.setRaining(true);
 				var5.setThundering(false);
-				notifyAdmins(par1ICommandSender, "commands.weather.rain", new Object[0]);
-			} else
+				notifyAdmins(p_71515_1_, "commands.weather.rain", new Object[0]);
+			} else if("thunder".equalsIgnoreCase(p_71515_2_[0]))
 			{
-				if(!"thunder".equalsIgnoreCase(par2ArrayOfStr[0])) throw new WrongUsageException("commands.weather.usage", new Object[0]);
 				var5.setRaining(true);
 				var5.setThundering(true);
-				notifyAdmins(par1ICommandSender, "commands.weather.thunder", new Object[0]);
+				notifyAdmins(p_71515_1_, "commands.weather.thunder", new Object[0]);
 			}
-		} else throw new WrongUsageException("commands.weather.usage", new Object[0]);
+		}
 	}
 }

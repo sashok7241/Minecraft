@@ -7,393 +7,374 @@ public abstract class NetHandler
 		return false;
 	}
 	
-	public void func_110773_a(Packet44UpdateAttributes par1Packet44UpdateAttributes)
+	public void handleAnimation(Packet18Animation p_72524_1_)
 	{
-		unexpectedPacket(par1Packet44UpdateAttributes);
+		unexpectedPacket(p_72524_1_);
 	}
 	
-	public void func_110774_a(Packet27PlayerInput par1Packet27PlayerInput)
+	public void handleAttachEntity(Packet39AttachEntity p_72484_1_)
 	{
-		unexpectedPacket(par1Packet27PlayerInput);
+		unexpectedPacket(p_72484_1_);
 	}
 	
-	public void func_142031_a(Packet133TileEditorOpen par1Packet133TileEditorOpen)
+	public void handleAutoComplete(Packet203AutoComplete p_72461_1_)
 	{
+		unexpectedPacket(p_72461_1_);
 	}
 	
-	public boolean func_142032_c()
+	public void handleBlockChange(Packet53BlockChange p_72456_1_)
 	{
-		return false;
+		unexpectedPacket(p_72456_1_);
 	}
 	
-	public void handleAnimation(Packet18Animation par1Packet18Animation)
+	public void handleBlockDestroy(Packet55BlockDestroy p_72465_1_)
 	{
-		unexpectedPacket(par1Packet18Animation);
+		unexpectedPacket(p_72465_1_);
 	}
 	
-	public void handleAttachEntity(Packet39AttachEntity par1Packet39AttachEntity)
+	public void handleBlockDig(Packet14BlockDig p_72510_1_)
 	{
-		unexpectedPacket(par1Packet39AttachEntity);
+		unexpectedPacket(p_72510_1_);
 	}
 	
-	public void handleAutoComplete(Packet203AutoComplete par1Packet203AutoComplete)
+	public void handleBlockEvent(Packet54PlayNoteBlock p_72454_1_)
 	{
-		unexpectedPacket(par1Packet203AutoComplete);
+		unexpectedPacket(p_72454_1_);
 	}
 	
-	public void handleBlockChange(Packet53BlockChange par1Packet53BlockChange)
+	public void handleBlockItemSwitch(Packet16BlockItemSwitch p_72502_1_)
 	{
-		unexpectedPacket(par1Packet53BlockChange);
+		unexpectedPacket(p_72502_1_);
 	}
 	
-	public void handleBlockDestroy(Packet55BlockDestroy par1Packet55BlockDestroy)
+	public void handleChat(Packet3Chat p_72481_1_)
 	{
-		unexpectedPacket(par1Packet55BlockDestroy);
+		unexpectedPacket(p_72481_1_);
 	}
 	
-	public void handleBlockDig(Packet14BlockDig par1Packet14BlockDig)
+	public void handleClientCommand(Packet205ClientCommand p_72458_1_)
 	{
-		unexpectedPacket(par1Packet14BlockDig);
 	}
 	
-	public void handleBlockEvent(Packet54PlayNoteBlock par1Packet54PlayNoteBlock)
+	public void handleClientInfo(Packet204ClientInfo p_72504_1_)
 	{
-		unexpectedPacket(par1Packet54PlayNoteBlock);
+		unexpectedPacket(p_72504_1_);
 	}
 	
-	public void handleBlockItemSwitch(Packet16BlockItemSwitch par1Packet16BlockItemSwitch)
+	public void handleClientProtocol(Packet2ClientProtocol p_72500_1_)
 	{
-		unexpectedPacket(par1Packet16BlockItemSwitch);
+		unexpectedPacket(p_72500_1_);
 	}
 	
-	public void handleChat(Packet3Chat par1Packet3Chat)
+	public void handleCloseWindow(Packet101CloseWindow p_72474_1_)
 	{
-		unexpectedPacket(par1Packet3Chat);
+		unexpectedPacket(p_72474_1_);
 	}
 	
-	public void handleClientCommand(Packet205ClientCommand par1Packet205ClientCommand)
+	public void handleCollect(Packet22Collect p_72475_1_)
 	{
+		unexpectedPacket(p_72475_1_);
 	}
 	
-	public void handleClientInfo(Packet204ClientInfo par1Packet204ClientInfo)
+	public void handleCreativeSetSlot(Packet107CreativeSetSlot p_72464_1_)
 	{
-		unexpectedPacket(par1Packet204ClientInfo);
+		unexpectedPacket(p_72464_1_);
 	}
 	
-	public void handleClientProtocol(Packet2ClientProtocol par1Packet2ClientProtocol)
+	public void handleCustomPayload(Packet250CustomPayload p_72501_1_)
 	{
-		unexpectedPacket(par1Packet2ClientProtocol);
 	}
 	
-	public void handleCloseWindow(Packet101CloseWindow par1Packet101CloseWindow)
+	public void handleDestroyEntity(Packet29DestroyEntity p_72491_1_)
 	{
-		unexpectedPacket(par1Packet101CloseWindow);
+		unexpectedPacket(p_72491_1_);
 	}
 	
-	public void handleCollect(Packet22Collect par1Packet22Collect)
+	public void handleDoorChange(Packet61DoorChange p_72462_1_)
 	{
-		unexpectedPacket(par1Packet22Collect);
+		unexpectedPacket(p_72462_1_);
 	}
 	
-	public void handleCreativeSetSlot(Packet107CreativeSetSlot par1Packet107CreativeSetSlot)
+	public void handleEnchantItem(Packet108EnchantItem p_72479_1_)
 	{
-		unexpectedPacket(par1Packet107CreativeSetSlot);
 	}
 	
-	public void handleCustomPayload(Packet250CustomPayload par1Packet250CustomPayload)
+	public void handleEntity(Packet30Entity p_72482_1_)
 	{
+		unexpectedPacket(p_72482_1_);
 	}
 	
-	public void handleDestroyEntity(Packet29DestroyEntity par1Packet29DestroyEntity)
+	public void handleEntityAction(Packet19EntityAction p_72473_1_)
 	{
-		unexpectedPacket(par1Packet29DestroyEntity);
+		unexpectedPacket(p_72473_1_);
 	}
 	
-	public void handleDoorChange(Packet61DoorChange par1Packet61DoorChange)
+	public void handleEntityEffect(Packet41EntityEffect p_72503_1_)
 	{
-		unexpectedPacket(par1Packet61DoorChange);
+		unexpectedPacket(p_72503_1_);
 	}
 	
-	public void handleEnchantItem(Packet108EnchantItem par1Packet108EnchantItem)
+	public void handleEntityExpOrb(Packet26EntityExpOrb p_72514_1_)
 	{
+		unexpectedPacket(p_72514_1_);
 	}
 	
-	public void handleEntity(Packet30Entity par1Packet30Entity)
+	public void handleEntityHeadRotation(Packet35EntityHeadRotation p_72478_1_)
 	{
-		unexpectedPacket(par1Packet30Entity);
+		unexpectedPacket(p_72478_1_);
 	}
 	
-	public void handleEntityAction(Packet19EntityAction par1Packet19EntityAction)
+	public void handleEntityMetadata(Packet40EntityMetadata p_72493_1_)
 	{
-		unexpectedPacket(par1Packet19EntityAction);
+		unexpectedPacket(p_72493_1_);
 	}
 	
-	public void handleEntityEffect(Packet41EntityEffect par1Packet41EntityEffect)
+	public void handleEntityPainting(Packet25EntityPainting p_72495_1_)
 	{
-		unexpectedPacket(par1Packet41EntityEffect);
+		unexpectedPacket(p_72495_1_);
 	}
 	
-	public void handleEntityExpOrb(Packet26EntityExpOrb par1Packet26EntityExpOrb)
+	public void handleEntityStatus(Packet38EntityStatus p_72485_1_)
 	{
-		unexpectedPacket(par1Packet26EntityExpOrb);
+		unexpectedPacket(p_72485_1_);
 	}
 	
-	public void handleEntityHeadRotation(Packet35EntityHeadRotation par1Packet35EntityHeadRotation)
+	public void handleEntityTeleport(Packet34EntityTeleport p_72512_1_)
 	{
-		unexpectedPacket(par1Packet35EntityHeadRotation);
+		unexpectedPacket(p_72512_1_);
 	}
 	
-	public void handleEntityMetadata(Packet40EntityMetadata par1Packet40EntityMetadata)
+	public void handleEntityVelocity(Packet28EntityVelocity p_72520_1_)
 	{
-		unexpectedPacket(par1Packet40EntityMetadata);
+		unexpectedPacket(p_72520_1_);
 	}
 	
-	public void handleEntityPainting(Packet25EntityPainting par1Packet25EntityPainting)
+	public void handleErrorMessage(String p_72515_1_, Object[] p_72515_2_)
 	{
-		unexpectedPacket(par1Packet25EntityPainting);
 	}
 	
-	public void handleEntityStatus(Packet38EntityStatus par1Packet38EntityStatus)
+	public void handleExperience(Packet43Experience p_72522_1_)
 	{
-		unexpectedPacket(par1Packet38EntityStatus);
+		unexpectedPacket(p_72522_1_);
 	}
 	
-	public void handleEntityTeleport(Packet34EntityTeleport par1Packet34EntityTeleport)
+	public void handleExplosion(Packet60Explosion p_72499_1_)
 	{
-		unexpectedPacket(par1Packet34EntityTeleport);
+		unexpectedPacket(p_72499_1_);
 	}
 	
-	public void handleEntityVelocity(Packet28EntityVelocity par1Packet28EntityVelocity)
+	public void handleFlying(Packet10Flying p_72498_1_)
 	{
-		unexpectedPacket(par1Packet28EntityVelocity);
+		unexpectedPacket(p_72498_1_);
 	}
 	
-	public void handleErrorMessage(String par1Str, Object[] par2ArrayOfObj)
+	public void handleGameEvent(Packet70GameEvent p_72488_1_)
 	{
+		unexpectedPacket(p_72488_1_);
 	}
 	
-	public void handleExperience(Packet43Experience par1Packet43Experience)
+	public void handleKeepAlive(Packet0KeepAlive p_72477_1_)
 	{
-		unexpectedPacket(par1Packet43Experience);
+		unexpectedPacket(p_72477_1_);
 	}
 	
-	public void handleExplosion(Packet60Explosion par1Packet60Explosion)
+	public void handleKickDisconnect(Packet255KickDisconnect p_72492_1_)
 	{
-		unexpectedPacket(par1Packet60Explosion);
+		unexpectedPacket(p_72492_1_);
 	}
 	
-	public void handleFlying(Packet10Flying par1Packet10Flying)
+	public void handleLevelSound(Packet62LevelSound p_72457_1_)
 	{
-		unexpectedPacket(par1Packet10Flying);
+		unexpectedPacket(p_72457_1_);
 	}
 	
-	public void handleGameEvent(Packet70GameEvent par1Packet70GameEvent)
+	public void handleLogin(Packet1Login p_72455_1_)
 	{
-		unexpectedPacket(par1Packet70GameEvent);
+		unexpectedPacket(p_72455_1_);
 	}
 	
-	public void handleKeepAlive(Packet0KeepAlive par1Packet0KeepAlive)
+	public void handleMapChunk(Packet51MapChunk p_72463_1_)
 	{
-		unexpectedPacket(par1Packet0KeepAlive);
 	}
 	
-	public void handleKickDisconnect(Packet255KickDisconnect par1Packet255KickDisconnect)
+	public void handleMapChunks(Packet56MapChunks p_72453_1_)
 	{
-		unexpectedPacket(par1Packet255KickDisconnect);
+		unexpectedPacket(p_72453_1_);
 	}
 	
-	public void handleLevelSound(Packet62LevelSound par1Packet62LevelSound)
+	public void handleMapData(Packet131MapData p_72494_1_)
 	{
-		unexpectedPacket(par1Packet62LevelSound);
+		unexpectedPacket(p_72494_1_);
 	}
 	
-	public void handleLogin(Packet1Login par1Packet1Login)
+	public void handleMobSpawn(Packet24MobSpawn p_72519_1_)
 	{
-		unexpectedPacket(par1Packet1Login);
+		unexpectedPacket(p_72519_1_);
 	}
 	
-	public void handleMapChunk(Packet51MapChunk par1Packet51MapChunk)
+	public void handleMultiBlockChange(Packet52MultiBlockChange p_72496_1_)
 	{
+		unexpectedPacket(p_72496_1_);
 	}
 	
-	public void handleMapChunks(Packet56MapChunks par1Packet56MapChunks)
+	public void handleNamedEntitySpawn(Packet20NamedEntitySpawn p_72518_1_)
 	{
-		unexpectedPacket(par1Packet56MapChunks);
+		unexpectedPacket(p_72518_1_);
 	}
 	
-	public void handleMapData(Packet131MapData par1Packet131MapData)
+	public void handleOpenWindow(Packet100OpenWindow p_72516_1_)
 	{
-		unexpectedPacket(par1Packet131MapData);
+		unexpectedPacket(p_72516_1_);
 	}
 	
-	public void handleMobSpawn(Packet24MobSpawn par1Packet24MobSpawn)
+	public void handlePlace(Packet15Place p_72472_1_)
 	{
-		unexpectedPacket(par1Packet24MobSpawn);
+		unexpectedPacket(p_72472_1_);
 	}
 	
-	public void handleMultiBlockChange(Packet52MultiBlockChange par1Packet52MultiBlockChange)
+	public void handlePlayerAbilities(Packet202PlayerAbilities p_72471_1_)
 	{
-		unexpectedPacket(par1Packet52MultiBlockChange);
+		unexpectedPacket(p_72471_1_);
 	}
 	
-	public void handleNamedEntitySpawn(Packet20NamedEntitySpawn par1Packet20NamedEntitySpawn)
+	public void handlePlayerInfo(Packet201PlayerInfo p_72480_1_)
 	{
-		unexpectedPacket(par1Packet20NamedEntitySpawn);
+		unexpectedPacket(p_72480_1_);
 	}
 	
-	public void handleOpenWindow(Packet100OpenWindow par1Packet100OpenWindow)
+	public void handlePlayerInventory(Packet5PlayerInventory p_72506_1_)
 	{
-		unexpectedPacket(par1Packet100OpenWindow);
+		unexpectedPacket(p_72506_1_);
 	}
 	
-	public void handlePlace(Packet15Place par1Packet15Place)
+	public void handleRemoveEntityEffect(Packet42RemoveEntityEffect p_72452_1_)
 	{
-		unexpectedPacket(par1Packet15Place);
+		unexpectedPacket(p_72452_1_);
 	}
 	
-	public void handlePlayerAbilities(Packet202PlayerAbilities par1Packet202PlayerAbilities)
+	public void handleRespawn(Packet9Respawn p_72483_1_)
 	{
-		unexpectedPacket(par1Packet202PlayerAbilities);
+		unexpectedPacket(p_72483_1_);
 	}
 	
-	public void handlePlayerInfo(Packet201PlayerInfo par1Packet201PlayerInfo)
+	public void handleServerAuthData(Packet253ServerAuthData p_72470_1_)
 	{
-		unexpectedPacket(par1Packet201PlayerInfo);
+		unexpectedPacket(p_72470_1_);
 	}
 	
-	public void handlePlayerInventory(Packet5PlayerInventory par1Packet5PlayerInventory)
+	public void handleServerPing(Packet254ServerPing p_72467_1_)
 	{
-		unexpectedPacket(par1Packet5PlayerInventory);
+		unexpectedPacket(p_72467_1_);
 	}
 	
-	public void handleRemoveEntityEffect(Packet42RemoveEntityEffect par1Packet42RemoveEntityEffect)
+	public void handleSetDisplayObjective(Packet208SetDisplayObjective p_96438_1_)
 	{
-		unexpectedPacket(par1Packet42RemoveEntityEffect);
+		unexpectedPacket(p_96438_1_);
 	}
 	
-	public void handleRespawn(Packet9Respawn par1Packet9Respawn)
+	public void handleSetObjective(Packet206SetObjective p_96436_1_)
 	{
-		unexpectedPacket(par1Packet9Respawn);
+		unexpectedPacket(p_96436_1_);
 	}
 	
-	public void handleServerAuthData(Packet253ServerAuthData par1Packet253ServerAuthData)
+	public void handleSetPlayerTeam(Packet209SetPlayerTeam p_96435_1_)
 	{
-		unexpectedPacket(par1Packet253ServerAuthData);
+		unexpectedPacket(p_96435_1_);
 	}
 	
-	public void handleServerPing(Packet254ServerPing par1Packet254ServerPing)
+	public void handleSetScore(Packet207SetScore p_96437_1_)
 	{
-		unexpectedPacket(par1Packet254ServerPing);
+		unexpectedPacket(p_96437_1_);
 	}
 	
-	public void handleSetDisplayObjective(Packet208SetDisplayObjective par1Packet208SetDisplayObjective)
+	public void handleSetSlot(Packet103SetSlot p_72490_1_)
 	{
-		unexpectedPacket(par1Packet208SetDisplayObjective);
+		unexpectedPacket(p_72490_1_);
 	}
 	
-	public void handleSetObjective(Packet206SetObjective par1Packet206SetObjective)
+	public void handleSharedKey(Packet252SharedKey p_72513_1_)
 	{
-		unexpectedPacket(par1Packet206SetObjective);
+		unexpectedPacket(p_72513_1_);
 	}
 	
-	public void handleSetPlayerTeam(Packet209SetPlayerTeam par1Packet209SetPlayerTeam)
+	public void handleSleep(Packet17Sleep p_72460_1_)
 	{
-		unexpectedPacket(par1Packet209SetPlayerTeam);
+		unexpectedPacket(p_72460_1_);
 	}
 	
-	public void handleSetScore(Packet207SetScore par1Packet207SetScore)
+	public void handleSpawnPosition(Packet6SpawnPosition p_72466_1_)
 	{
-		unexpectedPacket(par1Packet207SetScore);
+		unexpectedPacket(p_72466_1_);
 	}
 	
-	public void handleSetSlot(Packet103SetSlot par1Packet103SetSlot)
+	public void handleStatistic(Packet200Statistic p_72517_1_)
 	{
-		unexpectedPacket(par1Packet103SetSlot);
+		unexpectedPacket(p_72517_1_);
 	}
 	
-	public void handleSharedKey(Packet252SharedKey par1Packet252SharedKey)
+	public void handleTileEntityData(Packet132TileEntityData p_72468_1_)
 	{
-		unexpectedPacket(par1Packet252SharedKey);
+		unexpectedPacket(p_72468_1_);
 	}
 	
-	public void handleSleep(Packet17Sleep par1Packet17Sleep)
+	public void handleTransaction(Packet106Transaction p_72476_1_)
 	{
-		unexpectedPacket(par1Packet17Sleep);
+		unexpectedPacket(p_72476_1_);
 	}
 	
-	public void handleSpawnPosition(Packet6SpawnPosition par1Packet6SpawnPosition)
+	public void handleUpdateHealth(Packet8UpdateHealth p_72521_1_)
 	{
-		unexpectedPacket(par1Packet6SpawnPosition);
+		unexpectedPacket(p_72521_1_);
 	}
 	
-	public void handleStatistic(Packet200Statistic par1Packet200Statistic)
+	public void handleUpdateProgressbar(Packet105UpdateProgressbar p_72505_1_)
 	{
-		unexpectedPacket(par1Packet200Statistic);
+		unexpectedPacket(p_72505_1_);
 	}
 	
-	public void handleTileEntityData(Packet132TileEntityData par1Packet132TileEntityData)
+	public void handleUpdateSign(Packet130UpdateSign p_72487_1_)
 	{
-		unexpectedPacket(par1Packet132TileEntityData);
+		unexpectedPacket(p_72487_1_);
 	}
 	
-	public void handleTransaction(Packet106Transaction par1Packet106Transaction)
+	public void handleUpdateTime(Packet4UpdateTime p_72497_1_)
 	{
-		unexpectedPacket(par1Packet106Transaction);
+		unexpectedPacket(p_72497_1_);
 	}
 	
-	public void handleUpdateHealth(Packet8UpdateHealth par1Packet8UpdateHealth)
+	public void handleUseEntity(Packet7UseEntity p_72507_1_)
 	{
-		unexpectedPacket(par1Packet8UpdateHealth);
+		unexpectedPacket(p_72507_1_);
 	}
 	
-	public void handleUpdateProgressbar(Packet105UpdateProgressbar par1Packet105UpdateProgressbar)
+	public void handleVehicleSpawn(Packet23VehicleSpawn p_72511_1_)
 	{
-		unexpectedPacket(par1Packet105UpdateProgressbar);
+		unexpectedPacket(p_72511_1_);
 	}
 	
-	public void handleUpdateSign(Packet130UpdateSign par1Packet130UpdateSign)
+	public void handleWeather(Packet71Weather p_72508_1_)
 	{
-		unexpectedPacket(par1Packet130UpdateSign);
+		unexpectedPacket(p_72508_1_);
 	}
 	
-	public void handleUpdateTime(Packet4UpdateTime par1Packet4UpdateTime)
+	public void handleWindowClick(Packet102WindowClick p_72523_1_)
 	{
-		unexpectedPacket(par1Packet4UpdateTime);
+		unexpectedPacket(p_72523_1_);
 	}
 	
-	public void handleUseEntity(Packet7UseEntity par1Packet7UseEntity)
+	public void handleWindowItems(Packet104WindowItems p_72486_1_)
 	{
-		unexpectedPacket(par1Packet7UseEntity);
+		unexpectedPacket(p_72486_1_);
 	}
 	
-	public void handleVehicleSpawn(Packet23VehicleSpawn par1Packet23VehicleSpawn)
+	public void handleWorldParticles(Packet63WorldParticles p_98182_1_)
 	{
-		unexpectedPacket(par1Packet23VehicleSpawn);
-	}
-	
-	public void handleWeather(Packet71Weather par1Packet71Weather)
-	{
-		unexpectedPacket(par1Packet71Weather);
-	}
-	
-	public void handleWindowClick(Packet102WindowClick par1Packet102WindowClick)
-	{
-		unexpectedPacket(par1Packet102WindowClick);
-	}
-	
-	public void handleWindowItems(Packet104WindowItems par1Packet104WindowItems)
-	{
-		unexpectedPacket(par1Packet104WindowItems);
-	}
-	
-	public void handleWorldParticles(Packet63WorldParticles par1Packet63WorldParticles)
-	{
-		unexpectedPacket(par1Packet63WorldParticles);
+		unexpectedPacket(p_98182_1_);
 	}
 	
 	public abstract boolean isServerHandler();
 	
-	public void unexpectedPacket(Packet par1Packet)
+	public void unexpectedPacket(Packet p_72509_1_)
 	{
 	}
 }

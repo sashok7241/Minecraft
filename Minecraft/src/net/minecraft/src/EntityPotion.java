@@ -7,31 +7,31 @@ public class EntityPotion extends EntityThrowable
 {
 	private ItemStack potionDamage;
 	
-	public EntityPotion(World par1World)
+	public EntityPotion(World p_i3595_1_)
 	{
-		super(par1World);
+		super(p_i3595_1_);
 	}
 	
-	public EntityPotion(World par1World, double par2, double par4, double par6, int par8)
+	public EntityPotion(World p_i3597_1_, double p_i3597_2_, double p_i3597_4_, double p_i3597_6_, int p_i3597_8_)
 	{
-		this(par1World, par2, par4, par6, new ItemStack(Item.potion, 1, par8));
+		this(p_i3597_1_, p_i3597_2_, p_i3597_4_, p_i3597_6_, new ItemStack(Item.potion, 1, p_i3597_8_));
 	}
 	
-	public EntityPotion(World par1World, double par2, double par4, double par6, ItemStack par8ItemStack)
+	public EntityPotion(World p_i5071_1_, double p_i5071_2_, double p_i5071_4_, double p_i5071_6_, ItemStack p_i5071_8_)
 	{
-		super(par1World, par2, par4, par6);
-		potionDamage = par8ItemStack;
+		super(p_i5071_1_, p_i5071_2_, p_i5071_4_, p_i5071_6_);
+		potionDamage = p_i5071_8_;
 	}
 	
-	public EntityPotion(World par1World, EntityLivingBase par2EntityLivingBase, int par3)
+	public EntityPotion(World p_i3596_1_, EntityLiving p_i3596_2_, int p_i3596_3_)
 	{
-		this(par1World, par2EntityLivingBase, new ItemStack(Item.potion, 1, par3));
+		this(p_i3596_1_, p_i3596_2_, new ItemStack(Item.potion, 1, p_i3596_3_));
 	}
 	
-	public EntityPotion(World par1World, EntityLivingBase par2EntityLivingBase, ItemStack par3ItemStack)
+	public EntityPotion(World p_i5070_1_, EntityLiving p_i5070_2_, ItemStack p_i5070_3_)
 	{
-		super(par1World, par2EntityLivingBase);
-		potionDamage = par3ItemStack;
+		super(p_i5070_1_, p_i5070_2_);
+		potionDamage = p_i5070_3_;
 	}
 	
 	@Override protected float func_70182_d()
@@ -58,7 +58,7 @@ public class EntityPotion extends EntityThrowable
 		return potionDamage.getItemDamage();
 	}
 	
-	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+	@Override protected void onImpact(MovingObjectPosition p_70184_1_)
 	{
 		if(!worldObj.isRemote)
 		{
@@ -66,18 +66,18 @@ public class EntityPotion extends EntityThrowable
 			if(var2 != null && !var2.isEmpty())
 			{
 				AxisAlignedBB var3 = boundingBox.expand(4.0D, 2.0D, 4.0D);
-				List var4 = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, var3);
+				List var4 = worldObj.getEntitiesWithinAABB(EntityLiving.class, var3);
 				if(var4 != null && !var4.isEmpty())
 				{
 					Iterator var5 = var4.iterator();
 					while(var5.hasNext())
 					{
-						EntityLivingBase var6 = (EntityLivingBase) var5.next();
+						EntityLiving var6 = (EntityLiving) var5.next();
 						double var7 = getDistanceSqToEntity(var6);
 						if(var7 < 16.0D)
 						{
 							double var9 = 1.0D - Math.sqrt(var7) / 4.0D;
-							if(var6 == par1MovingObjectPosition.entityHit)
+							if(var6 == p_70184_1_.entityHit)
 							{
 								var9 = 1.0D;
 							}
@@ -107,15 +107,15 @@ public class EntityPotion extends EntityThrowable
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		if(par1NBTTagCompound.hasKey("Potion"))
+		super.readEntityFromNBT(p_70037_1_);
+		if(p_70037_1_.hasKey("Potion"))
 		{
-			potionDamage = ItemStack.loadItemStackFromNBT(par1NBTTagCompound.getCompoundTag("Potion"));
+			potionDamage = ItemStack.loadItemStackFromNBT(p_70037_1_.getCompoundTag("Potion"));
 		} else
 		{
-			setPotionDamage(par1NBTTagCompound.getInteger("potionValue"));
+			setPotionDamage(p_70037_1_.getInteger("potionValue"));
 		}
 		if(potionDamage == null)
 		{
@@ -123,21 +123,21 @@ public class EntityPotion extends EntityThrowable
 		}
 	}
 	
-	public void setPotionDamage(int par1)
+	public void setPotionDamage(int p_82340_1_)
 	{
 		if(potionDamage == null)
 		{
 			potionDamage = new ItemStack(Item.potion, 1, 0);
 		}
-		potionDamage.setItemDamage(par1);
+		potionDamage.setItemDamage(p_82340_1_);
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
+		super.writeEntityToNBT(p_70014_1_);
 		if(potionDamage != null)
 		{
-			par1NBTTagCompound.setCompoundTag("Potion", potionDamage.writeToNBT(new NBTTagCompound()));
+			p_70014_1_.setCompoundTag("Potion", potionDamage.writeToNBT(new NBTTagCompound()));
 		}
 	}
 }

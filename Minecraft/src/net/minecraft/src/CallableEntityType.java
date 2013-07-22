@@ -6,9 +6,9 @@ class CallableEntityType implements Callable
 {
 	final Entity theEntity;
 	
-	CallableEntityType(Entity par1Entity)
+	CallableEntityType(Entity p_i6811_1_)
 	{
-		theEntity = par1Entity;
+		theEntity = p_i6811_1_;
 	}
 	
 	@Override public Object call()

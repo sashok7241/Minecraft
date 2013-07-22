@@ -7,49 +7,40 @@ class TaskWorldCreation extends TaskLongRunning
 {
 	private final String field_96589_c;
 	private final String field_96587_d;
+	private final String field_96588_e;
 	private final String field_104065_f;
-	private final WorldTemplate field_111253_f;
 	final GuiScreenCreateOnlineWorld field_96590_a;
 	
-	public TaskWorldCreation(GuiScreenCreateOnlineWorld par1GuiScreenCreateOnlineWorld, String par2Str, String par3Str, String par4Str, WorldTemplate par5WorldTemplate)
+	public TaskWorldCreation(GuiScreenCreateOnlineWorld p_i23003_1_, String p_i23003_2_, String p_i23003_3_, String p_i23003_4_, String p_i23003_5_)
 	{
-		field_96590_a = par1GuiScreenCreateOnlineWorld;
-		field_96589_c = par2Str;
-		field_96587_d = par3Str;
-		field_104065_f = par4Str;
-		field_111253_f = par5WorldTemplate;
+		field_96590_a = p_i23003_1_;
+		field_96589_c = p_i23003_2_;
+		field_96587_d = p_i23003_3_;
+		field_96588_e = p_i23003_4_;
+		field_104065_f = p_i23003_5_;
 	}
 	
 	@Override public void run()
 	{
-		String var1 = I18n.func_135053_a("mco.create.world.wait");
+		String var1 = StringTranslate.getInstance().translateKey("mco.create.world.wait");
 		func_96576_b(var1);
-		McoClient var2 = new McoClient(GuiScreenCreateOnlineWorld.func_96248_a(field_96590_a).func_110432_I());
+		McoClient var2 = new McoClient(GuiScreenCreateOnlineWorld.func_96248_a(field_96590_a).session);
 		try
 		{
-			if(field_111253_f != null)
-			{
-				var2.func_96386_a(field_96589_c, field_96587_d, field_104065_f, field_111253_f.field_110734_a);
-			} else
-			{
-				var2.func_96386_a(field_96589_c, field_96587_d, field_104065_f, "-1");
-			}
+			var2.func_96386_a(field_96589_c, field_96587_d, field_96588_e, field_104065_f);
 			GuiScreenCreateOnlineWorld.func_96246_c(field_96590_a).displayGuiScreen(GuiScreenCreateOnlineWorld.func_96247_b(field_96590_a));
 		} catch(ExceptionMcoService var4)
 		{
-			GuiScreenCreateOnlineWorld.func_130026_d(field_96590_a).getLogAgent().logSevere(var4.toString());
-			func_96575_a(var4.toString());
+			func_96575_a(var4.field_96391_b);
 		} catch(UnsupportedEncodingException var5)
 		{
-			GuiScreenCreateOnlineWorld.func_130027_e(field_96590_a).getLogAgent().logWarning("Realms: " + var5.getLocalizedMessage());
-			func_96575_a(var5.getLocalizedMessage());
+			;
 		} catch(IOException var6)
 		{
-			GuiScreenCreateOnlineWorld.func_130028_f(field_96590_a).getLogAgent().logWarning("Realms: could not parse response");
-			func_96575_a(var6.getLocalizedMessage());
+			;
 		} catch(Exception var7)
 		{
-			func_96575_a(var7.getLocalizedMessage());
+			func_96575_a("Failed");
 		}
 	}
 }

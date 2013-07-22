@@ -4,13 +4,13 @@ import java.util.concurrent.Callable;
 
 import net.minecraft.client.Minecraft;
 
-class CallableLWJGLVersion implements Callable
+public class CallableLWJGLVersion implements Callable
 {
 	final Minecraft mc;
 	
-	CallableLWJGLVersion(Minecraft par1Minecraft)
+	public CallableLWJGLVersion(Minecraft p_i3002_1_)
 	{
-		mc = par1Minecraft;
+		mc = p_i3002_1_;
 	}
 	
 	@Override public Object call()

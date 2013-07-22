@@ -13,44 +13,44 @@ public class StructureBoundingBox
 	{
 	}
 	
-	public StructureBoundingBox(int par1, int par2, int par3, int par4)
+	public StructureBoundingBox(int p_i3806_1_, int p_i3806_2_, int p_i3806_3_, int p_i3806_4_)
 	{
-		minX = par1;
-		minZ = par2;
-		maxX = par3;
-		maxZ = par4;
+		minX = p_i3806_1_;
+		minZ = p_i3806_2_;
+		maxX = p_i3806_3_;
+		maxZ = p_i3806_4_;
 		minY = 1;
 		maxY = 512;
 	}
 	
-	public StructureBoundingBox(int par1, int par2, int par3, int par4, int par5, int par6)
+	public StructureBoundingBox(int p_i3805_1_, int p_i3805_2_, int p_i3805_3_, int p_i3805_4_, int p_i3805_5_, int p_i3805_6_)
 	{
-		minX = par1;
-		minY = par2;
-		minZ = par3;
-		maxX = par4;
-		maxY = par5;
-		maxZ = par6;
+		minX = p_i3805_1_;
+		minY = p_i3805_2_;
+		minZ = p_i3805_3_;
+		maxX = p_i3805_4_;
+		maxY = p_i3805_5_;
+		maxZ = p_i3805_6_;
 	}
 	
-	public StructureBoundingBox(StructureBoundingBox par1StructureBoundingBox)
+	public StructureBoundingBox(StructureBoundingBox p_i3804_1_)
 	{
-		minX = par1StructureBoundingBox.minX;
-		minY = par1StructureBoundingBox.minY;
-		minZ = par1StructureBoundingBox.minZ;
-		maxX = par1StructureBoundingBox.maxX;
-		maxY = par1StructureBoundingBox.maxY;
-		maxZ = par1StructureBoundingBox.maxZ;
+		minX = p_i3804_1_.minX;
+		minY = p_i3804_1_.minY;
+		minZ = p_i3804_1_.minZ;
+		maxX = p_i3804_1_.maxX;
+		maxY = p_i3804_1_.maxY;
+		maxZ = p_i3804_1_.maxZ;
 	}
 	
-	public void expandTo(StructureBoundingBox par1StructureBoundingBox)
+	public void expandTo(StructureBoundingBox p_78888_1_)
 	{
-		minX = Math.min(minX, par1StructureBoundingBox.minX);
-		minY = Math.min(minY, par1StructureBoundingBox.minY);
-		minZ = Math.min(minZ, par1StructureBoundingBox.minZ);
-		maxX = Math.max(maxX, par1StructureBoundingBox.maxX);
-		maxY = Math.max(maxY, par1StructureBoundingBox.maxY);
-		maxZ = Math.max(maxZ, par1StructureBoundingBox.maxZ);
+		minX = Math.min(minX, p_78888_1_.minX);
+		minY = Math.min(minY, p_78888_1_.minY);
+		minZ = Math.min(minZ, p_78888_1_.minZ);
+		maxX = Math.max(maxX, p_78888_1_.maxX);
+		maxY = Math.max(maxY, p_78888_1_.maxY);
+		maxZ = Math.max(maxZ, p_78888_1_.maxZ);
 	}
 	
 	public int getCenterX()
@@ -83,29 +83,29 @@ public class StructureBoundingBox
 		return maxZ - minZ + 1;
 	}
 	
-	public boolean intersectsWith(int par1, int par2, int par3, int par4)
+	public boolean intersectsWith(int p_78885_1_, int p_78885_2_, int p_78885_3_, int p_78885_4_)
 	{
-		return maxX >= par1 && minX <= par3 && maxZ >= par2 && minZ <= par4;
+		return maxX >= p_78885_1_ && minX <= p_78885_3_ && maxZ >= p_78885_2_ && minZ <= p_78885_4_;
 	}
 	
-	public boolean intersectsWith(StructureBoundingBox par1StructureBoundingBox)
+	public boolean intersectsWith(StructureBoundingBox p_78884_1_)
 	{
-		return maxX >= par1StructureBoundingBox.minX && minX <= par1StructureBoundingBox.maxX && maxZ >= par1StructureBoundingBox.minZ && minZ <= par1StructureBoundingBox.maxZ && maxY >= par1StructureBoundingBox.minY && minY <= par1StructureBoundingBox.maxY;
+		return maxX >= p_78884_1_.minX && minX <= p_78884_1_.maxX && maxZ >= p_78884_1_.minZ && minZ <= p_78884_1_.maxZ && maxY >= p_78884_1_.minY && minY <= p_78884_1_.maxY;
 	}
 	
-	public boolean isVecInside(int par1, int par2, int par3)
+	public boolean isVecInside(int p_78890_1_, int p_78890_2_, int p_78890_3_)
 	{
-		return par1 >= minX && par1 <= maxX && par3 >= minZ && par3 <= maxZ && par2 >= minY && par2 <= maxY;
+		return p_78890_1_ >= minX && p_78890_1_ <= maxX && p_78890_3_ >= minZ && p_78890_3_ <= maxZ && p_78890_2_ >= minY && p_78890_2_ <= maxY;
 	}
 	
-	public void offset(int par1, int par2, int par3)
+	public void offset(int p_78886_1_, int p_78886_2_, int p_78886_3_)
 	{
-		minX += par1;
-		minY += par2;
-		minZ += par3;
-		maxX += par1;
-		maxY += par2;
-		maxZ += par3;
+		minX += p_78886_1_;
+		minY += p_78886_2_;
+		minZ += p_78886_3_;
+		maxX += p_78886_1_;
+		maxY += p_78886_2_;
+		maxZ += p_78886_3_;
 	}
 	
 	@Override public String toString()
@@ -113,20 +113,20 @@ public class StructureBoundingBox
 		return "(" + minX + ", " + minY + ", " + minZ + "; " + maxX + ", " + maxY + ", " + maxZ + ")";
 	}
 	
-	public static StructureBoundingBox getComponentToAddBoundingBox(int par0, int par1, int par2, int par3, int par4, int par5, int par6, int par7, int par8, int par9)
+	public static StructureBoundingBox getComponentToAddBoundingBox(int p_78889_0_, int p_78889_1_, int p_78889_2_, int p_78889_3_, int p_78889_4_, int p_78889_5_, int p_78889_6_, int p_78889_7_, int p_78889_8_, int p_78889_9_)
 	{
-		switch(par9)
+		switch(p_78889_9_)
 		{
 			case 0:
-				return new StructureBoundingBox(par0 + par3, par1 + par4, par2 + par5, par0 + par6 - 1 + par3, par1 + par7 - 1 + par4, par2 + par8 - 1 + par5);
+				return new StructureBoundingBox(p_78889_0_ + p_78889_3_, p_78889_1_ + p_78889_4_, p_78889_2_ + p_78889_5_, p_78889_0_ + p_78889_6_ - 1 + p_78889_3_, p_78889_1_ + p_78889_7_ - 1 + p_78889_4_, p_78889_2_ + p_78889_8_ - 1 + p_78889_5_);
 			case 1:
-				return new StructureBoundingBox(par0 - par8 + 1 + par5, par1 + par4, par2 + par3, par0 + par5, par1 + par7 - 1 + par4, par2 + par6 - 1 + par3);
+				return new StructureBoundingBox(p_78889_0_ - p_78889_8_ + 1 + p_78889_5_, p_78889_1_ + p_78889_4_, p_78889_2_ + p_78889_3_, p_78889_0_ + p_78889_5_, p_78889_1_ + p_78889_7_ - 1 + p_78889_4_, p_78889_2_ + p_78889_6_ - 1 + p_78889_3_);
 			case 2:
-				return new StructureBoundingBox(par0 + par3, par1 + par4, par2 - par8 + 1 + par5, par0 + par6 - 1 + par3, par1 + par7 - 1 + par4, par2 + par5);
+				return new StructureBoundingBox(p_78889_0_ + p_78889_3_, p_78889_1_ + p_78889_4_, p_78889_2_ - p_78889_8_ + 1 + p_78889_5_, p_78889_0_ + p_78889_6_ - 1 + p_78889_3_, p_78889_1_ + p_78889_7_ - 1 + p_78889_4_, p_78889_2_ + p_78889_5_);
 			case 3:
-				return new StructureBoundingBox(par0 + par5, par1 + par4, par2 + par3, par0 + par8 - 1 + par5, par1 + par7 - 1 + par4, par2 + par6 - 1 + par3);
+				return new StructureBoundingBox(p_78889_0_ + p_78889_5_, p_78889_1_ + p_78889_4_, p_78889_2_ + p_78889_3_, p_78889_0_ + p_78889_8_ - 1 + p_78889_5_, p_78889_1_ + p_78889_7_ - 1 + p_78889_4_, p_78889_2_ + p_78889_6_ - 1 + p_78889_3_);
 			default:
-				return new StructureBoundingBox(par0 + par3, par1 + par4, par2 + par5, par0 + par6 - 1 + par3, par1 + par7 - 1 + par4, par2 + par8 - 1 + par5);
+				return new StructureBoundingBox(p_78889_0_ + p_78889_3_, p_78889_1_ + p_78889_4_, p_78889_2_ + p_78889_5_, p_78889_0_ + p_78889_6_ - 1 + p_78889_3_, p_78889_1_ + p_78889_7_ - 1 + p_78889_4_, p_78889_2_ + p_78889_8_ - 1 + p_78889_5_);
 		}
 	}
 	

@@ -8,14 +8,14 @@ public class AABBPool
 	private final int maxNumCleans;
 	private final int numEntriesToRemove;
 	private final List listAABB = new ArrayList();
-	private int nextPoolIndex;
-	private int maxPoolIndex;
-	private int numCleans;
+	private int nextPoolIndex = 0;
+	private int maxPoolIndex = 0;
+	private int numCleans = 0;
 	
-	public AABBPool(int par1, int par2)
+	public AABBPool(int p_i4030_1_, int p_i4030_2_)
 	{
-		maxNumCleans = par1;
-		numEntriesToRemove = par2;
+		maxNumCleans = p_i4030_1_;
+		numEntriesToRemove = p_i4030_2_;
 	}
 	
 	public void cleanPool()
@@ -43,17 +43,17 @@ public class AABBPool
 		listAABB.clear();
 	}
 	
-	public AxisAlignedBB getAABB(double par1, double par3, double par5, double par7, double par9, double par11)
+	public AxisAlignedBB getAABB(double p_72299_1_, double p_72299_3_, double p_72299_5_, double p_72299_7_, double p_72299_9_, double p_72299_11_)
 	{
 		AxisAlignedBB var13;
 		if(nextPoolIndex >= listAABB.size())
 		{
-			var13 = new AxisAlignedBB(par1, par3, par5, par7, par9, par11);
+			var13 = new AxisAlignedBB(p_72299_1_, p_72299_3_, p_72299_5_, p_72299_7_, p_72299_9_, p_72299_11_);
 			listAABB.add(var13);
 		} else
 		{
 			var13 = (AxisAlignedBB) listAABB.get(nextPoolIndex);
-			var13.setBounds(par1, par3, par5, par7, par9, par11);
+			var13.setBounds(p_72299_1_, p_72299_3_, p_72299_5_, p_72299_7_, p_72299_9_, p_72299_11_);
 		}
 		++nextPoolIndex;
 		return var13;

@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class ItemSimpleFoiled extends Item
 {
-	public ItemSimpleFoiled(int par1)
+	public ItemSimpleFoiled(int p_i5087_1_)
 	{
-		super(par1);
+		super(p_i5087_1_);
 	}
 	
 	@Override public boolean hasEffect(ItemStack par1ItemStack)

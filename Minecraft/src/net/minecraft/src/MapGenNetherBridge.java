@@ -15,13 +15,13 @@ public class MapGenNetherBridge extends MapGenStructure
 		spawnList.add(new SpawnListEntry(EntityMagmaCube.class, 3, 4, 4));
 	}
 	
-	@Override protected boolean canSpawnStructureAtCoords(int par1, int par2)
+	@Override protected boolean canSpawnStructureAtCoords(int p_75047_1_, int p_75047_2_)
 	{
-		int var3 = par1 >> 4;
-		int var4 = par2 >> 4;
+		int var3 = p_75047_1_ >> 4;
+		int var4 = p_75047_2_ >> 4;
 		rand.setSeed(var3 ^ var4 << 4 ^ worldObj.getSeed());
 		rand.nextInt();
-		return rand.nextInt(3) != 0 ? false : par1 != (var3 << 4) + 4 + rand.nextInt(8) ? false : par2 == (var4 << 4) + 4 + rand.nextInt(8);
+		return rand.nextInt(3) != 0 ? false : p_75047_1_ != (var3 << 4) + 4 + rand.nextInt(8) ? false : p_75047_2_ == (var4 << 4) + 4 + rand.nextInt(8);
 	}
 	
 	public List getSpawnList()
@@ -29,8 +29,8 @@ public class MapGenNetherBridge extends MapGenStructure
 		return spawnList;
 	}
 	
-	@Override protected StructureStart getStructureStart(int par1, int par2)
+	@Override protected StructureStart getStructureStart(int p_75049_1_, int p_75049_2_)
 	{
-		return new StructureNetherBridgeStart(worldObj, rand, par1, par2);
+		return new StructureNetherBridgeStart(worldObj, rand, p_75049_1_, p_75049_2_);
 	}
 }

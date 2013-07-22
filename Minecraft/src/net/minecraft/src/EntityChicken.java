@@ -2,36 +2,39 @@ package net.minecraft.src;
 
 public class EntityChicken extends EntityAnimal
 {
-	public float field_70886_e;
-	public float destPos;
+	public boolean field_70885_d = false;
+	public float field_70886_e = 0.0F;
+	public float destPos = 0.0F;
 	public float field_70884_g;
 	public float field_70888_h;
 	public float field_70889_i = 1.0F;
 	public int timeUntilNextEgg;
 	
-	public EntityChicken(World par1World)
+	public EntityChicken(World p_i3515_1_)
 	{
-		super(par1World);
+		super(p_i3515_1_);
+		texture = "/mob/chicken.png";
 		setSize(0.3F, 0.7F);
 		timeUntilNextEgg = rand.nextInt(6000) + 6000;
+		float var2 = 0.25F;
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIPanic(this, 1.4D));
-		tasks.addTask(2, new EntityAIMate(this, 1.0D));
-		tasks.addTask(3, new EntityAITempt(this, 1.0D, Item.seeds.itemID, false));
-		tasks.addTask(4, new EntityAIFollowParent(this, 1.1D));
-		tasks.addTask(5, new EntityAIWander(this, 1.0D));
+		tasks.addTask(1, new EntityAIPanic(this, 0.38F));
+		tasks.addTask(2, new EntityAIMate(this, var2));
+		tasks.addTask(3, new EntityAITempt(this, 0.25F, Item.seeds.itemID, false));
+		tasks.addTask(4, new EntityAIFollowParent(this, 0.28F));
+		tasks.addTask(5, new EntityAIWander(this, var2));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		tasks.addTask(7, new EntityAILookIdle(this));
 	}
 	
-	@Override public EntityAgeable createChild(EntityAgeable par1EntityAgeable)
+	@Override public EntityAgeable createChild(EntityAgeable p_90011_1_)
 	{
-		return spawnBabyAnimal(par1EntityAgeable);
+		return spawnBabyAnimal(p_90011_1_);
 	}
 	
-	@Override protected void dropFewItems(boolean par1, int par2)
+	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
 	{
-		int var3 = rand.nextInt(3) + rand.nextInt(1 + par2);
+		int var3 = rand.nextInt(3) + rand.nextInt(1 + p_70628_2_);
 		for(int var4 = 0; var4 < var3; ++var4)
 		{
 			dropItem(Item.feather.itemID, 1);
@@ -45,15 +48,8 @@ public class EntityChicken extends EntityAnimal
 		}
 	}
 	
-	@Override protected void fall(float par1)
+	@Override protected void fall(float p_70069_1_)
 	{
-	}
-	
-	@Override protected void func_110147_ax()
-	{
-		super.func_110147_ax();
-		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(4.0D);
-		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
 	}
 	
 	@Override protected String getDeathSound()
@@ -76,14 +72,19 @@ public class EntityChicken extends EntityAnimal
 		return "mob.chicken.say";
 	}
 	
+	@Override public int getMaxHealth()
+	{
+		return 4;
+	}
+	
 	@Override public boolean isAIEnabled()
 	{
 		return true;
 	}
 	
-	@Override public boolean isBreedingItem(ItemStack par1ItemStack)
+	@Override public boolean isBreedingItem(ItemStack p_70877_1_)
 	{
-		return par1ItemStack != null && par1ItemStack.getItem() instanceof ItemSeeds;
+		return p_70877_1_ != null && p_70877_1_.getItem() instanceof ItemSeeds;
 	}
 	
 	@Override public void onLivingUpdate()
@@ -118,12 +119,12 @@ public class EntityChicken extends EntityAnimal
 		}
 	}
 	
-	@Override protected void playStepSound(int par1, int par2, int par3, int par4)
+	@Override protected void playStepSound(int p_70036_1_, int p_70036_2_, int p_70036_3_, int p_70036_4_)
 	{
 		playSound("mob.chicken.step", 0.15F, 1.0F);
 	}
 	
-	public EntityChicken spawnBabyAnimal(EntityAgeable par1EntityAgeable)
+	public EntityChicken spawnBabyAnimal(EntityAgeable p_70879_1_)
 	{
 		return new EntityChicken(worldObj);
 	}

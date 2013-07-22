@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInput;
-import java.io.DataOutput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Packet29DestroyEntity extends Packet
@@ -12,9 +12,9 @@ public class Packet29DestroyEntity extends Packet
 	{
 	}
 	
-	public Packet29DestroyEntity(int ... par1ArrayOfInteger)
+	public Packet29DestroyEntity(int ... p_i3340_1_)
 	{
-		entityId = par1ArrayOfInteger;
+		entityId = p_i3340_1_;
 	}
 	
 	@Override public int getPacketSize()
@@ -22,26 +22,26 @@ public class Packet29DestroyEntity extends Packet
 		return 1 + entityId.length * 4;
 	}
 	
-	@Override public void processPacket(NetHandler par1NetHandler)
+	@Override public void processPacket(NetHandler p_73279_1_)
 	{
-		par1NetHandler.handleDestroyEntity(this);
+		p_73279_1_.handleDestroyEntity(this);
 	}
 	
-	@Override public void readPacketData(DataInput par1DataInput) throws IOException
+	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
 	{
-		entityId = new int[par1DataInput.readByte()];
+		entityId = new int[p_73267_1_.readByte()];
 		for(int var2 = 0; var2 < entityId.length; ++var2)
 		{
-			entityId[var2] = par1DataInput.readInt();
+			entityId[var2] = p_73267_1_.readInt();
 		}
 	}
 	
-	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
+	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
 	{
-		par1DataOutput.writeByte(entityId.length);
+		p_73273_1_.writeByte(entityId.length);
 		for(int element : entityId)
 		{
-			par1DataOutput.writeInt(element);
+			p_73273_1_.writeInt(element);
 		}
 	}
 }

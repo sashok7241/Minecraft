@@ -9,16 +9,16 @@ public class DedicatedServerListenThread extends NetworkListenThread
 {
 	private final ServerListenThread theServerListenThread;
 	
-	public DedicatedServerListenThread(MinecraftServer par1MinecraftServer, InetAddress par2InetAddress, int par3) throws IOException
+	public DedicatedServerListenThread(MinecraftServer p_i3383_1_, InetAddress p_i3383_2_, int p_i3383_3_) throws IOException
 	{
-		super(par1MinecraftServer);
-		theServerListenThread = new ServerListenThread(this, par2InetAddress, par3);
+		super(p_i3383_1_);
+		theServerListenThread = new ServerListenThread(this, p_i3383_2_, p_i3383_3_);
 		theServerListenThread.start();
 	}
 	
-	public void func_71761_a(InetAddress par1InetAddress)
+	public void func_71761_a(InetAddress p_71761_1_)
 	{
-		theServerListenThread.func_71769_a(par1InetAddress);
+		theServerListenThread.func_71769_a(p_71761_1_);
 	}
 	
 	public DedicatedServer getDedicatedServer()
