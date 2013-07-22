@@ -20,10 +20,10 @@ public class RandomPositionGenerator
 		int var8 = 0;
 		float var9 = -99999.0F;
 		boolean var10;
-		if(par0EntityCreature.hasHome())
+		if(par0EntityCreature.func_110175_bO())
 		{
-			double var11 = par0EntityCreature.getHomePosition().getDistanceSquared(MathHelper.floor_double(par0EntityCreature.posX), MathHelper.floor_double(par0EntityCreature.posY), MathHelper.floor_double(par0EntityCreature.posZ)) + 4.0F;
-			double var13 = par0EntityCreature.getMaximumHomeDistance() + par1;
+			double var11 = par0EntityCreature.func_110172_bL().getDistanceSquared(MathHelper.floor_double(par0EntityCreature.posX), MathHelper.floor_double(par0EntityCreature.posY), MathHelper.floor_double(par0EntityCreature.posZ)) + 4.0F;
+			double var13 = par0EntityCreature.func_110174_bM() + par1;
 			var10 = var11 < var13 * var13;
 		} else
 		{
@@ -39,7 +39,7 @@ public class RandomPositionGenerator
 				var12 += MathHelper.floor_double(par0EntityCreature.posX);
 				var17 += MathHelper.floor_double(par0EntityCreature.posY);
 				var14 += MathHelper.floor_double(par0EntityCreature.posZ);
-				if(!var10 || par0EntityCreature.isWithinHomeDistance(var12, var17, var14))
+				if(!var10 || par0EntityCreature.func_110176_b(var12, var17, var14))
 				{
 					float var15 = par0EntityCreature.getBlockPathWeight(var12, var17, var14);
 					if(var15 > var9)

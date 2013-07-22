@@ -5,7 +5,7 @@ import java.util.List;
 public class EntityLightningBolt extends EntityWeatherEffect
 {
 	private int lightningState;
-	public long boltVertex = 0L;
+	public long boltVertex;
 	private int boltLivingTime;
 	
 	public EntityLightningBolt(World par1World, double par2, double par4, double par6)
@@ -15,7 +15,7 @@ public class EntityLightningBolt extends EntityWeatherEffect
 		lightningState = 2;
 		boltVertex = rand.nextLong();
 		boltLivingTime = rand.nextInt(3) + 1;
-		if(!par1World.isRemote && par1World.difficultySetting >= 2 && par1World.doChunksNearChunkExist(MathHelper.floor_double(par2), MathHelper.floor_double(par4), MathHelper.floor_double(par6), 10))
+		if(!par1World.isRemote && par1World.getGameRules().getGameRuleBooleanValue("doFireTick") && par1World.difficultySetting >= 2 && par1World.doChunksNearChunkExist(MathHelper.floor_double(par2), MathHelper.floor_double(par4), MathHelper.floor_double(par6), 10))
 		{
 			int var8 = MathHelper.floor_double(par2);
 			int var9 = MathHelper.floor_double(par4);
@@ -65,7 +65,7 @@ public class EntityLightningBolt extends EntityWeatherEffect
 				--boltLivingTime;
 				lightningState = 1;
 				boltVertex = rand.nextLong();
-				if(!worldObj.isRemote && worldObj.doChunksNearChunkExist(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), 10))
+				if(!worldObj.isRemote && worldObj.getGameRules().getGameRuleBooleanValue("doFireTick") && worldObj.doChunksNearChunkExist(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), 10))
 				{
 					int var1 = MathHelper.floor_double(posX);
 					int var2 = MathHelper.floor_double(posY);

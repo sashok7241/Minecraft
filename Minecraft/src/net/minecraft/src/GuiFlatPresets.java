@@ -18,9 +18,9 @@ public class GuiFlatPresets extends GuiScreen
 	private GuiButton theButton;
 	private GuiTextField theTextField;
 	
-	public GuiFlatPresets(GuiCreateFlatWorld par1)
+	public GuiFlatPresets(GuiCreateFlatWorld par1GuiCreateFlatWorld)
 	{
-		createFlatWorldGui = par1;
+		createFlatWorldGui = par1GuiCreateFlatWorld;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -61,15 +61,15 @@ public class GuiFlatPresets extends GuiScreen
 	{
 		buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
-		field_82300_d = StatCollector.translateToLocal("createWorld.customize.presets.title");
-		field_82308_m = StatCollector.translateToLocal("createWorld.customize.presets.share");
-		field_82306_n = StatCollector.translateToLocal("createWorld.customize.presets.list");
+		field_82300_d = I18n.func_135053_a("createWorld.customize.presets.title");
+		field_82308_m = I18n.func_135053_a("createWorld.customize.presets.share");
+		field_82306_n = I18n.func_135053_a("createWorld.customize.presets.list");
 		theTextField = new GuiTextField(fontRenderer, 50, 40, width - 100, 20);
 		theFlatPresetsListSlot = new GuiFlatPresetsListSlot(this);
 		theTextField.setMaxStringLength(1230);
 		theTextField.setText(createFlatWorldGui.getFlatGeneratorInfo());
-		buttonList.add(theButton = new GuiButton(0, width / 2 - 155, height - 28, 150, 20, StatCollector.translateToLocal("createWorld.customize.presets.select")));
-		buttonList.add(new GuiButton(1, width / 2 + 5, height - 28, 150, 20, StatCollector.translateToLocal("gui.cancel")));
+		buttonList.add(theButton = new GuiButton(0, width / 2 - 155, height - 28, 150, 20, I18n.func_135053_a("createWorld.customize.presets.select")));
+		buttonList.add(new GuiButton(1, width / 2 + 5, height - 28, 150, 20, I18n.func_135053_a("gui.cancel")));
 		func_82296_g();
 	}
 	

@@ -157,6 +157,7 @@ public class InventoryMerchant implements IInventory
 				}
 			}
 		}
+		theMerchant.func_110297_a_(getStackInSlot(2));
 	}
 	
 	public void setCurrentRecipeIndex(int par1)

@@ -6,7 +6,7 @@ import net.minecraft.server.MinecraftServer;
 
 public class IntegratedPlayerList extends ServerConfigurationManager
 {
-	private NBTTagCompound hostPlayerData = null;
+	private NBTTagCompound hostPlayerData;
 	
 	public IntegratedPlayerList(IntegratedServer par1IntegratedServer)
 	{

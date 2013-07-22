@@ -48,7 +48,7 @@ public class CommandHandler implements ICommandManager
 							++var7;
 						} catch(CommandException var15)
 						{
-							par1ICommandSender.sendChatToPlayer(EnumChatFormatting.RED + par1ICommandSender.translateString(var15.getMessage(), var15.getErrorOjbects()));
+							par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b(var15.getMessage(), var15.getErrorOjbects()).func_111059_a(EnumChatFormatting.RED));
 						}
 					}
 					var3[var6] = var9;
@@ -59,17 +59,17 @@ public class CommandHandler implements ICommandManager
 				}
 			} else
 			{
-				par1ICommandSender.sendChatToPlayer("" + EnumChatFormatting.RED + "You do not have permission to use this command.");
+				par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e("commands.generic.permission").func_111059_a(EnumChatFormatting.RED));
 			}
 		} catch(WrongUsageException var16)
 		{
-			par1ICommandSender.sendChatToPlayer(EnumChatFormatting.RED + par1ICommandSender.translateString("commands.generic.usage", new Object[] { par1ICommandSender.translateString(var16.getMessage(), var16.getErrorOjbects()) }));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.generic.usage", new Object[] { ChatMessageComponent.func_111082_b(var16.getMessage(), var16.getErrorOjbects()) }).func_111059_a(EnumChatFormatting.RED));
 		} catch(CommandException var17)
 		{
-			par1ICommandSender.sendChatToPlayer(EnumChatFormatting.RED + par1ICommandSender.translateString(var17.getMessage(), var17.getErrorOjbects()));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b(var17.getMessage(), var17.getErrorOjbects()).func_111059_a(EnumChatFormatting.RED));
 		} catch(Throwable var18)
 		{
-			par1ICommandSender.sendChatToPlayer(EnumChatFormatting.RED + par1ICommandSender.translateString("commands.generic.exception", new Object[0]));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e("commands.generic.exception").func_111059_a(EnumChatFormatting.RED));
 			var18.printStackTrace();
 		}
 		return var7;

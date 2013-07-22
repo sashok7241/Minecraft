@@ -12,6 +12,18 @@ public abstract class MapGenStructure extends MapGenBase
 	
 	protected abstract boolean canSpawnStructureAtCoords(int var1, int var2);
 	
+	public boolean func_142038_b(int par1, int par2, int par3)
+	{
+		Iterator var4 = structureMap.values().iterator();
+		StructureStart var5;
+		do
+		{
+			if(!var4.hasNext()) return false;
+			var5 = (StructureStart) var4.next();
+		} while(!var5.isSizeableStructure());
+		return var5.getBoundingBox().intersectsWith(par1, par3, par1, par3);
+	}
+	
 	public boolean generateStructuresInChunk(World par1World, Random par2Random, int par3, int par4)
 	{
 		int var5 = (par3 << 4) + 8;
@@ -63,7 +75,7 @@ public abstract class MapGenStructure extends MapGenBase
 				var20 = var19.x - par2;
 				var21 = var19.y - par3;
 				var22 = var19.z - par4;
-				var23 = var20 + var20 * var21 * var21 + var22 * var22;
+				var23 = var20 * var20 + var21 * var21 + var22 * var22;
 				if(var23 < var13)
 				{
 					var13 = var23;
@@ -85,7 +97,7 @@ public abstract class MapGenStructure extends MapGenBase
 					var20 = var19.x - par2;
 					var21 = var19.y - par3;
 					var22 = var19.z - par4;
-					var23 = var20 + var20 * var21 * var21 + var22 * var22;
+					var23 = var20 * var20 + var21 * var21 + var22 * var22;
 					if(var23 < var13)
 					{
 						var13 = var23;

@@ -4,11 +4,11 @@ public interface ICommandSender
 {
 	boolean canCommandSenderUseCommand(int var1, String var2);
 	
+	World func_130014_f_();
+	
 	String getCommandSenderName();
 	
 	ChunkCoordinates getPlayerCoordinates();
 	
-	void sendChatToPlayer(String var1);
-	
-	String translateString(String var1, Object ... var2);
+	void sendChatToPlayer(ChatMessageComponent var1);
 }

@@ -37,15 +37,16 @@ public class ItemSign extends Item
 			}
 			if(!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack)) return false;
 			else if(!Block.signPost.canPlaceBlockAt(par3World, par4, par5, par6)) return false;
+			else if(par3World.isRemote) return true;
 			else
 			{
 				if(par7 == 1)
 				{
 					int var11 = MathHelper.floor_double((par2EntityPlayer.rotationYaw + 180.0F) * 16.0F / 360.0F + 0.5D) & 15;
-					par3World.setBlock(par4, par5, par6, Block.signPost.blockID, var11, 2);
+					par3World.setBlock(par4, par5, par6, Block.signPost.blockID, var11, 3);
 				} else
 				{
-					par3World.setBlock(par4, par5, par6, Block.signWall.blockID, par7, 2);
+					par3World.setBlock(par4, par5, par6, Block.signWall.blockID, par7, 3);
 				}
 				--par1ItemStack.stackSize;
 				TileEntitySign var12 = (TileEntitySign) par3World.getBlockTileEntity(par4, par5, par6);

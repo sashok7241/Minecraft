@@ -12,24 +12,23 @@ public class EntityWolf extends EntityTameable
 	public EntityWolf(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/wolf.png";
 		setSize(0.6F, 0.8F);
-		moveSpeed = 0.3F;
 		getNavigator().setAvoidsWater(true);
 		tasks.addTask(1, new EntityAISwimming(this));
 		tasks.addTask(2, aiSit);
 		tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-		tasks.addTask(4, new EntityAIAttackOnCollide(this, moveSpeed, true));
-		tasks.addTask(5, new EntityAIFollowOwner(this, moveSpeed, 10.0F, 2.0F));
-		tasks.addTask(6, new EntityAIMate(this, moveSpeed));
-		tasks.addTask(7, new EntityAIWander(this, moveSpeed));
+		tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
+		tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+		tasks.addTask(6, new EntityAIMate(this, 1.0D));
+		tasks.addTask(7, new EntityAIWander(this, 1.0D));
 		tasks.addTask(8, new EntityAIBeg(this, 8.0F));
 		tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(9, new EntityAILookIdle(this));
 		targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-		targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 16.0F, 200, false));
+		targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
+		setTamed(false);
 	}
 	
 	@Override public boolean attackEntityAsMob(Entity par1Entity)
@@ -38,7 +37,7 @@ public class EntityWolf extends EntityTameable
 		return par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), var2);
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -47,7 +46,7 @@ public class EntityWolf extends EntityTameable
 			aiSit.setSitting(false);
 			if(var3 != null && !(var3 instanceof EntityPlayer) && !(var3 instanceof EntityArrow))
 			{
-				par2 = (par2 + 1) / 2;
+				par2 = (par2 + 1.0F) / 2.0F;
 			}
 			return super.attackEntityFrom(par1DamageSource, par2);
 		}
@@ -55,7 +54,7 @@ public class EntityWolf extends EntityTameable
 	
 	@Override protected boolean canDespawn()
 	{
-		return isAngry() && !isTamed();
+		return !isTamed() && ticksExisted > 2400;
 	}
 	
 	@Override public boolean canMateWith(EntityAnimal par1EntityAnimal)
@@ -78,14 +77,39 @@ public class EntityWolf extends EntityTameable
 	@Override protected void entityInit()
 	{
 		super.entityInit();
-		dataWatcher.addObject(18, new Integer(getHealth()));
+		dataWatcher.addObject(18, new Float(func_110143_aJ()));
 		dataWatcher.addObject(19, new Byte((byte) 0));
-		dataWatcher.addObject(20, new Byte((byte) BlockCloth.getBlockFromDye(1)));
+		dataWatcher.addObject(20, new Byte((byte) BlockColored.getBlockFromDye(1)));
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
+		if(isTamed())
+		{
+			func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(20.0D);
+		} else
+		{
+			func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(8.0D);
+		}
+	}
+	
+	@Override public boolean func_142018_a(EntityLivingBase par1EntityLivingBase, EntityLivingBase par2EntityLivingBase)
+	{
+		if(!(par1EntityLivingBase instanceof EntityCreeper) && !(par1EntityLivingBase instanceof EntityGhast))
+		{
+			if(par1EntityLivingBase instanceof EntityWolf)
+			{
+				EntityWolf var3 = (EntityWolf) par1EntityLivingBase;
+				if(var3.isTamed() && var3.func_130012_q() == par2EntityLivingBase) return false;
+			}
+			return par1EntityLivingBase instanceof EntityPlayer && par2EntityLivingBase instanceof EntityPlayer && !((EntityPlayer) par2EntityLivingBase).func_96122_a((EntityPlayer) par1EntityLivingBase) ? false : !(par1EntityLivingBase instanceof EntityHorse) || !((EntityHorse) par1EntityLivingBase).func_110248_bS();
+		} else return false;
 	}
 	
 	public void func_70918_i(boolean par1)
 	{
-		byte var2 = dataWatcher.getWatchableObjectByte(19);
 		if(par1)
 		{
 			dataWatcher.updateObject(19, Byte.valueOf((byte) 1));
@@ -132,12 +156,7 @@ public class EntityWolf extends EntityTameable
 	
 	@Override protected String getLivingSound()
 	{
-		return isAngry() ? "mob.wolf.growl" : rand.nextInt(3) == 0 ? isTamed() && dataWatcher.getWatchableObjectInt(18) < 10 ? "mob.wolf.whine" : "mob.wolf.panting" : "mob.wolf.bark";
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return isTamed() ? 20 : 8;
+		return isAngry() ? "mob.wolf.growl" : rand.nextInt(3) == 0 ? isTamed() && dataWatcher.func_111145_d(18) < 10.0F ? "mob.wolf.whine" : "mob.wolf.panting" : "mob.wolf.bark";
 	}
 	
 	@Override public int getMaxSpawnedInChunk()
@@ -170,12 +189,7 @@ public class EntityWolf extends EntityTameable
 	
 	public float getTailRotation()
 	{
-		return isAngry() ? 1.5393804F : isTamed() ? (0.55F - (20 - dataWatcher.getWatchableObjectInt(18)) * 0.02F) * (float) Math.PI : (float) Math.PI / 5F;
-	}
-	
-	@Override public String getTexture()
-	{
-		return isTamed() ? "/mob/wolf_tame.png" : isAngry() ? "/mob/wolf_angry.png" : super.getTexture();
+		return isAngry() ? 1.5393804F : isTamed() ? (0.55F - (20.0F - dataWatcher.func_111145_d(18)) * 0.02F) * (float) Math.PI : (float) Math.PI / 5F;
 	}
 	
 	@Override public int getVerticalFaceSpeed()
@@ -211,7 +225,7 @@ public class EntityWolf extends EntityTameable
 				if(Item.itemsList[var2.itemID] instanceof ItemFood)
 				{
 					ItemFood var3 = (ItemFood) Item.itemsList[var2.itemID];
-					if(var3.isWolfsFavoriteMeat() && dataWatcher.getWatchableObjectInt(18) < 20)
+					if(var3.isWolfsFavoriteMeat() && dataWatcher.func_111145_d(18) < 20.0F)
 					{
 						if(!par1EntityPlayer.capabilities.isCreativeMode)
 						{
@@ -226,7 +240,7 @@ public class EntityWolf extends EntityTameable
 					}
 				} else if(var2.itemID == Item.dyePowder.itemID)
 				{
-					int var4 = BlockCloth.getBlockFromDye(var2.getItemDamage());
+					int var4 = BlockColored.getBlockFromDye(var2.getItemDamage());
 					if(var4 != getCollarColor())
 					{
 						setCollarColor(var4);
@@ -238,11 +252,13 @@ public class EntityWolf extends EntityTameable
 					}
 				}
 			}
-			if(par1EntityPlayer.username.equalsIgnoreCase(getOwnerName()) && !worldObj.isRemote && !isBreedingItem(var2))
+			if(par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(getOwnerName()) && !worldObj.isRemote && !isBreedingItem(var2))
 			{
 				aiSit.setSitting(!isSitting());
 				isJumping = false;
 				setPathToEntity((PathEntity) null);
+				setTarget((Entity) null);
+				setAttackTarget((EntityLivingBase) null);
 			}
 		} else if(var2 != null && var2.itemID == Item.bone.itemID && !isAngry())
 		{
@@ -260,10 +276,10 @@ public class EntityWolf extends EntityTameable
 				{
 					setTamed(true);
 					setPathToEntity((PathEntity) null);
-					setAttackTarget((EntityLiving) null);
+					setAttackTarget((EntityLivingBase) null);
 					aiSit.setSitting(true);
-					setEntityHealth(20);
-					setOwner(par1EntityPlayer.username);
+					setEntityHealth(20.0F);
+					setOwner(par1EntityPlayer.getCommandSenderName());
 					playTameEffect(true);
 					worldObj.setEntityState(this, (byte) 7);
 				} else
@@ -381,10 +397,13 @@ public class EntityWolf extends EntityTameable
 		}
 	}
 	
-	@Override public void setAttackTarget(EntityLiving par1EntityLiving)
+	@Override public void setAttackTarget(EntityLivingBase par1EntityLivingBase)
 	{
-		super.setAttackTarget(par1EntityLiving);
-		if(par1EntityLiving instanceof EntityPlayer)
+		super.setAttackTarget(par1EntityLivingBase);
+		if(par1EntityLivingBase == null)
+		{
+			setAngry(false);
+		} else if(!isTamed())
 		{
 			setAngry(true);
 		}
@@ -393,6 +412,18 @@ public class EntityWolf extends EntityTameable
 	public void setCollarColor(int par1)
 	{
 		dataWatcher.updateObject(20, Byte.valueOf((byte) (par1 & 15)));
+	}
+	
+	@Override public void setTamed(boolean par1)
+	{
+		super.setTamed(par1);
+		if(par1)
+		{
+			func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(20.0D);
+		} else
+		{
+			func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(8.0D);
+		}
 	}
 	
 	public EntityWolf spawnBabyAnimal(EntityAgeable par1EntityAgeable)
@@ -409,7 +440,7 @@ public class EntityWolf extends EntityTameable
 	
 	@Override protected void updateAITick()
 	{
-		dataWatcher.updateObject(18, Integer.valueOf(getHealth()));
+		dataWatcher.updateObject(18, Float.valueOf(func_110143_aJ()));
 	}
 	
 	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)

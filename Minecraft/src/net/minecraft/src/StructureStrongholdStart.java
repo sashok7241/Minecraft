@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 class StructureStrongholdStart extends StructureStart
@@ -11,7 +11,7 @@ class StructureStrongholdStart extends StructureStart
 		ComponentStrongholdStairs2 var5 = new ComponentStrongholdStairs2(0, par2Random, (par3 << 4) + 2, (par4 << 4) + 2);
 		components.add(var5);
 		var5.buildComponent(var5, components, par2Random);
-		ArrayList var6 = var5.field_75026_c;
+		List var6 = var5.field_75026_c;
 		while(!var6.isEmpty())
 		{
 			int var7 = par2Random.nextInt(var6.size());

@@ -9,6 +9,6 @@ final class CreativeTabRedstone extends CreativeTabs
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Item.redstone.itemID;
+		return Block.railPowered.blockID;
 	}
 }

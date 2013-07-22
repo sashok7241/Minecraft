@@ -3,8 +3,8 @@ package net.minecraft.src;
 public class ItemArmor extends Item
 {
 	private static final int[] maxDamageArray = new int[] { 11, 16, 15, 13 };
-	private static final String[] field_94606_cu = new String[] { "helmetCloth_overlay", "chestplateCloth_overlay", "leggingsCloth_overlay", "bootsCloth_overlay" };
-	public static final String[] field_94603_a = new String[] { "slot_empty_helmet", "slot_empty_chestplate", "slot_empty_leggings", "slot_empty_boots" };
+	private static final String[] field_94606_cu = new String[] { "leather_helmet_overlay", "leather_chestplate_overlay", "leather_leggings_overlay", "leather_boots_overlay" };
+	public static final String[] field_94603_a = new String[] { "empty_armor_slot_helmet", "empty_armor_slot_chestplate", "empty_armor_slot_leggings", "empty_armor_slot_boots" };
 	private static final IBehaviorDispenseItem field_96605_cw = new BehaviorDispenseArmor();
 	public final int armorType;
 	public final int damageReduceAmount;

@@ -9,6 +9,11 @@ public class CommandServerStop extends CommandBase
 		return "stop";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.stop.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 4;

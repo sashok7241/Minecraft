@@ -4,11 +4,11 @@ import java.util.concurrent.Callable;
 
 import net.minecraft.client.Minecraft;
 
-public class CallableType2 implements Callable
+class CallableType2 implements Callable
 {
 	final Minecraft mc;
 	
-	public CallableType2(Minecraft par1Minecraft)
+	CallableType2(Minecraft par1Minecraft)
 	{
 		mc = par1Minecraft;
 	}

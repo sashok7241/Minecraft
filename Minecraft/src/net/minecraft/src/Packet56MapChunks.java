@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -95,11 +95,11 @@ public class Packet56MapChunks extends Packet
 		par1NetHandler.handleMapChunks(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		short var2 = par1DataInputStream.readShort();
-		dataLength = par1DataInputStream.readInt();
-		skyLightSent = par1DataInputStream.readBoolean();
+		short var2 = par1DataInput.readShort();
+		dataLength = par1DataInput.readInt();
+		skyLightSent = par1DataInput.readBoolean();
 		chunkPostX = new int[var2];
 		chunkPosZ = new int[var2];
 		field_73590_a = new int[var2];
@@ -109,7 +109,7 @@ public class Packet56MapChunks extends Packet
 		{
 			chunkDataNotCompressed = new byte[dataLength];
 		}
-		par1DataInputStream.readFully(chunkDataNotCompressed, 0, dataLength);
+		par1DataInput.readFully(chunkDataNotCompressed, 0, dataLength);
 		byte[] var3 = new byte[196864 * var2];
 		Inflater var4 = new Inflater();
 		var4.setInput(chunkDataNotCompressed, 0, dataLength);
@@ -126,10 +126,10 @@ public class Packet56MapChunks extends Packet
 		int var5 = 0;
 		for(int var6 = 0; var6 < var2; ++var6)
 		{
-			chunkPostX[var6] = par1DataInputStream.readInt();
-			chunkPosZ[var6] = par1DataInputStream.readInt();
-			field_73590_a[var6] = par1DataInputStream.readShort();
-			field_73588_b[var6] = par1DataInputStream.readShort();
+			chunkPostX[var6] = par1DataInput.readInt();
+			chunkPosZ[var6] = par1DataInput.readInt();
+			field_73590_a[var6] = par1DataInput.readShort();
+			field_73588_b[var6] = par1DataInput.readShort();
 			int var7 = 0;
 			int var8 = 0;
 			int var9;
@@ -150,18 +150,18 @@ public class Packet56MapChunks extends Packet
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeShort(chunkPostX.length);
-		par1DataOutputStream.writeInt(dataLength);
-		par1DataOutputStream.writeBoolean(skyLightSent);
-		par1DataOutputStream.write(chunkDataBuffer, 0, dataLength);
+		par1DataOutput.writeShort(chunkPostX.length);
+		par1DataOutput.writeInt(dataLength);
+		par1DataOutput.writeBoolean(skyLightSent);
+		par1DataOutput.write(chunkDataBuffer, 0, dataLength);
 		for(int var2 = 0; var2 < chunkPostX.length; ++var2)
 		{
-			par1DataOutputStream.writeInt(chunkPostX[var2]);
-			par1DataOutputStream.writeInt(chunkPosZ[var2]);
-			par1DataOutputStream.writeShort((short) (field_73590_a[var2] & 65535));
-			par1DataOutputStream.writeShort((short) (field_73588_b[var2] & 65535));
+			par1DataOutput.writeInt(chunkPostX[var2]);
+			par1DataOutput.writeInt(chunkPosZ[var2]);
+			par1DataOutput.writeShort((short) (field_73590_a[var2] & 65535));
+			par1DataOutput.writeShort((short) (field_73588_b[var2] & 65535));
 		}
 	}
 }

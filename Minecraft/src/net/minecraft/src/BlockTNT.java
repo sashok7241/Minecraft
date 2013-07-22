@@ -18,13 +18,13 @@ public class BlockTNT extends Block
 		return false;
 	}
 	
-	public void func_94391_a(World par1World, int par2, int par3, int par4, int par5, EntityLiving par6EntityLiving)
+	public void func_94391_a(World par1World, int par2, int par3, int par4, int par5, EntityLivingBase par6EntityLivingBase)
 	{
 		if(!par1World.isRemote)
 		{
 			if((par5 & 1) == 1)
 			{
-				EntityTNTPrimed var7 = new EntityTNTPrimed(par1World, par2 + 0.5F, par3 + 0.5F, par4 + 0.5F, par6EntityLiving);
+				EntityTNTPrimed var7 = new EntityTNTPrimed(par1World, par2 + 0.5F, par3 + 0.5F, par4 + 0.5F, par6EntityLivingBase);
 				par1World.spawnEntityInWorld(var7);
 				par1World.playSoundAtEntity(var7, "random.fuse", 1.0F, 1.0F);
 			}
@@ -42,6 +42,7 @@ public class BlockTNT extends Block
 		{
 			func_94391_a(par1World, par2, par3, par4, 1, par5EntityPlayer);
 			par1World.setBlockToAir(par2, par3, par4);
+			par5EntityPlayer.getCurrentEquippedItem().damageItem(1, par5EntityPlayer);
 			return true;
 		} else return super.onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9);
 	}
@@ -68,7 +69,7 @@ public class BlockTNT extends Block
 	
 	@Override public void onBlockDestroyedByPlayer(World par1World, int par2, int par3, int par4, int par5)
 	{
-		func_94391_a(par1World, par2, par3, par4, par5, (EntityLiving) null);
+		func_94391_a(par1World, par2, par3, par4, par5, (EntityLivingBase) null);
 	}
 	
 	@Override public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
@@ -78,7 +79,7 @@ public class BlockTNT extends Block
 			EntityArrow var6 = (EntityArrow) par5Entity;
 			if(var6.isBurning())
 			{
-				func_94391_a(par1World, par2, par3, par4, 1, var6.shootingEntity instanceof EntityLiving ? (EntityLiving) var6.shootingEntity : null);
+				func_94391_a(par1World, par2, par3, par4, 1, var6.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase) var6.shootingEntity : null);
 				par1World.setBlockToAir(par2, par3, par4);
 			}
 		}
@@ -100,8 +101,8 @@ public class BlockTNT extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("tnt_side");
-		field_94393_a = par1IconRegister.registerIcon("tnt_top");
-		field_94392_b = par1IconRegister.registerIcon("tnt_bottom");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		field_94393_a = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		field_94392_b = par1IconRegister.registerIcon(func_111023_E() + "_bottom");
 	}
 }

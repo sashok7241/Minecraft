@@ -7,15 +7,15 @@ import java.util.List;
 public class CombatTracker
 {
 	private final List field_94556_a = new ArrayList();
-	private final EntityLiving field_94554_b;
-	private int field_94555_c = 0;
-	private boolean field_94552_d = false;
-	private boolean field_94553_e = false;
+	private final EntityLivingBase field_94554_b;
+	private int field_94555_c;
+	private boolean field_94552_d;
+	private boolean field_94553_e;
 	private String field_94551_f;
 	
-	public CombatTracker(EntityLiving par1EntityLiving)
+	public CombatTracker(EntityLivingBase par1EntityLivingBase)
 	{
-		field_94554_b = par1EntityLiving;
+		field_94554_b = par1EntityLivingBase;
 	}
 	
 	private void func_94542_g()
@@ -73,16 +73,16 @@ public class CombatTracker
 		}
 	}
 	
-	public String func_94546_b()
+	public ChatMessageComponent func_94546_b()
 	{
-		if(field_94556_a.size() == 0) return field_94554_b.getTranslatedEntityName() + " died";
+		if(field_94556_a.size() == 0) return ChatMessageComponent.func_111082_b("death.attack.generic", new Object[] { field_94554_b.getTranslatedEntityName() });
 		else
 		{
 			CombatEntry var1 = func_94544_f();
 			CombatEntry var2 = (CombatEntry) field_94556_a.get(field_94556_a.size() - 1);
-			String var3 = "";
 			String var4 = var2.func_94558_h();
 			Entity var5 = var2.func_94560_a().getEntity();
+			ChatMessageComponent var3;
 			if(var1 != null && var2.func_94560_a() == DamageSource.fall)
 			{
 				String var6 = var1.func_94558_h();
@@ -91,31 +91,31 @@ public class CombatTracker
 					if(var6 != null && (var4 == null || !var6.equals(var4)))
 					{
 						Entity var9 = var1.func_94560_a().getEntity();
-						ItemStack var8 = var9 instanceof EntityLiving ? ((EntityLiving) var9).getHeldItem() : null;
+						ItemStack var8 = var9 instanceof EntityLivingBase ? ((EntityLivingBase) var9).getHeldItem() : null;
 						if(var8 != null && var8.hasDisplayName())
 						{
-							var3 = StatCollector.translateToLocalFormatted("death.fell.assist.item", new Object[] { field_94554_b.getTranslatedEntityName(), var4, var8.getDisplayName() });
+							var3 = ChatMessageComponent.func_111082_b("death.fell.assist.item", new Object[] { field_94554_b.getTranslatedEntityName(), var6, var8.getDisplayName() });
 						} else
 						{
-							var3 = StatCollector.translateToLocalFormatted("death.fell.assist", new Object[] { field_94554_b.getTranslatedEntityName(), var6 });
+							var3 = ChatMessageComponent.func_111082_b("death.fell.assist", new Object[] { field_94554_b.getTranslatedEntityName(), var6 });
 						}
 					} else if(var4 != null)
 					{
-						ItemStack var7 = var5 instanceof EntityLiving ? ((EntityLiving) var5).getHeldItem() : null;
+						ItemStack var7 = var5 instanceof EntityLivingBase ? ((EntityLivingBase) var5).getHeldItem() : null;
 						if(var7 != null && var7.hasDisplayName())
 						{
-							var3 = StatCollector.translateToLocalFormatted("death.fell.finish.item", new Object[] { field_94554_b.getTranslatedEntityName(), var4, var7.getDisplayName() });
+							var3 = ChatMessageComponent.func_111082_b("death.fell.finish.item", new Object[] { field_94554_b.getTranslatedEntityName(), var4, var7.getDisplayName() });
 						} else
 						{
-							var3 = StatCollector.translateToLocalFormatted("death.fell.finish", new Object[] { field_94554_b.getTranslatedEntityName(), var4 });
+							var3 = ChatMessageComponent.func_111082_b("death.fell.finish", new Object[] { field_94554_b.getTranslatedEntityName(), var4 });
 						}
 					} else
 					{
-						var3 = StatCollector.translateToLocalFormatted("death.fell.killer", new Object[] { field_94554_b.getTranslatedEntityName() });
+						var3 = ChatMessageComponent.func_111082_b("death.fell.killer", new Object[] { field_94554_b.getTranslatedEntityName() });
 					}
 				} else
 				{
-					var3 = StatCollector.translateToLocalFormatted("death.fell.accident." + func_94548_b(var1), new Object[] { field_94554_b.getTranslatedEntityName() });
+					var3 = ChatMessageComponent.func_111082_b("death.fell.accident." + func_94548_b(var1), new Object[] { field_94554_b.getTranslatedEntityName() });
 				}
 			} else
 			{
@@ -125,7 +125,7 @@ public class CombatTracker
 		}
 	}
 	
-	public void func_94547_a(DamageSource par1DamageSource, int par2, int par3)
+	public void func_94547_a(DamageSource par1DamageSource, float par2, float par3)
 	{
 		func_94549_h();
 		func_94545_a();
@@ -152,12 +152,12 @@ public class CombatTracker
 		}
 	}
 	
-	public EntityLiving func_94550_c()
+	public EntityLivingBase func_94550_c()
 	{
-		EntityLiving var1 = null;
+		EntityLivingBase var1 = null;
 		EntityPlayer var2 = null;
-		int var3 = 0;
-		int var4 = 0;
+		float var3 = 0.0F;
+		float var4 = 0.0F;
 		Iterator var5 = field_94556_a.iterator();
 		while(var5.hasNext())
 		{
@@ -167,13 +167,13 @@ public class CombatTracker
 				var4 = var6.func_94563_c();
 				var2 = (EntityPlayer) var6.func_94560_a().getEntity();
 			}
-			if(var6.func_94560_a().getEntity() instanceof EntityLiving && (var1 == null || var6.func_94563_c() > var3))
+			if(var6.func_94560_a().getEntity() instanceof EntityLivingBase && (var1 == null || var6.func_94563_c() > var3))
 			{
 				var3 = var6.func_94563_c();
-				var1 = (EntityLiving) var6.func_94560_a().getEntity();
+				var1 = (EntityLivingBase) var6.func_94560_a().getEntity();
 			}
 		}
-		if(var2 != null && var4 >= var3 / 3) return var2;
+		if(var2 != null && var4 >= var3 / 3.0F) return var2;
 		else return var1;
 	}
 }

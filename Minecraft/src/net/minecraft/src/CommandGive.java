@@ -18,7 +18,7 @@ public class CommandGive extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.give.usage", new Object[0]);
+		return "commands.give.usage";
 	}
 	
 	protected String[] getPlayers()

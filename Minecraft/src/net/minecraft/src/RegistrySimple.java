@@ -5,7 +5,12 @@ import java.util.Map;
 
 public class RegistrySimple implements IRegistry
 {
-	protected final Map registryObjects = new HashMap();
+	protected final Map registryObjects = func_111054_a();
+	
+	protected HashMap func_111054_a()
+	{
+		return Maps.newHashMap();
+	}
 	
 	@Override public Object func_82594_a(Object par1Obj)
 	{

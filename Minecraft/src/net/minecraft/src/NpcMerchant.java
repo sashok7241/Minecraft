@@ -12,6 +12,10 @@ public class NpcMerchant implements IMerchant
 		theMerchantInventory = new InventoryMerchant(par1EntityPlayer, this);
 	}
 	
+	@Override public void func_110297_a_(ItemStack par1ItemStack)
+	{
+	}
+	
 	@Override public EntityPlayer getCustomer()
 	{
 		return customer;

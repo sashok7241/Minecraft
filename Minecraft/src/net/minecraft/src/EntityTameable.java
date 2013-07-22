@@ -1,6 +1,6 @@
 package net.minecraft.src;
 
-public abstract class EntityTameable extends EntityAnimal
+public abstract class EntityTameable extends EntityAnimal implements EntityOwnable
 {
 	protected EntityAISit aiSit = new EntityAISit(this);
 	
@@ -16,19 +16,50 @@ public abstract class EntityTameable extends EntityAnimal
 		dataWatcher.addObject(17, "");
 	}
 	
+	public EntityLivingBase func_130012_q()
+	{
+		return worldObj.getPlayerEntityByName(getOwnerName());
+	}
+	
+	@Override public boolean func_142014_c(EntityLivingBase par1EntityLivingBase)
+	{
+		if(isTamed())
+		{
+			EntityLivingBase var2 = func_130012_q();
+			if(par1EntityLivingBase == var2) return true;
+			if(var2 != null) return var2.func_142014_c(par1EntityLivingBase);
+		}
+		return super.func_142014_c(par1EntityLivingBase);
+	}
+	
+	public boolean func_142018_a(EntityLivingBase par1EntityLivingBase, EntityLivingBase par2EntityLivingBase)
+	{
+		return true;
+	}
+	
 	public EntityAISit func_70907_r()
 	{
 		return aiSit;
 	}
 	
-	public EntityLiving getOwner()
+	@Override public Entity getOwner()
 	{
-		return worldObj.getPlayerEntityByName(getOwnerName());
+		return func_130012_q();
 	}
 	
-	public String getOwnerName()
+	@Override public String getOwnerName()
 	{
 		return dataWatcher.getWatchableObjectString(17);
+	}
+	
+	@Override public Team getTeam()
+	{
+		if(isTamed())
+		{
+			EntityLivingBase var1 = func_130012_q();
+			if(var1 != null) return var1.getTeam();
+		}
+		return super.getTeam();
 	}
 	
 	@Override public void handleHealthUpdate(byte par1)

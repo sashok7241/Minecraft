@@ -7,6 +7,11 @@ public class ServerCommandTestFor extends CommandBase
 		return "testfor";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.testfor.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 2;

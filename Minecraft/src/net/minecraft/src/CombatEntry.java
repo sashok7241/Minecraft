@@ -4,12 +4,12 @@ public class CombatEntry
 {
 	private final DamageSource field_94569_a;
 	private final int field_94567_b;
-	private final int field_94568_c;
-	private final int field_94565_d;
+	private final float field_94568_c;
+	private final float field_94565_d;
 	private final String field_94566_e;
 	private final float field_94564_f;
 	
-	public CombatEntry(DamageSource par1DamageSource, int par2, int par3, int par4, String par5Str, float par6)
+	public CombatEntry(DamageSource par1DamageSource, int par2, float par3, float par4, String par5Str, float par6)
 	{
 		field_94569_a = par1DamageSource;
 		field_94567_b = par2;
@@ -26,7 +26,7 @@ public class CombatEntry
 	
 	public boolean func_94559_f()
 	{
-		return field_94569_a.getEntity() instanceof EntityLiving;
+		return field_94569_a.getEntity() instanceof EntityLivingBase;
 	}
 	
 	public DamageSource func_94560_a()
@@ -44,7 +44,7 @@ public class CombatEntry
 		return field_94566_e;
 	}
 	
-	public int func_94563_c()
+	public float func_94563_c()
 	{
 		return field_94568_c;
 	}

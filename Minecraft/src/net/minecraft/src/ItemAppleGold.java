@@ -28,11 +28,15 @@ public class ItemAppleGold extends ItemFood
 	
 	@Override protected void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
+		if(!par2World.isRemote)
+		{
+			par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 2400, 0));
+		}
 		if(par1ItemStack.getItemDamage() > 0)
 		{
 			if(!par2World.isRemote)
 			{
-				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 3));
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 4));
 				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.resistance.id, 6000, 0));
 				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 6000, 0));
 			}

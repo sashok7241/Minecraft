@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,15 +41,15 @@ public class Packet40EntityMetadata extends Packet
 		par1NetHandler.handleEntityMetadata(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
-		metadata = DataWatcher.readWatchableObjects(par1DataInputStream);
+		entityId = par1DataInput.readInt();
+		metadata = DataWatcher.readWatchableObjects(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
-		DataWatcher.writeObjectsInListToStream(metadata, par1DataOutputStream);
+		par1DataOutput.writeInt(entityId);
+		DataWatcher.writeObjectsInListToStream(metadata, par1DataOutput);
 	}
 }

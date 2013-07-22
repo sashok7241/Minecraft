@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet34EntityTeleport extends Packet
@@ -58,23 +58,23 @@ public class Packet34EntityTeleport extends Packet
 		par1NetHandler.handleEntityTeleport(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
-		xPosition = par1DataInputStream.readInt();
-		yPosition = par1DataInputStream.readInt();
-		zPosition = par1DataInputStream.readInt();
-		yaw = (byte) par1DataInputStream.read();
-		pitch = (byte) par1DataInputStream.read();
+		entityId = par1DataInput.readInt();
+		xPosition = par1DataInput.readInt();
+		yPosition = par1DataInput.readInt();
+		zPosition = par1DataInput.readInt();
+		yaw = par1DataInput.readByte();
+		pitch = par1DataInput.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
-		par1DataOutputStream.writeInt(xPosition);
-		par1DataOutputStream.writeInt(yPosition);
-		par1DataOutputStream.writeInt(zPosition);
-		par1DataOutputStream.write(yaw);
-		par1DataOutputStream.write(pitch);
+		par1DataOutput.writeInt(entityId);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeInt(yPosition);
+		par1DataOutput.writeInt(zPosition);
+		par1DataOutput.write(yaw);
+		par1DataOutput.write(pitch);
 	}
 }

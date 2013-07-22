@@ -144,9 +144,9 @@ public class BlockPistonBase extends Block
 		return true;
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		int var7 = determineOrientation(par1World, par2, par3, par4, par5EntityLiving);
+		int var7 = determineOrientation(par1World, par2, par3, par4, par5EntityLivingBase);
 		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
 		if(!par1World.isRemote)
 		{
@@ -165,8 +165,8 @@ public class BlockPistonBase extends Block
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		blockIcon = par1IconRegister.registerIcon("piston_side");
-		topIcon = par1IconRegister.registerIcon(isSticky ? "piston_top_sticky" : "piston_top");
-		innerTopIcon = par1IconRegister.registerIcon("piston_inner_top");
+		topIcon = par1IconRegister.registerIcon(isSticky ? "piston_top_sticky" : "piston_top_normal");
+		innerTopIcon = par1IconRegister.registerIcon("piston_inner");
 		bottomIcon = par1IconRegister.registerIcon("piston_bottom");
 	}
 	
@@ -180,6 +180,7 @@ public class BlockPistonBase extends Block
 		int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 		if(isExtended(var5))
 		{
+			float var6 = 0.25F;
 			switch(getOrientation(var5))
 			{
 				case 0:
@@ -354,21 +355,21 @@ public class BlockPistonBase extends Block
 		}
 	}
 	
-	public static int determineOrientation(World par0World, int par1, int par2, int par3, EntityLiving par4EntityLiving)
+	public static int determineOrientation(World par0World, int par1, int par2, int par3, EntityLivingBase par4EntityLivingBase)
 	{
-		if(MathHelper.abs((float) par4EntityLiving.posX - par1) < 2.0F && MathHelper.abs((float) par4EntityLiving.posZ - par3) < 2.0F)
+		if(MathHelper.abs((float) par4EntityLivingBase.posX - par1) < 2.0F && MathHelper.abs((float) par4EntityLivingBase.posZ - par3) < 2.0F)
 		{
-			double var5 = par4EntityLiving.posY + 1.82D - par4EntityLiving.yOffset;
+			double var5 = par4EntityLivingBase.posY + 1.82D - par4EntityLivingBase.yOffset;
 			if(var5 - par2 > 2.0D) return 1;
 			if(par2 - var5 > 0.0D) return 0;
 		}
-		int var7 = MathHelper.floor_double(par4EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		int var7 = MathHelper.floor_double(par4EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		return var7 == 0 ? 2 : var7 == 1 ? 5 : var7 == 2 ? 3 : var7 == 3 ? 4 : 0;
 	}
 	
 	public static Icon func_94496_b(String par0Str)
 	{
-		return par0Str == "piston_side" ? Block.pistonBase.blockIcon : par0Str == "piston_top" ? Block.pistonBase.topIcon : par0Str == "piston_top_sticky" ? Block.pistonStickyBase.topIcon : par0Str == "piston_inner_top" ? Block.pistonBase.innerTopIcon : null;
+		return par0Str == "piston_side" ? Block.pistonBase.blockIcon : par0Str == "piston_top_normal" ? Block.pistonBase.topIcon : par0Str == "piston_top_sticky" ? Block.pistonStickyBase.topIcon : par0Str == "piston_inner" ? Block.pistonBase.innerTopIcon : null;
 	}
 	
 	public static int getOrientation(int par0)

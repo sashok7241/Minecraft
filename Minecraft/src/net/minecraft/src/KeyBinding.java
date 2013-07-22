@@ -11,7 +11,7 @@ public class KeyBinding
 	public String keyDescription;
 	public int keyCode;
 	public boolean pressed;
-	public int pressTime = 0;
+	public int pressTime;
 	
 	public KeyBinding(String par1Str, int par2)
 	{

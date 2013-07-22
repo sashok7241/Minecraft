@@ -3,6 +3,8 @@ package net.minecraft.src;
 
 public class RenderSquid extends RenderLiving
 {
+	private static final ResourceLocation field_110901_a = new ResourceLocation("textures/entity/squid.png");
+	
 	public RenderSquid(ModelBase par1ModelBase, float par2)
 	{
 		super(par1ModelBase, par2);
@@ -18,9 +20,19 @@ public class RenderSquid extends RenderLiving
 		renderLivingSquid((EntitySquid) par1EntityLiving, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected float handleRotationFloat(EntityLiving par1EntityLiving, float par2)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
 	{
-		return this.handleRotationFloat((EntitySquid) par1EntityLiving, par2);
+		return func_110900_a((EntitySquid) par1Entity);
+	}
+	
+	protected ResourceLocation func_110900_a(EntitySquid par1EntitySquid)
+	{
+		return field_110901_a;
+	}
+	
+	@Override protected float handleRotationFloat(EntityLivingBase par1EntityLivingBase, float par2)
+	{
+		return this.handleRotationFloat((EntitySquid) par1EntityLivingBase, par2);
 	}
 	
 	protected float handleRotationFloat(EntitySquid par1EntitySquid, float par2)
@@ -33,9 +45,14 @@ public class RenderSquid extends RenderLiving
 		super.doRenderLiving(par1EntitySquid, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected void rotateCorpse(EntityLiving par1EntityLiving, float par2, float par3, float par4)
+	@Override public void renderPlayer(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
 	{
-		rotateSquidsCorpse((EntitySquid) par1EntityLiving, par2, par3, par4);
+		renderLivingSquid((EntitySquid) par1EntityLivingBase, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected void rotateCorpse(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
+	{
+		rotateSquidsCorpse((EntitySquid) par1EntityLivingBase, par2, par3, par4);
 	}
 	
 	protected void rotateSquidsCorpse(EntitySquid par1EntitySquid, float par2, float par3, float par4)

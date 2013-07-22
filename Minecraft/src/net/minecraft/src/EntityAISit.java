@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class EntityAISit extends EntityAIBase
 {
 	private EntityTameable theEntity;
-	private boolean isSitting = false;
+	private boolean isSitting;
 	
 	public EntityAISit(EntityTameable par1EntityTameable)
 	{
@@ -28,7 +28,7 @@ public class EntityAISit extends EntityAIBase
 		else if(!theEntity.onGround) return false;
 		else
 		{
-			EntityLiving var1 = theEntity.getOwner();
+			EntityLivingBase var1 = theEntity.func_130012_q();
 			return var1 == null ? true : theEntity.getDistanceSqToEntity(var1) < 144.0D && var1.getAITarget() != null ? false : isSitting;
 		}
 	}

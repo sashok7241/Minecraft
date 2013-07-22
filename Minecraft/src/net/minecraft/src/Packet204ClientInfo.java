@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet204ClientInfo extends Packet
@@ -77,23 +77,23 @@ public class Packet204ClientInfo extends Packet
 		par1NetHandler.handleClientInfo(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		language = readString(par1DataInputStream, 7);
-		renderDistance = par1DataInputStream.readByte();
-		byte var2 = par1DataInputStream.readByte();
+		language = readString(par1DataInput, 7);
+		renderDistance = par1DataInput.readByte();
+		byte var2 = par1DataInput.readByte();
 		chatVisisble = var2 & 7;
 		chatColours = (var2 & 8) == 8;
-		gameDifficulty = par1DataInputStream.readByte();
-		showCape = par1DataInputStream.readBoolean();
+		gameDifficulty = par1DataInput.readByte();
+		showCape = par1DataInput.readBoolean();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(language, par1DataOutputStream);
-		par1DataOutputStream.writeByte(renderDistance);
-		par1DataOutputStream.writeByte(chatVisisble | (chatColours ? 1 : 0) << 3);
-		par1DataOutputStream.writeByte(gameDifficulty);
-		par1DataOutputStream.writeBoolean(showCape);
+		writeString(language, par1DataOutput);
+		par1DataOutput.writeByte(renderDistance);
+		par1DataOutput.writeByte(chatVisisble | (chatColours ? 1 : 0) << 3);
+		par1DataOutput.writeByte(gameDifficulty);
+		par1DataOutput.writeBoolean(showCape);
 	}
 }

@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class Path
 {
 	private PathPoint[] pathPoints = new PathPoint[1024];
-	private int count = 0;
+	private int count;
 	
 	public PathPoint addPoint(PathPoint par1PathPoint)
 	{

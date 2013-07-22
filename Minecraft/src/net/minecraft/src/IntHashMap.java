@@ -68,11 +68,6 @@ public class IntHashMap
 		}
 	}
 	
-	public Set getKeySet()
-	{
-		return keySet;
-	}
-	
 	private void grow(int par1)
 	{
 		IntHashMapEntry[] var2 = slots;

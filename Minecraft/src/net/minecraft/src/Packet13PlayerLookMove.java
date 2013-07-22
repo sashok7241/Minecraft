@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet13PlayerLookMove extends Packet10Flying
@@ -30,25 +30,25 @@ public class Packet13PlayerLookMove extends Packet10Flying
 		return 41;
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xPosition = par1DataInputStream.readDouble();
-		yPosition = par1DataInputStream.readDouble();
-		stance = par1DataInputStream.readDouble();
-		zPosition = par1DataInputStream.readDouble();
-		yaw = par1DataInputStream.readFloat();
-		pitch = par1DataInputStream.readFloat();
-		super.readPacketData(par1DataInputStream);
+		xPosition = par1DataInput.readDouble();
+		yPosition = par1DataInput.readDouble();
+		stance = par1DataInput.readDouble();
+		zPosition = par1DataInput.readDouble();
+		yaw = par1DataInput.readFloat();
+		pitch = par1DataInput.readFloat();
+		super.readPacketData(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeDouble(xPosition);
-		par1DataOutputStream.writeDouble(yPosition);
-		par1DataOutputStream.writeDouble(stance);
-		par1DataOutputStream.writeDouble(zPosition);
-		par1DataOutputStream.writeFloat(yaw);
-		par1DataOutputStream.writeFloat(pitch);
-		super.writePacketData(par1DataOutputStream);
+		par1DataOutput.writeDouble(xPosition);
+		par1DataOutput.writeDouble(yPosition);
+		par1DataOutput.writeDouble(stance);
+		par1DataOutput.writeDouble(zPosition);
+		par1DataOutput.writeFloat(yaw);
+		par1DataOutput.writeFloat(pitch);
+		super.writePacketData(par1DataOutput);
 	}
 }

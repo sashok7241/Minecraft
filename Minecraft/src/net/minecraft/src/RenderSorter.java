@@ -4,11 +4,11 @@ import java.util.Comparator;
 
 public class RenderSorter implements Comparator
 {
-	private EntityLiving baseEntity;
+	private EntityLivingBase baseEntity;
 	
-	public RenderSorter(EntityLiving par1EntityLiving)
+	public RenderSorter(EntityLivingBase par1EntityLivingBase)
 	{
-		baseEntity = par1EntityLiving;
+		baseEntity = par1EntityLivingBase;
 	}
 	
 	@Override public int compare(Object par1Obj, Object par2Obj)

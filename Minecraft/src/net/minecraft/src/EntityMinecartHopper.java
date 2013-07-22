@@ -22,6 +22,15 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements Hop
 		return transferTicker > 0;
 	}
 	
+	@Override public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+	{
+		if(!worldObj.isRemote)
+		{
+			par1EntityPlayer.displayGUIHopperMinecart(this);
+		}
+		return true;
+	}
+	
 	public boolean func_96112_aD()
 	{
 		if(TileEntityHopper.suckItemsIntoHopper(this)) return true;
@@ -79,15 +88,6 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements Hop
 	@Override public double getZPos()
 	{
 		return posZ;
-	}
-	
-	@Override public boolean interact(EntityPlayer par1EntityPlayer)
-	{
-		if(!worldObj.isRemote)
-		{
-			par1EntityPlayer.displayGUIHopperMinecart(this);
-		}
-		return true;
 	}
 	
 	@Override public void killMinecart(DamageSource par1DamageSource)

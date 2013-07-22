@@ -9,6 +9,6 @@ final class CreativeTabDeco extends CreativeTabs
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Block.plantRed.blockID;
+		return Item.redstone.itemID;
 	}
 }

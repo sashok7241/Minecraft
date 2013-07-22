@@ -6,21 +6,21 @@ public class EntityAIAvoidEntity extends EntityAIBase
 {
 	public final IEntitySelector field_98218_a = new EntityAIAvoidEntitySelector(this);
 	private EntityCreature theEntity;
-	private float farSpeed;
-	private float nearSpeed;
+	private double farSpeed;
+	private double nearSpeed;
 	private Entity closestLivingEntity;
 	private float distanceFromEntity;
 	private PathEntity entityPathEntity;
 	private PathNavigate entityPathNavigate;
 	private Class targetEntityClass;
 	
-	public EntityAIAvoidEntity(EntityCreature par1EntityCreature, Class par2Class, float par3, float par4, float par5)
+	public EntityAIAvoidEntity(EntityCreature par1EntityCreature, Class par2Class, float par3, double par4, double par6)
 	{
 		theEntity = par1EntityCreature;
 		targetEntityClass = par2Class;
 		distanceFromEntity = par3;
 		farSpeed = par4;
-		nearSpeed = par5;
+		nearSpeed = par6;
 		entityPathNavigate = par1EntityCreature.getNavigator();
 		setMutexBits(1);
 	}

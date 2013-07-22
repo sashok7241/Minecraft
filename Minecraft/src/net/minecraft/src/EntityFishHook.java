@@ -31,12 +31,6 @@ public class EntityFishHook extends Entity
 		xTile = -1;
 		yTile = -1;
 		zTile = -1;
-		inTile = 0;
-		inGround = false;
-		shake = 0;
-		ticksInAir = 0;
-		ticksCatchable = 0;
-		bobber = null;
 		setSize(0.25F, 0.25F);
 		ignoreFrustumCheck = true;
 	}
@@ -56,12 +50,6 @@ public class EntityFishHook extends Entity
 		xTile = -1;
 		yTile = -1;
 		zTile = -1;
-		inTile = 0;
-		inGround = false;
-		shake = 0;
-		ticksInAir = 0;
-		ticksCatchable = 0;
-		bobber = null;
 		ignoreFrustumCheck = true;
 		angler = par2EntityPlayer;
 		angler.fishEntity = this;
@@ -262,7 +250,7 @@ public class EntityFishHook extends Entity
 			{
 				if(var3.entityHit != null)
 				{
-					if(var3.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, angler), 0))
+					if(var3.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, angler), 0.0F))
 					{
 						bobber = var3.entityHit;
 					}

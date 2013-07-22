@@ -3,9 +3,21 @@ package net.minecraft.src;
 
 public class RenderPainting extends Render
 {
+	private static final ResourceLocation field_110807_a = new ResourceLocation("textures/painting/paintings_kristoffer_zetterstrand.png");
+	
 	@Override public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
 		renderThePainting((EntityPainting) par1Entity, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110806_a((EntityPainting) par1Entity);
+	}
+	
+	protected ResourceLocation func_110806_a(EntityPainting par1EntityPainting)
+	{
+		return field_110807_a;
 	}
 	
 	private void func_77008_a(EntityPainting par1EntityPainting, float par2, float par3)
@@ -109,7 +121,7 @@ public class RenderPainting extends Render
 		GL11.glTranslatef((float) par2, (float) par4, (float) par6);
 		GL11.glRotatef(par8, 0.0F, 1.0F, 0.0F);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		loadTexture("/art/kz.png");
+		func_110777_b(par1EntityPainting);
 		EnumArt var10 = par1EntityPainting.art;
 		float var11 = 0.0625F;
 		GL11.glScalef(var11, var11, var11);

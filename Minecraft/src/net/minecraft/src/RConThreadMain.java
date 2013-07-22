@@ -15,7 +15,7 @@ public class RConThreadMain extends RConThreadBase
 	private int rconPort;
 	private int serverPort;
 	private String hostname;
-	private ServerSocket serverSocket = null;
+	private ServerSocket serverSocket;
 	private String rconPassword;
 	private Map clientThreads;
 	

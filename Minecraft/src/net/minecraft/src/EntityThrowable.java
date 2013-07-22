@@ -7,13 +7,13 @@ public abstract class EntityThrowable extends Entity implements IProjectile
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
-	private int inTile = 0;
-	protected boolean inGround = false;
-	public int throwableShake = 0;
-	private EntityLiving thrower;
-	private String throwerName = null;
+	private int inTile;
+	protected boolean inGround;
+	public int throwableShake;
+	private EntityLivingBase thrower;
+	private String throwerName;
 	private int ticksInGround;
-	private int ticksInAir = 0;
+	private int ticksInAir;
 	
 	public EntityThrowable(World par1World)
 	{
@@ -30,12 +30,12 @@ public abstract class EntityThrowable extends Entity implements IProjectile
 		yOffset = 0.0F;
 	}
 	
-	public EntityThrowable(World par1World, EntityLiving par2EntityLiving)
+	public EntityThrowable(World par1World, EntityLivingBase par2EntityLivingBase)
 	{
 		super(par1World);
-		thrower = par2EntityLiving;
+		thrower = par2EntityLivingBase;
 		setSize(0.25F, 0.25F);
-		setLocationAndAngles(par2EntityLiving.posX, par2EntityLiving.posY + par2EntityLiving.getEyeHeight(), par2EntityLiving.posZ, par2EntityLiving.rotationYaw, par2EntityLiving.rotationPitch);
+		setLocationAndAngles(par2EntityLivingBase.posX, par2EntityLivingBase.posY + par2EntityLivingBase.getEyeHeight(), par2EntityLivingBase.posZ, par2EntityLivingBase.rotationYaw, par2EntityLivingBase.rotationPitch);
 		posX -= MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
 		posY -= 0.10000000149011612D;
 		posZ -= MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
@@ -72,7 +72,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
 		return 0.0F;
 	}
 	
-	public EntityLiving getThrower()
+	public EntityLivingBase getThrower()
 	{
 		if(thrower == null && throwerName != null && throwerName.length() > 0)
 		{
@@ -136,7 +136,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
 			Entity var4 = null;
 			List var5 = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 			double var6 = 0.0D;
-			EntityLiving var8 = getThrower();
+			EntityLivingBase var8 = getThrower();
 			for(int var9 = 0; var9 < var5.size(); ++var9)
 			{
 				Entity var10 = (Entity) var5.get(var9);

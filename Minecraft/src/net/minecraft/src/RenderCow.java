@@ -2,23 +2,20 @@ package net.minecraft.src;
 
 public class RenderCow extends RenderLiving
 {
+	private static final ResourceLocation field_110833_a = new ResourceLocation("textures/entity/cow/cow.png");
+	
 	public RenderCow(ModelBase par1ModelBase, float par2)
 	{
 		super(par1ModelBase, par2);
 	}
 	
-	@Override public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
 	{
-		renderCow((EntityCow) par1Entity, par2, par4, par6, par8, par9);
+		return func_110832_a((EntityCow) par1Entity);
 	}
 	
-	@Override public void doRenderLiving(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
+	protected ResourceLocation func_110832_a(EntityCow par1EntityCow)
 	{
-		renderCow((EntityCow) par1EntityLiving, par2, par4, par6, par8, par9);
-	}
-	
-	public void renderCow(EntityCow par1EntityCow, double par2, double par4, double par6, float par8, float par9)
-	{
-		super.doRenderLiving(par1EntityCow, par2, par4, par6, par8, par9);
+		return field_110833_a;
 	}
 }

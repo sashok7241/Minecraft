@@ -3,6 +3,7 @@ package net.minecraft.src;
 
 public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer
 {
+	private static final ResourceLocation field_110637_a = new ResourceLocation("textures/entity/chest/ender.png");
 	private ModelChest theEnderChestModel = new ModelChest();
 	
 	public void renderEnderChest(TileEntityEnderChest par1TileEntityEnderChest, double par2, double par4, double par6, float par8)
@@ -12,7 +13,7 @@ public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer
 		{
 			var9 = par1TileEntityEnderChest.getBlockMetadata();
 		}
-		bindTextureByName("/item/enderchest.png");
+		func_110628_a(field_110637_a);
 		GL11.glPushMatrix();
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

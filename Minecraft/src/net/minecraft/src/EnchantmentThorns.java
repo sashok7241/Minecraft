@@ -40,21 +40,21 @@ public class EnchantmentThorns extends Enchantment
 		return par0 > 10 ? par0 - 10 : 1 + par1Random.nextInt(4);
 	}
 	
-	public static void func_92096_a(Entity par0Entity, EntityLiving par1EntityLiving, Random par2Random)
+	public static void func_92096_a(Entity par0Entity, EntityLivingBase par1EntityLivingBase, Random par2Random)
 	{
-		int var3 = EnchantmentHelper.func_92098_i(par1EntityLiving);
-		ItemStack var4 = EnchantmentHelper.func_92099_a(Enchantment.thorns, par1EntityLiving);
+		int var3 = EnchantmentHelper.func_92098_i(par1EntityLivingBase);
+		ItemStack var4 = EnchantmentHelper.func_92099_a(Enchantment.thorns, par1EntityLivingBase);
 		if(func_92094_a(var3, par2Random))
 		{
-			par0Entity.attackEntityFrom(DamageSource.causeThornsDamage(par1EntityLiving), func_92095_b(var3, par2Random));
+			par0Entity.attackEntityFrom(DamageSource.causeThornsDamage(par1EntityLivingBase), func_92095_b(var3, par2Random));
 			par0Entity.playSound("damage.thorns", 0.5F, 1.0F);
 			if(var4 != null)
 			{
-				var4.damageItem(3, par1EntityLiving);
+				var4.damageItem(3, par1EntityLivingBase);
 			}
 		} else if(var4 != null)
 		{
-			var4.damageItem(1, par1EntityLiving);
+			var4.damageItem(1, par1EntityLivingBase);
 		}
 	}
 }

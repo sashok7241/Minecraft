@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet2ClientProtocol extends Packet
@@ -43,19 +43,19 @@ public class Packet2ClientProtocol extends Packet
 		par1NetHandler.handleClientProtocol(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		protocolVersion = par1DataInputStream.readByte();
-		username = readString(par1DataInputStream, 16);
-		serverHost = readString(par1DataInputStream, 255);
-		serverPort = par1DataInputStream.readInt();
+		protocolVersion = par1DataInput.readByte();
+		username = readString(par1DataInput, 16);
+		serverHost = readString(par1DataInput, 255);
+		serverPort = par1DataInput.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeByte(protocolVersion);
-		writeString(username, par1DataOutputStream);
-		writeString(serverHost, par1DataOutputStream);
-		par1DataOutputStream.writeInt(serverPort);
+		par1DataOutput.writeByte(protocolVersion);
+		writeString(username, par1DataOutput);
+		writeString(serverHost, par1DataOutput);
+		par1DataOutput.writeInt(serverPort);
 	}
 }

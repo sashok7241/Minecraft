@@ -3,18 +3,17 @@ package net.minecraft.src;
 public class EntityTNTPrimed extends Entity
 {
 	public int fuse;
-	private EntityLiving tntPlacedBy;
+	private EntityLivingBase tntPlacedBy;
 	
 	public EntityTNTPrimed(World par1World)
 	{
 		super(par1World);
-		fuse = 0;
 		preventEntitySpawning = true;
 		setSize(0.98F, 0.98F);
 		yOffset = height / 2.0F;
 	}
 	
-	public EntityTNTPrimed(World par1World, double par2, double par4, double par6, EntityLiving par8EntityLiving)
+	public EntityTNTPrimed(World par1World, double par2, double par4, double par6, EntityLivingBase par8EntityLivingBase)
 	{
 		this(par1World);
 		setPosition(par2, par4, par6);
@@ -26,7 +25,7 @@ public class EntityTNTPrimed extends Entity
 		prevPosX = par2;
 		prevPosY = par4;
 		prevPosZ = par6;
-		tntPlacedBy = par8EntityLiving;
+		tntPlacedBy = par8EntityLivingBase;
 	}
 	
 	@Override public boolean canBeCollidedWith()
@@ -54,7 +53,7 @@ public class EntityTNTPrimed extends Entity
 		return 0.0F;
 	}
 	
-	public EntityLiving getTntPlacedBy()
+	public EntityLivingBase getTntPlacedBy()
 	{
 		return tntPlacedBy;
 	}

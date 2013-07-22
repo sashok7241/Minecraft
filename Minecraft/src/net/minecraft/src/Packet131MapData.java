@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet131MapData extends Packet
@@ -33,19 +33,19 @@ public class Packet131MapData extends Packet
 		par1NetHandler.handleMapData(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		itemID = par1DataInputStream.readShort();
-		uniqueID = par1DataInputStream.readShort();
-		itemData = new byte[par1DataInputStream.readUnsignedShort()];
-		par1DataInputStream.readFully(itemData);
+		itemID = par1DataInput.readShort();
+		uniqueID = par1DataInput.readShort();
+		itemData = new byte[par1DataInput.readUnsignedShort()];
+		par1DataInput.readFully(itemData);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeShort(itemID);
-		par1DataOutputStream.writeShort(uniqueID);
-		par1DataOutputStream.writeShort(itemData.length);
-		par1DataOutputStream.write(itemData);
+		par1DataOutput.writeShort(itemID);
+		par1DataOutput.writeShort(uniqueID);
+		par1DataOutput.writeShort(itemData.length);
+		par1DataOutput.write(itemData);
 	}
 }

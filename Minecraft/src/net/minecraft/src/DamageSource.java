@@ -16,14 +16,14 @@ public class DamageSource
 	public static DamageSource wither = new DamageSource("wither").setDamageBypassesArmor();
 	public static DamageSource anvil = new DamageSource("anvil");
 	public static DamageSource fallingBlock = new DamageSource("fallingBlock");
-	private boolean isUnblockable = false;
-	private boolean isDamageAllowedInCreativeMode = false;
+	private boolean isUnblockable;
+	private boolean isDamageAllowedInCreativeMode;
 	private float hungerDamage = 0.3F;
 	private boolean fireDamage;
 	private boolean projectile;
 	private boolean difficultyScaled;
-	private boolean magicDamage = false;
-	private boolean explosion = false;
+	private boolean magicDamage;
+	private boolean explosion;
 	public String damageType;
 	
 	protected DamageSource(String par1Str)
@@ -41,12 +41,12 @@ public class DamageSource
 		return damageType;
 	}
 	
-	public String getDeathMessage(EntityLiving par1EntityLiving)
+	public ChatMessageComponent getDeathMessage(EntityLivingBase par1EntityLivingBase)
 	{
-		EntityLiving var2 = par1EntityLiving.func_94060_bK();
+		EntityLivingBase var2 = par1EntityLivingBase.func_94060_bK();
 		String var3 = "death.attack." + damageType;
 		String var4 = var3 + ".player";
-		return var2 != null && StatCollector.func_94522_b(var4) ? StatCollector.translateToLocalFormatted(var4, new Object[] { par1EntityLiving.getTranslatedEntityName(), var2.getTranslatedEntityName() }) : StatCollector.translateToLocalFormatted(var3, new Object[] { par1EntityLiving.getTranslatedEntityName() });
+		return var2 != null && StatCollector.func_94522_b(var4) ? ChatMessageComponent.func_111082_b(var4, new Object[] { par1EntityLivingBase.getTranslatedEntityName(), var2.getTranslatedEntityName() }) : ChatMessageComponent.func_111082_b(var3, new Object[] { par1EntityLivingBase.getTranslatedEntityName() });
 	}
 	
 	public Entity getEntity()
@@ -152,9 +152,9 @@ public class DamageSource
 		return new EntityDamageSourceIndirect("indirectMagic", par0Entity, par1Entity).setDamageBypassesArmor().setMagicDamage();
 	}
 	
-	public static DamageSource causeMobDamage(EntityLiving par0EntityLiving)
+	public static DamageSource causeMobDamage(EntityLivingBase par0EntityLivingBase)
 	{
-		return new EntityDamageSource("mob", par0EntityLiving);
+		return new EntityDamageSource("mob", par0EntityLivingBase);
 	}
 	
 	public static DamageSource causePlayerDamage(EntityPlayer par0EntityPlayer)

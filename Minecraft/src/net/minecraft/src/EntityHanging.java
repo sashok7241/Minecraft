@@ -14,8 +14,6 @@ public abstract class EntityHanging extends Entity
 	public EntityHanging(World par1World)
 	{
 		super(par1World);
-		tickCounter1 = 0;
-		hangingDirection = 0;
 		yOffset = 0.0F;
 		setSize(0.5F, 0.5F);
 	}
@@ -33,11 +31,11 @@ public abstract class EntityHanging extends Entity
 		if(!worldObj.isRemote && !isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
 		{
 			setDead();
-			dropItemStack();
+			func_110128_b((Entity) null);
 		}
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -46,13 +44,7 @@ public abstract class EntityHanging extends Entity
 			{
 				setDead();
 				setBeenAttacked();
-				EntityPlayer var3 = null;
-				if(par1DamageSource.getEntity() instanceof EntityPlayer)
-				{
-					var3 = (EntityPlayer) par1DamageSource.getEntity();
-				}
-				if(var3 != null && var3.capabilities.isCreativeMode) return true;
-				dropItemStack();
+				func_110128_b(par1DamageSource.getEntity());
 			}
 			return true;
 		}
@@ -63,10 +55,15 @@ public abstract class EntityHanging extends Entity
 		return true;
 	}
 	
-	public abstract void dropItemStack();
-	
 	@Override protected void entityInit()
 	{
+	}
+	
+	public abstract void func_110128_b(Entity var1);
+	
+	@Override protected boolean func_142008_O()
+	{
+		return false;
 	}
 	
 	private float func_70517_b(int par1)
@@ -80,7 +77,7 @@ public abstract class EntityHanging extends Entity
 	
 	@Override public boolean func_85031_j(Entity par1Entity)
 	{
-		return par1Entity instanceof EntityPlayer ? attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) par1Entity), 0) : false;
+		return par1Entity instanceof EntityPlayer ? attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) par1Entity), 0.0F) : false;
 	}
 	
 	@Override public void moveEntity(double par1, double par3, double par5)
@@ -88,19 +85,22 @@ public abstract class EntityHanging extends Entity
 		if(!worldObj.isRemote && !isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
 		{
 			setDead();
-			dropItemStack();
+			func_110128_b((Entity) null);
 		}
 	}
 	
 	@Override public void onUpdate()
 	{
+		prevPosX = posX;
+		prevPosY = posY;
+		prevPosZ = posZ;
 		if(tickCounter1++ == 100 && !worldObj.isRemote)
 		{
 			tickCounter1 = 0;
 			if(!isDead && !onValidSurface())
 			{
 				setDead();
-				dropItemStack();
+				func_110128_b((Entity) null);
 			}
 		}
 	}

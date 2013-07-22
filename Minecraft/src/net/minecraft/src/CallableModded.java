@@ -5,11 +5,11 @@ import java.util.concurrent.Callable;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 
-public class CallableModded implements Callable
+class CallableModded implements Callable
 {
 	final Minecraft mc;
 	
-	public CallableModded(Minecraft par1Minecraft)
+	CallableModded(Minecraft par1Minecraft)
 	{
 		mc = par1Minecraft;
 	}

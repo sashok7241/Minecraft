@@ -93,6 +93,8 @@ public class BlockFire extends Block
 		setBurnRate(Block.tallGrass.blockID, 60, 100);
 		setBurnRate(Block.cloth.blockID, 30, 60);
 		setBurnRate(Block.vine.blockID, 15, 100);
+		setBurnRate(Block.field_111034_cE.blockID, 5, 5);
+		setBurnRate(Block.field_111038_cB.blockID, 60, 20);
 	}
 	
 	@Override public boolean isCollidable()
@@ -208,7 +210,7 @@ public class BlockFire extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray = new Icon[] { par1IconRegister.registerIcon("fire_0"), par1IconRegister.registerIcon("fire_1") };
+		iconArray = new Icon[] { par1IconRegister.registerIcon(func_111023_E() + "_layer_0"), par1IconRegister.registerIcon(func_111023_E() + "_layer_1") };
 	}
 	
 	@Override public boolean renderAsNormalBlock()

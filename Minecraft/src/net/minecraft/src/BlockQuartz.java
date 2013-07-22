@@ -5,7 +5,7 @@ import java.util.List;
 public class BlockQuartz extends Block
 {
 	public static final String[] quartzBlockTypes = new String[] { "default", "chiseled", "lines" };
-	private static final String[] quartzBlockTextureTypes = new String[] { "quartzblock_side", "quartzblock_chiseled", "quartzblock_lines", null, null };
+	private static final String[] quartzBlockTextureTypes = new String[] { "side", "chiseled", "lines", null, null };
 	private Icon[] quartzblockIcons;
 	private Icon quartzblock_chiseled_top;
 	private Icon quartzblock_lines_top;
@@ -91,12 +91,12 @@ public class BlockQuartz extends Block
 				quartzblockIcons[var2] = quartzblockIcons[var2 - 1];
 			} else
 			{
-				quartzblockIcons[var2] = par1IconRegister.registerIcon(quartzBlockTextureTypes[var2]);
+				quartzblockIcons[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + quartzBlockTextureTypes[var2]);
 			}
 		}
-		quartzblock_top = par1IconRegister.registerIcon("quartzblock_top");
-		quartzblock_chiseled_top = par1IconRegister.registerIcon("quartzblock_chiseled_top");
-		quartzblock_lines_top = par1IconRegister.registerIcon("quartzblock_lines_top");
-		quartzblock_bottom = par1IconRegister.registerIcon("quartzblock_bottom");
+		quartzblock_top = par1IconRegister.registerIcon(func_111023_E() + "_" + "top");
+		quartzblock_chiseled_top = par1IconRegister.registerIcon(func_111023_E() + "_" + "chiseled_top");
+		quartzblock_lines_top = par1IconRegister.registerIcon(func_111023_E() + "_" + "lines_top");
+		quartzblock_bottom = par1IconRegister.registerIcon(func_111023_E() + "_" + "bottom");
 	}
 }

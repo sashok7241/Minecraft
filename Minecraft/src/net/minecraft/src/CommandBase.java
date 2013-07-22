@@ -9,7 +9,7 @@ import net.minecraft.server.MinecraftServer;
 
 public abstract class CommandBase implements ICommand
 {
-	private static IAdminCommand theAdmin = null;
+	private static IAdminCommand theAdmin;
 	
 	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
@@ -36,11 +36,6 @@ public abstract class CommandBase implements ICommand
 		return null;
 	}
 	
-	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
-	{
-		return "/" + getCommandName();
-	}
-	
 	public int getRequiredPermissionLevel()
 	{
 		return 4;
@@ -54,6 +49,74 @@ public abstract class CommandBase implements ICommand
 	public static boolean doesStringStartWith(String par0Str, String par1Str)
 	{
 		return par1Str.regionMatches(true, 0, par0Str, 0, par0Str.length());
+	}
+	
+	public static double func_110661_a(ICommandSender par0ICommandSender, String par1Str, double par2, double par4)
+	{
+		double var6 = parseDouble(par0ICommandSender, par1Str);
+		if(var6 < par2) throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] { Double.valueOf(var6), Double.valueOf(par2) });
+		else if(var6 > par4) throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] { Double.valueOf(var6), Double.valueOf(par4) });
+		else return var6;
+	}
+	
+	public static boolean func_110662_c(ICommandSender par0ICommandSender, String par1Str)
+	{
+		if(!par1Str.equals("true") && !par1Str.equals("1"))
+		{
+			if(!par1Str.equals("false") && !par1Str.equals("0")) throw new CommandException("commands.generic.boolean.invalid", new Object[] { par1Str });
+			else return false;
+		} else return true;
+	}
+	
+	public static String func_110663_b(Collection par0Collection)
+	{
+		String[] var1 = new String[par0Collection.size()];
+		int var2 = 0;
+		EntityLivingBase var4;
+		for(Iterator var3 = par0Collection.iterator(); var3.hasNext(); var1[var2++] = var4.getTranslatedEntityName())
+		{
+			var4 = (EntityLivingBase) var3.next();
+		}
+		return joinNiceString(var1);
+	}
+	
+	public static double func_110664_a(ICommandSender par0ICommandSender, String par1Str, double par2)
+	{
+		return func_110661_a(par0ICommandSender, par1Str, par2, Double.MAX_VALUE);
+	}
+	
+	public static double func_110665_a(ICommandSender par0ICommandSender, double par1, String par3Str, int par4, int par5)
+	{
+		boolean var6 = par3Str.startsWith("~");
+		if(var6 && Double.isNaN(par1)) throw new NumberInvalidException("commands.generic.num.invalid", new Object[] { Double.valueOf(par1) });
+		else
+		{
+			double var7 = var6 ? par1 : 0.0D;
+			if(!var6 || par3Str.length() > 1)
+			{
+				boolean var9 = par3Str.contains(".");
+				if(var6)
+				{
+					par3Str = par3Str.substring(1);
+				}
+				var7 += parseDouble(par0ICommandSender, par3Str);
+				if(!var9 && !var6)
+				{
+					var7 += 0.5D;
+				}
+			}
+			if(par4 != 0 || par5 != 0)
+			{
+				if(var7 < par4) throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] { Double.valueOf(var7), Integer.valueOf(par4) });
+				if(var7 > par5) throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] { Double.valueOf(var7), Integer.valueOf(par5) });
+			}
+			return var7;
+		}
+	}
+	
+	public static double func_110666_a(ICommandSender par0ICommandSender, double par1, String par3Str)
+	{
+		return func_110665_a(par0ICommandSender, par1, par3Str, -30000000, 30000000);
 	}
 	
 	public static EntityPlayerMP func_82359_c(ICommandSender par0ICommandSender, String par1Str)
@@ -106,7 +169,7 @@ public abstract class CommandBase implements ICommand
 	
 	public static String func_96333_a(Collection par0Collection)
 	{
-		return joinNiceString(par0Collection.toArray(new String[0]));
+		return joinNiceString(par0Collection.toArray(new String[par0Collection.size()]));
 	}
 	
 	public static EntityPlayerMP getCommandSenderAsPlayer(ICommandSender par0ICommandSender)
@@ -186,8 +249,10 @@ public abstract class CommandBase implements ICommand
 	{
 		try
 		{
-			return Double.parseDouble(par1Str);
-		} catch(NumberFormatException var3)
+			double var2 = Double.parseDouble(par1Str);
+			if(!Doubles.isFinite(var2)) throw new NumberInvalidException("commands.generic.double.invalid", new Object[] { par1Str });
+			else return var2;
+		} catch(NumberFormatException var4)
 		{
 			throw new NumberInvalidException("commands.generic.double.invalid", new Object[] { par1Str });
 		}

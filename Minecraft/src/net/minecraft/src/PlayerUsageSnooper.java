@@ -20,20 +20,21 @@ public class PlayerUsageSnooper
 	private final IPlayerUsage playerStatsCollector;
 	private final java.util.Timer threadTrigger = new java.util.Timer("Snooper Timer", true);
 	private final Object syncLock = new Object();
-	private final long field_98224_g = System.currentTimeMillis();
-	private boolean isRunning = false;
-	private int selfCounter = 0;
+	private final long field_98224_g;
+	private boolean isRunning;
+	private int selfCounter;
 	
-	public PlayerUsageSnooper(String par1Str, IPlayerUsage par2IPlayerUsage)
+	public PlayerUsageSnooper(String par1Str, IPlayerUsage par2IPlayerUsage, long par3)
 	{
 		try
 		{
 			serverUrl = new URL("http://snoop.minecraft.net/" + par1Str + "?version=" + 1);
-		} catch(MalformedURLException var4)
+		} catch(MalformedURLException var6)
 		{
 			throw new IllegalArgumentException();
 		}
 		playerStatsCollector = par2IPlayerUsage;
+		field_98224_g = par3;
 	}
 	
 	private void addBaseDataToSnooper()
@@ -44,7 +45,7 @@ public class PlayerUsageSnooper
 		addData("os_version", System.getProperty("os.version"));
 		addData("os_architecture", System.getProperty("os.arch"));
 		addData("java_version", System.getProperty("java.version"));
-		addData("version", "1.5.2");
+		addData("version", "1.6.2");
 		playerStatsCollector.addServerTypeToSnooper(this);
 	}
 	
@@ -80,8 +81,12 @@ public class PlayerUsageSnooper
 		addData("memory_max", Long.valueOf(Runtime.getRuntime().maxMemory()));
 		addData("memory_free", Long.valueOf(Runtime.getRuntime().freeMemory()));
 		addData("cpu_cores", Integer.valueOf(Runtime.getRuntime().availableProcessors()));
-		addData("run_time", Long.valueOf((System.currentTimeMillis() - field_98224_g) / 60L * 1000L));
 		playerStatsCollector.addServerStatsToSnooper(this);
+	}
+	
+	public long func_130105_g()
+	{
+		return field_98224_g;
 	}
 	
 	public Map getCurrentStats()

@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class EntityBreakingFX extends EntityFX
 {
-	public EntityBreakingFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, Item par14Item, RenderEngine par15RenderEngine)
+	public EntityBreakingFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, Item par14Item, int par15)
 	{
-		this(par1World, par2, par4, par6, par14Item, par15RenderEngine);
+		this(par1World, par2, par4, par6, par14Item, par15);
 		motionX *= 0.10000000149011612D;
 		motionY *= 0.10000000149011612D;
 		motionZ *= 0.10000000149011612D;
@@ -13,10 +13,15 @@ public class EntityBreakingFX extends EntityFX
 		motionZ += par12;
 	}
 	
-	public EntityBreakingFX(World par1World, double par2, double par4, double par6, Item par8Item, RenderEngine par9RenderEngine)
+	public EntityBreakingFX(World par1World, double par2, double par4, double par6, Item par8Item)
+	{
+		this(par1World, par2, par4, par6, par8Item, 0);
+	}
+	
+	public EntityBreakingFX(World par1World, double par2, double par4, double par6, Item par8Item, int par9)
 	{
 		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
-		setParticleIcon(par9RenderEngine, par8Item.getIconFromDamage(0));
+		func_110125_a(par8Item.getIconFromDamage(par9));
 		particleRed = particleGreen = particleBlue = 1.0F;
 		particleGravity = Block.blockSnow.blockParticleGravity;
 		particleScale /= 2.0F;

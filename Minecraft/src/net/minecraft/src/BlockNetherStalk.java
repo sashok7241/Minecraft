@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class BlockNetherStalk extends BlockFlower
 {
-	private static final String[] field_94373_a = new String[] { "netherStalk_0", "netherStalk_1", "netherStalk_2" };
 	private Icon[] iconArray;
 	
 	protected BlockNetherStalk(int par1)
@@ -73,10 +72,10 @@ public class BlockNetherStalk extends BlockFlower
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray = new Icon[field_94373_a.length];
+		iconArray = new Icon[3];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon(field_94373_a[var2]);
+			iconArray[var2] = par1IconRegister.registerIcon(func_111023_E() + "_stage_" + var2);
 		}
 	}
 	

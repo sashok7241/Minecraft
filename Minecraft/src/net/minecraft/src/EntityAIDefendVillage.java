@@ -3,11 +3,11 @@ package net.minecraft.src;
 public class EntityAIDefendVillage extends EntityAITarget
 {
 	EntityIronGolem irongolem;
-	EntityLiving villageAgressorTarget;
+	EntityLivingBase villageAgressorTarget;
 	
 	public EntityAIDefendVillage(EntityIronGolem par1EntityIronGolem)
 	{
-		super(par1EntityIronGolem, 16.0F, false, true);
+		super(par1EntityIronGolem, false, true);
 		irongolem = par1EntityIronGolem;
 		setMutexBits(1);
 	}

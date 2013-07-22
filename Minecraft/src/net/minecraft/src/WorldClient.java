@@ -47,6 +47,8 @@ public class WorldClient extends World
 		CrashReportCategory var2 = super.addWorldInfoToCrashReport(par1CrashReport);
 		var2.addCrashSectionCallable("Forced entities", new CallableMPL1(this));
 		var2.addCrashSectionCallable("Retry entities", new CallableMPL2(this));
+		var2.addCrashSectionCallable("Server brand", new WorldClientINNER3(this));
+		var2.addCrashSectionCallable("Server type", new WorldClientINNER4(this));
 		return var2;
 	}
 	
@@ -236,6 +238,19 @@ public class WorldClient extends World
 		return super.setBlock(par1, par2, par3, par4, par5, 3);
 	}
 	
+	@Override public void setWorldTime(long par1)
+	{
+		if(par1 < 0L)
+		{
+			par1 = -par1;
+			getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
+		} else
+		{
+			getGameRules().setOrCreateGameRule("doDaylightCycle", "true");
+		}
+		super.setWorldTime(par1);
+	}
+	
 	@Override public boolean spawnEntityInWorld(Entity par1Entity)
 	{
 		boolean var2 = super.spawnEntityInWorld(par1Entity);
@@ -251,7 +266,10 @@ public class WorldClient extends World
 	{
 		super.tick();
 		func_82738_a(getTotalWorldTime() + 1L);
-		setWorldTime(getWorldTime() + 1L);
+		if(getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
+		{
+			setWorldTime(getWorldTime() + 1L);
+		}
 		theProfiler.startSection("reEntryProcessing");
 		for(int var1 = 0; var1 < 10 && !entitySpawnQueue.isEmpty(); ++var1)
 		{
@@ -336,6 +354,11 @@ public class WorldClient extends World
 				thunderingStrength = 1.0F;
 			}
 		}
+	}
+	
+	static Minecraft func_142030_c(WorldClient par0WorldClient)
+	{
+		return par0WorldClient.mc;
 	}
 	
 	static Set getEntityList(WorldClient par0WorldClient)

@@ -43,7 +43,7 @@ public class NBTTagFloat extends NBTBase
 		return super.hashCode() ^ Float.floatToIntBits(data);
 	}
 	
-	@Override void load(DataInput par1DataInput) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
 		data = par1DataInput.readFloat();
 	}

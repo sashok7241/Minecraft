@@ -50,9 +50,9 @@ public abstract class Enchantment
 		return 0;
 	}
 	
-	public int calcModifierLiving(int par1, EntityLiving par2EntityLiving)
+	public float calcModifierLiving(int par1, EntityLivingBase par2EntityLivingBase)
 	{
-		return 0;
+		return 0.0F;
 	}
 	
 	public boolean canApply(ItemStack par1ItemStack)

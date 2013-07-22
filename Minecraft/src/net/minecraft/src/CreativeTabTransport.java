@@ -9,6 +9,6 @@ final class CreativeTabTransport extends CreativeTabs
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Block.railPowered.blockID;
+		return Item.bucketLava.itemID;
 	}
 }

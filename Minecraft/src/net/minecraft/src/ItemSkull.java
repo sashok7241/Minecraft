@@ -5,7 +5,7 @@ import java.util.List;
 public class ItemSkull extends Item
 {
 	private static final String[] skullTypes = new String[] { "skeleton", "wither", "zombie", "char", "creeper" };
-	public static final String[] field_94587_a = new String[] { "skull_skeleton", "skull_wither", "skull_zombie", "skull_char", "skull_creeper" };
+	public static final String[] field_94587_a = new String[] { "skeleton", "wither", "zombie", "steve", "creeper" };
 	private Icon[] field_94586_c;
 	
 	public ItemSkull(int par1)
@@ -112,7 +112,7 @@ public class ItemSkull extends Item
 		field_94586_c = new Icon[field_94587_a.length];
 		for(int var2 = 0; var2 < field_94587_a.length; ++var2)
 		{
-			field_94586_c[var2] = par1IconRegister.registerIcon(field_94587_a[var2]);
+			field_94586_c[var2] = par1IconRegister.registerIcon(func_111208_A() + "_" + field_94587_a[var2]);
 		}
 	}
 }

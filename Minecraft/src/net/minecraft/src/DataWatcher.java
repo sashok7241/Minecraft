@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +42,16 @@ public class DataWatcher
 		watchedObjects.put(Integer.valueOf(par1), var3);
 		lock.writeLock().unlock();
 		isBlank = false;
+	}
+	
+	public void func_111144_e()
+	{
+		objectChanged = false;
+	}
+	
+	public float func_111145_d(int par1)
+	{
+		return ((Float) getWatchedObject(par1).getObject()).floatValue();
 	}
 	
 	public List getAllWatched()
@@ -171,25 +181,26 @@ public class DataWatcher
 			}
 		}
 		lock.writeLock().unlock();
+		objectChanged = true;
 	}
 	
-	public void writeWatchableObjects(DataOutputStream par1DataOutputStream) throws IOException
+	public void writeWatchableObjects(DataOutput par1DataOutput) throws IOException
 	{
 		lock.readLock().lock();
 		Iterator var2 = watchedObjects.values().iterator();
 		while(var2.hasNext())
 		{
 			WatchableObject var3 = (WatchableObject) var2.next();
-			writeWatchableObject(par1DataOutputStream, var3);
+			writeWatchableObject(par1DataOutput, var3);
 		}
 		lock.readLock().unlock();
-		par1DataOutputStream.writeByte(127);
+		par1DataOutput.writeByte(127);
 	}
 	
-	public static List readWatchableObjects(DataInputStream par0DataInputStream) throws IOException
+	public static List readWatchableObjects(DataInput par0DataInput) throws IOException
 	{
 		ArrayList var1 = null;
-		for(byte var2 = par0DataInputStream.readByte(); var2 != 127; var2 = par0DataInputStream.readByte())
+		for(byte var2 = par0DataInput.readByte(); var2 != 127; var2 = par0DataInput.readByte())
 		{
 			if(var1 == null)
 			{
@@ -201,27 +212,27 @@ public class DataWatcher
 			switch(var3)
 			{
 				case 0:
-					var5 = new WatchableObject(var3, var4, Byte.valueOf(par0DataInputStream.readByte()));
+					var5 = new WatchableObject(var3, var4, Byte.valueOf(par0DataInput.readByte()));
 					break;
 				case 1:
-					var5 = new WatchableObject(var3, var4, Short.valueOf(par0DataInputStream.readShort()));
+					var5 = new WatchableObject(var3, var4, Short.valueOf(par0DataInput.readShort()));
 					break;
 				case 2:
-					var5 = new WatchableObject(var3, var4, Integer.valueOf(par0DataInputStream.readInt()));
+					var5 = new WatchableObject(var3, var4, Integer.valueOf(par0DataInput.readInt()));
 					break;
 				case 3:
-					var5 = new WatchableObject(var3, var4, Float.valueOf(par0DataInputStream.readFloat()));
+					var5 = new WatchableObject(var3, var4, Float.valueOf(par0DataInput.readFloat()));
 					break;
 				case 4:
-					var5 = new WatchableObject(var3, var4, Packet.readString(par0DataInputStream, 64));
+					var5 = new WatchableObject(var3, var4, Packet.readString(par0DataInput, 64));
 					break;
 				case 5:
-					var5 = new WatchableObject(var3, var4, Packet.readItemStack(par0DataInputStream));
+					var5 = new WatchableObject(var3, var4, Packet.readItemStack(par0DataInput));
 					break;
 				case 6:
-					int var6 = par0DataInputStream.readInt();
-					int var7 = par0DataInputStream.readInt();
-					int var8 = par0DataInputStream.readInt();
+					int var6 = par0DataInput.readInt();
+					int var7 = par0DataInput.readInt();
+					int var8 = par0DataInput.readInt();
 					var5 = new WatchableObject(var3, var4, new ChunkCoordinates(var6, var7, var8));
 			}
 			var1.add(var5);
@@ -229,7 +240,7 @@ public class DataWatcher
 		return var1;
 	}
 	
-	public static void writeObjectsInListToStream(List par0List, DataOutputStream par1DataOutputStream) throws IOException
+	public static void writeObjectsInListToStream(List par0List, DataOutput par1DataOutput) throws IOException
 	{
 		if(par0List != null)
 		{
@@ -237,42 +248,42 @@ public class DataWatcher
 			while(var2.hasNext())
 			{
 				WatchableObject var3 = (WatchableObject) var2.next();
-				writeWatchableObject(par1DataOutputStream, var3);
+				writeWatchableObject(par1DataOutput, var3);
 			}
 		}
-		par1DataOutputStream.writeByte(127);
+		par1DataOutput.writeByte(127);
 	}
 	
-	private static void writeWatchableObject(DataOutputStream par0DataOutputStream, WatchableObject par1WatchableObject) throws IOException
+	private static void writeWatchableObject(DataOutput par0DataOutput, WatchableObject par1WatchableObject) throws IOException
 	{
 		int var2 = (par1WatchableObject.getObjectType() << 5 | par1WatchableObject.getDataValueId() & 31) & 255;
-		par0DataOutputStream.writeByte(var2);
+		par0DataOutput.writeByte(var2);
 		switch(par1WatchableObject.getObjectType())
 		{
 			case 0:
-				par0DataOutputStream.writeByte(((Byte) par1WatchableObject.getObject()).byteValue());
+				par0DataOutput.writeByte(((Byte) par1WatchableObject.getObject()).byteValue());
 				break;
 			case 1:
-				par0DataOutputStream.writeShort(((Short) par1WatchableObject.getObject()).shortValue());
+				par0DataOutput.writeShort(((Short) par1WatchableObject.getObject()).shortValue());
 				break;
 			case 2:
-				par0DataOutputStream.writeInt(((Integer) par1WatchableObject.getObject()).intValue());
+				par0DataOutput.writeInt(((Integer) par1WatchableObject.getObject()).intValue());
 				break;
 			case 3:
-				par0DataOutputStream.writeFloat(((Float) par1WatchableObject.getObject()).floatValue());
+				par0DataOutput.writeFloat(((Float) par1WatchableObject.getObject()).floatValue());
 				break;
 			case 4:
-				Packet.writeString((String) par1WatchableObject.getObject(), par0DataOutputStream);
+				Packet.writeString((String) par1WatchableObject.getObject(), par0DataOutput);
 				break;
 			case 5:
 				ItemStack var4 = (ItemStack) par1WatchableObject.getObject();
-				Packet.writeItemStack(var4, par0DataOutputStream);
+				Packet.writeItemStack(var4, par0DataOutput);
 				break;
 			case 6:
 				ChunkCoordinates var3 = (ChunkCoordinates) par1WatchableObject.getObject();
-				par0DataOutputStream.writeInt(var3.posX);
-				par0DataOutputStream.writeInt(var3.posY);
-				par0DataOutputStream.writeInt(var3.posZ);
+				par0DataOutput.writeInt(var3.posX);
+				par0DataOutput.writeInt(var3.posY);
+				par0DataOutput.writeInt(var3.posZ);
 		}
 	}
 	

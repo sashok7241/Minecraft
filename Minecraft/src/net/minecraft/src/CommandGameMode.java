@@ -18,7 +18,7 @@ public class CommandGameMode extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.gamemode.usage", new Object[0]);
+		return "commands.gamemode.usage";
 	}
 	
 	protected EnumGameType getGameModeFromCommand(ICommandSender par1ICommandSender, String par2Str)
@@ -49,7 +49,7 @@ public class CommandGameMode extends CommandBase
 			EntityPlayerMP var4 = par2ArrayOfStr.length >= 2 ? func_82359_c(par1ICommandSender, par2ArrayOfStr[1]) : getCommandSenderAsPlayer(par1ICommandSender);
 			var4.setGameType(var3);
 			var4.fallDistance = 0.0F;
-			String var5 = StatCollector.translateToLocal("gameMode." + var3.getName());
+			ChatMessageComponent var5 = ChatMessageComponent.func_111077_e("gameMode." + var3.getName());
 			if(var4 != par1ICommandSender)
 			{
 				notifyAdmins(par1ICommandSender, 1, "commands.gamemode.success.other", new Object[] { var4.getEntityName(), var5 });

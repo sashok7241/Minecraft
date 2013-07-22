@@ -1,33 +1,85 @@
 package net.minecraft.src;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import net.minecraft.client.Minecraft;
 
 public class McoServerList
 {
-	private volatile boolean field_98259_a = false;
-	private TimerTaskMcoServerListUpdate field_98257_b;
+	private volatile boolean field_98259_a;
+	private McoServerListUpdateTask field_98257_b = new McoServerListUpdateTask(this, (McoServerListEmptyAnon) null);
 	private java.util.Timer field_98258_c = new java.util.Timer();
-	private List field_98255_d = new ArrayList();
-	private boolean field_98256_e = false;
+	private Set field_140060_d = Sets.newHashSet();
+	private List field_98255_d = Lists.newArrayList();
+	private int field_130130_e;
+	private boolean field_140059_g;
 	private Session field_98254_f;
+	private int field_140061_i;
 	
-	public McoServerList(Session par1Session)
+	public McoServerList()
+	{
+		field_98258_c.schedule(field_98257_b, 0L, 10000L);
+		field_98254_f = Minecraft.getMinecraft().func_110432_I();
+	}
+	
+	private void func_130123_a(int par1)
+	{
+		field_130130_e = par1;
+	}
+	
+	public int func_130124_d()
+	{
+		return field_130130_e;
+	}
+	
+	public synchronized boolean func_130127_a()
+	{
+		return field_140059_g;
+	}
+	
+	public synchronized void func_130129_a(Session par1Session)
 	{
 		field_98254_f = par1Session;
-		field_98257_b = new TimerTaskMcoServerListUpdate(this, (McoServerListINNER1) null);
-		field_98258_c.schedule(field_98257_b, 0L, 10000L);
+		if(field_98259_a)
+		{
+			field_98259_a = false;
+			field_98257_b = new McoServerListUpdateTask(this, (McoServerListEmptyAnon) null);
+			field_98258_c = new java.util.Timer();
+			field_98258_c.schedule(field_98257_b, 0L, 10000L);
+		}
+	}
+	
+	public int func_140056_e()
+	{
+		return field_140061_i;
+	}
+	
+	public synchronized void func_140058_a(McoServer par1McoServer)
+	{
+		field_98255_d.remove(par1McoServer);
+		field_140060_d.add(par1McoServer);
 	}
 	
 	private synchronized void func_96426_a(List par1List)
 	{
-		if(!par1List.equals(field_98255_d))
+		int var2 = 0;
+		Iterator var3 = field_140060_d.iterator();
+		while(var3.hasNext())
 		{
-			field_98255_d = par1List;
-			field_98256_e = true;
+			McoServer var4 = (McoServer) var3.next();
+			if(par1List.remove(var4))
+			{
+				++var2;
+			}
 		}
+		if(var2 == 0)
+		{
+			field_140060_d.clear();
+		}
+		field_98255_d = par1List;
+		field_140059_g = true;
 	}
 	
 	public synchronized void func_98248_d()
@@ -39,17 +91,12 @@ public class McoServerList
 	
 	public synchronized void func_98250_b()
 	{
-		field_98256_e = false;
-	}
-	
-	public synchronized boolean func_98251_a()
-	{
-		return field_98256_e;
+		field_140059_g = false;
 	}
 	
 	public synchronized List func_98252_c()
 	{
-		return Collections.unmodifiableList(field_98255_d);
+		return Lists.newArrayList(field_98255_d);
 	}
 	
 	static Session func_100014_a(McoServerList par0McoServerList)
@@ -57,7 +104,17 @@ public class McoServerList
 		return par0McoServerList.field_98254_f;
 	}
 	
-	static void func_98247_a(McoServerList par0McoServerList, List par1List) throws IOException
+	static void func_130122_a(McoServerList par0McoServerList, int par1)
+	{
+		par0McoServerList.func_130123_a(par1);
+	}
+	
+	static int func_140057_b(McoServerList par0McoServerList, int par1)
+	{
+		return par0McoServerList.field_140061_i = par1;
+	}
+	
+	static void func_98247_a(McoServerList par0McoServerList, List par1List)
 	{
 		par0McoServerList.func_96426_a(par1List);
 	}

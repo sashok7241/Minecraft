@@ -144,8 +144,8 @@ public class BlockStem extends BlockFlower
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("stem_straight");
-		theIcon = par1IconRegister.registerIcon("stem_bent");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_disconnected");
+		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_connected");
 	}
 	
 	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)

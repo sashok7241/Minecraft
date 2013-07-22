@@ -12,16 +12,16 @@ public class EntityEnderPearl extends EntityThrowable
 		super(par1World, par2, par4, par6);
 	}
 	
-	public EntityEnderPearl(World par1World, EntityLiving par2EntityLiving)
+	public EntityEnderPearl(World par1World, EntityLivingBase par2EntityLivingBase)
 	{
-		super(par1World, par2EntityLiving);
+		super(par1World, par2EntityLivingBase);
 	}
 	
 	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
 	{
 		if(par1MovingObjectPosition.entityHit != null)
 		{
-			par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0);
+			par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0.0F);
 		}
 		for(int var2 = 0; var2 < 32; ++var2)
 		{
@@ -34,9 +34,13 @@ public class EntityEnderPearl extends EntityThrowable
 				EntityPlayerMP var3 = (EntityPlayerMP) getThrower();
 				if(!var3.playerNetServerHandler.connectionClosed && var3.worldObj == worldObj)
 				{
+					if(getThrower().isRiding())
+					{
+						getThrower().mountEntity((Entity) null);
+					}
 					getThrower().setPositionAndUpdate(posX, posY, posZ);
 					getThrower().fallDistance = 0.0F;
-					getThrower().attackEntityFrom(DamageSource.fall, 5);
+					getThrower().attackEntityFrom(DamageSource.fall, 5.0F);
 				}
 			}
 			setDead();

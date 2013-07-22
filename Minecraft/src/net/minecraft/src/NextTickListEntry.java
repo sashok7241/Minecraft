@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 public class NextTickListEntry implements Comparable
 {
-	private static long nextTickEntryID = 0L;
+	private static long nextTickEntryID;
 	public int xCoord;
 	public int yCoord;
 	public int zCoord;

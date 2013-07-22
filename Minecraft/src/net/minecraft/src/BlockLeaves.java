@@ -6,7 +6,7 @@ import java.util.Random;
 public class BlockLeaves extends BlockLeavesBase
 {
 	public static final String[] LEAF_TYPES = new String[] { "oak", "spruce", "birch", "jungle" };
-	public static final String[][] field_94396_b = new String[][] { { "leaves", "leaves_spruce", "leaves", "leaves_jungle" }, { "leaves_opaque", "leaves_spruce_opaque", "leaves_opaque", "leaves_jungle_opaque" } };
+	public static final String[][] field_94396_b = new String[][] { { "leaves_oak", "leaves_spruce", "leaves_birch", "leaves_jungle" }, { "leaves_oak_opaque", "leaves_spruce_opaque", "leaves_birch_opaque", "leaves_jungle_opaque" } };
 	private int field_94394_cP;
 	private Icon[][] iconArray = new Icon[2][];
 	int[] adjacentTreeBlocks;
@@ -123,7 +123,7 @@ public class BlockLeaves extends BlockLeavesBase
 	
 	@Override public Icon getIcon(int par1, int par2)
 	{
-		return (par2 & 3) == 1 ? iconArray[field_94394_cP][1] : (par2 & 3) == 3 ? iconArray[field_94394_cP][3] : iconArray[field_94394_cP][0];
+		return (par2 & 3) == 1 ? iconArray[field_94394_cP][1] : (par2 & 3) == 3 ? iconArray[field_94394_cP][3] : (par2 & 3) == 2 ? iconArray[field_94394_cP][2] : iconArray[field_94394_cP][0];
 	}
 	
 	@Override public int getRenderColor(int par1)

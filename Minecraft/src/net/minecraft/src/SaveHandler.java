@@ -14,7 +14,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 	private final File worldDirectory;
 	private final File playersDirectory;
 	private final File mapDataDir;
-	private final long initializationTime = System.currentTimeMillis();
+	private final long initializationTime = MinecraftServer.func_130071_aq();
 	private final String saveDirectoryName;
 	
 	public SaveHandler(File par1File, String par2Str, boolean par3)
@@ -141,7 +141,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 	
 	@Override public NBTTagCompound readPlayerData(EntityPlayer par1EntityPlayer)
 	{
-		NBTTagCompound var2 = getPlayerData(par1EntityPlayer.username);
+		NBTTagCompound var2 = getPlayerData(par1EntityPlayer.getCommandSenderName());
 		if(var2 != null)
 		{
 			par1EntityPlayer.readFromNBT(var2);
@@ -237,8 +237,8 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 		{
 			NBTTagCompound var2 = new NBTTagCompound();
 			par1EntityPlayer.writeToNBT(var2);
-			File var3 = new File(playersDirectory, par1EntityPlayer.username + ".dat.tmp");
-			File var4 = new File(playersDirectory, par1EntityPlayer.username + ".dat");
+			File var3 = new File(playersDirectory, par1EntityPlayer.getCommandSenderName() + ".dat.tmp");
+			File var4 = new File(playersDirectory, par1EntityPlayer.getCommandSenderName() + ".dat");
 			CompressedStreamTools.writeCompressed(var2, new FileOutputStream(var3));
 			if(var4.exists())
 			{
@@ -247,7 +247,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
 			var3.renameTo(var4);
 		} catch(Exception var5)
 		{
-			MinecraftServer.getServer().getLogAgent().logWarning("Failed to save player data for " + par1EntityPlayer.username);
+			MinecraftServer.getServer().getLogAgent().logWarning("Failed to save player data for " + par1EntityPlayer.getCommandSenderName());
 		}
 	}
 }

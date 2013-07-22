@@ -31,6 +31,10 @@ public class ComponentMineshaftCorridor extends StructureComponent
 		if(isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox)) return false;
 		else
 		{
+			boolean var4 = false;
+			boolean var5 = true;
+			boolean var6 = false;
+			boolean var7 = true;
 			int var8 = sectionCount * 5 - 1;
 			fillWithBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 2, 1, var8, 0, 0, false);
 			randomlyFillWithBlocks(par1World, par3StructureBoundingBox, par2Random, 0.8F, 0, 2, 0, 2, 2, var8, 0, 0, false);

@@ -3,7 +3,7 @@ package net.minecraft.src;
 import java.util.Iterator;
 import java.util.List;
 
-public class EntityDragon extends EntityLiving implements IBossDisplayData, IEntityMultiPart
+public class EntityDragon extends EntityLiving implements IBossDisplayData, IEntityMultiPart, IMob
 {
 	public double targetX;
 	public double targetY;
@@ -18,20 +18,19 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 	public EntityDragonPart dragonPartTail3;
 	public EntityDragonPart dragonPartWing1;
 	public EntityDragonPart dragonPartWing2;
-	public float prevAnimTime = 0.0F;
-	public float animTime = 0.0F;
-	public boolean forceNewTarget = false;
-	public boolean slowed = false;
+	public float prevAnimTime;
+	public float animTime;
+	public boolean forceNewTarget;
+	public boolean slowed;
 	private Entity target;
-	public int deathTicks = 0;
-	public EntityEnderCrystal healingEnderCrystal = null;
+	public int deathTicks;
+	public EntityEnderCrystal healingEnderCrystal;
 	
 	public EntityDragon(World par1World)
 	{
 		super(par1World);
 		dragonPartArray = new EntityDragonPart[] { dragonPartHead = new EntityDragonPart(this, "head", 6.0F, 6.0F), dragonPartBody = new EntityDragonPart(this, "body", 8.0F, 8.0F), dragonPartTail1 = new EntityDragonPart(this, "tail", 4.0F, 4.0F), dragonPartTail2 = new EntityDragonPart(this, "tail", 4.0F, 4.0F), dragonPartTail3 = new EntityDragonPart(this, "tail", 4.0F, 4.0F), dragonPartWing1 = new EntityDragonPart(this, "wing", 4.0F, 4.0F), dragonPartWing2 = new EntityDragonPart(this, "wing", 4.0F, 4.0F) };
-		setEntityHealth(getMaxHealth());
-		texture = "/mob/enderdragon/ender.png";
+		setEntityHealth(func_110138_aP());
 		setSize(16.0F, 8.0F);
 		noClip = true;
 		isImmuneToFire = true;
@@ -44,23 +43,23 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 		for(int var2 = 0; var2 < par1List.size(); ++var2)
 		{
 			Entity var3 = (Entity) par1List.get(var2);
-			if(var3 instanceof EntityLiving)
+			if(var3 instanceof EntityLivingBase)
 			{
-				var3.attackEntityFrom(DamageSource.causeMobDamage(this), 10);
+				var3.attackEntityFrom(DamageSource.causeMobDamage(this), 10.0F);
 			}
 		}
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		return false;
 	}
 	
-	@Override public boolean attackEntityFromPart(EntityDragonPart par1EntityDragonPart, DamageSource par2DamageSource, int par3)
+	@Override public boolean attackEntityFromPart(EntityDragonPart par1EntityDragonPart, DamageSource par2DamageSource, float par3)
 	{
 		if(par1EntityDragonPart != dragonPartHead)
 		{
-			par3 = par3 / 4 + 1;
+			par3 = par3 / 4.0F + 1.0F;
 		}
 		float var4 = rotationYaw * (float) Math.PI / 180.0F;
 		float var5 = MathHelper.sin(var4);
@@ -89,7 +88,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 		while(var6.hasNext())
 		{
 			Entity var7 = (Entity) var6.next();
-			if(var7 instanceof EntityLiving)
+			if(var7 instanceof EntityLivingBase)
 			{
 				double var8 = var7.posX - var2;
 				double var10 = var7.posZ - var4;
@@ -194,7 +193,12 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 	@Override protected void entityInit()
 	{
 		super.entityInit();
-		dataWatcher.addObject(16, new Integer(getMaxHealth()));
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(200.0D);
 	}
 	
 	@Override public World func_82194_d()
@@ -202,14 +206,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 		return worldObj;
 	}
 	
-	protected boolean func_82195_e(DamageSource par1DamageSource, int par2)
+	protected boolean func_82195_e(DamageSource par1DamageSource, float par2)
 	{
 		return super.attackEntityFrom(par1DamageSource, par2);
-	}
-	
-	@Override public int getBossHealth()
-	{
-		return dataWatcher.getWatchableObjectInt(16);
 	}
 	
 	@Override protected String getHurtSound()
@@ -222,14 +221,9 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 		return "mob.enderdragon.growl";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 200;
-	}
-	
 	public double[] getMovementOffsets(int par1, float par2)
 	{
-		if(health <= 0)
+		if(func_110143_aJ() <= 0.0F)
 		{
 			par2 = 0.0F;
 		}
@@ -306,10 +300,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 	{
 		float var1;
 		float var2;
-		if(!worldObj.isRemote)
-		{
-			dataWatcher.updateObject(16, Integer.valueOf(health));
-		} else
+		if(worldObj.isRemote)
 		{
 			var1 = MathHelper.cos(animTime * (float) Math.PI * 2.0F);
 			var2 = MathHelper.cos(prevAnimTime * (float) Math.PI * 2.0F);
@@ -320,7 +311,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 		}
 		prevAnimTime = animTime;
 		float var3;
-		if(health <= 0)
+		if(func_110143_aJ() <= 0.0F)
 		{
 			var1 = (rand.nextFloat() - 0.5F) * 8.0F;
 			var2 = (rand.nextFloat() - 0.5F) * 4.0F;
@@ -364,7 +355,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 				{
 					var26 = posX + (newPosX - posX) / newPosRotationIncrements;
 					var4 = posY + (newPosY - posY) / newPosRotationIncrements;
-					var6 = posZ + (newPosZ - posZ) / newPosRotationIncrements;
+					var6 = posZ + (field_110152_bk - posZ) / newPosRotationIncrements;
 					var8 = MathHelper.wrapAngleTo180_double(newRotationYaw - rotationYaw);
 					rotationYaw = (float) (rotationYaw + var8 / newPosRotationIncrements);
 					rotationPitch = (float) (rotationPitch + (newRotationPitch - rotationPitch) / newPosRotationIncrements);
@@ -559,12 +550,12 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
 			{
 				if(!worldObj.isRemote)
 				{
-					attackEntityFromPart(dragonPartHead, DamageSource.setExplosionSource((Explosion) null), 10);
+					attackEntityFromPart(dragonPartHead, DamageSource.setExplosionSource((Explosion) null), 10.0F);
 				}
 				healingEnderCrystal = null;
-			} else if(ticksExisted % 10 == 0 && getHealth() < getMaxHealth())
+			} else if(ticksExisted % 10 == 0 && func_110143_aJ() < func_110138_aP())
 			{
-				setEntityHealth(getHealth() + 1);
+				setEntityHealth(func_110143_aJ() + 1.0F);
 			}
 		}
 		if(rand.nextInt(10) == 0)

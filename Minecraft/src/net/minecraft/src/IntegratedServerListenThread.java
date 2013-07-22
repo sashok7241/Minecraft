@@ -10,7 +10,7 @@ public class IntegratedServerListenThread extends NetworkListenThread
 	private final MemoryConnection netMemoryConnection;
 	private MemoryConnection theMemoryConnection;
 	private String field_71759_e;
-	private boolean field_71756_f = false;
+	private boolean field_71756_f;
 	private ServerListenThread myServerListenThread;
 	
 	public IntegratedServerListenThread(IntegratedServer par1IntegratedServer) throws IOException
@@ -50,7 +50,7 @@ public class IntegratedServerListenThread extends NetworkListenThread
 				throw var3;
 			}
 		}
-		return myServerListenThread.getInetAddress().getHostAddress() + ":" + myServerListenThread.getMyPort();
+		return String.valueOf(myServerListenThread.getMyPort());
 	}
 	
 	public IntegratedServer getIntegratedServer()

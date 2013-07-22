@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 
 public class GuiButton extends Gui
 {
+	protected static final ResourceLocation field_110332_a = new ResourceLocation("textures/gui/widgets.png");
 	protected int width;
 	protected int height;
 	public int xPosition;
@@ -38,7 +39,7 @@ public class GuiButton extends Gui
 		if(drawButton)
 		{
 			FontRenderer var4 = par1Minecraft.fontRenderer;
-			par1Minecraft.renderEngine.bindTexture("/gui/gui.png");
+			par1Minecraft.func_110434_K().func_110577_a(field_110332_a);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			field_82253_i = par2 >= xPosition && par3 >= yPosition && par2 < xPosition + width && par3 < yPosition + height;
 			int var5 = getHoverState(field_82253_i);

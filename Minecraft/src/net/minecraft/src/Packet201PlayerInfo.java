@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet201PlayerInfo extends Packet
@@ -31,17 +31,17 @@ public class Packet201PlayerInfo extends Packet
 		par1NetHandler.handlePlayerInfo(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		playerName = readString(par1DataInputStream, 16);
-		isConnected = par1DataInputStream.readByte() != 0;
-		ping = par1DataInputStream.readShort();
+		playerName = readString(par1DataInput, 16);
+		isConnected = par1DataInput.readByte() != 0;
+		ping = par1DataInput.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(playerName, par1DataOutputStream);
-		par1DataOutputStream.writeByte(isConnected ? 1 : 0);
-		par1DataOutputStream.writeShort(ping);
+		writeString(playerName, par1DataOutput);
+		par1DataOutput.writeByte(isConnected ? 1 : 0);
+		par1DataOutput.writeShort(ping);
 	}
 }

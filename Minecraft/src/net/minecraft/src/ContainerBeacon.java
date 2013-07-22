@@ -44,11 +44,6 @@ public class ContainerBeacon extends Container
 		return theBeacon.isUseableByPlayer(par1EntityPlayer);
 	}
 	
-	@Override public void detectAndSendChanges()
-	{
-		super.detectAndSendChanges();
-	}
-	
 	public TileEntityBeacon getBeacon()
 	{
 		return theBeacon;

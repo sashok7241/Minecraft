@@ -5,17 +5,18 @@ import java.io.DataOutputStream;
 
 public class GuiMerchant extends GuiContainer
 {
+	private static final ResourceLocation field_110418_t = new ResourceLocation("textures/gui/container/villager.png");
 	private IMerchant theIMerchant;
 	private GuiButtonMerchant nextRecipeButtonIndex;
 	private GuiButtonMerchant previousRecipeButtonIndex;
-	private int currentRecipeIndex = 0;
+	private int currentRecipeIndex;
 	private String field_94082_v;
 	
-	public GuiMerchant(InventoryPlayer par1, IMerchant par2, World par3World, String par4)
+	public GuiMerchant(InventoryPlayer par1InventoryPlayer, IMerchant par2IMerchant, World par3World, String par4Str)
 	{
-		super(new ContainerMerchant(par1, par2, par3World));
-		theIMerchant = par2;
-		field_94082_v = par4 != null && par4.length() >= 1 ? par4 : StatCollector.translateToLocal("entity.Villager.name");
+		super(new ContainerMerchant(par1InventoryPlayer, par2IMerchant, par3World));
+		theIMerchant = par2IMerchant;
+		field_94082_v = par4Str != null && par4Str.length() >= 1 ? par4Str : I18n.func_135053_a("entity.Villager.name");
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -49,7 +50,7 @@ public class GuiMerchant extends GuiContainer
 	@Override protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/gui/trading.png");
+		mc.func_110434_K().func_110577_a(field_110418_t);
 		int var4 = (width - xSize) / 2;
 		int var5 = (height - ySize) / 2;
 		drawTexturedModalRect(var4, var5, 0, 0, xSize, ySize);
@@ -60,7 +61,7 @@ public class GuiMerchant extends GuiContainer
 			MerchantRecipe var8 = (MerchantRecipe) var6.get(var7);
 			if(var8.func_82784_g())
 			{
-				mc.renderEngine.bindTexture("/gui/trading.png");
+				mc.func_110434_K().func_110577_a(field_110418_t);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				GL11.glDisable(GL11.GL_LIGHTING);
 				drawTexturedModalRect(guiLeft + 83, guiTop + 21, 212, 0, 28, 21);
@@ -72,7 +73,7 @@ public class GuiMerchant extends GuiContainer
 	@Override protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		fontRenderer.drawString(field_94082_v, xSize / 2 - fontRenderer.getStringWidth(field_94082_v) / 2, 6, 4210752);
-		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+		fontRenderer.drawString(I18n.func_135053_a("container.inventory"), 8, ySize - 96 + 2, 4210752);
 	}
 	
 	@Override public void drawScreen(int par1, int par2, float par3)
@@ -95,15 +96,15 @@ public class GuiMerchant extends GuiContainer
 			GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			itemRenderer.zLevel = 100.0F;
-			itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, var9, var5 + 36, var6 + 24);
-			itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.renderEngine, var9, var5 + 36, var6 + 24);
+			itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.func_110434_K(), var9, var5 + 36, var6 + 24);
+			itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.func_110434_K(), var9, var5 + 36, var6 + 24);
 			if(var10 != null)
 			{
-				itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, var10, var5 + 62, var6 + 24);
-				itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.renderEngine, var10, var5 + 62, var6 + 24);
+				itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.func_110434_K(), var10, var5 + 62, var6 + 24);
+				itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.func_110434_K(), var10, var5 + 62, var6 + 24);
 			}
-			itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, var11, var5 + 120, var6 + 24);
-			itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.renderEngine, var11, var5 + 120, var6 + 24);
+			itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.func_110434_K(), var11, var5 + 120, var6 + 24);
+			itemRenderer.renderItemOverlayIntoGUI(fontRenderer, mc.func_110434_K(), var11, var5 + 120, var6 + 24);
 			itemRenderer.zLevel = 0.0F;
 			GL11.glDisable(GL11.GL_LIGHTING);
 			if(isPointInRegion(36, 24, 16, 16, par1, par2))
@@ -148,5 +149,10 @@ public class GuiMerchant extends GuiContainer
 			nextRecipeButtonIndex.enabled = currentRecipeIndex < var1.size() - 1;
 			previousRecipeButtonIndex.enabled = currentRecipeIndex > 0;
 		}
+	}
+	
+	static ResourceLocation func_110417_h()
+	{
+		return field_110418_t;
 	}
 }

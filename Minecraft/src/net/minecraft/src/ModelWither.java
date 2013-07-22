@@ -59,12 +59,12 @@ public class ModelWither extends ModelBase
 		}
 	}
 	
-	@Override public void setLivingAnimations(EntityLiving par1EntityLiving, float par2, float par3, float par4)
+	@Override public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
-		EntityWither var5 = (EntityWither) par1EntityLiving;
+		EntityWither var5 = (EntityWither) par1EntityLivingBase;
 		for(int var6 = 1; var6 < 3; ++var6)
 		{
-			field_82904_b[var6].rotateAngleY = (var5.func_82207_a(var6 - 1) - par1EntityLiving.renderYawOffset) / (180F / (float) Math.PI);
+			field_82904_b[var6].rotateAngleY = (var5.func_82207_a(var6 - 1) - par1EntityLivingBase.renderYawOffset) / (180F / (float) Math.PI);
 			field_82904_b[var6].rotateAngleX = var5.func_82210_r(var6 - 1) / (180F / (float) Math.PI);
 		}
 	}

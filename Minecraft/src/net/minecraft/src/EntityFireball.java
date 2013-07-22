@@ -7,11 +7,11 @@ public abstract class EntityFireball extends Entity
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
-	private int inTile = 0;
-	private boolean inGround = false;
-	public EntityLiving shootingEntity;
+	private int inTile;
+	private boolean inGround;
+	public EntityLivingBase shootingEntity;
 	private int ticksAlive;
-	private int ticksInAir = 0;
+	private int ticksInAir;
 	public double accelerationX;
 	public double accelerationY;
 	public double accelerationZ;
@@ -34,12 +34,12 @@ public abstract class EntityFireball extends Entity
 		accelerationZ = par12 / var14 * 0.1D;
 	}
 	
-	public EntityFireball(World par1World, EntityLiving par2EntityLiving, double par3, double par5, double par7)
+	public EntityFireball(World par1World, EntityLivingBase par2EntityLivingBase, double par3, double par5, double par7)
 	{
 		super(par1World);
-		shootingEntity = par2EntityLiving;
+		shootingEntity = par2EntityLivingBase;
 		setSize(1.0F, 1.0F);
-		setLocationAndAngles(par2EntityLiving.posX, par2EntityLiving.posY, par2EntityLiving.posZ, par2EntityLiving.rotationYaw, par2EntityLiving.rotationPitch);
+		setLocationAndAngles(par2EntityLivingBase.posX, par2EntityLivingBase.posY, par2EntityLivingBase.posZ, par2EntityLivingBase.rotationYaw, par2EntityLivingBase.rotationPitch);
 		setPosition(posX, posY, posZ);
 		yOffset = 0.0F;
 		motionX = motionY = motionZ = 0.0D;
@@ -52,7 +52,7 @@ public abstract class EntityFireball extends Entity
 		accelerationZ = par7 / var9 * 0.1D;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -70,9 +70,9 @@ public abstract class EntityFireball extends Entity
 					accelerationY = motionY * 0.1D;
 					accelerationZ = motionZ * 0.1D;
 				}
-				if(par1DamageSource.getEntity() instanceof EntityLiving)
+				if(par1DamageSource.getEntity() instanceof EntityLivingBase)
 				{
-					shootingEntity = (EntityLiving) par1DamageSource.getEntity();
+					shootingEntity = (EntityLivingBase) par1DamageSource.getEntity();
 				}
 				return true;
 			} else return false;

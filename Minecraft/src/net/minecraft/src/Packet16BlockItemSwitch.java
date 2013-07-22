@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet16BlockItemSwitch extends Packet
@@ -37,13 +37,13 @@ public class Packet16BlockItemSwitch extends Packet
 		par1NetHandler.handleBlockItemSwitch(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		id = par1DataInputStream.readShort();
+		id = par1DataInput.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeShort(id);
+		par1DataOutput.writeShort(id);
 	}
 }

@@ -110,7 +110,7 @@ public class BlockBrewingStand extends BlockContainer
 		}
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
 		if(par6ItemStack.hasDisplayName())
 		{
@@ -129,7 +129,7 @@ public class BlockBrewingStand extends BlockContainer
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		super.registerIcons(par1IconRegister);
-		theIcon = par1IconRegister.registerIcon("brewingStand_base");
+		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_base");
 	}
 	
 	@Override public boolean renderAsNormalBlock()

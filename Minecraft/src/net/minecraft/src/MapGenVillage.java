@@ -16,7 +16,6 @@ public class MapGenVillage extends MapGenStructure
 	
 	public MapGenVillage()
 	{
-		terrainType = 0;
 		field_82665_g = 32;
 		field_82666_h = 8;
 	}

@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 
 public class EntityFireworkStarterFX extends EntityFX
 {
-	private int field_92042_ax = 0;
+	private int field_92042_ax;
 	private final EffectRenderer field_92040_ay;
 	private NBTTagList fireworkExplosions;
 	boolean field_92041_a;

@@ -13,7 +13,7 @@ public class ServerListenThread extends Thread
 {
 	private final List pendingConnections = Collections.synchronizedList(new ArrayList());
 	private final HashMap recentConnections = new HashMap();
-	private int connectionCounter = 0;
+	private int connectionCounter;
 	private final ServerSocket myServerSocket;
 	private NetworkListenThread myNetworkListenThread;
 	private final InetAddress myServerAddress;
@@ -63,11 +63,6 @@ public class ServerListenThread extends Thread
 				recentConnections.remove(par1InetAddress);
 			}
 		}
-	}
-	
-	public InetAddress getInetAddress()
-	{
-		return myServerAddress;
 	}
 	
 	public int getMyPort()

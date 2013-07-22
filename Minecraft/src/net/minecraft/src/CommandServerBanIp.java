@@ -55,7 +55,7 @@ public class CommandServerBanIp extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.banip.usage", new Object[0]);
+		return "commands.banip.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()

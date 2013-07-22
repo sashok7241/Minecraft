@@ -19,10 +19,16 @@ class CallableSuspiciousClasses implements Callable
 	
 	@Override public Object call()
 	{
-		return callSuspiciousClasses();
+		try
+		{
+			return callSuspiciousClasses();
+		} catch(Exception ex)
+		{
+			return null;
+		}
 	}
 	
-	public String callSuspiciousClasses()
+	public String callSuspiciousClasses() throws SecurityException, NoSuchFieldException, IllegalAccessException, IllegalArgumentException
 	{
 		StringBuilder var1 = new StringBuilder();
 		ArrayList var3;
@@ -47,11 +53,11 @@ class CallableSuspiciousClasses implements Callable
 			if(var9 != null)
 			{
 				String var10 = var9.getCanonicalName();
-				if(var10 != null && !var10.startsWith("org.lwjgl.") && !var10.startsWith("paulscode.") && !var10.startsWith("org.bouncycastle.") && !var10.startsWith("argo.") && !var10.startsWith("com.jcraft.") && !var10.startsWith("com.fasterxml.") && !var10.equals("util.GLX"))
+				if(var10 != null && !var10.startsWith("org.lwjgl.") && !var10.startsWith("paulscode.") && !var10.startsWith("org.bouncycastle.") && !var10.startsWith("argo.") && !var10.startsWith("com.jcraft.") && !var10.startsWith("com.fasterxml.") && !var10.startsWith("com.google.") && !var10.startsWith("joptsimple.") && !var10.startsWith("org.apache.") && !var10.equals("util.GLX"))
 				{
 					if(var5)
 					{
-						if(var10.length() <= 3 || var10.equals("net.minecraft.client.MinecraftApplet") || var10.equals("net.minecraft.client.Minecraft") || var10.equals("net.minecraft.client.ClientBrandRetriever") || var10.equals("net.minecraft.server.MinecraftServer"))
+						if(var10.length() <= 3 || var10.equals("net.minecraft.client.main.Main") || var10.equals("net.minecraft.client.Minecraft") || var10.equals("net.minecraft.client.ClientBrandRetriever") || var10.equals("net.minecraft.server.MinecraftServer"))
 						{
 							continue;
 						}
@@ -83,15 +89,15 @@ class CallableSuspiciousClasses implements Callable
 					{
 						var6.put(var12, Integer.valueOf(1));
 					}
-					if(var7 != var12 && var7.length() > 0)
+					if(!var7.equals(var12) && var7.length() > 0)
 					{
 						var1.append("], ");
 					}
-					if(!var4 && var7 == var12)
+					if(!var4 && var7.equals(var12))
 					{
 						var1.append(", ");
 					}
-					if(var7 != var12)
+					if(!var7.equals(var12))
 					{
 						var1.append("[");
 						var1.append(var12);

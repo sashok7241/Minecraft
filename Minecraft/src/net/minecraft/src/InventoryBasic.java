@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryBasic implements IInventory
@@ -44,6 +45,26 @@ public class InventoryBasic implements IInventory
 				return var3;
 			}
 		} else return null;
+	}
+	
+	public void func_110132_b(IInvBasic par1IInvBasic)
+	{
+		field_70480_d.remove(par1IInvBasic);
+	}
+	
+	public void func_110133_a(String par1Str)
+	{
+		field_94051_e = true;
+		inventoryTitle = par1Str;
+	}
+	
+	public void func_110134_a(IInvBasic par1IInvBasic)
+	{
+		if(field_70480_d == null)
+		{
+			field_70480_d = new ArrayList();
+		}
+		field_70480_d.add(par1IInvBasic);
 	}
 	
 	@Override public int getInventoryStackLimit()

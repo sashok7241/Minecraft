@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class BlockCocoa extends BlockDirectional
 {
-	public static final String[] cocoaIcons = new String[] { "cocoa_0", "cocoa_1", "cocoa_2" };
 	private Icon[] iconArray;
 	
 	public BlockCocoa(int par1)
@@ -91,9 +90,9 @@ public class BlockCocoa extends BlockDirectional
 		return Direction.rotateOpposite[Direction.facingToDirection[par5]];
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		int var7 = ((MathHelper.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 0) % 4;
+		int var7 = ((MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 0) % 4;
 		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
 	}
 	
@@ -102,16 +101,16 @@ public class BlockCocoa extends BlockDirectional
 		if(!canBlockStay(par1World, par2, par3, par4))
 		{
 			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockToAir(par2, par3, par4);
+			par1World.setBlock(par2, par3, par4, 0, 0, 2);
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray = new Icon[cocoaIcons.length];
+		iconArray = new Icon[3];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon(cocoaIcons[var2]);
+			iconArray[var2] = par1IconRegister.registerIcon(func_111023_E() + "_stage_" + var2);
 		}
 	}
 	
@@ -149,7 +148,7 @@ public class BlockCocoa extends BlockDirectional
 		if(!canBlockStay(par1World, par2, par3, par4))
 		{
 			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockToAir(par2, par3, par4);
+			par1World.setBlock(par2, par3, par4, 0, 0, 2);
 		} else if(par1World.rand.nextInt(5) == 0)
 		{
 			int var6 = par1World.getBlockMetadata(par2, par3, par4);

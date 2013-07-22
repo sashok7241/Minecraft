@@ -44,7 +44,7 @@ public class NBTTagDouble extends NBTBase
 		return super.hashCode() ^ (int) (var1 ^ var1 >>> 32);
 	}
 	
-	@Override void load(DataInput par1DataInput) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
 		data = par1DataInput.readDouble();
 	}

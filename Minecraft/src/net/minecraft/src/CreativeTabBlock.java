@@ -9,6 +9,6 @@ final class CreativeTabBlock extends CreativeTabs
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Block.brick.blockID;
+		return Block.plantRed.blockID;
 	}
 }

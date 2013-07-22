@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet41EntityEffect extends Packet
@@ -55,19 +55,19 @@ public class Packet41EntityEffect extends Packet
 		par1NetHandler.handleEntityEffect(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
-		effectId = par1DataInputStream.readByte();
-		effectAmplifier = par1DataInputStream.readByte();
-		duration = par1DataInputStream.readShort();
+		entityId = par1DataInput.readInt();
+		effectId = par1DataInput.readByte();
+		effectAmplifier = par1DataInput.readByte();
+		duration = par1DataInput.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
-		par1DataOutputStream.writeByte(effectId);
-		par1DataOutputStream.writeByte(effectAmplifier);
-		par1DataOutputStream.writeShort(duration);
+		par1DataOutput.writeInt(entityId);
+		par1DataOutput.writeByte(effectId);
+		par1DataOutput.writeByte(effectAmplifier);
+		par1DataOutput.writeShort(duration);
 	}
 }

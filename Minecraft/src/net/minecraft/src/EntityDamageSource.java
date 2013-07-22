@@ -10,12 +10,12 @@ public class EntityDamageSource extends DamageSource
 		damageSourceEntity = par2Entity;
 	}
 	
-	@Override public String getDeathMessage(EntityLiving par1EntityLiving)
+	@Override public ChatMessageComponent getDeathMessage(EntityLivingBase par1EntityLivingBase)
 	{
-		ItemStack var2 = damageSourceEntity instanceof EntityLiving ? ((EntityLiving) damageSourceEntity).getHeldItem() : null;
+		ItemStack var2 = damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase) damageSourceEntity).getHeldItem() : null;
 		String var3 = "death.attack." + damageType;
 		String var4 = var3 + ".item";
-		return var2 != null && var2.hasDisplayName() && StatCollector.func_94522_b(var4) ? StatCollector.translateToLocalFormatted(var4, new Object[] { par1EntityLiving.getTranslatedEntityName(), damageSourceEntity.getTranslatedEntityName(), var2.getDisplayName() }) : StatCollector.translateToLocalFormatted(var3, new Object[] { par1EntityLiving.getTranslatedEntityName(), damageSourceEntity.getTranslatedEntityName() });
+		return var2 != null && var2.hasDisplayName() && StatCollector.func_94522_b(var4) ? ChatMessageComponent.func_111082_b(var4, new Object[] { par1EntityLivingBase.getTranslatedEntityName(), damageSourceEntity.getTranslatedEntityName(), var2.getDisplayName() }) : ChatMessageComponent.func_111082_b(var3, new Object[] { par1EntityLivingBase.getTranslatedEntityName(), damageSourceEntity.getTranslatedEntityName() });
 	}
 	
 	@Override public Entity getEntity()
@@ -25,6 +25,6 @@ public class EntityDamageSource extends DamageSource
 	
 	@Override public boolean isDifficultyScaled()
 	{
-		return damageSourceEntity != null && damageSourceEntity instanceof EntityLiving && !(damageSourceEntity instanceof EntityPlayer);
+		return damageSourceEntity != null && damageSourceEntity instanceof EntityLivingBase && !(damageSourceEntity instanceof EntityPlayer);
 	}
 }

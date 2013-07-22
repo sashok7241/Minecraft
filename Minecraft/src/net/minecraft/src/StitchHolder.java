@@ -2,17 +2,17 @@ package net.minecraft.src;
 
 public class StitchHolder implements Comparable
 {
-	private final Texture theTexture;
+	private final TextureAtlasSprite theTexture;
 	private final int width;
 	private final int height;
 	private boolean rotated;
 	private float scaleFactor = 1.0F;
 	
-	public StitchHolder(Texture par1Texture)
+	public StitchHolder(TextureAtlasSprite par1TextureAtlasSprite)
 	{
-		theTexture = par1Texture;
-		width = par1Texture.getWidth();
-		height = par1Texture.getHeight();
+		theTexture = par1TextureAtlasSprite;
+		width = par1TextureAtlasSprite.getOriginX();
+		height = par1TextureAtlasSprite.getOriginY();
 		rotated = ceil16(height) > ceil16(width);
 	}
 	
@@ -33,8 +33,8 @@ public class StitchHolder implements Comparable
 		{
 			if(getWidth() == par1StitchHolder.getWidth())
 			{
-				if(theTexture.getTextureName() == null) return par1StitchHolder.theTexture.getTextureName() == null ? 0 : -1;
-				return theTexture.getTextureName().compareTo(par1StitchHolder.theTexture.getTextureName());
+				if(theTexture.getIconName() == null) return par1StitchHolder.theTexture.getIconName() == null ? 0 : -1;
+				return theTexture.getIconName().compareTo(par1StitchHolder.theTexture.getIconName());
 			}
 			var2 = getWidth() < par1StitchHolder.getWidth() ? 1 : -1;
 		} else
@@ -44,7 +44,7 @@ public class StitchHolder implements Comparable
 		return var2;
 	}
 	
-	public Texture func_98150_a()
+	public TextureAtlasSprite func_98150_a()
 	{
 		return theTexture;
 	}
@@ -79,6 +79,6 @@ public class StitchHolder implements Comparable
 	
 	@Override public String toString()
 	{
-		return "TextureHolder{width=" + width + ", height=" + height + '}';
+		return "Holder{width=" + width + ", height=" + height + '}';
 	}
 }

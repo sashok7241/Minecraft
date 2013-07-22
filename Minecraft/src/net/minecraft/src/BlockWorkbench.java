@@ -28,8 +28,8 @@ public class BlockWorkbench extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("workbench_side");
-		workbenchIconTop = par1IconRegister.registerIcon("workbench_top");
-		workbenchIconFront = par1IconRegister.registerIcon("workbench_front");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		workbenchIconTop = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		workbenchIconFront = par1IconRegister.registerIcon(func_111023_E() + "_front");
 	}
 }

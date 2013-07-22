@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class BlockMushroomCap extends Block
 {
-	private static final String[] field_94429_a = new String[] { "mushroom_skin_brown", "mushroom_skin_red" };
+	private static final String[] field_94429_a = new String[] { "skin_brown", "skin_red" };
 	private final int mushroomType;
 	private Icon[] iconArray;
 	private Icon field_94426_cO;
@@ -46,9 +46,9 @@ public class BlockMushroomCap extends Block
 		iconArray = new Icon[field_94429_a.length];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon(field_94429_a[var2]);
+			iconArray[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + field_94429_a[var2]);
 		}
-		field_94427_cP = par1IconRegister.registerIcon("mushroom_inside");
-		field_94426_cO = par1IconRegister.registerIcon("mushroom_skin_stem");
+		field_94427_cP = par1IconRegister.registerIcon(func_111023_E() + "_" + "inside");
+		field_94426_cO = par1IconRegister.registerIcon(func_111023_E() + "_" + "skin_stem");
 	}
 }

@@ -25,6 +25,6 @@ public class BlockRail extends BlockRailBase
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		super.registerIcons(par1IconRegister);
-		theIcon = par1IconRegister.registerIcon("rail_turn");
+		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_turned");
 	}
 }

@@ -9,18 +9,17 @@ public class PlayerControllerMP
 	private int currentBlockX = -1;
 	private int currentBlockY = -1;
 	private int currentblockZ = -1;
-	private ItemStack field_85183_f = null;
-	private float curBlockDamageMP = 0.0F;
-	private float stepSoundTickCounter = 0.0F;
-	private int blockHitDelay = 0;
-	private boolean isHittingBlock = false;
+	private ItemStack field_85183_f;
+	private float curBlockDamageMP;
+	private float stepSoundTickCounter;
+	private int blockHitDelay;
+	private boolean isHittingBlock;
 	private EnumGameType currentGameType;
 	private int currentPlayerItem;
 	
 	public PlayerControllerMP(Minecraft par1Minecraft, NetClientHandler par2NetClientHandler)
 	{
 		currentGameType = EnumGameType.SURVIVAL;
-		currentPlayerItem = 0;
 		mc = par1Minecraft;
 		netClientHandler = par2NetClientHandler;
 	}
@@ -86,6 +85,11 @@ public class PlayerControllerMP
 		par1EntityPlayer.rotationYaw = -180.0F;
 	}
 	
+	public boolean func_110738_j()
+	{
+		return mc.thePlayer.isRiding() && mc.thePlayer.ridingEntity instanceof EntityHorse;
+	}
+	
 	public void func_78752_a(ItemStack par1ItemStack)
 	{
 		if(currentGameType.isCreative() && par1ItemStack != null)
@@ -96,12 +100,12 @@ public class PlayerControllerMP
 	
 	public EntityClientPlayerMP func_78754_a(World par1World)
 	{
-		return new EntityClientPlayerMP(mc, par1World, mc.session, netClientHandler);
+		return new EntityClientPlayerMP(mc, par1World, mc.func_110432_I(), netClientHandler);
 	}
 	
 	public boolean func_78763_f()
 	{
-		return true;
+		return currentGameType.isSurvivalOrAdventure();
 	}
 	
 	public boolean func_78768_b(EntityPlayer par1EntityPlayer, Entity par2Entity)
@@ -174,6 +178,7 @@ public class PlayerControllerMP
 	public boolean onPlayerDestroyBlock(int par1, int par2, int par3, int par4)
 	{
 		if(currentGameType.isAdventure() && !mc.thePlayer.isCurrentToolAdventureModeExempt(par1, par2, par3)) return false;
+		else if(currentGameType.isCreative() && mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) return false;
 		else
 		{
 			WorldClient var5 = mc.theWorld;

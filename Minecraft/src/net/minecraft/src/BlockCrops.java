@@ -138,7 +138,7 @@ public class BlockCrops extends BlockFlower
 		iconArray = new Icon[8];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon("crops_" + var2);
+			iconArray[var2] = par1IconRegister.registerIcon(func_111023_E() + "_stage_" + var2);
 		}
 	}
 	

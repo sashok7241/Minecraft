@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.server.MinecraftServer;
+
 public class RConThreadQuery extends RConThreadBase
 {
 	private long lastAuthCheckTime;
@@ -23,9 +25,9 @@ public class RConThreadQuery extends RConThreadBase
 	private int maxPlayers;
 	private String serverMotd;
 	private String worldName;
-	private DatagramSocket querySocket = null;
+	private DatagramSocket querySocket;
 	private byte[] buffer = new byte[1460];
-	private DatagramPacket incomingPacket = null;
+	private DatagramPacket incomingPacket;
 	private Map field_72644_p;
 	private String queryHostname;
 	private String serverHostname;
@@ -78,7 +80,7 @@ public class RConThreadQuery extends RConThreadBase
 	{
 		if(running)
 		{
-			long var1 = System.currentTimeMillis();
+			long var1 = MinecraftServer.func_130071_aq();
 			if(var1 >= lastAuthCheckTime + 30000L)
 			{
 				lastAuthCheckTime = var1;
@@ -97,7 +99,7 @@ public class RConThreadQuery extends RConThreadBase
 	
 	private byte[] createQueryResponse(DatagramPacket par1DatagramPacket) throws IOException
 	{
-		long var2 = System.currentTimeMillis();
+		long var2 = MinecraftServer.func_130071_aq();
 		if(var2 < lastQueryResponseTime + 5000L)
 		{
 			byte[] var7 = output.toByteArray();
@@ -229,7 +231,7 @@ public class RConThreadQuery extends RConThreadBase
 	@Override public void run()
 	{
 		logInfo("Query running on " + serverHostname + ":" + queryPort);
-		lastAuthCheckTime = System.currentTimeMillis();
+		lastAuthCheckTime = MinecraftServer.func_130071_aq();
 		incomingPacket = new DatagramPacket(buffer, buffer.length);
 		try
 		{

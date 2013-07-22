@@ -3,25 +3,25 @@ package net.minecraft.src;
 public class EntityAITempt extends EntityAIBase
 {
 	private EntityCreature temptedEntity;
-	private float field_75282_b;
+	private double field_75282_b;
 	private double field_75283_c;
 	private double field_75280_d;
 	private double field_75281_e;
 	private double field_75278_f;
 	private double field_75279_g;
 	private EntityPlayer temptingPlayer;
-	private int delayTemptCounter = 0;
+	private int delayTemptCounter;
 	private boolean field_75287_j;
 	private int breedingFood;
 	private boolean scaredByPlayerMovement;
 	private boolean field_75286_m;
 	
-	public EntityAITempt(EntityCreature par1EntityCreature, float par2, int par3, boolean par4)
+	public EntityAITempt(EntityCreature par1EntityCreature, double par2, int par4, boolean par5)
 	{
 		temptedEntity = par1EntityCreature;
 		field_75282_b = par2;
-		breedingFood = par3;
-		scaredByPlayerMovement = par4;
+		breedingFood = par4;
+		scaredByPlayerMovement = par5;
 		setMutexBits(3);
 	}
 	

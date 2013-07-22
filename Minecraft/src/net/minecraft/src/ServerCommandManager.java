@@ -30,6 +30,8 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		registerCommand(new CommandGameRule());
 		registerCommand(new CommandClearInventory());
 		registerCommand(new ServerCommandTestFor());
+		registerCommand(new CommandSpreadPlayers());
+		registerCommand(new CommandPlaySound());
 		registerCommand(new ServerCommandScoreboard());
 		if(MinecraftServer.getServer().isDedicatedServer())
 		{
@@ -61,25 +63,28 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 		{
 			var5 = false;
 		}
+		ChatMessageComponent var6 = ChatMessageComponent.func_111082_b("chat.type.admin", new Object[] { par1ICommandSender.getCommandSenderName(), ChatMessageComponent.func_111082_b(par3Str, par4ArrayOfObj) });
+		var6.func_111059_a(EnumChatFormatting.GRAY);
+		var6.func_111063_b(Boolean.valueOf(true));
 		if(var5)
 		{
-			Iterator var6 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
-			while(var6.hasNext())
+			Iterator var7 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
+			while(var7.hasNext())
 			{
-				EntityPlayerMP var7 = (EntityPlayerMP) var6.next();
-				if(var7 != par1ICommandSender && MinecraftServer.getServer().getConfigurationManager().areCommandsAllowed(var7.username))
+				EntityPlayerMP var8 = (EntityPlayerMP) var7.next();
+				if(var8 != par1ICommandSender && MinecraftServer.getServer().getConfigurationManager().areCommandsAllowed(var8.getCommandSenderName()))
 				{
-					var7.sendChatToPlayer("" + EnumChatFormatting.GRAY + "" + EnumChatFormatting.ITALIC + "[" + par1ICommandSender.getCommandSenderName() + ": " + var7.translateString(par3Str, par4ArrayOfObj) + "]");
+					var8.sendChatToPlayer(var6);
 				}
 			}
 		}
 		if(par1ICommandSender != MinecraftServer.getServer())
 		{
-			MinecraftServer.getServer().getLogAgent().logInfo("[" + par1ICommandSender.getCommandSenderName() + ": " + MinecraftServer.getServer().translateString(par3Str, par4ArrayOfObj) + "]");
+			MinecraftServer.getServer().sendChatToPlayer(var6);
 		}
 		if((par2 & 1) != 1)
 		{
-			par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString(par3Str, par4ArrayOfObj));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b(par3Str, par4ArrayOfObj));
 		}
 	}
 }

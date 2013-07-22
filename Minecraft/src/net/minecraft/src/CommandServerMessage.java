@@ -22,6 +22,11 @@ public class CommandServerMessage extends CommandBase
 		return "tell";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.message.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 0;
@@ -43,8 +48,8 @@ public class CommandServerMessage extends CommandBase
 			else
 			{
 				String var4 = func_82361_a(par1ICommandSender, par2ArrayOfStr, 1, !(par1ICommandSender instanceof EntityPlayer));
-				var3.sendChatToPlayer(EnumChatFormatting.GRAY + "" + EnumChatFormatting.ITALIC + var3.translateString("commands.message.display.incoming", new Object[] { par1ICommandSender.getCommandSenderName(), var4 }));
-				par1ICommandSender.sendChatToPlayer(EnumChatFormatting.GRAY + "" + EnumChatFormatting.ITALIC + par1ICommandSender.translateString("commands.message.display.outgoing", new Object[] { var3.getCommandSenderName(), var4 }));
+				var3.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.message.display.incoming", new Object[] { par1ICommandSender.getCommandSenderName(), var4 }).func_111059_a(EnumChatFormatting.GRAY).func_111063_b(Boolean.valueOf(true)));
+				par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.message.display.outgoing", new Object[] { var3.getCommandSenderName(), var4 }).func_111059_a(EnumChatFormatting.GRAY).func_111063_b(Boolean.valueOf(true)));
 			}
 		}
 	}

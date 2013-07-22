@@ -6,7 +6,7 @@ import java.util.List;
 public class VillageSiege
 {
 	private World worldObj;
-	private boolean field_75535_b = false;
+	private boolean field_75535_b;
 	private int field_75536_c = -1;
 	private int field_75533_d;
 	private int field_75534_e;
@@ -98,7 +98,7 @@ public class VillageSiege
 			try
 			{
 				var2 = new EntityZombie(worldObj);
-				var2.initCreature();
+				var2.func_110161_a((EntityLivingData) null);
 				var2.setVillager(false);
 			} catch(Exception var4)
 			{
@@ -108,7 +108,7 @@ public class VillageSiege
 			var2.setLocationAndAngles(var1.xCoord, var1.yCoord, var1.zCoord, worldObj.rand.nextFloat() * 360.0F, 0.0F);
 			worldObj.spawnEntityInWorld(var2);
 			ChunkCoordinates var3 = theVillage.getCenter();
-			var2.setHomeArea(var3.posX, var3.posY, var3.posZ, theVillage.getVillageRadius());
+			var2.func_110171_b(var3.posX, var3.posY, var3.posZ, theVillage.getVillageRadius());
 			return true;
 		}
 	}

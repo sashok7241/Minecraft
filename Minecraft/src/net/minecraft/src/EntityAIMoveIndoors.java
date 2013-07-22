@@ -52,11 +52,11 @@ public class EntityAIMoveIndoors extends EntityAIBase
 			Vec3 var1 = RandomPositionGenerator.findRandomTargetBlockTowards(entityObj, 14, 3, entityObj.worldObj.getWorldVec3Pool().getVecFromPool(doorInfo.getInsidePosX() + 0.5D, doorInfo.getInsidePosY(), doorInfo.getInsidePosZ() + 0.5D));
 			if(var1 != null)
 			{
-				entityObj.getNavigator().tryMoveToXYZ(var1.xCoord, var1.yCoord, var1.zCoord, 0.3F);
+				entityObj.getNavigator().tryMoveToXYZ(var1.xCoord, var1.yCoord, var1.zCoord, 1.0D);
 			}
 		} else
 		{
-			entityObj.getNavigator().tryMoveToXYZ(doorInfo.getInsidePosX() + 0.5D, doorInfo.getInsidePosY(), doorInfo.getInsidePosZ() + 0.5D, 0.3F);
+			entityObj.getNavigator().tryMoveToXYZ(doorInfo.getInsidePosX() + 0.5D, doorInfo.getInsidePosY(), doorInfo.getInsidePosZ() + 0.5D, 1.0D);
 		}
 	}
 }

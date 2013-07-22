@@ -18,7 +18,7 @@ public class CommandServerDeop extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.deop.usage", new Object[0]);
+		return "commands.deop.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()

@@ -10,9 +10,6 @@ public class FlatLayerInfo
 	public FlatLayerInfo(int par1, int par2)
 	{
 		layerCount = 1;
-		layerFillBlock = 0;
-		layerFillBlockMeta = 0;
-		layerMinimumY = 0;
 		layerCount = par1;
 		layerFillBlock = par2;
 	}

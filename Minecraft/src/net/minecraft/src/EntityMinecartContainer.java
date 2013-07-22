@@ -50,6 +50,15 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 		} else return null;
 	}
 	
+	@Override public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+	{
+		if(!worldObj.isRemote)
+		{
+			par1EntityPlayer.displayGUIChest(this);
+		}
+		return true;
+	}
+	
 	@Override public int getInventoryStackLimit()
 	{
 		return 64;
@@ -73,15 +82,6 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
 			minecartContainerItems[par1] = null;
 			return var2;
 		} else return null;
-	}
-	
-	@Override public boolean interact(EntityPlayer par1EntityPlayer)
-	{
-		if(!worldObj.isRemote)
-		{
-			par1EntityPlayer.displayGUIChest(this);
-		}
-		return true;
 	}
 	
 	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)

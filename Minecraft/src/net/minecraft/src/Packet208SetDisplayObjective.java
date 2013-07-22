@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet208SetDisplayObjective extends Packet
@@ -35,15 +35,15 @@ public class Packet208SetDisplayObjective extends Packet
 		par1NetHandler.handleSetDisplayObjective(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		scoreboardPosition = par1DataInputStream.readByte();
-		scoreName = readString(par1DataInputStream, 16);
+		scoreboardPosition = par1DataInput.readByte();
+		scoreName = readString(par1DataInput, 16);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeByte(scoreboardPosition);
-		writeString(scoreName, par1DataOutputStream);
+		par1DataOutput.writeByte(scoreboardPosition);
+		writeString(scoreName, par1DataOutput);
 	}
 }

@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet200Statistic extends Packet
@@ -34,15 +34,15 @@ public class Packet200Statistic extends Packet
 		par1NetHandler.handleStatistic(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		statisticId = par1DataInputStream.readInt();
-		amount = par1DataInputStream.readByte();
+		statisticId = par1DataInput.readInt();
+		amount = par1DataInput.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(statisticId);
-		par1DataOutputStream.writeByte(amount);
+		par1DataOutput.writeInt(statisticId);
+		par1DataOutput.writeInt(amount);
 	}
 }

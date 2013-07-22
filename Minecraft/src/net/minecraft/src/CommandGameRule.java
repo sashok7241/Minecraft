@@ -18,7 +18,7 @@ public class CommandGameRule extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.gamerule.usage", new Object[0]);
+		return "commands.gamerule.usage";
 	}
 	
 	private GameRules getGameRules()
@@ -54,7 +54,7 @@ public class CommandGameRule extends CommandBase
 			if(var4.hasRule(var6))
 			{
 				String var5 = var4.getGameRuleStringValue(var6);
-				par1ICommandSender.sendChatToPlayer(var6 + " = " + var5);
+				par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111066_d(var6).func_111079_a(" = ").func_111079_a(var5));
 			} else
 			{
 				notifyAdmins(par1ICommandSender, "commands.gamerule.norule", new Object[] { var6 });
@@ -62,7 +62,7 @@ public class CommandGameRule extends CommandBase
 		} else if(par2ArrayOfStr.length == 0)
 		{
 			GameRules var3 = getGameRules();
-			par1ICommandSender.sendChatToPlayer(joinNiceString(var3.getRules()));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111066_d(joinNiceString(var3.getRules())));
 		} else throw new WrongUsageException("commands.gamerule.usage", new Object[0]);
 	}
 }

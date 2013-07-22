@@ -65,6 +65,7 @@ public class ModelQuadruped extends ModelBase
 	
 	@Override public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
 	{
+		float var8 = 180F / (float) Math.PI;
 		head.rotateAngleX = par5 / (180F / (float) Math.PI);
 		head.rotateAngleY = par4 / (180F / (float) Math.PI);
 		body.rotateAngleX = (float) Math.PI / 2F;

@@ -17,6 +17,8 @@ public class GameRules
 		addGameRule("doMobLoot", "true");
 		addGameRule("doTileDrops", "true");
 		addGameRule("commandBlockOutput", "true");
+		addGameRule("naturalRegeneration", "true");
+		addGameRule("doDaylightCycle", "true");
 	}
 	
 	public void addGameRule(String par1Str, String par2Str)

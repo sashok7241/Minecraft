@@ -165,14 +165,14 @@ public class BlockLever extends Block
 		return var12 + var11;
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
 		int var7 = par1World.getBlockMetadata(par2, par3, par4);
 		int var8 = var7 & 7;
 		int var9 = var7 & 8;
 		if(var8 == invertMetadata(1))
 		{
-			if((MathHelper.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 1) == 0)
+			if((MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 1) == 0)
 			{
 				par1World.setBlockMetadataWithNotify(par2, par3, par4, 5 | var9, 2);
 			} else
@@ -181,7 +181,7 @@ public class BlockLever extends Block
 			}
 		} else if(var8 == invertMetadata(0))
 		{
-			if((MathHelper.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 1) == 0)
+			if((MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 1) == 0)
 			{
 				par1World.setBlockMetadataWithNotify(par2, par3, par4, 7 | var9, 2);
 			} else

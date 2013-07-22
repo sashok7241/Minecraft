@@ -10,15 +10,14 @@ public class EntityCreeper extends EntityMob
 	public EntityCreeper(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/creeper.png";
 		tasks.addTask(1, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAICreeperSwell(this));
-		tasks.addTask(3, new EntityAIAvoidEntity(this, EntityOcelot.class, 6.0F, 0.25F, 0.3F));
-		tasks.addTask(4, new EntityAIAttackOnCollide(this, 0.25F, false));
-		tasks.addTask(5, new EntityAIWander(this, 0.2F));
+		tasks.addTask(3, new EntityAIAvoidEntity(this, EntityOcelot.class, 6.0F, 1.0D, 1.2D));
+		tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, false));
+		tasks.addTask(5, new EntityAIWander(this, 0.8D));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(6, new EntityAILookIdle(this));
-		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 16.0F, 0, true));
+		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
 	}
 	
@@ -44,9 +43,15 @@ public class EntityCreeper extends EntityMob
 		}
 	}
 	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
+	}
+	
 	@Override public int func_82143_as()
 	{
-		return getAttackTarget() == null ? 3 : 3 + health - 1;
+		return getAttackTarget() == null ? 3 : 3 + (int) (func_110143_aJ() - 1.0F);
 	}
 	
 	public float getCreeperFlashIntensity(float par1)
@@ -72,11 +77,6 @@ public class EntityCreeper extends EntityMob
 	@Override protected String getHurtSound()
 	{
 		return "mob.creeper.say";
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return 20;
 	}
 	
 	public boolean getPowered()

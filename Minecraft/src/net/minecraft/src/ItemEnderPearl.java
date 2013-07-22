@@ -12,7 +12,6 @@ public class ItemEnderPearl extends Item
 	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
 		if(par3EntityPlayer.capabilities.isCreativeMode) return par1ItemStack;
-		else if(par3EntityPlayer.ridingEntity != null) return par1ItemStack;
 		else
 		{
 			--par1ItemStack.stackSize;

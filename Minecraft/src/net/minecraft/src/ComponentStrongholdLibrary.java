@@ -31,6 +31,8 @@ public class ComponentStrongholdLibrary extends ComponentStronghold
 			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 13, var4 - 1, 14, true, par2Random, StructureStrongholdPieces.getStrongholdStones());
 			placeDoor(par1World, par2Random, par3StructureBoundingBox, doorType, 4, 1, 0);
 			randomlyFillWithBlocks(par1World, par3StructureBoundingBox, par2Random, 0.07F, 2, 1, 1, 11, 4, 13, Block.web.blockID, Block.web.blockID, false);
+			boolean var5 = true;
+			boolean var6 = true;
 			int var7;
 			for(var7 = 1; var7 <= 13; ++var7)
 			{

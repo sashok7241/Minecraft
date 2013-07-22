@@ -35,7 +35,7 @@ public class BlockCommandBlock extends BlockContainer
 		return true;
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
 		TileEntityCommandBlock var7 = (TileEntityCommandBlock) par1World.getBlockTileEntity(par2, par3, par4);
 		if(par6ItemStack.hasDisplayName())
@@ -60,6 +60,11 @@ public class BlockCommandBlock extends BlockContainer
 				par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 & -2, 4);
 			}
 		}
+	}
+	
+	@Override public int quantityDropped(Random par1Random)
+	{
+		return 0;
 	}
 	
 	@Override public int tickRate(World par1World)

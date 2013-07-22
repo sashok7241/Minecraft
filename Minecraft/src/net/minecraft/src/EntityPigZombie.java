@@ -1,17 +1,19 @@
 package net.minecraft.src;
 
 import java.util.List;
+import java.util.UUID;
 
 public class EntityPigZombie extends EntityZombie
 {
-	private int angerLevel = 0;
-	private int randomSoundDelay = 0;
+	private static final UUID field_110189_bq = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
+	private static final AttributeModifier field_110190_br = new AttributeModifier(field_110189_bq, "Attacking speed boost", 0.45D, 0).func_111168_a(false);
+	private int angerLevel;
+	private int randomSoundDelay;
+	private Entity field_110191_bu;
 	
 	public EntityPigZombie(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/pigzombie.png";
-		moveSpeed = 0.5F;
 		isImmuneToFire = true;
 	}
 	
@@ -20,7 +22,7 @@ public class EntityPigZombie extends EntityZombie
 		setCurrentItemOrArmor(0, new ItemStack(Item.swordGold));
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -76,15 +78,19 @@ public class EntityPigZombie extends EntityZombie
 		return angerLevel == 0 ? null : super.findPlayerToAttack();
 	}
 	
-	@Override public int getAttackStrength(Entity par1Entity)
+	@Override protected void func_110147_ax()
 	{
-		ItemStack var2 = getHeldItem();
-		int var3 = 5;
-		if(var2 != null)
-		{
-			var3 += var2.getDamageVsEntity(this);
-		}
-		return var3;
+		super.func_110147_ax();
+		func_110148_a(field_110186_bp).func_111128_a(0.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.5D);
+		func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(5.0D);
+	}
+	
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	{
+		super.func_110161_a(par1EntityLivingData);
+		setVillager(false);
+		return par1EntityLivingData;
 	}
 	
 	@Override public boolean getCanSpawnHere()
@@ -112,17 +118,6 @@ public class EntityPigZombie extends EntityZombie
 		return "mob.zombiepig.zpig";
 	}
 	
-	@Override public String getTexture()
-	{
-		return "/mob/pigzombie.png";
-	}
-	
-	@Override public void initCreature()
-	{
-		super.initCreature();
-		setVillager(false);
-	}
-	
 	@Override public boolean interact(EntityPlayer par1EntityPlayer)
 	{
 		return false;
@@ -135,7 +130,16 @@ public class EntityPigZombie extends EntityZombie
 	
 	@Override public void onUpdate()
 	{
-		moveSpeed = entityToAttack != null ? 0.95F : 0.5F;
+		if(field_110191_bu != entityToAttack && !worldObj.isRemote)
+		{
+			AttributeInstance var1 = func_110148_a(SharedMonsterAttributes.field_111263_d);
+			var1.func_111124_b(field_110190_br);
+			if(entityToAttack != null)
+			{
+				var1.func_111121_a(field_110190_br);
+			}
+		}
+		field_110191_bu = entityToAttack;
 		if(randomSoundDelay > 0 && --randomSoundDelay == 0)
 		{
 			playSound("mob.zombiepig.zpigangry", getSoundVolume() * 2.0F, ((rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F) * 1.8F);

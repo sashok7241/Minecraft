@@ -19,20 +19,12 @@ public abstract class EntityMob extends EntityCreature implements IMob
 	
 	@Override public boolean attackEntityAsMob(Entity par1Entity)
 	{
-		int var2 = getAttackStrength(par1Entity);
-		if(this.isPotionActive(Potion.damageBoost))
-		{
-			var2 += 3 << getActivePotionEffect(Potion.damageBoost).getAmplifier();
-		}
-		if(this.isPotionActive(Potion.weakness))
-		{
-			var2 -= 2 << getActivePotionEffect(Potion.weakness).getAmplifier();
-		}
+		float var2 = (float) func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e();
 		int var3 = 0;
-		if(par1Entity instanceof EntityLiving)
+		if(par1Entity instanceof EntityLivingBase)
 		{
-			var2 += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLiving) par1Entity);
-			var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLiving) par1Entity);
+			var2 += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase) par1Entity);
+			var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) par1Entity);
 		}
 		boolean var4 = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), var2);
 		if(var4)
@@ -48,15 +40,15 @@ public abstract class EntityMob extends EntityCreature implements IMob
 			{
 				par1Entity.setFire(var5 * 4);
 			}
-			if(par1Entity instanceof EntityLiving)
+			if(par1Entity instanceof EntityLivingBase)
 			{
-				EnchantmentThorns.func_92096_a(this, (EntityLiving) par1Entity, rand);
+				EnchantmentThorns.func_92096_a(this, (EntityLivingBase) par1Entity, rand);
 			}
 		}
 		return var4;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else if(super.attackEntityFrom(par1DamageSource, par2))
@@ -79,9 +71,10 @@ public abstract class EntityMob extends EntityCreature implements IMob
 		return var1 != null && canEntityBeSeen(var1) ? var1 : null;
 	}
 	
-	public int getAttackStrength(Entity par1Entity)
+	@Override protected void func_110147_ax()
 	{
-		return 2;
+		super.func_110147_ax();
+		func_110140_aT().func_111150_b(SharedMonsterAttributes.field_111264_e);
 	}
 	
 	@Override public float getBlockPathWeight(int par1, int par2, int par3)
@@ -91,7 +84,7 @@ public abstract class EntityMob extends EntityCreature implements IMob
 	
 	@Override public boolean getCanSpawnHere()
 	{
-		return isValidLightLevel() && super.getCanSpawnHere();
+		return worldObj.difficultySetting > 0 && isValidLightLevel() && super.getCanSpawnHere();
 	}
 	
 	protected boolean isValidLightLevel()

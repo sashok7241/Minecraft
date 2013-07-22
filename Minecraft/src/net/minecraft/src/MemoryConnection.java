@@ -13,10 +13,10 @@ public class MemoryConnection implements INetworkManager
 	private final ILogAgent field_98214_c;
 	private MemoryConnection pairedConnection;
 	private NetHandler myNetHandler;
-	private boolean shuttingDown = false;
+	private boolean shuttingDown;
 	private String shutdownReason = "";
 	private Object[] field_74439_g;
-	private boolean gamePaused = false;
+	private boolean gamePaused;
 	
 	public MemoryConnection(ILogAgent par1ILogAgent, NetHandler par2NetHandler)
 	{

@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class WorldGenDungeons extends WorldGenerator
 {
+	private static final WeightedRandomChestContent[] field_111189_a = new WeightedRandomChestContent[] { new WeightedRandomChestContent(Item.saddle.itemID, 0, 1, 1, 10), new WeightedRandomChestContent(Item.ingotIron.itemID, 0, 1, 4, 10), new WeightedRandomChestContent(Item.bread.itemID, 0, 1, 1, 10), new WeightedRandomChestContent(Item.wheat.itemID, 0, 1, 4, 10), new WeightedRandomChestContent(Item.gunpowder.itemID, 0, 1, 4, 10), new WeightedRandomChestContent(Item.silk.itemID, 0, 1, 4, 10), new WeightedRandomChestContent(Item.bucketEmpty.itemID, 0, 1, 1, 10), new WeightedRandomChestContent(Item.appleGold.itemID, 0, 1, 1, 1), new WeightedRandomChestContent(Item.redstone.itemID, 0, 1, 4, 10), new WeightedRandomChestContent(Item.record13.itemID, 0, 1, 1, 10), new WeightedRandomChestContent(Item.recordCat.itemID, 0, 1, 1, 10), new WeightedRandomChestContent(Item.field_111212_ci.itemID, 0, 1, 1, 10), new WeightedRandomChestContent(Item.field_111216_cf.itemID, 0, 1, 1, 2), new WeightedRandomChestContent(Item.field_111215_ce.itemID, 0, 1, 1, 5), new WeightedRandomChestContent(Item.field_111213_cg.itemID, 0, 1, 1, 1) };
+	
 	@Override public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
 	{
 		byte var6 = 3;
@@ -64,7 +66,7 @@ public class WorldGenDungeons extends WorldGenerator
 				{
 					if(var11 < 3)
 					{
-						label210:
+						label101:
 						{
 							var12 = par3 + par2Random.nextInt(var7 * 2 + 1) - var7;
 							int var14 = par5 + par2Random.nextInt(var8 * 2 + 1) - var8;
@@ -90,19 +92,13 @@ public class WorldGenDungeons extends WorldGenerator
 								if(var15 == 1)
 								{
 									par1World.setBlock(var12, par4, var14, Block.chest.blockID, 0, 2);
-									TileEntityChest var16 = (TileEntityChest) par1World.getBlockTileEntity(var12, par4, var14);
-									if(var16 != null)
+									WeightedRandomChestContent[] var16 = WeightedRandomChestContent.func_92080_a(field_111189_a, new WeightedRandomChestContent[] { Item.enchantedBook.func_92114_b(par2Random) });
+									TileEntityChest var17 = (TileEntityChest) par1World.getBlockTileEntity(var12, par4, var14);
+									if(var17 != null)
 									{
-										for(int var17 = 0; var17 < 8; ++var17)
-										{
-											ItemStack var18 = pickCheckLootItem(par2Random);
-											if(var18 != null)
-											{
-												var16.setInventorySlotContents(par2Random.nextInt(var16.getSizeInventory()), var18);
-											}
-										}
+										WeightedRandomChestContent.generateChestContents(par2Random, var16, var17, 8);
 									}
-									break label210;
+									break label101;
 								}
 							}
 							++var11;
@@ -114,22 +110,16 @@ public class WorldGenDungeons extends WorldGenerator
 				}
 			}
 			par1World.setBlock(par3, par4, par5, Block.mobSpawner.blockID, 0, 2);
-			TileEntityMobSpawner var19 = (TileEntityMobSpawner) par1World.getBlockTileEntity(par3, par4, par5);
-			if(var19 != null)
+			TileEntityMobSpawner var18 = (TileEntityMobSpawner) par1World.getBlockTileEntity(par3, par4, par5);
+			if(var18 != null)
 			{
-				var19.getSpawnerLogic().setMobID(pickMobSpawner(par2Random));
+				var18.getSpawnerLogic().setMobID(pickMobSpawner(par2Random));
 			} else
 			{
 				System.err.println("Failed to fetch mob spawner entity at (" + par3 + ", " + par4 + ", " + par5 + ")");
 			}
 			return true;
 		} else return false;
-	}
-	
-	private ItemStack pickCheckLootItem(Random par1Random)
-	{
-		int var2 = par1Random.nextInt(12);
-		return var2 == 0 ? new ItemStack(Item.saddle) : var2 == 1 ? new ItemStack(Item.ingotIron, par1Random.nextInt(4) + 1) : var2 == 2 ? new ItemStack(Item.bread) : var2 == 3 ? new ItemStack(Item.wheat, par1Random.nextInt(4) + 1) : var2 == 4 ? new ItemStack(Item.gunpowder, par1Random.nextInt(4) + 1) : var2 == 5 ? new ItemStack(Item.silk, par1Random.nextInt(4) + 1) : var2 == 6 ? new ItemStack(Item.bucketEmpty) : var2 == 7 && par1Random.nextInt(100) == 0 ? new ItemStack(Item.appleGold) : var2 == 8 && par1Random.nextInt(2) == 0 ? new ItemStack(Item.redstone, par1Random.nextInt(4) + 1) : var2 == 9 && par1Random.nextInt(10) == 0 ? new ItemStack(Item.itemsList[Item.record13.itemID + par1Random.nextInt(2)]) : var2 == 10 ? new ItemStack(Item.dyePowder, 1, 3) : var2 == 11 ? Item.enchantedBook.func_92109_a(par1Random) : null;
 	}
 	
 	private String pickMobSpawner(Random par1Random)

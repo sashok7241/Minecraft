@@ -11,7 +11,7 @@ public class FlatGeneratorInfo
 {
 	private final List flatLayers = new ArrayList();
 	private final Map worldFeatures = new HashMap();
-	private int biomeToUse = 0;
+	private int biomeToUse;
 	
 	public void func_82645_d()
 	{

@@ -4,10 +4,10 @@ public class EntityAIControlledByPlayer extends EntityAIBase
 {
 	private final EntityLiving thisEntity;
 	private final float maxSpeed;
-	private float currentSpeed = 0.0F;
-	private boolean speedBoosted = false;
-	private int speedBoostTime = 0;
-	private int maxSpeedBoostTime = 0;
+	private float currentSpeed;
+	private boolean speedBoosted;
+	private int speedBoostTime;
+	private int maxSpeedBoostTime;
 	
 	public EntityAIControlledByPlayer(EntityLiving par1EntityLiving, float par2)
 	{

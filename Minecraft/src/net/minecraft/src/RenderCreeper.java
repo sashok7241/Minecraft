@@ -3,6 +3,8 @@ package net.minecraft.src;
 
 public class RenderCreeper extends RenderLiving
 {
+	private static final ResourceLocation field_110831_a = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
+	private static final ResourceLocation field_110830_f = new ResourceLocation("textures/entity/creeper/creeper.png");
 	private ModelBase creeperModel = new ModelCreeper(2.0F);
 	
 	public RenderCreeper()
@@ -10,24 +12,34 @@ public class RenderCreeper extends RenderLiving
 		super(new ModelCreeper(), 0.5F);
 	}
 	
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110829_a((EntityCreeper) par1Entity);
+	}
+	
+	protected ResourceLocation func_110829_a(EntityCreeper par1EntityCreeper)
+	{
+		return field_110830_f;
+	}
+	
 	protected int func_77061_b(EntityCreeper par1EntityCreeper, int par2, float par3)
 	{
 		return -1;
 	}
 	
-	@Override protected int getColorMultiplier(EntityLiving par1EntityLiving, float par2, float par3)
+	@Override protected int getColorMultiplier(EntityLivingBase par1EntityLivingBase, float par2, float par3)
 	{
-		return updateCreeperColorMultiplier((EntityCreeper) par1EntityLiving, par2, par3);
+		return updateCreeperColorMultiplier((EntityCreeper) par1EntityLivingBase, par2, par3);
 	}
 	
-	@Override protected int inheritRenderPass(EntityLiving par1EntityLiving, int par2, float par3)
+	@Override protected int inheritRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
 	{
-		return func_77061_b((EntityCreeper) par1EntityLiving, par2, par3);
+		return func_77061_b((EntityCreeper) par1EntityLivingBase, par2, par3);
 	}
 	
-	@Override protected void preRenderCallback(EntityLiving par1EntityLiving, float par2)
+	@Override protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
 	{
-		updateCreeperScale((EntityCreeper) par1EntityLiving, par2);
+		updateCreeperScale((EntityCreeper) par1EntityLivingBase, par2);
 	}
 	
 	protected int renderCreeperPassModel(EntityCreeper par1EntityCreeper, int par2, float par3)
@@ -44,7 +56,7 @@ public class RenderCreeper extends RenderLiving
 			if(par2 == 1)
 			{
 				float var4 = par1EntityCreeper.ticksExisted + par3;
-				loadTexture("/armor/power.png");
+				func_110776_a(field_110831_a);
 				GL11.glMatrixMode(GL11.GL_TEXTURE);
 				GL11.glLoadIdentity();
 				float var5 = var4 * 0.01F;
@@ -71,49 +83,49 @@ public class RenderCreeper extends RenderLiving
 		return -1;
 	}
 	
-	@Override protected int shouldRenderPass(EntityLiving par1EntityLiving, int par2, float par3)
+	@Override protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
 	{
-		return renderCreeperPassModel((EntityCreeper) par1EntityLiving, par2, par3);
+		return renderCreeperPassModel((EntityCreeper) par1EntityLivingBase, par2, par3);
 	}
 	
 	protected int updateCreeperColorMultiplier(EntityCreeper par1EntityCreeper, float par2, float par3)
 	{
-		float var5 = par1EntityCreeper.getCreeperFlashIntensity(par3);
-		if((int) (var5 * 10.0F) % 2 == 0) return 0;
+		float var4 = par1EntityCreeper.getCreeperFlashIntensity(par3);
+		if((int) (var4 * 10.0F) % 2 == 0) return 0;
 		else
 		{
-			int var6 = (int) (var5 * 0.2F * 255.0F);
-			if(var6 < 0)
+			int var5 = (int) (var4 * 0.2F * 255.0F);
+			if(var5 < 0)
 			{
-				var6 = 0;
+				var5 = 0;
 			}
-			if(var6 > 255)
+			if(var5 > 255)
 			{
-				var6 = 255;
+				var5 = 255;
 			}
+			short var6 = 255;
 			short var7 = 255;
 			short var8 = 255;
-			short var9 = 255;
-			return var6 << 24 | var7 << 16 | var8 << 8 | var9;
+			return var5 << 24 | var6 << 16 | var7 << 8 | var8;
 		}
 	}
 	
 	protected void updateCreeperScale(EntityCreeper par1EntityCreeper, float par2)
 	{
-		float var4 = par1EntityCreeper.getCreeperFlashIntensity(par2);
-		float var5 = 1.0F + MathHelper.sin(var4 * 100.0F) * var4 * 0.01F;
-		if(var4 < 0.0F)
+		float var3 = par1EntityCreeper.getCreeperFlashIntensity(par2);
+		float var4 = 1.0F + MathHelper.sin(var3 * 100.0F) * var3 * 0.01F;
+		if(var3 < 0.0F)
 		{
-			var4 = 0.0F;
+			var3 = 0.0F;
 		}
-		if(var4 > 1.0F)
+		if(var3 > 1.0F)
 		{
-			var4 = 1.0F;
+			var3 = 1.0F;
 		}
-		var4 *= var4;
-		var4 *= var4;
-		float var6 = (1.0F + var4 * 0.4F) * var5;
-		float var7 = (1.0F + var4 * 0.1F) / var5;
-		GL11.glScalef(var6, var7, var6);
+		var3 *= var3;
+		var3 *= var3;
+		float var5 = (1.0F + var3 * 0.4F) * var4;
+		float var6 = (1.0F + var3 * 0.1F) / var4;
+		GL11.glScalef(var5, var6, var5);
 	}
 }

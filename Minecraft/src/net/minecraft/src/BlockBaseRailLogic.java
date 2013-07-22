@@ -13,16 +13,16 @@ public class BlockBaseRailLogic
 	private List railChunkPosition;
 	final BlockRailBase theRail;
 	
-	public BlockBaseRailLogic(BlockRailBase par1, World par2, int par3, int par4, int par5)
+	public BlockBaseRailLogic(BlockRailBase par1BlockRailBase, World par2World, int par3, int par4, int par5)
 	{
-		theRail = par1;
+		theRail = par1BlockRailBase;
 		railChunkPosition = new ArrayList();
-		logicWorld = par2;
+		logicWorld = par2World;
 		railX = par3;
 		railY = par4;
 		railZ = par5;
-		int var6 = par2.getBlockId(par3, par4, par5);
-		int var7 = par2.getBlockMetadata(par3, par4, par5);
+		int var6 = par2World.getBlockId(par3, par4, par5);
+		int var7 = par2World.getBlockMetadata(par3, par4, par5);
 		if(((BlockRailBase) Block.blocksList[var6]).isPowered)
 		{
 			isStraightRail = true;

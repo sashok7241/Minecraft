@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet62LevelSound extends Packet
@@ -75,23 +75,23 @@ public class Packet62LevelSound extends Packet
 		par1NetHandler.handleLevelSound(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		soundName = readString(par1DataInputStream, 32);
-		effectX = par1DataInputStream.readInt();
-		effectY = par1DataInputStream.readInt();
-		effectZ = par1DataInputStream.readInt();
-		volume = par1DataInputStream.readFloat();
-		pitch = par1DataInputStream.readUnsignedByte();
+		soundName = readString(par1DataInput, 256);
+		effectX = par1DataInput.readInt();
+		effectY = par1DataInput.readInt();
+		effectZ = par1DataInput.readInt();
+		volume = par1DataInput.readFloat();
+		pitch = par1DataInput.readUnsignedByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(soundName, par1DataOutputStream);
-		par1DataOutputStream.writeInt(effectX);
-		par1DataOutputStream.writeInt(effectY);
-		par1DataOutputStream.writeInt(effectZ);
-		par1DataOutputStream.writeFloat(volume);
-		par1DataOutputStream.writeByte(pitch);
+		writeString(soundName, par1DataOutput);
+		par1DataOutput.writeInt(effectX);
+		par1DataOutput.writeInt(effectY);
+		par1DataOutput.writeInt(effectZ);
+		par1DataOutput.writeFloat(volume);
+		par1DataOutput.writeByte(pitch);
 	}
 }

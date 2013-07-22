@@ -107,6 +107,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
 		Chunk var5 = new Chunk(par1World, var3, var4);
 		var5.heightMap = par2NBTTagCompound.getIntArray("HeightMap");
 		var5.isTerrainPopulated = par2NBTTagCompound.getBoolean("TerrainPopulated");
+		var5.field_111204_q = par2NBTTagCompound.getLong("InhabitedTime");
 		NBTTagList var6 = par2NBTTagCompound.getTagList("Sections");
 		byte var7 = 16;
 		ExtendedBlockStorage[] var8 = new ExtendedBlockStorage[var7];
@@ -230,6 +231,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
 		par3NBTTagCompound.setLong("LastUpdate", par2World.getTotalWorldTime());
 		par3NBTTagCompound.setIntArray("HeightMap", par1Chunk.heightMap);
 		par3NBTTagCompound.setBoolean("TerrainPopulated", par1Chunk.isTerrainPopulated);
+		par3NBTTagCompound.setLong("InhabitedTime", par1Chunk.field_111204_q);
 		ExtendedBlockStorage[] var4 = par1Chunk.getBlockStorageArray();
 		NBTTagList var5 = new NBTTagList("Sections");
 		boolean var6 = !par2World.provider.hasNoSky;

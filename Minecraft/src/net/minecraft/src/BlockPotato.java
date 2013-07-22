@@ -48,7 +48,7 @@ public class BlockPotato extends BlockCrops
 		iconArray = new Icon[4];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon("potatoes_" + var2);
+			iconArray[var2] = par1IconRegister.registerIcon(func_111023_E() + "_stage_" + var2);
 		}
 	}
 }

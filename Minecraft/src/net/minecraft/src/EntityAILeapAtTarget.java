@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class EntityAILeapAtTarget extends EntityAIBase
 {
 	EntityLiving leaper;
-	EntityLiving leapTarget;
+	EntityLivingBase leapTarget;
 	float leapMotionY;
 	
 	public EntityAILeapAtTarget(EntityLiving par1EntityLiving, float par2)

@@ -9,7 +9,7 @@ public class WorldRenderer
 	public World worldObj;
 	private int glRenderList = -1;
 	private static Tessellator tessellator = Tessellator.instance;
-	public static int chunksUpdated = 0;
+	public static int chunksUpdated;
 	public int posX;
 	public int posY;
 	public int posZ;
@@ -19,7 +19,7 @@ public class WorldRenderer
 	public int posXClip;
 	public int posYClip;
 	public int posZClip;
-	public boolean isInFrustum = false;
+	public boolean isInFrustum;
 	public boolean[] skipRenderPass = new boolean[2];
 	public int posXPlus;
 	public int posYPlus;
@@ -31,7 +31,7 @@ public class WorldRenderer
 	public boolean isWaitingOnOcclusionQuery;
 	public int glOcclusionQuery;
 	public boolean isChunkLit;
-	private boolean isInitialized = false;
+	private boolean isInitialized;
 	public List tileEntityRenderers = new ArrayList();
 	private List tileEntities;
 	private int bytesDrawn;

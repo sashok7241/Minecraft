@@ -21,19 +21,24 @@ public class NetLoginHandler extends NetHandler
 	private byte[] verifyToken;
 	private final MinecraftServer mcServer;
 	public final TcpConnection myTCPConnection;
-	public boolean connectionComplete = false;
-	private int connectionTimer = 0;
-	private String clientUsername = null;
-	private volatile boolean field_72544_i = false;
+	public boolean connectionComplete;
+	private int connectionTimer;
+	private String clientUsername;
+	private volatile boolean field_72544_i;
 	private String loginServerId = "";
-	private boolean field_92079_k = false;
-	private SecretKey sharedKey = null;
+	private boolean field_92079_k;
+	private SecretKey sharedKey;
 	
 	public NetLoginHandler(MinecraftServer par1MinecraftServer, Socket par2Socket, String par3Str) throws IOException
 	{
 		mcServer = par1MinecraftServer;
 		myTCPConnection = new TcpConnection(par1MinecraftServer.getLogAgent(), par2Socket, par3Str, this, par1MinecraftServer.getKeyPair().getPrivate());
 		myTCPConnection.field_74468_e = 0;
+	}
+	
+	@Override public boolean func_142032_c()
+	{
+		return connectionComplete;
 	}
 	
 	public String getUsernameAndAddress()
@@ -70,9 +75,9 @@ public class NetLoginHandler extends NetHandler
 		} else
 		{
 			PublicKey var2 = mcServer.getKeyPair().getPublic();
-			if(par1Packet2ClientProtocol.getProtocolVersion() != 61)
+			if(par1Packet2ClientProtocol.getProtocolVersion() != 74)
 			{
-				if(par1Packet2ClientProtocol.getProtocolVersion() > 61)
+				if(par1Packet2ClientProtocol.getProtocolVersion() > 74)
 				{
 					raiseErrorAndDisconnect("Outdated server!");
 				} else
@@ -105,9 +110,12 @@ public class NetLoginHandler extends NetHandler
 		{
 			ServerConfigurationManager var2 = mcServer.getConfigurationManager();
 			String var3 = null;
-			if(par1Packet254ServerPing.readSuccessfully == 1)
+			if(par1Packet254ServerPing.func_140050_d())
 			{
-				List var4 = Arrays.asList(new Serializable[] { Integer.valueOf(1), Integer.valueOf(61), mcServer.getMinecraftVersion(), mcServer.getMOTD(), Integer.valueOf(var2.getCurrentPlayerCount()), Integer.valueOf(var2.getMaxPlayers()) });
+				var3 = mcServer.getMOTD() + "\u00a7" + var2.getCurrentPlayerCount() + "\u00a7" + var2.getMaxPlayers();
+			} else
+			{
+				List var4 = Arrays.asList(new Serializable[] { Integer.valueOf(1), Integer.valueOf(74), mcServer.getMinecraftVersion(), mcServer.getMOTD(), Integer.valueOf(var2.getCurrentPlayerCount()), Integer.valueOf(var2.getMaxPlayers()) });
 				Object var6;
 				for(Iterator var5 = var4.iterator(); var5.hasNext(); var3 = var3 + var6.toString().replaceAll("\u0000", ""))
 				{
@@ -120,9 +128,6 @@ public class NetLoginHandler extends NetHandler
 						var3 = var3 + "\u0000";
 					}
 				}
-			} else
-			{
-				var3 = mcServer.getMOTD() + "\u00a7" + var2.getCurrentPlayerCount() + "\u00a7" + var2.getMaxPlayers();
 			}
 			InetAddress var8 = null;
 			if(myTCPConnection.getSocket() != null)

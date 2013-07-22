@@ -5,6 +5,17 @@ public class TileEntitySign extends TileEntity
 	public String[] signText = new String[] { "", "", "", "" };
 	public int lineBeingEdited = -1;
 	private boolean isEditable = true;
+	private EntityPlayer field_142011_d;
+	
+	public EntityPlayer func_142009_b()
+	{
+		return field_142011_d;
+	}
+	
+	public void func_142010_a(EntityPlayer par1EntityPlayer)
+	{
+		field_142011_d = par1EntityPlayer;
+	}
 	
 	@Override public Packet getDescriptionPacket()
 	{
@@ -35,6 +46,10 @@ public class TileEntitySign extends TileEntity
 	public void setEditable(boolean par1)
 	{
 		isEditable = par1;
+		if(!par1)
+		{
+			field_142011_d = null;
+		}
 	}
 	
 	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)

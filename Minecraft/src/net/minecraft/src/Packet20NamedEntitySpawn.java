@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class Packet20NamedEntitySpawn extends Packet
 	public Packet20NamedEntitySpawn(EntityPlayer par1EntityPlayer)
 	{
 		entityId = par1EntityPlayer.entityId;
-		name = par1EntityPlayer.username;
+		name = par1EntityPlayer.getCommandSenderName();
 		xPosition = MathHelper.floor_double(par1EntityPlayer.posX * 32.0D);
 		yPosition = MathHelper.floor_double(par1EntityPlayer.posY * 32.0D);
 		zPosition = MathHelper.floor_double(par1EntityPlayer.posZ * 32.0D);
@@ -55,29 +55,29 @@ public class Packet20NamedEntitySpawn extends Packet
 		par1NetHandler.handleNamedEntitySpawn(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
-		name = readString(par1DataInputStream, 16);
-		xPosition = par1DataInputStream.readInt();
-		yPosition = par1DataInputStream.readInt();
-		zPosition = par1DataInputStream.readInt();
-		rotation = par1DataInputStream.readByte();
-		pitch = par1DataInputStream.readByte();
-		currentItem = par1DataInputStream.readShort();
-		metadataWatchableObjects = DataWatcher.readWatchableObjects(par1DataInputStream);
+		entityId = par1DataInput.readInt();
+		name = readString(par1DataInput, 16);
+		xPosition = par1DataInput.readInt();
+		yPosition = par1DataInput.readInt();
+		zPosition = par1DataInput.readInt();
+		rotation = par1DataInput.readByte();
+		pitch = par1DataInput.readByte();
+		currentItem = par1DataInput.readShort();
+		metadataWatchableObjects = DataWatcher.readWatchableObjects(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
-		writeString(name, par1DataOutputStream);
-		par1DataOutputStream.writeInt(xPosition);
-		par1DataOutputStream.writeInt(yPosition);
-		par1DataOutputStream.writeInt(zPosition);
-		par1DataOutputStream.writeByte(rotation);
-		par1DataOutputStream.writeByte(pitch);
-		par1DataOutputStream.writeShort(currentItem);
-		metadata.writeWatchableObjects(par1DataOutputStream);
+		par1DataOutput.writeInt(entityId);
+		writeString(name, par1DataOutput);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeInt(yPosition);
+		par1DataOutput.writeInt(zPosition);
+		par1DataOutput.writeByte(rotation);
+		par1DataOutput.writeByte(pitch);
+		par1DataOutput.writeShort(currentItem);
+		metadata.writeWatchableObjects(par1DataOutput);
 	}
 }

@@ -54,17 +54,6 @@ public class BlockRedstoneLight extends Block
 		}
 	}
 	
-	@Override public void registerIcons(IconRegister par1IconRegister)
-	{
-		if(powered)
-		{
-			blockIcon = par1IconRegister.registerIcon("redstoneLight_lit");
-		} else
-		{
-			blockIcon = par1IconRegister.registerIcon("redstoneLight");
-		}
-	}
-	
 	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
 		if(!par1World.isRemote && powered && !par1World.isBlockIndirectlyGettingPowered(par2, par3, par4))

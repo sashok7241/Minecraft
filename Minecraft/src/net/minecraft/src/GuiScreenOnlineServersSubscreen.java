@@ -13,23 +13,24 @@ public class GuiScreenOnlineServersSubscreen
 	String[] field_104077_b;
 	String[] field_104078_c;
 	String[][] field_104075_d;
-	int field_104076_e = 0;
-	int field_104073_f = 0;
+	int field_104076_e;
+	int field_104073_f;
 	
-	public GuiScreenOnlineServersSubscreen(int par1, int par2, int par3, int par4)
+	public GuiScreenOnlineServersSubscreen(int par1, int par2, int par3, int par4, int par5, int par6)
 	{
 		field_104074_g = par1;
 		field_104081_h = par2;
 		field_104082_i = par3;
 		field_104080_j = par4;
+		field_104076_e = par5;
+		field_104073_f = par6;
 		func_104068_a();
 	}
 	
 	private String func_104067_d()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
-		String var2 = var1.translateKey("mco.gameMode");
-		return var2 + ": " + field_104078_c[field_104073_f];
+		String var1 = I18n.func_135053_a("selectWorld.gameMode");
+		return var1 + ": " + field_104078_c[field_104073_f];
 	}
 	
 	private void func_104068_a()
@@ -57,10 +58,9 @@ public class GuiScreenOnlineServersSubscreen
 	
 	private void func_104070_b()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
-		field_104077_b = new String[] { var1.translateKey("options.difficulty.normal"), var1.translateKey("options.difficulty.hard"), var1.translateKey("options.difficulty.peaceful"), var1.translateKey("options.difficulty.easy") };
-		field_104078_c = new String[] { var1.translateKey("mco.gameMode.survival"), var1.translateKey("mco.gameMode.creative"), var1.translateKey("mco.gameMode.adventure") };
-		field_104075_d = new String[][] { { var1.translateKey("mco.gameMode.survival.line1"), var1.translateKey("mco.gameMode.survival.line2") }, { var1.translateKey("mco.gameMode.creative.line1"), var1.translateKey("mco.gameMode.creative.line2") }, { var1.translateKey("mco.gameMode.adventure.line1"), var1.translateKey("mco.gameMode.adventure.line2") } };
+		field_104077_b = new String[] { I18n.func_135053_a("options.difficulty.peaceful"), I18n.func_135053_a("options.difficulty.easy"), I18n.func_135053_a("options.difficulty.normal"), I18n.func_135053_a("options.difficulty.hard") };
+		field_104078_c = new String[] { I18n.func_135053_a("selectWorld.gameMode.survival"), I18n.func_135053_a("selectWorld.gameMode.creative"), I18n.func_135053_a("selectWorld.gameMode.adventure") };
+		field_104075_d = new String[][] { { I18n.func_135053_a("selectWorld.gameMode.survival.line1"), I18n.func_135053_a("selectWorld.gameMode.survival.line2") }, { I18n.func_135053_a("selectWorld.gameMode.creative.line1"), I18n.func_135053_a("selectWorld.gameMode.creative.line2") }, { I18n.func_135053_a("selectWorld.gameMode.adventure.line1"), I18n.func_135053_a("selectWorld.gameMode.adventure.line2") } };
 	}
 	
 	public void func_104071_a(GuiScreen par1GuiScreen, FontRenderer par2FontRenderer)
@@ -71,8 +71,7 @@ public class GuiScreenOnlineServersSubscreen
 	
 	private String func_104072_c()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
-		String var2 = var1.translateKey("options.difficulty");
-		return var2 + ": " + field_104077_b[field_104076_e];
+		String var1 = I18n.func_135053_a("options.difficulty");
+		return var1 + ": " + field_104077_b[field_104076_e];
 	}
 }

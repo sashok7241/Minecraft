@@ -2,7 +2,6 @@ package net.minecraft.src;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 public class StatBase
 {
@@ -11,11 +10,12 @@ public class StatBase
 	public boolean isIndependent;
 	public String statGuid;
 	private final IStatType type;
-	private static NumberFormat numberFormat = NumberFormat.getIntegerInstance(Locale.US);
+	private static NumberFormat numberFormat = NumberFormat.getIntegerInstance(java.util.Locale.US);
 	public static IStatType simpleStatType = new StatTypeSimple();
 	private static DecimalFormat decimalFormat = new DecimalFormat("########0.00");
 	public static IStatType timeStatType = new StatTypeTime();
 	public static IStatType distanceStatType = new StatTypeDistance();
+	public static IStatType field_111202_k = new StatTypeFloat();
 	
 	public StatBase(int par1, String par2Str)
 	{
@@ -24,7 +24,6 @@ public class StatBase
 	
 	public StatBase(int par1, String par2Str, IStatType par3IStatType)
 	{
-		isIndependent = false;
 		statId = par1;
 		statName = par2Str;
 		type = par3IStatType;

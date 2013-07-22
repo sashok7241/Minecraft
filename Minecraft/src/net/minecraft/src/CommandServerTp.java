@@ -11,36 +11,6 @@ public class CommandServerTp extends CommandBase
 		return par2ArrayOfStr.length != 1 && par2ArrayOfStr.length != 2 ? null : getListOfStringsMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getAllUsernames());
 	}
 	
-	private double func_82367_a(ICommandSender par1ICommandSender, double par2, String par4Str, int par5, int par6)
-	{
-		boolean var7 = par4Str.startsWith("~");
-		double var8 = var7 ? par2 : 0.0D;
-		if(!var7 || par4Str.length() > 1)
-		{
-			boolean var10 = par4Str.contains(".");
-			if(var7)
-			{
-				par4Str = par4Str.substring(1);
-			}
-			var8 += parseDouble(par1ICommandSender, par4Str);
-			if(!var10 && !var7)
-			{
-				var8 += 0.5D;
-			}
-		}
-		if(par5 != 0 || par6 != 0)
-		{
-			if(var8 < par5) throw new NumberInvalidException("commands.generic.double.tooSmall", new Object[] { Double.valueOf(var8), Integer.valueOf(par5) });
-			if(var8 > par6) throw new NumberInvalidException("commands.generic.double.tooBig", new Object[] { Double.valueOf(var8), Integer.valueOf(par6) });
-		}
-		return var8;
-	}
-	
-	private double func_82368_a(ICommandSender par1ICommandSender, double par2, String par4Str)
-	{
-		return func_82367_a(par1ICommandSender, par2, par4Str, -30000000, 30000000);
-	}
-	
 	@Override public String getCommandName()
 	{
 		return "tp";
@@ -48,7 +18,7 @@ public class CommandServerTp extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.tp.usage", new Object[0]);
+		return "commands.tp.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -93,9 +63,9 @@ public class CommandServerTp extends CommandBase
 			} else if(var3.worldObj != null)
 			{
 				int var4 = par2ArrayOfStr.length - 3;
-				double var5 = func_82368_a(par1ICommandSender, var3.posX, par2ArrayOfStr[var4++]);
-				double var7 = func_82367_a(par1ICommandSender, var3.posY, par2ArrayOfStr[var4++], 0, 0);
-				double var9 = func_82368_a(par1ICommandSender, var3.posZ, par2ArrayOfStr[var4++]);
+				double var5 = func_110666_a(par1ICommandSender, var3.posX, par2ArrayOfStr[var4++]);
+				double var7 = func_110665_a(par1ICommandSender, var3.posY, par2ArrayOfStr[var4++], 0, 0);
+				double var9 = func_110666_a(par1ICommandSender, var3.posZ, par2ArrayOfStr[var4++]);
 				var3.mountEntity((Entity) null);
 				var3.setPositionAndUpdate(var5, var7, var9);
 				notifyAdmins(par1ICommandSender, "commands.tp.success.coordinates", new Object[] { var3.getEntityName(), Double.valueOf(var5), Double.valueOf(var7), Double.valueOf(var9) });

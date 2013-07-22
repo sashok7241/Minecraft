@@ -159,7 +159,7 @@ public class StructureVillagePieces
 		} else return null;
 	}
 	
-	public static ArrayList getStructureVillageWeightedPieceList(Random par0Random, int par1)
+	public static List getStructureVillageWeightedPieceList(Random par0Random, int par1)
 	{
 		ArrayList var2 = new ArrayList();
 		var2.add(new StructureVillagePieceWeight(ComponentVillageHouse4_Garden.class, 4, MathHelper.getRandomIntegerInRange(par0Random, 2 + par1, 4 + par1 * 2)));

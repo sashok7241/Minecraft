@@ -2,8 +2,8 @@ package net.minecraft.src;
 
 public class ModelEnderman extends ModelBiped
 {
-	public boolean isCarrying = false;
-	public boolean isAttacking = false;
+	public boolean isCarrying;
+	public boolean isAttacking;
 	
 	public ModelEnderman()
 	{

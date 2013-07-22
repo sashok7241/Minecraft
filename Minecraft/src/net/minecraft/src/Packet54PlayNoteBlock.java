@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet54PlayNoteBlock extends Packet
@@ -37,23 +37,23 @@ public class Packet54PlayNoteBlock extends Packet
 		par1NetHandler.handleBlockEvent(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xLocation = par1DataInputStream.readInt();
-		yLocation = par1DataInputStream.readShort();
-		zLocation = par1DataInputStream.readInt();
-		instrumentType = par1DataInputStream.read();
-		pitch = par1DataInputStream.read();
-		blockId = par1DataInputStream.readShort() & 4095;
+		xLocation = par1DataInput.readInt();
+		yLocation = par1DataInput.readShort();
+		zLocation = par1DataInput.readInt();
+		instrumentType = par1DataInput.readUnsignedByte();
+		pitch = par1DataInput.readUnsignedByte();
+		blockId = par1DataInput.readShort() & 4095;
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(xLocation);
-		par1DataOutputStream.writeShort(yLocation);
-		par1DataOutputStream.writeInt(zLocation);
-		par1DataOutputStream.write(instrumentType);
-		par1DataOutputStream.write(pitch);
-		par1DataOutputStream.writeShort(blockId & 4095);
+		par1DataOutput.writeInt(xLocation);
+		par1DataOutput.writeShort(yLocation);
+		par1DataOutput.writeInt(zLocation);
+		par1DataOutput.write(instrumentType);
+		par1DataOutput.write(pitch);
+		par1DataOutput.writeShort(blockId & 4095);
 	}
 }

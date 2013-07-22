@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet61DoorChange extends Packet
@@ -42,23 +42,23 @@ public class Packet61DoorChange extends Packet
 		par1NetHandler.handleDoorChange(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		sfxID = par1DataInputStream.readInt();
-		posX = par1DataInputStream.readInt();
-		posY = par1DataInputStream.readByte() & 255;
-		posZ = par1DataInputStream.readInt();
-		auxData = par1DataInputStream.readInt();
-		disableRelativeVolume = par1DataInputStream.readBoolean();
+		sfxID = par1DataInput.readInt();
+		posX = par1DataInput.readInt();
+		posY = par1DataInput.readByte() & 255;
+		posZ = par1DataInput.readInt();
+		auxData = par1DataInput.readInt();
+		disableRelativeVolume = par1DataInput.readBoolean();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(sfxID);
-		par1DataOutputStream.writeInt(posX);
-		par1DataOutputStream.writeByte(posY & 255);
-		par1DataOutputStream.writeInt(posZ);
-		par1DataOutputStream.writeInt(auxData);
-		par1DataOutputStream.writeBoolean(disableRelativeVolume);
+		par1DataOutput.writeInt(sfxID);
+		par1DataOutput.writeInt(posX);
+		par1DataOutput.writeByte(posY & 255);
+		par1DataOutput.writeInt(posZ);
+		par1DataOutput.writeInt(auxData);
+		par1DataOutput.writeBoolean(disableRelativeVolume);
 	}
 }

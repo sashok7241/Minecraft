@@ -26,7 +26,7 @@ public class CommandHelp extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.help.usage", new Object[0]);
+		return "commands.help.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -60,15 +60,15 @@ public class CommandHelp extends CommandBase
 			throw new CommandNotFoundException();
 		}
 		int var7 = Math.min((var11 + 1) * var4, var3.size());
-		par1ICommandSender.sendChatToPlayer(EnumChatFormatting.DARK_GREEN + par1ICommandSender.translateString("commands.help.header", new Object[] { Integer.valueOf(var11 + 1), Integer.valueOf(var5 + 1) }));
+		par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.help.header", new Object[] { Integer.valueOf(var11 + 1), Integer.valueOf(var5 + 1) }).func_111059_a(EnumChatFormatting.DARK_GREEN));
 		for(int var12 = var11 * var4; var12 < var7; ++var12)
 		{
 			var9 = (ICommand) var3.get(var12);
-			par1ICommandSender.sendChatToPlayer(var9.getCommandUsage(par1ICommandSender));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e(var9.getCommandUsage(par1ICommandSender)));
 		}
 		if(var11 == 0 && par1ICommandSender instanceof EntityPlayer)
 		{
-			par1ICommandSender.sendChatToPlayer(EnumChatFormatting.GREEN + par1ICommandSender.translateString("commands.help.footer", new Object[0]));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e("commands.help.footer").func_111059_a(EnumChatFormatting.GREEN));
 		}
 	}
 }

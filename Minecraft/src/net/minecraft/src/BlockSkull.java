@@ -72,7 +72,7 @@ public class BlockSkull extends BlockContainer
 	
 	@Override public String getItemIconName()
 	{
-		return ItemSkull.field_94587_a[0];
+		return func_111023_E() + "_" + ItemSkull.field_94587_a[0];
 	}
 	
 	@Override public int getRenderType()
@@ -187,9 +187,9 @@ public class BlockSkull extends BlockContainer
 		super.onBlockHarvested(par1World, par2, par3, par4, par5, par6EntityPlayer);
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		int var7 = MathHelper.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 2.5D) & 3;
+		int var7 = MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 2.5D) & 3;
 		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
 	}
 	

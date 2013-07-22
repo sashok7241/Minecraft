@@ -53,11 +53,6 @@ public class ItemRecord extends Item
 		} else return false;
 	}
 	
-	@Override public void registerIcons(IconRegister par1IconRegister)
-	{
-		itemIcon = par1IconRegister.registerIcon("record_" + recordName);
-	}
-	
 	public static ItemRecord getRecord(String par0Str)
 	{
 		return (ItemRecord) records.get(par0Str);

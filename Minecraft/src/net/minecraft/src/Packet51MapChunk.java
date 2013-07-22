@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
@@ -62,19 +62,19 @@ public class Packet51MapChunk extends Packet
 		par1NetHandler.handleMapChunk(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xCh = par1DataInputStream.readInt();
-		zCh = par1DataInputStream.readInt();
-		includeInitialize = par1DataInputStream.readBoolean();
-		yChMin = par1DataInputStream.readShort();
-		yChMax = par1DataInputStream.readShort();
-		tempLength = par1DataInputStream.readInt();
+		xCh = par1DataInput.readInt();
+		zCh = par1DataInput.readInt();
+		includeInitialize = par1DataInput.readBoolean();
+		yChMin = par1DataInput.readShort();
+		yChMax = par1DataInput.readShort();
+		tempLength = par1DataInput.readInt();
 		if(temp.length < tempLength)
 		{
 			temp = new byte[tempLength];
 		}
-		par1DataInputStream.readFully(temp, 0, tempLength);
+		par1DataInput.readFully(temp, 0, tempLength);
 		int var2 = 0;
 		int var3;
 		for(var3 = 0; var3 < 16; ++var3)
@@ -101,15 +101,15 @@ public class Packet51MapChunk extends Packet
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(xCh);
-		par1DataOutputStream.writeInt(zCh);
-		par1DataOutputStream.writeBoolean(includeInitialize);
-		par1DataOutputStream.writeShort((short) (yChMin & 65535));
-		par1DataOutputStream.writeShort((short) (yChMax & 65535));
-		par1DataOutputStream.writeInt(tempLength);
-		par1DataOutputStream.write(chunkData, 0, tempLength);
+		par1DataOutput.writeInt(xCh);
+		par1DataOutput.writeInt(zCh);
+		par1DataOutput.writeBoolean(includeInitialize);
+		par1DataOutput.writeShort((short) (yChMin & 65535));
+		par1DataOutput.writeShort((short) (yChMax & 65535));
+		par1DataOutput.writeInt(tempLength);
+		par1DataOutput.write(chunkData, 0, tempLength);
 	}
 	
 	public static Packet51MapChunkData getMapChunkData(Chunk par0Chunk, boolean par1, int par2)

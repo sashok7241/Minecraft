@@ -4,22 +4,20 @@ import java.util.Calendar;
 
 public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 {
-	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 0.25F, 20, 60, 15.0F);
-	private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.31F, false);
+	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
+	private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D, false);
 	
 	public EntitySkeleton(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/skeleton.png";
-		moveSpeed = 0.25F;
 		tasks.addTask(1, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIRestrictSun(this));
-		tasks.addTask(3, new EntityAIFleeSun(this, moveSpeed));
-		tasks.addTask(5, new EntityAIWander(this, moveSpeed));
+		tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
+		tasks.addTask(5, new EntityAIWander(this, 1.0D));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(6, new EntityAILookIdle(this));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 16.0F, 0, true));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		if(par1World != null && !par1World.isRemote)
 		{
 			setCombatTask();
@@ -36,17 +34,17 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 	{
 		if(super.attackEntityAsMob(par1Entity))
 		{
-			if(getSkeletonType() == 1 && par1Entity instanceof EntityLiving)
+			if(getSkeletonType() == 1 && par1Entity instanceof EntityLivingBase)
 			{
-				((EntityLiving) par1Entity).addPotionEffect(new PotionEffect(Potion.wither.id, 200));
+				((EntityLivingBase) par1Entity).addPotionEffect(new PotionEffect(Potion.wither.id, 200));
 			}
 			return true;
 		} else return false;
 	}
 	
-	@Override public void attackEntityWithRangedAttack(EntityLiving par1EntityLiving, float par2)
+	@Override public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2)
 	{
-		EntityArrow var3 = new EntityArrow(worldObj, this, par1EntityLiving, 1.6F, 14 - worldObj.difficultySetting * 4);
+		EntityArrow var3 = new EntityArrow(worldObj, this, par1EntityLivingBase, 1.6F, 14 - worldObj.difficultySetting * 4);
 		int var4 = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, getHeldItem());
 		int var5 = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, getHeldItem());
 		var3.setDamage(par2 * 2.0F + rand.nextGaussian() * 0.25D + worldObj.difficultySetting * 0.11F);
@@ -106,18 +104,38 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 		dataWatcher.addObject(13, new Byte((byte) 0));
 	}
 	
-	@Override public int getAttackStrength(Entity par1Entity)
+	@Override protected void func_110147_ax()
 	{
-		if(getSkeletonType() == 1)
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
+	}
+	
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	{
+		par1EntityLivingData = super.func_110161_a(par1EntityLivingData);
+		if(worldObj.provider instanceof WorldProviderHell && getRNG().nextInt(5) > 0)
 		{
-			ItemStack var2 = getHeldItem();
-			int var3 = 4;
-			if(var2 != null)
+			tasks.addTask(4, aiAttackOnCollide);
+			setSkeletonType(1);
+			setCurrentItemOrArmor(0, new ItemStack(Item.swordStone));
+			func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(4.0D);
+		} else
+		{
+			tasks.addTask(4, aiArrowAttack);
+			addRandomArmor();
+			enchantEquipment();
+		}
+		setCanPickUpLoot(rand.nextFloat() < 0.55F * worldObj.func_110746_b(posX, posY, posZ));
+		if(getCurrentItemOrArmor(4) == null)
+		{
+			Calendar var2 = worldObj.getCurrentDate();
+			if(var2.get(2) + 1 == 10 && var2.get(5) == 31 && rand.nextFloat() < 0.25F)
 			{
-				var3 += var2.getDamageVsEntity(this);
+				setCurrentItemOrArmor(4, new ItemStack(rand.nextFloat() < 0.1F ? Block.pumpkinLantern : Block.pumpkin));
+				equipmentDropChances[4] = 0.0F;
 			}
-			return var3;
-		} else return super.getAttackStrength(par1Entity);
+		}
+		return par1EntityLivingData;
 	}
 	
 	@Override public EnumCreatureAttribute getCreatureAttribute()
@@ -145,44 +163,14 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 		return "mob.skeleton.say";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 20;
-	}
-	
 	public int getSkeletonType()
 	{
 		return dataWatcher.getWatchableObjectByte(13);
 	}
 	
-	@Override public String getTexture()
+	@Override public double getYOffset()
 	{
-		return getSkeletonType() == 1 ? "/mob/skeleton_wither.png" : super.getTexture();
-	}
-	
-	@Override public void initCreature()
-	{
-		if(worldObj.provider instanceof WorldProviderHell && getRNG().nextInt(5) > 0)
-		{
-			tasks.addTask(4, aiAttackOnCollide);
-			setSkeletonType(1);
-			setCurrentItemOrArmor(0, new ItemStack(Item.swordStone));
-		} else
-		{
-			tasks.addTask(4, aiArrowAttack);
-			addRandomArmor();
-			enchantEquipment();
-		}
-		setCanPickUpLoot(rand.nextFloat() < pickUpLootProability[worldObj.difficultySetting]);
-		if(getCurrentItemOrArmor(4) == null)
-		{
-			Calendar var1 = worldObj.getCurrentDate();
-			if(var1.get(2) + 1 == 10 && var1.get(5) == 31 && rand.nextFloat() < 0.25F)
-			{
-				setCurrentItemOrArmor(4, new ItemStack(rand.nextFloat() < 0.1F ? Block.pumpkinLantern : Block.pumpkin));
-				equipmentDropChances[4] = 0.0F;
-			}
-		}
+		return super.getYOffset() - 0.5D;
 	}
 	
 	@Override public boolean isAIEnabled()
@@ -289,6 +277,16 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 		} else
 		{
 			setSize(0.6F, 1.8F);
+		}
+	}
+	
+	@Override public void updateRidden()
+	{
+		super.updateRidden();
+		if(ridingEntity instanceof EntityCreature)
+		{
+			EntityCreature var1 = (EntityCreature) ridingEntity;
+			renderYawOffset = var1.renderYawOffset;
 		}
 	}
 	

@@ -61,7 +61,7 @@ public class BlockCactus extends Block
 	
 	@Override public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
 	{
-		par5Entity.attackEntityFrom(DamageSource.cactus, 1);
+		par5Entity.attackEntityFrom(DamageSource.cactus, 1.0F);
 	}
 	
 	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
@@ -74,9 +74,9 @@ public class BlockCactus extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("cactus_side");
-		cactusTopIcon = par1IconRegister.registerIcon("cactus_top");
-		cactusBottomIcon = par1IconRegister.registerIcon("cactus_bottom");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		cactusTopIcon = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		cactusBottomIcon = par1IconRegister.registerIcon(func_111023_E() + "_bottom");
 	}
 	
 	@Override public boolean renderAsNormalBlock()

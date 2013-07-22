@@ -9,7 +9,7 @@ public class EntityAITasks
 	private List taskEntries = new ArrayList();
 	private List executingTaskEntries = new ArrayList();
 	private final Profiler theProfiler;
-	private int tickCount = 0;
+	private int tickCount;
 	private int tickRate = 3;
 	
 	public EntityAITasks(Profiler par1Profiler)

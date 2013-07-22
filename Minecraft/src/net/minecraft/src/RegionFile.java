@@ -12,6 +12,8 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
 
+import net.minecraft.server.MinecraftServer;
+
 public class RegionFile
 {
 	private static final byte[] emptySector = new byte[4096];
@@ -21,7 +23,7 @@ public class RegionFile
 	private final int[] chunkTimestamps = new int[1024];
 	private ArrayList sectorFree;
 	private int sizeDelta;
-	private long lastModified = 0L;
+	private long lastModified;
 	
 	public RegionFile(File par1File)
 	{
@@ -252,7 +254,7 @@ public class RegionFile
 					setOffset(par1, par2, var6 << 8 | var8);
 				}
 			}
-			setChunkTimestamp(par1, par2, (int) (System.currentTimeMillis() / 1000L));
+			setChunkTimestamp(par1, par2, (int) (MinecraftServer.func_130071_aq() / 1000L));
 		} catch(IOException var12)
 		{
 			var12.printStackTrace();

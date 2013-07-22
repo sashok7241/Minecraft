@@ -3,7 +3,8 @@ package net.minecraft.src;
 
 public class TileEntitySignRenderer extends TileEntitySpecialRenderer
 {
-	private ModelSign modelSign = new ModelSign();
+	private static final ResourceLocation field_110638_a = new ResourceLocation("textures/entity/sign.png");
+	private final ModelSign modelSign = new ModelSign();
 	
 	@Override public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
 	{
@@ -43,7 +44,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
 			GL11.glTranslatef(0.0F, -0.3125F, -0.4375F);
 			modelSign.signStick.showModel = false;
 		}
-		bindTextureByName("/item/sign.png");
+		func_110628_a(field_110638_a);
 		GL11.glPushMatrix();
 		GL11.glScalef(var10, -var10, -var10);
 		modelSign.renderSign();

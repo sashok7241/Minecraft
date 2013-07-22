@@ -43,7 +43,7 @@ public class NBTTagLong extends NBTBase
 		return super.hashCode() ^ (int) (data ^ data >>> 32);
 	}
 	
-	@Override void load(DataInput par1DataInput) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
 		data = par1DataInput.readLong();
 	}

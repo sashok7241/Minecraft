@@ -70,8 +70,8 @@ public class BlockDetectorRail extends BlockRailBase
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		iconArray = new Icon[2];
-		iconArray[0] = par1IconRegister.registerIcon("detectorRail");
-		iconArray[1] = par1IconRegister.registerIcon("detectorRail_on");
+		iconArray[0] = par1IconRegister.registerIcon(func_111023_E());
+		iconArray[1] = par1IconRegister.registerIcon(func_111023_E() + "_powered");
 	}
 	
 	private void setStateIfMinecartInteractsWithRail(World par1World, int par2, int par3, int par4, int par5)

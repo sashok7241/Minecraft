@@ -5,7 +5,7 @@ public class EntityAILookIdle extends EntityAIBase
 	private EntityLiving idleEntity;
 	private double lookX;
 	private double lookZ;
-	private int idleTime = 0;
+	private int idleTime;
 	
 	public EntityAILookIdle(EntityLiving par1EntityLiving)
 	{

@@ -1,15 +1,12 @@
 package net.minecraft.src;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
@@ -17,18 +14,20 @@ import net.minecraft.client.Minecraft;
 public class GuiMainMenu extends GuiScreen
 {
 	private static final Random rand = new Random();
-	private float updateCounter = 0.0F;
+	private float updateCounter;
 	private String splashText = "missingno";
 	private GuiButton buttonResetDemo;
-	private int panoramaTimer = 0;
-	private int viewportTexture;
+	private int panoramaTimer;
+	private DynamicTexture viewportTexture;
 	private boolean field_96141_q = true;
-	private static boolean field_96140_r = false;
-	private static boolean field_96139_s = false;
+	private static boolean field_96140_r;
+	private static boolean field_96139_s;
 	private final Object field_104025_t = new Object();
 	private String field_92025_p;
 	private String field_104024_v;
-	private static final String[] titlePanoramaPaths = new String[] { "/title/bg/panorama0.png", "/title/bg/panorama1.png", "/title/bg/panorama2.png", "/title/bg/panorama3.png", "/title/bg/panorama4.png", "/title/bg/panorama5.png" };
+	private static final ResourceLocation field_110353_x = new ResourceLocation("texts/splashes.txt");
+	private static final ResourceLocation field_110352_y = new ResourceLocation("textures/gui/title/minecraft.png");
+	private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[] { new ResourceLocation("textures/gui/title/background/panorama_0.png"), new ResourceLocation("textures/gui/title/background/panorama_1.png"), new ResourceLocation("textures/gui/title/background/panorama_2.png"), new ResourceLocation("textures/gui/title/background/panorama_3.png"), new ResourceLocation("textures/gui/title/background/panorama_4.png"), new ResourceLocation("textures/gui/title/background/panorama_5.png") };
 	public static final String field_96138_a = "Please click " + EnumChatFormatting.UNDERLINE + "here" + EnumChatFormatting.RESET + " for more information.";
 	private int field_92024_r;
 	private int field_92023_s;
@@ -36,6 +35,8 @@ public class GuiMainMenu extends GuiScreen
 	private int field_92021_u;
 	private int field_92020_v;
 	private int field_92019_w;
+	private ResourceLocation field_110351_G;
+	private GuiButton field_130023_H;
 	
 	public GuiMainMenu()
 	{
@@ -44,11 +45,11 @@ public class GuiMainMenu extends GuiScreen
 		try
 		{
 			ArrayList var2 = new ArrayList();
-			var1 = new BufferedReader(new InputStreamReader(GuiMainMenu.class.getResourceAsStream("/title/splashes.txt"), Charset.forName("UTF-8")));
+			var1 = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().func_110442_L().func_110536_a(field_110353_x).func_110527_b(), Charsets.UTF_8));
 			while((var3 = var1.readLine()) != null)
 			{
 				var3 = var3.trim();
-				if(var3.length() > 0)
+				if(!var3.isEmpty())
 				{
 					var2.add(var3);
 				}
@@ -86,10 +87,6 @@ public class GuiMainMenu extends GuiScreen
 			field_92025_p = "" + EnumChatFormatting.BOLD + "Notice!" + EnumChatFormatting.RESET + " Java 1.5 compatibility will be dropped in Minecraft 1.6";
 			field_104024_v = "http://tinyurl.com/javappc";
 		}
-		if(field_92025_p.length() == 0)
-		{
-			new Thread(new RunnableTitleScreen(this), "1.6 Update Check Thread").start();
-		}
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -100,7 +97,7 @@ public class GuiMainMenu extends GuiScreen
 		}
 		if(par1GuiButton.id == 5)
 		{
-			mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings));
+			mc.displayGuiScreen(new GuiLanguage(this, mc.gameSettings, mc.func_135016_M()));
 		}
 		if(par1GuiButton.id == 1)
 		{
@@ -110,9 +107,9 @@ public class GuiMainMenu extends GuiScreen
 		{
 			mc.displayGuiScreen(new GuiMultiplayer(this));
 		}
-		if(par1GuiButton.id == 3)
+		if(par1GuiButton.id == 14 && field_130023_H.drawButton)
 		{
-			mc.displayGuiScreen(new GuiScreenOnlineServers(this));
+			func_140005_i();
 		}
 		if(par1GuiButton.id == 4)
 		{
@@ -134,22 +131,24 @@ public class GuiMainMenu extends GuiScreen
 		}
 	}
 	
-	private void addDemoButtons(int par1, int par2, StringTranslate par3StringTranslate)
+	private void addDemoButtons(int par1, int par2)
 	{
-		buttonList.add(new GuiButton(11, width / 2 - 100, par1, par3StringTranslate.translateKey("menu.playdemo")));
-		buttonList.add(buttonResetDemo = new GuiButton(12, width / 2 - 100, par1 + par2 * 1, par3StringTranslate.translateKey("menu.resetdemo")));
-		ISaveFormat var4 = mc.getSaveLoader();
-		WorldInfo var5 = var4.getWorldInfo("Demo_World");
-		if(var5 == null)
+		buttonList.add(new GuiButton(11, width / 2 - 100, par1, I18n.func_135053_a("menu.playdemo")));
+		buttonList.add(buttonResetDemo = new GuiButton(12, width / 2 - 100, par1 + par2 * 1, I18n.func_135053_a("menu.resetdemo")));
+		ISaveFormat var3 = mc.getSaveLoader();
+		WorldInfo var4 = var3.getWorldInfo("Demo_World");
+		if(var4 == null)
 		{
 			buttonResetDemo.enabled = false;
 		}
 	}
 	
-	private void addSingleplayerMultiplayerButtons(int par1, int par2, StringTranslate par3StringTranslate)
+	private void addSingleplayerMultiplayerButtons(int par1, int par2)
 	{
-		buttonList.add(new GuiButton(1, width / 2 - 100, par1, par3StringTranslate.translateKey("menu.singleplayer")));
-		buttonList.add(new GuiButton(2, width / 2 - 100, par1 + par2 * 1, par3StringTranslate.translateKey("menu.multiplayer")));
+		buttonList.add(new GuiButton(1, width / 2 - 100, par1, I18n.func_135053_a("menu.singleplayer")));
+		buttonList.add(new GuiButton(2, width / 2 - 100, par1 + par2 * 1, I18n.func_135053_a("menu.multiplayer")));
+		buttonList.add(field_130023_H = new GuiButton(14, width / 2 - 100, par1 + par2 * 2, I18n.func_135053_a("menu.online")));
+		field_130023_H.drawButton = false;
 	}
 	
 	@Override public void confirmClicked(boolean par1, int par2)
@@ -189,7 +188,7 @@ public class GuiMainMenu extends GuiScreen
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glPushMatrix();
 		GL11.glLoadIdentity();
-		GLU.gluPerspective(120.0F, 1.0F, 0.05F, 10.0F);
+		Project.gluPerspective(120.0F, 1.0F, 0.05F, 10.0F);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glPushMatrix();
 		GL11.glLoadIdentity();
@@ -233,7 +232,7 @@ public class GuiMainMenu extends GuiScreen
 				{
 					GL11.glRotatef(-90.0F, 1.0F, 0.0F, 0.0F);
 				}
-				mc.renderEngine.bindTexture(titlePanoramaPaths[var10]);
+				mc.func_110434_K().func_110577_a(titlePanoramaPaths[var10]);
 				var4.startDrawingQuads();
 				var4.setColorRGBA_I(16777215, 255 / (var6 + 1));
 				float var11 = 0.0F;
@@ -268,7 +267,7 @@ public class GuiMainMenu extends GuiScreen
 		byte var7 = 30;
 		drawGradientRect(0, 0, width, height, -2130706433, 16777215);
 		drawGradientRect(0, 0, width, height, 0, Integer.MIN_VALUE);
-		mc.renderEngine.bindTexture("/title/mclogo.png");
+		mc.func_110434_K().func_110577_a(field_110352_y);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		if(updateCounter < 1.0E-4D)
 		{
@@ -291,7 +290,7 @@ public class GuiMainMenu extends GuiScreen
 		GL11.glScalef(var8, var8, var8);
 		drawCenteredString(fontRenderer, splashText, 0, -8, 16776960);
 		GL11.glPopMatrix();
-		String var9 = "Minecraft 1.5.2";
+		String var9 = "Minecraft 1.6.2";
 		if(mc.isDemo())
 		{
 			var9 = var9 + " Demo";
@@ -308,29 +307,51 @@ public class GuiMainMenu extends GuiScreen
 		super.drawScreen(par1, par2, par3);
 	}
 	
-	private void func_96137_a(StringTranslate par1StringTranslate, int par2, int par3)
+	private void func_130020_g()
 	{
 		if(field_96141_q)
 		{
 			if(!field_96140_r)
 			{
 				field_96140_r = true;
-				new ThreadTitleScreen(this, par1StringTranslate, par2, par3).start();
+				new RunnableTitleScreen(this).start();
 			} else if(field_96139_s)
 			{
-				func_98060_b(par1StringTranslate, par2, par3);
+				func_130022_h();
 			}
 		}
 	}
 	
-	private void func_98060_b(StringTranslate par1StringTranslate, int par2, int par3)
+	private void func_130022_h()
 	{
-		buttonList.add(new GuiButton(3, width / 2 - 100, par2 + par3 * 2, par1StringTranslate.translateKey("menu.online")));
+		field_130023_H.drawButton = true;
+	}
+	
+	private void func_140005_i()
+	{
+		McoClient var1 = new McoClient(mc.func_110432_I());
+		try
+		{
+			if(var1.func_140054_c().booleanValue())
+			{
+				mc.displayGuiScreen(new GuiScreenClientOutdated(this));
+			} else
+			{
+				mc.displayGuiScreen(new GuiScreenOnlineServers(this));
+			}
+		} catch(ExceptionMcoService var3)
+		{
+			mc.getLogAgent().logSevere(var3.toString());
+		} catch(IOException var4)
+		{
+			mc.getLogAgent().logSevere(var4.getLocalizedMessage());
+		}
 	}
 	
 	@Override public void initGui()
 	{
-		viewportTexture = mc.renderEngine.allocateAndSetupTexture(new BufferedImage(256, 256, 2));
+		viewportTexture = new DynamicTexture(256, 256);
+		field_110351_G = mc.func_110434_K().func_110578_a("background", viewportTexture);
 		Calendar var1 = Calendar.getInstance();
 		var1.setTime(new Date());
 		if(var1.get(2) + 1 == 11 && var1.get(5) == 9)
@@ -349,34 +370,28 @@ public class GuiMainMenu extends GuiScreen
 		{
 			splashText = "OOoooOOOoooo! Spooky!";
 		}
-		StringTranslate var2 = StringTranslate.getInstance();
-		int var4 = height / 4 + 48;
+		boolean var2 = true;
+		int var3 = height / 4 + 48;
 		if(mc.isDemo())
 		{
-			addDemoButtons(var4, 24, var2);
+			addDemoButtons(var3, 24);
 		} else
 		{
-			addSingleplayerMultiplayerButtons(var4, 24, var2);
+			addSingleplayerMultiplayerButtons(var3, 24);
 		}
-		func_96137_a(var2, var4, 24);
-		if(mc.hideQuitButton)
-		{
-			buttonList.add(new GuiButton(0, width / 2 - 100, var4 + 72, var2.translateKey("menu.options")));
-		} else
-		{
-			buttonList.add(new GuiButton(0, width / 2 - 100, var4 + 72 + 12, 98, 20, var2.translateKey("menu.options")));
-			buttonList.add(new GuiButton(4, width / 2 + 2, var4 + 72 + 12, 98, 20, var2.translateKey("menu.quit")));
-		}
-		buttonList.add(new GuiButtonLanguage(5, width / 2 - 124, var4 + 72 + 12));
-		Object var5 = field_104025_t;
+		func_130020_g();
+		buttonList.add(new GuiButton(0, width / 2 - 100, var3 + 72 + 12, 98, 20, I18n.func_135053_a("menu.options")));
+		buttonList.add(new GuiButton(4, width / 2 + 2, var3 + 72 + 12, 98, 20, I18n.func_135053_a("menu.quit")));
+		buttonList.add(new GuiButtonLanguage(5, width / 2 - 124, var3 + 72 + 12));
+		Object var4 = field_104025_t;
 		synchronized(field_104025_t)
 		{
 			field_92023_s = fontRenderer.getStringWidth(field_92025_p);
 			field_92024_r = fontRenderer.getStringWidth(field_96138_a);
-			int var6 = Math.max(field_92023_s, field_92024_r);
-			field_92022_t = (width - var6) / 2;
+			int var5 = Math.max(field_92023_s, field_92024_r);
+			field_92022_t = (width - var5) / 2;
 			field_92021_u = ((GuiButton) buttonList.get(0)).yPosition - 24;
-			field_92020_v = field_92022_t + var6;
+			field_92020_v = field_92022_t + var5;
 			field_92019_w = field_92021_u + 24;
 		}
 	}
@@ -434,8 +449,7 @@ public class GuiMainMenu extends GuiScreen
 	
 	private void rotateAndBlurSkybox(float par1)
 	{
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, viewportTexture);
-		mc.renderEngine.resetBoundTexture();
+		mc.func_110434_K().func_110577_a(field_110351_G);
 		GL11.glCopyTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, 0, 0, 256, 256);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -456,7 +470,6 @@ public class GuiMainMenu extends GuiScreen
 		}
 		var2.draw();
 		GL11.glColorMask(true, true, true, true);
-		mc.renderEngine.resetBoundTexture();
 	}
 	
 	@Override public void updateScreen()
@@ -464,104 +477,29 @@ public class GuiMainMenu extends GuiScreen
 		++panoramaTimer;
 	}
 	
-	static Object func_104004_a(GuiMainMenu par0GuiMainMenu)
-	{
-		return par0GuiMainMenu.field_104025_t;
-	}
-	
-	static String func_104005_a(GuiMainMenu par0GuiMainMenu, String par1Str)
-	{
-		return par0GuiMainMenu.field_92025_p = par1Str;
-	}
-	
-	static int func_104006_a(GuiMainMenu par0GuiMainMenu, int par1)
-	{
-		return par0GuiMainMenu.field_92023_s = par1;
-	}
-	
-	static FontRenderer func_104007_d(GuiMainMenu par0GuiMainMenu)
-	{
-		return par0GuiMainMenu.fontRenderer;
-	}
-	
-	static int func_104008_c(GuiMainMenu par0GuiMainMenu, int par1)
-	{
-		return par0GuiMainMenu.field_92022_t = par1;
-	}
-	
-	static int func_104009_d(GuiMainMenu par0GuiMainMenu, int par1)
-	{
-		return par0GuiMainMenu.field_92021_u = par1;
-	}
-	
-	static int func_104011_e(GuiMainMenu par0GuiMainMenu, int par1)
-	{
-		return par0GuiMainMenu.field_92020_v = par1;
-	}
-	
-	static int func_104012_f(GuiMainMenu par0GuiMainMenu, int par1)
-	{
-		return par0GuiMainMenu.field_92019_w = par1;
-	}
-	
-	static String func_104013_b(GuiMainMenu par0GuiMainMenu, String par1Str)
-	{
-		return par0GuiMainMenu.field_104024_v = par1Str;
-	}
-	
-	static int func_104014_b(GuiMainMenu par0GuiMainMenu, int par1)
-	{
-		return par0GuiMainMenu.field_92024_r = par1;
-	}
-	
-	static int func_104015_f(GuiMainMenu par0GuiMainMenu)
-	{
-		return par0GuiMainMenu.field_92024_r;
-	}
-	
-	static int func_104016_e(GuiMainMenu par0GuiMainMenu)
-	{
-		return par0GuiMainMenu.field_92023_s;
-	}
-	
-	static int func_104018_h(GuiMainMenu par0GuiMainMenu)
-	{
-		return par0GuiMainMenu.field_92022_t;
-	}
-	
-	static List func_104019_g(GuiMainMenu par0GuiMainMenu)
-	{
-		return par0GuiMainMenu.buttonList;
-	}
-	
-	static int func_104020_i(GuiMainMenu par0GuiMainMenu)
-	{
-		return par0GuiMainMenu.field_92021_u;
-	}
-	
-	static FontRenderer func_104022_c(GuiMainMenu par0GuiMainMenu)
-	{
-		return par0GuiMainMenu.fontRenderer;
-	}
-	
-	static String func_104023_b(GuiMainMenu par0GuiMainMenu)
-	{
-		return par0GuiMainMenu.field_92025_p;
-	}
-	
-	static Minecraft func_98058_a(GuiMainMenu par0GuiMainMenu)
+	static Minecraft func_110348_a(GuiMainMenu par0GuiMainMenu)
 	{
 		return par0GuiMainMenu.mc;
 	}
 	
-	static boolean func_98059_a(boolean par0)
+	static boolean func_110349_a(boolean par0)
 	{
 		field_96139_s = par0;
 		return par0;
 	}
 	
-	static void func_98061_a(GuiMainMenu par0GuiMainMenu, StringTranslate par1StringTranslate, int par2, int par3)
+	static Minecraft func_130018_c(GuiMainMenu par0GuiMainMenu)
 	{
-		par0GuiMainMenu.func_98060_b(par1StringTranslate, par2, par3);
+		return par0GuiMainMenu.mc;
+	}
+	
+	static Minecraft func_130019_d(GuiMainMenu par0GuiMainMenu)
+	{
+		return par0GuiMainMenu.mc;
+	}
+	
+	static void func_130021_b(GuiMainMenu par0GuiMainMenu)
+	{
+		par0GuiMainMenu.func_130022_h();
 	}
 }

@@ -21,7 +21,7 @@ public class NBTTagEnd extends NBTBase
 		return (byte) 0;
 	}
 	
-	@Override void load(DataInput par1DataInput) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
 	}
 	

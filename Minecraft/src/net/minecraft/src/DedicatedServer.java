@@ -20,7 +20,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
 	private boolean canSpawnStructures;
 	private EnumGameType gameType;
 	private NetworkListenThread networkThread;
-	private boolean guiIsEnabled = false;
+	private boolean guiIsEnabled;
 	
 	public DedicatedServer(File par1File)
 	{
@@ -83,11 +83,16 @@ public class DedicatedServer extends MinecraftServer implements IServer
 		}
 	}
 	
+	@Override public int func_110455_j()
+	{
+		return settings.getIntProperty("op-permission-level", 4);
+	}
+	
 	@Override public boolean func_96290_a(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
 	{
 		if(par1World.provider.dimensionId != 0) return false;
 		else if(getDedicatedPlayerList().getOps().isEmpty()) return false;
-		else if(getDedicatedPlayerList().areCommandsAllowed(par5EntityPlayer.username)) return false;
+		else if(getDedicatedPlayerList().areCommandsAllowed(par5EntityPlayer.getCommandSenderName())) return false;
 		else if(getSpawnProtectionSize() <= 0) return false;
 		else
 		{
@@ -205,7 +210,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
 		DedicatedServerCommandThread var1 = new DedicatedServerCommandThread(this);
 		var1.setDaemon(true);
 		var1.start();
-		getLogAgent().logInfo("Starting minecraft server version 1.5.2");
+		getLogAgent().logInfo("Starting minecraft server version 1.6.2");
 		if(Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L)
 		{
 			getLogAgent().logWarning("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");

@@ -59,14 +59,4 @@ public class IconFlipped implements Icon
 	{
 		return baseIcon.getOriginY();
 	}
-	
-	@Override public int getSheetHeight()
-	{
-		return baseIcon.getSheetHeight();
-	}
-	
-	@Override public int getSheetWidth()
-	{
-		return baseIcon.getSheetWidth();
-	}
 }

@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +14,7 @@ public class Packet209SetPlayerTeam extends Packet
 	public String teamPrefix = "";
 	public String teamSuffix = "";
 	public Collection playerNames = new ArrayList();
-	public int mode = 0;
+	public int mode;
 	public int friendlyFire;
 	
 	public Packet209SetPlayerTeam()
@@ -32,20 +32,20 @@ public class Packet209SetPlayerTeam extends Packet
 		} else throw new IllegalArgumentException("Players cannot be null/empty");
 	}
 	
-	public Packet209SetPlayerTeam(ScorePlayerTeam par1, int par2)
+	public Packet209SetPlayerTeam(ScorePlayerTeam par1ScorePlayerTeam, int par2)
 	{
-		teamName = par1.func_96661_b();
+		teamName = par1ScorePlayerTeam.func_96661_b();
 		mode = par2;
 		if(par2 == 0 || par2 == 2)
 		{
-			teamDisplayName = par1.func_96669_c();
-			teamPrefix = par1.getColorPrefix();
-			teamSuffix = par1.getColorSuffix();
-			friendlyFire = par1.func_98299_i();
+			teamDisplayName = par1ScorePlayerTeam.func_96669_c();
+			teamPrefix = par1ScorePlayerTeam.getColorPrefix();
+			teamSuffix = par1ScorePlayerTeam.getColorSuffix();
+			friendlyFire = par1ScorePlayerTeam.func_98299_i();
 		}
 		if(par2 == 0)
 		{
-			playerNames.addAll(par1.getMembershipCollection());
+			playerNames.addAll(par1ScorePlayerTeam.getMembershipCollection());
 		}
 	}
 	
@@ -59,46 +59,46 @@ public class Packet209SetPlayerTeam extends Packet
 		par1NetHandler.handleSetPlayerTeam(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		teamName = readString(par1DataInputStream, 16);
-		mode = par1DataInputStream.readByte();
+		teamName = readString(par1DataInput, 16);
+		mode = par1DataInput.readByte();
 		if(mode == 0 || mode == 2)
 		{
-			teamDisplayName = readString(par1DataInputStream, 32);
-			teamPrefix = readString(par1DataInputStream, 16);
-			teamSuffix = readString(par1DataInputStream, 16);
-			friendlyFire = par1DataInputStream.readByte();
+			teamDisplayName = readString(par1DataInput, 32);
+			teamPrefix = readString(par1DataInput, 16);
+			teamSuffix = readString(par1DataInput, 16);
+			friendlyFire = par1DataInput.readByte();
 		}
 		if(mode == 0 || mode == 3 || mode == 4)
 		{
-			short var2 = par1DataInputStream.readShort();
+			short var2 = par1DataInput.readShort();
 			for(int var3 = 0; var3 < var2; ++var3)
 			{
-				playerNames.add(readString(par1DataInputStream, 16));
+				playerNames.add(readString(par1DataInput, 16));
 			}
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(teamName, par1DataOutputStream);
-		par1DataOutputStream.writeByte(mode);
+		writeString(teamName, par1DataOutput);
+		par1DataOutput.writeByte(mode);
 		if(mode == 0 || mode == 2)
 		{
-			writeString(teamDisplayName, par1DataOutputStream);
-			writeString(teamPrefix, par1DataOutputStream);
-			writeString(teamSuffix, par1DataOutputStream);
-			par1DataOutputStream.writeByte(friendlyFire);
+			writeString(teamDisplayName, par1DataOutput);
+			writeString(teamPrefix, par1DataOutput);
+			writeString(teamSuffix, par1DataOutput);
+			par1DataOutput.writeByte(friendlyFire);
 		}
 		if(mode == 0 || mode == 3 || mode == 4)
 		{
-			par1DataOutputStream.writeShort(playerNames.size());
+			par1DataOutput.writeShort(playerNames.size());
 			Iterator var2 = playerNames.iterator();
 			while(var2.hasNext())
 			{
 				String var3 = (String) var2.next();
-				writeString(var3, par1DataOutputStream);
+				writeString(var3, par1DataOutput);
 			}
 		}
 	}

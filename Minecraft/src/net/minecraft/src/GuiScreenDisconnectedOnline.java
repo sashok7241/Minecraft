@@ -13,9 +13,8 @@ public class GuiScreenDisconnectedOnline extends GuiScreen
 	
 	public GuiScreenDisconnectedOnline(GuiScreen par1GuiScreen, String par2Str, String par3Str, Object ... par4ArrayOfObj)
 	{
-		StringTranslate var5 = StringTranslate.getInstance();
 		field_98114_n = par1GuiScreen;
-		field_98113_a = var5.translateKey(par2Str);
+		field_98113_a = I18n.func_135053_a(par2Str);
 		field_98111_b = par3Str;
 		field_98112_c = par4ArrayOfObj;
 	}
@@ -46,15 +45,14 @@ public class GuiScreenDisconnectedOnline extends GuiScreen
 	
 	@Override public void initGui()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, var1.translateKey("gui.back")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, I18n.func_135053_a("gui.back")));
 		if(field_98112_c != null)
 		{
-			field_98110_d = fontRenderer.listFormattedStringToWidth(var1.translateKeyFormat(field_98111_b, field_98112_c), width - 50);
+			field_98110_d = fontRenderer.listFormattedStringToWidth(I18n.func_135052_a(field_98111_b, field_98112_c), width - 50);
 		} else
 		{
-			field_98110_d = fontRenderer.listFormattedStringToWidth(var1.translateKey(field_98111_b), width - 50);
+			field_98110_d = fontRenderer.listFormattedStringToWidth(I18n.func_135053_a(field_98111_b), width - 50);
 		}
 	}
 	

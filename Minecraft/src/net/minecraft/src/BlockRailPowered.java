@@ -138,6 +138,6 @@ public class BlockRailPowered extends BlockRailBase
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		super.registerIcons(par1IconRegister);
-		theIcon = par1IconRegister.registerIcon(getUnlocalizedName2() + "_powered");
+		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_powered");
 	}
 }

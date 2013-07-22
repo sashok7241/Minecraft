@@ -97,7 +97,7 @@ public class BlockJukeBox extends BlockContainer
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("musicBlock");
-		theIcon = par1IconRegister.registerIcon("jukebox_top");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_top");
 	}
 }

@@ -29,8 +29,8 @@ public class Chunk
 	public long lastSaveTime;
 	public boolean sendUpdates;
 	public int heightMapMinimum;
+	public long field_111204_q;
 	private int queuedLightChecks;
-	boolean field_76653_p;
 	
 	public Chunk(World par1World, byte[] par2ArrayOfByte, int par3, int par4)
 	{
@@ -63,16 +63,8 @@ public class Chunk
 		blockBiomeArray = new byte[256];
 		precipitationHeightMap = new int[256];
 		updateSkylightColumns = new boolean[256];
-		isGapLightingUpdated = false;
 		chunkTileEntityMap = new HashMap();
-		isTerrainPopulated = false;
-		isModified = false;
-		hasEntities = false;
-		lastSaveTime = 0L;
-		sendUpdates = false;
-		heightMapMinimum = 0;
 		queuedLightChecks = 4096;
-		field_76653_p = false;
 		entityLists = new List[16];
 		worldObj = par1World;
 		xPosition = par2;
@@ -634,6 +626,12 @@ public class Chunk
 		worldObj.addTileEntity(chunkTileEntityMap.values());
 		for(List entityList : entityLists)
 		{
+			Iterator var2 = entityList.iterator();
+			while(var2.hasNext())
+			{
+				Entity var3 = (Entity) var2.next();
+				var3.func_110123_P();
+			}
 			worldObj.addLoadedEntities(entityList);
 		}
 	}

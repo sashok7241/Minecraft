@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 public class ItemBow extends Item
 {
-	public static final String[] bowPullIconNameArray = new String[] { "bow_pull_0", "bow_pull_1", "bow_pull_2" };
+	public static final String[] bowPullIconNameArray = new String[] { "pulling_0", "pulling_1", "pulling_2" };
 	private Icon[] iconArray;
 	
 	public ItemBow(int par1)
@@ -97,11 +97,11 @@ public class ItemBow extends Item
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		super.registerIcons(par1IconRegister);
+		itemIcon = par1IconRegister.registerIcon(func_111208_A() + "_standby");
 		iconArray = new Icon[bowPullIconNameArray.length];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon(bowPullIconNameArray[var2]);
+			iconArray[var2] = par1IconRegister.registerIcon(func_111208_A() + "_" + bowPullIconNameArray[var2]);
 		}
 	}
 }

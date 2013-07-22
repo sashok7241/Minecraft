@@ -6,14 +6,15 @@ import java.util.Iterator;
 
 public class GuiBeacon extends GuiContainer
 {
+	private static final ResourceLocation field_110428_t = new ResourceLocation("textures/gui/container/beacon.png");
 	private TileEntityBeacon beacon;
 	private GuiBeaconButtonConfirm beaconConfirmButton;
 	private boolean buttonsNotDrawn;
 	
-	public GuiBeacon(InventoryPlayer par1, TileEntityBeacon par2)
+	public GuiBeacon(InventoryPlayer par1InventoryPlayer, TileEntityBeacon par2TileEntityBeacon)
 	{
-		super(new ContainerBeacon(par1, par2));
-		beacon = par2;
+		super(new ContainerBeacon(par1InventoryPlayer, par2TileEntityBeacon));
+		beacon = par2TileEntityBeacon;
 		xSize = 230;
 		ySize = 219;
 	}
@@ -60,23 +61,23 @@ public class GuiBeacon extends GuiContainer
 	@Override protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/gui/beacon.png");
+		mc.func_110434_K().func_110577_a(field_110428_t);
 		int var4 = (width - xSize) / 2;
 		int var5 = (height - ySize) / 2;
 		drawTexturedModalRect(var4, var5, 0, 0, xSize, ySize);
 		itemRenderer.zLevel = 100.0F;
-		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, new ItemStack(Item.emerald), var4 + 42, var5 + 109);
-		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, new ItemStack(Item.diamond), var4 + 42 + 22, var5 + 109);
-		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, new ItemStack(Item.ingotGold), var4 + 42 + 44, var5 + 109);
-		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, new ItemStack(Item.ingotIron), var4 + 42 + 66, var5 + 109);
+		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.func_110434_K(), new ItemStack(Item.emerald), var4 + 42, var5 + 109);
+		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.func_110434_K(), new ItemStack(Item.diamond), var4 + 42 + 22, var5 + 109);
+		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.func_110434_K(), new ItemStack(Item.ingotGold), var4 + 42 + 44, var5 + 109);
+		itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.func_110434_K(), new ItemStack(Item.ingotIron), var4 + 42 + 66, var5 + 109);
 		itemRenderer.zLevel = 0.0F;
 	}
 	
 	@Override protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		RenderHelper.disableStandardItemLighting();
-		drawCenteredString(fontRenderer, StatCollector.translateToLocal("tile.beacon.primary"), 62, 10, 14737632);
-		drawCenteredString(fontRenderer, StatCollector.translateToLocal("tile.beacon.secondary"), 169, 10, 14737632);
+		drawCenteredString(fontRenderer, I18n.func_135053_a("tile.beacon.primary"), 62, 10, 14737632);
+		drawCenteredString(fontRenderer, I18n.func_135053_a("tile.beacon.secondary"), 169, 10, 14737632);
 		Iterator var3 = buttonList.iterator();
 		while(var3.hasNext())
 		{
@@ -158,5 +159,10 @@ public class GuiBeacon extends GuiContainer
 			}
 		}
 		beaconConfirmButton.enabled = beacon.getStackInSlot(0) != null && beacon.getPrimaryEffect() > 0;
+	}
+	
+	static ResourceLocation func_110427_g()
+	{
+		return field_110428_t;
 	}
 }

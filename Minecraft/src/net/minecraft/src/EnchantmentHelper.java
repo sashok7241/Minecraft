@@ -150,14 +150,14 @@ public class EnchantmentHelper
 		}
 	}
 	
-	public static int func_92098_i(EntityLiving par0EntityLiving)
+	public static int func_92098_i(EntityLivingBase par0EntityLivingBase)
 	{
-		return getMaxEnchantmentLevel(Enchantment.thorns.effectId, par0EntityLiving.getLastActiveItems());
+		return getMaxEnchantmentLevel(Enchantment.thorns.effectId, par0EntityLivingBase.getLastActiveItems());
 	}
 	
-	public static ItemStack func_92099_a(Enchantment par0Enchantment, EntityLiving par1EntityLiving)
+	public static ItemStack func_92099_a(Enchantment par0Enchantment, EntityLivingBase par1EntityLivingBase)
 	{
-		ItemStack[] var2 = par1EntityLiving.getLastActiveItems();
+		ItemStack[] var2 = par1EntityLivingBase.getLastActiveItems();
 		int var3 = var2.length;
 		for(int var4 = 0; var4 < var3; ++var4)
 		{
@@ -167,14 +167,14 @@ public class EnchantmentHelper
 		return null;
 	}
 	
-	public static boolean getAquaAffinityModifier(EntityLiving par0EntityLiving)
+	public static boolean getAquaAffinityModifier(EntityLivingBase par0EntityLivingBase)
 	{
-		return getMaxEnchantmentLevel(Enchantment.aquaAffinity.effectId, par0EntityLiving.getLastActiveItems()) > 0;
+		return getMaxEnchantmentLevel(Enchantment.aquaAffinity.effectId, par0EntityLivingBase.getLastActiveItems()) > 0;
 	}
 	
-	public static int getEfficiencyModifier(EntityLiving par0EntityLiving)
+	public static int getEfficiencyModifier(EntityLivingBase par0EntityLivingBase)
 	{
-		return getEnchantmentLevel(Enchantment.efficiency.effectId, par0EntityLiving.getHeldItem());
+		return getEnchantmentLevel(Enchantment.efficiency.effectId, par0EntityLivingBase.getHeldItem());
 	}
 	
 	public static int getEnchantmentLevel(int par0, ItemStack par1ItemStack)
@@ -209,12 +209,12 @@ public class EnchantmentHelper
 		return (enchantmentModifierDamage.damageModifier + 1 >> 1) + enchantmentRand.nextInt((enchantmentModifierDamage.damageModifier >> 1) + 1);
 	}
 	
-	public static int getEnchantmentModifierLiving(EntityLiving par0EntityLiving, EntityLiving par1EntityLiving)
+	public static float getEnchantmentModifierLiving(EntityLivingBase par0EntityLivingBase, EntityLivingBase par1EntityLivingBase)
 	{
-		enchantmentModifierLiving.livingModifier = 0;
-		enchantmentModifierLiving.entityLiving = par1EntityLiving;
-		applyEnchantmentModifier(enchantmentModifierLiving, par0EntityLiving.getHeldItem());
-		return enchantmentModifierLiving.livingModifier > 0 ? 1 + enchantmentRand.nextInt(enchantmentModifierLiving.livingModifier) : 0;
+		enchantmentModifierLiving.livingModifier = 0.0F;
+		enchantmentModifierLiving.entityLiving = par1EntityLivingBase;
+		applyEnchantmentModifier(enchantmentModifierLiving, par0EntityLivingBase.getHeldItem());
+		return enchantmentModifierLiving.livingModifier;
 	}
 	
 	public static Map getEnchantments(ItemStack par0ItemStack)
@@ -233,24 +233,24 @@ public class EnchantmentHelper
 		return var1;
 	}
 	
-	public static int getFireAspectModifier(EntityLiving par0EntityLiving)
+	public static int getFireAspectModifier(EntityLivingBase par0EntityLivingBase)
 	{
-		return getEnchantmentLevel(Enchantment.fireAspect.effectId, par0EntityLiving.getHeldItem());
+		return getEnchantmentLevel(Enchantment.fireAspect.effectId, par0EntityLivingBase.getHeldItem());
 	}
 	
-	public static int getFortuneModifier(EntityLiving par0EntityLiving)
+	public static int getFortuneModifier(EntityLivingBase par0EntityLivingBase)
 	{
-		return getEnchantmentLevel(Enchantment.fortune.effectId, par0EntityLiving.getHeldItem());
+		return getEnchantmentLevel(Enchantment.fortune.effectId, par0EntityLivingBase.getHeldItem());
 	}
 	
-	public static int getKnockbackModifier(EntityLiving par0EntityLiving, EntityLiving par1EntityLiving)
+	public static int getKnockbackModifier(EntityLivingBase par0EntityLivingBase, EntityLivingBase par1EntityLivingBase)
 	{
-		return getEnchantmentLevel(Enchantment.knockback.effectId, par0EntityLiving.getHeldItem());
+		return getEnchantmentLevel(Enchantment.knockback.effectId, par0EntityLivingBase.getHeldItem());
 	}
 	
-	public static int getLootingModifier(EntityLiving par0EntityLiving)
+	public static int getLootingModifier(EntityLivingBase par0EntityLivingBase)
 	{
-		return getEnchantmentLevel(Enchantment.looting.effectId, par0EntityLiving.getHeldItem());
+		return getEnchantmentLevel(Enchantment.looting.effectId, par0EntityLivingBase.getHeldItem());
 	}
 	
 	public static int getMaxEnchantmentLevel(int par0, ItemStack[] par1ArrayOfItemStack)
@@ -274,14 +274,14 @@ public class EnchantmentHelper
 		}
 	}
 	
-	public static int getRespiration(EntityLiving par0EntityLiving)
+	public static int getRespiration(EntityLivingBase par0EntityLivingBase)
 	{
-		return getMaxEnchantmentLevel(Enchantment.respiration.effectId, par0EntityLiving.getLastActiveItems());
+		return getMaxEnchantmentLevel(Enchantment.respiration.effectId, par0EntityLivingBase.getLastActiveItems());
 	}
 	
-	public static boolean getSilkTouchModifier(EntityLiving par0EntityLiving)
+	public static boolean getSilkTouchModifier(EntityLivingBase par0EntityLivingBase)
 	{
-		return getEnchantmentLevel(Enchantment.silkTouch.effectId, par0EntityLiving.getHeldItem()) > 0;
+		return getEnchantmentLevel(Enchantment.silkTouch.effectId, par0EntityLivingBase.getHeldItem()) > 0;
 	}
 	
 	public static Map mapEnchantmentData(int par0, ItemStack par1ItemStack)

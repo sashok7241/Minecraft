@@ -62,9 +62,9 @@ public class ModelIronGolem extends ModelBase
 		ironGolemLeftArm.render(par7);
 	}
 	
-	@Override public void setLivingAnimations(EntityLiving par1EntityLiving, float par2, float par3, float par4)
+	@Override public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
-		EntityIronGolem var5 = (EntityIronGolem) par1EntityLiving;
+		EntityIronGolem var5 = (EntityIronGolem) par1EntityLivingBase;
 		int var6 = var5.getAttackTimer();
 		if(var6 > 0)
 		{

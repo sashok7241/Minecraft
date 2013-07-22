@@ -104,10 +104,10 @@ public class BlockCake extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("cake_side");
-		field_94382_c = par1IconRegister.registerIcon("cake_inner");
-		cakeTopIcon = par1IconRegister.registerIcon("cake_top");
-		cakeBottomIcon = par1IconRegister.registerIcon("cake_bottom");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		field_94382_c = par1IconRegister.registerIcon(func_111023_E() + "_inner");
+		cakeTopIcon = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		cakeBottomIcon = par1IconRegister.registerIcon(func_111023_E() + "_bottom");
 	}
 	
 	@Override public boolean renderAsNormalBlock()

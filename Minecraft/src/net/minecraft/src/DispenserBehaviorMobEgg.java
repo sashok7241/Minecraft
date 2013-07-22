@@ -9,7 +9,7 @@ final class DispenserBehaviorMobEgg extends BehaviorDefaultDispenseItem
 		double var6 = par1IBlockSource.getYInt() + 0.2F;
 		double var8 = par1IBlockSource.getZ() + var3.getFrontOffsetZ();
 		Entity var10 = ItemMonsterPlacer.spawnCreature(par1IBlockSource.getWorld(), par2ItemStack.getItemDamage(), var4, var6, var8);
-		if(var10 instanceof EntityLiving && par2ItemStack.hasDisplayName())
+		if(var10 instanceof EntityLivingBase && par2ItemStack.hasDisplayName())
 		{
 			((EntityLiving) var10).func_94058_c(par2ItemStack.getDisplayName());
 		}

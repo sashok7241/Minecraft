@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -20,28 +21,29 @@ import java.util.Random;
 
 import javax.crypto.SecretKey;
 
+import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 
 public class NetClientHandler extends NetHandler
 {
-	private boolean disconnected = false;
+	private boolean disconnected;
 	private INetworkManager netManager;
 	public String field_72560_a;
 	private Minecraft mc;
 	private WorldClient worldClient;
-	private boolean doneLoadingTerrain = false;
+	private boolean doneLoadingTerrain;
 	public MapStorage mapStorage = new MapStorage((ISaveHandler) null);
 	private Map playerInfoMap = new HashMap();
 	public List playerInfoList = new ArrayList();
 	public int currentServerMaxPlayers = 20;
-	private GuiScreen field_98183_l = null;
+	private GuiScreen field_98183_l;
 	Random rand = new Random();
 	
 	public NetClientHandler(Minecraft par1Minecraft, IntegratedServer par2IntegratedServer) throws IOException
 	{
 		mc = par1Minecraft;
 		netManager = new MemoryConnection(par1Minecraft.getLogAgent(), this);
-		par2IntegratedServer.getServerListeningThread().func_71754_a((MemoryConnection) netManager, par1Minecraft.session.username);
+		par2IntegratedServer.getServerListeningThread().func_71754_a((MemoryConnection) netManager, par1Minecraft.func_110432_I().func_111285_a());
 	}
 	
 	public NetClientHandler(Minecraft par1Minecraft, String par2Str, int par3) throws IOException
@@ -89,6 +91,54 @@ public class NetClientHandler extends NetHandler
 		netManager.networkShutdown("disconnect.closed", new Object[0]);
 	}
 	
+	@Override public void func_110773_a(Packet44UpdateAttributes par1Packet44UpdateAttributes)
+	{
+		Entity var2 = getEntityByID(par1Packet44UpdateAttributes.func_111002_d());
+		if(var2 != null)
+		{
+			if(!(var2 instanceof EntityLivingBase)) throw new IllegalStateException("Server tried to update attributes of a non-living entity (actually: " + var2 + ")");
+			else
+			{
+				BaseAttributeMap var3 = ((EntityLivingBase) var2).func_110140_aT();
+				Iterator var4 = par1Packet44UpdateAttributes.func_111003_f().iterator();
+				while(var4.hasNext())
+				{
+					Packet44UpdateAttributesSnapshot var5 = (Packet44UpdateAttributesSnapshot) var4.next();
+					AttributeInstance var6 = var3.func_111152_a(var5.func_142040_a());
+					if(var6 == null)
+					{
+						var6 = var3.func_111150_b(new RangedAttribute(var5.func_142040_a(), 0.0D, 2.2250738585072014E-308D, Double.MAX_VALUE));
+					}
+					var6.func_111128_a(var5.func_142041_b());
+					var6.func_142049_d();
+					Iterator var7 = var5.func_142039_c().iterator();
+					while(var7.hasNext())
+					{
+						AttributeModifier var8 = (AttributeModifier) var7.next();
+						var6.func_111121_a(var8);
+					}
+				}
+			}
+		}
+	}
+	
+	@Override public void func_142031_a(Packet133TileEditorOpen par1Packet133TileEditorOpen)
+	{
+		TileEntity var2 = worldClient.getBlockTileEntity(par1Packet133TileEditorOpen.field_142035_b, par1Packet133TileEditorOpen.field_142036_c, par1Packet133TileEditorOpen.field_142034_d);
+		if(var2 != null)
+		{
+			mc.thePlayer.displayGUIEditSign(var2);
+		} else if(par1Packet133TileEditorOpen.field_142037_a == 0)
+		{
+			TileEntitySign var3 = new TileEntitySign();
+			var3.setWorldObj(worldClient);
+			var3.xCoord = par1Packet133TileEditorOpen.field_142035_b;
+			var3.yCoord = par1Packet133TileEditorOpen.field_142036_c;
+			var3.zCoord = par1Packet133TileEditorOpen.field_142034_d;
+			mc.thePlayer.displayGUIEditSign(var3);
+		}
+	}
+	
 	private Entity getEntityByID(int par1)
 	{
 		return par1 == mc.thePlayer.entityId ? mc.thePlayer : worldClient.getEntityByID(par1);
@@ -106,7 +156,7 @@ public class NetClientHandler extends NetHandler
 		{
 			if(par1Packet18Animation.animate == 1)
 			{
-				EntityLiving var3 = (EntityLiving) var2;
+				EntityLivingBase var3 = (EntityLivingBase) var2;
 				var3.swingItem();
 			} else if(par1Packet18Animation.animate == 2)
 			{
@@ -134,22 +184,39 @@ public class NetClientHandler extends NetHandler
 	
 	@Override public void handleAttachEntity(Packet39AttachEntity par1Packet39AttachEntity)
 	{
-		Object var2 = getEntityByID(par1Packet39AttachEntity.entityId);
+		Object var2 = getEntityByID(par1Packet39AttachEntity.field_111006_b);
 		Entity var3 = getEntityByID(par1Packet39AttachEntity.vehicleEntityId);
-		if(par1Packet39AttachEntity.entityId == mc.thePlayer.entityId)
+		if(par1Packet39AttachEntity.field_111007_a == 0)
 		{
-			var2 = mc.thePlayer;
-			if(var3 instanceof EntityBoat)
+			boolean var4 = false;
+			if(par1Packet39AttachEntity.field_111006_b == mc.thePlayer.entityId)
 			{
-				((EntityBoat) var3).func_70270_d(false);
+				var2 = mc.thePlayer;
+				if(var3 instanceof EntityBoat)
+				{
+					((EntityBoat) var3).func_70270_d(false);
+				}
+				var4 = ((Entity) var2).ridingEntity == null && var3 != null;
+			} else if(var3 instanceof EntityBoat)
+			{
+				((EntityBoat) var3).func_70270_d(true);
 			}
-		} else if(var3 instanceof EntityBoat)
-		{
-			((EntityBoat) var3).func_70270_d(true);
-		}
-		if(var2 != null)
-		{
+			if(var2 == null) return;
 			((Entity) var2).mountEntity(var3);
+			if(var4)
+			{
+				GameSettings var5 = mc.gameSettings;
+				mc.ingameGUI.func_110326_a(I18n.func_135052_a("mount.onboard", new Object[] { GameSettings.getKeyDisplayString(var5.keyBindSneak.keyCode) }), false);
+			}
+		} else if(par1Packet39AttachEntity.field_111007_a == 1 && var2 != null && var2 instanceof EntityLiving)
+		{
+			if(var3 != null)
+			{
+				((EntityLiving) var2).func_110162_b(var3, false);
+			} else
+			{
+				((EntityLiving) var2).func_110160_i(false, false);
+			}
 		}
 	}
 	
@@ -188,7 +255,7 @@ public class NetClientHandler extends NetHandler
 	
 	@Override public void handleChat(Packet3Chat par1Packet3Chat)
 	{
-		mc.ingameGUI.getChatGUI().printChatMessage(par1Packet3Chat.message);
+		mc.ingameGUI.getChatGUI().printChatMessage(ChatMessageComponent.func_111078_c(par1Packet3Chat.message).func_111068_a(true));
 	}
 	
 	@Override public void handleCloseWindow(Packet101CloseWindow par1Packet101CloseWindow)
@@ -220,37 +287,26 @@ public class NetClientHandler extends NetHandler
 	
 	@Override public void handleCustomPayload(Packet250CustomPayload par1Packet250CustomPayload)
 	{
-		if("MC|TPack".equals(par1Packet250CustomPayload.channel))
+		if("MC|TrList".equals(par1Packet250CustomPayload.channel))
 		{
-			String[] var2 = new String(par1Packet250CustomPayload.data).split("\u0000");
-			String var3 = var2[0];
-			if(var2[1].equals("16"))
-			{
-				if(mc.texturePackList.getAcceptsTextures())
-				{
-					mc.texturePackList.requestDownloadOfTexture(var3);
-				} else if(mc.texturePackList.func_77300_f())
-				{
-					mc.displayGuiScreen(new GuiYesNo(new NetClientWebTextures(this, var3), StringTranslate.getInstance().translateKey("multiplayer.texturePrompt.line1"), StringTranslate.getInstance().translateKey("multiplayer.texturePrompt.line2"), 0));
-				}
-			}
-		} else if("MC|TrList".equals(par1Packet250CustomPayload.channel))
-		{
-			DataInputStream var8 = new DataInputStream(new ByteArrayInputStream(par1Packet250CustomPayload.data));
+			DataInputStream var2 = new DataInputStream(new ByteArrayInputStream(par1Packet250CustomPayload.data));
 			try
 			{
-				int var9 = var8.readInt();
+				int var3 = var2.readInt();
 				GuiScreen var4 = mc.currentScreen;
-				if(var4 != null && var4 instanceof GuiMerchant && var9 == mc.thePlayer.openContainer.windowId)
+				if(var4 != null && var4 instanceof GuiMerchant && var3 == mc.thePlayer.openContainer.windowId)
 				{
 					IMerchant var5 = ((GuiMerchant) var4).getIMerchant();
-					MerchantRecipeList var6 = MerchantRecipeList.readRecipiesFromStream(var8);
+					MerchantRecipeList var6 = MerchantRecipeList.readRecipiesFromStream(var2);
 					var5.setRecipes(var6);
 				}
 			} catch(IOException var7)
 			{
 				var7.printStackTrace();
 			}
+		} else if("MC|Brand".equals(par1Packet250CustomPayload.channel))
+		{
+			mc.thePlayer.func_142020_c(new String(par1Packet250CustomPayload.data, Charsets.UTF_8));
 		}
 	}
 	
@@ -293,11 +349,11 @@ public class NetClientHandler extends NetHandler
 	@Override public void handleEntityEffect(Packet41EntityEffect par1Packet41EntityEffect)
 	{
 		Entity var2 = getEntityByID(par1Packet41EntityEffect.entityId);
-		if(var2 instanceof EntityLiving)
+		if(var2 instanceof EntityLivingBase)
 		{
 			PotionEffect var3 = new PotionEffect(par1Packet41EntityEffect.effectId, par1Packet41EntityEffect.duration, par1Packet41EntityEffect.effectAmplifier);
 			var3.setPotionDurationMax(par1Packet41EntityEffect.isDurationMax());
-			((EntityLiving) var2).addPotionEffect(var3);
+			((EntityLivingBase) var2).addPotionEffect(var3);
 		}
 	}
 	
@@ -523,6 +579,7 @@ public class NetClientHandler extends NetHandler
 		currentServerMaxPlayers = par1Packet1Login.maxPlayers;
 		mc.playerController.setGameType(par1Packet1Login.gameType);
 		mc.gameSettings.sendSettingsToServer();
+		netManager.addToSendQueue(new Packet250CustomPayload("MC|Brand", ClientBrandRetriever.getClientModName().getBytes(Charsets.UTF_8)));
 	}
 	
 	@Override public void handleMapChunk(Packet51MapChunk par1Packet51MapChunk)
@@ -598,7 +655,7 @@ public class NetClientHandler extends NetHandler
 		double var6 = par1Packet24MobSpawn.zPosition / 32.0D;
 		float var8 = par1Packet24MobSpawn.yaw * 360 / 256.0F;
 		float var9 = par1Packet24MobSpawn.pitch * 360 / 256.0F;
-		EntityLiving var10 = (EntityLiving) EntityList.createEntityByID(par1Packet24MobSpawn.type, mc.theWorld);
+		EntityLivingBase var10 = (EntityLivingBase) EntityList.createEntityByID(par1Packet24MobSpawn.type, mc.theWorld);
 		var10.serverPosX = par1Packet24MobSpawn.xPosition;
 		var10.serverPosY = par1Packet24MobSpawn.yPosition;
 		var10.serverPosZ = par1Packet24MobSpawn.zPosition;
@@ -758,6 +815,14 @@ public class NetClientHandler extends NetHandler
 				}
 				var2.displayGUIDispenser(var6);
 				var2.openContainer.windowId = par1Packet100OpenWindow.windowId;
+				break;
+			case 11:
+				Entity var9 = getEntityByID(par1Packet100OpenWindow.field_111008_f);
+				if(var9 != null && var9 instanceof EntityHorse)
+				{
+					var2.func_110298_a((EntityHorse) var9, new AnimalChest(par1Packet100OpenWindow.windowTitle, par1Packet100OpenWindow.useProvidedWindowTitle, par1Packet100OpenWindow.slotsCount));
+					var2.openContainer.windowId = par1Packet100OpenWindow.windowId;
+				}
 		}
 	}
 	
@@ -804,9 +869,9 @@ public class NetClientHandler extends NetHandler
 	@Override public void handleRemoveEntityEffect(Packet42RemoveEntityEffect par1Packet42RemoveEntityEffect)
 	{
 		Entity var2 = getEntityByID(par1Packet42RemoveEntityEffect.entityId);
-		if(var2 instanceof EntityLiving)
+		if(var2 instanceof EntityLivingBase)
 		{
-			((EntityLiving) var2).removePotionEffectClient(par1Packet42RemoveEntityEffect.effectId);
+			((EntityLivingBase) var2).removePotionEffectClient(par1Packet42RemoveEntityEffect.effectId);
 		}
 	}
 	
@@ -835,7 +900,7 @@ public class NetClientHandler extends NetHandler
 		if(!"-".equals(var2))
 		{
 			String var5 = new BigInteger(CryptManager.getServerIdHash(var2, var3, var4)).toString(16);
-			String var6 = sendSessionRequest(mc.session.username, mc.session.sessionId, var5);
+			String var6 = sendSessionRequest(mc.func_110432_I().func_111285_a(), mc.func_110432_I().func_111286_b(), var5);
 			if(!"ok".equalsIgnoreCase(var6))
 			{
 				netManager.networkShutdown("disconnect.loginFailedInfo", new Object[] { var6 });
@@ -1075,7 +1140,7 @@ public class NetClientHandler extends NetHandler
 		}
 		if(!var2 && mc.thePlayer != null)
 		{
-			mc.thePlayer.sendChatToPlayer("Unable to locate sign at " + par1Packet130UpdateSign.xPosition + ", " + par1Packet130UpdateSign.yPosition + ", " + par1Packet130UpdateSign.zPosition);
+			mc.thePlayer.sendChatToPlayer(ChatMessageComponent.func_111066_d("Unable to locate sign at " + par1Packet130UpdateSign.xPosition + ", " + par1Packet130UpdateSign.yPosition + ", " + par1Packet130UpdateSign.zPosition));
 		}
 	}
 	
@@ -1111,6 +1176,10 @@ public class NetClientHandler extends NetHandler
 		} else if(par1Packet23VehicleSpawn.type == 71)
 		{
 			var8 = new EntityItemFrame(worldClient, (int) var2, (int) var4, (int) var6, par1Packet23VehicleSpawn.throwerEntityId);
+			par1Packet23VehicleSpawn.throwerEntityId = 0;
+		} else if(par1Packet23VehicleSpawn.type == 77)
+		{
+			var8 = new EntityLeashKnot(worldClient, (int) var2, (int) var4, (int) var6);
 			par1Packet23VehicleSpawn.throwerEntityId = 0;
 		} else if(par1Packet23VehicleSpawn.type == 65)
 		{
@@ -1149,7 +1218,7 @@ public class NetClientHandler extends NetHandler
 			var8 = new EntityBoat(worldClient, var2, var4, var6);
 		} else if(par1Packet23VehicleSpawn.type == 50)
 		{
-			var8 = new EntityTNTPrimed(worldClient, var2, var4, var6, (EntityLiving) null);
+			var8 = new EntityTNTPrimed(worldClient, var2, var4, var6, (EntityLivingBase) null);
 		} else if(par1Packet23VehicleSpawn.type == 51)
 		{
 			var8 = new EntityEnderCrystal(worldClient, var2, var4, var6);
@@ -1184,7 +1253,7 @@ public class NetClientHandler extends NetHandler
 				if(par1Packet23VehicleSpawn.type == 60)
 				{
 					Entity var13 = getEntityByID(par1Packet23VehicleSpawn.throwerEntityId);
-					if(var13 instanceof EntityLiving)
+					if(var13 instanceof EntityLivingBase)
 					{
 						EntityArrow var14 = (EntityArrow) var8;
 						var14.shootingEntity = var13;
@@ -1274,13 +1343,14 @@ public class NetClientHandler extends NetHandler
 		try
 		{
 			URL var4 = new URL("http://session.minecraft.net/game/joinserver.jsp?user=" + urlEncode(par1Str) + "&sessionId=" + urlEncode(par2Str) + "&serverId=" + urlEncode(par3Str));
-			BufferedReader var5 = new BufferedReader(new InputStreamReader(var4.openStream()));
-			String var6 = var5.readLine();
-			var5.close();
-			return var6;
-		} catch(IOException var7)
+			InputStream var5 = var4.openConnection(mc.func_110437_J()).getInputStream();
+			BufferedReader var6 = new BufferedReader(new InputStreamReader(var5));
+			String var7 = var6.readLine();
+			var6.close();
+			return var7;
+		} catch(IOException var8)
 		{
-			return var7.toString();
+			return var8.toString();
 		}
 	}
 	

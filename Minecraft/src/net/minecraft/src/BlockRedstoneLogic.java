@@ -213,9 +213,9 @@ public abstract class BlockRedstoneLogic extends BlockDirectional
 		super.onBlockDestroyedByPlayer(par1World, par2, par3, par4, par5);
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		int var7 = ((MathHelper.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 2) % 4;
+		int var7 = ((MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 2) % 4;
 		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 3);
 		boolean var8 = isGettingInput(par1World, par2, par3, par4, var7);
 		if(var8)
@@ -240,11 +240,6 @@ public abstract class BlockRedstoneLogic extends BlockDirectional
 		{
 			func_94479_f(par1World, par2, par3, par4, par5);
 		}
-	}
-	
-	@Override public void registerIcons(IconRegister par1IconRegister)
-	{
-		blockIcon = par1IconRegister.registerIcon(isRepeaterPowered ? "repeater_lit" : "repeater");
 	}
 	
 	@Override public boolean renderAsNormalBlock()

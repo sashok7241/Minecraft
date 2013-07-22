@@ -7,14 +7,14 @@ public class EntityArrow extends Entity implements IProjectile
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
-	private int inTile = 0;
-	private int inData = 0;
-	private boolean inGround = false;
-	public int canBePickedUp = 0;
-	public int arrowShake = 0;
+	private int inTile;
+	private int inData;
+	private boolean inGround;
+	public int canBePickedUp;
+	public int arrowShake;
 	public Entity shootingEntity;
 	private int ticksInGround;
-	private int ticksInAir = 0;
+	private int ticksInAir;
 	private double damage = 2.0D;
 	private int knockbackStrength;
 	
@@ -34,19 +34,19 @@ public class EntityArrow extends Entity implements IProjectile
 		yOffset = 0.0F;
 	}
 	
-	public EntityArrow(World par1World, EntityLiving par2EntityLiving, EntityLiving par3EntityLiving, float par4, float par5)
+	public EntityArrow(World par1World, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase, float par4, float par5)
 	{
 		super(par1World);
 		renderDistanceWeight = 10.0D;
-		shootingEntity = par2EntityLiving;
-		if(par2EntityLiving instanceof EntityPlayer)
+		shootingEntity = par2EntityLivingBase;
+		if(par2EntityLivingBase instanceof EntityPlayer)
 		{
 			canBePickedUp = 1;
 		}
-		posY = par2EntityLiving.posY + par2EntityLiving.getEyeHeight() - 0.10000000149011612D;
-		double var6 = par3EntityLiving.posX - par2EntityLiving.posX;
-		double var8 = par3EntityLiving.boundingBox.minY + par3EntityLiving.height / 3.0F - posY;
-		double var10 = par3EntityLiving.posZ - par2EntityLiving.posZ;
+		posY = par2EntityLivingBase.posY + par2EntityLivingBase.getEyeHeight() - 0.10000000149011612D;
+		double var6 = par3EntityLivingBase.posX - par2EntityLivingBase.posX;
+		double var8 = par3EntityLivingBase.boundingBox.minY + par3EntityLivingBase.height / 3.0F - posY;
+		double var10 = par3EntityLivingBase.posZ - par2EntityLivingBase.posZ;
 		double var12 = MathHelper.sqrt_double(var6 * var6 + var10 * var10);
 		if(var12 >= 1.0E-7D)
 		{
@@ -54,24 +54,24 @@ public class EntityArrow extends Entity implements IProjectile
 			float var15 = (float) -(Math.atan2(var8, var12) * 180.0D / Math.PI);
 			double var16 = var6 / var12;
 			double var18 = var10 / var12;
-			setLocationAndAngles(par2EntityLiving.posX + var16, posY, par2EntityLiving.posZ + var18, var14, var15);
+			setLocationAndAngles(par2EntityLivingBase.posX + var16, posY, par2EntityLivingBase.posZ + var18, var14, var15);
 			yOffset = 0.0F;
 			float var20 = (float) var12 * 0.2F;
 			setThrowableHeading(var6, var8 + var20, var10, par4, par5);
 		}
 	}
 	
-	public EntityArrow(World par1World, EntityLiving par2EntityLiving, float par3)
+	public EntityArrow(World par1World, EntityLivingBase par2EntityLivingBase, float par3)
 	{
 		super(par1World);
 		renderDistanceWeight = 10.0D;
-		shootingEntity = par2EntityLiving;
-		if(par2EntityLiving instanceof EntityPlayer)
+		shootingEntity = par2EntityLivingBase;
+		if(par2EntityLivingBase instanceof EntityPlayer)
 		{
 			canBePickedUp = 1;
 		}
 		setSize(0.5F, 0.5F);
-		setLocationAndAngles(par2EntityLiving.posX, par2EntityLiving.posY + par2EntityLiving.getEyeHeight(), par2EntityLiving.posZ, par2EntityLiving.rotationYaw, par2EntityLiving.rotationPitch);
+		setLocationAndAngles(par2EntityLivingBase.posX, par2EntityLivingBase.posY + par2EntityLivingBase.getEyeHeight(), par2EntityLivingBase.posZ, par2EntityLivingBase.rotationYaw, par2EntityLivingBase.rotationPitch);
 		posX -= MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
 		posY -= 0.10000000149011612D;
 		posZ -= MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
@@ -249,9 +249,9 @@ public class EntityArrow extends Entity implements IProjectile
 					}
 					if(var4.entityHit.attackEntityFrom(var22, var24))
 					{
-						if(var4.entityHit instanceof EntityLiving)
+						if(var4.entityHit instanceof EntityLivingBase)
 						{
-							EntityLiving var25 = (EntityLiving) var4.entityHit;
+							EntityLivingBase var25 = (EntityLivingBase) var4.entityHit;
 							if(!worldObj.isRemote)
 							{
 								var25.setArrowCountInEntity(var25.getArrowCountInEntity() + 1);

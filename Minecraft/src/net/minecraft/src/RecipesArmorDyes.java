@@ -42,7 +42,7 @@ public class RecipesArmorDyes implements IRecipe
 				} else
 				{
 					if(var8.itemID != Item.dyePowder.itemID) return null;
-					float[] var14 = EntitySheep.fleeceColorTable[BlockCloth.getBlockFromDye(var8.getItemDamage())];
+					float[] var14 = EntitySheep.fleeceColorTable[BlockColored.getBlockFromDye(var8.getItemDamage())];
 					int var16 = (int) (var14[0] * 255.0F);
 					int var15 = (int) (var14[1] * 255.0F);
 					var17 = (int) (var14[2] * 255.0F);

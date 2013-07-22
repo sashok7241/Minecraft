@@ -11,7 +11,7 @@ public class Profiler
 {
 	private final List sectionList = new ArrayList();
 	private final List timestampList = new ArrayList();
-	public boolean profilingEnabled = false;
+	public boolean profilingEnabled;
 	private String profilingSection = "";
 	private final Map profilingMap = new HashMap();
 	

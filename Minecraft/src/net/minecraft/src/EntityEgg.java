@@ -12,16 +12,16 @@ public class EntityEgg extends EntityThrowable
 		super(par1World, par2, par4, par6);
 	}
 	
-	public EntityEgg(World par1World, EntityLiving par2EntityLiving)
+	public EntityEgg(World par1World, EntityLivingBase par2EntityLivingBase)
 	{
-		super(par1World, par2EntityLiving);
+		super(par1World, par2EntityLivingBase);
 	}
 	
 	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
 	{
 		if(par1MovingObjectPosition.entityHit != null)
 		{
-			par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0);
+			par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0.0F);
 		}
 		if(!worldObj.isRemote && rand.nextInt(8) == 0)
 		{

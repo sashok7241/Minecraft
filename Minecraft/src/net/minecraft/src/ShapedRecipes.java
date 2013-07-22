@@ -7,7 +7,7 @@ public class ShapedRecipes implements IRecipe
 	private ItemStack[] recipeItems;
 	private ItemStack recipeOutput;
 	public final int recipeOutputItemID;
-	private boolean field_92101_f = false;
+	private boolean field_92101_f;
 	
 	public ShapedRecipes(int par1, int par2, ItemStack[] par3ArrayOfItemStack, ItemStack par4ItemStack)
 	{

@@ -4,7 +4,7 @@ public class EntityAIEatGrass extends EntityAIBase
 {
 	private EntityLiving theEntity;
 	private World theWorld;
-	int eatGrassTick = 0;
+	int eatGrassTick;
 	
 	public EntityAIEatGrass(EntityLiving par1EntityLiving)
 	{

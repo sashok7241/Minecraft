@@ -9,7 +9,9 @@ public class PlayerManager
 	private final List players = new ArrayList();
 	private final LongHashMap playerInstances = new LongHashMap();
 	private final List chunkWatcherWithPlayers = new ArrayList();
+	private final List field_111193_e = new ArrayList();
 	private final int playerViewRadius;
+	private long field_111192_g;
 	private final int[][] xzDirectionsConst = new int[][] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 	
 	public PlayerManager(WorldServer par1WorldServer, int par2)
@@ -94,6 +96,7 @@ public class PlayerManager
 		{
 			var6 = new PlayerInstance(this, par1, par2);
 			playerInstances.add(var4, var6);
+			field_111193_e.add(var6);
 		}
 		return var6;
 	}
@@ -188,19 +191,40 @@ public class PlayerManager
 	
 	public void updatePlayerInstances()
 	{
-		for(int var1 = 0; var1 < chunkWatcherWithPlayers.size(); ++var1)
+		long var1 = theWorldServer.getTotalWorldTime();
+		int var3;
+		PlayerInstance var4;
+		if(var1 - field_111192_g > 8000L)
 		{
-			((PlayerInstance) chunkWatcherWithPlayers.get(var1)).sendChunkUpdate();
+			field_111192_g = var1;
+			for(var3 = 0; var3 < field_111193_e.size(); ++var3)
+			{
+				var4 = (PlayerInstance) field_111193_e.get(var3);
+				var4.sendChunkUpdate();
+				var4.func_111194_a();
+			}
+		} else
+		{
+			for(var3 = 0; var3 < chunkWatcherWithPlayers.size(); ++var3)
+			{
+				var4 = (PlayerInstance) chunkWatcherWithPlayers.get(var3);
+				var4.sendChunkUpdate();
+			}
 		}
 		chunkWatcherWithPlayers.clear();
 		if(players.isEmpty())
 		{
-			WorldProvider var2 = theWorldServer.provider;
-			if(!var2.canRespawnHere())
+			WorldProvider var5 = theWorldServer.provider;
+			if(!var5.canRespawnHere())
 			{
 				theWorldServer.theChunkProviderServer.unloadAllChunks();
 			}
 		}
+	}
+	
+	static List func_111191_d(PlayerManager par0PlayerManager)
+	{
+		return par0PlayerManager.field_111193_e;
 	}
 	
 	static LongHashMap getChunkWatchers(PlayerManager par0PlayerManager)

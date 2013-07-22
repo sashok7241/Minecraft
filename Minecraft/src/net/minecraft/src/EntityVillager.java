@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
-public class EntityVillager extends EntityAgeable implements INpc, IMerchant
+public class EntityVillager extends EntityAgeable implements IMerchant, INpc
 {
 	private int randomTickDivider;
 	private boolean isMating;
@@ -31,30 +31,24 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 	public EntityVillager(World par1World, int par2)
 	{
 		super(par1World);
-		randomTickDivider = 0;
-		isMating = false;
-		isPlaying = false;
-		villageObj = null;
 		setProfession(par2);
-		texture = "/mob/villager/villager.png";
-		moveSpeed = 0.5F;
 		setSize(0.6F, 1.8F);
 		getNavigator().setBreakDoors(true);
 		getNavigator().setAvoidsWater(true);
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.3F, 0.35F));
+		tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
 		tasks.addTask(1, new EntityAITradePlayer(this));
 		tasks.addTask(1, new EntityAILookAtTradePlayer(this));
 		tasks.addTask(2, new EntityAIMoveIndoors(this));
 		tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		tasks.addTask(5, new EntityAIMoveTwardsRestriction(this, 0.3F));
+		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
 		tasks.addTask(6, new EntityAIVillagerMate(this));
 		tasks.addTask(7, new EntityAIFollowGolem(this));
-		tasks.addTask(8, new EntityAIPlay(this, 0.32F));
+		tasks.addTask(8, new EntityAIPlay(this, 0.32D));
 		tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
 		tasks.addTask(9, new EntityAIWatchClosest2(this, EntityVillager.class, 5.0F, 0.02F));
-		tasks.addTask(9, new EntityAIWander(this, 0.3F));
+		tasks.addTask(9, new EntityAIWander(this, 0.6D));
 		tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
 	}
 	
@@ -200,6 +194,39 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 		dataWatcher.addObject(16, Integer.valueOf(0));
 	}
 	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.5D);
+	}
+	
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	{
+		par1EntityLivingData = super.func_110161_a(par1EntityLivingData);
+		setProfession(worldObj.rand.nextInt(5));
+		return par1EntityLivingData;
+	}
+	
+	@Override public boolean func_110164_bC()
+	{
+		return false;
+	}
+	
+	@Override public void func_110297_a_(ItemStack par1ItemStack)
+	{
+		if(!worldObj.isRemote && livingSoundTime > -getTalkInterval() + 20)
+		{
+			livingSoundTime = -getTalkInterval();
+			if(par1ItemStack != null)
+			{
+				playSound("mob.villager.yes", getSoundVolume(), getSoundPitch());
+			} else
+			{
+				playSound("mob.villager.no", getSoundVolume(), getSoundPitch());
+			}
+		}
+	}
+	
 	public void func_82187_q()
 	{
 		field_82190_bM = true;
@@ -214,7 +241,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 	public EntityVillager func_90012_b(EntityAgeable par1EntityAgeable)
 	{
 		EntityVillager var2 = new EntityVillager(worldObj);
-		var2.initCreature();
+		var2.func_110161_a((EntityLivingData) null);
 		return var2;
 	}
 	
@@ -236,22 +263,17 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 	
 	@Override protected String getDeathSound()
 	{
-		return "mob.villager.defaultdeath";
+		return "mob.villager.death";
 	}
 	
 	@Override protected String getHurtSound()
 	{
-		return "mob.villager.defaulthurt";
+		return "mob.villager.hit";
 	}
 	
 	@Override protected String getLivingSound()
 	{
-		return "mob.villager.default";
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return 20;
+		return isTrading() ? "mob.villager.haggle" : "mob.villager.idle";
 	}
 	
 	public int getProfession()
@@ -266,25 +288,6 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 			addDefaultEquipmentAndRecipies(1);
 		}
 		return buyingList;
-	}
-	
-	@Override public String getTexture()
-	{
-		switch(getProfession())
-		{
-			case 0:
-				return "/mob/villager/farmer.png";
-			case 1:
-				return "/mob/villager/librarian.png";
-			case 2:
-				return "/mob/villager/priest.png";
-			case 3:
-				return "/mob/villager/smith.png";
-			case 4:
-				return "/mob/villager/butcher.png";
-			default:
-				return super.getTexture();
-		}
 	}
 	
 	@Override public void handleHealthUpdate(byte par1)
@@ -302,11 +305,6 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 		{
 			super.handleHealthUpdate(par1);
 		}
-	}
-	
-	@Override public void initCreature()
-	{
-		setProfession(worldObj.rand.nextInt(5));
 	}
 	
 	@Override public boolean interact(EntityPlayer par1EntityPlayer)
@@ -406,20 +404,20 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 	{
 	}
 	
-	@Override public void setRevengeTarget(EntityLiving par1EntityLiving)
+	@Override public void setRevengeTarget(EntityLivingBase par1EntityLivingBase)
 	{
-		super.setRevengeTarget(par1EntityLiving);
-		if(villageObj != null && par1EntityLiving != null)
+		super.setRevengeTarget(par1EntityLivingBase);
+		if(villageObj != null && par1EntityLivingBase != null)
 		{
-			villageObj.addOrRenewAgressor(par1EntityLiving);
-			if(par1EntityLiving instanceof EntityPlayer)
+			villageObj.addOrRenewAgressor(par1EntityLivingBase);
+			if(par1EntityLivingBase instanceof EntityPlayer)
 			{
 				byte var2 = -1;
 				if(isChild())
 				{
 					var2 = -3;
 				}
-				villageObj.setReputationForPlayer(((EntityPlayer) par1EntityLiving).getCommandSenderName(), var2);
+				villageObj.setReputationForPlayer(((EntityPlayer) par1EntityLivingBase).getCommandSenderName(), var2);
 				if(isEntityAlive())
 				{
 					worldObj.setEntityState(this, (byte) 13);
@@ -437,11 +435,11 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 			villageObj = worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), 32);
 			if(villageObj == null)
 			{
-				detachHome();
+				func_110177_bN();
 			} else
 			{
 				ChunkCoordinates var1 = villageObj.getCenter();
-				setHomeArea(var1.posX, var1.posY, var1.posZ, (int) (villageObj.getVillageRadius() * 0.6F));
+				func_110171_b(var1.posX, var1.posY, var1.posZ, (int) (villageObj.getVillageRadius() * 0.6F));
 				if(field_82190_bM)
 				{
 					field_82190_bM = false;
@@ -485,6 +483,8 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 	@Override public void useRecipe(MerchantRecipe par1MerchantRecipe)
 	{
 		par1MerchantRecipe.incrementToolUses();
+		livingSoundTime = -getTalkInterval();
+		playSound("mob.villager.yes", getSoundVolume(), getSoundPitch());
 		if(par1MerchantRecipe.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
 		{
 			timeUntilReset = 40;

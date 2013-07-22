@@ -3,26 +3,28 @@ package net.minecraft.src;
 
 public class RenderSpider extends RenderLiving
 {
+	private static final ResourceLocation field_110891_a = new ResourceLocation("textures/entity/spider_eyes.png");
+	private static final ResourceLocation field_110890_f = new ResourceLocation("textures/entity/spider/spider.png");
+	
 	public RenderSpider()
 	{
 		super(new ModelSpider(), 1.0F);
 		setRenderPassModel(new ModelSpider());
 	}
 	
-	@Override protected float getDeathMaxRotation(EntityLiving par1EntityLiving)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
 	{
-		return setSpiderDeathMaxRotation((EntitySpider) par1EntityLiving);
+		return func_110889_a((EntitySpider) par1Entity);
 	}
 	
-	@Override protected void preRenderCallback(EntityLiving par1EntityLiving, float par2)
+	protected ResourceLocation func_110889_a(EntitySpider par1EntitySpider)
 	{
-		scaleSpider((EntitySpider) par1EntityLiving, par2);
+		return field_110890_f;
 	}
 	
-	protected void scaleSpider(EntitySpider par1EntitySpider, float par2)
+	@Override protected float getDeathMaxRotation(EntityLivingBase par1EntityLivingBase)
 	{
-		float var3 = par1EntitySpider.spiderScaleAmount();
-		GL11.glScalef(var3, var3, var3);
+		return setSpiderDeathMaxRotation((EntitySpider) par1EntityLivingBase);
 	}
 	
 	protected float setSpiderDeathMaxRotation(EntitySpider par1EntitySpider)
@@ -35,7 +37,7 @@ public class RenderSpider extends RenderLiving
 		if(par2 != 0) return -1;
 		else
 		{
-			loadTexture("/mob/spider_eyes.png");
+			func_110776_a(field_110891_a);
 			float var4 = 1.0F;
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -57,8 +59,8 @@ public class RenderSpider extends RenderLiving
 		}
 	}
 	
-	@Override protected int shouldRenderPass(EntityLiving par1EntityLiving, int par2, float par3)
+	@Override protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
 	{
-		return setSpiderEyeBrightness((EntitySpider) par1EntityLiving, par2, par3);
+		return setSpiderEyeBrightness((EntitySpider) par1EntityLivingBase, par2, par3);
 	}
 }

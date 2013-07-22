@@ -5,7 +5,6 @@ import java.util.List;
 public class BlockWood extends Block
 {
 	public static final String[] woodType = new String[] { "oak", "spruce", "birch", "jungle" };
-	public static final String[] woodTextureTypes = new String[] { "wood", "wood_spruce", "wood_birch", "wood_jungle" };
 	private Icon[] iconArray;
 	
 	public BlockWood(int par1)
@@ -38,10 +37,10 @@ public class BlockWood extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray = new Icon[woodTextureTypes.length];
+		iconArray = new Icon[woodType.length];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon(woodTextureTypes[var2]);
+			iconArray[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + woodType[var2]);
 		}
 	}
 }

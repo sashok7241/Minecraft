@@ -9,6 +9,11 @@ public class CommandToggleDownfall extends CommandBase
 		return "toggledownfall";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.downfall.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 2;

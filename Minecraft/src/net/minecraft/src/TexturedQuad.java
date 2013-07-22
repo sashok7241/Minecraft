@@ -8,8 +8,6 @@ public class TexturedQuad
 	
 	public TexturedQuad(PositionTextureVertex[] par1ArrayOfPositionTextureVertex)
 	{
-		nVertices = 0;
-		invertNormal = false;
 		vertexPositions = par1ArrayOfPositionTextureVertex;
 		nVertices = par1ArrayOfPositionTextureVertex.length;
 	}

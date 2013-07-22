@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class WeightedRandomChestContent extends WeightedRandomItem
 {
-	private ItemStack theItemId = null;
+	private ItemStack theItemId;
 	private int theMinimumChanceToGenerateItem;
 	private int theMaximumChanceToGenerateItem;
 	

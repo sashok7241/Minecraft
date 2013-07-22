@@ -139,15 +139,15 @@ public class BlockPistonMoving extends BlockContainer
 	
 	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
-		if(!par1World.isRemote && par1World.getBlockTileEntity(par2, par3, par4) == null)
+		if(!par1World.isRemote)
 		{
-			;
+			par1World.getBlockTileEntity(par2, par3, par4);
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("piston_top");
+		blockIcon = par1IconRegister.registerIcon("piston_top_normal");
 	}
 	
 	@Override public boolean renderAsNormalBlock()

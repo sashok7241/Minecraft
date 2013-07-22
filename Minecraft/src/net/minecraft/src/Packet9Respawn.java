@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet9Respawn extends Packet
@@ -35,13 +35,13 @@ public class Packet9Respawn extends Packet
 		par1NetHandler.handleRespawn(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		respawnDimension = par1DataInputStream.readInt();
-		difficulty = par1DataInputStream.readByte();
-		gameType = EnumGameType.getByID(par1DataInputStream.readByte());
-		worldHeight = par1DataInputStream.readShort();
-		String var2 = readString(par1DataInputStream, 16);
+		respawnDimension = par1DataInput.readInt();
+		difficulty = par1DataInput.readByte();
+		gameType = EnumGameType.getByID(par1DataInput.readByte());
+		worldHeight = par1DataInput.readShort();
+		String var2 = readString(par1DataInput, 16);
 		terrainType = WorldType.parseWorldType(var2);
 		if(terrainType == null)
 		{
@@ -49,12 +49,12 @@ public class Packet9Respawn extends Packet
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(respawnDimension);
-		par1DataOutputStream.writeByte(difficulty);
-		par1DataOutputStream.writeByte(gameType.getID());
-		par1DataOutputStream.writeShort(worldHeight);
-		writeString(terrainType.getWorldTypeName(), par1DataOutputStream);
+		par1DataOutput.writeInt(respawnDimension);
+		par1DataOutput.writeByte(difficulty);
+		par1DataOutput.writeByte(gameType.getID());
+		par1DataOutput.writeShort(worldHeight);
+		writeString(terrainType.getWorldTypeName(), par1DataOutput);
 	}
 }

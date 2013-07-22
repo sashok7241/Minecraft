@@ -3,6 +3,8 @@ package net.minecraft.src;
 
 public class RenderWither extends RenderLiving
 {
+	private static final ResourceLocation field_110913_a = new ResourceLocation("textures/entity/wither/wither_invulnerable.png");
+	private static final ResourceLocation field_110912_f = new ResourceLocation("textures/entity/wither/wither.png");
 	private int field_82419_a;
 	
 	public RenderWither()
@@ -19,6 +21,17 @@ public class RenderWither extends RenderLiving
 	@Override public void doRenderLiving(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
 	{
 		func_82418_a((EntityWither) par1EntityLiving, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110911_a((EntityWither) par1Entity);
+	}
+	
+	protected ResourceLocation func_110911_a(EntityWither par1EntityWither)
+	{
+		int var2 = par1EntityWither.func_82212_n();
+		return var2 > 0 && (var2 > 80 || var2 / 5 % 2 != 1) ? field_110913_a : field_110912_f;
 	}
 	
 	protected void func_82415_a(EntityWither par1EntityWither, float par2)
@@ -53,7 +66,7 @@ public class RenderWither extends RenderLiving
 			if(par2 == 1)
 			{
 				float var4 = par1EntityWither.ticksExisted + par3;
-				loadTexture("/armor/witherarmor.png");
+				func_110776_a(field_110913_a);
 				GL11.glMatrixMode(GL11.GL_TEXTURE);
 				GL11.glLoadIdentity();
 				float var5 = MathHelper.cos(var4 * 0.02F) * 3.0F;
@@ -94,18 +107,23 @@ public class RenderWither extends RenderLiving
 		super.doRenderLiving(par1EntityWither, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected int inheritRenderPass(EntityLiving par1EntityLiving, int par2, float par3)
+	@Override protected int inheritRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
 	{
-		return func_82416_b((EntityWither) par1EntityLiving, par2, par3);
+		return func_82416_b((EntityWither) par1EntityLivingBase, par2, par3);
 	}
 	
-	@Override protected void preRenderCallback(EntityLiving par1EntityLiving, float par2)
+	@Override protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
 	{
-		func_82415_a((EntityWither) par1EntityLiving, par2);
+		func_82415_a((EntityWither) par1EntityLivingBase, par2);
 	}
 	
-	@Override protected int shouldRenderPass(EntityLiving par1EntityLiving, int par2, float par3)
+	@Override public void renderPlayer(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
 	{
-		return func_82417_a((EntityWither) par1EntityLiving, par2, par3);
+		func_82418_a((EntityWither) par1EntityLivingBase, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
+	{
+		return func_82417_a((EntityWither) par1EntityLivingBase, par2, par3);
 	}
 }

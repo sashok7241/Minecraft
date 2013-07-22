@@ -67,7 +67,7 @@ public class LogAgent implements ILogAgent
 			Handler var4 = var1[var3];
 			serverLogger.removeHandler(var4);
 		}
-		LogFormatter var6 = new LogFormatter(this, (LogAgentINNER1) null);
+		LogFormatter var6 = new LogFormatter(this, (LogAgentEmptyAnon) null);
 		ConsoleHandler var7 = new ConsoleHandler();
 		var7.setFormatter(var6);
 		serverLogger.addHandler(var7);

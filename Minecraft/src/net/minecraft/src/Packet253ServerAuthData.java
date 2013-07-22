@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.security.PublicKey;
 
@@ -47,17 +47,17 @@ public class Packet253ServerAuthData extends Packet
 		par1NetHandler.handleServerAuthData(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		serverId = readString(par1DataInputStream, 20);
-		publicKey = CryptManager.decodePublicKey(readBytesFromStream(par1DataInputStream));
-		verifyToken = readBytesFromStream(par1DataInputStream);
+		serverId = readString(par1DataInput, 20);
+		publicKey = CryptManager.decodePublicKey(readBytesFromStream(par1DataInput));
+		verifyToken = readBytesFromStream(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(serverId, par1DataOutputStream);
-		writeByteArray(par1DataOutputStream, publicKey.getEncoded());
-		writeByteArray(par1DataOutputStream, verifyToken);
+		writeString(serverId, par1DataOutput);
+		writeByteArray(par1DataOutput, publicKey.getEncoded());
+		writeByteArray(par1DataOutput, verifyToken);
 	}
 }

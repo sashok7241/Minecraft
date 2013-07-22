@@ -20,12 +20,13 @@ public class WorldServer extends World
 	public ChunkProviderServer theChunkProviderServer;
 	public boolean canNotSave;
 	private boolean allPlayersSleeping;
-	private int updateEntityTick = 0;
+	private int updateEntityTick;
 	private final Teleporter field_85177_Q;
+	private final SpawnerAnimals field_135059_Q = new SpawnerAnimals();
 	private ServerBlockEventList[] blockEventCache = new ServerBlockEventList[] { new ServerBlockEventList((ServerBlockEvent) null), new ServerBlockEventList((ServerBlockEvent) null) };
-	private int blockEventCacheIndex = 0;
+	private int blockEventCacheIndex;
 	private static final WeightedRandomChestContent[] bonusChestContent = new WeightedRandomChestContent[] { new WeightedRandomChestContent(Item.stick.itemID, 0, 1, 3, 10), new WeightedRandomChestContent(Block.planks.blockID, 0, 1, 3, 10), new WeightedRandomChestContent(Block.wood.blockID, 0, 1, 3, 10), new WeightedRandomChestContent(Item.axeStone.itemID, 0, 1, 1, 3), new WeightedRandomChestContent(Item.axeWood.itemID, 0, 1, 1, 5), new WeightedRandomChestContent(Item.pickaxeStone.itemID, 0, 1, 1, 3), new WeightedRandomChestContent(Item.pickaxeWood.itemID, 0, 1, 1, 5), new WeightedRandomChestContent(Item.appleRed.itemID, 0, 2, 3, 5), new WeightedRandomChestContent(Item.bread.itemID, 0, 2, 3, 3) };
-	private ArrayList pendingTickListEntriesThisTick = new ArrayList();
+	private List pendingTickListEntriesThisTick = new ArrayList();
 	private IntHashMap entityIdMap;
 	
 	public WorldServer(MinecraftServer par1MinecraftServer, ISaveHandler par2ISaveHandler, String par3Str, int par4, WorldSettings par5WorldSettings, Profiler par6Profiler, ILogAgent par7ILogAgent)
@@ -414,6 +415,7 @@ public class WorldServer extends World
 		{
 			if(Block.blocksList[par4].func_82506_l())
 			{
+				var8 = 8;
 				if(checkChunksExist(var7.xCoord - var8, var7.yCoord - var8, var7.zCoord - var8, var7.xCoord + var8, var7.yCoord + var8, var7.zCoord + var8))
 				{
 					int var9 = getBlockId(var7.xCoord, var7.yCoord, var7.zCoord);
@@ -505,32 +507,30 @@ public class WorldServer extends World
 		provider.worldChunkMgr.cleanupCache();
 		if(areAllPlayersAsleep())
 		{
-			boolean var1 = false;
-			if(spawnHostileMobs && difficultySetting >= 1)
+			if(getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
 			{
-				;
+				long var1 = worldInfo.getWorldTime() + 24000L;
+				worldInfo.setWorldTime(var1 - var1 % 24000L);
 			}
-			if(!var1)
-			{
-				long var2 = worldInfo.getWorldTime() + 24000L;
-				worldInfo.setWorldTime(var2 - var2 % 24000L);
-				wakeAllPlayers();
-			}
+			wakeAllPlayers();
 		}
 		theProfiler.startSection("mobSpawner");
 		if(getGameRules().getGameRuleBooleanValue("doMobSpawning"))
 		{
-			SpawnerAnimals.findChunksForSpawning(this, spawnHostileMobs, spawnPeacefulMobs, worldInfo.getWorldTotalTime() % 400L == 0L);
+			field_135059_Q.findChunksForSpawning(this, spawnHostileMobs, spawnPeacefulMobs, worldInfo.getWorldTotalTime() % 400L == 0L);
 		}
 		theProfiler.endStartSection("chunkSource");
 		chunkProvider.unloadQueuedChunks();
-		int var4 = calculateSkylightSubtracted(1.0F);
-		if(var4 != skylightSubtracted)
+		int var3 = calculateSkylightSubtracted(1.0F);
+		if(var3 != skylightSubtracted)
 		{
-			skylightSubtracted = var4;
+			skylightSubtracted = var3;
 		}
 		worldInfo.incrementTotalWorldTime(worldInfo.getWorldTotalTime() + 1L);
-		worldInfo.setWorldTime(worldInfo.getWorldTime() + 1L);
+		if(getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
+		{
+			worldInfo.setWorldTime(worldInfo.getWorldTime() + 1L);
+		}
 		theProfiler.endStartSection("tickPending");
 		tickUpdates(false);
 		theProfiler.endStartSection("tickTiles");
@@ -705,11 +705,6 @@ public class WorldServer extends World
 		}
 	}
 	
-	public void uncheckedUpdateEntity(Entity par1Entity, boolean par2)
-	{
-		super.updateEntityWithOptionalForce(par1Entity, par2);
-	}
-	
 	@Override public void updateAllPlayersSleepingFlag()
 	{
 		allPlayersSleeping = !playerEntities.isEmpty();
@@ -747,10 +742,7 @@ public class WorldServer extends World
 		{
 			par1Entity.setDead();
 		}
-		if(!(par1Entity.riddenByEntity instanceof EntityPlayer))
-		{
-			super.updateEntityWithOptionalForce(par1Entity, par2);
-		}
+		super.updateEntityWithOptionalForce(par1Entity, par2);
 	}
 	
 	@Override protected void updateWeather()

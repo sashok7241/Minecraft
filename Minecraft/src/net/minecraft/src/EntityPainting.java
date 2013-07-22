@@ -51,8 +51,13 @@ public class EntityPainting extends EntityHanging
 		setDirection(par5);
 	}
 	
-	@Override public void dropItemStack()
+	@Override public void func_110128_b(Entity par1Entity)
 	{
+		if(par1Entity instanceof EntityPlayer)
+		{
+			EntityPlayer var2 = (EntityPlayer) par1Entity;
+			if(var2.capabilities.isCreativeMode) return;
+		}
 		entityDropItem(new ItemStack(Item.painting), 0.0F);
 	}
 	

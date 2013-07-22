@@ -12,17 +12,15 @@ public class EntitySheep extends EntityAnimal
 	public EntitySheep(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/sheep.png";
 		setSize(0.9F, 1.3F);
-		float var2 = 0.23F;
 		getNavigator().setAvoidsWater(true);
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIPanic(this, 0.38F));
-		tasks.addTask(2, new EntityAIMate(this, var2));
-		tasks.addTask(3, new EntityAITempt(this, 0.25F, Item.wheat.itemID, false));
-		tasks.addTask(4, new EntityAIFollowParent(this, 0.25F));
+		tasks.addTask(1, new EntityAIPanic(this, 1.25D));
+		tasks.addTask(2, new EntityAIMate(this, 1.0D));
+		tasks.addTask(3, new EntityAITempt(this, 1.1D, Item.wheat.itemID, false));
+		tasks.addTask(4, new EntityAIFollowParent(this, 1.1D));
 		tasks.addTask(5, aiEatGrass);
-		tasks.addTask(6, new EntityAIWander(this, var2));
+		tasks.addTask(6, new EntityAIWander(this, 1.0D));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		tasks.addTask(8, new EntityAILookIdle(this));
 		field_90016_e.setInventorySlotContents(0, new ItemStack(Item.dyePowder, 1, 0));
@@ -47,12 +45,7 @@ public class EntitySheep extends EntityAnimal
 		setSheared(false);
 		if(isChild())
 		{
-			int var1 = getGrowingAge() + 1200;
-			if(var1 > 0)
-			{
-				var1 = 0;
-			}
-			setGrowingAge(var1);
+			func_110195_a(60);
 		}
 	}
 	
@@ -60,6 +53,20 @@ public class EntitySheep extends EntityAnimal
 	{
 		super.entityInit();
 		dataWatcher.addObject(16, new Byte((byte) 0));
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(8.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.23000000417232513D);
+	}
+	
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	{
+		par1EntityLivingData = super.func_110161_a(par1EntityLivingData);
+		setFleeceColor(getRandomFleeceColor(worldObj.rand));
+		return par1EntityLivingData;
 	}
 	
 	public float func_70890_k(float par1)
@@ -133,11 +140,6 @@ public class EntitySheep extends EntityAnimal
 		return "mob.sheep.say";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 8;
-	}
-	
 	public boolean getSheared()
 	{
 		return (dataWatcher.getWatchableObjectByte(16) & 16) != 0;
@@ -152,11 +154,6 @@ public class EntitySheep extends EntityAnimal
 		{
 			super.handleHealthUpdate(par1);
 		}
-	}
-	
-	@Override public void initCreature()
-	{
-		setFleeceColor(getRandomFleeceColor(worldObj.rand));
 	}
 	
 	@Override public boolean interact(EntityPlayer par1EntityPlayer)

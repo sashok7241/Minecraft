@@ -5,9 +5,7 @@ public class EntityMagmaCube extends EntitySlime
 	public EntityMagmaCube(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/lava.png";
 		isImmuneToFire = true;
-		landMovementFactor = 0.2F;
 	}
 	
 	@Override protected boolean canDamagePlayer()
@@ -39,6 +37,12 @@ public class EntityMagmaCube extends EntitySlime
 	
 	@Override protected void fall(float par1)
 	{
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.20000000298023224D);
 	}
 	
 	@Override protected void func_70808_l()

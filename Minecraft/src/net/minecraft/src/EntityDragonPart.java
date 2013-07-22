@@ -5,15 +5,15 @@ public class EntityDragonPart extends Entity
 	public final IEntityMultiPart entityDragonObj;
 	public final String name;
 	
-	public EntityDragonPart(IEntityMultiPart par1, String par2, float par3, float par4)
+	public EntityDragonPart(IEntityMultiPart par1IEntityMultiPart, String par2Str, float par3, float par4)
 	{
-		super(par1.func_82194_d());
+		super(par1IEntityMultiPart.func_82194_d());
 		setSize(par3, par4);
-		entityDragonObj = par1;
-		name = par2;
+		entityDragonObj = par1IEntityMultiPart;
+		name = par2Str;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		return isEntityInvulnerable() ? false : entityDragonObj.attackEntityFromPart(this, par1DamageSource, par2);
 	}

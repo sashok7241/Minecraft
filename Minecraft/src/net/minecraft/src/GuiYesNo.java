@@ -15,9 +15,8 @@ public class GuiYesNo extends GuiScreen
 		message1 = par2Str;
 		message2 = par3Str;
 		worldNumber = par4;
-		StringTranslate var5 = StringTranslate.getInstance();
-		buttonText1 = var5.translateKey("gui.yes");
-		buttonText2 = var5.translateKey("gui.no");
+		buttonText1 = I18n.func_135053_a("gui.yes");
+		buttonText2 = I18n.func_135053_a("gui.no");
 	}
 	
 	public GuiYesNo(GuiScreen par1GuiScreen, String par2Str, String par3Str, String par4Str, String par5Str, int par6)

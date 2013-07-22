@@ -4,34 +4,33 @@ public class EntityAIArrowAttack extends EntityAIBase
 {
 	private final EntityLiving entityHost;
 	private final IRangedAttackMob rangedAttackEntityHost;
-	private EntityLiving attackTarget;
+	private EntityLivingBase attackTarget;
 	private int rangedAttackTime;
-	private float entityMoveSpeed;
+	private double entityMoveSpeed;
 	private int field_75318_f;
 	private int field_96561_g;
 	private int maxRangedAttackTime;
 	private float field_96562_i;
 	private float field_82642_h;
 	
-	public EntityAIArrowAttack(IRangedAttackMob par1IRangedAttackMob, float par2, int par3, float par4)
+	public EntityAIArrowAttack(IRangedAttackMob par1IRangedAttackMob, double par2, int par4, float par5)
 	{
-		this(par1IRangedAttackMob, par2, par3, par3, par4);
+		this(par1IRangedAttackMob, par2, par4, par4, par5);
 	}
 	
-	public EntityAIArrowAttack(IRangedAttackMob par1IRangedAttackMob, float par2, int par3, int par4, float par5)
+	public EntityAIArrowAttack(IRangedAttackMob par1IRangedAttackMob, double par2, int par4, int par5, float par6)
 	{
 		rangedAttackTime = -1;
-		field_75318_f = 0;
-		if(!(par1IRangedAttackMob instanceof EntityLiving)) throw new IllegalArgumentException("ArrowAttackGoal requires Mob implements RangedAttackMob");
+		if(!(par1IRangedAttackMob instanceof EntityLivingBase)) throw new IllegalArgumentException("ArrowAttackGoal requires Mob implements RangedAttackMob");
 		else
 		{
 			rangedAttackEntityHost = par1IRangedAttackMob;
 			entityHost = (EntityLiving) par1IRangedAttackMob;
 			entityMoveSpeed = par2;
-			field_96561_g = par3;
-			maxRangedAttackTime = par4;
-			field_96562_i = par5;
-			field_82642_h = par5 * par5;
+			field_96561_g = par4;
+			maxRangedAttackTime = par5;
+			field_96562_i = par6;
+			field_82642_h = par6 * par6;
 			setMutexBits(3);
 		}
 	}
@@ -50,7 +49,7 @@ public class EntityAIArrowAttack extends EntityAIBase
 	
 	@Override public boolean shouldExecute()
 	{
-		EntityLiving var1 = entityHost.getAttackTarget();
+		EntityLivingBase var1 = entityHost.getAttackTarget();
 		if(var1 == null) return false;
 		else
 		{

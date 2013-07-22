@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -50,15 +50,15 @@ public class Packet252SharedKey extends Packet
 		par1NetHandler.handleSharedKey(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		sharedSecret = readBytesFromStream(par1DataInputStream);
-		verifyToken = readBytesFromStream(par1DataInputStream);
+		sharedSecret = readBytesFromStream(par1DataInput);
+		verifyToken = readBytesFromStream(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeByteArray(par1DataOutputStream, sharedSecret);
-		writeByteArray(par1DataOutputStream, verifyToken);
+		writeByteArray(par1DataOutput, sharedSecret);
+		writeByteArray(par1DataOutput, verifyToken);
 	}
 }

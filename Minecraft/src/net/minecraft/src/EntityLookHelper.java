@@ -5,7 +5,7 @@ public class EntityLookHelper
 	private EntityLiving entity;
 	private float deltaLookYaw;
 	private float deltaLookPitch;
-	private boolean isLooking = false;
+	private boolean isLooking;
 	private double posX;
 	private double posY;
 	private double posZ;
@@ -60,7 +60,7 @@ public class EntityLookHelper
 	public void setLookPositionWithEntity(Entity par1Entity, float par2, float par3)
 	{
 		posX = par1Entity.posX;
-		if(par1Entity instanceof EntityLiving)
+		if(par1Entity instanceof EntityLivingBase)
 		{
 			posY = par1Entity.posY + par1Entity.getEyeHeight();
 		} else

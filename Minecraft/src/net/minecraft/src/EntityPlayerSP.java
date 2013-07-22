@@ -2,16 +2,18 @@ package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
-public class EntityPlayerSP extends EntityPlayer
+public class EntityPlayerSP extends AbstractClientPlayer
 {
 	public MovementInput movementInput;
 	protected Minecraft mc;
-	protected int sprintToggleTimer = 0;
-	public int sprintingTicksLeft = 0;
+	protected int sprintToggleTimer;
+	public int sprintingTicksLeft;
 	public float renderArmYaw;
 	public float renderArmPitch;
 	public float prevRenderArmYaw;
 	public float prevRenderArmPitch;
+	private int field_110320_a;
+	private float field_110321_bQ;
 	private MouseFilter field_71162_ch = new MouseFilter();
 	private MouseFilter field_71160_ci = new MouseFilter();
 	private MouseFilter field_71161_cj = new MouseFilter();
@@ -20,14 +22,9 @@ public class EntityPlayerSP extends EntityPlayer
 	
 	public EntityPlayerSP(Minecraft par1Minecraft, World par2World, Session par3Session, int par4)
 	{
-		super(par2World);
+		super(par2World, par3Session.func_111285_a());
 		mc = par1Minecraft;
 		dimension = par4;
-		if(par3Session != null && par3Session.username != null && par3Session.username.length() > 0)
-		{
-			skinUrl = "http://skins.minecraft.net/MinecraftSkins/" + StringUtils.stripControlCodes(par3Session.username) + ".png";
-		}
-		username = par3Session.username;
 	}
 	
 	@Override public void addChatMessage(String par1Str)
@@ -146,6 +143,25 @@ public class EntityPlayerSP extends EntityPlayer
 		mc.displayGuiScreen(new GuiCrafting(inventory, worldObj, par1, par2, par3));
 	}
 	
+	@Override public void func_110298_a(EntityHorse par1EntityHorse, IInventory par2IInventory)
+	{
+		mc.displayGuiScreen(new GuiScreenHorseInventory(inventory, par2IInventory, par1EntityHorse));
+	}
+	
+	public boolean func_110317_t()
+	{
+		return ridingEntity != null && ridingEntity instanceof EntityHorse;
+	}
+	
+	protected void func_110318_g()
+	{
+	}
+	
+	public float func_110319_bJ()
+	{
+		return field_110321_bQ;
+	}
+	
 	public float getFOVMultiplier()
 	{
 		float var1 = 1.0F;
@@ -153,19 +169,20 @@ public class EntityPlayerSP extends EntityPlayer
 		{
 			var1 *= 1.1F;
 		}
-		var1 *= (landMovementFactor * getSpeedModifier() / speedOnGround + 1.0F) / 2.0F;
+		AttributeInstance var2 = func_110148_a(SharedMonsterAttributes.field_111263_d);
+		var1 = (float) (var1 * ((var2.func_111126_e() / capabilities.getWalkSpeed() + 1.0D) / 2.0D));
 		if(isUsingItem() && getItemInUse().itemID == Item.bow.itemID)
 		{
-			int var2 = getItemInUseDuration();
-			float var3 = var2 / 20.0F;
-			if(var3 > 1.0F)
+			int var3 = getItemInUseDuration();
+			float var4 = var3 / 20.0F;
+			if(var4 > 1.0F)
 			{
-				var3 = 1.0F;
+				var4 = 1.0F;
 			} else
 			{
-				var3 *= var3;
+				var4 *= var4;
 			}
-			var1 *= 1.0F - var3 * 0.15F;
+			var1 *= 1.0F - var4 * 0.15F;
 		}
 		return var1;
 	}
@@ -185,7 +202,7 @@ public class EntityPlayerSP extends EntityPlayer
 		return worldObj.isBlockNormalCube(par1, par2, par3);
 	}
 	
-	@Override protected boolean isClientWorld()
+	@Override public boolean isClientWorld()
 	{
 		return true;
 	}
@@ -193,11 +210,6 @@ public class EntityPlayerSP extends EntityPlayer
 	@Override public boolean isSneaking()
 	{
 		return movementInput.sneak && !sleeping;
-	}
-	
-	@Override public void moveEntity(double par1, double par3, double par5)
-	{
-		super.moveEntity(par1, par3, par5);
 	}
 	
 	@Override public void onCriticalHit(Entity par1Entity)
@@ -287,7 +299,7 @@ public class EntityPlayerSP extends EntityPlayer
 			float var2 = 0.8F;
 			boolean var3 = movementInput.moveForward >= var2;
 			movementInput.updatePlayerMoveState();
-			if(isUsingItem())
+			if(isUsingItem() && !isRiding())
 			{
 				movementInput.moveStrafe *= 0.2F;
 				movementInput.moveForward *= 0.2F;
@@ -343,6 +355,39 @@ public class EntityPlayerSP extends EntityPlayer
 				{
 					motionY += 0.15D;
 				}
+			}
+			if(func_110317_t())
+			{
+				if(field_110320_a < 0)
+				{
+					++field_110320_a;
+					if(field_110320_a == 0)
+					{
+						field_110321_bQ = 0.0F;
+					}
+				}
+				if(var1 && !movementInput.jump)
+				{
+					field_110320_a = -10;
+					func_110318_g();
+				} else if(!var1 && movementInput.jump)
+				{
+					field_110320_a = 0;
+					field_110321_bQ = 0.0F;
+				} else if(var1)
+				{
+					++field_110320_a;
+					if(field_110320_a < 10)
+					{
+						field_110321_bQ = field_110320_a * 0.1F;
+					} else
+					{
+						field_110321_bQ = 0.8F + 2.0F / (field_110320_a - 9) * 0.1F;
+					}
+				}
+			} else
+			{
+				field_110321_bQ = 0.0F;
 			}
 			super.onLivingUpdate();
 			if(onGround && capabilities.isFlying)
@@ -414,25 +459,25 @@ public class EntityPlayerSP extends EntityPlayer
 		return false;
 	}
 	
-	@Override public void sendChatToPlayer(String par1Str)
+	@Override public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent)
 	{
-		mc.ingameGUI.getChatGUI().printChatMessage(par1Str);
+		mc.ingameGUI.getChatGUI().printChatMessage(par1ChatMessageComponent.func_111068_a(true));
 	}
 	
-	public void setHealth(int par1)
+	public void setHealth(float par1)
 	{
-		int var2 = getHealth() - par1;
-		if(var2 <= 0)
+		float var2 = func_110143_aJ() - par1;
+		if(var2 <= 0.0F)
 		{
 			setEntityHealth(par1);
-			if(var2 < 0)
+			if(var2 < 0.0F)
 			{
 				hurtResistantTime = maxHurtResistantTime / 2;
 			}
 		} else
 		{
-			lastDamage = var2;
-			setEntityHealth(getHealth());
+			field_110153_bc = var2;
+			setEntityHealth(func_110143_aJ());
 			hurtResistantTime = maxHurtResistantTime;
 			damageEntity(DamageSource.generic, var2);
 			hurtTime = maxHurtTime = 10;
@@ -450,11 +495,6 @@ public class EntityPlayerSP extends EntityPlayer
 		experience = par1;
 		experienceTotal = par2;
 		experienceLevel = par3;
-	}
-	
-	@Override public void updateCloak()
-	{
-		cloakUrl = "http://skins.minecraft.net/MinecraftCloaks/" + StringUtils.stripControlCodes(username) + ".png";
 	}
 	
 	@Override public void updateEntityActionState()

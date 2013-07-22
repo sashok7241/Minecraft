@@ -12,9 +12,9 @@ public class EntityExpBottle extends EntityThrowable
 		super(par1World, par2, par4, par6);
 	}
 	
-	public EntityExpBottle(World par1World, EntityLiving par2EntityLiving)
+	public EntityExpBottle(World par1World, EntityLivingBase par2EntityLivingBase)
 	{
-		super(par1World, par2EntityLiving);
+		super(par1World, par2EntityLivingBase);
 	}
 	
 	@Override protected float func_70182_d()

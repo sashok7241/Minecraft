@@ -124,9 +124,9 @@ public class BlockDispenser extends BlockContainer
 		setDispenserDefaultDirection(par1World, par2, par3, par4);
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		int var7 = BlockPistonBase.determineOrientation(par1World, par2, par3, par4, par5EntityLiving);
+		int var7 = BlockPistonBase.determineOrientation(par1World, par2, par3, par4, par5EntityLivingBase);
 		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
 		if(par6ItemStack.hasDisplayName())
 		{
@@ -153,8 +153,8 @@ public class BlockDispenser extends BlockContainer
 	{
 		blockIcon = par1IconRegister.registerIcon("furnace_side");
 		furnaceTopIcon = par1IconRegister.registerIcon("furnace_top");
-		furnaceFrontIcon = par1IconRegister.registerIcon("dispenser_front");
-		field_96473_e = par1IconRegister.registerIcon("dispenser_front_vertical");
+		furnaceFrontIcon = par1IconRegister.registerIcon(func_111023_E() + "_front_horizontal");
+		field_96473_e = par1IconRegister.registerIcon(func_111023_E() + "_front_vertical");
 	}
 	
 	private void setDispenserDefaultDirection(World par1World, int par2, int par3, int par4)

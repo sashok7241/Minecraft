@@ -2,8 +2,8 @@ package net.minecraft.src;
 
 public class TileEntityNote extends TileEntity
 {
-	public byte note = 0;
-	public boolean previousRedstoneState = false;
+	public byte note;
+	public boolean previousRedstoneState;
 	
 	public void changePitch()
 	{

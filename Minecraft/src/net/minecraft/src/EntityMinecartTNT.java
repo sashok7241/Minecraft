@@ -4,14 +4,14 @@ public class EntityMinecartTNT extends EntityMinecart
 {
 	private int minecartTNTFuse = -1;
 	
-	public EntityMinecartTNT(World par1)
+	public EntityMinecartTNT(World par1World)
 	{
-		super(par1);
+		super(par1World);
 	}
 	
-	public EntityMinecartTNT(World par1, double par2, double par4, double par6)
+	public EntityMinecartTNT(World par1World, double par2, double par4, double par6)
 	{
-		super(par1, par2, par4, par6);
+		super(par1World, par2, par4, par6);
 	}
 	
 	protected void explodeCart(double par1)

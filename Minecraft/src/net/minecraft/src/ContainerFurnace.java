@@ -3,9 +3,9 @@ package net.minecraft.src;
 public class ContainerFurnace extends Container
 {
 	private TileEntityFurnace furnace;
-	private int lastCookTime = 0;
-	private int lastBurnTime = 0;
-	private int lastItemBurnTime = 0;
+	private int lastCookTime;
+	private int lastBurnTime;
+	private int lastItemBurnTime;
 	
 	public ContainerFurnace(InventoryPlayer par1InventoryPlayer, TileEntityFurnace par2TileEntityFurnace)
 	{

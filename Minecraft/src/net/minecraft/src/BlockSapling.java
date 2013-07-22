@@ -6,7 +6,6 @@ import java.util.Random;
 public class BlockSapling extends BlockFlower
 {
 	public static final String[] WOOD_TYPES = new String[] { "oak", "spruce", "birch", "jungle" };
-	private static final String[] field_94370_b = new String[] { "sapling", "sapling_spruce", "sapling_birch", "sapling_jungle" };
 	private Icon[] saplingIcon;
 	
 	protected BlockSapling(int par1)
@@ -125,10 +124,10 @@ public class BlockSapling extends BlockFlower
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		saplingIcon = new Icon[field_94370_b.length];
+		saplingIcon = new Icon[WOOD_TYPES.length];
 		for(int var2 = 0; var2 < saplingIcon.length; ++var2)
 		{
-			saplingIcon[var2] = par1IconRegister.registerIcon(field_94370_b[var2]);
+			saplingIcon[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + WOOD_TYPES[var2]);
 		}
 	}
 	

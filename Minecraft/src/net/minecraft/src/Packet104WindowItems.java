@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,24 +35,24 @@ public class Packet104WindowItems extends Packet
 		par1NetHandler.handleWindowItems(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		windowId = par1DataInputStream.readByte();
-		short var2 = par1DataInputStream.readShort();
+		windowId = par1DataInput.readByte();
+		short var2 = par1DataInput.readShort();
 		itemStack = new ItemStack[var2];
 		for(int var3 = 0; var3 < var2; ++var3)
 		{
-			itemStack[var3] = readItemStack(par1DataInputStream);
+			itemStack[var3] = readItemStack(par1DataInput);
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeByte(windowId);
-		par1DataOutputStream.writeShort(itemStack.length);
+		par1DataOutput.writeByte(windowId);
+		par1DataOutput.writeShort(itemStack.length);
 		for(ItemStack element : itemStack)
 		{
-			writeItemStack(element, par1DataOutputStream);
+			writeItemStack(element, par1DataOutput);
 		}
 	}
 }

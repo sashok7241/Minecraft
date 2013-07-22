@@ -3,15 +3,16 @@ package net.minecraft.src;
 
 public class EntityLargeExplodeFX extends EntityFX
 {
-	private int field_70581_a = 0;
-	private int field_70584_aq = 0;
-	private RenderEngine theRenderEngine;
+	private static final ResourceLocation field_110127_a = new ResourceLocation("textures/entity/explosion.png");
+	private int field_70581_a;
+	private int field_70584_aq;
+	private TextureManager theRenderEngine;
 	private float field_70582_as;
 	
-	public EntityLargeExplodeFX(RenderEngine par1RenderEngine, World par2World, double par3, double par5, double par7, double par9, double par11, double par13)
+	public EntityLargeExplodeFX(TextureManager par1TextureManager, World par2World, double par3, double par5, double par7, double par9, double par11, double par13)
 	{
 		super(par2World, par3, par5, par7, 0.0D, 0.0D, 0.0D);
-		theRenderEngine = par1RenderEngine;
+		theRenderEngine = par1TextureManager;
 		field_70584_aq = 6 + rand.nextInt(4);
 		particleRed = particleGreen = particleBlue = rand.nextFloat() * 0.6F + 0.4F;
 		field_70582_as = 1.0F - (float) par9 * 0.5F;
@@ -44,7 +45,7 @@ public class EntityLargeExplodeFX extends EntityFX
 		int var8 = (int) ((field_70581_a + par2) * 15.0F / field_70584_aq);
 		if(var8 <= 15)
 		{
-			theRenderEngine.bindTexture("/misc/explosion.png");
+			theRenderEngine.func_110577_a(field_110127_a);
 			float var9 = var8 % 4 / 4.0F;
 			float var10 = var9 + 0.24975F;
 			float var11 = var8 / 4 / 4.0F;

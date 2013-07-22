@@ -22,7 +22,7 @@ class ThreadConnectToServer extends Thread
 		{
 			GuiConnecting.setNetClientHandler(connectingGui, new NetClientHandler(GuiConnecting.func_74256_a(connectingGui), ip, port));
 			if(GuiConnecting.isCancelled(connectingGui)) return;
-			GuiConnecting.getNetClientHandler(connectingGui).addToSendQueue(new Packet2ClientProtocol(61, GuiConnecting.func_74254_c(connectingGui).session.username, ip, port));
+			GuiConnecting.getNetClientHandler(connectingGui).addToSendQueue(new Packet2ClientProtocol(74, GuiConnecting.func_74254_c(connectingGui).func_110432_I().func_111285_a(), ip, port));
 		} catch(UnknownHostException var2)
 		{
 			if(GuiConnecting.isCancelled(connectingGui)) return;

@@ -5,8 +5,8 @@ import net.minecraft.client.Minecraft;
 public class GuiSlider extends GuiButton
 {
 	public float sliderValue = 1.0F;
-	public boolean dragging = false;
-	private EnumOptions idFloat = null;
+	public boolean dragging;
+	private EnumOptions idFloat;
 	
 	public GuiSlider(int par1, int par2, int par3, EnumOptions par4EnumOptions, String par5Str, float par6)
 	{

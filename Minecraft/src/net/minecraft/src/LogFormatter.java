@@ -17,7 +17,7 @@ class LogFormatter extends Formatter
 		field_98228_b = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	}
 	
-	LogFormatter(LogAgent par1LogAgent, LogAgentINNER1 par2LogAgentINNER1)
+	LogFormatter(LogAgent par1LogAgent, LogAgentEmptyAnon par2LogAgentEmptyAnon)
 	{
 		this(par1LogAgent);
 	}

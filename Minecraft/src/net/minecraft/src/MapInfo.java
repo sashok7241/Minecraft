@@ -19,9 +19,6 @@ public class MapInfo
 		mapDataObj = par1MapData;
 		field_76209_b = new int[128];
 		field_76210_c = new int[128];
-		currentRandomNumber = 0;
-		ticksUntilPlayerLocationMapUpdate = 0;
-		field_82570_i = false;
 		entityplayerObj = par2EntityPlayer;
 		for(int var3 = 0; var3 < field_76209_b.length; ++var3)
 		{

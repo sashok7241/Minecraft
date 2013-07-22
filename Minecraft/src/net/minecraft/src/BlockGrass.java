@@ -68,10 +68,10 @@ public class BlockGrass extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("grass_side");
-		iconGrassTop = par1IconRegister.registerIcon("grass_top");
-		iconSnowSide = par1IconRegister.registerIcon("snow_side");
-		iconGrassSideOverlay = par1IconRegister.registerIcon("grass_side_overlay");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		iconGrassTop = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		iconSnowSide = par1IconRegister.registerIcon(func_111023_E() + "_side_snowed");
+		iconGrassSideOverlay = par1IconRegister.registerIcon(func_111023_E() + "_side_overlay");
 	}
 	
 	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)

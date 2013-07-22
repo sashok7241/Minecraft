@@ -11,11 +11,12 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 	private double oldPosZ;
 	private float oldRotationYaw;
 	private float oldRotationPitch;
-	private boolean wasOnGround = false;
-	private boolean shouldStopSneaking = false;
-	private boolean wasSneaking = false;
-	private int field_71168_co = 0;
-	private boolean hasSetHealth = false;
+	private boolean wasOnGround;
+	private boolean shouldStopSneaking;
+	private boolean wasSneaking;
+	private int field_71168_co;
+	private boolean hasSetHealth;
+	private String field_142022_ce;
 	
 	public EntityClientPlayerMP(Minecraft par1Minecraft, World par2World, Session par3Session, NetClientHandler par4NetClientHandler)
 	{
@@ -34,7 +35,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		}
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		return false;
 	}
@@ -45,11 +46,11 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		func_92015_f();
 	}
 	
-	@Override protected void damageEntity(DamageSource par1DamageSource, int par2)
+	@Override protected void damageEntity(DamageSource par1DamageSource, float par2)
 	{
 		if(!isEntityInvulnerable())
 		{
-			setEntityHealth(getHealth() - par2);
+			setEntityHealth(func_110143_aJ() - par2);
 		}
 	}
 	
@@ -60,9 +61,24 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		return null;
 	}
 	
-	@Override public boolean func_71066_bF()
+	@Override protected void func_110318_g()
 	{
-		return true;
+		sendQueue.addToSendQueue(new Packet19EntityAction(this, 6, (int) (func_110319_bJ() * 100.0F)));
+	}
+	
+	public void func_110322_i()
+	{
+		sendQueue.addToSendQueue(new Packet19EntityAction(this, 7));
+	}
+	
+	public void func_142020_c(String par1Str)
+	{
+		field_142022_ce = par1Str;
+	}
+	
+	public String func_142021_k()
+	{
+		return field_142022_ce;
 	}
 	
 	public void func_92015_f()
@@ -71,7 +87,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		super.closeScreen();
 	}
 	
-	@Override public void heal(int par1)
+	@Override public void heal(float par1)
 	{
 	}
 	
@@ -95,7 +111,14 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		if(worldObj.blockExists(MathHelper.floor_double(posX), 0, MathHelper.floor_double(posZ)))
 		{
 			super.onUpdate();
-			sendMotionUpdates();
+			if(isRiding())
+			{
+				sendQueue.addToSendQueue(new Packet12PlayerLook(rotationYaw, rotationPitch, onGround));
+				sendQueue.addToSendQueue(new Packet27PlayerInput(moveStrafing, moveForward, movementInput.jump, movementInput.sneak));
+			} else
+			{
+				sendMotionUpdates();
+			}
 		}
 	}
 	
@@ -181,7 +204,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		sendQueue.addToSendQueue(new Packet202PlayerAbilities(capabilities));
 	}
 	
-	@Override public void setHealth(int par1)
+	@Override public void setHealth(float par1)
 	{
 		if(hasSetHealth)
 		{

@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet107CreativeSetSlot extends Packet
@@ -29,15 +29,15 @@ public class Packet107CreativeSetSlot extends Packet
 		par1NetHandler.handleCreativeSetSlot(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		slot = par1DataInputStream.readShort();
-		itemStack = readItemStack(par1DataInputStream);
+		slot = par1DataInput.readShort();
+		itemStack = readItemStack(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeShort(slot);
-		writeItemStack(itemStack, par1DataOutputStream);
+		par1DataOutput.writeShort(slot);
+		writeItemStack(itemStack, par1DataOutput);
 	}
 }

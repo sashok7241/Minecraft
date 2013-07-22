@@ -2,27 +2,31 @@ package net.minecraft.src;
 
 public class EntitySquid extends EntityWaterMob
 {
-	public float squidPitch = 0.0F;
-	public float prevSquidPitch = 0.0F;
-	public float squidYaw = 0.0F;
-	public float prevSquidYaw = 0.0F;
-	public float field_70867_h = 0.0F;
-	public float field_70868_i = 0.0F;
-	public float tentacleAngle = 0.0F;
-	public float prevTentacleAngle = 0.0F;
-	private float randomMotionSpeed = 0.0F;
-	private float field_70864_bA = 0.0F;
-	private float field_70871_bB = 0.0F;
-	private float randomMotionVecX = 0.0F;
-	private float randomMotionVecY = 0.0F;
-	private float randomMotionVecZ = 0.0F;
+	public float squidPitch;
+	public float prevSquidPitch;
+	public float squidYaw;
+	public float prevSquidYaw;
+	public float field_70867_h;
+	public float field_70868_i;
+	public float tentacleAngle;
+	public float prevTentacleAngle;
+	private float randomMotionSpeed;
+	private float field_70864_bA;
+	private float field_70871_bB;
+	private float randomMotionVecX;
+	private float randomMotionVecY;
+	private float randomMotionVecZ;
 	
 	public EntitySquid(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/squid.png";
 		setSize(0.95F, 0.95F);
 		field_70864_bA = 1.0F / (rand.nextFloat() + 1.0F) * 0.2F;
+	}
+	
+	@Override protected boolean canTriggerWalking()
+	{
+		return false;
 	}
 	
 	@Override protected void dropFewItems(boolean par1, int par2)
@@ -32,6 +36,12 @@ public class EntitySquid extends EntityWaterMob
 		{
 			entityDropItem(new ItemStack(Item.dyePowder, 1, 0), 0.0F);
 		}
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
 	}
 	
 	@Override public boolean getCanSpawnHere()
@@ -57,11 +67,6 @@ public class EntitySquid extends EntityWaterMob
 	@Override protected String getLivingSound()
 	{
 		return null;
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return 10;
 	}
 	
 	@Override protected float getSoundVolume()

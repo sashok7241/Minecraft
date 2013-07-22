@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet32EntityLook extends Packet30Entity
@@ -24,17 +24,17 @@ public class Packet32EntityLook extends Packet30Entity
 		return 6;
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		super.readPacketData(par1DataInputStream);
-		yaw = par1DataInputStream.readByte();
-		pitch = par1DataInputStream.readByte();
+		super.readPacketData(par1DataInput);
+		yaw = par1DataInput.readByte();
+		pitch = par1DataInput.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		super.writePacketData(par1DataOutputStream);
-		par1DataOutputStream.writeByte(yaw);
-		par1DataOutputStream.writeByte(pitch);
+		super.writePacketData(par1DataOutput);
+		par1DataOutput.writeByte(yaw);
+		par1DataOutput.writeByte(pitch);
 	}
 }

@@ -9,6 +9,6 @@ final class CreativeTabFood extends CreativeTabs
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Item.appleRed.itemID;
+		return Item.axeIron.itemID;
 	}
 }

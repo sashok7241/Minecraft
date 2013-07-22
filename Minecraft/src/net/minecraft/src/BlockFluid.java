@@ -393,10 +393,10 @@ public abstract class BlockFluid extends Block
 	{
 		if(blockMaterial == Material.lava)
 		{
-			theIcon = new Icon[] { par1IconRegister.registerIcon("lava"), par1IconRegister.registerIcon("lava_flow") };
+			theIcon = new Icon[] { par1IconRegister.registerIcon("lava_still"), par1IconRegister.registerIcon("lava_flow") };
 		} else
 		{
-			theIcon = new Icon[] { par1IconRegister.registerIcon("water"), par1IconRegister.registerIcon("water_flow") };
+			theIcon = new Icon[] { par1IconRegister.registerIcon("water_still"), par1IconRegister.registerIcon("water_flow") };
 		}
 	}
 	
@@ -435,7 +435,7 @@ public abstract class BlockFluid extends Block
 	
 	public static Icon func_94424_b(String par0Str)
 	{
-		return par0Str == "water" ? Block.waterMoving.theIcon[0] : par0Str == "water_flow" ? Block.waterMoving.theIcon[1] : par0Str == "lava" ? Block.lavaMoving.theIcon[0] : par0Str == "lava_flow" ? Block.lavaMoving.theIcon[1] : null;
+		return par0Str == "water_still" ? Block.waterMoving.theIcon[0] : par0Str == "water_flow" ? Block.waterMoving.theIcon[1] : par0Str == "lava_still" ? Block.lavaMoving.theIcon[0] : par0Str == "lava_flow" ? Block.lavaMoving.theIcon[1] : null;
 	}
 	
 	public static double getFlowDirection(IBlockAccess par0IBlockAccess, int par1, int par2, int par3, Material par4Material)

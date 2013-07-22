@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet100OpenWindow extends Packet
@@ -11,6 +11,7 @@ public class Packet100OpenWindow extends Packet
 	public String windowTitle;
 	public int slotsCount;
 	public boolean useProvidedWindowTitle;
+	public int field_111008_f;
 	
 	public Packet100OpenWindow()
 	{
@@ -25,9 +26,15 @@ public class Packet100OpenWindow extends Packet
 		useProvidedWindowTitle = par5;
 	}
 	
+	public Packet100OpenWindow(int par1, int par2, String par3Str, int par4, boolean par5, int par6)
+	{
+		this(par1, par2, par3Str, par4, par5);
+		field_111008_f = par6;
+	}
+	
 	@Override public int getPacketSize()
 	{
-		return 4 + windowTitle.length();
+		return inventoryType == 11 ? 8 + windowTitle.length() : 4 + windowTitle.length();
 	}
 	
 	@Override public void processPacket(NetHandler par1NetHandler)
@@ -35,21 +42,29 @@ public class Packet100OpenWindow extends Packet
 		par1NetHandler.handleOpenWindow(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		windowId = par1DataInputStream.readByte() & 255;
-		inventoryType = par1DataInputStream.readByte() & 255;
-		windowTitle = readString(par1DataInputStream, 32);
-		slotsCount = par1DataInputStream.readByte() & 255;
-		useProvidedWindowTitle = par1DataInputStream.readBoolean();
+		windowId = par1DataInput.readByte() & 255;
+		inventoryType = par1DataInput.readByte() & 255;
+		windowTitle = readString(par1DataInput, 32);
+		slotsCount = par1DataInput.readByte() & 255;
+		useProvidedWindowTitle = par1DataInput.readBoolean();
+		if(inventoryType == 11)
+		{
+			field_111008_f = par1DataInput.readInt();
+		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeByte(windowId & 255);
-		par1DataOutputStream.writeByte(inventoryType & 255);
-		writeString(windowTitle, par1DataOutputStream);
-		par1DataOutputStream.writeByte(slotsCount & 255);
-		par1DataOutputStream.writeBoolean(useProvidedWindowTitle);
+		par1DataOutput.writeByte(windowId & 255);
+		par1DataOutput.writeByte(inventoryType & 255);
+		writeString(windowTitle, par1DataOutput);
+		par1DataOutput.writeByte(slotsCount & 255);
+		par1DataOutput.writeBoolean(useProvidedWindowTitle);
+		if(inventoryType == 11)
+		{
+			par1DataOutput.writeInt(field_111008_f);
+		}
 	}
 }

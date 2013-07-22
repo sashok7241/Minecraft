@@ -7,9 +7,7 @@ public class EntitySilverfish extends EntityMob
 	public EntitySilverfish(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/silverfish.png";
 		setSize(0.3F, 0.7F);
-		moveSpeed = 0.6F;
 	}
 	
 	@Override protected void attackEntity(Entity par1Entity, float par2)
@@ -21,7 +19,7 @@ public class EntitySilverfish extends EntityMob
 		}
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -45,9 +43,12 @@ public class EntitySilverfish extends EntityMob
 		return worldObj.getClosestVulnerablePlayerToEntity(this, var1);
 	}
 	
-	@Override public int getAttackStrength(Entity par1Entity)
+	@Override protected void func_110147_ax()
 	{
-		return 1;
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(8.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.6000000238418579D);
+		func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(1.0D);
 	}
 	
 	@Override public float getBlockPathWeight(int par1, int par2, int par3)
@@ -87,11 +88,6 @@ public class EntitySilverfish extends EntityMob
 	@Override protected String getLivingSound()
 	{
 		return "mob.silverfish.say";
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return 8;
 	}
 	
 	@Override protected boolean isValidLightLevel()
@@ -137,7 +133,23 @@ public class EntitySilverfish extends EntityMob
 								int var8 = worldObj.getBlockId(var1 + var6, var2 + var5, var3 + var7);
 								if(var8 == Block.silverfish.blockID)
 								{
-									worldObj.destroyBlock(var1 + var6, var2 + var5, var3 + var7, false);
+									if(!worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
+									{
+										int var9 = worldObj.getBlockMetadata(var1 + var6, var2 + var5, var3 + var7);
+										Block var10 = Block.stone;
+										if(var9 == 1)
+										{
+											var10 = Block.cobblestone;
+										}
+										if(var9 == 2)
+										{
+											var10 = Block.stoneBrick;
+										}
+										worldObj.setBlock(var1 + var6, var2 + var5, var3 + var7, var10.blockID, 0, 3);
+									} else
+									{
+										worldObj.destroyBlock(var1 + var6, var2 + var5, var3 + var7, false);
+									}
 									Block.silverfish.onBlockDestroyedByPlayer(worldObj, var1 + var6, var2 + var5, var3 + var7, 0);
 									if(rand.nextBoolean())
 									{
@@ -155,11 +167,11 @@ public class EntitySilverfish extends EntityMob
 				var1 = MathHelper.floor_double(posX);
 				var2 = MathHelper.floor_double(posY + 0.5D);
 				var3 = MathHelper.floor_double(posZ);
-				int var9 = rand.nextInt(6);
-				var5 = worldObj.getBlockId(var1 + Facing.offsetsXForSide[var9], var2 + Facing.offsetsYForSide[var9], var3 + Facing.offsetsZForSide[var9]);
+				int var11 = rand.nextInt(6);
+				var5 = worldObj.getBlockId(var1 + Facing.offsetsXForSide[var11], var2 + Facing.offsetsYForSide[var11], var3 + Facing.offsetsZForSide[var11]);
 				if(BlockSilverfish.getPosingIdByMetadata(var5))
 				{
-					worldObj.setBlock(var1 + Facing.offsetsXForSide[var9], var2 + Facing.offsetsYForSide[var9], var3 + Facing.offsetsZForSide[var9], Block.silverfish.blockID, BlockSilverfish.getMetadataForBlockType(var5), 3);
+					worldObj.setBlock(var1 + Facing.offsetsXForSide[var11], var2 + Facing.offsetsYForSide[var11], var3 + Facing.offsetsZForSide[var11], Block.silverfish.blockID, BlockSilverfish.getMetadataForBlockType(var5), 3);
 					spawnExplosionParticle();
 					setDead();
 				} else

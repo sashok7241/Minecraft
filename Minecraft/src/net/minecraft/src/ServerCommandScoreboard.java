@@ -20,21 +20,27 @@ public class ServerCommandScoreboard extends CommandBase
 		ScoreObjectiveCriteria var7 = (ScoreObjectiveCriteria) ScoreObjectiveCriteria.field_96643_a.get(var5);
 		if(var7 == null)
 		{
-			String[] var10 = (String[]) ScoreObjectiveCriteria.field_96643_a.keySet().toArray(new String[0]);
-			throw new WrongUsageException("commands.scoreboard.objectives.add.wrongType", new Object[] { joinNiceString(var10) });
+			String[] var9 = (String[]) ScoreObjectiveCriteria.field_96643_a.keySet().toArray(new String[0]);
+			throw new WrongUsageException("commands.scoreboard.objectives.add.wrongType", new Object[] { joinNiceString(var9) });
 		} else if(var6.getObjective(var4) != null) throw new CommandException("commands.scoreboard.objectives.add.alreadyExists", new Object[] { var4 });
 		else if(var4.length() > 16) throw new SyntaxErrorException("commands.scoreboard.objectives.add.tooLong", new Object[] { var4, Integer.valueOf(16) });
+		else if(var4.length() == 0) throw new WrongUsageException("commands.scoreboard.objectives.add.usage", new Object[0]);
 		else
 		{
-			ScoreObjective var8 = var6.func_96535_a(var4, var7);
 			if(par2ArrayOfStr.length > par3)
 			{
-				String var9 = func_82360_a(par1ICommandSender, par2ArrayOfStr, par3);
-				if(var9.length() > 32) throw new SyntaxErrorException("commands.scoreboard.objectives.add.displayTooLong", new Object[] { var9, Integer.valueOf(32) });
-				if(var9.length() > 0)
+				String var8 = func_82360_a(par1ICommandSender, par2ArrayOfStr, par3);
+				if(var8.length() > 32) throw new SyntaxErrorException("commands.scoreboard.objectives.add.displayTooLong", new Object[] { var8, Integer.valueOf(32) });
+				if(var8.length() > 0)
 				{
-					var8.setDisplayName(var9);
+					var6.func_96535_a(var4, var7).setDisplayName(var8);
+				} else
+				{
+					var6.func_96535_a(var4, var7);
 				}
+			} else
+			{
+				var6.func_96535_a(var4, var7);
 			}
 			notifyAdmins(par1ICommandSender, "commands.scoreboard.objectives.add.success", new Object[] { var4 });
 		}
@@ -105,17 +111,23 @@ public class ServerCommandScoreboard extends CommandBase
 		Scoreboard var5 = getScoreboardFromWorldServer();
 		if(var5.func_96508_e(var4) != null) throw new CommandException("commands.scoreboard.teams.add.alreadyExists", new Object[] { var4 });
 		else if(var4.length() > 16) throw new SyntaxErrorException("commands.scoreboard.teams.add.tooLong", new Object[] { var4, Integer.valueOf(16) });
+		else if(var4.length() == 0) throw new WrongUsageException("commands.scoreboard.teams.add.usage", new Object[0]);
 		else
 		{
-			ScorePlayerTeam var6 = var5.func_96527_f(var4);
 			if(par2ArrayOfStr.length > par3)
 			{
-				String var7 = func_82360_a(par1ICommandSender, par2ArrayOfStr, par3);
-				if(var7.length() > 32) throw new SyntaxErrorException("commands.scoreboard.teams.add.displayTooLong", new Object[] { var7, Integer.valueOf(32) });
-				if(var7.length() > 0)
+				String var6 = func_82360_a(par1ICommandSender, par2ArrayOfStr, par3);
+				if(var6.length() > 32) throw new SyntaxErrorException("commands.scoreboard.teams.add.displayTooLong", new Object[] { var6, Integer.valueOf(32) });
+				if(var6.length() > 0)
 				{
-					var6.func_96664_a(var7);
+					var5.func_96527_f(var4).func_96664_a(var6);
+				} else
+				{
+					var5.func_96527_f(var4);
 				}
+			} else
+			{
+				var5.func_96527_f(var4);
 			}
 			notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.add.success", new Object[] { var4 });
 		}
@@ -144,6 +156,11 @@ public class ServerCommandScoreboard extends CommandBase
 		return "scoreboard";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.scoreboard.usage";
+	}
+	
 	protected void getObjectivesList(ICommandSender par1ICommandSender)
 	{
 		Scoreboard var2 = getScoreboardFromWorldServer();
@@ -151,12 +168,12 @@ public class ServerCommandScoreboard extends CommandBase
 		if(var3.size() <= 0) throw new CommandException("commands.scoreboard.objectives.list.empty", new Object[0]);
 		else
 		{
-			par1ICommandSender.sendChatToPlayer(EnumChatFormatting.DARK_GREEN + par1ICommandSender.translateString("commands.scoreboard.objectives.list.count", new Object[] { Integer.valueOf(var3.size()) }));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.scoreboard.objectives.list.count", new Object[] { Integer.valueOf(var3.size()) }).func_111059_a(EnumChatFormatting.DARK_GREEN));
 			Iterator var4 = var3.iterator();
 			while(var4.hasNext())
 			{
 				ScoreObjective var5 = (ScoreObjective) var4.next();
-				par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.scoreboard.objectives.list.entry", new Object[] { var5.getName(), var5.getDisplayName(), var5.getCriteria().func_96636_a() }));
+				par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.scoreboard.objectives.list.entry", new Object[] { var5.getName(), var5.getDisplayName(), var5.getCriteria().func_96636_a() }));
 			}
 		}
 	}
@@ -212,18 +229,18 @@ public class ServerCommandScoreboard extends CommandBase
 			ScorePlayerTeam var5 = getTeam(par2ArrayOfStr[par3++]);
 			Collection var6 = var5.getMembershipCollection();
 			if(var6.size() <= 0) throw new CommandException("commands.scoreboard.teams.list.player.empty", new Object[] { var5.func_96661_b() });
-			par1ICommandSender.sendChatToPlayer(EnumChatFormatting.DARK_GREEN + par1ICommandSender.translateString("commands.scoreboard.teams.list.player.count", new Object[] { Integer.valueOf(var6.size()), var5.func_96661_b() }));
-			par1ICommandSender.sendChatToPlayer(joinNiceString(var6.toArray()));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.scoreboard.teams.list.player.count", new Object[] { Integer.valueOf(var6.size()), var5.func_96661_b() }).func_111059_a(EnumChatFormatting.DARK_GREEN));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111066_d(joinNiceString(var6.toArray())));
 		} else
 		{
 			Collection var8 = var4.func_96525_g();
 			if(var8.size() <= 0) throw new CommandException("commands.scoreboard.teams.list.empty", new Object[0]);
-			par1ICommandSender.sendChatToPlayer(EnumChatFormatting.DARK_GREEN + par1ICommandSender.translateString("commands.scoreboard.teams.list.count", new Object[] { Integer.valueOf(var8.size()) }));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.scoreboard.teams.list.count", new Object[] { Integer.valueOf(var8.size()) }).func_111059_a(EnumChatFormatting.DARK_GREEN));
 			Iterator var9 = var8.iterator();
 			while(var9.hasNext())
 			{
 				ScorePlayerTeam var7 = (ScorePlayerTeam) var9.next();
-				par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.scoreboard.teams.list.entry", new Object[] { var7.func_96661_b(), var7.func_96669_c(), Integer.valueOf(var7.getMembershipCollection().size()) }));
+				par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.scoreboard.teams.list.entry", new Object[] { var7.func_96661_b(), var7.func_96669_c(), Integer.valueOf(var7.getMembershipCollection().size()) }));
 			}
 		}
 	}
@@ -304,19 +321,19 @@ public class ServerCommandScoreboard extends CommandBase
 			String var5 = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
 			Map var6 = var4.func_96510_d(var5);
 			if(var6.size() <= 0) throw new CommandException("commands.scoreboard.players.list.player.empty", new Object[] { var5 });
-			par1ICommandSender.sendChatToPlayer(EnumChatFormatting.DARK_GREEN + par1ICommandSender.translateString("commands.scoreboard.players.list.player.count", new Object[] { Integer.valueOf(var6.size()), var5 }));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.scoreboard.players.list.player.count", new Object[] { Integer.valueOf(var6.size()), var5 }).func_111059_a(EnumChatFormatting.DARK_GREEN));
 			Iterator var7 = var6.values().iterator();
 			while(var7.hasNext())
 			{
 				Score var8 = (Score) var7.next();
-				par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.scoreboard.players.list.player.entry", new Object[] { Integer.valueOf(var8.getScorePoints()), var8.func_96645_d().getDisplayName(), var8.func_96645_d().getName() }));
+				par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.scoreboard.players.list.player.entry", new Object[] { Integer.valueOf(var8.getScorePoints()), var8.func_96645_d().getDisplayName(), var8.func_96645_d().getName() }));
 			}
 		} else
 		{
 			Collection var9 = var4.getObjectiveNames();
 			if(var9.size() <= 0) throw new CommandException("commands.scoreboard.players.list.empty", new Object[0]);
-			par1ICommandSender.sendChatToPlayer(EnumChatFormatting.DARK_GREEN + par1ICommandSender.translateString("commands.scoreboard.players.list.count", new Object[] { Integer.valueOf(var9.size()) }));
-			par1ICommandSender.sendChatToPlayer(joinNiceString(var9.toArray()));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.scoreboard.players.list.count", new Object[] { Integer.valueOf(var9.size()) }).func_111059_a(EnumChatFormatting.DARK_GREEN));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111066_d(joinNiceString(var9.toArray())));
 		}
 	}
 	

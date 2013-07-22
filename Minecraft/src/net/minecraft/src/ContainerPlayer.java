@@ -4,7 +4,7 @@ public class ContainerPlayer extends Container
 {
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 2, 2);
 	public IInventory craftResult = new InventoryCraftResult();
-	public boolean isLocalWorld = false;
+	public boolean isLocalWorld;
 	private final EntityPlayer thePlayer;
 	
 	public ContainerPlayer(InventoryPlayer par1InventoryPlayer, boolean par2, EntityPlayer par3EntityPlayer)

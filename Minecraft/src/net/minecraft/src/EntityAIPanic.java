@@ -3,12 +3,12 @@ package net.minecraft.src;
 public class EntityAIPanic extends EntityAIBase
 {
 	private EntityCreature theEntityCreature;
-	private float speed;
+	private double speed;
 	private double randPosX;
 	private double randPosY;
 	private double randPosZ;
 	
-	public EntityAIPanic(EntityCreature par1EntityCreature, float par2)
+	public EntityAIPanic(EntityCreature par1EntityCreature, double par2)
 	{
 		theEntityCreature = par1EntityCreature;
 		speed = par2;

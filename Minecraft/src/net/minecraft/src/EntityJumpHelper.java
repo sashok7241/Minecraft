@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class EntityJumpHelper
 {
 	private EntityLiving entity;
-	private boolean isJumping = false;
+	private boolean isJumping;
 	
 	public EntityJumpHelper(EntityLiving par1EntityLiving)
 	{

@@ -4,11 +4,11 @@ public class InventoryPlayer implements IInventory
 {
 	public ItemStack[] mainInventory = new ItemStack[36];
 	public ItemStack[] armorInventory = new ItemStack[4];
-	public int currentItem = 0;
+	public int currentItem;
 	private ItemStack currentItemStack;
 	public EntityPlayer player;
 	private ItemStack itemStack;
-	public boolean inventoryChanged = false;
+	public boolean inventoryChanged;
 	
 	public InventoryPlayer(EntityPlayer par1EntityPlayer)
 	{
@@ -18,6 +18,7 @@ public class InventoryPlayer implements IInventory
 	public boolean addItemStackToInventory(ItemStack par1ItemStack)
 	{
 		if(par1ItemStack == null) return false;
+		else if(par1ItemStack.stackSize == 0) return false;
 		else
 		{
 			try
@@ -120,6 +121,13 @@ public class InventoryPlayer implements IInventory
 				armorInventory[var4] = null;
 			}
 		}
+		if(itemStack != null)
+		{
+			if(par1 > -1 && itemStack.itemID != par1) return var3;
+			if(par2 > -1 && itemStack.getItemDamage() != par2) return var3;
+			var3 += itemStack.stackSize;
+			setItemStack((ItemStack) null);
+		}
 		return var3;
 	}
 	
@@ -155,18 +163,18 @@ public class InventoryPlayer implements IInventory
 		currentItem = par1InventoryPlayer.currentItem;
 	}
 	
-	public void damageArmor(int par1)
+	public void damageArmor(float par1)
 	{
-		par1 /= 4;
-		if(par1 < 1)
+		par1 /= 4.0F;
+		if(par1 < 1.0F)
 		{
-			par1 = 1;
+			par1 = 1.0F;
 		}
 		for(int var2 = 0; var2 < armorInventory.length; ++var2)
 		{
 			if(armorInventory[var2] != null && armorInventory[var2].getItem() instanceof ItemArmor)
 			{
-				armorInventory[var2].damageItem(par1, player);
+				armorInventory[var2].damageItem((int) par1, player);
 				if(armorInventory[var2].stackSize == 0)
 				{
 					armorInventory[var2] = null;
@@ -239,25 +247,23 @@ public class InventoryPlayer implements IInventory
 	{
 		if(par1Item != null)
 		{
+			if(currentItemStack != null && currentItemStack.isItemEnchantable() && getInventorySlotContainItemAndDamage(currentItemStack.itemID, currentItemStack.getItemDamageForDisplay()) == currentItem) return;
 			int var3 = getInventorySlotContainItemAndDamage(par1Item.itemID, par2);
 			if(var3 >= 0)
 			{
+				int var4 = mainInventory[var3].stackSize;
 				mainInventory[var3] = mainInventory[currentItem];
+				mainInventory[currentItem] = new ItemStack(Item.itemsList[par1Item.itemID], var4, par2);
+			} else
+			{
+				mainInventory[currentItem] = new ItemStack(Item.itemsList[par1Item.itemID], 1, par2);
 			}
-			if(currentItemStack != null && currentItemStack.isItemEnchantable() && getInventorySlotContainItemAndDamage(currentItemStack.itemID, currentItemStack.getItemDamageForDisplay()) == currentItem) return;
-			mainInventory[currentItem] = new ItemStack(Item.itemsList[par1Item.itemID], 1, par2);
 		}
 	}
 	
 	public ItemStack getCurrentItem()
 	{
 		return currentItem < 9 && currentItem >= 0 ? mainInventory[currentItem] : null;
-	}
-	
-	public int getDamageVsEntity(Entity par1Entity)
-	{
-		ItemStack var2 = getStackInSlot(currentItem);
-		return var2 != null ? var2.getDamageVsEntity(par1Entity) : 1;
 	}
 	
 	public int getFirstEmptyStack()

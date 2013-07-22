@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet4UpdateTime extends Packet
@@ -13,10 +13,18 @@ public class Packet4UpdateTime extends Packet
 	{
 	}
 	
-	public Packet4UpdateTime(long par1, long par3)
+	public Packet4UpdateTime(long par1, long par3, boolean par5)
 	{
 		worldAge = par1;
 		time = par3;
+		if(!par5)
+		{
+			time = -time;
+			if(time == 0L)
+			{
+				time = -1L;
+			}
+		}
 	}
 	
 	@Override public boolean canProcessAsync()
@@ -44,15 +52,15 @@ public class Packet4UpdateTime extends Packet
 		par1NetHandler.handleUpdateTime(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		worldAge = par1DataInputStream.readLong();
-		time = par1DataInputStream.readLong();
+		worldAge = par1DataInput.readLong();
+		time = par1DataInput.readLong();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeLong(worldAge);
-		par1DataOutputStream.writeLong(time);
+		par1DataOutput.writeLong(worldAge);
+		par1DataOutput.writeLong(time);
 	}
 }

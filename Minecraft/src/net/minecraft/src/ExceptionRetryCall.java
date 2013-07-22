@@ -7,7 +7,7 @@ public class ExceptionRetryCall extends ExceptionMcoService
 	
 	public ExceptionRetryCall(int par1)
 	{
-		super(503, "Retry operation");
+		super(503, "Retry operation", -1);
 		field_96393_c = par1;
 	}
 }

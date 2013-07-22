@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Explosion
 {
-	public boolean isFlaming = false;
+	public boolean isFlaming;
 	public boolean isSmoking = true;
 	private int field_77289_h = 16;
 	private Random explosionRNG = new Random();
@@ -210,8 +210,8 @@ public class Explosion
 		return field_77288_k;
 	}
 	
-	public EntityLiving func_94613_c()
+	public EntityLivingBase func_94613_c()
 	{
-		return exploder == null ? null : exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed) exploder).getTntPlacedBy() : exploder instanceof EntityLiving ? (EntityLiving) exploder : null;
+		return exploder == null ? null : exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed) exploder).getTntPlacedBy() : exploder instanceof EntityLivingBase ? (EntityLivingBase) exploder : null;
 	}
 }

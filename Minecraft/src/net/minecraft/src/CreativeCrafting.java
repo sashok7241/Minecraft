@@ -8,9 +8,9 @@ public class CreativeCrafting implements ICrafting
 {
 	private final Minecraft mc;
 	
-	public CreativeCrafting(Minecraft par1)
+	public CreativeCrafting(Minecraft par1Minecraft)
 	{
-		mc = par1;
+		mc = par1Minecraft;
 	}
 	
 	@Override public void sendContainerAndContentsToPlayer(Container par1Container, List par2List)

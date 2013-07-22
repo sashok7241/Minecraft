@@ -1,125 +1,122 @@
 package net.minecraft.src;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.imageio.ImageIO;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
 
-public class TextureManager
+public class TextureManager implements Tickable, ResourceManagerReloadListener
 {
-	private static TextureManager instance;
-	private int nextTextureID = 0;
-	private final HashMap texturesMap = new HashMap();
-	private final HashMap mapNameToId = new HashMap();
+	private final Map field_110585_a = Maps.newHashMap();
+	private final Map field_130089_b = Maps.newHashMap();
+	private final List field_110583_b = Lists.newArrayList();
+	private final Map field_110584_c = Maps.newHashMap();
+	private ResourceManager field_110582_d;
 	
-	public Texture createEmptyTexture(String par1Str, int par2, int par3, int par4, int par5)
+	public TextureManager(ResourceManager par1ResourceManager)
 	{
-		return makeTexture(par1Str, par2, par3, par4, 10496, par5, 9728, 9728, false, (BufferedImage) null);
+		field_110582_d = par1ResourceManager;
 	}
 	
-	public Stitcher createStitcher(String par1Str)
+	@Override public void func_110549_a(ResourceManager par1ResourceManager)
 	{
-		int var2 = Minecraft.getGLMaximumTextureSize();
-		return new Stitcher(par1Str, var2, var2, true);
-	}
-	
-	public List createTexture(String par1Str)
-	{
-		ArrayList var2 = new ArrayList();
-		ITexturePack var3 = Minecraft.getMinecraft().texturePackList.getSelectedTexturePack();
-		try
+		Iterator var2 = field_110585_a.entrySet().iterator();
+		while(var2.hasNext())
 		{
-			BufferedImage var9 = ImageIO.read(var3.getResourceAsStream("/" + par1Str));
-			int var10 = var9.getHeight();
-			int var11 = var9.getWidth();
-			String var12 = getBasename(par1Str);
-			if(hasAnimationTxt(par1Str, var3))
-			{
-				int var13 = var11;
-				int var14 = var11;
-				int var15 = var10 / var11;
-				for(int var16 = 0; var16 < var15; ++var16)
-				{
-					Texture var17 = makeTexture(var12, 2, var13, var14, 10496, 6408, 9728, 9728, false, var9.getSubimage(0, var14 * var16, var13, var14));
-					var2.add(var17);
-				}
-			} else if(var11 == var10)
-			{
-				var2.add(makeTexture(var12, 2, var11, var10, 10496, 6408, 9728, 9728, false, var9));
-			} else
-			{
-				Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.createTexture: Skipping " + par1Str + " because of broken aspect ratio and not animation");
-			}
-			return var2;
-		} catch(FileNotFoundException var18)
-		{
-			Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.createTexture called for file " + par1Str + ", but that file does not exist. Ignoring.");
-		} catch(IOException var19)
-		{
-			Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.createTexture encountered an IOException when trying to read file " + par1Str + ". Ignoring.");
-		}
-		return var2;
-	}
-	
-	private String getBasename(String par1Str)
-	{
-		File var2 = new File(par1Str);
-		return var2.getName().substring(0, var2.getName().lastIndexOf(46));
-	}
-	
-	public int getNextTextureId()
-	{
-		return nextTextureID++;
-	}
-	
-	private boolean hasAnimationTxt(String par1Str, ITexturePack par2ITexturePack)
-	{
-		String var3 = "/" + par1Str.substring(0, par1Str.lastIndexOf(46)) + ".txt";
-		boolean var4 = par2ITexturePack.func_98138_b("/" + par1Str, false);
-		return Minecraft.getMinecraft().texturePackList.getSelectedTexturePack().func_98138_b(var3, !var4);
-	}
-	
-	public Texture makeTexture(String par1Str, int par2, int par3, int par4, int par5, int par6, int par7, int par8, boolean par9, BufferedImage par10BufferedImage)
-	{
-		Texture var11 = new Texture(par1Str, par2, par3, par4, par5, par6, par7, par8, par10BufferedImage);
-		this.registerTexture(var11);
-		return var11;
-	}
-	
-	public void registerTexture(String par1Str, Texture par2Texture)
-	{
-		mapNameToId.put(par1Str, Integer.valueOf(par2Texture.getTextureId()));
-		if(!texturesMap.containsKey(Integer.valueOf(par2Texture.getTextureId())))
-		{
-			texturesMap.put(Integer.valueOf(par2Texture.getTextureId()), par2Texture);
+			Entry var3 = (Entry) var2.next();
+			func_110579_a((ResourceLocation) var3.getKey(), (TextureObject) var3.getValue());
 		}
 	}
 	
-	public void registerTexture(Texture par1Texture)
+	@Override public void func_110550_d()
 	{
-		if(texturesMap.containsValue(par1Texture))
+		Iterator var1 = field_110583_b.iterator();
+		while(var1.hasNext())
 		{
-			Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.registerTexture called, but this texture has already been registered. ignoring.");
+			Tickable var2 = (Tickable) var1.next();
+			var2.func_110550_d();
+		}
+	}
+	
+	public void func_110577_a(ResourceLocation par1ResourceLocation)
+	{
+		Object var2 = field_110585_a.get(par1ResourceLocation);
+		if(var2 == null)
+		{
+			var2 = new SimpleTexture(par1ResourceLocation);
+			func_110579_a(par1ResourceLocation, (TextureObject) var2);
+		}
+		TextureUtil.bindTexture(((TextureObject) var2).func_110552_b());
+	}
+	
+	public ResourceLocation func_110578_a(String par1Str, DynamicTexture par2DynamicTexture)
+	{
+		Integer var3 = (Integer) field_110584_c.get(par1Str);
+		if(var3 == null)
+		{
+			var3 = Integer.valueOf(1);
 		} else
 		{
-			texturesMap.put(Integer.valueOf(par1Texture.getTextureId()), par1Texture);
+			var3 = Integer.valueOf(var3.intValue() + 1);
 		}
+		field_110584_c.put(par1Str, var3);
+		ResourceLocation var4 = new ResourceLocation(String.format("dynamic/%s_%d", new Object[] { par1Str, var3 }));
+		func_110579_a(var4, par2DynamicTexture);
+		return var4;
 	}
 	
-	public static void init()
+	public boolean func_110579_a(ResourceLocation par1ResourceLocation, TextureObject par2TextureObject)
 	{
-		instance = new TextureManager();
+		boolean var3 = true;
+		try
+		{
+			par2TextureObject.func_110551_a(field_110582_d);
+		} catch(IOException var8)
+		{
+			Minecraft.getMinecraft().getLogAgent().logWarningException("Failed to load texture: " + par1ResourceLocation, var8);
+			par2TextureObject = TextureUtil.field_111001_a;
+			field_110585_a.put(par1ResourceLocation, par2TextureObject);
+			var3 = false;
+		} catch(Throwable var9)
+		{
+			CrashReport var5 = CrashReport.makeCrashReport(var9, "Registering texture");
+			CrashReportCategory var6 = var5.makeCategory("Resource location being registered");
+			var6.addCrashSection("Resource location", par1ResourceLocation);
+			var6.addCrashSectionCallable("Texture object class", new TextureManagerINNER1(this, par2TextureObject));
+			throw new ReportedException(var5);
+		}
+		field_110585_a.put(par1ResourceLocation, par2TextureObject);
+		return var3;
 	}
 	
-	public static TextureManager instance()
+	public boolean func_110580_a(ResourceLocation par1ResourceLocation, TickableTextureObject par2TickableTextureObject)
 	{
-		return instance;
+		if(func_110579_a(par1ResourceLocation, par2TickableTextureObject))
+		{
+			field_110583_b.add(par2TickableTextureObject);
+			return true;
+		} else return false;
+	}
+	
+	public TextureObject func_110581_b(ResourceLocation par1ResourceLocation)
+	{
+		return (TextureObject) field_110585_a.get(par1ResourceLocation);
+	}
+	
+	public ResourceLocation func_130087_a(int par1)
+	{
+		return (ResourceLocation) field_130089_b.get(Integer.valueOf(par1));
+	}
+	
+	public boolean func_130088_a(ResourceLocation par1ResourceLocation, TextureMap par2TextureMap)
+	{
+		if(func_110580_a(par1ResourceLocation, par2TextureMap))
+		{
+			field_130089_b.put(Integer.valueOf(par2TextureMap.func_130086_a()), par1ResourceLocation);
+			return true;
+		} else return false;
 	}
 }

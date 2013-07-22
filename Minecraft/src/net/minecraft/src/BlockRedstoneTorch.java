@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class BlockRedstoneTorch extends BlockTorch
 {
-	private boolean torchActive = false;
+	private boolean torchActive;
 	private static Map redstoneUpdateInfoCache = new HashMap();
 	
 	protected BlockRedstoneTorch(int par1, boolean par2)
@@ -152,17 +152,6 @@ public class BlockRedstoneTorch extends BlockTorch
 			{
 				par1World.spawnParticle("reddust", var7, var9, var11, 0.0D, 0.0D, 0.0D);
 			}
-		}
-	}
-	
-	@Override public void registerIcons(IconRegister par1IconRegister)
-	{
-		if(torchActive)
-		{
-			blockIcon = par1IconRegister.registerIcon("redtorch_lit");
-		} else
-		{
-			blockIcon = par1IconRegister.registerIcon("redtorch");
 		}
 	}
 	

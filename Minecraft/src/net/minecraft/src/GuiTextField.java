@@ -13,11 +13,11 @@ public class GuiTextField extends Gui
 	private int cursorCounter;
 	private boolean enableBackgroundDrawing = true;
 	private boolean canLoseFocus = true;
-	private boolean isFocused = false;
+	private boolean isFocused;
 	private boolean isEnabled = true;
-	private int lineScrollOffset = 0;
-	private int cursorPosition = 0;
-	private int selectionEnd = 0;
+	private int lineScrollOffset;
+	private int cursorPosition;
+	private int selectionEnd;
 	private int enabledColor = 14737632;
 	private int disabledColor = 7368816;
 	private boolean visible = true;

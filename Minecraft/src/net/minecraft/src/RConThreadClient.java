@@ -9,7 +9,7 @@ import java.net.SocketTimeoutException;
 
 public class RConThreadClient extends RConThreadBase
 {
-	private boolean loggedIn = false;
+	private boolean loggedIn;
 	private Socket clientSocket;
 	private byte[] buffer = new byte[1460];
 	private String rconPassword;
@@ -56,11 +56,11 @@ public class RConThreadClient extends RConThreadBase
 				}
 				BufferedInputStream var1 = new BufferedInputStream(clientSocket.getInputStream());
 				int var2 = var1.read(buffer, 0, 1460);
-				if(10 > var2) return;
-				byte var3 = 0;
-				int var4 = RConUtils.getBytesAsLEInt(buffer, 0, var2);
-				if(var4 == var2 - 4)
+				if(10 <= var2)
 				{
+					byte var3 = 0;
+					int var4 = RConUtils.getBytesAsLEInt(buffer, 0, var2);
+					if(var4 != var2 - 4) return;
 					int var21 = var3 + 4;
 					int var5 = RConUtils.getBytesAsLEInt(buffer, var21, var2);
 					var21 += 4;
@@ -135,10 +135,11 @@ public class RConThreadClient extends RConThreadBase
 	{
 		ByteArrayOutputStream var4 = new ByteArrayOutputStream(1248);
 		DataOutputStream var5 = new DataOutputStream(var4);
-		var5.writeInt(Integer.reverseBytes(par3Str.length() + 10));
+		byte[] var6 = par3Str.getBytes("UTF-8");
+		var5.writeInt(Integer.reverseBytes(var6.length + 10));
 		var5.writeInt(Integer.reverseBytes(par1));
 		var5.writeInt(Integer.reverseBytes(par2));
-		var5.writeBytes(par3Str);
+		var5.write(var6);
 		var5.write(0);
 		var5.write(0);
 		clientSocket.getOutputStream().write(var4.toByteArray());

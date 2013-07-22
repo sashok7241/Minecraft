@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet10Flying extends Packet
@@ -45,13 +45,13 @@ public class Packet10Flying extends Packet
 		par1NetHandler.handleFlying(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		onGround = par1DataInputStream.read() != 0;
+		onGround = par1DataInput.readUnsignedByte() != 0;
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.write(onGround ? 1 : 0);
+		par1DataOutput.write(onGround ? 1 : 0);
 	}
 }

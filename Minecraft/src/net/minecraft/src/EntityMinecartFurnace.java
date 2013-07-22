@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 public class EntityMinecartFurnace extends EntityMinecart
 {
-	private int fuel = 0;
+	private int fuel;
 	public double pushX;
 	public double pushZ;
 	
@@ -45,6 +45,22 @@ public class EntityMinecartFurnace extends EntityMinecart
 		dataWatcher.addObject(16, new Byte((byte) 0));
 	}
 	
+	@Override public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+	{
+		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
+		if(var2 != null && var2.itemID == Item.coal.itemID)
+		{
+			if(!par1EntityPlayer.capabilities.isCreativeMode && --var2.stackSize == 0)
+			{
+				par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
+			}
+			fuel += 3600;
+		}
+		pushX = posX - par1EntityPlayer.posX;
+		pushZ = posZ - par1EntityPlayer.posZ;
+		return true;
+	}
+	
 	@Override public Block getDefaultDisplayTile()
 	{
 		return Block.furnaceBurning;
@@ -58,22 +74,6 @@ public class EntityMinecartFurnace extends EntityMinecart
 	@Override public int getMinecartType()
 	{
 		return 2;
-	}
-	
-	@Override public boolean interact(EntityPlayer par1EntityPlayer)
-	{
-		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
-		if(var2 != null && var2.itemID == Item.coal.itemID)
-		{
-			if(--var2.stackSize == 0)
-			{
-				par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
-			}
-			fuel += 3600;
-		}
-		pushX = posX - par1EntityPlayer.posX;
-		pushZ = posZ - par1EntityPlayer.posZ;
-		return true;
 	}
 	
 	protected boolean isMinecartPowered()

@@ -8,7 +8,7 @@ public class ScreenChatOptions extends GuiScreen
 	private final GameSettings theSettings;
 	private String theChatOptions;
 	private String field_82268_n;
-	private int field_82269_o = 0;
+	private int field_82269_o;
 	
 	public ScreenChatOptions(GuiScreen par1GuiScreen, GameSettings par2GameSettings)
 	{
@@ -43,46 +43,45 @@ public class ScreenChatOptions extends GuiScreen
 	
 	@Override public void initGui()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
-		int var2 = 0;
-		theChatOptions = var1.translateKey("options.chat.title");
-		field_82268_n = var1.translateKey("options.multiplayer.title");
-		EnumOptions[] var3 = allScreenChatOptions;
-		int var4 = var3.length;
-		int var5;
-		EnumOptions var6;
-		for(var5 = 0; var5 < var4; ++var5)
+		int var1 = 0;
+		theChatOptions = I18n.func_135053_a("options.chat.title");
+		field_82268_n = I18n.func_135053_a("options.multiplayer.title");
+		EnumOptions[] var2 = allScreenChatOptions;
+		int var3 = var2.length;
+		int var4;
+		EnumOptions var5;
+		for(var4 = 0; var4 < var3; ++var4)
 		{
-			var6 = var3[var5];
-			if(var6.getEnumFloat())
+			var5 = var2[var4];
+			if(var5.getEnumFloat())
 			{
-				buttonList.add(new GuiSlider(var6.returnEnumOrdinal(), width / 2 - 155 + var2 % 2 * 160, height / 6 + 24 * (var2 >> 1), var6, theSettings.getKeyBinding(var6), theSettings.getOptionFloatValue(var6)));
+				buttonList.add(new GuiSlider(var5.returnEnumOrdinal(), width / 2 - 155 + var1 % 2 * 160, height / 6 + 24 * (var1 >> 1), var5, theSettings.getKeyBinding(var5), theSettings.getOptionFloatValue(var5)));
 			} else
 			{
-				buttonList.add(new GuiSmallButton(var6.returnEnumOrdinal(), width / 2 - 155 + var2 % 2 * 160, height / 6 + 24 * (var2 >> 1), var6, theSettings.getKeyBinding(var6)));
+				buttonList.add(new GuiSmallButton(var5.returnEnumOrdinal(), width / 2 - 155 + var1 % 2 * 160, height / 6 + 24 * (var1 >> 1), var5, theSettings.getKeyBinding(var5)));
 			}
-			++var2;
+			++var1;
 		}
-		if(var2 % 2 == 1)
+		if(var1 % 2 == 1)
 		{
-			++var2;
+			++var1;
 		}
-		field_82269_o = height / 6 + 24 * (var2 >> 1);
-		var2 += 2;
-		var3 = allMultiplayerOptions;
-		var4 = var3.length;
-		for(var5 = 0; var5 < var4; ++var5)
+		field_82269_o = height / 6 + 24 * (var1 >> 1);
+		var1 += 2;
+		var2 = allMultiplayerOptions;
+		var3 = var2.length;
+		for(var4 = 0; var4 < var3; ++var4)
 		{
-			var6 = var3[var5];
-			if(var6.getEnumFloat())
+			var5 = var2[var4];
+			if(var5.getEnumFloat())
 			{
-				buttonList.add(new GuiSlider(var6.returnEnumOrdinal(), width / 2 - 155 + var2 % 2 * 160, height / 6 + 24 * (var2 >> 1), var6, theSettings.getKeyBinding(var6), theSettings.getOptionFloatValue(var6)));
+				buttonList.add(new GuiSlider(var5.returnEnumOrdinal(), width / 2 - 155 + var1 % 2 * 160, height / 6 + 24 * (var1 >> 1), var5, theSettings.getKeyBinding(var5), theSettings.getOptionFloatValue(var5)));
 			} else
 			{
-				buttonList.add(new GuiSmallButton(var6.returnEnumOrdinal(), width / 2 - 155 + var2 % 2 * 160, height / 6 + 24 * (var2 >> 1), var6, theSettings.getKeyBinding(var6)));
+				buttonList.add(new GuiSmallButton(var5.returnEnumOrdinal(), width / 2 - 155 + var1 % 2 * 160, height / 6 + 24 * (var1 >> 1), var5, theSettings.getKeyBinding(var5)));
 			}
-			++var2;
+			++var1;
 		}
-		buttonList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168, var1.translateKey("gui.done")));
+		buttonList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168, I18n.func_135053_a("gui.done")));
 	}
 }

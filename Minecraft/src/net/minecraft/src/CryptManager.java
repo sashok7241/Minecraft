@@ -3,7 +3,6 @@ package net.minecraft.src;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactory;
@@ -29,8 +28,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class CryptManager
 {
-	public static final Charset charSet = Charset.forName("ISO_8859_1");
-	
 	private static byte[] cipherOperation(int par0, Key par1Key, byte[] par2ArrayOfByte)
 	{
 		try

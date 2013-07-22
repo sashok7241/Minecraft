@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -62,36 +62,36 @@ public class Packet60Explosion extends Packet
 		par1NetHandler.handleExplosion(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		explosionX = par1DataInputStream.readDouble();
-		explosionY = par1DataInputStream.readDouble();
-		explosionZ = par1DataInputStream.readDouble();
-		explosionSize = par1DataInputStream.readFloat();
-		int var2 = par1DataInputStream.readInt();
+		explosionX = par1DataInput.readDouble();
+		explosionY = par1DataInput.readDouble();
+		explosionZ = par1DataInput.readDouble();
+		explosionSize = par1DataInput.readFloat();
+		int var2 = par1DataInput.readInt();
 		chunkPositionRecords = new ArrayList(var2);
 		int var3 = (int) explosionX;
 		int var4 = (int) explosionY;
 		int var5 = (int) explosionZ;
 		for(int var6 = 0; var6 < var2; ++var6)
 		{
-			int var7 = par1DataInputStream.readByte() + var3;
-			int var8 = par1DataInputStream.readByte() + var4;
-			int var9 = par1DataInputStream.readByte() + var5;
+			int var7 = par1DataInput.readByte() + var3;
+			int var8 = par1DataInput.readByte() + var4;
+			int var9 = par1DataInput.readByte() + var5;
 			chunkPositionRecords.add(new ChunkPosition(var7, var8, var9));
 		}
-		playerVelocityX = par1DataInputStream.readFloat();
-		playerVelocityY = par1DataInputStream.readFloat();
-		playerVelocityZ = par1DataInputStream.readFloat();
+		playerVelocityX = par1DataInput.readFloat();
+		playerVelocityY = par1DataInput.readFloat();
+		playerVelocityZ = par1DataInput.readFloat();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeDouble(explosionX);
-		par1DataOutputStream.writeDouble(explosionY);
-		par1DataOutputStream.writeDouble(explosionZ);
-		par1DataOutputStream.writeFloat(explosionSize);
-		par1DataOutputStream.writeInt(chunkPositionRecords.size());
+		par1DataOutput.writeDouble(explosionX);
+		par1DataOutput.writeDouble(explosionY);
+		par1DataOutput.writeDouble(explosionZ);
+		par1DataOutput.writeFloat(explosionSize);
+		par1DataOutput.writeInt(chunkPositionRecords.size());
 		int var2 = (int) explosionX;
 		int var3 = (int) explosionY;
 		int var4 = (int) explosionZ;
@@ -102,12 +102,12 @@ public class Packet60Explosion extends Packet
 			int var7 = var6.x - var2;
 			int var8 = var6.y - var3;
 			int var9 = var6.z - var4;
-			par1DataOutputStream.writeByte(var7);
-			par1DataOutputStream.writeByte(var8);
-			par1DataOutputStream.writeByte(var9);
+			par1DataOutput.writeByte(var7);
+			par1DataOutput.writeByte(var8);
+			par1DataOutput.writeByte(var9);
 		}
-		par1DataOutputStream.writeFloat(playerVelocityX);
-		par1DataOutputStream.writeFloat(playerVelocityY);
-		par1DataOutputStream.writeFloat(playerVelocityZ);
+		par1DataOutput.writeFloat(playerVelocityX);
+		par1DataOutput.writeFloat(playerVelocityY);
+		par1DataOutput.writeFloat(playerVelocityZ);
 	}
 }

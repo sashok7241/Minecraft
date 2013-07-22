@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 public class TileEntityComparator extends TileEntity
 {
-	private int outputSignal = 0;
+	private int outputSignal;
 	
 	public int getOutputSignal()
 	{

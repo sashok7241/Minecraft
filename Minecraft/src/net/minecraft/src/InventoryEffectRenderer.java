@@ -16,6 +16,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer
 	{
 		int var1 = guiLeft - 124;
 		int var2 = guiTop;
+		boolean var3 = true;
 		Collection var4 = mc.thePlayer.getActivePotionEffects();
 		if(!var4.isEmpty())
 		{
@@ -31,14 +32,14 @@ public abstract class InventoryEffectRenderer extends GuiContainer
 				PotionEffect var7 = (PotionEffect) var6.next();
 				Potion var8 = Potion.potionTypes[var7.getPotionID()];
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				mc.renderEngine.bindTexture("/gui/inventory.png");
+				mc.func_110434_K().func_110577_a(field_110408_a);
 				drawTexturedModalRect(var1, var2, 0, 166, 140, 32);
 				if(var8.hasStatusIcon())
 				{
 					int var9 = var8.getStatusIconIndex();
 					drawTexturedModalRect(var1 + 6, var2 + 7, 0 + var9 % 8 * 18, 198 + var9 / 8 * 18, 18, 18);
 				}
-				String var11 = StatCollector.translateToLocal(var8.getName());
+				String var11 = I18n.func_135053_a(var8.getName());
 				if(var7.getAmplifier() == 1)
 				{
 					var11 = var11 + " II";

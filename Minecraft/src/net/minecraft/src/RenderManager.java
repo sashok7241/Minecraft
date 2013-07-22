@@ -12,23 +12,23 @@ public class RenderManager
 	public static double renderPosX;
 	public static double renderPosY;
 	public static double renderPosZ;
-	public RenderEngine renderEngine;
+	public TextureManager renderEngine;
 	public ItemRenderer itemRenderer;
 	public World worldObj;
-	public EntityLiving livingPlayer;
-	public EntityLiving field_96451_i;
+	public EntityLivingBase livingPlayer;
+	public EntityLivingBase field_96451_i;
 	public float playerViewY;
 	public float playerViewX;
 	public GameSettings options;
 	public double viewerPosX;
 	public double viewerPosY;
 	public double viewerPosZ;
-	public static boolean field_85095_o = false;
+	public static boolean field_85095_o;
 	
 	private RenderManager()
 	{
+		entityRenderMap.put(EntityCaveSpider.class, new RenderCaveSpider());
 		entityRenderMap.put(EntitySpider.class, new RenderSpider());
-		entityRenderMap.put(EntityCaveSpider.class, new RenderSpider());
 		entityRenderMap.put(EntityPig.class, new RenderPig(new ModelPig(), new ModelPig(0.5F), 0.7F));
 		entityRenderMap.put(EntitySheep.class, new RenderSheep(new ModelSheep2(), new ModelSheep1(), 0.7F));
 		entityRenderMap.put(EntityCow.class, new RenderCow(new ModelCow(), 0.7F));
@@ -52,7 +52,6 @@ public class RenderManager
 		entityRenderMap.put(EntitySquid.class, new RenderSquid(new ModelSquid(), 0.7F));
 		entityRenderMap.put(EntityVillager.class, new RenderVillager());
 		entityRenderMap.put(EntityIronGolem.class, new RenderIronGolem());
-		entityRenderMap.put(EntityLiving.class, new RenderLiving(new ModelBiped(), 0.5F));
 		entityRenderMap.put(EntityBat.class, new RenderBat());
 		entityRenderMap.put(EntityDragon.class, new RenderDragon());
 		entityRenderMap.put(EntityEnderCrystal.class, new RenderEnderCrystal());
@@ -60,6 +59,7 @@ public class RenderManager
 		entityRenderMap.put(Entity.class, new RenderEntity());
 		entityRenderMap.put(EntityPainting.class, new RenderPainting());
 		entityRenderMap.put(EntityItemFrame.class, new RenderItemFrame());
+		entityRenderMap.put(EntityLeashKnot.class, new RenderLeashKnot());
 		entityRenderMap.put(EntityArrow.class, new RenderArrow());
 		entityRenderMap.put(EntitySnowball.class, new RenderSnowball(Item.snowball));
 		entityRenderMap.put(EntityEnderPearl.class, new RenderSnowball(Item.enderPearl));
@@ -80,6 +80,7 @@ public class RenderManager
 		entityRenderMap.put(EntityMinecart.class, new RenderMinecart());
 		entityRenderMap.put(EntityBoat.class, new RenderBoat());
 		entityRenderMap.put(EntityFishHook.class, new RenderFish());
+		entityRenderMap.put(EntityHorse.class, new RenderHorse(new ModelHorse(), 0.75F));
 		entityRenderMap.put(EntityLightningBolt.class, new RenderLightningBolt());
 		Iterator var1 = entityRenderMap.values().iterator();
 		while(var1.hasNext())
@@ -89,36 +90,36 @@ public class RenderManager
 		}
 	}
 	
-	public void cacheActiveRenderInfo(World par1World, RenderEngine par2RenderEngine, FontRenderer par3FontRenderer, EntityLiving par4EntityLiving, EntityLiving par5EntityLiving, GameSettings par6GameSettings, float par7)
+	public void cacheActiveRenderInfo(World par1World, TextureManager par2TextureManager, FontRenderer par3FontRenderer, EntityLivingBase par4EntityLivingBase, EntityLivingBase par5EntityLivingBase, GameSettings par6GameSettings, float par7)
 	{
 		worldObj = par1World;
-		renderEngine = par2RenderEngine;
+		renderEngine = par2TextureManager;
 		options = par6GameSettings;
-		livingPlayer = par4EntityLiving;
-		field_96451_i = par5EntityLiving;
+		livingPlayer = par4EntityLivingBase;
+		field_96451_i = par5EntityLivingBase;
 		fontRenderer = par3FontRenderer;
-		if(par4EntityLiving.isPlayerSleeping())
+		if(par4EntityLivingBase.isPlayerSleeping())
 		{
-			int var8 = par1World.getBlockId(MathHelper.floor_double(par4EntityLiving.posX), MathHelper.floor_double(par4EntityLiving.posY), MathHelper.floor_double(par4EntityLiving.posZ));
+			int var8 = par1World.getBlockId(MathHelper.floor_double(par4EntityLivingBase.posX), MathHelper.floor_double(par4EntityLivingBase.posY), MathHelper.floor_double(par4EntityLivingBase.posZ));
 			if(var8 == Block.bed.blockID)
 			{
-				int var9 = par1World.getBlockMetadata(MathHelper.floor_double(par4EntityLiving.posX), MathHelper.floor_double(par4EntityLiving.posY), MathHelper.floor_double(par4EntityLiving.posZ));
+				int var9 = par1World.getBlockMetadata(MathHelper.floor_double(par4EntityLivingBase.posX), MathHelper.floor_double(par4EntityLivingBase.posY), MathHelper.floor_double(par4EntityLivingBase.posZ));
 				int var10 = var9 & 3;
 				playerViewY = var10 * 90 + 180;
 				playerViewX = 0.0F;
 			}
 		} else
 		{
-			playerViewY = par4EntityLiving.prevRotationYaw + (par4EntityLiving.rotationYaw - par4EntityLiving.prevRotationYaw) * par7;
-			playerViewX = par4EntityLiving.prevRotationPitch + (par4EntityLiving.rotationPitch - par4EntityLiving.prevRotationPitch) * par7;
+			playerViewY = par4EntityLivingBase.prevRotationYaw + (par4EntityLivingBase.rotationYaw - par4EntityLivingBase.prevRotationYaw) * par7;
+			playerViewX = par4EntityLivingBase.prevRotationPitch + (par4EntityLivingBase.rotationPitch - par4EntityLivingBase.prevRotationPitch) * par7;
 		}
 		if(par6GameSettings.thirdPersonView == 2)
 		{
 			playerViewY += 180.0F;
 		}
-		viewerPosX = par4EntityLiving.lastTickPosX + (par4EntityLiving.posX - par4EntityLiving.lastTickPosX) * par7;
-		viewerPosY = par4EntityLiving.lastTickPosY + (par4EntityLiving.posY - par4EntityLiving.lastTickPosY) * par7;
-		viewerPosZ = par4EntityLiving.lastTickPosZ + (par4EntityLiving.posZ - par4EntityLiving.lastTickPosZ) * par7;
+		viewerPosX = par4EntityLivingBase.lastTickPosX + (par4EntityLivingBase.posX - par4EntityLivingBase.lastTickPosX) * par7;
+		viewerPosY = par4EntityLivingBase.lastTickPosY + (par4EntityLivingBase.posY - par4EntityLivingBase.lastTickPosY) * par7;
+		viewerPosZ = par4EntityLivingBase.lastTickPosZ + (par4EntityLivingBase.posZ - par4EntityLivingBase.lastTickPosZ) * par7;
 	}
 	
 	private void func_85094_b(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)

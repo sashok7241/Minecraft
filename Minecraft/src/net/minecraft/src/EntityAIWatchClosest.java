@@ -42,6 +42,10 @@ public class EntityAIWatchClosest extends EntityAIBase
 		if(theWatcher.getRNG().nextFloat() >= field_75331_e) return false;
 		else
 		{
+			if(theWatcher.getAttackTarget() != null)
+			{
+				closestEntity = theWatcher.getAttackTarget();
+			}
 			if(watchedClass == EntityPlayer.class)
 			{
 				closestEntity = theWatcher.worldObj.getClosestPlayerToEntity(theWatcher, field_75333_c);

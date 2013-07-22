@@ -9,12 +9,11 @@ public class GuiConfirmOpenLink extends GuiYesNo
 	
 	public GuiConfirmOpenLink(GuiScreen par1GuiScreen, String par2Str, int par3, boolean par4)
 	{
-		super(par1GuiScreen, StringTranslate.getInstance().translateKey(par4 ? "chat.link.confirmTrusted" : "chat.link.confirm"), par2Str, par3);
-		StringTranslate var5 = StringTranslate.getInstance();
-		buttonText1 = var5.translateKey(par4 ? "chat.link.open" : "gui.yes");
-		buttonText2 = var5.translateKey(par4 ? "gui.cancel" : "gui.no");
-		copyLinkButtonText = var5.translateKey("chat.copy");
-		openLinkWarning = var5.translateKey("chat.link.warning");
+		super(par1GuiScreen, I18n.func_135053_a(par4 ? "chat.link.confirmTrusted" : "chat.link.confirm"), par2Str, par3);
+		buttonText1 = I18n.func_135053_a(par4 ? "chat.link.open" : "gui.yes");
+		buttonText2 = I18n.func_135053_a(par4 ? "gui.cancel" : "gui.no");
+		copyLinkButtonText = I18n.func_135053_a("chat.copy");
+		openLinkWarning = I18n.func_135053_a("chat.link.warning");
 		field_92028_p = par2Str;
 	}
 	

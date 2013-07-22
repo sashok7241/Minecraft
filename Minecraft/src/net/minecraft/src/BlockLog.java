@@ -3,12 +3,11 @@ package net.minecraft.src;
 import java.util.List;
 import java.util.Random;
 
-public class BlockLog extends Block
+public class BlockLog extends BlockRotatedPillar
 {
 	public static final String[] woodType = new String[] { "oak", "spruce", "birch", "jungle" };
-	public static final String[] treeTextureTypes = new String[] { "tree_side", "tree_spruce", "tree_birch", "tree_jungle" };
-	private Icon[] iconArray;
-	private Icon tree_top;
+	private Icon[] field_111052_c;
+	private Icon[] tree_top;
 	
 	protected BlockLog(int par1)
 	{
@@ -43,26 +42,14 @@ public class BlockLog extends Block
 		}
 	}
 	
-	@Override protected ItemStack createStackedBlock(int par1)
+	@Override protected Icon func_111048_c(int par1)
 	{
-		return new ItemStack(blockID, 1, limitToValidMetadata(par1));
+		return field_111052_c[par1];
 	}
 	
-	@Override public int damageDropped(int par1)
+	@Override protected Icon func_111049_d(int par1)
 	{
-		return par1 & 3;
-	}
-	
-	@Override public Icon getIcon(int par1, int par2)
-	{
-		int var3 = par2 & 12;
-		int var4 = par2 & 3;
-		return var3 == 0 && (par1 == 1 || par1 == 0) ? tree_top : var3 == 4 && (par1 == 5 || par1 == 4) ? tree_top : var3 == 8 && (par1 == 2 || par1 == 3) ? tree_top : iconArray[var4];
-	}
-	
-	@Override public int getRenderType()
-	{
-		return 31;
+		return tree_top[par1];
 	}
 	
 	@Override public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
@@ -78,27 +65,6 @@ public class BlockLog extends Block
 		return Block.wood.blockID;
 	}
 	
-	@Override public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
-	{
-		int var10 = par9 & 3;
-		byte var11 = 0;
-		switch(par5)
-		{
-			case 0:
-			case 1:
-				var11 = 0;
-				break;
-			case 2:
-			case 3:
-				var11 = 8;
-				break;
-			case 4:
-			case 5:
-				var11 = 4;
-		}
-		return var10 | var11;
-	}
-	
 	@Override public int quantityDropped(Random par1Random)
 	{
 		return 1;
@@ -106,11 +72,12 @@ public class BlockLog extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		tree_top = par1IconRegister.registerIcon("tree_top");
-		iconArray = new Icon[treeTextureTypes.length];
-		for(int var2 = 0; var2 < iconArray.length; ++var2)
+		field_111052_c = new Icon[woodType.length];
+		tree_top = new Icon[woodType.length];
+		for(int var2 = 0; var2 < field_111052_c.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon(treeTextureTypes[var2]);
+			field_111052_c[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + woodType[var2]);
+			tree_top[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + woodType[var2] + "_top");
 		}
 	}
 	

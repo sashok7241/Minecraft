@@ -8,10 +8,10 @@ public abstract class MobSpawnerBaseLogic
 {
 	public int spawnDelay = 20;
 	private String mobID = "Pig";
-	private List minecartToSpawn = null;
-	private WeightedRandomMinecart randomMinecart = null;
+	private List minecartToSpawn;
+	private WeightedRandomMinecart randomMinecart;
 	public double field_98287_c;
-	public double field_98284_d = 0.0D;
+	public double field_98284_d;
 	private int minSpawnDelay = 200;
 	private int maxSpawnDelay = 800;
 	private int spawnCount = 4;
@@ -46,7 +46,7 @@ public abstract class MobSpawnerBaseLogic
 			for(Entity var9 = par1Entity; var2.hasKey("Riding"); var2 = var10)
 			{
 				var10 = var2.getCompoundTag("Riding");
-				Entity var5 = EntityList.createEntityByName(var10.getString("id"), getSpawnerWorld());
+				Entity var5 = EntityList.createEntityByName(var10.getString("id"), par1Entity.worldObj);
 				if(var5 != null)
 				{
 					NBTTagCompound var6 = new NBTTagCompound();
@@ -59,14 +59,17 @@ public abstract class MobSpawnerBaseLogic
 					}
 					var5.readFromNBT(var6);
 					var5.setLocationAndAngles(var9.posX, var9.posY, var9.posZ, var9.rotationYaw, var9.rotationPitch);
-					getSpawnerWorld().spawnEntityInWorld(var5);
+					if(par1Entity.worldObj != null)
+					{
+						par1Entity.worldObj.spawnEntityInWorld(var5);
+					}
 					var9.mountEntity(var5);
 				}
 				var9 = var5;
 			}
-		} else if(par1Entity instanceof EntityLiving && par1Entity.worldObj != null)
+		} else if(par1Entity instanceof EntityLivingBase && par1Entity.worldObj != null)
 		{
-			((EntityLiving) par1Entity).initCreature();
+			((EntityLiving) par1Entity).func_110161_a((EntityLivingData) null);
 			getSpawnerWorld().spawnEntityInWorld(par1Entity);
 		}
 		return par1Entity;

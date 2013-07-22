@@ -46,6 +46,43 @@ public class ItemMonsterPlacer extends Item
 		}
 	}
 	
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	{
+		if(par2World.isRemote) return par1ItemStack;
+		else
+		{
+			MovingObjectPosition var4 = getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, true);
+			if(var4 == null) return par1ItemStack;
+			else
+			{
+				if(var4.typeOfHit == EnumMovingObjectType.TILE)
+				{
+					int var5 = var4.blockX;
+					int var6 = var4.blockY;
+					int var7 = var4.blockZ;
+					if(!par2World.canMineBlock(par3EntityPlayer, var5, var6, var7)) return par1ItemStack;
+					if(!par3EntityPlayer.canPlayerEdit(var5, var6, var7, var4.sideHit, par1ItemStack)) return par1ItemStack;
+					if(par2World.getBlockMaterial(var5, var6, var7) == Material.water)
+					{
+						Entity var8 = spawnCreature(par2World, par1ItemStack.getItemDamage(), var5, var6, var7);
+						if(var8 != null)
+						{
+							if(var8 instanceof EntityLivingBase && par1ItemStack.hasDisplayName())
+							{
+								((EntityLiving) var8).func_94058_c(par1ItemStack.getDisplayName());
+							}
+							if(!par3EntityPlayer.capabilities.isCreativeMode)
+							{
+								--par1ItemStack.stackSize;
+							}
+						}
+					}
+				}
+				return par1ItemStack;
+			}
+		}
+	}
+	
 	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
 		if(par3World.isRemote) return true;
@@ -63,7 +100,7 @@ public class ItemMonsterPlacer extends Item
 			Entity var14 = spawnCreature(par3World, par1ItemStack.getItemDamage(), par4 + 0.5D, par5 + var12, par6 + 0.5D);
 			if(var14 != null)
 			{
-				if(var14 instanceof EntityLiving && par1ItemStack.hasDisplayName())
+				if(var14 instanceof EntityLivingBase && par1ItemStack.hasDisplayName())
 				{
 					((EntityLiving) var14).func_94058_c(par1ItemStack.getDisplayName());
 				}
@@ -79,7 +116,7 @@ public class ItemMonsterPlacer extends Item
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		super.registerIcons(par1IconRegister);
-		theIcon = par1IconRegister.registerIcon("monsterPlacer_overlay");
+		theIcon = par1IconRegister.registerIcon(func_111208_A() + "_overlay");
 	}
 	
 	@Override public boolean requiresMultipleRenderPasses()
@@ -96,13 +133,13 @@ public class ItemMonsterPlacer extends Item
 			for(int var9 = 0; var9 < 1; ++var9)
 			{
 				var8 = EntityList.createEntityByID(par1, par0World);
-				if(var8 != null && var8 instanceof EntityLiving)
+				if(var8 != null && var8 instanceof EntityLivingBase)
 				{
 					EntityLiving var10 = (EntityLiving) var8;
 					var8.setLocationAndAngles(par2, par4, par6, MathHelper.wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F), 0.0F);
 					var10.rotationYawHead = var10.rotationYaw;
 					var10.renderYawOffset = var10.rotationYaw;
-					var10.initCreature();
+					var10.func_110161_a((EntityLivingData) null);
 					par0World.spawnEntityInWorld(var8);
 					var10.playLivingSound();
 				}

@@ -2,31 +2,30 @@ package net.minecraft.src;
 
 public class EntityGhast extends EntityFlying implements IMob
 {
-	public int courseChangeCooldown = 0;
+	public int courseChangeCooldown;
 	public double waypointX;
 	public double waypointY;
 	public double waypointZ;
-	private Entity targetedEntity = null;
-	private int aggroCooldown = 0;
-	public int prevAttackCounter = 0;
-	public int attackCounter = 0;
+	private Entity targetedEntity;
+	private int aggroCooldown;
+	public int prevAttackCounter;
+	public int attackCounter;
 	private int explosionStrength = 1;
 	
 	public EntityGhast(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/ghast.png";
 		setSize(4.0F, 4.0F);
 		isImmuneToFire = true;
 		experienceValue = 5;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else if("fireball".equals(par1DamageSource.getDamageType()) && par1DamageSource.getEntity() instanceof EntityPlayer)
 		{
-			super.attackEntityFrom(par1DamageSource, 1000);
+			super.attackEntityFrom(par1DamageSource, 1000.0F);
 			((EntityPlayer) par1DamageSource.getEntity()).triggerAchievement(AchievementList.ghast);
 			return true;
 		} else return super.attackEntityFrom(par1DamageSource, par2);
@@ -51,6 +50,17 @@ public class EntityGhast extends EntityFlying implements IMob
 	{
 		super.entityInit();
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
+	}
+	
+	public boolean func_110182_bF()
+	{
+		return dataWatcher.getWatchableObjectByte(16) != 0;
 	}
 	
 	@Override public boolean getCanSpawnHere()
@@ -78,11 +88,6 @@ public class EntityGhast extends EntityFlying implements IMob
 		return "mob.ghast.moan";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 10;
-	}
-	
 	@Override public int getMaxSpawnedInChunk()
 	{
 		return 1;
@@ -105,13 +110,6 @@ public class EntityGhast extends EntityFlying implements IMob
 			if(!worldObj.getCollidingBoundingBoxes(this, var15).isEmpty()) return false;
 		}
 		return true;
-	}
-	
-	@Override public void onUpdate()
-	{
-		super.onUpdate();
-		byte var1 = dataWatcher.getWatchableObjectByte(16);
-		texture = var1 == 1 ? "/mob/ghast_fire.png" : "/mob/ghast.png";
 	}
 	
 	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)

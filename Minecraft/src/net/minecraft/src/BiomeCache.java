@@ -3,10 +3,12 @@ package net.minecraft.src;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.server.MinecraftServer;
+
 public class BiomeCache
 {
 	private final WorldChunkManager chunkManager;
-	private long lastCleanupTime = 0L;
+	private long lastCleanupTime;
 	private LongHashMap cacheMap = new LongHashMap();
 	private List cache = new ArrayList();
 	
@@ -17,7 +19,7 @@ public class BiomeCache
 	
 	public void cleanupCache()
 	{
-		long var1 = System.currentTimeMillis();
+		long var1 = MinecraftServer.func_130071_aq();
 		long var3 = var1 - lastCleanupTime;
 		if(var3 > 7500L || var3 < 0L)
 		{
@@ -48,7 +50,7 @@ public class BiomeCache
 			cacheMap.add(var3, var5);
 			cache.add(var5);
 		}
-		var5.lastAccessTime = System.currentTimeMillis();
+		var5.lastAccessTime = MinecraftServer.func_130071_aq();
 		return var5;
 	}
 	

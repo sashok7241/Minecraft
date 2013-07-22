@@ -23,7 +23,7 @@ public class CommandServerBanlist extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.banlist.usage", new Object[0]);
+		return "commands.banlist.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -35,12 +35,12 @@ public class CommandServerBanlist extends CommandBase
 	{
 		if(par2ArrayOfStr.length >= 1 && par2ArrayOfStr[0].equalsIgnoreCase("ips"))
 		{
-			par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.banlist.ips", new Object[] { Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getBannedList().size()) }));
-			par1ICommandSender.sendChatToPlayer(joinNiceString(MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getBannedList().keySet().toArray()));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.banlist.ips", new Object[] { Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getBannedList().size()) }));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111066_d(joinNiceString(MinecraftServer.getServer().getConfigurationManager().getBannedIPs().getBannedList().keySet().toArray())));
 		} else
 		{
-			par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.banlist.players", new Object[] { Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getBannedList().size()) }));
-			par1ICommandSender.sendChatToPlayer(joinNiceString(MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getBannedList().keySet().toArray()));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.banlist.players", new Object[] { Integer.valueOf(MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getBannedList().size()) }));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111066_d(joinNiceString(MinecraftServer.getServer().getConfigurationManager().getBannedPlayers().getBannedList().keySet().toArray())));
 		}
 	}
 }

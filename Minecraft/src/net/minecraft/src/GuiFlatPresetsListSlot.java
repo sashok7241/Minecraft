@@ -6,10 +6,10 @@ class GuiFlatPresetsListSlot extends GuiSlot
 	public int field_82459_a;
 	final GuiFlatPresets flatPresetsGui;
 	
-	public GuiFlatPresetsListSlot(GuiFlatPresets par1)
+	public GuiFlatPresetsListSlot(GuiFlatPresets par1GuiFlatPresets)
 	{
-		super(par1.mc, par1.width, par1.height, 80, par1.height - 37, 24);
-		flatPresetsGui = par1;
+		super(par1GuiFlatPresets.mc, par1GuiFlatPresets.width, par1GuiFlatPresets.height, 80, par1GuiFlatPresets.height - 37, 24);
+		flatPresetsGui = par1GuiFlatPresets;
 		field_82459_a = -1;
 	}
 	
@@ -34,7 +34,11 @@ class GuiFlatPresetsListSlot extends GuiSlot
 	private void func_82455_b(int par1, int par2, int par3, int par4)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		flatPresetsGui.mc.renderEngine.bindTexture("/gui/slot.png");
+		flatPresetsGui.mc.func_110434_K().func_110577_a(Gui.field_110323_l);
+		float var5 = 0.0078125F;
+		float var6 = 0.0078125F;
+		boolean var7 = true;
+		boolean var8 = true;
 		Tessellator var9 = Tessellator.instance;
 		var9.startDrawingQuads();
 		var9.addVertexWithUV(par1 + 0, par2 + 18, flatPresetsGui.zLevel, (par3 + 0) * 0.0078125F, (par4 + 18) * 0.0078125F);
@@ -54,7 +58,7 @@ class GuiFlatPresetsListSlot extends GuiSlot
 		func_82456_d(par1 + 1, par2 + 1);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiFlatPresets.getPresetIconRenderer().renderItemIntoGUI(flatPresetsGui.fontRenderer, flatPresetsGui.mc.renderEngine, new ItemStack(par3, 1, 0), par1 + 2, par2 + 2);
+		GuiFlatPresets.getPresetIconRenderer().renderItemIntoGUI(flatPresetsGui.fontRenderer, flatPresetsGui.mc.func_110434_K(), new ItemStack(par3, 1, 0), par1 + 2, par2 + 2);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 	}

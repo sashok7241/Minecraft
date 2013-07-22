@@ -9,15 +9,81 @@ import java.util.Map.Entry;
 
 public class McoClient
 {
-	private static McoOption field_98178_a = McoOption.func_98154_b();
 	private final String field_96390_a;
 	private final String field_100007_c;
 	private static String field_96388_b = "https://mcoapi.minecraft.net/";
 	
 	public McoClient(Session par1Session)
 	{
-		field_96390_a = par1Session.sessionId;
-		field_100007_c = par1Session.username;
+		field_96390_a = par1Session.func_111286_b();
+		field_100007_c = par1Session.func_111285_a();
+	}
+	
+	public WorldTemplateList func_111231_d() throws ExceptionMcoService
+	{
+		String var1 = field_96388_b + "worlds" + "/templates";
+		String var2 = func_96377_a(Request.func_96358_a(var1));
+		return WorldTemplateList.func_110735_a(var2);
+	}
+	
+	public BackupList func_111232_c(long par1) throws ExceptionMcoService
+	{
+		String var3 = field_96388_b + "worlds" + "/$WORLD_ID/backups".replace("$WORLD_ID", String.valueOf(par1));
+		String var4 = func_96377_a(Request.func_96358_a(var3));
+		return BackupList.func_111222_a(var4);
+	}
+	
+	public Boolean func_111233_e(long par1, String par3Str) throws ExceptionMcoService
+	{
+		StringBuilder var4 = new StringBuilder();
+		var4.append(field_96388_b).append("worlds").append("/$WORLD_ID/reset".replace("$WORLD_ID", String.valueOf(par1)));
+		if(par3Str != null)
+		{
+			var4.append("?template=").append(par3Str);
+		}
+		String var5 = func_96377_a(Request.func_96353_a(var4.toString(), "", 30000, 80000));
+		return Boolean.valueOf(var5);
+	}
+	
+	public void func_111235_c(long par1, String par3Str) throws ExceptionMcoService
+	{
+		String var4 = field_96388_b + "worlds" + "/$WORLD_ID/backups".replace("$WORLD_ID", String.valueOf(par1)) + "?backupId=" + par3Str;
+		func_96377_a(Request.func_96363_c(var4, ""));
+	}
+	
+	public int func_130106_e() throws ExceptionMcoService
+	{
+		String var1 = func_96377_a(Request.func_96358_a(field_96388_b + "invites" + "/count/pending"));
+		return Integer.parseInt(var1);
+	}
+	
+	public void func_130107_a(String par1Str) throws ExceptionMcoService
+	{
+		func_96377_a(Request.func_96363_c(field_96388_b + "invites" + "/accept/$INVITATION_ID".replace("$INVITATION_ID", par1Str), ""));
+	}
+	
+	public PendingInvitesList func_130108_f() throws ExceptionMcoService
+	{
+		String var1 = func_96377_a(Request.func_96358_a(field_96388_b + "invites" + "/pending"));
+		return PendingInvitesList.func_130095_a(var1);
+	}
+	
+	public void func_130109_b(String par1Str) throws ExceptionMcoService
+	{
+		func_96377_a(Request.func_96363_c(field_96388_b + "invites" + "/reject/$INVITATION_ID".replace("$INVITATION_ID", par1Str), ""));
+	}
+	
+	public Boolean func_140054_c() throws ExceptionMcoService, IOException
+	{
+		String var1 = field_96388_b + "mco" + "/client/outdated";
+		String var2 = func_96377_a(Request.func_96358_a(var1));
+		return Boolean.valueOf(var2);
+	}
+	
+	public void func_140055_c(long par1) throws ExceptionMcoService
+	{
+		String var3 = field_96388_b + "invites" + "/$WORLD_ID".replace("$WORLD_ID", String.valueOf(par1));
+		func_96377_a(Request.func_96355_b(var3));
 	}
 	
 	public McoServerAddress func_96374_a(long par1) throws ExceptionMcoService, IOException
@@ -50,27 +116,19 @@ public class McoClient
 	{
 		par1Request.func_100006_a("sid", field_96390_a);
 		par1Request.func_100006_a("user", field_100007_c);
-		if(field_98178_a instanceof McoOptionSome)
-		{
-			McoPair var2 = (McoPair) field_98178_a.func_98155_a();
-			par1Request.func_100006_a((String) var2.func_100005_a(), (String) var2.func_100004_b());
-		}
+		par1Request.func_100006_a("version", "1.6.2");
 		try
 		{
-			int var5 = par1Request.func_96362_a();
-			if(var5 == 503) throw new ExceptionRetryCall(10);
-			else if(var5 >= 200 && var5 < 300)
+			int var2 = par1Request.func_96362_a();
+			if(var2 == 503)
 			{
-				McoOption var3 = par1Request.func_98175_b();
-				if(var3 instanceof McoOptionSome)
-				{
-					field_98178_a = var3;
-				}
-				return par1Request.func_96364_c();
-			} else throw new ExceptionMcoService(par1Request.func_96362_a(), par1Request.func_96364_c());
+				int var3 = par1Request.func_111221_b();
+				throw new ExceptionRetryCall(var3);
+			} else if(var2 >= 200 && var2 < 300) return par1Request.func_96364_c();
+			else throw new ExceptionMcoService(par1Request.func_96362_a(), par1Request.func_96364_c(), par1Request.func_130110_g());
 		} catch(ExceptionMcoHttp var4)
 		{
-			throw new ExceptionMcoService(500, "Server not available!");
+			throw new ExceptionMcoService(500, "Server not available!", -1);
 		}
 	}
 	
@@ -95,11 +153,11 @@ public class McoClient
 	
 	public void func_96381_a(long par1, String par3Str) throws ExceptionMcoService
 	{
-		String var4 = field_96388_b + "worlds" + "/$WORLD_ID/invites/$USER_NAME".replace("$WORLD_ID", String.valueOf(par1)).replace("$USER_NAME", par3Str);
+		String var4 = field_96388_b + "invites" + "/$WORLD_ID/invite/$USER_NAME".replace("$WORLD_ID", String.valueOf(par1)).replace("$USER_NAME", par3Str);
 		func_96377_a(Request.func_96355_b(var4));
 	}
 	
-	public ValueObjectList func_96382_a() throws ExceptionMcoService
+	public ValueObjectList func_96382_a() throws ExceptionMcoService, IOException
 	{
 		String var1 = func_96377_a(Request.func_96358_a(field_96388_b + "worlds"));
 		return ValueObjectList.func_98161_a(var1);
@@ -127,16 +185,17 @@ public class McoClient
 	public void func_96386_a(String par1Str, String par2Str, String par3Str, String par4Str) throws ExceptionMcoService, UnsupportedEncodingException
 	{
 		StringBuilder var5 = new StringBuilder();
-		var5.append(field_96388_b).append("worlds").append("/$NAME/$LOCATION_ID".replace("$NAME", func_96380_a(par1Str)).replace("$LOCATION_ID", par3Str));
+		var5.append(field_96388_b).append("worlds").append("/$NAME/$LOCATION_ID".replace("$NAME", func_96380_a(par1Str)));
 		HashMap var6 = new HashMap();
 		if(par2Str != null && !par2Str.trim().equals(""))
 		{
 			var6.put("motd", par2Str);
 		}
-		if(par4Str != null && !par4Str.equals(""))
+		if(par3Str != null && !par3Str.equals(""))
 		{
-			var6.put("seed", par4Str);
+			var6.put("seed", par3Str);
 		}
+		var6.put("template", par4Str);
 		if(!var6.isEmpty())
 		{
 			boolean var7 = true;
@@ -159,7 +218,7 @@ public class McoClient
 	
 	public McoServer func_96387_b(long par1, String par3Str) throws ExceptionMcoService, IOException
 	{
-		String var4 = field_96388_b + "worlds" + "/$WORLD_ID/invites/$USER_NAME".replace("$WORLD_ID", String.valueOf(par1)).replace("$USER_NAME", par3Str);
+		String var4 = field_96388_b + "invites" + "/$WORLD_ID/invite/$USER_NAME".replace("$WORLD_ID", String.valueOf(par1)).replace("$USER_NAME", par3Str);
 		String var5 = func_96377_a(Request.func_96361_b(var4, ""));
 		return McoServer.func_98165_c(var5);
 	}

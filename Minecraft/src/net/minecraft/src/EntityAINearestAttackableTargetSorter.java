@@ -4,13 +4,11 @@ import java.util.Comparator;
 
 public class EntityAINearestAttackableTargetSorter implements Comparator
 {
-	private Entity theEntity;
-	final EntityAINearestAttackableTarget parent;
+	private final Entity theEntity;
 	
-	public EntityAINearestAttackableTargetSorter(EntityAINearestAttackableTarget par1EntityAINearestAttackableTarget, Entity par2Entity)
+	public EntityAINearestAttackableTargetSorter(Entity par1Entity)
 	{
-		parent = par1EntityAINearestAttackableTarget;
-		theEntity = par2Entity;
+		theEntity = par1Entity;
 	}
 	
 	@Override public int compare(Object par1Obj, Object par2Obj)

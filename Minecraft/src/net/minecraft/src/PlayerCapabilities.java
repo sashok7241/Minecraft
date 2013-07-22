@@ -2,10 +2,10 @@ package net.minecraft.src;
 
 public class PlayerCapabilities
 {
-	public boolean disableDamage = false;
-	public boolean isFlying = false;
-	public boolean allowFlying = false;
-	public boolean isCreativeMode = false;
+	public boolean disableDamage;
+	public boolean isFlying;
+	public boolean allowFlying;
+	public boolean isCreativeMode;
 	public boolean allowEdit = true;
 	private float flySpeed = 0.05F;
 	private float walkSpeed = 0.1F;

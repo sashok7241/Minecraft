@@ -17,7 +17,7 @@ public class CrashReport
 	private final Throwable cause;
 	private final CrashReportCategory field_85061_c = new CrashReportCategory(this, "System Details");
 	private final List crashReportSections = new ArrayList();
-	private File crashReportFile = null;
+	private File crashReportFile;
 	private boolean field_85059_f = true;
 	private StackTraceElement[] field_85060_g = new StackTraceElement[0];
 	
@@ -31,13 +31,6 @@ public class CrashReport
 	public CrashReportCategory func_85056_g()
 	{
 		return field_85061_c;
-	}
-	
-	public String func_90021_c()
-	{
-		StringBuilder var1 = new StringBuilder();
-		getSectionsInStringBuilder(var1);
-		return var1.toString();
 	}
 	
 	public String getCauseStackTraceOrString()

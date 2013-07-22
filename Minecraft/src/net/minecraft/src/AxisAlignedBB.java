@@ -255,6 +255,17 @@ public class AxisAlignedBB
 		return getAABBPool().getAABB(var7, var9, var11, var13, var15, var17);
 	}
 	
+	public AxisAlignedBB func_111270_a(AxisAlignedBB par1AxisAlignedBB)
+	{
+		double var2 = Math.min(minX, par1AxisAlignedBB.minX);
+		double var4 = Math.min(minY, par1AxisAlignedBB.minY);
+		double var6 = Math.min(minZ, par1AxisAlignedBB.minZ);
+		double var8 = Math.max(maxX, par1AxisAlignedBB.maxX);
+		double var10 = Math.max(maxY, par1AxisAlignedBB.maxY);
+		double var12 = Math.max(maxZ, par1AxisAlignedBB.maxZ);
+		return getAABBPool().getAABB(var2, var4, var6, var8, var10, var12);
+	}
+	
 	public double getAverageEdgeLength()
 	{
 		double var1 = maxX - minX;

@@ -9,6 +9,11 @@ public class CommandServerPublishLocal extends CommandBase
 		return "publish";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.publish.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 4;

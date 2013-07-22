@@ -3,6 +3,7 @@ package net.minecraft.src;
 
 public class GuiBrewingStand extends GuiContainer
 {
+	private static final ResourceLocation field_110420_t = new ResourceLocation("textures/gui/container/brewing_stand.png");
 	private TileEntityBrewingStand brewingStand;
 	
 	public GuiBrewingStand(InventoryPlayer par1InventoryPlayer, TileEntityBrewingStand par2TileEntityBrewingStand)
@@ -14,7 +15,7 @@ public class GuiBrewingStand extends GuiContainer
 	@Override protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/gui/alchemy.png");
+		mc.func_110434_K().func_110577_a(field_110420_t);
 		int var4 = (width - xSize) / 2;
 		int var5 = (height - ySize) / 2;
 		drawTexturedModalRect(var4, var5, 0, 0, xSize, ySize);
@@ -59,8 +60,8 @@ public class GuiBrewingStand extends GuiContainer
 	
 	@Override protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		String var3 = brewingStand.isInvNameLocalized() ? brewingStand.getInvName() : StatCollector.translateToLocal(brewingStand.getInvName());
+		String var3 = brewingStand.isInvNameLocalized() ? brewingStand.getInvName() : I18n.func_135053_a(brewingStand.getInvName());
 		fontRenderer.drawString(var3, xSize / 2 - fontRenderer.getStringWidth(var3) / 2, 6, 4210752);
-		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+		fontRenderer.drawString(I18n.func_135053_a("container.inventory"), 8, ySize - 96 + 2, 4210752);
 	}
 }

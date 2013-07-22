@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet5PlayerInventory extends Packet
@@ -47,17 +47,17 @@ public class Packet5PlayerInventory extends Packet
 		par1NetHandler.handlePlayerInventory(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityID = par1DataInputStream.readInt();
-		slot = par1DataInputStream.readShort();
-		itemSlot = readItemStack(par1DataInputStream);
+		entityID = par1DataInput.readInt();
+		slot = par1DataInput.readShort();
+		itemSlot = readItemStack(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityID);
-		par1DataOutputStream.writeShort(slot);
-		writeItemStack(itemSlot, par1DataOutputStream);
+		par1DataOutput.writeInt(entityID);
+		par1DataOutput.writeShort(slot);
+		writeItemStack(itemSlot, par1DataOutput);
 	}
 }

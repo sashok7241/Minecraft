@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
-public class EntityOtherPlayerMP extends EntityPlayer
+public class EntityOtherPlayerMP extends AbstractClientPlayer
 {
-	private boolean isItemInUse = false;
+	private boolean isItemInUse;
 	private int otherPlayerMPPosRotationIncrements;
 	private double otherPlayerMPX;
 	private double otherPlayerMPY;
@@ -14,20 +14,15 @@ public class EntityOtherPlayerMP extends EntityPlayer
 	
 	public EntityOtherPlayerMP(World par1World, String par2Str)
 	{
-		super(par1World);
-		username = par2Str;
+		super(par1World, par2Str);
 		yOffset = 0.0F;
 		stepHeight = 0.0F;
-		if(par2Str != null && par2Str.length() > 0)
-		{
-			skinUrl = "http://skins.minecraft.net/MinecraftSkins/" + StringUtils.stripControlCodes(par2Str) + ".png";
-		}
 		noClip = true;
 		field_71082_cx = 0.25F;
 		renderDistanceWeight = 10.0D;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		return true;
 	}
@@ -82,11 +77,11 @@ public class EntityOtherPlayerMP extends EntityPlayer
 		{
 			var9 = 0.1F;
 		}
-		if(!onGround || getHealth() <= 0)
+		if(!onGround || func_110143_aJ() <= 0.0F)
 		{
 			var9 = 0.0F;
 		}
-		if(onGround || getHealth() <= 0)
+		if(onGround || func_110143_aJ() <= 0.0F)
 		{
 			var2 = 0.0F;
 		}
@@ -125,9 +120,9 @@ public class EntityOtherPlayerMP extends EntityPlayer
 		yOffset = 0.0F;
 	}
 	
-	@Override public void sendChatToPlayer(String par1Str)
+	@Override public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent)
 	{
-		Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(par1Str);
+		Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(par1ChatMessageComponent.func_111068_a(true));
 	}
 	
 	@Override public void setCurrentItemOrArmor(int par1, ItemStack par2ItemStack)
@@ -149,10 +144,5 @@ public class EntityOtherPlayerMP extends EntityPlayer
 		otherPlayerMPYaw = par7;
 		otherPlayerMPPitch = par8;
 		otherPlayerMPPosRotationIncrements = par9;
-	}
-	
-	@Override public void updateCloak()
-	{
-		cloakUrl = "http://skins.minecraft.net/MinecraftCloaks/" + StringUtils.stripControlCodes(username) + ".png";
 	}
 }

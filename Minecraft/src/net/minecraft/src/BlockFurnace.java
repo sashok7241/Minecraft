@@ -6,7 +6,7 @@ public class BlockFurnace extends BlockContainer
 {
 	private final Random furnaceRand = new Random();
 	private final boolean isActive;
-	private static boolean keepFurnaceInventory = false;
+	private static boolean keepFurnaceInventory;
 	private Icon furnaceIconTop;
 	private Icon furnaceIconFront;
 	
@@ -108,9 +108,9 @@ public class BlockFurnace extends BlockContainer
 		setDefaultDirection(par1World, par2, par3, par4);
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		int var7 = MathHelper.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		int var7 = MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		if(var7 == 0)
 		{
 			par1World.setBlockMetadataWithNotify(par2, par3, par4, 2, 2);
@@ -166,7 +166,7 @@ public class BlockFurnace extends BlockContainer
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		blockIcon = par1IconRegister.registerIcon("furnace_side");
-		furnaceIconFront = par1IconRegister.registerIcon(isActive ? "furnace_front_lit" : "furnace_front");
+		furnaceIconFront = par1IconRegister.registerIcon(isActive ? "furnace_front_on" : "furnace_front_off");
 		furnaceIconTop = par1IconRegister.registerIcon("furnace_top");
 	}
 	

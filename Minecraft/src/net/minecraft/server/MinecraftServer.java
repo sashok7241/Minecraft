@@ -3,6 +3,7 @@ package net.minecraft.server;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
+import java.net.Proxy;
 import java.security.KeyPair;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.CallableIsServerModded;
 import net.minecraft.src.CallableServerMemoryStats;
 import net.minecraft.src.CallableServerProfiler;
+import net.minecraft.src.ChatMessageComponent;
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.CommandBase;
 import net.minecraft.src.ConvertingProgressUpdate;
@@ -42,8 +44,6 @@ import net.minecraft.src.RConConsoleSource;
 import net.minecraft.src.ReportedException;
 import net.minecraft.src.ServerCommandManager;
 import net.minecraft.src.ServerConfigurationManager;
-import net.minecraft.src.StringTranslate;
-import net.minecraft.src.StringUtils;
 import net.minecraft.src.ThreadMinecraftServer;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldInfo;
@@ -55,9 +55,9 @@ import net.minecraft.src.WorldType;
 
 public abstract class MinecraftServer implements ICommandSender, Runnable, IPlayerUsage
 {
-	private static MinecraftServer mcServer = null;
+	private static MinecraftServer mcServer;
 	private final ISaveFormat anvilConverterForAnvilFile;
-	private final PlayerUsageSnooper usageSnooper = new PlayerUsageSnooper("server", this);
+	private final PlayerUsageSnooper usageSnooper = new PlayerUsageSnooper("server", this, func_130071_aq());
 	private final File anvilFile;
 	private final List tickables = new ArrayList();
 	private final ICommandManager commandManager;
@@ -67,8 +67,9 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 	public WorldServer[] worldServers;
 	private ServerConfigurationManager serverConfigManager;
 	private boolean serverRunning = true;
-	private boolean serverStopped = false;
-	private int tickCounter = 0;
+	private boolean serverStopped;
+	private int tickCounter;
+	protected Proxy field_110456_c;
 	public String currentTask;
 	public int percentDone;
 	private boolean onlineMode;
@@ -82,11 +83,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 	private long lastSentPacketSize;
 	private long lastReceivedID;
 	private long lastReceivedSize;
-	public final long[] sentPacketCountArray = new long[100];
-	public final long[] sentPacketSizeArray = new long[100];
-	public final long[] receivedPacketCountArray = new long[100];
-	public final long[] receivedPacketSizeArray = new long[100];
-	public final long[] tickTimeArray = new long[100];
+	public final long[] sentPacketCountArray;
+	public final long[] sentPacketSizeArray;
+	public final long[] receivedPacketCountArray;
+	public final long[] receivedPacketSizeArray;
+	public final long[] tickTimeArray;
 	public long[][] timeOfLastDimensionTick;
 	private KeyPair serverKeyPair;
 	private String serverOwner;
@@ -95,15 +96,22 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 	private boolean isDemo;
 	private boolean enableBonusChest;
 	private boolean worldIsBeingDeleted;
-	private String texturePack = "";
-	private boolean serverIsRunning = false;
+	private String texturePack;
+	private boolean serverIsRunning;
 	private long timeOfLastWarning;
 	private String userMessage;
 	private boolean startProfiling;
-	private boolean field_104057_T = false;
+	private boolean field_104057_T;
 	
 	public MinecraftServer(File par1File)
 	{
+		field_110456_c = Proxy.NO_PROXY;
+		sentPacketCountArray = new long[100];
+		sentPacketSizeArray = new long[100];
+		receivedPacketCountArray = new long[100];
+		receivedPacketSizeArray = new long[100];
+		tickTimeArray = new long[100];
+		texturePack = "";
 		mcServer = this;
 		anvilFile = par1File;
 		commandManager = new ServerCommandManager();
@@ -134,6 +142,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 		par1PlayerUsageSnooper.addData("players_seen", Integer.valueOf(serverConfigManager.getAvailablePlayerDat().length));
 		par1PlayerUsageSnooper.addData("uses_auth", Boolean.valueOf(onlineMode));
 		par1PlayerUsageSnooper.addData("gui_state", getGuiEnabled() ? "enabled" : "disabled");
+		par1PlayerUsageSnooper.addData("run_time", Long.valueOf((func_130071_aq() - par1PlayerUsageSnooper.func_130105_g()) / 60L * 1000L));
 		par1PlayerUsageSnooper.addData("avg_tick_ms", Integer.valueOf((int) (MathHelper.average(tickTimeArray) * 1.0E-6D)));
 		par1PlayerUsageSnooper.addData("avg_sent_packet_count", Integer.valueOf((int) MathHelper.average(sentPacketCountArray)));
 		par1PlayerUsageSnooper.addData("avg_sent_packet_size", Integer.valueOf((int) MathHelper.average(sentPacketSizeArray)));
@@ -241,6 +250,18 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 		return field_104057_T;
 	}
 	
+	public Proxy func_110454_ao()
+	{
+		return field_110456_c;
+	}
+	
+	public abstract int func_110455_j();
+	
+	@Override public World func_130014_f_()
+	{
+		return worldServers[0];
+	}
+	
 	public boolean func_96290_a(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
 	{
 		return false;
@@ -339,7 +360,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 	
 	public String getMinecraftVersion()
 	{
-		return "1.5.2";
+		return "1.6.2";
 	}
 	
 	public String getMOTD()
@@ -463,18 +484,22 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 	
 	protected void initialWorldChunkLoad()
 	{
+		boolean var1 = true;
+		boolean var2 = true;
+		boolean var3 = true;
+		boolean var4 = true;
 		int var5 = 0;
 		setUserMessage("menu.generatingTerrain");
 		byte var6 = 0;
 		getLogAgent().logInfo("Preparing start region for level " + var6);
 		WorldServer var7 = worldServers[var6];
 		ChunkCoordinates var8 = var7.getSpawnPoint();
-		long var9 = System.currentTimeMillis();
+		long var9 = func_130071_aq();
 		for(int var11 = -192; var11 <= 192 && isServerRunning(); var11 += 16)
 		{
 			for(int var12 = -192; var12 <= 192 && isServerRunning(); var12 += 16)
 			{
-				long var13 = System.currentTimeMillis();
+				long var13 = func_130071_aq();
 				if(var13 - var9 > 1000L)
 				{
 					outputPercentRemaining("Preparing spawn area", var5 * 100 / 625);
@@ -640,10 +665,10 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 		{
 			if(startServer())
 			{
-				long var1 = System.currentTimeMillis();
+				long var1 = func_130071_aq();
 				for(long var50 = 0L; serverRunning; serverIsRunning = true)
 				{
-					long var5 = System.currentTimeMillis();
+					long var5 = func_130071_aq();
 					long var7 = var5 - var1;
 					if(var7 > 2000L && var1 - timeOfLastWarning >= 15000L)
 					{
@@ -740,9 +765,9 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 		}
 	}
 	
-	@Override public void sendChatToPlayer(String par1Str)
+	@Override public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent)
 	{
-		getLogAgent().logInfo(StringUtils.stripControlCodes(par1Str));
+		getLogAgent().logInfo(par1ChatMessageComponent.toString());
 	}
 	
 	public boolean serverIsInRunLoop()
@@ -957,11 +982,6 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 		theProfiler.endSection();
 	}
 	
-	@Override public String translateString(String par1Str, Object ... par2ArrayOfObj)
-	{
-		return StringTranslate.getInstance().translateKeyFormat(par1Str, par2ArrayOfObj);
-	}
-	
 	public void updateTimeLightAndEntities()
 	{
 		theProfiler.startSection("levels");
@@ -979,7 +999,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 				if(tickCounter % 20 == 0)
 				{
 					theProfiler.startSection("timeSync");
-					serverConfigManager.sendPacketToAllPlayersInDimension(new Packet4UpdateTime(var4.getTotalWorldTime(), var4.getWorldTime()), var4.provider.dimensionId);
+					serverConfigManager.sendPacketToAllPlayersInDimension(new Packet4UpdateTime(var4.getTotalWorldTime(), var4.getWorldTime(), var4.getGameRules().getGameRuleBooleanValue("doDaylightCycle")), var4.provider.dimensionId);
 					theProfiler.endSection();
 				}
 				theProfiler.startSection("tick");
@@ -1025,6 +1045,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 	public WorldServer worldServerForDimension(int par1)
 	{
 		return par1 == -1 ? worldServers[1] : par1 == 1 ? worldServers[2] : worldServers[0];
+	}
+	
+	public static long func_130071_aq()
+	{
+		return System.currentTimeMillis();
 	}
 	
 	public static MinecraftServer getServer()

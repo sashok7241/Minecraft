@@ -14,6 +14,11 @@ public class CommandShowSeed extends CommandBase
 		return "seed";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.seed.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 2;
@@ -22,6 +27,6 @@ public class CommandShowSeed extends CommandBase
 	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
 		Object var3 = par1ICommandSender instanceof EntityPlayer ? ((EntityPlayer) par1ICommandSender).worldObj : MinecraftServer.getServer().worldServerForDimension(0);
-		par1ICommandSender.sendChatToPlayer("Seed: " + ((World) var3).getSeed());
+		par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.seed.success", new Object[] { Long.valueOf(((World) var3).getSeed()) }));
 	}
 }

@@ -53,6 +53,11 @@ public enum EnumChatFormatting
 		return field_96304_B;
 	}
 	
+	public static String func_110646_a(String par0Str)
+	{
+		return par0Str == null ? null : field_96330_y.matcher(par0Str).replaceAll("");
+	}
+	
 	public static Collection func_96296_a(boolean par0, boolean par1)
 	{
 		ArrayList var2 = new ArrayList();

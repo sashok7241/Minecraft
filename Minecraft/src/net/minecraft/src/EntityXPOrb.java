@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class EntityXPOrb extends Entity
 {
 	public int xpColor;
-	public int xpOrbAge = 0;
+	public int xpOrbAge;
 	public int field_70532_c;
 	private int xpOrbHealth = 5;
 	private int xpValue;
@@ -30,13 +30,13 @@ public class EntityXPOrb extends Entity
 		xpValue = par8;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
 		{
 			setBeenAttacked();
-			xpOrbHealth -= par2;
+			xpOrbHealth = (int) (xpOrbHealth - par2);
 			if(xpOrbHealth <= 0)
 			{
 				setDead();

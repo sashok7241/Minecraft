@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet25EntityPainting extends Packet
@@ -37,23 +37,23 @@ public class Packet25EntityPainting extends Packet
 		par1NetHandler.handleEntityPainting(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
-		title = readString(par1DataInputStream, EnumArt.maxArtTitleLength);
-		xPosition = par1DataInputStream.readInt();
-		yPosition = par1DataInputStream.readInt();
-		zPosition = par1DataInputStream.readInt();
-		direction = par1DataInputStream.readInt();
+		entityId = par1DataInput.readInt();
+		title = readString(par1DataInput, EnumArt.maxArtTitleLength);
+		xPosition = par1DataInput.readInt();
+		yPosition = par1DataInput.readInt();
+		zPosition = par1DataInput.readInt();
+		direction = par1DataInput.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
-		writeString(title, par1DataOutputStream);
-		par1DataOutputStream.writeInt(xPosition);
-		par1DataOutputStream.writeInt(yPosition);
-		par1DataOutputStream.writeInt(zPosition);
-		par1DataOutputStream.writeInt(direction);
+		par1DataOutput.writeInt(entityId);
+		writeString(title, par1DataOutput);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeInt(yPosition);
+		par1DataOutput.writeInt(zPosition);
+		par1DataOutput.writeInt(direction);
 	}
 }

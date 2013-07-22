@@ -10,8 +10,8 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandDebug extends CommandBase
 {
-	private long startTime = 0L;
-	private int startTicks = 0;
+	private long startTime;
+	private int startTicks;
 	
 	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
@@ -21,6 +21,11 @@ public class CommandDebug extends CommandBase
 	@Override public String getCommandName()
 	{
 		return "debug";
+	}
+	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.debug.usage";
 	}
 	
 	private void getProfileDump(int par1, String par2Str, StringBuilder par3StringBuilder)
@@ -85,14 +90,14 @@ public class CommandDebug extends CommandBase
 			{
 				notifyAdmins(par1ICommandSender, "commands.debug.start", new Object[0]);
 				MinecraftServer.getServer().enableProfiling();
-				startTime = System.currentTimeMillis();
+				startTime = MinecraftServer.func_130071_aq();
 				startTicks = MinecraftServer.getServer().getTickCounter();
 				return;
 			}
 			if(par2ArrayOfStr[0].equals("stop"))
 			{
 				if(!MinecraftServer.getServer().theProfiler.profilingEnabled) throw new CommandException("commands.debug.notStarted", new Object[0]);
-				long var3 = System.currentTimeMillis();
+				long var3 = MinecraftServer.func_130071_aq();
 				int var5 = MinecraftServer.getServer().getTickCounter();
 				long var6 = var3 - startTime;
 				int var8 = var5 - startTicks;

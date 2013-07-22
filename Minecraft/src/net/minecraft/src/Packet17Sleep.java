@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet17Sleep extends Packet
@@ -35,21 +35,21 @@ public class Packet17Sleep extends Packet
 		par1NetHandler.handleSleep(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityID = par1DataInputStream.readInt();
-		field_73622_e = par1DataInputStream.readByte();
-		bedX = par1DataInputStream.readInt();
-		bedY = par1DataInputStream.readByte();
-		bedZ = par1DataInputStream.readInt();
+		entityID = par1DataInput.readInt();
+		field_73622_e = par1DataInput.readByte();
+		bedX = par1DataInput.readInt();
+		bedY = par1DataInput.readByte();
+		bedZ = par1DataInput.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityID);
-		par1DataOutputStream.writeByte(field_73622_e);
-		par1DataOutputStream.writeInt(bedX);
-		par1DataOutputStream.writeByte(bedY);
-		par1DataOutputStream.writeInt(bedZ);
+		par1DataOutput.writeInt(entityID);
+		par1DataOutput.writeByte(field_73622_e);
+		par1DataOutput.writeInt(bedX);
+		par1DataOutput.writeByte(bedY);
+		par1DataOutput.writeInt(bedZ);
 	}
 }

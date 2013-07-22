@@ -59,7 +59,7 @@ public class BlockStep extends BlockHalfSlab
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("stoneslab_top");
-		theIcon = par1IconRegister.registerIcon("stoneslab_side");
+		blockIcon = par1IconRegister.registerIcon("stone_slab_top");
+		theIcon = par1IconRegister.registerIcon("stone_slab_side");
 	}
 }

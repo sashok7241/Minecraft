@@ -9,7 +9,7 @@ public class Timer
 	public int elapsedTicks;
 	public float renderPartialTicks;
 	public float timerSpeed = 1.0F;
-	public float elapsedPartialTicks = 0.0F;
+	public float elapsedPartialTicks;
 	private long lastSyncSysClock;
 	private long lastSyncHRClock;
 	private long field_74285_i;

@@ -23,7 +23,7 @@ public class CommandServerPardon extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.unban.usage", new Object[0]);
+		return "commands.unban.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()

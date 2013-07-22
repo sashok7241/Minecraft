@@ -2,6 +2,9 @@ package net.minecraft.src;
 
 public class RenderZombie extends RenderBiped
 {
+	private static final ResourceLocation field_110866_o = new ResourceLocation("textures/entity/zombie_pigman.png");
+	private static final ResourceLocation field_110865_p = new ResourceLocation("textures/entity/zombie/zombie.png");
+	private static final ResourceLocation field_110864_q = new ResourceLocation("textures/entity/zombie/zombie_villager.png");
 	private ModelBiped field_82434_o;
 	private ModelZombieVillager field_82432_p;
 	protected ModelBiped field_82437_k;
@@ -25,6 +28,31 @@ public class RenderZombie extends RenderBiped
 	@Override public void doRenderLiving(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
 	{
 		func_82426_a((EntityZombie) par1EntityLiving, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110863_a((EntityZombie) par1Entity);
+	}
+	
+	@Override protected ResourceLocation func_110856_a(EntityLiving par1EntityLiving)
+	{
+		return func_110863_a((EntityZombie) par1EntityLiving);
+	}
+	
+	protected ResourceLocation func_110863_a(EntityZombie par1EntityZombie)
+	{
+		return par1EntityZombie instanceof EntityPigZombie ? field_110866_o : par1EntityZombie.isVillager() ? field_110864_q : field_110865_p;
+	}
+	
+	@Override protected void func_130005_c(EntityLiving par1EntityLiving, float par2)
+	{
+		func_82428_a((EntityZombie) par1EntityLiving, par2);
+	}
+	
+	@Override protected int func_130006_a(EntityLiving par1EntityLiving, int par2, float par3)
+	{
+		return func_82429_a((EntityZombie) par1EntityLiving, par2, par3);
 	}
 	
 	@Override protected void func_82421_b()
@@ -69,13 +97,13 @@ public class RenderZombie extends RenderBiped
 	protected void func_82428_a(EntityZombie par1EntityZombie, float par2)
 	{
 		func_82427_a(par1EntityZombie);
-		super.renderEquippedItems(par1EntityZombie, par2);
+		super.func_130005_c(par1EntityZombie, par2);
 	}
 	
 	protected int func_82429_a(EntityZombie par1EntityZombie, int par2, float par3)
 	{
 		func_82427_a(par1EntityZombie);
-		return super.shouldRenderPass(par1EntityZombie, par2, par3);
+		return super.func_130006_a(par1EntityZombie, par2, par3);
 	}
 	
 	protected void func_82430_a(EntityZombie par1EntityZombie, float par2, float par3, float par4)
@@ -87,18 +115,23 @@ public class RenderZombie extends RenderBiped
 		super.rotateCorpse(par1EntityZombie, par2, par3, par4);
 	}
 	
-	@Override protected void renderEquippedItems(EntityLiving par1EntityLiving, float par2)
+	@Override protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
 	{
-		func_82428_a((EntityZombie) par1EntityLiving, par2);
+		func_82428_a((EntityZombie) par1EntityLivingBase, par2);
 	}
 	
-	@Override protected void rotateCorpse(EntityLiving par1EntityLiving, float par2, float par3, float par4)
+	@Override public void renderPlayer(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
 	{
-		func_82430_a((EntityZombie) par1EntityLiving, par2, par3, par4);
+		func_82426_a((EntityZombie) par1EntityLivingBase, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected int shouldRenderPass(EntityLiving par1EntityLiving, int par2, float par3)
+	@Override protected void rotateCorpse(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
-		return func_82429_a((EntityZombie) par1EntityLiving, par2, par3);
+		func_82430_a((EntityZombie) par1EntityLivingBase, par2, par3, par4);
+	}
+	
+	@Override protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
+	{
+		return func_82429_a((EntityZombie) par1EntityLivingBase, par2, par3);
 	}
 }

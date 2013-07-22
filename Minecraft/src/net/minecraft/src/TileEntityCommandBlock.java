@@ -4,7 +4,7 @@ import net.minecraft.server.MinecraftServer;
 
 public class TileEntityCommandBlock extends TileEntity implements ICommandSender
 {
-	private int succesCount = 0;
+	private int succesCount;
 	private String command = "";
 	private String commandSenderName = "@";
 	
@@ -25,6 +25,11 @@ public class TileEntityCommandBlock extends TileEntity implements ICommandSender
 				return var3.executeCommand(this, command);
 			} else return 0;
 		}
+	}
+	
+	@Override public World func_130014_f_()
+	{
+		return getWorldObj();
 	}
 	
 	public void func_96102_a(int par1)
@@ -70,7 +75,7 @@ public class TileEntityCommandBlock extends TileEntity implements ICommandSender
 		}
 	}
 	
-	@Override public void sendChatToPlayer(String par1Str)
+	@Override public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent)
 	{
 	}
 	
@@ -83,11 +88,6 @@ public class TileEntityCommandBlock extends TileEntity implements ICommandSender
 	public void setCommandSenderName(String par1Str)
 	{
 		commandSenderName = par1Str;
-	}
-	
-	@Override public String translateString(String par1Str, Object ... par2ArrayOfObj)
-	{
-		return par1Str;
 	}
 	
 	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)

@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet42RemoveEntityEffect extends Packet
@@ -29,15 +29,15 @@ public class Packet42RemoveEntityEffect extends Packet
 		par1NetHandler.handleRemoveEntityEffect(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
-		effectId = par1DataInputStream.readByte();
+		entityId = par1DataInput.readInt();
+		effectId = par1DataInput.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
-		par1DataOutputStream.writeByte(effectId);
+		par1DataOutput.writeInt(entityId);
+		par1DataOutput.writeByte(effectId);
 	}
 }

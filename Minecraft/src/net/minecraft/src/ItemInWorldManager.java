@@ -139,6 +139,7 @@ public class ItemInWorldManager
 	public boolean tryHarvestBlock(int par1, int par2, int par3)
 	{
 		if(gameType.isAdventure() && !thisPlayerMP.isCurrentToolAdventureModeExempt(par1, par2, par3)) return false;
+		else if(gameType.isCreative() && thisPlayerMP.getHeldItem() != null && thisPlayerMP.getHeldItem().getItem() instanceof ItemSword) return false;
 		else
 		{
 			int var4 = theWorld.getBlockId(par1, par2, par3);

@@ -188,11 +188,6 @@ public class BlockComparator extends BlockRedstoneLogic implements ITileEntityPr
 		return var7 != null ? var7.receiveClientEvent(par5, par6) : false;
 	}
 	
-	@Override public void registerIcons(IconRegister par1IconRegister)
-	{
-		blockIcon = par1IconRegister.registerIcon(isRepeaterPowered ? "comparator_lit" : "comparator");
-	}
-	
 	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
 		if(isRepeaterPowered)

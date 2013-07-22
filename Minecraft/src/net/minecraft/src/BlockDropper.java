@@ -66,7 +66,7 @@ public class BlockDropper extends BlockDispenser
 	{
 		blockIcon = par1IconRegister.registerIcon("furnace_side");
 		furnaceTopIcon = par1IconRegister.registerIcon("furnace_top");
-		furnaceFrontIcon = par1IconRegister.registerIcon("dropper_front");
-		field_96473_e = par1IconRegister.registerIcon("dropper_front_vertical");
+		furnaceFrontIcon = par1IconRegister.registerIcon(func_111023_E() + "_front_horizontal");
+		field_96473_e = par1IconRegister.registerIcon(func_111023_E() + "_front_vertical");
 	}
 }

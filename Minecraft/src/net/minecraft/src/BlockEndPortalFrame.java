@@ -31,6 +31,12 @@ public class BlockEndPortalFrame extends Block
 		return field_94399_b;
 	}
 	
+	@Override public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
+	{
+		int var6 = par1World.getBlockMetadata(par2, par3, par4);
+		return isEnderEyeInserted(var6) ? 15 : 0;
+	}
+	
 	@Override public Icon getIcon(int par1, int par2)
 	{
 		return par1 == 1 ? field_94400_a : par1 == 0 ? Block.whiteStone.getBlockTextureFromSide(par1) : blockIcon;
@@ -39,6 +45,11 @@ public class BlockEndPortalFrame extends Block
 	@Override public int getRenderType()
 	{
 		return 26;
+	}
+	
+	@Override public boolean hasComparatorInputOverride()
+	{
+		return true;
 	}
 	
 	@Override public int idDropped(int par1, Random par2Random, int par3)
@@ -51,17 +62,17 @@ public class BlockEndPortalFrame extends Block
 		return false;
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		int var7 = ((MathHelper.floor_double(par5EntityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 2) % 4;
+		int var7 = ((MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3) + 2) % 4;
 		par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("endframe_side");
-		field_94400_a = par1IconRegister.registerIcon("endframe_top");
-		field_94399_b = par1IconRegister.registerIcon("endframe_eye");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		field_94400_a = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		field_94399_b = par1IconRegister.registerIcon(func_111023_E() + "_eye");
 	}
 	
 	@Override public void setBlockBoundsForItemRender()

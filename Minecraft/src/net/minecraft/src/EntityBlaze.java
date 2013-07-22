@@ -9,7 +9,6 @@ public class EntityBlaze extends EntityMob
 	public EntityBlaze(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/fire.png";
 		isImmuneToFire = true;
 		experienceValue = 10;
 	}
@@ -80,6 +79,12 @@ public class EntityBlaze extends EntityMob
 	{
 	}
 	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(6.0D);
+	}
+	
 	public void func_70844_e(boolean par1)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
@@ -96,11 +101,6 @@ public class EntityBlaze extends EntityMob
 	public boolean func_70845_n()
 	{
 		return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
-	}
-	
-	@Override public int getAttackStrength(Entity par1Entity)
-	{
-		return 6;
 	}
 	
 	@Override public float getBrightness(float par1)
@@ -133,11 +133,6 @@ public class EntityBlaze extends EntityMob
 		return "mob.blaze.breathe";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 20;
-	}
-	
 	@Override public boolean isBurning()
 	{
 		return func_70845_n();
@@ -154,7 +149,7 @@ public class EntityBlaze extends EntityMob
 		{
 			if(isWet())
 			{
-				attackEntityFrom(DamageSource.drown, 1);
+				attackEntityFrom(DamageSource.drown, 1.0F);
 			}
 			--heightOffsetUpdateTime;
 			if(heightOffsetUpdateTime <= 0)

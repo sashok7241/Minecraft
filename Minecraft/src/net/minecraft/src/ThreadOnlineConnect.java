@@ -22,8 +22,8 @@ class ThreadOnlineConnect extends Thread
 		{
 			TaskOnlineConnect.func_96583_a(field_96594_c, new NetClientHandler(field_96594_c.func_96578_b(), field_96595_a, field_96593_b, TaskOnlineConnect.func_98172_a(field_96594_c)));
 			if(field_96594_c.func_96577_c()) return;
-			field_96594_c.func_96576_b(StringTranslate.getInstance().translateKey("mco.connect.authorizing"));
-			TaskOnlineConnect.func_96580_a(field_96594_c).addToSendQueue(new Packet2ClientProtocol(61, field_96594_c.func_96578_b().session.username, field_96595_a, field_96593_b));
+			field_96594_c.func_96576_b(I18n.func_135053_a("mco.connect.authorizing"));
+			TaskOnlineConnect.func_96580_a(field_96594_c).addToSendQueue(new Packet2ClientProtocol(74, field_96594_c.func_96578_b().func_110432_I().func_111285_a(), field_96595_a, field_96593_b));
 		} catch(UnknownHostException var2)
 		{
 			if(field_96594_c.func_96577_c()) return;

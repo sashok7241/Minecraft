@@ -31,34 +31,32 @@ public class GuiRenameWorld extends GuiScreen
 	
 	@Override public void drawScreen(int par1, int par2, float par3)
 	{
-		StringTranslate var4 = StringTranslate.getInstance();
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, var4.translateKey("selectWorld.renameTitle"), width / 2, height / 4 - 60 + 20, 16777215);
-		drawString(fontRenderer, var4.translateKey("selectWorld.enterName"), width / 2 - 100, 47, 10526880);
+		drawCenteredString(fontRenderer, I18n.func_135053_a("selectWorld.renameTitle"), width / 2, 20, 16777215);
+		drawString(fontRenderer, I18n.func_135053_a("selectWorld.enterName"), width / 2 - 100, 47, 10526880);
 		theGuiTextField.drawTextBox();
 		super.drawScreen(par1, par2, par3);
 	}
 	
 	@Override public void initGui()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
 		Keyboard.enableRepeatEvents(true);
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + 12, var1.translateKey("selectWorld.renameButton")));
-		buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + 12, var1.translateKey("gui.cancel")));
-		ISaveFormat var2 = mc.getSaveLoader();
-		WorldInfo var3 = var2.getWorldInfo(worldName);
-		String var4 = var3.getWorldName();
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + 12, I18n.func_135053_a("selectWorld.renameButton")));
+		buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + 12, I18n.func_135053_a("gui.cancel")));
+		ISaveFormat var1 = mc.getSaveLoader();
+		WorldInfo var2 = var1.getWorldInfo(worldName);
+		String var3 = var2.getWorldName();
 		theGuiTextField = new GuiTextField(fontRenderer, width / 2 - 100, 60, 200, 20);
 		theGuiTextField.setFocused(true);
-		theGuiTextField.setText(var4);
+		theGuiTextField.setText(var3);
 	}
 	
 	@Override protected void keyTyped(char par1, int par2)
 	{
 		theGuiTextField.textboxKeyTyped(par1, par2);
 		((GuiButton) buttonList.get(0)).enabled = theGuiTextField.getText().trim().length() > 0;
-		if(par1 == 13)
+		if(par2 == 28 || par2 == 156)
 		{
 			actionPerformed((GuiButton) buttonList.get(0));
 		}

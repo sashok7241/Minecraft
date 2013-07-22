@@ -4,20 +4,12 @@ import java.util.Random;
 
 public class BlockDoor extends Block
 {
-	private static final String[] doorIconNames = new String[] { "doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper" };
-	private final int doorTypeForIcon;
-	private Icon[] iconArray;
+	private Icon[] field_111044_a;
+	private Icon[] field_111043_b;
 	
 	protected BlockDoor(int par1, Material par2Material)
 	{
 		super(par1, par2Material);
-		if(par2Material == Material.iron)
-		{
-			doorTypeForIcon = 2;
-		} else
-		{
-			doorTypeForIcon = 0;
-		}
 		float var3 = 0.5F;
 		float var4 = 1.0F;
 		setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var4, 0.5F + var3);
@@ -84,8 +76,8 @@ public class BlockDoor extends Block
 					var9 = !var9;
 				}
 			}
-			return iconArray[doorTypeForIcon + (var9 ? doorIconNames.length : 0) + (var10 ? 1 : 0)];
-		} else return iconArray[doorTypeForIcon];
+			return var10 ? field_111044_a[var9 ? 1 : 0] : field_111043_b[var9 ? 1 : 0];
+		} else return field_111043_b[0];
 	}
 	
 	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
@@ -120,7 +112,7 @@ public class BlockDoor extends Block
 	
 	@Override public Icon getIcon(int par1, int par2)
 	{
-		return iconArray[doorTypeForIcon];
+		return field_111043_b[0];
 	}
 	
 	@Override public int getMobilityFlag()
@@ -263,12 +255,12 @@ public class BlockDoor extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray = new Icon[doorIconNames.length * 2];
-		for(int var2 = 0; var2 < doorIconNames.length; ++var2)
-		{
-			iconArray[var2] = par1IconRegister.registerIcon(doorIconNames[var2]);
-			iconArray[var2 + doorIconNames.length] = new IconFlipped(iconArray[var2], true, false);
-		}
+		field_111044_a = new Icon[2];
+		field_111043_b = new Icon[2];
+		field_111044_a[0] = par1IconRegister.registerIcon(func_111023_E() + "_upper");
+		field_111043_b[0] = par1IconRegister.registerIcon(func_111023_E() + "_lower");
+		field_111044_a[1] = new IconFlipped(field_111044_a[0], true, false);
+		field_111043_b[1] = new IconFlipped(field_111043_b[0], true, false);
 	}
 	
 	@Override public boolean renderAsNormalBlock()

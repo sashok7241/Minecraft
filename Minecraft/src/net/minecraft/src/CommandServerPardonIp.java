@@ -24,7 +24,7 @@ public class CommandServerPardonIp extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.unbanip.usage", new Object[0]);
+		return "commands.unbanip.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()

@@ -5,7 +5,7 @@ import java.util.List;
 public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 {
 	private int inLove;
-	private int breeding = 0;
+	private int breeding;
 	
 	public EntityAnimal(World par1World)
 	{
@@ -68,12 +68,20 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		}
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
 		{
 			fleeingTick = 60;
+			if(!isAIEnabled())
+			{
+				AttributeInstance var3 = func_110148_a(SharedMonsterAttributes.field_111263_d);
+				if(var3.func_111127_a(field_110179_h) == null)
+				{
+					var3.func_111121_a(field_110181_i);
+				}
+			}
 			entityToAttack = null;
 			inLove = 0;
 			return super.attackEntityFrom(par1DamageSource, par2);
@@ -128,6 +136,13 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		}
 	}
 	
+	public void func_110196_bT()
+	{
+		inLove = 600;
+		entityToAttack = null;
+		worldObj.setEntityState(this, (byte) 18);
+	}
+	
 	@Override public float getBlockPathWeight(int par1, int par2, int par3)
 	{
 		return worldObj.getBlockId(par1, par2 - 1, par3) == Block.grass.blockID ? 10.0F : worldObj.getLightBrightness(par1, par2, par3) - 0.5F;
@@ -151,6 +166,23 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 		return 120;
 	}
 	
+	@Override public void handleHealthUpdate(byte par1)
+	{
+		if(par1 == 18)
+		{
+			for(int var2 = 0; var2 < 7; ++var2)
+			{
+				double var3 = rand.nextGaussian() * 0.02D;
+				double var5 = rand.nextGaussian() * 0.02D;
+				double var7 = rand.nextGaussian() * 0.02D;
+				worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, var3, var5, var7);
+			}
+		} else
+		{
+			super.handleHealthUpdate(par1);
+		}
+	}
+	
 	@Override public boolean interact(EntityPlayer par1EntityPlayer)
 	{
 		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
@@ -164,15 +196,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 					par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
 				}
 			}
-			inLove = 600;
-			entityToAttack = null;
-			for(int var3 = 0; var3 < 7; ++var3)
-			{
-				double var4 = rand.nextGaussian() * 0.02D;
-				double var6 = rand.nextGaussian() * 0.02D;
-				double var8 = rand.nextGaussian() * 0.02D;
-				worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, var4, var6, var8);
-			}
+			func_110196_bT();
 			return true;
 		} else return super.interact(par1EntityPlayer);
 	}

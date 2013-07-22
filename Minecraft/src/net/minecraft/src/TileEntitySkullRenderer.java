@@ -3,6 +3,10 @@ package net.minecraft.src;
 
 public class TileEntitySkullRenderer extends TileEntitySpecialRenderer
 {
+	private static final ResourceLocation field_110642_c = new ResourceLocation("textures/entity/skeleton/skeleton.png");
+	private static final ResourceLocation field_110640_d = new ResourceLocation("textures/entity/skeleton/wither_skeleton.png");
+	private static final ResourceLocation field_110641_e = new ResourceLocation("textures/entity/zombie/zombie.png");
+	private static final ResourceLocation field_110639_f = new ResourceLocation("textures/entity/creeper/creeper.png");
 	public static TileEntitySkullRenderer skullRenderer;
 	private ModelSkeletonHead field_82396_c = new ModelSkeletonHead(0, 0, 64, 32);
 	private ModelSkeletonHead field_82395_d = new ModelSkeletonHead(0, 0, 64, 64);
@@ -14,31 +18,26 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer
 		{
 			case 0:
 			default:
-				bindTextureByName("/mob/skeleton.png");
+				func_110628_a(field_110642_c);
 				break;
 			case 1:
-				bindTextureByName("/mob/skeleton_wither.png");
+				func_110628_a(field_110640_d);
 				break;
 			case 2:
-				bindTextureByName("/mob/zombie.png");
+				func_110628_a(field_110641_e);
 				var8 = field_82395_d;
 				break;
 			case 3:
+				ResourceLocation var9 = AbstractClientPlayer.field_110314_b;
 				if(par7Str != null && par7Str.length() > 0)
 				{
-					String var9 = "http://skins.minecraft.net/MinecraftSkins/" + StringUtils.stripControlCodes(par7Str) + ".png";
-					if(!skullRenderer.tileEntityRenderer.renderEngine.hasImageData(var9))
-					{
-						skullRenderer.tileEntityRenderer.renderEngine.obtainImageData(var9, new ImageBufferDownload());
-					}
-					bindTextureByURL(var9, "/mob/char.png");
-				} else
-				{
-					bindTextureByName("/mob/char.png");
+					var9 = AbstractClientPlayer.func_110305_h(par7Str);
+					AbstractClientPlayer.func_110304_a(var9, par7Str);
 				}
+				func_110628_a(var9);
 				break;
 			case 4:
-				bindTextureByName("/mob/creeper.png");
+				func_110628_a(field_110639_f);
 		}
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_CULL_FACE);

@@ -5,9 +5,9 @@ import java.nio.IntBuffer;
 
 public class ActiveRenderInfo
 {
-	public static float objectX = 0.0F;
-	public static float objectY = 0.0F;
-	public static float objectZ = 0.0F;
+	public static float objectX;
+	public static float objectY;
+	public static float objectZ;
 	private static IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
 	private static FloatBuffer modelview = GLAllocation.createDirectFloatBuffer(16);
 	private static FloatBuffer projection = GLAllocation.createDirectFloatBuffer(16);
@@ -18,9 +18,9 @@ public class ActiveRenderInfo
 	public static float rotationYZ;
 	public static float rotationXY;
 	
-	public static int getBlockIdAtEntityViewpoint(World par0World, EntityLiving par1EntityLiving, float par2)
+	public static int getBlockIdAtEntityViewpoint(World par0World, EntityLivingBase par1EntityLivingBase, float par2)
 	{
-		Vec3 var3 = projectViewFromEntity(par1EntityLiving, par2);
+		Vec3 var3 = projectViewFromEntity(par1EntityLivingBase, par2);
 		ChunkPosition var4 = new ChunkPosition(var3);
 		int var5 = par0World.getBlockId(var4.x, var4.y, var4.z);
 		if(var5 != 0 && Block.blocksList[var5].blockMaterial.isLiquid())
@@ -35,15 +35,15 @@ public class ActiveRenderInfo
 		return var5;
 	}
 	
-	public static Vec3 projectViewFromEntity(EntityLiving par0EntityLiving, double par1)
+	public static Vec3 projectViewFromEntity(EntityLivingBase par0EntityLivingBase, double par1)
 	{
-		double var3 = par0EntityLiving.prevPosX + (par0EntityLiving.posX - par0EntityLiving.prevPosX) * par1;
-		double var5 = par0EntityLiving.prevPosY + (par0EntityLiving.posY - par0EntityLiving.prevPosY) * par1 + par0EntityLiving.getEyeHeight();
-		double var7 = par0EntityLiving.prevPosZ + (par0EntityLiving.posZ - par0EntityLiving.prevPosZ) * par1;
+		double var3 = par0EntityLivingBase.prevPosX + (par0EntityLivingBase.posX - par0EntityLivingBase.prevPosX) * par1;
+		double var5 = par0EntityLivingBase.prevPosY + (par0EntityLivingBase.posY - par0EntityLivingBase.prevPosY) * par1 + par0EntityLivingBase.getEyeHeight();
+		double var7 = par0EntityLivingBase.prevPosZ + (par0EntityLivingBase.posZ - par0EntityLivingBase.prevPosZ) * par1;
 		double var9 = var3 + objectX * 1.0F;
 		double var11 = var5 + objectY * 1.0F;
 		double var13 = var7 + objectZ * 1.0F;
-		return par0EntityLiving.worldObj.getWorldVec3Pool().getVecFromPool(var9, var11, var13);
+		return par0EntityLivingBase.worldObj.getWorldVec3Pool().getVecFromPool(var9, var11, var13);
 	}
 	
 	public static void updateRenderInfo(EntityPlayer par0EntityPlayer, boolean par1)

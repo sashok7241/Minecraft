@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet130UpdateSign extends Packet
@@ -40,26 +40,26 @@ public class Packet130UpdateSign extends Packet
 		par1NetHandler.handleUpdateSign(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xPosition = par1DataInputStream.readInt();
-		yPosition = par1DataInputStream.readShort();
-		zPosition = par1DataInputStream.readInt();
+		xPosition = par1DataInput.readInt();
+		yPosition = par1DataInput.readShort();
+		zPosition = par1DataInput.readInt();
 		signLines = new String[4];
 		for(int var2 = 0; var2 < 4; ++var2)
 		{
-			signLines[var2] = readString(par1DataInputStream, 15);
+			signLines[var2] = readString(par1DataInput, 15);
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(xPosition);
-		par1DataOutputStream.writeShort(yPosition);
-		par1DataOutputStream.writeInt(zPosition);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeShort(yPosition);
+		par1DataOutput.writeInt(zPosition);
 		for(int var2 = 0; var2 < 4; ++var2)
 		{
-			writeString(signLines[var2], par1DataOutputStream);
+			writeString(signLines[var2], par1DataOutput);
 		}
 	}
 }

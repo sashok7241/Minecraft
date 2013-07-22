@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet250CustomPayload extends Packet
@@ -35,24 +35,24 @@ public class Packet250CustomPayload extends Packet
 		par1NetHandler.handleCustomPayload(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		channel = readString(par1DataInputStream, 20);
-		length = par1DataInputStream.readShort();
+		channel = readString(par1DataInput, 20);
+		length = par1DataInput.readShort();
 		if(length > 0 && length < 32767)
 		{
 			data = new byte[length];
-			par1DataInputStream.readFully(data);
+			par1DataInput.readFully(data);
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(channel, par1DataOutputStream);
-		par1DataOutputStream.writeShort((short) length);
+		writeString(channel, par1DataOutput);
+		par1DataOutput.writeShort((short) length);
 		if(data != null)
 		{
-			par1DataOutputStream.write(data);
+			par1DataOutput.write(data);
 		}
 	}
 }

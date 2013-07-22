@@ -5,7 +5,7 @@ import java.util.List;
 public class BlockSandStone extends Block
 {
 	public static final String[] SAND_STONE_TYPES = new String[] { "default", "chiseled", "smooth" };
-	private static final String[] field_94405_b = new String[] { "sandstone_side", "sandstone_carved", "sandstone_smooth" };
+	private static final String[] field_94405_b = new String[] { "normal", "carved", "smooth" };
 	private Icon[] field_94406_c;
 	private Icon field_94403_cO;
 	private Icon field_94404_cP;
@@ -49,9 +49,9 @@ public class BlockSandStone extends Block
 		field_94406_c = new Icon[field_94405_b.length];
 		for(int var2 = 0; var2 < field_94406_c.length; ++var2)
 		{
-			field_94406_c[var2] = par1IconRegister.registerIcon(field_94405_b[var2]);
+			field_94406_c[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + field_94405_b[var2]);
 		}
-		field_94403_cO = par1IconRegister.registerIcon("sandstone_top");
-		field_94404_cP = par1IconRegister.registerIcon("sandstone_bottom");
+		field_94403_cO = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		field_94404_cP = par1IconRegister.registerIcon(func_111023_E() + "_bottom");
 	}
 }

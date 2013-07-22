@@ -103,29 +103,24 @@ public class PotionEffect
 		return potionID;
 	}
 	
-	public boolean isSplashPotionEffect()
-	{
-		return isSplashPotion;
-	}
-	
-	public boolean onUpdate(EntityLiving par1EntityLiving)
+	public boolean onUpdate(EntityLivingBase par1EntityLivingBase)
 	{
 		if(duration > 0)
 		{
 			if(Potion.potionTypes[potionID].isReady(duration, amplifier))
 			{
-				performEffect(par1EntityLiving);
+				performEffect(par1EntityLivingBase);
 			}
 			deincrementDuration();
 		}
 		return duration > 0;
 	}
 	
-	public void performEffect(EntityLiving par1EntityLiving)
+	public void performEffect(EntityLivingBase par1EntityLivingBase)
 	{
 		if(duration > 0)
 		{
-			Potion.potionTypes[potionID].performEffect(par1EntityLiving, amplifier);
+			Potion.potionTypes[potionID].performEffect(par1EntityLivingBase, amplifier);
 		}
 	}
 	

@@ -3,6 +3,7 @@ package net.minecraft.src;
 
 public class RenderSlime extends RenderLiving
 {
+	private static final ResourceLocation field_110897_a = new ResourceLocation("textures/entity/slime/slime.png");
 	private ModelBase scaleAmount;
 	
 	public RenderSlime(ModelBase par1ModelBase, ModelBase par2ModelBase, float par3)
@@ -11,9 +12,19 @@ public class RenderSlime extends RenderLiving
 		scaleAmount = par2ModelBase;
 	}
 	
-	@Override protected void preRenderCallback(EntityLiving par1EntityLiving, float par2)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
 	{
-		scaleSlime((EntitySlime) par1EntityLiving, par2);
+		return func_110896_a((EntitySlime) par1Entity);
+	}
+	
+	protected ResourceLocation func_110896_a(EntitySlime par1EntitySlime)
+	{
+		return field_110897_a;
+	}
+	
+	@Override protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
+	{
+		scaleSlime((EntitySlime) par1EntityLivingBase, par2);
 	}
 	
 	protected void scaleSlime(EntitySlime par1EntitySlime, float par2)
@@ -24,9 +35,9 @@ public class RenderSlime extends RenderLiving
 		GL11.glScalef(var5 * var3, 1.0F / var5 * var3, var5 * var3);
 	}
 	
-	@Override protected int shouldRenderPass(EntityLiving par1EntityLiving, int par2, float par3)
+	@Override protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
 	{
-		return shouldSlimeRenderPass((EntitySlime) par1EntityLiving, par2, par3);
+		return shouldSlimeRenderPass((EntitySlime) par1EntityLivingBase, par2, par3);
 	}
 	
 	protected int shouldSlimeRenderPass(EntitySlime par1EntitySlime, int par2, float par3)

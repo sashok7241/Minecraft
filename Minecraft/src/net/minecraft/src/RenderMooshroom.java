@@ -3,6 +3,8 @@ package net.minecraft.src;
 
 public class RenderMooshroom extends RenderLiving
 {
+	private static final ResourceLocation field_110880_a = new ResourceLocation("textures/entity/cow/mooshroom.png");
+	
 	public RenderMooshroom(ModelBase par1ModelBase, float par2)
 	{
 		super(par1ModelBase, par2);
@@ -18,9 +20,19 @@ public class RenderMooshroom extends RenderLiving
 		renderLivingMooshroom((EntityMooshroom) par1EntityLiving, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected void renderEquippedItems(EntityLiving par1EntityLiving, float par2)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
 	{
-		renderMooshroomEquippedItems((EntityMooshroom) par1EntityLiving, par2);
+		return func_110879_a((EntityMooshroom) par1Entity);
+	}
+	
+	protected ResourceLocation func_110879_a(EntityMooshroom par1EntityMooshroom)
+	{
+		return field_110880_a;
+	}
+	
+	@Override protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
+	{
+		renderMooshroomEquippedItems((EntityMooshroom) par1EntityLivingBase, par2);
 	}
 	
 	public void renderLivingMooshroom(EntityMooshroom par1EntityMooshroom, double par2, double par4, double par6, float par8, float par9)
@@ -33,7 +45,7 @@ public class RenderMooshroom extends RenderLiving
 		super.renderEquippedItems(par1EntityMooshroom, par2);
 		if(!par1EntityMooshroom.isChild())
 		{
-			loadTexture("/terrain.png");
+			func_110776_a(TextureMap.field_110575_b);
 			GL11.glEnable(GL11.GL_CULL_FACE);
 			GL11.glPushMatrix();
 			GL11.glScalef(1.0F, -1.0F, 1.0F);
@@ -53,5 +65,10 @@ public class RenderMooshroom extends RenderLiving
 			GL11.glPopMatrix();
 			GL11.glDisable(GL11.GL_CULL_FACE);
 		}
+	}
+	
+	@Override public void renderPlayer(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
+	{
+		renderLivingMooshroom((EntityMooshroom) par1EntityLivingBase, par2, par4, par6, par8, par9);
 	}
 }

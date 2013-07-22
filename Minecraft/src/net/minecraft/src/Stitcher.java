@@ -17,34 +17,20 @@ public class Stitcher
 	private final int maxHeight;
 	private final boolean forcePowerOf2;
 	private final int maxTileDimension;
-	private Texture atlasTexture;
-	private final String textureName;
 	
-	public Stitcher(String par1Str, int par2, int par3, boolean par4)
+	public Stitcher(int par1, int par2, boolean par3)
 	{
-		this(par1Str, par2, par3, par4, 0);
+		this(par1, par2, par3, 0);
 	}
 	
-	public Stitcher(String par1, int par2, int par3, boolean par4, int par5)
+	public Stitcher(int par1, int par2, boolean par3, int par4)
 	{
 		setStitchHolders = new HashSet(256);
 		stitchSlots = new ArrayList(256);
-		currentWidth = 0;
-		currentHeight = 0;
-		textureName = par1;
-		maxWidth = par2;
-		maxHeight = par3;
-		forcePowerOf2 = par4;
-		maxTileDimension = par5;
-	}
-	
-	public void addStitchHolder(StitchHolder par1StitchHolder)
-	{
-		if(maxTileDimension > 0)
-		{
-			par1StitchHolder.setNewDimension(maxTileDimension);
-		}
-		setStitchHolders.add(par1StitchHolder);
+		maxWidth = par1;
+		maxHeight = par2;
+		forcePowerOf2 = par3;
+		maxTileDimension = par4;
 	}
 	
 	private boolean allocateSlot(StitchHolder par1StitchHolder)
@@ -63,11 +49,21 @@ public class Stitcher
 	{
 		StitchHolder[] var1 = (StitchHolder[]) setStitchHolders.toArray(new StitchHolder[setStitchHolders.size()]);
 		Arrays.sort(var1);
-		atlasTexture = null;
-		for(StitchHolder element : var1)
+		StitchHolder[] var2 = var1;
+		int var3 = var1.length;
+		for(int var4 = 0; var4 < var3; ++var4)
 		{
-			StitchHolder var3 = element;
-			if(!allocateSlot(var3)) throw new StitcherException(var3);
+			StitchHolder var5 = var2[var4];
+			if(!allocateSlot(var5))
+			{
+				String var6 = String.format("Unable to fit: %s - size: %dx%d - Maybe try a lowerresolution texturepack?", new Object[] { var5.func_98150_a().getIconName(), Integer.valueOf(var5.func_98150_a().getOriginX()), Integer.valueOf(var5.func_98150_a().getOriginY()) });
+				throw new StitcherException(var5, var6);
+			}
+		}
+		if(forcePowerOf2)
+		{
+			currentWidth = getCeilPowerOf2(currentWidth);
+			currentHeight = getCeilPowerOf2(currentHeight);
 		}
 	}
 	
@@ -126,6 +122,26 @@ public class Stitcher
 		return true;
 	}
 	
+	public void func_110934_a(TextureAtlasSprite par1TextureAtlasSprite)
+	{
+		StitchHolder var2 = new StitchHolder(par1TextureAtlasSprite);
+		if(maxTileDimension > 0)
+		{
+			var2.setNewDimension(maxTileDimension);
+		}
+		setStitchHolders.add(var2);
+	}
+	
+	public int func_110935_a()
+	{
+		return currentWidth;
+	}
+	
+	public int func_110936_b()
+	{
+		return currentHeight;
+	}
+	
 	private int getCeilPowerOf2(int par1)
 	{
 		int var2 = par1 - 1;
@@ -139,33 +155,23 @@ public class Stitcher
 	
 	public List getStichSlots()
 	{
-		ArrayList var1 = new ArrayList();
+		ArrayList var1 = Lists.newArrayList();
 		Iterator var2 = stitchSlots.iterator();
 		while(var2.hasNext())
 		{
 			StitchSlot var3 = (StitchSlot) var2.next();
 			var3.getAllStitchSlots(var1);
 		}
-		return var1;
-	}
-	
-	public Texture getTexture()
-	{
-		if(forcePowerOf2)
+		ArrayList var7 = Lists.newArrayList();
+		Iterator var8 = var1.iterator();
+		while(var8.hasNext())
 		{
-			currentWidth = getCeilPowerOf2(currentWidth);
-			currentHeight = getCeilPowerOf2(currentHeight);
+			StitchSlot var4 = (StitchSlot) var8.next();
+			StitchHolder var5 = var4.getStitchHolder();
+			TextureAtlasSprite var6 = var5.func_98150_a();
+			var6.func_110971_a(currentWidth, currentHeight, var4.getOriginX(), var4.getOriginY(), var5.isRotated());
+			var7.add(var6);
 		}
-		atlasTexture = TextureManager.instance().createEmptyTexture(textureName, 1, currentWidth, currentHeight, 6408);
-		atlasTexture.fillRect(atlasTexture.getTextureRect(), -65536);
-		List var1 = getStichSlots();
-		for(int var2 = 0; var2 < var1.size(); ++var2)
-		{
-			StitchSlot var3 = (StitchSlot) var1.get(var2);
-			StitchHolder var4 = var3.getStitchHolder();
-			atlasTexture.copyFrom(var3.getOriginX(), var3.getOriginY(), var4.func_98150_a(), var4.isRotated());
-		}
-		TextureManager.instance().registerTexture(textureName, atlasTexture);
-		return atlasTexture;
+		return var7;
 	}
 }

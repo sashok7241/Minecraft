@@ -2,13 +2,12 @@ package net.minecraft.src;
 
 public class EntityHugeExplodeFX extends EntityFX
 {
-	private int timeSinceStart = 0;
-	private int maximumTime = 0;
+	private int timeSinceStart;
+	private int maximumTime = 8;
 	
 	public EntityHugeExplodeFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
 		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
-		maximumTime = 8;
 	}
 	
 	@Override public int getFXLayer()

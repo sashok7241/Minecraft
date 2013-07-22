@@ -15,22 +15,64 @@ public class EntityItemFrame extends EntityHanging
 		setDirection(par5);
 	}
 	
-	@Override public void dropItemStack()
-	{
-		entityDropItem(new ItemStack(Item.itemFrame), 0.0F);
-		ItemStack var1 = getDisplayedItem();
-		if(var1 != null && rand.nextFloat() < itemDropChance)
-		{
-			var1 = var1.copy();
-			var1.setItemFrame((EntityItemFrame) null);
-			entityDropItem(var1, 0.0F);
-		}
-	}
-	
 	@Override protected void entityInit()
 	{
 		getDataWatcher().addObjectByDataType(2, 5);
 		getDataWatcher().addObject(3, Byte.valueOf((byte) 0));
+	}
+	
+	@Override public void func_110128_b(Entity par1Entity)
+	{
+		ItemStack var2 = getDisplayedItem();
+		if(par1Entity instanceof EntityPlayer)
+		{
+			EntityPlayer var3 = (EntityPlayer) par1Entity;
+			if(var3.capabilities.isCreativeMode)
+			{
+				func_110131_b(var2);
+				return;
+			}
+		}
+		entityDropItem(new ItemStack(Item.itemFrame), 0.0F);
+		if(var2 != null && rand.nextFloat() < itemDropChance)
+		{
+			var2 = var2.copy();
+			func_110131_b(var2);
+			entityDropItem(var2, 0.0F);
+		}
+	}
+	
+	private void func_110131_b(ItemStack par1ItemStack)
+	{
+		if(par1ItemStack != null)
+		{
+			if(par1ItemStack.itemID == Item.map.itemID)
+			{
+				MapData var2 = ((ItemMap) par1ItemStack.getItem()).getMapData(par1ItemStack, worldObj);
+				var2.playersVisibleOnMap.remove("frame-" + entityId);
+			}
+			par1ItemStack.setItemFrame((EntityItemFrame) null);
+		}
+	}
+	
+	@Override public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+	{
+		if(getDisplayedItem() == null)
+		{
+			ItemStack var2 = par1EntityPlayer.getHeldItem();
+			if(var2 != null && !worldObj.isRemote)
+			{
+				setDisplayedItem(var2);
+				if(!par1EntityPlayer.capabilities.isCreativeMode && --var2.stackSize <= 0)
+				{
+					par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
+				}
+			}
+		} else if(!worldObj.isRemote)
+		{
+			setItemRotation(getRotation() + 1);
+		}
+		return true;
 	}
 	
 	@Override public int func_82329_d()
@@ -51,26 +93,6 @@ public class EntityItemFrame extends EntityHanging
 	public int getRotation()
 	{
 		return getDataWatcher().getWatchableObjectByte(3);
-	}
-	
-	@Override public boolean interact(EntityPlayer par1EntityPlayer)
-	{
-		if(getDisplayedItem() == null)
-		{
-			ItemStack var2 = par1EntityPlayer.getHeldItem();
-			if(var2 != null && !worldObj.isRemote)
-			{
-				setDisplayedItem(var2);
-				if(!par1EntityPlayer.capabilities.isCreativeMode && --var2.stackSize <= 0)
-				{
-					par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
-				}
-			}
-		} else if(!worldObj.isRemote)
-		{
-			setItemRotation(getRotation() + 1);
-		}
-		return true;
 	}
 	
 	@Override public boolean isInRangeToRenderDist(double par1)

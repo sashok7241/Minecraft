@@ -130,12 +130,13 @@ public class ChunkProviderHell implements IChunkProvider
 	
 	@Override public List getPossibleCreatures(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
 	{
-		if(par1EnumCreatureType == EnumCreatureType.monster && genNetherBridge.hasStructureAt(par2, par3, par4)) return genNetherBridge.getSpawnList();
-		else
+		if(par1EnumCreatureType == EnumCreatureType.monster)
 		{
-			BiomeGenBase var5 = worldObj.getBiomeGenForCoords(par2, par4);
-			return var5 == null ? null : var5.getSpawnableList(par1EnumCreatureType);
+			if(genNetherBridge.hasStructureAt(par2, par3, par4)) return genNetherBridge.getSpawnList();
+			if(genNetherBridge.func_142038_b(par2, par3, par4) && worldObj.getBlockId(par2, par3 - 1, par4) == Block.netherBrick.blockID) return genNetherBridge.getSpawnList();
 		}
+		BiomeGenBase var5 = worldObj.getBiomeGenForCoords(par2, par4);
+		return var5 == null ? null : var5.getSpawnableList(par1EnumCreatureType);
 	}
 	
 	private double[] initializeNoiseField(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, int par6, int par7)

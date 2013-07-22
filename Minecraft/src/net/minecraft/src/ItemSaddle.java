@@ -9,23 +9,23 @@ public class ItemSaddle extends Item
 		setCreativeTab(CreativeTabs.tabTransport);
 	}
 	
-	@Override public boolean hitEntity(ItemStack par1ItemStack, EntityLiving par2EntityLiving, EntityLiving par3EntityLiving)
+	@Override public boolean func_111207_a(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase)
 	{
-		itemInteractionForEntity(par1ItemStack, par2EntityLiving);
-		return true;
-	}
-	
-	@Override public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityLiving par2EntityLiving)
-	{
-		if(par2EntityLiving instanceof EntityPig)
+		if(par3EntityLivingBase instanceof EntityPig)
 		{
-			EntityPig var3 = (EntityPig) par2EntityLiving;
-			if(!var3.getSaddled() && !var3.isChild())
+			EntityPig var4 = (EntityPig) par3EntityLivingBase;
+			if(!var4.getSaddled() && !var4.isChild())
 			{
-				var3.setSaddled(true);
+				var4.setSaddled(true);
 				--par1ItemStack.stackSize;
 			}
 			return true;
 		} else return false;
+	}
+	
+	@Override public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
+	{
+		func_111207_a(par1ItemStack, (EntityPlayer) null, par2EntityLivingBase);
+		return true;
 	}
 }

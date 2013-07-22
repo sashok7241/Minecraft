@@ -14,27 +14,23 @@ public class ItemBucket extends Item
 	
 	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		float var4 = 1.0F;
-		double var5 = par3EntityPlayer.prevPosX + (par3EntityPlayer.posX - par3EntityPlayer.prevPosX) * var4;
-		double var7 = par3EntityPlayer.prevPosY + (par3EntityPlayer.posY - par3EntityPlayer.prevPosY) * var4 + 1.62D - par3EntityPlayer.yOffset;
-		double var9 = par3EntityPlayer.prevPosZ + (par3EntityPlayer.posZ - par3EntityPlayer.prevPosZ) * var4;
-		boolean var11 = isFull == 0;
-		MovingObjectPosition var12 = getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, var11);
-		if(var12 == null) return par1ItemStack;
+		boolean var4 = isFull == 0;
+		MovingObjectPosition var5 = getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, var4);
+		if(var5 == null) return par1ItemStack;
 		else
 		{
-			if(var12.typeOfHit == EnumMovingObjectType.TILE)
+			if(var5.typeOfHit == EnumMovingObjectType.TILE)
 			{
-				int var13 = var12.blockX;
-				int var14 = var12.blockY;
-				int var15 = var12.blockZ;
-				if(!par2World.canMineBlock(par3EntityPlayer, var13, var14, var15)) return par1ItemStack;
+				int var6 = var5.blockX;
+				int var7 = var5.blockY;
+				int var8 = var5.blockZ;
+				if(!par2World.canMineBlock(par3EntityPlayer, var6, var7, var8)) return par1ItemStack;
 				if(isFull == 0)
 				{
-					if(!par3EntityPlayer.canPlayerEdit(var13, var14, var15, var12.sideHit, par1ItemStack)) return par1ItemStack;
-					if(par2World.getBlockMaterial(var13, var14, var15) == Material.water && par2World.getBlockMetadata(var13, var14, var15) == 0)
+					if(!par3EntityPlayer.canPlayerEdit(var6, var7, var8, var5.sideHit, par1ItemStack)) return par1ItemStack;
+					if(par2World.getBlockMaterial(var6, var7, var8) == Material.water && par2World.getBlockMetadata(var6, var7, var8) == 0)
 					{
-						par2World.setBlockToAir(var13, var14, var15);
+						par2World.setBlockToAir(var6, var7, var8);
 						if(par3EntityPlayer.capabilities.isCreativeMode) return par1ItemStack;
 						if(--par1ItemStack.stackSize <= 0) return new ItemStack(Item.bucketWater);
 						if(!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.bucketWater)))
@@ -43,9 +39,9 @@ public class ItemBucket extends Item
 						}
 						return par1ItemStack;
 					}
-					if(par2World.getBlockMaterial(var13, var14, var15) == Material.lava && par2World.getBlockMetadata(var13, var14, var15) == 0)
+					if(par2World.getBlockMaterial(var6, var7, var8) == Material.lava && par2World.getBlockMetadata(var6, var7, var8) == 0)
 					{
-						par2World.setBlockToAir(var13, var14, var15);
+						par2World.setBlockToAir(var6, var7, var8);
 						if(par3EntityPlayer.capabilities.isCreativeMode) return par1ItemStack;
 						if(--par1ItemStack.stackSize <= 0) return new ItemStack(Item.bucketLava);
 						if(!par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.bucketLava)))
@@ -57,56 +53,65 @@ public class ItemBucket extends Item
 				} else
 				{
 					if(isFull < 0) return new ItemStack(Item.bucketEmpty);
-					if(var12.sideHit == 0)
+					if(var5.sideHit == 0)
 					{
-						--var14;
+						--var7;
 					}
-					if(var12.sideHit == 1)
+					if(var5.sideHit == 1)
 					{
-						++var14;
+						++var7;
 					}
-					if(var12.sideHit == 2)
+					if(var5.sideHit == 2)
 					{
-						--var15;
+						--var8;
 					}
-					if(var12.sideHit == 3)
+					if(var5.sideHit == 3)
 					{
-						++var15;
+						++var8;
 					}
-					if(var12.sideHit == 4)
+					if(var5.sideHit == 4)
 					{
-						--var13;
+						--var6;
 					}
-					if(var12.sideHit == 5)
+					if(var5.sideHit == 5)
 					{
-						++var13;
+						++var6;
 					}
-					if(!par3EntityPlayer.canPlayerEdit(var13, var14, var15, var12.sideHit, par1ItemStack)) return par1ItemStack;
-					if(tryPlaceContainedLiquid(par2World, var5, var7, var9, var13, var14, var15) && !par3EntityPlayer.capabilities.isCreativeMode) return new ItemStack(Item.bucketEmpty);
+					if(!par3EntityPlayer.canPlayerEdit(var6, var7, var8, var5.sideHit, par1ItemStack)) return par1ItemStack;
+					if(tryPlaceContainedLiquid(par2World, var6, var7, var8) && !par3EntityPlayer.capabilities.isCreativeMode) return new ItemStack(Item.bucketEmpty);
 				}
-			} else if(isFull == 0 && var12.entityHit instanceof EntityCow) return new ItemStack(Item.bucketMilk);
+			}
 			return par1ItemStack;
 		}
 	}
 	
-	public boolean tryPlaceContainedLiquid(World par1World, double par2, double par4, double par6, int par8, int par9, int par10)
+	public boolean tryPlaceContainedLiquid(World par1World, int par2, int par3, int par4)
 	{
 		if(isFull <= 0) return false;
-		else if(!par1World.isAirBlock(par8, par9, par10) && par1World.getBlockMaterial(par8, par9, par10).isSolid()) return false;
 		else
 		{
-			if(par1World.provider.isHellWorld && isFull == Block.waterMoving.blockID)
+			Material var5 = par1World.getBlockMaterial(par2, par3, par4);
+			boolean var6 = !var5.isSolid();
+			if(!par1World.isAirBlock(par2, par3, par4) && !var6) return false;
+			else
 			{
-				par1World.playSoundEffect(par2 + 0.5D, par4 + 0.5D, par6 + 0.5D, "random.fizz", 0.5F, 2.6F + (par1World.rand.nextFloat() - par1World.rand.nextFloat()) * 0.8F);
-				for(int var11 = 0; var11 < 8; ++var11)
+				if(par1World.provider.isHellWorld && isFull == Block.waterMoving.blockID)
 				{
-					par1World.spawnParticle("largesmoke", par8 + Math.random(), par9 + Math.random(), par10 + Math.random(), 0.0D, 0.0D, 0.0D);
+					par1World.playSoundEffect(par2 + 0.5F, par3 + 0.5F, par4 + 0.5F, "random.fizz", 0.5F, 2.6F + (par1World.rand.nextFloat() - par1World.rand.nextFloat()) * 0.8F);
+					for(int var7 = 0; var7 < 8; ++var7)
+					{
+						par1World.spawnParticle("largesmoke", par2 + Math.random(), par3 + Math.random(), par4 + Math.random(), 0.0D, 0.0D, 0.0D);
+					}
+				} else
+				{
+					if(!par1World.isRemote && var6 && !var5.isLiquid())
+					{
+						par1World.destroyBlock(par2, par3, par4, true);
+					}
+					par1World.setBlock(par2, par3, par4, isFull, 0, 3);
 				}
-			} else
-			{
-				par1World.setBlock(par8, par9, par10, isFull, 0, 3);
+				return true;
 			}
-			return true;
 		}
 	}
 }

@@ -41,9 +41,9 @@ public class BlockEnchantmentTable extends BlockContainer
 		}
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLiving, par6ItemStack);
+		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLivingBase, par6ItemStack);
 		if(par6ItemStack.hasDisplayName())
 		{
 			((TileEntityEnchantmentTable) par1World.getBlockTileEntity(par2, par3, par4)).func_94134_a(par6ItemStack.getDisplayName());
@@ -81,9 +81,9 @@ public class BlockEnchantmentTable extends BlockContainer
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("enchantment_side");
-		field_94461_a = par1IconRegister.registerIcon("enchantment_top");
-		field_94460_b = par1IconRegister.registerIcon("enchantment_bottom");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_" + "side");
+		field_94461_a = par1IconRegister.registerIcon(func_111023_E() + "_" + "top");
+		field_94460_b = par1IconRegister.registerIcon(func_111023_E() + "_" + "bottom");
 	}
 	
 	@Override public boolean renderAsNormalBlock()

@@ -6,7 +6,7 @@ import java.util.List;
 public class TileEntityChest extends TileEntity implements IInventory
 {
 	private ItemStack[] chestContents = new ItemStack[36];
-	public boolean adjacentChestChecked = false;
+	public boolean adjacentChestChecked;
 	public TileEntityChest adjacentChestZNeg;
 	public TileEntityChest adjacentChestXPos;
 	public TileEntityChest adjacentChestXNeg;
@@ -15,8 +15,18 @@ public class TileEntityChest extends TileEntity implements IInventory
 	public float prevLidAngle;
 	public int numUsingPlayers;
 	private int ticksSinceSync;
-	private int field_94046_i = -1;
+	private int field_94046_i;
 	private String field_94045_s;
+	
+	public TileEntityChest()
+	{
+		field_94046_i = -1;
+	}
+	
+	public TileEntityChest(int par1)
+	{
+		field_94046_i = par1;
+	}
 	
 	public void checkForAdjacentChests()
 	{

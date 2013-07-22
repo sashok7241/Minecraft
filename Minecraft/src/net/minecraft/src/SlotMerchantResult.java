@@ -72,6 +72,7 @@ public class SlotMerchantResult extends Slot
 			ItemStack var5 = theMerchantInventory.getStackInSlot(1);
 			if(func_75230_a(var3, var4, var5) || func_75230_a(var3, var5, var4))
 			{
+				theMerchant.useRecipe(var3);
 				if(var4 != null && var4.stackSize <= 0)
 				{
 					var4 = null;
@@ -82,7 +83,6 @@ public class SlotMerchantResult extends Slot
 				}
 				theMerchantInventory.setInventorySlotContents(0, var4);
 				theMerchantInventory.setInventorySlotContents(1, var5);
-				theMerchant.useRecipe(var3);
 			}
 		}
 	}

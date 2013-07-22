@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet70GameEvent extends Packet
@@ -30,15 +30,15 @@ public class Packet70GameEvent extends Packet
 		par1NetHandler.handleGameEvent(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		eventType = par1DataInputStream.readByte();
-		gameMode = par1DataInputStream.readByte();
+		eventType = par1DataInput.readByte();
+		gameMode = par1DataInput.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeByte(eventType);
-		par1DataOutputStream.writeByte(gameMode);
+		par1DataOutput.writeByte(eventType);
+		par1DataOutput.writeByte(gameMode);
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 public class ItemDye extends Item
 {
 	public static final String[] dyeColorNames = new String[] { "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "lightBlue", "magenta", "orange", "white" };
-	public static final String[] field_94595_b = new String[] { "dyePowder_black", "dyePowder_red", "dyePowder_green", "dyePowder_brown", "dyePowder_blue", "dyePowder_purple", "dyePowder_cyan", "dyePowder_silver", "dyePowder_gray", "dyePowder_pink", "dyePowder_lime", "dyePowder_yellow", "dyePowder_lightBlue", "dyePowder_magenta", "dyePowder_orange", "dyePowder_white" };
+	public static final String[] field_94595_b = new String[] { "black", "red", "green", "brown", "blue", "purple", "cyan", "silver", "gray", "pink", "lime", "yellow", "light_blue", "magenta", "orange", "white" };
 	public static final int[] dyeColors = new int[] { 1973019, 11743532, 3887386, 5320730, 2437522, 8073150, 2651799, 11250603, 4408131, 14188952, 4312372, 14602026, 6719955, 12801229, 15435844, 15790320 };
 	private Icon[] field_94594_d;
 	
@@ -15,6 +15,21 @@ public class ItemDye extends Item
 		setHasSubtypes(true);
 		setMaxDamage(0);
 		setCreativeTab(CreativeTabs.tabMaterials);
+	}
+	
+	@Override public boolean func_111207_a(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, EntityLivingBase par3EntityLivingBase)
+	{
+		if(par3EntityLivingBase instanceof EntitySheep)
+		{
+			EntitySheep var4 = (EntitySheep) par3EntityLivingBase;
+			int var5 = BlockColored.getBlockFromDye(par1ItemStack.getItemDamage());
+			if(!var4.getSheared() && var4.getFleeceColor() != var5)
+			{
+				var4.setFleeceColor(var5);
+				--par1ItemStack.stackSize;
+			}
+			return true;
+		} else return false;
 	}
 	
 	@Override public Icon getIconFromDamage(int par1)
@@ -35,21 +50,6 @@ public class ItemDye extends Item
 	{
 		int var2 = MathHelper.clamp_int(par1ItemStack.getItemDamage(), 0, 15);
 		return super.getUnlocalizedName() + "." + dyeColorNames[var2];
-	}
-	
-	@Override public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityLiving par2EntityLiving)
-	{
-		if(par2EntityLiving instanceof EntitySheep)
-		{
-			EntitySheep var3 = (EntitySheep) par2EntityLiving;
-			int var4 = BlockCloth.getBlockFromDye(par1ItemStack.getItemDamage());
-			if(!var3.getSheared() && var3.getFleeceColor() != var4)
-			{
-				var3.setFleeceColor(var4);
-				--par1ItemStack.stackSize;
-			}
-			return true;
-		} else return false;
 	}
 	
 	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
@@ -112,7 +112,7 @@ public class ItemDye extends Item
 		field_94594_d = new Icon[field_94595_b.length];
 		for(int var2 = 0; var2 < field_94595_b.length; ++var2)
 		{
-			field_94594_d[var2] = par1IconRegister.registerIcon(field_94595_b[var2]);
+			field_94594_d[var2] = par1IconRegister.registerIcon(func_111208_A() + "_" + field_94595_b[var2]);
 		}
 	}
 	

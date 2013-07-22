@@ -8,9 +8,9 @@ public class CallableServerMemoryStats implements Callable
 {
 	final MinecraftServer mcServer;
 	
-	public CallableServerMemoryStats(MinecraftServer par1)
+	public CallableServerMemoryStats(MinecraftServer par1MinecraftServer)
 	{
-		mcServer = par1;
+		mcServer = par1MinecraftServer;
 	}
 	
 	@Override public Object call()

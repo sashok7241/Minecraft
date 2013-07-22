@@ -8,9 +8,9 @@ public class AABBPool
 	private final int maxNumCleans;
 	private final int numEntriesToRemove;
 	private final List listAABB = new ArrayList();
-	private int nextPoolIndex = 0;
-	private int maxPoolIndex = 0;
-	private int numCleans = 0;
+	private int nextPoolIndex;
+	private int maxPoolIndex;
+	private int numCleans;
 	
 	public AABBPool(int par1, int par2)
 	{

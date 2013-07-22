@@ -15,8 +15,6 @@ public class EntityCrit2FX extends EntityFX
 	public EntityCrit2FX(World par1World, Entity par2Entity, String par3Str)
 	{
 		super(par1World, par2Entity.posX, par2Entity.boundingBox.minY + par2Entity.height / 2.0F, par2Entity.posZ, par2Entity.motionX, par2Entity.motionY, par2Entity.motionZ);
-		currentLife = 0;
-		maximumLife = 0;
 		theEntity = par2Entity;
 		maximumLife = 3;
 		particleName = par3Str;

@@ -6,8 +6,8 @@ public class EntityMoveHelper
 	private double posX;
 	private double posY;
 	private double posZ;
-	private float speed;
-	private boolean update = false;
+	private double speed;
+	private boolean update;
 	
 	public EntityMoveHelper(EntityLiving par1EntityLiving)
 	{
@@ -17,7 +17,7 @@ public class EntityMoveHelper
 		posZ = par1EntityLiving.posZ;
 	}
 	
-	public float getSpeed()
+	public double getSpeed()
 	{
 		return speed;
 	}
@@ -56,7 +56,7 @@ public class EntityMoveHelper
 			{
 				float var10 = (float) (Math.atan2(var4, var2) * 180.0D / Math.PI) - 90.0F;
 				entity.rotationYaw = limitAngle(entity.rotationYaw, var10, 30.0F);
-				entity.setAIMoveSpeed(speed * entity.getSpeedModifier());
+				entity.setAIMoveSpeed((float) (speed * entity.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e()));
 				if(var6 > 0.0D && var2 * var2 + var4 * var4 < 1.0D)
 				{
 					entity.getJumpHelper().setJumping();
@@ -65,7 +65,7 @@ public class EntityMoveHelper
 		}
 	}
 	
-	public void setMoveTo(double par1, double par3, double par5, float par7)
+	public void setMoveTo(double par1, double par3, double par5, double par7)
 	{
 		posX = par1;
 		posY = par3;

@@ -38,7 +38,7 @@ public class BlockFlower extends Block
 		if(!canBlockStay(par1World, par2, par3, par4))
 		{
 			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-			par1World.setBlockToAir(par2, par3, par4);
+			par1World.setBlock(par2, par3, par4, 0, 0, 2);
 		}
 	}
 	

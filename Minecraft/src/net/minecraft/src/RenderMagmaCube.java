@@ -1,42 +1,28 @@
 package net.minecraft.src;
 
-import net.minecraft.client.Minecraft;
 
 public class RenderMagmaCube extends RenderLiving
 {
-	private int field_77120_a;
+	private static final ResourceLocation field_110873_a = new ResourceLocation("textures/entity/slime/magmacube.png");
 	
 	public RenderMagmaCube()
 	{
 		super(new ModelMagmaCube(), 0.25F);
-		field_77120_a = ((ModelMagmaCube) mainModel).func_78107_a();
 	}
 	
-	@Override public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
 	{
-		renderMagmaCube((EntityMagmaCube) par1Entity, par2, par4, par6, par8, par9);
+		return func_110872_a((EntityMagmaCube) par1Entity);
 	}
 	
-	@Override public void doRenderLiving(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
+	protected ResourceLocation func_110872_a(EntityMagmaCube par1EntityMagmaCube)
 	{
-		renderMagmaCube((EntityMagmaCube) par1EntityLiving, par2, par4, par6, par8, par9);
+		return field_110873_a;
 	}
 	
-	@Override protected void preRenderCallback(EntityLiving par1EntityLiving, float par2)
+	@Override protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
 	{
-		scaleMagmaCube((EntityMagmaCube) par1EntityLiving, par2);
-	}
-	
-	public void renderMagmaCube(EntityMagmaCube par1EntityMagmaCube, double par2, double par4, double par6, float par8, float par9)
-	{
-		int var10 = ((ModelMagmaCube) mainModel).func_78107_a();
-		if(var10 != field_77120_a)
-		{
-			field_77120_a = var10;
-			mainModel = new ModelMagmaCube();
-			Minecraft.getMinecraft().getLogAgent().logInfo("Loaded new lava slime model");
-		}
-		super.doRenderLiving(par1EntityMagmaCube, par2, par4, par6, par8, par9);
+		scaleMagmaCube((EntityMagmaCube) par1EntityLivingBase, par2);
 	}
 	
 	protected void scaleMagmaCube(EntityMagmaCube par1EntityMagmaCube, float par2)

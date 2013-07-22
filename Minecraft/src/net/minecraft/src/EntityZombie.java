@@ -1,29 +1,31 @@
 package net.minecraft.src;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 public class EntityZombie extends EntityMob
 {
-	private int conversionTime = 0;
+	protected static final Attribute field_110186_bp = new RangedAttribute("zombie.spawnReinforcements", 0.0D, 0.0D, 1.0D).func_111117_a("Spawn Reinforcements Chance");
+	private static final UUID field_110187_bq = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
+	private static final AttributeModifier field_110188_br = new AttributeModifier(field_110187_bq, "Baby speed boost", 0.5D, 1);
+	private int conversionTime;
 	
 	public EntityZombie(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/zombie.png";
-		moveSpeed = 0.23F;
 		getNavigator().setBreakDoors(true);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(1, new EntityAIBreakDoor(this));
-		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, moveSpeed, false));
-		tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityVillager.class, moveSpeed, true));
-		tasks.addTask(4, new EntityAIMoveTwardsRestriction(this, moveSpeed));
-		tasks.addTask(5, new EntityAIMoveThroughVillage(this, moveSpeed, false));
-		tasks.addTask(6, new EntityAIWander(this, moveSpeed));
+		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+		tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityVillager.class, 1.0D, true));
+		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
+		tasks.addTask(5, new EntityAIMoveThroughVillage(this, 1.0D, false));
+		tasks.addTask(6, new EntityAIWander(this, 1.0D));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(7, new EntityAILookIdle(this));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 16.0F, 0, true));
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityVillager.class, 16.0F, 0, false));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityVillager.class, 0, false));
 	}
 	
 	@Override protected void addRandomArmor()
@@ -52,11 +54,60 @@ public class EntityZombie extends EntityMob
 		return var2;
 	}
 	
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
+	{
+		if(!super.attackEntityFrom(par1DamageSource, par2)) return false;
+		else
+		{
+			EntityLivingBase var3 = getAttackTarget();
+			if(var3 == null && getEntityToAttack() instanceof EntityLivingBase)
+			{
+				var3 = (EntityLivingBase) getEntityToAttack();
+			}
+			if(var3 == null && par1DamageSource.getEntity() instanceof EntityLivingBase)
+			{
+				var3 = (EntityLivingBase) par1DamageSource.getEntity();
+			}
+			if(var3 != null && worldObj.difficultySetting >= 3 && rand.nextFloat() < func_110148_a(field_110186_bp).func_111126_e())
+			{
+				int var4 = MathHelper.floor_double(posX);
+				int var5 = MathHelper.floor_double(posY);
+				int var6 = MathHelper.floor_double(posZ);
+				EntityZombie var7 = new EntityZombie(worldObj);
+				for(int var8 = 0; var8 < 50; ++var8)
+				{
+					int var9 = var4 + MathHelper.getRandomIntegerInRange(rand, 7, 40) * MathHelper.getRandomIntegerInRange(rand, -1, 1);
+					int var10 = var5 + MathHelper.getRandomIntegerInRange(rand, 7, 40) * MathHelper.getRandomIntegerInRange(rand, -1, 1);
+					int var11 = var6 + MathHelper.getRandomIntegerInRange(rand, 7, 40) * MathHelper.getRandomIntegerInRange(rand, -1, 1);
+					if(worldObj.doesBlockHaveSolidTopSurface(var9, var10 - 1, var11) && worldObj.getBlockLightValue(var9, var10, var11) < 10)
+					{
+						var7.setPosition(var9, var10, var11);
+						if(worldObj.checkNoEntityCollision(var7.boundingBox) && worldObj.getCollidingBoundingBoxes(var7, var7.boundingBox).isEmpty() && !worldObj.isAnyLiquid(var7.boundingBox))
+						{
+							worldObj.spawnEntityInWorld(var7);
+							var7.setAttackTarget(var3);
+							var7.func_110161_a((EntityLivingData) null);
+							func_110148_a(field_110186_bp).func_111121_a(new AttributeModifier("Zombie reinforcement caller charge", -0.05000000074505806D, 0));
+							var7.func_110148_a(field_110186_bp).func_111121_a(new AttributeModifier("Zombie reinforcement callee charge", -0.05000000074505806D, 0));
+							break;
+						}
+					}
+				}
+			}
+			return true;
+		}
+	}
+	
+	@Override protected boolean canDespawn()
+	{
+		return !isConverting();
+	}
+	
 	protected void convertToVillager()
 	{
 		EntityVillager var1 = new EntityVillager(worldObj);
 		var1.copyLocationAndAnglesFrom(this);
-		var1.initCreature();
+		var1.func_110161_a((EntityLivingData) null);
 		var1.func_82187_q();
 		if(isChild())
 		{
@@ -91,16 +142,55 @@ public class EntityZombie extends EntityMob
 		getDataWatcher().addObject(14, Byte.valueOf((byte) 0));
 	}
 	
-	@Override public int getAttackStrength(Entity par1Entity)
+	@Override protected void func_110147_ax()
 	{
-		ItemStack var2 = getHeldItem();
-		float var3 = (float) (getMaxHealth() - getHealth()) / (float) getMaxHealth();
-		int var4 = 3 + MathHelper.floor_float(var3 * 4.0F);
-		if(var2 != null)
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111265_b).func_111128_a(40.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.23000000417232513D);
+		func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(3.0D);
+		func_110140_aT().func_111150_b(field_110186_bp).func_111128_a(rand.nextDouble() * 0.10000000149011612D);
+	}
+	
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	{
+		Object par1EntityLivingData1 = super.func_110161_a(par1EntityLivingData);
+		float var2 = worldObj.func_110746_b(posX, posY, posZ);
+		setCanPickUpLoot(rand.nextFloat() < 0.55F * var2);
+		if(par1EntityLivingData1 == null)
 		{
-			var4 += var2.getDamageVsEntity(this);
+			par1EntityLivingData1 = new EntityZombieGroupData(this, worldObj.rand.nextFloat() < 0.05F, worldObj.rand.nextFloat() < 0.05F, (EntityZombieINNER1) null);
 		}
-		return var4;
+		if(par1EntityLivingData1 instanceof EntityZombieGroupData)
+		{
+			EntityZombieGroupData var3 = (EntityZombieGroupData) par1EntityLivingData1;
+			if(var3.field_142046_b)
+			{
+				setVillager(true);
+			}
+			if(var3.field_142048_a)
+			{
+				setChild(true);
+			}
+		}
+		addRandomArmor();
+		enchantEquipment();
+		if(getCurrentItemOrArmor(4) == null)
+		{
+			Calendar var5 = worldObj.getCurrentDate();
+			if(var5.get(2) + 1 == 10 && var5.get(5) == 31 && rand.nextFloat() < 0.25F)
+			{
+				setCurrentItemOrArmor(4, new ItemStack(rand.nextFloat() < 0.1F ? Block.pumpkinLantern : Block.pumpkin));
+				equipmentDropChances[4] = 0.0F;
+			}
+		}
+		func_110148_a(SharedMonsterAttributes.field_111266_c).func_111121_a(new AttributeModifier("Random spawn bonus", rand.nextDouble() * 0.05000000074505806D, 0));
+		func_110148_a(SharedMonsterAttributes.field_111265_b).func_111121_a(new AttributeModifier("Random zombie-spawn bonus", rand.nextDouble() * 1.5D, 2));
+		if(rand.nextFloat() < var2 * 0.05F)
+		{
+			func_110148_a(field_110186_bp).func_111121_a(new AttributeModifier("Leader zombie bonus", rand.nextDouble() * 0.25D + 0.5D, 0));
+			func_110148_a(SharedMonsterAttributes.field_111267_a).func_111121_a(new AttributeModifier("Leader zombie bonus", rand.nextDouble() * 3.0D + 1.0D, 2));
+		}
+		return (EntityLivingData) par1EntityLivingData1;
 	}
 	
 	protected int getConversionTimeBoost()
@@ -156,26 +246,6 @@ public class EntityZombie extends EntityMob
 		return "mob.zombie.say";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 20;
-	}
-	
-	@Override protected int getPathSearchRange()
-	{
-		return 40;
-	}
-	
-	@Override public float getSpeedModifier()
-	{
-		return super.getSpeedModifier() * (isChild() ? 1.5F : 1.0F);
-	}
-	
-	@Override public String getTexture()
-	{
-		return isVillager() ? "/mob/zombie_villager.png" : "/mob/zombie.png";
-	}
-	
 	@Override public int getTotalArmorValue()
 	{
 		int var1 = super.getTotalArmorValue() + 2;
@@ -194,26 +264,6 @@ public class EntityZombie extends EntityMob
 		} else
 		{
 			super.handleHealthUpdate(par1);
-		}
-	}
-	
-	@Override public void initCreature()
-	{
-		setCanPickUpLoot(rand.nextFloat() < pickUpLootProability[worldObj.difficultySetting]);
-		if(worldObj.rand.nextFloat() < 0.05F)
-		{
-			setVillager(true);
-		}
-		addRandomArmor();
-		enchantEquipment();
-		if(getCurrentItemOrArmor(4) == null)
-		{
-			Calendar var1 = worldObj.getCurrentDate();
-			if(var1.get(2) + 1 == 10 && var1.get(5) == 31 && rand.nextFloat() < 0.25F)
-			{
-				setCurrentItemOrArmor(4, new ItemStack(rand.nextFloat() < 0.1F ? Block.pumpkinLantern : Block.pumpkin));
-				equipmentDropChances[4] = 0.0F;
-			}
 		}
 	}
 	
@@ -258,18 +308,18 @@ public class EntityZombie extends EntityMob
 		return getDataWatcher().getWatchableObjectByte(13) == 1;
 	}
 	
-	@Override public void onKillEntity(EntityLiving par1EntityLiving)
+	@Override public void onKillEntity(EntityLivingBase par1EntityLivingBase)
 	{
-		super.onKillEntity(par1EntityLiving);
-		if(worldObj.difficultySetting >= 2 && par1EntityLiving instanceof EntityVillager)
+		super.onKillEntity(par1EntityLivingBase);
+		if(worldObj.difficultySetting >= 2 && par1EntityLivingBase instanceof EntityVillager)
 		{
 			if(worldObj.difficultySetting == 2 && rand.nextBoolean()) return;
 			EntityZombie var2 = new EntityZombie(worldObj);
-			var2.copyLocationAndAnglesFrom(par1EntityLiving);
-			worldObj.removeEntity(par1EntityLiving);
-			var2.initCreature();
+			var2.copyLocationAndAnglesFrom(par1EntityLivingBase);
+			worldObj.removeEntity(par1EntityLivingBase);
+			var2.func_110161_a((EntityLivingData) null);
 			var2.setVillager(true);
-			if(par1EntityLiving.isChild())
+			if(par1EntityLivingBase.isChild())
 			{
 				var2.setChild(true);
 			}
@@ -347,7 +397,16 @@ public class EntityZombie extends EntityMob
 	
 	public void setChild(boolean par1)
 	{
-		getDataWatcher().updateObject(12, Byte.valueOf((byte) 1));
+		getDataWatcher().updateObject(12, Byte.valueOf((byte) (par1 ? 1 : 0)));
+		if(worldObj != null && !worldObj.isRemote)
+		{
+			AttributeInstance var2 = func_110148_a(SharedMonsterAttributes.field_111263_d);
+			var2.func_111124_b(field_110188_br);
+			if(par1)
+			{
+				var2.func_111121_a(field_110188_br);
+			}
+		}
 	}
 	
 	public void setVillager(boolean par1)

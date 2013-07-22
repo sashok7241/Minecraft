@@ -8,8 +8,8 @@ public class VillageDoorInfo
 	public final int insideDirectionX;
 	public final int insideDirectionZ;
 	public int lastActivityTimestamp;
-	public boolean isDetachedFromVillageFlag = false;
-	private int doorOpeningRestrictionCounter = 0;
+	public boolean isDetachedFromVillageFlag;
+	private int doorOpeningRestrictionCounter;
 	
 	public VillageDoorInfo(int par1, int par2, int par3, int par4, int par5, int par6)
 	{

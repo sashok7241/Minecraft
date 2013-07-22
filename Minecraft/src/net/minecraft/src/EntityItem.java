@@ -12,7 +12,6 @@ public class EntityItem extends Entity
 	public EntityItem(World par1World)
 	{
 		super(par1World);
-		age = 0;
 		health = 5;
 		hoverStart = (float) (Math.random() * Math.PI * 2.0D);
 		setSize(0.25F, 0.25F);
@@ -22,7 +21,6 @@ public class EntityItem extends Entity
 	public EntityItem(World par1World, double par2, double par4, double par6)
 	{
 		super(par1World);
-		age = 0;
 		health = 5;
 		hoverStart = (float) (Math.random() * Math.PI * 2.0D);
 		setSize(0.25F, 0.25F);
@@ -40,14 +38,14 @@ public class EntityItem extends Entity
 		setEntityItemStack(par8ItemStack);
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else if(getEntityItem() != null && getEntityItem().itemID == Item.netherStar.itemID && par1DamageSource.isExplosion()) return false;
 		else
 		{
 			setBeenAttacked();
-			health -= par2;
+			health = (int) (health - par2);
 			if(health <= 0)
 			{
 				setDead();

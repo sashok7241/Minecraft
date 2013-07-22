@@ -1,22 +1,25 @@
 package net.minecraft.src;
 
+import java.util.UUID;
+
 public class EntityEnderman extends EntityMob
 {
+	private static final UUID field_110192_bp = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
+	private static final AttributeModifier field_110193_bq = new AttributeModifier(field_110192_bp, "Attacking speed boost", 6.199999809265137D, 0).func_111168_a(false);
 	private static boolean[] carriableBlocks = new boolean[256];
-	private int teleportDelay = 0;
-	private int field_70826_g = 0;
+	private int teleportDelay;
+	private int field_70826_g;
+	private Entity field_110194_bu;
 	private boolean field_104003_g;
 	
 	public EntityEnderman(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/enderman.png";
-		moveSpeed = 0.2F;
 		setSize(0.6F, 2.9F);
 		stepHeight = 1.0F;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -85,9 +88,12 @@ public class EntityEnderman extends EntityMob
 		return null;
 	}
 	
-	@Override public int getAttackStrength(Entity par1Entity)
+	@Override protected void func_110147_ax()
 	{
-		return 7;
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(40.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.30000001192092896D);
+		func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(7.0D);
 	}
 	
 	public int getCarried()
@@ -120,11 +126,6 @@ public class EntityEnderman extends EntityMob
 		return isScreaming() ? "mob.endermen.scream" : "mob.endermen.idle";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 40;
-	}
-	
 	public boolean isScreaming()
 	{
 		return dataWatcher.getWatchableObjectByte(18) > 0;
@@ -134,10 +135,19 @@ public class EntityEnderman extends EntityMob
 	{
 		if(isWet())
 		{
-			attackEntityFrom(DamageSource.drown, 1);
+			attackEntityFrom(DamageSource.drown, 1.0F);
 		}
-		moveSpeed = entityToAttack != null ? 6.5F : 0.3F;
-		int var1;
+		if(field_110194_bu != entityToAttack)
+		{
+			AttributeInstance var1 = func_110148_a(SharedMonsterAttributes.field_111263_d);
+			var1.func_111124_b(field_110193_bq);
+			if(entityToAttack != null)
+			{
+				var1.func_111121_a(field_110193_bq);
+			}
+		}
+		field_110194_bu = entityToAttack;
+		int var6;
 		if(!worldObj.isRemote && worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
 		{
 			int var2;
@@ -147,39 +157,39 @@ public class EntityEnderman extends EntityMob
 			{
 				if(rand.nextInt(20) == 0)
 				{
-					var1 = MathHelper.floor_double(posX - 2.0D + rand.nextDouble() * 4.0D);
+					var6 = MathHelper.floor_double(posX - 2.0D + rand.nextDouble() * 4.0D);
 					var2 = MathHelper.floor_double(posY + rand.nextDouble() * 3.0D);
 					var3 = MathHelper.floor_double(posZ - 2.0D + rand.nextDouble() * 4.0D);
-					var4 = worldObj.getBlockId(var1, var2, var3);
+					var4 = worldObj.getBlockId(var6, var2, var3);
 					if(carriableBlocks[var4])
 					{
-						setCarried(worldObj.getBlockId(var1, var2, var3));
-						setCarryingData(worldObj.getBlockMetadata(var1, var2, var3));
-						worldObj.setBlock(var1, var2, var3, 0);
+						setCarried(worldObj.getBlockId(var6, var2, var3));
+						setCarryingData(worldObj.getBlockMetadata(var6, var2, var3));
+						worldObj.setBlock(var6, var2, var3, 0);
 					}
 				}
 			} else if(rand.nextInt(2000) == 0)
 			{
-				var1 = MathHelper.floor_double(posX - 1.0D + rand.nextDouble() * 2.0D);
+				var6 = MathHelper.floor_double(posX - 1.0D + rand.nextDouble() * 2.0D);
 				var2 = MathHelper.floor_double(posY + rand.nextDouble() * 2.0D);
 				var3 = MathHelper.floor_double(posZ - 1.0D + rand.nextDouble() * 2.0D);
-				var4 = worldObj.getBlockId(var1, var2, var3);
-				int var5 = worldObj.getBlockId(var1, var2 - 1, var3);
+				var4 = worldObj.getBlockId(var6, var2, var3);
+				int var5 = worldObj.getBlockId(var6, var2 - 1, var3);
 				if(var4 == 0 && var5 > 0 && Block.blocksList[var5].renderAsNormalBlock())
 				{
-					worldObj.setBlock(var1, var2, var3, getCarried(), getCarryingData(), 3);
+					worldObj.setBlock(var6, var2, var3, getCarried(), getCarryingData(), 3);
 					setCarried(0);
 				}
 			}
 		}
-		for(var1 = 0; var1 < 2; ++var1)
+		for(var6 = 0; var6 < 2; ++var6)
 		{
 			worldObj.spawnParticle("portal", posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height - 0.25D, posZ + (rand.nextDouble() - 0.5D) * width, (rand.nextDouble() - 0.5D) * 2.0D, -rand.nextDouble(), (rand.nextDouble() - 0.5D) * 2.0D);
 		}
 		if(worldObj.isDaytime() && !worldObj.isRemote)
 		{
-			float var6 = getBrightness(1.0F);
-			if(var6 > 0.5F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) && rand.nextFloat() * 30.0F < (var6 - 0.4F) * 2.0F)
+			float var7 = getBrightness(1.0F);
+			if(var7 > 0.5F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) && rand.nextFloat() * 30.0F < (var7 - 0.4F) * 2.0F)
 			{
 				entityToAttack = null;
 				setScreaming(false);
@@ -209,8 +219,6 @@ public class EntityEnderman extends EntityMob
 			{
 				if(entityToAttack instanceof EntityPlayer && shouldAttackPlayer((EntityPlayer) entityToAttack))
 				{
-					moveStrafing = moveForward = 0.0F;
-					moveSpeed = 0.0F;
 					if(entityToAttack.getDistanceSqToEntity(this) < 16.0D)
 					{
 						teleportRandomly();

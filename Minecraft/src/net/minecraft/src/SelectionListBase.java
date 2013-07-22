@@ -16,7 +16,7 @@ public abstract class SelectionListBase
 	private float field_96625_j;
 	private float field_96626_k;
 	private int field_96623_l = -1;
-	private long field_96624_m = 0L;
+	private long field_96624_m;
 	
 	public SelectionListBase(Minecraft par1Minecraft, int par2, int par3, int par4, int par5, int par6)
 	{
@@ -141,7 +141,7 @@ public abstract class SelectionListBase
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_FOG);
 		Tessellator var18 = Tessellator.instance;
-		field_96622_a.renderEngine.bindTexture("/gui/background.png");
+		field_96622_a.func_110434_K().func_110577_a(Gui.field_110325_k);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float var17 = 32.0F;
 		var18.startDrawingQuads();

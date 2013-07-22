@@ -48,8 +48,8 @@ public class BlockDaylightDetector extends BlockContainer
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray[0] = par1IconRegister.registerIcon("daylightDetector_top");
-		iconArray[1] = par1IconRegister.registerIcon("daylightDetector_side");
+		iconArray[0] = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		iconArray[1] = par1IconRegister.registerIcon(func_111023_E() + "_side");
 	}
 	
 	@Override public boolean renderAsNormalBlock()

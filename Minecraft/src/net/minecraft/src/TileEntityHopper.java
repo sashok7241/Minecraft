@@ -40,7 +40,8 @@ public class TileEntityHopper extends TileEntity implements Hopper
 		{
 			if(!isCoolingDown() && BlockHopper.getIsBlockNotPoweredFromMetadata(getBlockMetadata()))
 			{
-				boolean var1 = insertItemToInventory() | suckItemsIntoHopper(this);
+				boolean var1 = insertItemToInventory();
+				var1 = suckItemsIntoHopper(this) || var1;
 				if(var1)
 				{
 					setTransferCooldown(8);
@@ -231,9 +232,9 @@ public class TileEntityHopper extends TileEntity implements Hopper
 		}
 	}
 	
-	private static boolean areItemStacksEqualItem(ItemStack par1ItemStack, ItemStack par2ItemStack)
+	private static boolean areItemStacksEqualItem(ItemStack par0ItemStack, ItemStack par1ItemStack)
 	{
-		return par1ItemStack.itemID != par2ItemStack.itemID ? false : par1ItemStack.getItemDamage() != par2ItemStack.getItemDamage() ? false : par1ItemStack.stackSize > par1ItemStack.getMaxStackSize() ? false : ItemStack.areItemStackTagsEqual(par1ItemStack, par2ItemStack);
+		return par0ItemStack.itemID != par1ItemStack.itemID ? false : par0ItemStack.getItemDamage() != par1ItemStack.getItemDamage() ? false : par0ItemStack.stackSize > par0ItemStack.getMaxStackSize() ? false : ItemStack.areItemStackTagsEqual(par0ItemStack, par1ItemStack);
 	}
 	
 	private static boolean canExtractItemFromInventory(IInventory par0IInventory, ItemStack par1ItemStack, int par2, int par3)
@@ -287,6 +288,7 @@ public class TileEntityHopper extends TileEntity implements Hopper
 				if(par0IInventory instanceof TileEntityHopper)
 				{
 					((TileEntityHopper) par0IInventory).setTransferCooldown(8);
+					par0IInventory.onInventoryChanged();
 				}
 				par0IInventory.onInventoryChanged();
 			}
@@ -356,29 +358,29 @@ public class TileEntityHopper extends TileEntity implements Hopper
 		return var7;
 	}
 	
-	public static ItemStack insertStack(IInventory par1IInventory, ItemStack par2ItemStack, int par3)
+	public static ItemStack insertStack(IInventory par0IInventory, ItemStack par1ItemStack, int par2)
 	{
-		if(par1IInventory instanceof ISidedInventory && par3 > -1)
+		if(par0IInventory instanceof ISidedInventory && par2 > -1)
 		{
-			ISidedInventory var6 = (ISidedInventory) par1IInventory;
-			int[] var7 = var6.getAccessibleSlotsFromSide(par3);
-			for(int var5 = 0; var5 < var7.length && par2ItemStack != null && par2ItemStack.stackSize > 0; ++var5)
+			ISidedInventory var6 = (ISidedInventory) par0IInventory;
+			int[] var7 = var6.getAccessibleSlotsFromSide(par2);
+			for(int var5 = 0; var5 < var7.length && par1ItemStack != null && par1ItemStack.stackSize > 0; ++var5)
 			{
-				par2ItemStack = func_102014_c(par1IInventory, par2ItemStack, var7[var5], par3);
+				par1ItemStack = func_102014_c(par0IInventory, par1ItemStack, var7[var5], par2);
 			}
 		} else
 		{
-			int var3 = par1IInventory.getSizeInventory();
-			for(int var4 = 0; var4 < var3 && par2ItemStack != null && par2ItemStack.stackSize > 0; ++var4)
+			int var3 = par0IInventory.getSizeInventory();
+			for(int var4 = 0; var4 < var3 && par1ItemStack != null && par1ItemStack.stackSize > 0; ++var4)
 			{
-				par2ItemStack = func_102014_c(par1IInventory, par2ItemStack, var4, par3);
+				par1ItemStack = func_102014_c(par0IInventory, par1ItemStack, var4, par2);
 			}
 		}
-		if(par2ItemStack != null && par2ItemStack.stackSize == 0)
+		if(par1ItemStack != null && par1ItemStack.stackSize == 0)
 		{
-			par2ItemStack = null;
+			par1ItemStack = null;
 		}
-		return par2ItemStack;
+		return par1ItemStack;
 	}
 	
 	public static boolean suckItemsIntoHopper(Hopper par0Hopper)

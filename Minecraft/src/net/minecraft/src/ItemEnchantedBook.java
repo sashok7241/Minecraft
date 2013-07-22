@@ -28,15 +28,6 @@ public class ItemEnchantedBook extends Item
 		}
 	}
 	
-	public ItemStack func_92109_a(Random par1Random)
-	{
-		Enchantment var2 = Enchantment.enchantmentsBookList[par1Random.nextInt(Enchantment.enchantmentsBookList.length)];
-		ItemStack var3 = new ItemStack(itemID, 1, 0);
-		int var4 = MathHelper.getRandomIntegerInRange(par1Random, var2.getMinLevel(), var2.getMaxLevel());
-		getEnchantedItemStack_do(var3, new EnchantmentData(var2, var4));
-		return var3;
-	}
-	
 	public NBTTagList func_92110_g(ItemStack par1ItemStack)
 	{
 		return par1ItemStack.stackTagCompound != null && par1ItemStack.stackTagCompound.hasKey("StoredEnchantments") ? (NBTTagList) par1ItemStack.stackTagCompound.getTag("StoredEnchantments") : new NBTTagList();

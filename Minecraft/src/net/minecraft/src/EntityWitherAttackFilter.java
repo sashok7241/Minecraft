@@ -4,6 +4,6 @@ final class EntityWitherAttackFilter implements IEntitySelector
 {
 	@Override public boolean isEntityApplicable(Entity par1Entity)
 	{
-		return par1Entity instanceof EntityLiving && ((EntityLiving) par1Entity).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD;
+		return par1Entity instanceof EntityLivingBase && ((EntityLivingBase) par1Entity).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD;
 	}
 }

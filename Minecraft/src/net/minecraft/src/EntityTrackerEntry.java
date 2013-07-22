@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -19,16 +20,16 @@ public class EntityTrackerEntry
 	public double motionX;
 	public double motionY;
 	public double motionZ;
-	public int ticks = 0;
+	public int ticks;
 	private double posX;
 	private double posY;
 	private double posZ;
-	private boolean isDataInitialized = false;
+	private boolean isDataInitialized;
 	private boolean sendVelocityUpdates;
-	private int ticksSinceLastForcedTeleport = 0;
+	private int ticksSinceLastForcedTeleport;
 	private Entity field_85178_v;
-	private boolean ridingEntity = false;
-	public boolean playerEntitiesUpdated = false;
+	private boolean ridingEntity;
+	public boolean playerEntitiesUpdated;
 	public Set trackingPlayers = new HashSet();
 	
 	public EntityTrackerEntry(Entity par1Entity, int par2, int par3, boolean par4)
@@ -50,6 +51,25 @@ public class EntityTrackerEntry
 		return par1Obj instanceof EntityTrackerEntry ? ((EntityTrackerEntry) par1Obj).myEntity.entityId == myEntity.entityId : false;
 	}
 	
+	private void func_111190_b()
+	{
+		DataWatcher var1 = myEntity.getDataWatcher();
+		if(var1.hasChanges())
+		{
+			sendPacketToAllAssociatedPlayers(new Packet40EntityMetadata(myEntity.entityId, var1, false));
+		}
+		if(myEntity instanceof EntityLivingBase)
+		{
+			ServersideAttributeMap var2 = (ServersideAttributeMap) ((EntityLivingBase) myEntity).func_110140_aT();
+			Set var3 = var2.func_111161_b();
+			if(!var3.isEmpty())
+			{
+				sendPacketToAllAssociatedPlayers(new Packet44UpdateAttributes(myEntity.entityId, var3));
+			}
+			var3.clear();
+		}
+	}
+	
 	private Packet getPacketForThisEntity()
 	{
 		if(myEntity.isDead)
@@ -60,19 +80,19 @@ public class EntityTrackerEntry
 		else if(myEntity instanceof EntityPlayerMP) return new Packet20NamedEntitySpawn((EntityPlayer) myEntity);
 		else if(myEntity instanceof EntityMinecart)
 		{
-			EntityMinecart var8 = (EntityMinecart) myEntity;
-			return new Packet23VehicleSpawn(myEntity, 10, var8.getMinecartType());
+			EntityMinecart var9 = (EntityMinecart) myEntity;
+			return new Packet23VehicleSpawn(myEntity, 10, var9.getMinecartType());
 		} else if(myEntity instanceof EntityBoat) return new Packet23VehicleSpawn(myEntity, 1);
 		else if(!(myEntity instanceof IAnimals) && !(myEntity instanceof EntityDragon))
 		{
 			if(myEntity instanceof EntityFishHook)
 			{
-				EntityPlayer var7 = ((EntityFishHook) myEntity).angler;
-				return new Packet23VehicleSpawn(myEntity, 90, var7 != null ? var7.entityId : myEntity.entityId);
+				EntityPlayer var8 = ((EntityFishHook) myEntity).angler;
+				return new Packet23VehicleSpawn(myEntity, 90, var8 != null ? var8.entityId : myEntity.entityId);
 			} else if(myEntity instanceof EntityArrow)
 			{
-				Entity var6 = ((EntityArrow) myEntity).shootingEntity;
-				return new Packet23VehicleSpawn(myEntity, 60, var6 != null ? var6.entityId : myEntity.entityId);
+				Entity var7 = ((EntityArrow) myEntity).shootingEntity;
+				return new Packet23VehicleSpawn(myEntity, 60, var7 != null ? var7.entityId : myEntity.entityId);
 			} else if(myEntity instanceof EntitySnowball) return new Packet23VehicleSpawn(myEntity, 61);
 			else if(myEntity instanceof EntityPotion) return new Packet23VehicleSpawn(myEntity, 73, ((EntityPotion) myEntity).getPotionDamage());
 			else if(myEntity instanceof EntityExpBottle) return new Packet23VehicleSpawn(myEntity, 75);
@@ -84,7 +104,7 @@ public class EntityTrackerEntry
 				Packet23VehicleSpawn var2;
 				if(myEntity instanceof EntityFireball)
 				{
-					EntityFireball var5 = (EntityFireball) myEntity;
+					EntityFireball var6 = (EntityFireball) myEntity;
 					var2 = null;
 					byte var3 = 63;
 					if(myEntity instanceof EntitySmallFireball)
@@ -94,29 +114,37 @@ public class EntityTrackerEntry
 					{
 						var3 = 66;
 					}
-					if(var5.shootingEntity != null)
+					if(var6.shootingEntity != null)
 					{
 						var2 = new Packet23VehicleSpawn(myEntity, var3, ((EntityFireball) myEntity).shootingEntity.entityId);
 					} else
 					{
 						var2 = new Packet23VehicleSpawn(myEntity, var3, 0);
 					}
-					var2.speedX = (int) (var5.accelerationX * 8000.0D);
-					var2.speedY = (int) (var5.accelerationY * 8000.0D);
-					var2.speedZ = (int) (var5.accelerationZ * 8000.0D);
+					var2.speedX = (int) (var6.accelerationX * 8000.0D);
+					var2.speedY = (int) (var6.accelerationY * 8000.0D);
+					var2.speedZ = (int) (var6.accelerationZ * 8000.0D);
 					return var2;
 				} else if(myEntity instanceof EntityEgg) return new Packet23VehicleSpawn(myEntity, 62);
 				else if(myEntity instanceof EntityTNTPrimed) return new Packet23VehicleSpawn(myEntity, 50);
 				else if(myEntity instanceof EntityEnderCrystal) return new Packet23VehicleSpawn(myEntity, 51);
 				else if(myEntity instanceof EntityFallingSand)
 				{
-					EntityFallingSand var4 = (EntityFallingSand) myEntity;
-					return new Packet23VehicleSpawn(myEntity, 70, var4.blockID | var4.metadata << 16);
+					EntityFallingSand var5 = (EntityFallingSand) myEntity;
+					return new Packet23VehicleSpawn(myEntity, 70, var5.blockID | var5.metadata << 16);
 				} else if(myEntity instanceof EntityPainting) return new Packet25EntityPainting((EntityPainting) myEntity);
 				else if(myEntity instanceof EntityItemFrame)
 				{
-					EntityItemFrame var1 = (EntityItemFrame) myEntity;
-					var2 = new Packet23VehicleSpawn(myEntity, 71, var1.hangingDirection);
+					EntityItemFrame var4 = (EntityItemFrame) myEntity;
+					var2 = new Packet23VehicleSpawn(myEntity, 71, var4.hangingDirection);
+					var2.xPosition = MathHelper.floor_float(var4.xPosition * 32);
+					var2.yPosition = MathHelper.floor_float(var4.yPosition * 32);
+					var2.zPosition = MathHelper.floor_float(var4.zPosition * 32);
+					return var2;
+				} else if(myEntity instanceof EntityLeashKnot)
+				{
+					EntityLeashKnot var1 = (EntityLeashKnot) myEntity;
+					var2 = new Packet23VehicleSpawn(myEntity, 77);
 					var2.xPosition = MathHelper.floor_float(var1.xPosition * 32);
 					var2.yPosition = MathHelper.floor_float(var1.yPosition * 32);
 					var2.zPosition = MathHelper.floor_float(var1.zPosition * 32);
@@ -127,7 +155,7 @@ public class EntityTrackerEntry
 		} else
 		{
 			lastHeadMotion = MathHelper.floor_float(myEntity.getRotationYawHead() * 256.0F / 360.0F);
-			return new Packet24MobSpawn((EntityLiving) myEntity);
+			return new Packet24MobSpawn((EntityLivingBase) myEntity);
 		}
 	}
 	
@@ -192,7 +220,7 @@ public class EntityTrackerEntry
 		if(field_85178_v != myEntity.ridingEntity || myEntity.ridingEntity != null && ticks % 60 == 0)
 		{
 			field_85178_v = myEntity.ridingEntity;
-			sendPacketToAllTrackingPlayers(new Packet39AttachEntity(myEntity, myEntity.ridingEntity));
+			sendPacketToAllTrackingPlayers(new Packet39AttachEntity(0, myEntity, myEntity.ridingEntity));
 		}
 		if(myEntity instanceof EntityItemFrame && ticks % 10 == 0)
 		{
@@ -201,27 +229,23 @@ public class EntityTrackerEntry
 			if(var24 != null && var24.getItem() instanceof ItemMap)
 			{
 				MapData var26 = Item.map.getMapData(var24, myEntity.worldObj);
-				Iterator var29 = par1List.iterator();
-				while(var29.hasNext())
+				Iterator var27 = par1List.iterator();
+				while(var27.hasNext())
 				{
-					EntityPlayer var30 = (EntityPlayer) var29.next();
-					EntityPlayerMP var31 = (EntityPlayerMP) var30;
-					var26.updateVisiblePlayers(var31, var24);
-					if(var31.playerNetServerHandler.packetSize() <= 5)
+					EntityPlayer var28 = (EntityPlayer) var27.next();
+					EntityPlayerMP var29 = (EntityPlayerMP) var28;
+					var26.updateVisiblePlayers(var29, var24);
+					if(var29.playerNetServerHandler.packetSize() <= 5)
 					{
-						Packet var32 = Item.map.createMapDataPacket(var24, myEntity.worldObj, var31);
-						if(var32 != null)
+						Packet var30 = Item.map.createMapDataPacket(var24, myEntity.worldObj, var29);
+						if(var30 != null)
 						{
-							var31.playerNetServerHandler.sendPacketToPlayer(var32);
+							var29.playerNetServerHandler.sendPacketToPlayer(var30);
 						}
 					}
 				}
 			}
-			DataWatcher var28 = myEntity.getDataWatcher();
-			if(var28.hasChanges())
-			{
-				sendPacketToAllAssociatedPlayers(new Packet40EntityMetadata(myEntity.entityId, var28, false));
-			}
+			func_111190_b();
 		} else if(ticks % updateFrequency == 0 || myEntity.isAirBorne || myEntity.getDataWatcher().hasChanges())
 		{
 			int var2;
@@ -279,11 +303,7 @@ public class EntityTrackerEntry
 				{
 					sendPacketToAllTrackingPlayers((Packet) var10);
 				}
-				DataWatcher var33 = myEntity.getDataWatcher();
-				if(var33.hasChanges())
-				{
-					sendPacketToAllAssociatedPlayers(new Packet40EntityMetadata(myEntity.entityId, var33, false));
-				}
+				func_111190_b();
 				if(var11)
 				{
 					lastScaledXPosition = var2;
@@ -310,11 +330,7 @@ public class EntityTrackerEntry
 				lastScaledXPosition = myEntity.myEntitySize.multiplyBy32AndRound(myEntity.posX);
 				lastScaledYPosition = MathHelper.floor_double(myEntity.posY * 32.0D);
 				lastScaledZPosition = myEntity.myEntitySize.multiplyBy32AndRound(myEntity.posZ);
-				DataWatcher var27 = myEntity.getDataWatcher();
-				if(var27.hasChanges())
-				{
-					sendPacketToAllAssociatedPlayers(new Packet40EntityMetadata(myEntity.entityId, var27, false));
-				}
+				func_111190_b();
 				ridingEntity = true;
 			}
 			var2 = MathHelper.floor_float(myEntity.getRotationYawHead() * 256.0F / 360.0F);
@@ -369,6 +385,15 @@ public class EntityTrackerEntry
 					{
 						par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet40EntityMetadata(myEntity.entityId, myEntity.getDataWatcher(), true));
 					}
+					if(myEntity instanceof EntityLivingBase)
+					{
+						ServersideAttributeMap var7 = (ServersideAttributeMap) ((EntityLivingBase) myEntity).func_110140_aT();
+						Collection var8 = var7.func_111160_c();
+						if(!var8.isEmpty())
+						{
+							par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet44UpdateAttributes(myEntity.entityId, var8));
+						}
+					}
 					motionX = myEntity.motionX;
 					motionY = myEntity.motionY;
 					motionZ = myEntity.motionZ;
@@ -378,16 +403,20 @@ public class EntityTrackerEntry
 					}
 					if(myEntity.ridingEntity != null)
 					{
-						par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet39AttachEntity(myEntity, myEntity.ridingEntity));
+						par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet39AttachEntity(0, myEntity, myEntity.ridingEntity));
 					}
-					if(myEntity instanceof EntityLiving)
+					if(myEntity instanceof EntityLiving && ((EntityLiving) myEntity).func_110166_bE() != null)
 					{
-						for(int var7 = 0; var7 < 5; ++var7)
+						par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet39AttachEntity(1, myEntity, ((EntityLiving) myEntity).func_110166_bE()));
+					}
+					if(myEntity instanceof EntityLivingBase)
+					{
+						for(int var10 = 0; var10 < 5; ++var10)
 						{
-							ItemStack var8 = ((EntityLiving) myEntity).getCurrentItemOrArmor(var7);
-							if(var8 != null)
+							ItemStack var13 = ((EntityLivingBase) myEntity).getCurrentItemOrArmor(var10);
+							if(var13 != null)
 							{
-								par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet5PlayerInventory(myEntity.entityId, var7, var8));
+								par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet5PlayerInventory(myEntity.entityId, var10, var13));
 							}
 						}
 					}
@@ -399,10 +428,10 @@ public class EntityTrackerEntry
 							par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet17Sleep(myEntity, 0, MathHelper.floor_double(myEntity.posX), MathHelper.floor_double(myEntity.posY), MathHelper.floor_double(myEntity.posZ)));
 						}
 					}
-					if(myEntity instanceof EntityLiving)
+					if(myEntity instanceof EntityLivingBase)
 					{
-						EntityLiving var10 = (EntityLiving) myEntity;
-						Iterator var12 = var10.getActivePotionEffects().iterator();
+						EntityLivingBase var14 = (EntityLivingBase) myEntity;
+						Iterator var12 = var14.getActivePotionEffects().iterator();
 						while(var12.hasNext())
 						{
 							PotionEffect var9 = (PotionEffect) var12.next();

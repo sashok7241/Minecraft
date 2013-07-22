@@ -174,9 +174,9 @@ public class BlockBed extends BlockDirectional
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		bedTopIcons = new Icon[] { par1IconRegister.registerIcon("bed_feet_top"), par1IconRegister.registerIcon("bed_head_top") };
-		field_94472_b = new Icon[] { par1IconRegister.registerIcon("bed_feet_end"), par1IconRegister.registerIcon("bed_head_end") };
-		bedSideIcons = new Icon[] { par1IconRegister.registerIcon("bed_feet_side"), par1IconRegister.registerIcon("bed_head_side") };
+		bedTopIcons = new Icon[] { par1IconRegister.registerIcon(func_111023_E() + "_feet_top"), par1IconRegister.registerIcon(func_111023_E() + "_head_top") };
+		field_94472_b = new Icon[] { par1IconRegister.registerIcon(func_111023_E() + "_feet_end"), par1IconRegister.registerIcon(func_111023_E() + "_head_end") };
+		bedSideIcons = new Icon[] { par1IconRegister.registerIcon(func_111023_E() + "_feet_side"), par1IconRegister.registerIcon(func_111023_E() + "_head_side") };
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -208,7 +208,7 @@ public class BlockBed extends BlockDirectional
 			{
 				for(int var13 = var9; var13 <= var11; ++var13)
 				{
-					if(par0World.doesBlockHaveSolidTopSurface(var12, par2 - 1, var13) && par0World.isAirBlock(var12, par2, var13) && par0World.isAirBlock(var12, par2 + 1, var13))
+					if(par0World.doesBlockHaveSolidTopSurface(var12, par2 - 1, var13) && !par0World.getBlockMaterial(var12, par2, var13).isOpaque() && !par0World.getBlockMaterial(var12, par2 + 1, var13).isOpaque())
 					{
 						if(par4 <= 0) return new ChunkCoordinates(var12, par2, var13);
 						--par4;

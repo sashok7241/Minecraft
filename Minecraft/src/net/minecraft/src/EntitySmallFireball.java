@@ -14,13 +14,13 @@ public class EntitySmallFireball extends EntityFireball
 		setSize(0.3125F, 0.3125F);
 	}
 	
-	public EntitySmallFireball(World par1World, EntityLiving par2EntityLiving, double par3, double par5, double par7)
+	public EntitySmallFireball(World par1World, EntityLivingBase par2EntityLivingBase, double par3, double par5, double par7)
 	{
-		super(par1World, par2EntityLiving, par3, par5, par7);
+		super(par1World, par2EntityLivingBase, par3, par5, par7);
 		setSize(0.3125F, 0.3125F);
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		return false;
 	}
@@ -36,7 +36,7 @@ public class EntitySmallFireball extends EntityFireball
 		{
 			if(par1MovingObjectPosition.entityHit != null)
 			{
-				if(!par1MovingObjectPosition.entityHit.isImmuneToFire() && par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, shootingEntity), 5))
+				if(!par1MovingObjectPosition.entityHit.isImmuneToFire() && par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, shootingEntity), 5.0F))
 				{
 					par1MovingObjectPosition.entityHit.setFire(5);
 				}

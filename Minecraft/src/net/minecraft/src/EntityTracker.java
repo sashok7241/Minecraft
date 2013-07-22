@@ -96,7 +96,7 @@ public class EntityTracker
 		} else if(par1Entity instanceof EntityFallingSand)
 		{
 			this.addEntityToTracker(par1Entity, 160, 20, true);
-		} else if(par1Entity instanceof EntityPainting)
+		} else if(par1Entity instanceof EntityHanging)
 		{
 			this.addEntityToTracker(par1Entity, 160, Integer.MAX_VALUE, false);
 		} else if(par1Entity instanceof EntityXPOrb)
@@ -105,9 +105,6 @@ public class EntityTracker
 		} else if(par1Entity instanceof EntityEnderCrystal)
 		{
 			this.addEntityToTracker(par1Entity, 256, Integer.MAX_VALUE, false);
-		} else if(par1Entity instanceof EntityItemFrame)
-		{
-			this.addEntityToTracker(par1Entity, 160, Integer.MAX_VALUE, false);
 		}
 	}
 	

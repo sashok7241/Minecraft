@@ -8,7 +8,6 @@ public class EntityEnderCrystal extends Entity
 	public EntityEnderCrystal(World par1World)
 	{
 		super(par1World);
-		innerRotation = 0;
 		preventEntitySpawning = true;
 		setSize(2.0F, 2.0F);
 		yOffset = height / 2.0F;
@@ -22,7 +21,7 @@ public class EntityEnderCrystal extends Entity
 		setPosition(par2, par4, par6);
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else

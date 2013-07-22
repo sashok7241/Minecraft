@@ -12,11 +12,11 @@ public class EntitySelectorArmoredMob implements IEntitySelector
 	@Override public boolean isEntityApplicable(Entity par1Entity)
 	{
 		if(!par1Entity.isEntityAlive()) return false;
-		else if(!(par1Entity instanceof EntityLiving)) return false;
+		else if(!(par1Entity instanceof EntityLivingBase)) return false;
 		else
 		{
-			EntityLiving var2 = (EntityLiving) par1Entity;
-			return var2.getCurrentItemOrArmor(EntityLiving.getArmorPosition(field_96567_c)) != null ? false : var2.canPickUpLoot() || var2 instanceof EntityPlayer;
+			EntityLivingBase var2 = (EntityLivingBase) par1Entity;
+			return var2.getCurrentItemOrArmor(EntityLiving.getArmorPosition(field_96567_c)) != null ? false : var2 instanceof EntityLiving ? ((EntityLiving) var2).canPickUpLoot() : var2 instanceof EntityPlayer;
 		}
 	}
 }

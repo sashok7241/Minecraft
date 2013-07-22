@@ -9,10 +9,10 @@ public class EntityAIMate extends EntityAIBase
 	private EntityAnimal theAnimal;
 	World theWorld;
 	private EntityAnimal targetMate;
-	int spawnBabyDelay = 0;
-	float moveSpeed;
+	int spawnBabyDelay;
+	double moveSpeed;
 	
-	public EntityAIMate(EntityAnimal par1EntityAnimal, float par2)
+	public EntityAIMate(EntityAnimal par1EntityAnimal, double par2)
 	{
 		theAnimal = par1EntityAnimal;
 		theWorld = par1EntityAnimal.worldObj;

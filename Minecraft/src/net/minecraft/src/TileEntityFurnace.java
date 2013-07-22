@@ -6,9 +6,9 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
 	private static final int[] slots_bottom = new int[] { 2, 1 };
 	private static final int[] slots_sides = new int[] { 1 };
 	private ItemStack[] furnaceItemStacks = new ItemStack[3];
-	public int furnaceBurnTime = 0;
-	public int currentItemBurnTime = 0;
-	public int furnaceCookTime = 0;
+	public int furnaceBurnTime;
+	public int currentItemBurnTime;
+	public int furnaceCookTime;
 	private String field_94130_e;
 	
 	@Override public boolean canExtractItem(int par1, ItemStack par2ItemStack, int par3)
@@ -274,6 +274,7 @@ public class TileEntityFurnace extends TileEntity implements ISidedInventory
 				Block var3 = Block.blocksList[var1];
 				if(var3 == Block.woodSingleSlab) return 150;
 				if(var3.blockMaterial == Material.wood) return 300;
+				if(var3 == Block.field_111034_cE) return 16000;
 			}
 			return var2 instanceof ItemTool && ((ItemTool) var2).getToolMaterialName().equals("WOOD") ? 200 : var2 instanceof ItemSword && ((ItemSword) var2).getToolMaterialName().equals("WOOD") ? 200 : var2 instanceof ItemHoe && ((ItemHoe) var2).getMaterialName().equals("WOOD") ? 200 : var1 == Item.stick.itemID ? 100 : var1 == Item.coal.itemID ? 1600 : var1 == Item.bucketLava.itemID ? 20000 : var1 == Block.sapling.blockID ? 100 : var1 == Item.blazeRod.itemID ? 2400 : 0;
 		}

@@ -141,14 +141,11 @@ public class Scoreboard
 	{
 		Collection var1 = field_96544_c.values();
 		ArrayList var2 = new ArrayList();
-		if(var1 != null)
+		Iterator var3 = var1.iterator();
+		while(var3.hasNext())
 		{
-			Iterator var3 = var1.iterator();
-			while(var3.hasNext())
-			{
-				Map var4 = (Map) var3.next();
-				var2.addAll(var4.values());
-			}
+			Map var4 = (Map) var3.next();
+			var2.addAll(var4.values());
 		}
 		return var2;
 	}

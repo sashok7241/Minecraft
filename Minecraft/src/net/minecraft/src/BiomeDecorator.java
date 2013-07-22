@@ -62,18 +62,11 @@ public class BiomeDecorator
 		reedGen = new WorldGenReed();
 		cactusGen = new WorldGenCactus();
 		waterlilyGen = new WorldGenWaterlily();
-		waterlilyPerChunk = 0;
-		treesPerChunk = 0;
 		flowersPerChunk = 2;
 		grassPerChunk = 1;
-		deadBushPerChunk = 0;
-		mushroomsPerChunk = 0;
-		reedsPerChunk = 0;
-		cactiPerChunk = 0;
 		sandPerChunk = 1;
 		sandPerChunk2 = 3;
 		clayPerChunk = 1;
-		bigMushroomsPerChunk = 0;
 		generateLakes = true;
 		biome = par1BiomeGenBase;
 	}

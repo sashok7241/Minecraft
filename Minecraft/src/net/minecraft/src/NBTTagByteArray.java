@@ -42,10 +42,10 @@ public class NBTTagByteArray extends NBTBase
 		return super.hashCode() ^ Arrays.hashCode(byteArray);
 	}
 	
-	@Override void load(DataInput par1DataInput) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
-		int var2 = par1DataInput.readInt();
-		byteArray = new byte[var2];
+		int var3 = par1DataInput.readInt();
+		byteArray = new byte[var3];
 		par1DataInput.readFully(byteArray);
 	}
 	

@@ -17,7 +17,7 @@ public class TileEntityRendererPiston extends TileEntitySpecialRenderer
 		if(var9 != null && par1TileEntityPiston.getProgress(par8) < 1.0F)
 		{
 			Tessellator var10 = Tessellator.instance;
-			bindTextureByName("/terrain.png");
+			func_110628_a(TextureMap.field_110575_b);
 			RenderHelper.disableStandardItemLighting();
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glEnable(GL11.GL_BLEND);

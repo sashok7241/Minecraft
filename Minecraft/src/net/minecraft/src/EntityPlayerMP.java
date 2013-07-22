@@ -14,7 +14,7 @@ import net.minecraft.server.MinecraftServer;
 
 public class EntityPlayerMP extends EntityPlayer implements ICrafting
 {
-	private StringTranslate translator = new StringTranslate("en_US");
+	private String translator = "en_US";
 	public NetServerHandler playerNetServerHandler;
 	public MinecraftServer mcServer;
 	public ItemInWorldManager theItemInWorldManager;
@@ -22,22 +22,23 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 	public double managedPosZ;
 	public final List loadedChunks = new LinkedList();
 	public final List destroyedItemsNetCache = new LinkedList();
-	private int lastHealth = -99999999;
+	private float field_130068_bO = Float.MIN_VALUE;
+	private float lastHealth = -1.0E8F;
 	private int lastFoodLevel = -99999999;
 	private boolean wasHungry = true;
 	private int lastExperience = -99999999;
 	private int initialInvulnerability = 60;
-	private int renderDistance = 0;
-	private int chatVisibility = 0;
+	private int renderDistance;
+	private int chatVisibility;
 	private boolean chatColours = true;
-	private int currentWindowId = 0;
+	private int currentWindowId;
 	public boolean playerInventoryBeingManipulated;
 	public int ping;
-	public boolean playerConqueredTheEnd = false;
+	public boolean playerConqueredTheEnd;
 	
 	public EntityPlayerMP(MinecraftServer par1MinecraftServer, World par2World, String par3Str, ItemInWorldManager par4ItemInWorldManager)
 	{
-		super(par2World);
+		super(par2World, par3Str);
 		par4ItemInWorldManager.thisPlayerMP = this;
 		theItemInWorldManager = par4ItemInWorldManager;
 		renderDistance = par1MinecraftServer.getConfigurationManager().getViewDistance();
@@ -54,7 +55,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 		}
 		mcServer = par1MinecraftServer;
 		stepHeight = 0.0F;
-		username = par3Str;
 		yOffset = 0.0F;
 		setLocationAndAngles(var6 + 0.5D, var8, var7 + 0.5D, 0.0F, 0.0F);
 		while(!par2World.getCollidingBoundingBoxes(this, boundingBox).isEmpty())
@@ -65,9 +65,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 	
 	@Override public void addChatMessage(String par1Str)
 	{
-		StringTranslate var2 = StringTranslate.getInstance();
-		String var3 = var2.translateKey(par1Str);
-		playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(var3));
+		playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(ChatMessageComponent.func_111077_e(par1Str)));
 	}
 	
 	@Override public void addExperienceLevel(int par1)
@@ -87,17 +85,12 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 		{
 			if(!par1StatBase.isIndependent)
 			{
-				while(par2 > 100)
-				{
-					playerNetServerHandler.sendPacketToPlayer(new Packet200Statistic(par1StatBase.statId, 100));
-					par2 -= 100;
-				}
 				playerNetServerHandler.sendPacketToPlayer(new Packet200Statistic(par1StatBase.statId, par2));
 			}
 		}
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -123,14 +116,14 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 	
 	@Override public boolean canCommandSenderUseCommand(int par1, String par2Str)
 	{
-		return "seed".equals(par2Str) && !mcServer.isDedicatedServer() ? true : !"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? mcServer.getConfigurationManager().areCommandsAllowed(username) : true;
+		return "seed".equals(par2Str) && !mcServer.isDedicatedServer() ? true : !"tell".equals(par2Str) && !"help".equals(par2Str) && !"me".equals(par2Str) ? mcServer.getConfigurationManager().areCommandsAllowed(username) ? mcServer.func_110455_j() >= par1 : false : true;
 	}
 	
 	@Override public void clonePlayer(EntityPlayer par1EntityPlayer, boolean par2)
 	{
 		super.clonePlayer(par1EntityPlayer, par2);
 		lastExperience = -1;
-		lastHealth = -1;
+		lastHealth = -1.0F;
 		lastFoodLevel = -1;
 		destroyedItemsNetCache.addAll(((EntityPlayerMP) par1EntityPlayer).destroyedItemsNetCache);
 	}
@@ -194,6 +187,15 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 		openContainer = new ContainerDispenser(inventory, par1TileEntityDispenser);
 		openContainer.windowId = currentWindowId;
 		openContainer.addCraftingToCrafters(this);
+	}
+	
+	@Override public void displayGUIEditSign(TileEntity par1TileEntity)
+	{
+		if(par1TileEntity instanceof TileEntitySign)
+		{
+			((TileEntitySign) par1TileEntity).func_142010_a(this);
+			playerNetServerHandler.sendPacketToPlayer(new Packet133TileEditorOpen(0, par1TileEntity.xCoord, par1TileEntity.yCoord, par1TileEntity.zCoord));
+		}
 	}
 	
 	@Override public void displayGUIEnchantment(int par1, int par2, int par3, String par4Str)
@@ -266,6 +268,36 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 		openContainer.addCraftingToCrafters(this);
 	}
 	
+	@Override public void func_110298_a(EntityHorse par1EntityHorse, IInventory par2IInventory)
+	{
+		if(openContainer != inventoryContainer)
+		{
+			closeScreen();
+		}
+		incrementWindowID();
+		playerNetServerHandler.sendPacketToPlayer(new Packet100OpenWindow(currentWindowId, 11, par2IInventory.getInvName(), par2IInventory.getSizeInventory(), par2IInventory.isInvNameLocalized(), par1EntityHorse.entityId));
+		openContainer = new ContainerHorseInventory(inventory, par2IInventory, par1EntityHorse);
+		openContainer.windowId = currentWindowId;
+		openContainer.addCraftingToCrafters(this);
+	}
+	
+	public void func_110430_a(float par1, float par2, boolean par3, boolean par4)
+	{
+		if(ridingEntity != null)
+		{
+			if(par1 >= -1.0F && par1 <= 1.0F)
+			{
+				moveStrafing = par1;
+			}
+			if(par2 >= -1.0F && par2 <= 1.0F)
+			{
+				moveForward = par2;
+			}
+			isJumping = par3;
+			setSneaking(par4);
+		}
+	}
+	
 	@Override public boolean func_96122_a(EntityPlayer par1EntityPlayer)
 	{
 		return !mcServer.isPVPEnabled() ? false : super.func_96122_a(par1EntityPlayer);
@@ -299,11 +331,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 		return (WorldServer) worldObj;
 	}
 	
-	@Override public StringTranslate getTranslator()
-	{
-		return translator;
-	}
-	
 	private void incrementWindowID()
 	{
 		currentWindowId = currentWindowId % 100 + 1;
@@ -312,7 +339,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 	@Override public void mountEntity(Entity par1Entity)
 	{
 		super.mountEntity(par1Entity);
-		playerNetServerHandler.sendPacketToPlayer(new Packet39AttachEntity(this, ridingEntity));
+		playerNetServerHandler.sendPacketToPlayer(new Packet39AttachEntity(0, this, ridingEntity));
 		playerNetServerHandler.setPlayerLocation(posX, posY, posZ, rotationYaw, rotationPitch);
 	}
 	
@@ -328,9 +355,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 		}
 	}
 	
-	@Override protected void onChangedPotionEffect(PotionEffect par1PotionEffect)
+	@Override protected void onChangedPotionEffect(PotionEffect par1PotionEffect, boolean par2)
 	{
-		super.onChangedPotionEffect(par1PotionEffect);
+		super.onChangedPotionEffect(par1PotionEffect, par2);
 		playerNetServerHandler.sendPacketToPlayer(new Packet41EntityEffect(entityId, par1PotionEffect));
 	}
 	
@@ -341,7 +368,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 	
 	@Override public void onDeath(DamageSource par1DamageSource)
 	{
-		mcServer.getConfigurationManager().sendChatMsg(_combatTracker.func_94546_b());
+		mcServer.getConfigurationManager().sendChatMsg(func_110142_aN().func_94546_b());
 		if(!worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
 		{
 			inventory.dropAllItems();
@@ -354,11 +381,12 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 			Score var5 = getWorldScoreboard().func_96529_a(getEntityName(), var4);
 			var5.func_96648_a();
 		}
-		EntityLiving var6 = func_94060_bK();
+		EntityLivingBase var6 = func_94060_bK();
 		if(var6 != null)
 		{
 			var6.addToPlayerScore(this, scoreValue);
 		}
+		addStat(StatList.deathsStat, 1);
 	}
 	
 	@Override public void onEnchantmentCritical(Entity par1Entity)
@@ -395,6 +423,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 		theItemInWorldManager.updateBlockRemoving();
 		--initialInvulnerability;
 		openContainer.detectAndSendChanges();
+		if(!worldObj.isRemote && !openContainer.canInteractWith(this))
+		{
+			closeScreen();
+			openContainer = inventoryContainer;
+		}
 		while(!destroyedItemsNetCache.isEmpty())
 		{
 			int var1 = Math.min(destroyedItemsNetCache.size(), 127);
@@ -449,22 +482,33 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 			super.onUpdate();
 			for(int var1 = 0; var1 < inventory.getSizeInventory(); ++var1)
 			{
-				ItemStack var5 = inventory.getStackInSlot(var1);
-				if(var5 != null && Item.itemsList[var5.itemID].isMap() && playerNetServerHandler.packetSize() <= 5)
+				ItemStack var6 = inventory.getStackInSlot(var1);
+				if(var6 != null && Item.itemsList[var6.itemID].isMap() && playerNetServerHandler.packetSize() <= 5)
 				{
-					Packet var6 = ((ItemMapBase) Item.itemsList[var5.itemID]).createMapDataPacket(var5, worldObj, this);
-					if(var6 != null)
+					Packet var8 = ((ItemMapBase) Item.itemsList[var6.itemID]).createMapDataPacket(var6, worldObj, this);
+					if(var8 != null)
 					{
-						playerNetServerHandler.sendPacketToPlayer(var6);
+						playerNetServerHandler.sendPacketToPlayer(var8);
 					}
 				}
 			}
-			if(getHealth() != lastHealth || lastFoodLevel != foodStats.getFoodLevel() || foodStats.getSaturationLevel() == 0.0F != wasHungry)
+			if(func_110143_aJ() != lastHealth || lastFoodLevel != foodStats.getFoodLevel() || foodStats.getSaturationLevel() == 0.0F != wasHungry)
 			{
-				playerNetServerHandler.sendPacketToPlayer(new Packet8UpdateHealth(getHealth(), foodStats.getFoodLevel(), foodStats.getSaturationLevel()));
-				lastHealth = getHealth();
+				playerNetServerHandler.sendPacketToPlayer(new Packet8UpdateHealth(func_110143_aJ(), foodStats.getFoodLevel(), foodStats.getSaturationLevel()));
+				lastHealth = func_110143_aJ();
 				lastFoodLevel = foodStats.getFoodLevel();
 				wasHungry = foodStats.getSaturationLevel() == 0.0F;
+			}
+			if(func_110143_aJ() + func_110139_bj() != field_130068_bO)
+			{
+				field_130068_bO = func_110143_aJ() + func_110139_bj();
+				Collection var5 = getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.field_96638_f);
+				Iterator var7 = var5.iterator();
+				while(var7.hasNext())
+				{
+					ScoreObjective var9 = (ScoreObjective) var7.next();
+					getWorldScoreboard().func_96529_a(getEntityName(), var9).func_96651_a(Arrays.asList(new EntityPlayer[] { this }));
+				}
 			}
 			if(experienceTotal != lastExperience)
 			{
@@ -506,9 +550,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 		yOffset = 0.0F;
 	}
 	
-	@Override public void sendChatToPlayer(String par1Str)
+	@Override public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent)
 	{
-		playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(par1Str));
+		playerNetServerHandler.sendPacketToPlayer(new Packet3Chat(par1ChatMessageComponent));
 	}
 	
 	@Override public void sendContainerAndContentsToPlayer(Container par1Container, List par2List)
@@ -558,18 +602,6 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 		}
 	}
 	
-	@Override public void setEntityHealth(int par1)
-	{
-		super.setEntityHealth(par1);
-		Collection var2 = getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.field_96638_f);
-		Iterator var3 = var2.iterator();
-		while(var3.hasNext())
-		{
-			ScoreObjective var4 = (ScoreObjective) var3.next();
-			getWorldScoreboard().func_96529_a(getEntityName(), var4).func_96651_a(Arrays.asList(new EntityPlayer[] { this }));
-		}
-	}
-	
 	@Override public void setGameType(EnumGameType par1EnumGameType)
 	{
 		theItemInWorldManager.setGameType(par1EnumGameType);
@@ -587,7 +619,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 	
 	public void setPlayerHealthUpdated()
 	{
-		lastHealth = -99999999;
+		lastHealth = -1.0E8F;
 	}
 	
 	@Override public void setPositionAndUpdate(double par1, double par3, double par5)
@@ -618,7 +650,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 			playerNetServerHandler.sendPacketToPlayer(new Packet70GameEvent(4, 0));
 		} else
 		{
-			if(dimension == 1 && par1 == 0)
+			if(dimension == 0 && par1 == 1)
 			{
 				triggerAchievement(AchievementList.theEnd);
 				ChunkCoordinates var2 = mcServer.worldServerForDimension(par1).getEntrancePortalLocation();
@@ -633,17 +665,14 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 			}
 			mcServer.getConfigurationManager().transferPlayerToDimension(this, par1);
 			lastExperience = -1;
-			lastHealth = -1;
+			lastHealth = -1.0F;
 			lastFoodLevel = -1;
 		}
 	}
 	
 	public void updateClientInfo(Packet204ClientInfo par1Packet204ClientInfo)
 	{
-		if(translator.getLanguageList().containsKey(par1Packet204ClientInfo.getLanguage()))
-		{
-			translator.setLanguage(par1Packet204ClientInfo.getLanguage(), false);
-		}
+		translator = par1Packet204ClientInfo.getLanguage();
 		int var2 = 256 >> par1Packet204ClientInfo.getRenderDistance();
 		if(var2 > 3 && var2 < 15)
 		{

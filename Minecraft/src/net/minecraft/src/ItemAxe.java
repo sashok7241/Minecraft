@@ -6,7 +6,7 @@ public class ItemAxe extends ItemTool
 	
 	protected ItemAxe(int par1, EnumToolMaterial par2EnumToolMaterial)
 	{
-		super(par1, 3, par2EnumToolMaterial, blocksEffectiveAgainst);
+		super(par1, 3.0F, par2EnumToolMaterial, blocksEffectiveAgainst);
 	}
 	
 	@Override public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block)

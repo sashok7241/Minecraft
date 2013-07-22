@@ -6,13 +6,13 @@ import java.util.Map;
 public class ContainerRepair extends Container
 {
 	private IInventory outputSlot = new InventoryCraftResult();
-	private IInventory inputSlots = new InventoryRepair(this, "Repair", true, 2);
+	private IInventory inputSlots = new ContainerRepairINNER1(this, "Repair", true, 2);
 	private World theWorld;
 	private int field_82861_i;
 	private int field_82858_j;
 	private int field_82859_k;
-	public int maximumCost = 0;
-	private int stackSizeToBeUsedInRepair = 0;
+	public int maximumCost;
+	private int stackSizeToBeUsedInRepair;
 	private String repairedItemName;
 	private final EntityPlayer thePlayer;
 	
@@ -25,7 +25,7 @@ public class ContainerRepair extends Container
 		thePlayer = par6EntityPlayer;
 		addSlotToContainer(new Slot(inputSlots, 0, 27, 47));
 		addSlotToContainer(new Slot(inputSlots, 1, 76, 47));
-		addSlotToContainer(new SlotRepair(this, outputSlot, 2, 134, 47, par2World, par3, par4, par5));
+		addSlotToContainer(new ContainerRepairINNER2(this, outputSlot, 2, 134, 47, par2World, par3, par4, par5));
 		int var7;
 		for(var7 = 0; var7 < 3; ++var7)
 		{
@@ -110,7 +110,14 @@ public class ContainerRepair extends Container
 		repairedItemName = par1Str;
 		if(getSlot(2).getHasStack())
 		{
-			getSlot(2).getStack().setItemName(repairedItemName);
+			ItemStack var2 = getSlot(2).getStack();
+			if(org.apache.commons.lang3.StringUtils.isBlank(par1Str))
+			{
+				var2.func_135074_t();
+			} else
+			{
+				var2.setItemName(repairedItemName);
+			}
 		}
 		updateRepairOutput();
 	}
@@ -266,7 +273,15 @@ public class ContainerRepair extends Container
 					}
 				}
 			}
-			if(repairedItemName != null && repairedItemName.length() > 0 && !repairedItemName.equalsIgnoreCase(thePlayer.getTranslator().translateNamedKey(var1.getItemName())) && !repairedItemName.equals(var1.getDisplayName()))
+			if(org.apache.commons.lang3.StringUtils.isBlank(repairedItemName))
+			{
+				if(var1.hasDisplayName())
+				{
+					var4 = var1.isItemStackDamageable() ? 7 : var1.stackSize * 5;
+					var2 += var4;
+					var5.func_135074_t();
+				}
+			} else if(!repairedItemName.equals(var1.getDisplayName()))
 			{
 				var4 = var1.isItemStackDamageable() ? 7 : var1.stackSize * 5;
 				var2 += var4;
@@ -321,7 +336,6 @@ public class ContainerRepair extends Container
 			}
 			if(var4 == var2 && var4 > 0 && maximumCost >= 40)
 			{
-				theWorld.getWorldLogAgent().logInfo("Naming an item only, cost too high; giving discount to cap cost to 39 levels");
 				maximumCost = 39;
 			}
 			if(maximumCost >= 40 && !thePlayer.capabilities.isCreativeMode)

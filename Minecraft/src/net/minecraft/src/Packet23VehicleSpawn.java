@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet23VehicleSpawn extends Packet
@@ -83,39 +83,39 @@ public class Packet23VehicleSpawn extends Packet
 		par1NetHandler.handleVehicleSpawn(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
-		type = par1DataInputStream.readByte();
-		xPosition = par1DataInputStream.readInt();
-		yPosition = par1DataInputStream.readInt();
-		zPosition = par1DataInputStream.readInt();
-		pitch = par1DataInputStream.readByte();
-		yaw = par1DataInputStream.readByte();
-		throwerEntityId = par1DataInputStream.readInt();
+		entityId = par1DataInput.readInt();
+		type = par1DataInput.readByte();
+		xPosition = par1DataInput.readInt();
+		yPosition = par1DataInput.readInt();
+		zPosition = par1DataInput.readInt();
+		pitch = par1DataInput.readByte();
+		yaw = par1DataInput.readByte();
+		throwerEntityId = par1DataInput.readInt();
 		if(throwerEntityId > 0)
 		{
-			speedX = par1DataInputStream.readShort();
-			speedY = par1DataInputStream.readShort();
-			speedZ = par1DataInputStream.readShort();
+			speedX = par1DataInput.readShort();
+			speedY = par1DataInput.readShort();
+			speedZ = par1DataInput.readShort();
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
-		par1DataOutputStream.writeByte(type);
-		par1DataOutputStream.writeInt(xPosition);
-		par1DataOutputStream.writeInt(yPosition);
-		par1DataOutputStream.writeInt(zPosition);
-		par1DataOutputStream.writeByte(pitch);
-		par1DataOutputStream.writeByte(yaw);
-		par1DataOutputStream.writeInt(throwerEntityId);
+		par1DataOutput.writeInt(entityId);
+		par1DataOutput.writeByte(type);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeInt(yPosition);
+		par1DataOutput.writeInt(zPosition);
+		par1DataOutput.writeByte(pitch);
+		par1DataOutput.writeByte(yaw);
+		par1DataOutput.writeInt(throwerEntityId);
 		if(throwerEntityId > 0)
 		{
-			par1DataOutputStream.writeShort(speedX);
-			par1DataOutputStream.writeShort(speedY);
-			par1DataOutputStream.writeShort(speedZ);
+			par1DataOutput.writeShort(speedX);
+			par1DataOutput.writeShort(speedY);
+			par1DataOutput.writeShort(speedZ);
 		}
 	}
 }

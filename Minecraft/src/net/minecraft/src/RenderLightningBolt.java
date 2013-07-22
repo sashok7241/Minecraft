@@ -104,4 +104,14 @@ public class RenderLightningBolt extends Render
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
+	
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110805_a((EntityLightningBolt) par1Entity);
+	}
+	
+	protected ResourceLocation func_110805_a(EntityLightningBolt par1EntityLightningBolt)
+	{
+		return null;
+	}
 }

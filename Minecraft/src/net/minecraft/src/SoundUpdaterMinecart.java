@@ -5,14 +5,14 @@ public class SoundUpdaterMinecart implements IUpdatePlayerListBox
 	private final SoundManager theSoundManager;
 	private final EntityMinecart theMinecart;
 	private final EntityPlayerSP thePlayer;
-	private boolean playerSPRidingMinecart = false;
-	private boolean minecartIsDead = false;
-	private boolean minecartIsMoving = false;
-	private boolean silent = false;
-	private float minecartSoundPitch = 0.0F;
-	private float minecartMoveSoundVolume = 0.0F;
-	private float minecartRideSoundVolume = 0.0F;
-	private double minecartSpeed = 0.0D;
+	private boolean playerSPRidingMinecart;
+	private boolean minecartIsDead;
+	private boolean minecartIsMoving;
+	private boolean silent;
+	private float minecartSoundPitch;
+	private float minecartMoveSoundVolume;
+	private float minecartRideSoundVolume;
+	private double minecartSpeed;
 	
 	public SoundUpdaterMinecart(SoundManager par1SoundManager, EntityMinecart par2EntityMinecart, EntityPlayerSP par3EntityPlayerSP)
 	{

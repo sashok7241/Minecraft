@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class BlockSand extends Block
 {
-	public static boolean fallInstantly = false;
+	public static boolean fallInstantly;
 	
 	public BlockSand(int par1)
 	{

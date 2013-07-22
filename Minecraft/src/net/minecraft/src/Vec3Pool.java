@@ -8,9 +8,9 @@ public class Vec3Pool
 	private final int truncateArrayResetThreshold;
 	private final int minimumSize;
 	private final List vec3Cache = new ArrayList();
-	private int nextFreeSpace = 0;
-	private int maximumSizeSinceLastTruncation = 0;
-	private int resetCount = 0;
+	private int nextFreeSpace;
+	private int maximumSizeSinceLastTruncation;
+	private int resetCount;
 	
 	public Vec3Pool(int par1, int par2)
 	{

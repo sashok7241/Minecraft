@@ -44,7 +44,7 @@ public abstract class NBTBase
 		return name.hashCode() ^ getId();
 	}
 	
-	abstract void load(DataInput var1) throws IOException;
+	abstract void load(DataInput var1, int var2) throws IOException;
 	
 	public NBTBase setName(String par1Str)
 	{
@@ -59,6 +59,29 @@ public abstract class NBTBase
 	}
 	
 	abstract void write(DataOutput var1) throws IOException;
+	
+	public static NBTBase func_130104_b(DataInput par0DataInput, int par1) throws IOException
+	{
+		byte var2 = par0DataInput.readByte();
+		if(var2 == 0) return new NBTTagEnd();
+		else
+		{
+			String var3 = par0DataInput.readUTF();
+			NBTBase var4 = newTag(var2, var3);
+			try
+			{
+				var4.load(par0DataInput, par1);
+				return var4;
+			} catch(IOException var8)
+			{
+				CrashReport var6 = CrashReport.makeCrashReport(var8, "Loading NBT data");
+				CrashReportCategory var7 = var6.makeCategory("NBT Tag");
+				var7.addCrashSection("Tag name", var3);
+				var7.addCrashSection("Tag type", Byte.valueOf(var2));
+				throw new ReportedException(var6);
+			}
+		}
+	}
 	
 	public static String getTagName(byte par0)
 	{
@@ -128,25 +151,7 @@ public abstract class NBTBase
 	
 	public static NBTBase readNamedTag(DataInput par0DataInput) throws IOException
 	{
-		byte var1 = par0DataInput.readByte();
-		if(var1 == 0) return new NBTTagEnd();
-		else
-		{
-			String var2 = par0DataInput.readUTF();
-			NBTBase var3 = newTag(var1, var2);
-			try
-			{
-				var3.load(par0DataInput);
-				return var3;
-			} catch(IOException var7)
-			{
-				CrashReport var5 = CrashReport.makeCrashReport(var7, "Loading NBT data");
-				CrashReportCategory var6 = var5.makeCategory("NBT Tag");
-				var6.addCrashSection("Tag name", var2);
-				var6.addCrashSection("Tag type", Byte.valueOf(var1));
-				throw new ReportedException(var5);
-			}
-		}
+		return func_130104_b(par0DataInput, 0);
 	}
 	
 	public static void writeNamedTag(NBTBase par0NBTBase, DataOutput par1DataOutput) throws IOException

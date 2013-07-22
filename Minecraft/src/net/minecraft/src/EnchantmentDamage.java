@@ -14,9 +14,9 @@ public class EnchantmentDamage extends Enchantment
 		damageType = par3;
 	}
 	
-	@Override public int calcModifierLiving(int par1, EntityLiving par2EntityLiving)
+	@Override public float calcModifierLiving(int par1, EntityLivingBase par2EntityLivingBase)
 	{
-		return damageType == 0 ? MathHelper.floor_float(par1 * 2.75F) : damageType == 1 && par2EntityLiving.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD ? MathHelper.floor_float(par1 * 4.5F) : damageType == 2 && par2EntityLiving.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD ? MathHelper.floor_float(par1 * 4.5F) : 0;
+		return damageType == 0 ? par1 * 1.25F : damageType == 1 && par2EntityLivingBase.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD ? par1 * 2.5F : damageType == 2 && par2EntityLivingBase.getCreatureAttribute() == EnumCreatureAttribute.ARTHROPOD ? par1 * 2.5F : 0.0F;
 	}
 	
 	@Override public boolean canApply(ItemStack par1ItemStack)

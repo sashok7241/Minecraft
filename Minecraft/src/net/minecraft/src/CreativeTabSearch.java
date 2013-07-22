@@ -9,6 +9,6 @@ final class CreativeTabSearch extends CreativeTabs
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Item.compass.itemID;
+		return Item.appleRed.itemID;
 	}
 }

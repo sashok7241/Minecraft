@@ -23,7 +23,7 @@ public class CommandClearInventory extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.clear.usage", new Object[0]);
+		return "commands.clear.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -43,6 +43,10 @@ public class CommandClearInventory extends CommandBase
 		int var5 = par2ArrayOfStr.length >= 3 ? parseIntWithMin(par1ICommandSender, par2ArrayOfStr[2], 0) : -1;
 		int var6 = var3.inventory.clearInventory(var4, var5);
 		var3.inventoryContainer.detectAndSendChanges();
+		if(!var3.capabilities.isCreativeMode)
+		{
+			var3.updateHeldItem();
+		}
 		if(var6 == 0) throw new CommandException("commands.clear.failure", new Object[] { var3.getEntityName() });
 		else
 		{

@@ -46,9 +46,9 @@ public class BlockMycelium extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("mycel_side");
-		field_94422_a = par1IconRegister.registerIcon("mycel_top");
-		field_94421_b = par1IconRegister.registerIcon("snow_side");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		field_94422_a = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		field_94421_b = par1IconRegister.registerIcon("grass_side_snowed");
 	}
 	
 	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)

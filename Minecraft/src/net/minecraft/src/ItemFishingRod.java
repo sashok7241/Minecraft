@@ -43,8 +43,8 @@ public class ItemFishingRod extends Item
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		super.registerIcons(par1IconRegister);
-		theIcon = par1IconRegister.registerIcon("fishingRod_empty");
+		itemIcon = par1IconRegister.registerIcon(func_111208_A() + "_uncast");
+		theIcon = par1IconRegister.registerIcon(func_111208_A() + "_cast");
 	}
 	
 	@Override public boolean shouldRotateAroundWhenRendering()

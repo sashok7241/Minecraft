@@ -5,22 +5,22 @@ public class PathNavigate
 	private EntityLiving theEntity;
 	private World worldObj;
 	private PathEntity currentPath;
-	private float speed;
-	private float pathSearchRange;
-	private boolean noSunPathfind = false;
+	private double speed;
+	private AttributeInstance pathSearchRange;
+	private boolean noSunPathfind;
 	private int totalTicks;
 	private int ticksAtLastPos;
 	private Vec3 lastPosCheck = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
 	private boolean canPassOpenWoodenDoors = true;
-	private boolean canPassClosedWoodenDoors = false;
-	private boolean avoidsWater = false;
-	private boolean canSwim = false;
+	private boolean canPassClosedWoodenDoors;
+	private boolean avoidsWater;
+	private boolean canSwim;
 	
-	public PathNavigate(EntityLiving par1EntityLiving, World par2World, float par3)
+	public PathNavigate(EntityLiving par1EntityLiving, World par2World)
 	{
 		theEntity = par1EntityLiving;
 		worldObj = par2World;
-		pathSearchRange = par3;
+		pathSearchRange = par1EntityLiving.func_110148_a(SharedMonsterAttributes.field_111265_b);
 	}
 	
 	private boolean canNavigate()
@@ -31,6 +31,11 @@ public class PathNavigate
 	public void clearPathEntity()
 	{
 		currentPath = null;
+	}
+	
+	public float func_111269_d()
+	{
+		return (float) pathSearchRange.func_111126_e();
 	}
 	
 	public boolean getAvoidsWater()
@@ -71,14 +76,14 @@ public class PathNavigate
 		} else return (int) (theEntity.boundingBox.minY + 0.5D);
 	}
 	
-	public PathEntity getPathToEntityLiving(EntityLiving par1EntityLiving)
+	public PathEntity getPathToEntityLiving(Entity par1Entity)
 	{
-		return !canNavigate() ? null : worldObj.getPathEntityToEntity(theEntity, par1EntityLiving, pathSearchRange, canPassOpenWoodenDoors, canPassClosedWoodenDoors, avoidsWater, canSwim);
+		return !canNavigate() ? null : worldObj.getPathEntityToEntity(theEntity, par1Entity, func_111269_d(), canPassOpenWoodenDoors, canPassClosedWoodenDoors, avoidsWater, canSwim);
 	}
 	
 	public PathEntity getPathToXYZ(double par1, double par3, double par5)
 	{
-		return !canNavigate() ? null : worldObj.getEntityPathToXYZ(theEntity, MathHelper.floor_double(par1), (int) par3, MathHelper.floor_double(par5), pathSearchRange, canPassOpenWoodenDoors, canPassClosedWoodenDoors, avoidsWater, canSwim);
+		return !canNavigate() ? null : worldObj.getEntityPathToXYZ(theEntity, MathHelper.floor_double(par1), (int) par3, MathHelper.floor_double(par5), func_111269_d(), canPassOpenWoodenDoors, canPassClosedWoodenDoors, avoidsWater, canSwim);
 	}
 	
 	private boolean isDirectPathBetweenPoints(Vec3 par1Vec3, Vec3 par2Vec3, int par3, int par4, int par5)
@@ -305,7 +310,7 @@ public class PathNavigate
 		canPassOpenWoodenDoors = par1;
 	}
 	
-	public boolean setPath(PathEntity par1PathEntity, float par2)
+	public boolean setPath(PathEntity par1PathEntity, double par2)
 	{
 		if(par1PathEntity == null)
 		{
@@ -325,30 +330,30 @@ public class PathNavigate
 			else
 			{
 				speed = par2;
-				Vec3 var3 = getEntityPosition();
+				Vec3 var4 = getEntityPosition();
 				ticksAtLastPos = totalTicks;
-				lastPosCheck.xCoord = var3.xCoord;
-				lastPosCheck.yCoord = var3.yCoord;
-				lastPosCheck.zCoord = var3.zCoord;
+				lastPosCheck.xCoord = var4.xCoord;
+				lastPosCheck.yCoord = var4.yCoord;
+				lastPosCheck.zCoord = var4.zCoord;
 				return true;
 			}
 		}
 	}
 	
-	public void setSpeed(float par1)
+	public void setSpeed(double par1)
 	{
 		speed = par1;
 	}
 	
-	public boolean tryMoveToEntityLiving(EntityLiving par1EntityLiving, float par2)
+	public boolean tryMoveToEntityLiving(Entity par1Entity, double par2)
 	{
-		PathEntity var3 = getPathToEntityLiving(par1EntityLiving);
-		return var3 != null ? setPath(var3, par2) : false;
+		PathEntity var4 = getPathToEntityLiving(par1Entity);
+		return var4 != null ? setPath(var4, par2) : false;
 	}
 	
-	public boolean tryMoveToXYZ(double par1, double par3, double par5, float par7)
+	public boolean tryMoveToXYZ(double par1, double par3, double par5, double par7)
 	{
-		PathEntity var8 = getPathToXYZ(MathHelper.floor_double(par1), (int) par3, MathHelper.floor_double(par5));
-		return setPath(var8, par7);
+		PathEntity var9 = getPathToXYZ(MathHelper.floor_double(par1), (int) par3, MathHelper.floor_double(par5));
+		return setPath(var9, par7);
 	}
 }

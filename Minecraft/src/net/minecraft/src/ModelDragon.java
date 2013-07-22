@@ -195,7 +195,7 @@ public class ModelDragon extends ModelBase
 		GL11.glPopMatrix();
 	}
 	
-	@Override public void setLivingAnimations(EntityLiving par1EntityLiving, float par2, float par3, float par4)
+	@Override public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
 		partialTicks = par4;
 	}

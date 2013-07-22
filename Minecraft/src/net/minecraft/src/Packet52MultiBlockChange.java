@@ -1,7 +1,8 @@
 package net.minecraft.src;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -67,31 +68,31 @@ public class Packet52MultiBlockChange extends Packet
 		par1NetHandler.handleMultiBlockChange(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xPosition = par1DataInputStream.readInt();
-		zPosition = par1DataInputStream.readInt();
-		size = par1DataInputStream.readShort() & 65535;
-		int var2 = par1DataInputStream.readInt();
+		xPosition = par1DataInput.readInt();
+		zPosition = par1DataInput.readInt();
+		size = par1DataInput.readShort() & 65535;
+		int var2 = par1DataInput.readInt();
 		if(var2 > 0)
 		{
 			metadataArray = new byte[var2];
-			par1DataInputStream.readFully(metadataArray);
+			par1DataInput.readFully(metadataArray);
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(xPosition);
-		par1DataOutputStream.writeInt(zPosition);
-		par1DataOutputStream.writeShort((short) size);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeInt(zPosition);
+		par1DataOutput.writeShort((short) size);
 		if(metadataArray != null)
 		{
-			par1DataOutputStream.writeInt(metadataArray.length);
-			par1DataOutputStream.write(metadataArray);
+			par1DataOutput.writeInt(metadataArray.length);
+			par1DataOutput.write(metadataArray);
 		} else
 		{
-			par1DataOutputStream.writeInt(0);
+			par1DataOutput.writeInt(0);
 		}
 	}
 }

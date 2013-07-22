@@ -9,12 +9,11 @@ public class EntityBat extends EntityAmbientCreature
 	public EntityBat(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/bat.png";
 		setSize(0.5F, 0.9F);
 		setIsBatHanging(true);
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -60,6 +59,12 @@ public class EntityBat extends EntityAmbientCreature
 	{
 	}
 	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(6.0D);
+	}
+	
 	@Override public boolean getCanSpawnHere()
 	{
 		int var1 = MathHelper.floor_double(boundingBox.minY);
@@ -102,11 +107,6 @@ public class EntityBat extends EntityAmbientCreature
 		return getIsBatHanging() && rand.nextInt(4) != 0 ? null : "mob.bat.idle";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 6;
-	}
-	
 	@Override protected float getSoundPitch()
 	{
 		return super.getSoundPitch() * 0.95F;
@@ -115,10 +115,6 @@ public class EntityBat extends EntityAmbientCreature
 	@Override protected float getSoundVolume()
 	{
 		return 0.1F;
-	}
-	
-	@Override public void initCreature()
-	{
 	}
 	
 	@Override protected boolean isAIEnabled()

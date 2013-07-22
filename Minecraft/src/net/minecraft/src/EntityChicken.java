@@ -2,9 +2,8 @@ package net.minecraft.src;
 
 public class EntityChicken extends EntityAnimal
 {
-	public boolean field_70885_d = false;
-	public float field_70886_e = 0.0F;
-	public float destPos = 0.0F;
+	public float field_70886_e;
+	public float destPos;
 	public float field_70884_g;
 	public float field_70888_h;
 	public float field_70889_i = 1.0F;
@@ -13,16 +12,14 @@ public class EntityChicken extends EntityAnimal
 	public EntityChicken(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/chicken.png";
 		setSize(0.3F, 0.7F);
 		timeUntilNextEgg = rand.nextInt(6000) + 6000;
-		float var2 = 0.25F;
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIPanic(this, 0.38F));
-		tasks.addTask(2, new EntityAIMate(this, var2));
-		tasks.addTask(3, new EntityAITempt(this, 0.25F, Item.seeds.itemID, false));
-		tasks.addTask(4, new EntityAIFollowParent(this, 0.28F));
-		tasks.addTask(5, new EntityAIWander(this, var2));
+		tasks.addTask(1, new EntityAIPanic(this, 1.4D));
+		tasks.addTask(2, new EntityAIMate(this, 1.0D));
+		tasks.addTask(3, new EntityAITempt(this, 1.0D, Item.seeds.itemID, false));
+		tasks.addTask(4, new EntityAIFollowParent(this, 1.1D));
+		tasks.addTask(5, new EntityAIWander(this, 1.0D));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		tasks.addTask(7, new EntityAILookIdle(this));
 	}
@@ -52,6 +49,13 @@ public class EntityChicken extends EntityAnimal
 	{
 	}
 	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(4.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
+	}
+	
 	@Override protected String getDeathSound()
 	{
 		return "mob.chicken.hurt";
@@ -70,11 +74,6 @@ public class EntityChicken extends EntityAnimal
 	@Override protected String getLivingSound()
 	{
 		return "mob.chicken.say";
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return 4;
 	}
 	
 	@Override public boolean isAIEnabled()

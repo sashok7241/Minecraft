@@ -3,15 +3,16 @@ package net.minecraft.src;
 public class GuiLanguage extends GuiScreen
 {
 	protected GuiScreen parentGui;
-	private int updateTimer = -1;
 	private GuiSlotLanguage languageList;
 	private final GameSettings theGameSettings;
+	private final LanguageManager field_135014_d;
 	private GuiSmallButton doneButton;
 	
-	public GuiLanguage(GuiScreen par1GuiScreen, GameSettings par2GameSettings)
+	public GuiLanguage(GuiScreen par1GuiScreen, GameSettings par2GameSettings, LanguageManager par3LanguageManager)
 	{
 		parentGui = par1GuiScreen;
 		theGameSettings = par2GameSettings;
+		field_135014_d = par3LanguageManager;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -34,29 +35,21 @@ public class GuiLanguage extends GuiScreen
 	@Override public void drawScreen(int par1, int par2, float par3)
 	{
 		languageList.drawScreen(par1, par2, par3);
-		if(updateTimer <= 0)
-		{
-			mc.texturePackList.updateAvaliableTexturePacks();
-			updateTimer += 20;
-		}
-		StringTranslate var4 = StringTranslate.getInstance();
-		drawCenteredString(fontRenderer, var4.translateKey("options.language"), width / 2, 16, 16777215);
-		drawCenteredString(fontRenderer, "(" + var4.translateKey("options.languageWarning") + ")", width / 2, height - 56, 8421504);
+		drawCenteredString(fontRenderer, I18n.func_135053_a("options.language"), width / 2, 16, 16777215);
+		drawCenteredString(fontRenderer, "(" + I18n.func_135053_a("options.languageWarning") + ")", width / 2, height - 56, 8421504);
 		super.drawScreen(par1, par2, par3);
 	}
 	
 	@Override public void initGui()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
-		buttonList.add(doneButton = new GuiSmallButton(6, width / 2 - 75, height - 38, var1.translateKey("gui.done")));
+		buttonList.add(doneButton = new GuiSmallButton(6, width / 2 - 75, height - 38, I18n.func_135053_a("gui.done")));
 		languageList = new GuiSlotLanguage(this);
-		languageList.registerScrollButtons(buttonList, 7, 8);
+		languageList.registerScrollButtons(7, 8);
 	}
 	
-	@Override public void updateScreen()
+	static LanguageManager func_135011_a(GuiLanguage par0GuiLanguage)
 	{
-		super.updateScreen();
-		--updateTimer;
+		return par0GuiLanguage.field_135014_d;
 	}
 	
 	static GuiSmallButton getDoneButton(GuiLanguage par0GuiLanguage)

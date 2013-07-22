@@ -69,6 +69,7 @@ public class ServerAddress
 	{
 		try
 		{
+			String var1 = "com.sun.jndi.dns.DnsContextFactory";
 			Class.forName("com.sun.jndi.dns.DnsContextFactory");
 			Hashtable var2 = new Hashtable();
 			var2.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");

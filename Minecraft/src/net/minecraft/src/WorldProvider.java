@@ -2,14 +2,15 @@ package net.minecraft.src;
 
 public abstract class WorldProvider
 {
+	public static final float[] field_111203_a = new float[] { 1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F };
 	public World worldObj;
 	public WorldType terrainType;
 	public String field_82913_c;
 	public WorldChunkManager worldChunkMgr;
-	public boolean isHellWorld = false;
-	public boolean hasNoSky = false;
+	public boolean isHellWorld;
+	public boolean hasNoSky;
 	public float[] lightBrightnessTable = new float[16];
-	public int dimensionId = 0;
+	public int dimensionId;
 	private float[] colorsSunriseSunset = new float[4];
 	
 	public float[] calcSunriseSunsetColors(float par1, float par2)

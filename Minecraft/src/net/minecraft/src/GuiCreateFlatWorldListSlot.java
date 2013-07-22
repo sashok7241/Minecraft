@@ -27,13 +27,13 @@ class GuiCreateFlatWorldListSlot extends GuiSlot
 		String var9;
 		if(par1 == 0)
 		{
-			var9 = StatCollector.translateToLocalFormatted("createWorld.customize.flat.layer.top", new Object[] { Integer.valueOf(var6.getLayerCount()) });
+			var9 = I18n.func_135052_a("createWorld.customize.flat.layer.top", new Object[] { Integer.valueOf(var6.getLayerCount()) });
 		} else if(par1 == GuiCreateFlatWorld.func_82271_a(createFlatWorldGui).getFlatLayers().size() - 1)
 		{
-			var9 = StatCollector.translateToLocalFormatted("createWorld.customize.flat.layer.bottom", new Object[] { Integer.valueOf(var6.getLayerCount()) });
+			var9 = I18n.func_135052_a("createWorld.customize.flat.layer.bottom", new Object[] { Integer.valueOf(var6.getLayerCount()) });
 		} else
 		{
-			var9 = StatCollector.translateToLocalFormatted("createWorld.customize.flat.layer", new Object[] { Integer.valueOf(var6.getLayerCount()) });
+			var9 = I18n.func_135052_a("createWorld.customize.flat.layer", new Object[] { Integer.valueOf(var6.getLayerCount()) });
 		}
 		createFlatWorldGui.fontRenderer.drawString(var9, par2 + 2 + 213 - createFlatWorldGui.fontRenderer.getStringWidth(var9), par3 + 3, 16777215);
 	}
@@ -47,7 +47,11 @@ class GuiCreateFlatWorldListSlot extends GuiSlot
 	private void func_82450_b(int par1, int par2, int par3, int par4)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		createFlatWorldGui.mc.renderEngine.bindTexture("/gui/slot.png");
+		createFlatWorldGui.mc.func_110434_K().func_110577_a(Gui.field_110323_l);
+		float var5 = 0.0078125F;
+		float var6 = 0.0078125F;
+		boolean var7 = true;
+		boolean var8 = true;
 		Tessellator var9 = Tessellator.instance;
 		var9.startDrawingQuads();
 		var9.addVertexWithUV(par1 + 0, par2 + 18, createFlatWorldGui.zLevel, (par3 + 0) * 0.0078125F, (par4 + 18) * 0.0078125F);
@@ -69,7 +73,7 @@ class GuiCreateFlatWorldListSlot extends GuiSlot
 		if(par3ItemStack != null)
 		{
 			RenderHelper.enableGUIStandardItemLighting();
-			GuiCreateFlatWorld.getRenderItem().renderItemIntoGUI(createFlatWorldGui.fontRenderer, createFlatWorldGui.mc.renderEngine, par3ItemStack, par1 + 2, par2 + 2);
+			GuiCreateFlatWorld.getRenderItem().renderItemIntoGUI(createFlatWorldGui.fontRenderer, createFlatWorldGui.mc.func_110434_K(), par3ItemStack, par1 + 2, par2 + 2);
 			RenderHelper.disableStandardItemLighting();
 		}
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);

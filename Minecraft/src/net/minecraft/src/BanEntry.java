@@ -13,7 +13,7 @@ public class BanEntry
 	private final String username;
 	private Date banStartDate = new Date();
 	private String bannedBy = "(Unknown)";
-	private Date banEndDate = null;
+	private Date banEndDate;
 	private String reason = "Banned by an operator.";
 	
 	public BanEntry(String par1Str)

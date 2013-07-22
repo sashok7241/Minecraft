@@ -31,8 +31,8 @@ public class StatList
 	public static StatBase distanceByPigStat = new StatBasic(2008, "stat.pigOneCm", StatBase.distanceStatType).initIndependentStat().registerStat();
 	public static StatBase jumpStat = new StatBasic(2010, "stat.jump").initIndependentStat().registerStat();
 	public static StatBase dropStat = new StatBasic(2011, "stat.drop").initIndependentStat().registerStat();
-	public static StatBase damageDealtStat = new StatBasic(2020, "stat.damageDealt").registerStat();
-	public static StatBase damageTakenStat = new StatBasic(2021, "stat.damageTaken").registerStat();
+	public static StatBase damageDealtStat = new StatBasic(2020, "stat.damageDealt", StatBase.field_111202_k).registerStat();
+	public static StatBase damageTakenStat = new StatBasic(2021, "stat.damageTaken", StatBase.field_111202_k).registerStat();
 	public static StatBase deathsStat = new StatBasic(2022, "stat.deaths").registerStat();
 	public static StatBase mobKillsStat = new StatBasic(2023, "stat.mobKills").registerStat();
 	public static StatBase playerKillsStat = new StatBasic(2024, "stat.playerKills").registerStat();
@@ -193,7 +193,5 @@ public class StatList
 	static
 	{
 		AchievementList.init();
-		blockStatsInitialized = false;
-		itemStatsInitialized = false;
 	}
 }

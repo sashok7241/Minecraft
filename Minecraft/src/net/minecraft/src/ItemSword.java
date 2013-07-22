@@ -1,8 +1,9 @@
 package net.minecraft.src;
 
+
 public class ItemSword extends Item
 {
-	private int weaponDamage;
+	private float weaponDamage;
 	private final EnumToolMaterial toolMaterial;
 	
 	public ItemSword(int par1, EnumToolMaterial par2EnumToolMaterial)
@@ -12,7 +13,7 @@ public class ItemSword extends Item
 		maxStackSize = 1;
 		setMaxDamage(par2EnumToolMaterial.getMaxUses());
 		setCreativeTab(CreativeTabs.tabCombat);
-		weaponDamage = 4 + par2EnumToolMaterial.getDamageVsEntity();
+		weaponDamage = 4.0F + par2EnumToolMaterial.getDamageVsEntity();
 	}
 	
 	@Override public boolean canHarvestBlock(Block par1Block)
@@ -20,14 +21,16 @@ public class ItemSword extends Item
 		return par1Block.blockID == Block.web.blockID;
 	}
 	
-	public int func_82803_g()
+	@Override public Multimap func_111205_h()
 	{
-		return toolMaterial.getDamageVsEntity();
+		Multimap var1 = super.func_111205_h();
+		var1.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", weaponDamage, 0));
+		return var1;
 	}
 	
-	@Override public int getDamageVsEntity(Entity par1Entity)
+	public float func_82803_g()
 	{
-		return weaponDamage;
+		return toolMaterial.getDamageVsEntity();
 	}
 	
 	@Override public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
@@ -65,9 +68,9 @@ public class ItemSword extends Item
 		return toolMaterial.toString();
 	}
 	
-	@Override public boolean hitEntity(ItemStack par1ItemStack, EntityLiving par2EntityLiving, EntityLiving par3EntityLiving)
+	@Override public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
 	{
-		par1ItemStack.damageItem(1, par3EntityLiving);
+		par1ItemStack.damageItem(1, par3EntityLivingBase);
 		return true;
 	}
 	
@@ -76,11 +79,11 @@ public class ItemSword extends Item
 		return true;
 	}
 	
-	@Override public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLiving par7EntityLiving)
+	@Override public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase)
 	{
 		if(Block.blocksList[par3].getBlockHardness(par2World, par4, par5, par6) != 0.0D)
 		{
-			par1ItemStack.damageItem(2, par7EntityLiving);
+			par1ItemStack.damageItem(2, par7EntityLivingBase);
 		}
 		return true;
 	}

@@ -10,6 +10,7 @@ class PlayerInstance
 	private short[] locationOfBlockChange;
 	private int numberOfTilesToUpdate;
 	private int field_73260_f;
+	private long field_111198_g;
 	final PlayerManager thePlayerManager;
 	
 	public PlayerInstance(PlayerManager par1PlayerManager, int par2, int par3)
@@ -17,7 +18,6 @@ class PlayerInstance
 		thePlayerManager = par1PlayerManager;
 		playersInChunk = new ArrayList();
 		locationOfBlockChange = new short[64];
-		numberOfTilesToUpdate = 0;
 		chunkLocation = new ChunkCoordIntPair(par2, par3);
 		par1PlayerManager.getWorldServer().theChunkProviderServer.loadChunk(par2, par3);
 	}
@@ -27,6 +27,10 @@ class PlayerInstance
 		if(playersInChunk.contains(par1EntityPlayerMP)) throw new IllegalStateException("Failed to add player. " + par1EntityPlayerMP + " already is in chunk " + chunkLocation.chunkXPos + ", " + chunkLocation.chunkZPos);
 		else
 		{
+			if(playersInChunk.isEmpty())
+			{
+				field_111198_g = PlayerManager.getWorldServer(thePlayerManager).getTotalWorldTime();
+			}
 			playersInChunk.add(par1EntityPlayerMP);
 			par1EntityPlayerMP.loadedChunks.add(chunkLocation);
 		}
@@ -50,17 +54,31 @@ class PlayerInstance
 		}
 	}
 	
+	public void func_111194_a()
+	{
+		func_111196_a(PlayerManager.getWorldServer(thePlayerManager).getChunkFromChunkCoords(chunkLocation.chunkXPos, chunkLocation.chunkZPos));
+	}
+	
+	private void func_111196_a(Chunk par1Chunk)
+	{
+		par1Chunk.field_111204_q += PlayerManager.getWorldServer(thePlayerManager).getTotalWorldTime() - field_111198_g;
+		field_111198_g = PlayerManager.getWorldServer(thePlayerManager).getTotalWorldTime();
+	}
+	
 	public void removePlayer(EntityPlayerMP par1EntityPlayerMP)
 	{
 		if(playersInChunk.contains(par1EntityPlayerMP))
 		{
-			par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet51MapChunk(PlayerManager.getWorldServer(thePlayerManager).getChunkFromChunkCoords(chunkLocation.chunkXPos, chunkLocation.chunkZPos), true, 0));
+			Chunk var2 = PlayerManager.getWorldServer(thePlayerManager).getChunkFromChunkCoords(chunkLocation.chunkXPos, chunkLocation.chunkZPos);
+			par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet51MapChunk(var2, true, 0));
 			playersInChunk.remove(par1EntityPlayerMP);
 			par1EntityPlayerMP.loadedChunks.remove(chunkLocation);
 			if(playersInChunk.isEmpty())
 			{
-				long var2 = chunkLocation.chunkXPos + 2147483647L | chunkLocation.chunkZPos + 2147483647L << 32;
-				PlayerManager.getChunkWatchers(thePlayerManager).remove(var2);
+				long var3 = chunkLocation.chunkXPos + 2147483647L | chunkLocation.chunkZPos + 2147483647L << 32;
+				func_111196_a(var2);
+				PlayerManager.getChunkWatchers(thePlayerManager).remove(var3);
+				PlayerManager.func_111191_d(thePlayerManager).remove(this);
 				if(numberOfTilesToUpdate > 0)
 				{
 					PlayerManager.getChunkWatchersWithPlayers(thePlayerManager).remove(this);

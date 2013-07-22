@@ -13,9 +13,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.crypto.SecretKey;
+
+import net.minecraft.server.MinecraftServer;
 
 public class TcpConnection implements INetworkManager
 {
@@ -29,7 +33,7 @@ public class TcpConnection implements INetworkManager
 	private volatile DataOutputStream socketOutputStream;
 	private volatile boolean isRunning;
 	private volatile boolean isTerminating;
-	private List readPackets;
+	private Queue readPackets;
 	private List dataPackets;
 	private List chunkDataPackets;
 	private NetHandler theNetHandler;
@@ -58,19 +62,10 @@ public class TcpConnection implements INetworkManager
 	{
 		sendQueueLock = new Object();
 		isRunning = true;
-		isTerminating = false;
-		readPackets = Collections.synchronizedList(new ArrayList());
+		readPackets = new ConcurrentLinkedQueue();
 		dataPackets = Collections.synchronizedList(new ArrayList());
 		chunkDataPackets = Collections.synchronizedList(new ArrayList());
-		isServerTerminating = false;
 		terminationReason = "";
-		field_74490_x = 0;
-		sendQueueByteLength = 0;
-		field_74468_e = 0;
-		isInputBeingDecrypted = false;
-		isOutputEncrypted = false;
-		sharedKeyForEncryption = null;
-		field_74463_A = null;
 		chunkDataPacketsDelay = 50;
 		field_74463_A = par5PrivateKey;
 		networkSocket = par2Socket;
@@ -239,10 +234,13 @@ public class TcpConnection implements INetworkManager
 			field_74490_x = 0;
 		}
 		int var1 = 1000;
-		while(!readPackets.isEmpty() && var1-- >= 0)
+		while(var1-- >= 0)
 		{
-			Packet var2 = (Packet) readPackets.remove(0);
-			var2.processPacket(theNetHandler);
+			Packet var2 = (Packet) readPackets.poll();
+			if(var2 != null && !theNetHandler.func_142032_c())
+			{
+				var2.processPacket(theNetHandler);
+			}
 		}
 		wakeThreads();
 		if(isTerminating && readPackets.isEmpty())
@@ -305,7 +303,7 @@ public class TcpConnection implements INetworkManager
 			Packet var2;
 			int var10001;
 			int[] var10000;
-			if(field_74468_e == 0 || !dataPackets.isEmpty() && System.currentTimeMillis() - ((Packet) dataPackets.get(0)).creationTimeMillis >= field_74468_e)
+			if(field_74468_e == 0 || !dataPackets.isEmpty() && MinecraftServer.func_130071_aq() - ((Packet) dataPackets.get(0)).creationTimeMillis >= field_74468_e)
 			{
 				var2 = func_74460_a(false);
 				if(var2 != null)
@@ -325,7 +323,7 @@ public class TcpConnection implements INetworkManager
 					var1 = true;
 				}
 			}
-			if(chunkDataPacketsDelay-- <= 0 && (field_74468_e == 0 || !chunkDataPackets.isEmpty() && System.currentTimeMillis() - ((Packet) chunkDataPackets.get(0)).creationTimeMillis >= field_74468_e))
+			if(chunkDataPacketsDelay-- <= 0 && (field_74468_e == 0 || !chunkDataPackets.isEmpty() && MinecraftServer.func_130071_aq() - ((Packet) chunkDataPackets.get(0)).creationTimeMillis >= field_74468_e))
 			{
 				var2 = func_74460_a(true);
 				if(var2 != null)

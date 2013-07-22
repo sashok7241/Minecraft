@@ -26,10 +26,10 @@ public class ModelSkeleton extends ModelZombie
 		bipedLeftLeg.setRotationPoint(2.0F, 12.0F, 0.0F);
 	}
 	
-	@Override public void setLivingAnimations(EntityLiving par1EntityLiving, float par2, float par3, float par4)
+	@Override public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
-		aimedBow = ((EntitySkeleton) par1EntityLiving).getSkeletonType() == 1;
-		super.setLivingAnimations(par1EntityLiving, par2, par3, par4);
+		aimedBow = ((EntitySkeleton) par1EntityLivingBase).getSkeletonType() == 1;
+		super.setLivingAnimations(par1EntityLivingBase, par2, par3, par4);
 	}
 	
 	@Override public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)

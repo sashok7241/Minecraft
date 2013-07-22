@@ -3,15 +3,15 @@ package net.minecraft.src;
 public class EntityAIOcelotSit extends EntityAIBase
 {
 	private final EntityOcelot theOcelot;
-	private final float field_75404_b;
-	private int currentTick = 0;
-	private int field_75402_d = 0;
-	private int maxSittingTicks = 0;
-	private int sitableBlockX = 0;
-	private int sitableBlockY = 0;
-	private int sitableBlockZ = 0;
+	private final double field_75404_b;
+	private int currentTick;
+	private int field_75402_d;
+	private int maxSittingTicks;
+	private int sitableBlockX;
+	private int sitableBlockY;
+	private int sitableBlockZ;
 	
-	public EntityAIOcelotSit(EntityOcelot par1EntityOcelot, float par2)
+	public EntityAIOcelotSit(EntityOcelot par1EntityOcelot, double par2)
 	{
 		theOcelot = par1EntityOcelot;
 		field_75404_b = par2;

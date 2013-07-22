@@ -12,9 +12,9 @@ public class EntitySnowball extends EntityThrowable
 		super(par1World, par2, par4, par6);
 	}
 	
-	public EntitySnowball(World par1World, EntityLiving par2EntityLiving)
+	public EntitySnowball(World par1World, EntityLivingBase par2EntityLivingBase)
 	{
-		super(par1World, par2EntityLiving);
+		super(par1World, par2EntityLivingBase);
 	}
 	
 	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)

@@ -6,9 +6,9 @@ public class EntityAIWander extends EntityAIBase
 	private double xPosition;
 	private double yPosition;
 	private double zPosition;
-	private float speed;
+	private double speed;
 	
-	public EntityAIWander(EntityCreature par1EntityCreature, float par2)
+	public EntityAIWander(EntityCreature par1EntityCreature, double par2)
 	{
 		entity = par1EntityCreature;
 		speed = par2;

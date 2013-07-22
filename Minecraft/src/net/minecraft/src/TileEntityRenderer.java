@@ -12,9 +12,9 @@ public class TileEntityRenderer
 	public static double staticPlayerX;
 	public static double staticPlayerY;
 	public static double staticPlayerZ;
-	public RenderEngine renderEngine;
+	public TextureManager renderEngine;
 	public World worldObj;
-	public EntityLiving entityLivingPlayer;
+	public EntityLivingBase entityLivingPlayer;
 	public float playerYaw;
 	public float playerPitch;
 	public double playerX;
@@ -40,20 +40,20 @@ public class TileEntityRenderer
 		}
 	}
 	
-	public void cacheActiveRenderInfo(World par1World, RenderEngine par2RenderEngine, FontRenderer par3FontRenderer, EntityLiving par4EntityLiving, float par5)
+	public void cacheActiveRenderInfo(World par1World, TextureManager par2TextureManager, FontRenderer par3FontRenderer, EntityLivingBase par4EntityLivingBase, float par5)
 	{
 		if(worldObj != par1World)
 		{
 			setWorld(par1World);
 		}
-		renderEngine = par2RenderEngine;
-		entityLivingPlayer = par4EntityLiving;
+		renderEngine = par2TextureManager;
+		entityLivingPlayer = par4EntityLivingBase;
 		fontRenderer = par3FontRenderer;
-		playerYaw = par4EntityLiving.prevRotationYaw + (par4EntityLiving.rotationYaw - par4EntityLiving.prevRotationYaw) * par5;
-		playerPitch = par4EntityLiving.prevRotationPitch + (par4EntityLiving.rotationPitch - par4EntityLiving.prevRotationPitch) * par5;
-		playerX = par4EntityLiving.lastTickPosX + (par4EntityLiving.posX - par4EntityLiving.lastTickPosX) * par5;
-		playerY = par4EntityLiving.lastTickPosY + (par4EntityLiving.posY - par4EntityLiving.lastTickPosY) * par5;
-		playerZ = par4EntityLiving.lastTickPosZ + (par4EntityLiving.posZ - par4EntityLiving.lastTickPosZ) * par5;
+		playerYaw = par4EntityLivingBase.prevRotationYaw + (par4EntityLivingBase.rotationYaw - par4EntityLivingBase.prevRotationYaw) * par5;
+		playerPitch = par4EntityLivingBase.prevRotationPitch + (par4EntityLivingBase.rotationPitch - par4EntityLivingBase.prevRotationPitch) * par5;
+		playerX = par4EntityLivingBase.lastTickPosX + (par4EntityLivingBase.posX - par4EntityLivingBase.lastTickPosX) * par5;
+		playerY = par4EntityLivingBase.lastTickPosY + (par4EntityLivingBase.posY - par4EntityLivingBase.lastTickPosY) * par5;
+		playerZ = par4EntityLivingBase.lastTickPosZ + (par4EntityLivingBase.posZ - par4EntityLivingBase.lastTickPosZ) * par5;
 	}
 	
 	public FontRenderer getFontRenderer()

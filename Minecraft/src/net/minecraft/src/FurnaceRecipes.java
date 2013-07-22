@@ -21,6 +21,7 @@ public class FurnaceRecipes
 		addSmelting(Item.fishRaw.itemID, new ItemStack(Item.fishCooked), 0.35F);
 		addSmelting(Block.cobblestone.blockID, new ItemStack(Block.stone), 0.1F);
 		addSmelting(Item.clay.itemID, new ItemStack(Item.brick), 0.3F);
+		addSmelting(Block.blockClay.blockID, new ItemStack(Block.field_111032_cD), 0.35F);
 		addSmelting(Block.cactus.blockID, new ItemStack(Item.dyePowder, 1, 2), 0.2F);
 		addSmelting(Block.wood.blockID, new ItemStack(Item.coal, 1, 1), 0.15F);
 		addSmelting(Block.oreEmerald.blockID, new ItemStack(Item.emerald), 1.0F);

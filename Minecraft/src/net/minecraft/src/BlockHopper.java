@@ -137,9 +137,9 @@ public class BlockHopper extends BlockContainer
 		return var10;
 	}
 	
-	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLiving, par6ItemStack);
+		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLivingBase, par6ItemStack);
 		if(par6ItemStack.hasDisplayName())
 		{
 			TileEntityHopper var7 = getHopperTile(par1World, par2, par3, par4);
@@ -154,7 +154,7 @@ public class BlockHopper extends BlockContainer
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		hopperIcon = par1IconRegister.registerIcon("hopper");
+		hopperIcon = par1IconRegister.registerIcon("hopper_outside");
 		hopperTopIcon = par1IconRegister.registerIcon("hopper_top");
 		hopperInsideIcon = par1IconRegister.registerIcon("hopper_inside");
 	}
@@ -193,7 +193,7 @@ public class BlockHopper extends BlockContainer
 	
 	public static Icon getHopperIcon(String par0Str)
 	{
-		return par0Str == "hopper" ? Block.hopperBlock.hopperIcon : par0Str == "hopper_inside" ? Block.hopperBlock.hopperInsideIcon : null;
+		return par0Str.equals("hopper_outside") ? Block.hopperBlock.hopperIcon : par0Str.equals("hopper_inside") ? Block.hopperBlock.hopperInsideIcon : null;
 	}
 	
 	public static TileEntityHopper getHopperTile(IBlockAccess par0IBlockAccess, int par1, int par2, int par3)

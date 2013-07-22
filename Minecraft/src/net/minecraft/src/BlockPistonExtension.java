@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class BlockPistonExtension extends Block
 {
-	private Icon headTexture = null;
+	private Icon headTexture;
 	
 	public BlockPistonExtension(int par1)
 	{
@@ -17,6 +17,11 @@ public class BlockPistonExtension extends Block
 	@Override public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)
 	{
 		int var8 = par1World.getBlockMetadata(par2, par3, par4);
+		float var9 = 0.25F;
+		float var10 = 0.375F;
+		float var11 = 0.625F;
+		float var12 = 0.25F;
+		float var13 = 0.75F;
 		switch(getDirectionMeta(var8))
 		{
 			case 0:
@@ -95,7 +100,7 @@ public class BlockPistonExtension extends Block
 	@Override public Icon getIcon(int par1, int par2)
 	{
 		int var3 = getDirectionMeta(par2);
-		return par1 == var3 ? headTexture != null ? headTexture : (par2 & 8) != 0 ? BlockPistonBase.func_94496_b("piston_top_sticky") : BlockPistonBase.func_94496_b("piston_top") : var3 < 6 && par1 == Facing.oppositeSide[var3] ? BlockPistonBase.func_94496_b("piston_top") : BlockPistonBase.func_94496_b("piston_side");
+		return par1 == var3 ? headTexture != null ? headTexture : (par2 & 8) != 0 ? BlockPistonBase.func_94496_b("piston_top_sticky") : BlockPistonBase.func_94496_b("piston_top_normal") : var3 < 6 && par1 == Facing.oppositeSide[var3] ? BlockPistonBase.func_94496_b("piston_top_normal") : BlockPistonBase.func_94496_b("piston_side");
 	}
 	
 	@Override public int getRenderType()
@@ -105,12 +110,27 @@ public class BlockPistonExtension extends Block
 	
 	@Override public int idPicked(World par1World, int par2, int par3, int par4)
 	{
-		return 0;
+		int var5 = par1World.getBlockMetadata(par2, par3, par4);
+		return (var5 & 8) != 0 ? Block.pistonStickyBase.blockID : Block.pistonBase.blockID;
 	}
 	
 	@Override public boolean isOpaqueCube()
 	{
 		return false;
+	}
+	
+	@Override public void onBlockHarvested(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer)
+	{
+		if(par6EntityPlayer.capabilities.isCreativeMode)
+		{
+			int var7 = getDirectionMeta(par5);
+			int var8 = par1World.getBlockId(par2 - Facing.offsetsXForSide[var7], par3 - Facing.offsetsYForSide[var7], par4 - Facing.offsetsZForSide[var7]);
+			if(var8 == Block.pistonBase.blockID || var8 == Block.pistonStickyBase.blockID)
+			{
+				par1World.setBlockToAir(par2 - Facing.offsetsXForSide[var7], par3 - Facing.offsetsYForSide[var7], par4 - Facing.offsetsZForSide[var7]);
+			}
+		}
+		super.onBlockHarvested(par1World, par2, par3, par4, par5, par6EntityPlayer);
 	}
 	
 	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
@@ -143,6 +163,7 @@ public class BlockPistonExtension extends Block
 	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
 		int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
+		float var6 = 0.25F;
 		switch(getDirectionMeta(var5))
 		{
 			case 0:

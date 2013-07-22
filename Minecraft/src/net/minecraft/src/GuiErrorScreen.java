@@ -27,7 +27,7 @@ public class GuiErrorScreen extends GuiScreen
 	@Override public void initGui()
 	{
 		super.initGui();
-		buttonList.add(new GuiButton(0, width / 2 - 100, 140, StatCollector.translateToLocal("gui.cancel")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, 140, I18n.func_135053_a("gui.cancel")));
 	}
 	
 	@Override protected void keyTyped(char par1, int par2)

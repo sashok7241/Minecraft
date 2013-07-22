@@ -11,14 +11,14 @@ public class Village
 	private final List villageDoorInfoList = new ArrayList();
 	private final ChunkCoordinates centerHelper = new ChunkCoordinates(0, 0, 0);
 	private final ChunkCoordinates center = new ChunkCoordinates(0, 0, 0);
-	private int villageRadius = 0;
-	private int lastAddDoorTimestamp = 0;
-	private int tickCounter = 0;
-	private int numVillagers = 0;
+	private int villageRadius;
+	private int lastAddDoorTimestamp;
+	private int tickCounter;
+	private int numVillagers;
 	private int noBreedTicks;
 	private TreeMap playerReputation = new TreeMap();
 	private List villageAgressors = new ArrayList();
-	private int numIronGolems = 0;
+	private int numIronGolems;
 	
 	public Village()
 	{
@@ -29,7 +29,7 @@ public class Village
 		worldObj = par1World;
 	}
 	
-	public void addOrRenewAgressor(EntityLiving par1EntityLiving)
+	public void addOrRenewAgressor(EntityLivingBase par1EntityLivingBase)
 	{
 		Iterator var2 = villageAgressors.iterator();
 		VillageAgressor var3;
@@ -37,11 +37,11 @@ public class Village
 		{
 			if(!var2.hasNext())
 			{
-				villageAgressors.add(new VillageAgressor(this, par1EntityLiving, tickCounter));
+				villageAgressors.add(new VillageAgressor(this, par1EntityLivingBase, tickCounter));
 				return;
 			}
 			var3 = (VillageAgressor) var2.next();
-		} while(var3.agressor != par1EntityLiving);
+		} while(var3.agressor != par1EntityLivingBase);
 		var3.agressionTime = tickCounter;
 	}
 	
@@ -103,14 +103,14 @@ public class Village
 		return var4;
 	}
 	
-	public EntityLiving findNearestVillageAggressor(EntityLiving par1EntityLiving)
+	public EntityLivingBase findNearestVillageAggressor(EntityLivingBase par1EntityLivingBase)
 	{
 		double var2 = Double.MAX_VALUE;
 		VillageAgressor var4 = null;
 		for(int var5 = 0; var5 < villageAgressors.size(); ++var5)
 		{
 			VillageAgressor var6 = (VillageAgressor) villageAgressors.get(var5);
-			double var7 = var6.agressor.getDistanceSqToEntity(par1EntityLiving);
+			double var7 = var6.agressor.getDistanceSqToEntity(par1EntityLivingBase);
 			if(var7 <= var2)
 			{
 				var4 = var6;
@@ -130,7 +130,7 @@ public class Village
 		}
 	}
 	
-	public EntityPlayer func_82685_c(EntityLiving par1EntityLiving)
+	public EntityPlayer func_82685_c(EntityLivingBase par1EntityLivingBase)
 	{
 		double var2 = Double.MAX_VALUE;
 		EntityPlayer var4 = null;
@@ -143,7 +143,7 @@ public class Village
 				EntityPlayer var7 = worldObj.getPlayerEntityByName(var6);
 				if(var7 != null)
 				{
-					double var8 = var7.getDistanceSqToEntity(par1EntityLiving);
+					double var8 = var7.getDistanceSqToEntity(par1EntityLivingBase);
 					if(var8 <= var2)
 					{
 						var4 = var7;

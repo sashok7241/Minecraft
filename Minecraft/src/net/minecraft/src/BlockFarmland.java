@@ -90,8 +90,8 @@ public class BlockFarmland extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		field_94441_a = par1IconRegister.registerIcon("farmland_wet");
-		field_94440_b = par1IconRegister.registerIcon("farmland_dry");
+		field_94441_a = par1IconRegister.registerIcon(func_111023_E() + "_wet");
+		field_94440_b = par1IconRegister.registerIcon(func_111023_E() + "_dry");
 	}
 	
 	@Override public boolean renderAsNormalBlock()

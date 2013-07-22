@@ -18,7 +18,7 @@ public class CommandSetSpawnpoint extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.spawnpoint.usage", new Object[0]);
+		return "commands.spawnpoint.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()

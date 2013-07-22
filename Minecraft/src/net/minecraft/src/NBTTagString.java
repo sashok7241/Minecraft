@@ -45,7 +45,7 @@ public class NBTTagString extends NBTBase
 		return super.hashCode() ^ data.hashCode();
 	}
 	
-	@Override void load(DataInput par1DataInput) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
 		data = par1DataInput.readUTF();
 	}

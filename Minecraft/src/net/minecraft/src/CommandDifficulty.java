@@ -20,7 +20,7 @@ public class CommandDifficulty extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.difficulty.usage", new Object[0]);
+		return "commands.difficulty.usage";
 	}
 	
 	protected int getDifficultyForName(ICommandSender par1ICommandSender, String par2Str)
@@ -39,8 +39,7 @@ public class CommandDifficulty extends CommandBase
 		{
 			int var3 = getDifficultyForName(par1ICommandSender, par2ArrayOfStr[0]);
 			MinecraftServer.getServer().setDifficultyForAllWorlds(var3);
-			String var4 = StatCollector.translateToLocal(difficulties[var3]);
-			notifyAdmins(par1ICommandSender, "commands.difficulty.success", new Object[] { var4 });
+			notifyAdmins(par1ICommandSender, "commands.difficulty.success", new Object[] { ChatMessageComponent.func_111077_e(difficulties[var3]) });
 		} else throw new WrongUsageException("commands.difficulty.usage", new Object[0]);
 	}
 }

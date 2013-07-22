@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import net.minecraft.server.MinecraftServer;
+
 public class RConConsoleSource implements ICommandSender
 {
 	public static final RConConsoleSource consoleBuffer = new RConConsoleSource();
@@ -8,6 +10,11 @@ public class RConConsoleSource implements ICommandSender
 	@Override public boolean canCommandSenderUseCommand(int par1, String par2Str)
 	{
 		return true;
+	}
+	
+	@Override public World func_130014_f_()
+	{
+		return MinecraftServer.getServer().func_130014_f_();
 	}
 	
 	public String getChatBuffer()
@@ -30,13 +37,8 @@ public class RConConsoleSource implements ICommandSender
 		buffer.setLength(0);
 	}
 	
-	@Override public void sendChatToPlayer(String par1Str)
+	@Override public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent)
 	{
-		buffer.append(par1Str);
-	}
-	
-	@Override public String translateString(String par1Str, Object ... par2ArrayOfObj)
-	{
-		return StringTranslate.getInstance().translateKeyFormat(par1Str, par2ArrayOfObj);
+		buffer.append(par1ChatMessageComponent.toString());
 	}
 }

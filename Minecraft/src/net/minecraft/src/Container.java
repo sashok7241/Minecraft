@@ -10,10 +10,10 @@ public abstract class Container
 {
 	public List inventoryItemStacks = new ArrayList();
 	public List inventorySlots = new ArrayList();
-	public int windowId = 0;
-	private short transactionID = 0;
+	public int windowId;
+	private short transactionID;
 	private int field_94535_f = -1;
-	private int field_94536_g = 0;
+	private int field_94536_g;
 	private final Set field_94537_h = new HashSet();
 	protected List crafters = new ArrayList();
 	private Set playerList = new HashSet();
@@ -377,7 +377,10 @@ public abstract class Container
 								{
 									var21 = var16.getSlotStackLimit();
 								}
-								var16.putStack(var19.splitStack(var21));
+								if(var19.stackSize >= var21)
+								{
+									var16.putStack(var19.splitStack(var21));
+								}
 								if(var19.stackSize == 0)
 								{
 									var6.setItemStack((ItemStack) null);

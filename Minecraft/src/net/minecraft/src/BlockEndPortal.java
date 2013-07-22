@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class BlockEndPortal extends BlockContainer
 {
-	public static boolean bossDefeated = false;
+	public static boolean bossDefeated;
 	
 	protected BlockEndPortal(int par1, Material par2Material)
 	{

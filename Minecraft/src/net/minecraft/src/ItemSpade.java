@@ -6,7 +6,7 @@ public class ItemSpade extends ItemTool
 	
 	public ItemSpade(int par1, EnumToolMaterial par2EnumToolMaterial)
 	{
-		super(par1, 1, par2EnumToolMaterial, blocksEffectiveAgainst);
+		super(par1, 1.0F, par2EnumToolMaterial, blocksEffectiveAgainst);
 	}
 	
 	@Override public boolean canHarvestBlock(Block par1Block)

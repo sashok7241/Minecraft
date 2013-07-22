@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet30Entity extends Packet
@@ -12,7 +12,7 @@ public class Packet30Entity extends Packet
 	public byte zPosition;
 	public byte yaw;
 	public byte pitch;
-	public boolean rotating = false;
+	public boolean rotating;
 	
 	public Packet30Entity()
 	{
@@ -44,9 +44,9 @@ public class Packet30Entity extends Packet
 		par1NetHandler.handleEntity(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
+		entityId = par1DataInput.readInt();
 	}
 	
 	@Override public String toString()
@@ -54,8 +54,8 @@ public class Packet30Entity extends Packet
 		return "Entity_" + super.toString();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
+		par1DataOutput.writeInt(entityId);
 	}
 }

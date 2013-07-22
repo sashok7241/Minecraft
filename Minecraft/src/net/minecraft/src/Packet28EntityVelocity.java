@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet28EntityVelocity extends Packet
@@ -74,19 +74,19 @@ public class Packet28EntityVelocity extends Packet
 		par1NetHandler.handleEntityVelocity(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
-		motionX = par1DataInputStream.readShort();
-		motionY = par1DataInputStream.readShort();
-		motionZ = par1DataInputStream.readShort();
+		entityId = par1DataInput.readInt();
+		motionX = par1DataInput.readShort();
+		motionY = par1DataInput.readShort();
+		motionZ = par1DataInput.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
-		par1DataOutputStream.writeShort(motionX);
-		par1DataOutputStream.writeShort(motionY);
-		par1DataOutputStream.writeShort(motionZ);
+		par1DataOutput.writeInt(entityId);
+		par1DataOutput.writeShort(motionX);
+		par1DataOutput.writeShort(motionY);
+		par1DataOutput.writeShort(motionZ);
 	}
 }

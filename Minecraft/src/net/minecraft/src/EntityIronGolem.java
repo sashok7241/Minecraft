@@ -2,28 +2,27 @@ package net.minecraft.src;
 
 public class EntityIronGolem extends EntityGolem
 {
-	private int homeCheckTimer = 0;
-	Village villageObj = null;
+	private int homeCheckTimer;
+	Village villageObj;
 	private int attackTimer;
 	private int holdRoseTick;
 	
 	public EntityIronGolem(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/villager_golem.png";
 		setSize(1.4F, 2.9F);
 		getNavigator().setAvoidsWater(true);
-		tasks.addTask(1, new EntityAIAttackOnCollide(this, 0.25F, true));
-		tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.22F, 32.0F));
-		tasks.addTask(3, new EntityAIMoveThroughVillage(this, 0.16F, true));
-		tasks.addTask(4, new EntityAIMoveTwardsRestriction(this, 0.16F));
+		tasks.addTask(1, new EntityAIAttackOnCollide(this, 1.0D, true));
+		tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
+		tasks.addTask(3, new EntityAIMoveThroughVillage(this, 0.6D, true));
+		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(5, new EntityAILookAtVillager(this));
-		tasks.addTask(6, new EntityAIWander(this, 0.16F));
+		tasks.addTask(6, new EntityAIWander(this, 0.6D));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		tasks.addTask(8, new EntityAILookIdle(this));
 		targetTasks.addTask(1, new EntityAIDefendVillage(this));
 		targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
-		targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 16.0F, 0, false, true, IMob.mobSelector));
+		targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 0, false, true, IMob.mobSelector));
 	}
 	
 	@Override public boolean attackEntityAsMob(Entity par1Entity)
@@ -48,7 +47,7 @@ public class EntityIronGolem extends EntityGolem
 	{
 		if(par1Entity instanceof IMob && getRNG().nextInt(20) == 0)
 		{
-			setAttackTarget((EntityLiving) par1Entity);
+			setAttackTarget((EntityLivingBase) par1Entity);
 		}
 		super.collideWithEntity(par1Entity);
 	}
@@ -79,6 +78,13 @@ public class EntityIronGolem extends EntityGolem
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 	}
 	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(100.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
+	}
+	
 	public int getAttackTimer()
 	{
 		return attackTimer;
@@ -102,11 +108,6 @@ public class EntityIronGolem extends EntityGolem
 	@Override protected String getLivingSound()
 	{
 		return "none";
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return 100;
 	}
 	
 	public Village getVillage()
@@ -209,11 +210,11 @@ public class EntityIronGolem extends EntityGolem
 			villageObj = worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), 32);
 			if(villageObj == null)
 			{
-				detachHome();
+				func_110177_bN();
 			} else
 			{
 				ChunkCoordinates var1 = villageObj.getCenter();
-				setHomeArea(var1.posX, var1.posY, var1.posZ, (int) (villageObj.getVillageRadius() * 0.6F));
+				func_110171_b(var1.posX, var1.posY, var1.posZ, (int) (villageObj.getVillageRadius() * 0.6F));
 			}
 		}
 		super.updateAITick();

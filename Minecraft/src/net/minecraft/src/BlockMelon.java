@@ -39,7 +39,7 @@ public class BlockMelon extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("melon_side");
-		theIcon = par1IconRegister.registerIcon("melon_top");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_top");
 	}
 }

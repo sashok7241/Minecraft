@@ -4,9 +4,11 @@ public class RecipesDyes
 {
 	public void addRecipes(CraftingManager par1CraftingManager)
 	{
-		for(int var2 = 0; var2 < 16; ++var2)
+		int var2;
+		for(var2 = 0; var2 < 16; ++var2)
 		{
-			par1CraftingManager.addShapelessRecipe(new ItemStack(Block.cloth, 1, BlockCloth.getDyeFromBlock(var2)), new Object[] { new ItemStack(Item.dyePowder, 1, var2), new ItemStack(Item.itemsList[Block.cloth.blockID], 1, 0) });
+			par1CraftingManager.addShapelessRecipe(new ItemStack(Block.cloth, 1, BlockColored.getDyeFromBlock(var2)), new Object[] { new ItemStack(Item.dyePowder, 1, var2), new ItemStack(Item.itemsList[Block.cloth.blockID], 1, 0) });
+			par1CraftingManager.addRecipe(new ItemStack(Block.field_111039_cA, 8, BlockColored.getDyeFromBlock(var2)), new Object[] { "###", "#X#", "###", '#', new ItemStack(Block.field_111032_cD), 'X', new ItemStack(Item.dyePowder, 1, var2) });
 		}
 		par1CraftingManager.addShapelessRecipe(new ItemStack(Item.dyePowder, 2, 11), new Object[] { Block.plantYellow });
 		par1CraftingManager.addShapelessRecipe(new ItemStack(Item.dyePowder, 2, 1), new Object[] { Block.plantRed });
@@ -23,5 +25,9 @@ public class RecipesDyes
 		par1CraftingManager.addShapelessRecipe(new ItemStack(Item.dyePowder, 2, 13), new Object[] { new ItemStack(Item.dyePowder, 1, 5), new ItemStack(Item.dyePowder, 1, 9) });
 		par1CraftingManager.addShapelessRecipe(new ItemStack(Item.dyePowder, 3, 13), new Object[] { new ItemStack(Item.dyePowder, 1, 4), new ItemStack(Item.dyePowder, 1, 1), new ItemStack(Item.dyePowder, 1, 9) });
 		par1CraftingManager.addShapelessRecipe(new ItemStack(Item.dyePowder, 4, 13), new Object[] { new ItemStack(Item.dyePowder, 1, 4), new ItemStack(Item.dyePowder, 1, 1), new ItemStack(Item.dyePowder, 1, 1), new ItemStack(Item.dyePowder, 1, 15) });
+		for(var2 = 0; var2 < 16; ++var2)
+		{
+			par1CraftingManager.addRecipe(new ItemStack(Block.field_111031_cC, 3, var2), new Object[] { "##", '#', new ItemStack(Block.cloth, 1, var2) });
+		}
 	}
 }

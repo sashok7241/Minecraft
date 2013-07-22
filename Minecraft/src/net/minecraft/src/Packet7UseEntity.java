@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet7UseEntity extends Packet
@@ -31,17 +31,17 @@ public class Packet7UseEntity extends Packet
 		par1NetHandler.handleUseEntity(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		playerEntityId = par1DataInputStream.readInt();
-		targetEntity = par1DataInputStream.readInt();
-		isLeftClick = par1DataInputStream.readByte();
+		playerEntityId = par1DataInput.readInt();
+		targetEntity = par1DataInput.readInt();
+		isLeftClick = par1DataInput.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(playerEntityId);
-		par1DataOutputStream.writeInt(targetEntity);
-		par1DataOutputStream.writeByte(isLeftClick);
+		par1DataOutput.writeInt(playerEntityId);
+		par1DataOutput.writeInt(targetEntity);
+		par1DataOutput.writeByte(isLeftClick);
 	}
 }

@@ -16,7 +16,7 @@ class GuiButtonMerchant extends GuiButton
 	{
 		if(drawButton)
 		{
-			par1Minecraft.renderEngine.bindTexture("/gui/trading.png");
+			par1Minecraft.func_110434_K().func_110577_a(GuiMerchant.func_110417_h());
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			boolean var4 = par2 >= xPosition && par3 >= yPosition && par2 < xPosition + width && par3 < yPosition + height;
 			int var5 = 0;

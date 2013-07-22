@@ -2,7 +2,7 @@ package net.minecraft.src;
 
 public abstract class EntityAIBase
 {
-	private int mutexBits = 0;
+	private int mutexBits;
 	
 	public boolean continueExecuting()
 	{

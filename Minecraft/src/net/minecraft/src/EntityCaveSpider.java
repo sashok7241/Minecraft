@@ -5,7 +5,6 @@ public class EntityCaveSpider extends EntitySpider
 	public EntityCaveSpider(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/cavespider.png";
 		setSize(0.7F, 0.5F);
 	}
 	
@@ -13,7 +12,7 @@ public class EntityCaveSpider extends EntitySpider
 	{
 		if(super.attackEntityAsMob(par1Entity))
 		{
-			if(par1Entity instanceof EntityLiving)
+			if(par1Entity instanceof EntityLivingBase)
 			{
 				byte var2 = 0;
 				if(worldObj.difficultySetting > 1)
@@ -28,24 +27,21 @@ public class EntityCaveSpider extends EntitySpider
 				}
 				if(var2 > 0)
 				{
-					((EntityLiving) par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, var2 * 20, 0));
+					((EntityLivingBase) par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, var2 * 20, 0));
 				}
 			}
 			return true;
 		} else return false;
 	}
 	
-	@Override public int getMaxHealth()
+	@Override protected void func_110147_ax()
 	{
-		return 12;
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(12.0D);
 	}
 	
-	@Override public void initCreature()
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
 	{
-	}
-	
-	@Override public float spiderScaleAmount()
-	{
-		return 0.7F;
+		return par1EntityLivingData;
 	}
 }

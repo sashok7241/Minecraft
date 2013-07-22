@@ -87,6 +87,11 @@ public class BlockFence extends Block
 		return false;
 	}
 	
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	{
+		return par1World.isRemote ? true : ItemLeash.func_135066_a(par5EntityPlayer, par1World, par2, par3, par4);
+	}
+	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		blockIcon = par1IconRegister.registerIcon(field_94464_a);

@@ -18,7 +18,7 @@ public class CommandServerSay extends CommandBase
 	
 	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return par1ICommandSender.translateString("commands.say.usage", new Object[0]);
+		return "commands.say.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -31,7 +31,7 @@ public class CommandServerSay extends CommandBase
 		if(par2ArrayOfStr.length > 0 && par2ArrayOfStr[0].length() > 0)
 		{
 			String var3 = func_82361_a(par1ICommandSender, par2ArrayOfStr, 0, true);
-			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(String.format("[%s] %s", new Object[] { par1ICommandSender.getCommandSenderName(), var3 }));
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ChatMessageComponent.func_111082_b("chat.type.announcement", new Object[] { par1ICommandSender.getCommandSenderName(), var3 }));
 		} else throw new WrongUsageException("commands.say.usage", new Object[0]);
 	}
 }

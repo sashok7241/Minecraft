@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet26EntityExpOrb extends Packet
@@ -35,21 +35,21 @@ public class Packet26EntityExpOrb extends Packet
 		par1NetHandler.handleEntityExpOrb(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = par1DataInputStream.readInt();
-		posX = par1DataInputStream.readInt();
-		posY = par1DataInputStream.readInt();
-		posZ = par1DataInputStream.readInt();
-		xpValue = par1DataInputStream.readShort();
+		entityId = par1DataInput.readInt();
+		posX = par1DataInput.readInt();
+		posY = par1DataInput.readInt();
+		posZ = par1DataInput.readInt();
+		xpValue = par1DataInput.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(entityId);
-		par1DataOutputStream.writeInt(posX);
-		par1DataOutputStream.writeInt(posY);
-		par1DataOutputStream.writeInt(posZ);
-		par1DataOutputStream.writeShort(xpValue);
+		par1DataOutput.writeInt(entityId);
+		par1DataOutput.writeInt(posX);
+		par1DataOutput.writeInt(posY);
+		par1DataOutput.writeInt(posZ);
+		par1DataOutput.writeShort(xpValue);
 	}
 }

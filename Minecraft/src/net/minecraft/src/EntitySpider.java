@@ -5,9 +5,7 @@ public class EntitySpider extends EntityMob
 	public EntitySpider(World par1World)
 	{
 		super(par1World);
-		texture = "/mob/spider.png";
 		setSize(1.4F, 0.9F);
-		moveSpeed = 0.8F;
 	}
 	
 	@Override protected void attackEntity(Entity par1Entity, float par2)
@@ -61,6 +59,43 @@ public class EntitySpider extends EntityMob
 		} else return null;
 	}
 	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(16.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.800000011920929D);
+	}
+	
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	{
+		Object par1EntityLivingData1 = super.func_110161_a(par1EntityLivingData);
+		if(worldObj.rand.nextInt(100) == 0)
+		{
+			EntitySkeleton var2 = new EntitySkeleton(worldObj);
+			var2.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
+			var2.func_110161_a((EntityLivingData) null);
+			worldObj.spawnEntityInWorld(var2);
+			var2.mountEntity(this);
+		}
+		if(par1EntityLivingData1 == null)
+		{
+			par1EntityLivingData1 = new SpiderEffectsGroupData();
+			if(worldObj.difficultySetting > 2 && worldObj.rand.nextFloat() < 0.1F * worldObj.func_110746_b(posX, posY, posZ))
+			{
+				((SpiderEffectsGroupData) par1EntityLivingData1).func_111104_a(worldObj.rand);
+			}
+		}
+		if(par1EntityLivingData1 instanceof SpiderEffectsGroupData)
+		{
+			int var4 = ((SpiderEffectsGroupData) par1EntityLivingData1).field_111105_a;
+			if(var4 > 0 && Potion.potionTypes[var4] != null)
+			{
+				addPotionEffect(new PotionEffect(var4, Integer.MAX_VALUE));
+			}
+		}
+		return (EntityLivingData) par1EntityLivingData1;
+	}
+	
 	@Override public EnumCreatureAttribute getCreatureAttribute()
 	{
 		return EnumCreatureAttribute.ARTHROPOD;
@@ -84,28 +119,6 @@ public class EntitySpider extends EntityMob
 	@Override protected String getLivingSound()
 	{
 		return "mob.spider.say";
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return 16;
-	}
-	
-	@Override public double getMountedYOffset()
-	{
-		return height * 0.75D - 0.5D;
-	}
-	
-	@Override public void initCreature()
-	{
-		if(worldObj.rand.nextInt(100) == 0)
-		{
-			EntitySkeleton var1 = new EntitySkeleton(worldObj);
-			var1.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
-			var1.initCreature();
-			worldObj.spawnEntityInWorld(var1);
-			var1.mountEntity(this);
-		}
 	}
 	
 	public boolean isBesideClimbableBlock()
@@ -152,10 +165,5 @@ public class EntitySpider extends EntityMob
 	
 	@Override public void setInWeb()
 	{
-	}
-	
-	public float spiderScaleAmount()
-	{
-		return 1.0F;
 	}
 }

@@ -11,7 +11,7 @@ public class ItemCloth extends ItemBlock
 	
 	@Override public Icon getIconFromDamage(int par1)
 	{
-		return Block.cloth.getIcon(2, BlockCloth.getBlockFromDye(par1));
+		return Block.cloth.getIcon(2, BlockColored.getBlockFromDye(par1));
 	}
 	
 	@Override public int getMetadata(int par1)
@@ -21,6 +21,6 @@ public class ItemCloth extends ItemBlock
 	
 	@Override public String getUnlocalizedName(ItemStack par1ItemStack)
 	{
-		return super.getUnlocalizedName() + "." + ItemDye.dyeColorNames[BlockCloth.getBlockFromDye(par1ItemStack.getItemDamage())];
+		return super.getUnlocalizedName() + "." + ItemDye.dyeColorNames[BlockColored.getBlockFromDye(par1ItemStack.getItemDamage())];
 	}
 }

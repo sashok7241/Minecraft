@@ -6,11 +6,11 @@ import java.util.List;
 public class EntityAIPlay extends EntityAIBase
 {
 	private EntityVillager villagerObj;
-	private EntityLiving targetVillager;
-	private float field_75261_c;
+	private EntityLivingBase targetVillager;
+	private double field_75261_c;
 	private int playTime;
 	
-	public EntityAIPlay(EntityVillager par1EntityVillager, float par2)
+	public EntityAIPlay(EntityVillager par1EntityVillager, double par2)
 	{
 		villagerObj = par1EntityVillager;
 		field_75261_c = par2;

@@ -29,7 +29,7 @@ public abstract class ServerConfigurationManager
 	protected int viewDistance;
 	private EnumGameType gameType;
 	private boolean commandsAllowedForAll;
-	private int playerPingIndex = 0;
+	private int playerPingIndex;
 	
 	public ServerConfigurationManager(MinecraftServer par1MinecraftServer)
 	{
@@ -91,7 +91,7 @@ public abstract class ServerConfigurationManager
 		for(int var3 = 0; var3 < playerEntityList.size(); ++var3)
 		{
 			var4 = (EntityPlayerMP) playerEntityList.get(var3);
-			if(var4.username.equalsIgnoreCase(par1Str))
+			if(var4.getCommandSenderName().equalsIgnoreCase(par1Str))
 			{
 				var2.add(var4);
 			}
@@ -113,73 +113,74 @@ public abstract class ServerConfigurationManager
 		return new EntityPlayerMP(mcServer, mcServer.worldServerForDimension(0), par1Str, (ItemInWorldManager) var6);
 	}
 	
-	public List findPlayers(ChunkCoordinates par1ChunkCoordinates, int par2, int par3, int par4, int par5, int par6, int par7, Map par8Map, String par9Str, String par10Str)
+	public List findPlayers(ChunkCoordinates par1ChunkCoordinates, int par2, int par3, int par4, int par5, int par6, int par7, Map par8Map, String par9Str, String par10Str, World par11World)
 	{
 		if(playerEntityList.isEmpty()) return null;
 		else
 		{
-			Object var11 = new ArrayList();
-			boolean var12 = par4 < 0;
-			int var13 = par2 * par2;
-			int var14 = par3 * par3;
+			Object var12 = new ArrayList();
+			boolean var13 = par4 < 0;
+			boolean var14 = par9Str != null && par9Str.startsWith("!");
+			boolean var15 = par10Str != null && par10Str.startsWith("!");
+			int var16 = par2 * par2;
+			int var17 = par3 * par3;
 			par4 = MathHelper.abs_int(par4);
-			for(int var15 = 0; var15 < playerEntityList.size(); ++var15)
+			if(var14)
 			{
-				EntityPlayerMP var16 = (EntityPlayerMP) playerEntityList.get(var15);
-				boolean var17;
-				if(par9Str != null)
+				par9Str = par9Str.substring(1);
+			}
+			if(var15)
+			{
+				par10Str = par10Str.substring(1);
+			}
+			for(int var18 = 0; var18 < playerEntityList.size(); ++var18)
+			{
+				EntityPlayerMP var19 = (EntityPlayerMP) playerEntityList.get(var18);
+				if((par11World == null || var19.worldObj == par11World) && (par9Str == null || var14 != par9Str.equalsIgnoreCase(var19.getEntityName())))
 				{
-					var17 = par9Str.startsWith("!");
-					if(var17)
+					if(par10Str != null)
 					{
-						par9Str = par9Str.substring(1);
+						Team var20 = var19.getTeam();
+						String var21 = var20 == null ? "" : var20.func_96661_b();
+						if(var15 == par10Str.equalsIgnoreCase(var21))
+						{
+							continue;
+						}
 					}
-					if(var17 == par9Str.equalsIgnoreCase(var16.getEntityName()))
+					if(par1ChunkCoordinates != null && (par2 > 0 || par3 > 0))
 					{
-						continue;
+						float var22 = par1ChunkCoordinates.getDistanceSquaredToChunkCoordinates(var19.getPlayerCoordinates());
+						if(par2 > 0 && var22 < var16 || par3 > 0 && var22 > var17)
+						{
+							continue;
+						}
 					}
-				}
-				if(par10Str != null)
-				{
-					var17 = par10Str.startsWith("!");
-					if(var17)
+					if(func_96457_a(var19, par8Map) && (par5 == EnumGameType.NOT_SET.getID() || par5 == var19.theItemInWorldManager.getGameType().getID()) && (par6 <= 0 || var19.experienceLevel >= par6) && var19.experienceLevel <= par7)
 					{
-						par10Str = par10Str.substring(1);
+						((List) var12).add(var19);
 					}
-					ScorePlayerTeam var18 = var16.getTeam();
-					String var19 = var18 == null ? "" : var18.func_96661_b();
-					if(var17 == par10Str.equalsIgnoreCase(var19))
-					{
-						continue;
-					}
-				}
-				if(par1ChunkCoordinates != null && (par2 > 0 || par3 > 0))
-				{
-					float var20 = par1ChunkCoordinates.getDistanceSquaredToChunkCoordinates(var16.getPlayerCoordinates());
-					if(par2 > 0 && var20 < var13 || par3 > 0 && var20 > var14)
-					{
-						continue;
-					}
-				}
-				if(func_96457_a(var16, par8Map) && (par5 == EnumGameType.NOT_SET.getID() || par5 == var16.theItemInWorldManager.getGameType().getID()) && (par6 <= 0 || var16.experienceLevel >= par6) && var16.experienceLevel <= par7)
-				{
-					((List) var11).add(var16);
 				}
 			}
 			if(par1ChunkCoordinates != null)
 			{
-				Collections.sort((List) var11, new PlayerPositionComparator(par1ChunkCoordinates));
+				Collections.sort((List) var12, new PlayerPositionComparator(par1ChunkCoordinates));
 			}
-			if(var12)
+			if(var13)
 			{
-				Collections.reverse((List) var11);
+				Collections.reverse((List) var12);
 			}
 			if(par4 > 0)
 			{
-				var11 = ((List) var11).subList(0, Math.min(par4, ((List) var11).size()));
+				var12 = ((List) var12).subList(0, Math.min(par4, ((List) var12).size()));
 			}
-			return (List) var11;
+			return (List) var12;
 		}
+	}
+	
+	public void func_110459_a(ChatMessageComponent par1ChatMessageComponent, boolean par2)
+	{
+		mcServer.sendChatToPlayer(par1ChatMessageComponent);
+		sendPacketToAllPlayers(new Packet3Chat(par1ChatMessageComponent, par2));
 	}
 	
 	public void func_72375_a(EntityPlayerMP par1EntityPlayerMP, WorldServer par2WorldServer)
@@ -266,7 +267,7 @@ public abstract class ServerConfigurationManager
 		String[] var1 = new String[playerEntityList.size()];
 		for(int var2 = 0; var2 < playerEntityList.size(); ++var2)
 		{
-			var1[var2] = ((EntityPlayerMP) playerEntityList.get(var2)).username;
+			var1[var2] = ((EntityPlayerMP) playerEntityList.get(var2)).getCommandSenderName();
 		}
 		return var1;
 	}
@@ -319,7 +320,7 @@ public abstract class ServerConfigurationManager
 		{
 			if(!var2.hasNext()) return null;
 			var3 = (EntityPlayerMP) var2.next();
-		} while(!var3.username.equalsIgnoreCase(par1Str));
+		} while(!var3.getCommandSenderName().equalsIgnoreCase(par1Str));
 		return var3;
 	}
 	
@@ -347,7 +348,7 @@ public abstract class ServerConfigurationManager
 			{
 				var1 = var1 + ", ";
 			}
-			var1 = var1 + ((EntityPlayerMP) playerEntityList.get(var2)).username;
+			var1 = var1 + ((EntityPlayerMP) playerEntityList.get(var2)).getCommandSenderName();
 		}
 		return var1;
 	}
@@ -377,22 +378,23 @@ public abstract class ServerConfigurationManager
 		{
 			var4 = par1INetworkManager.getSocketAddress().toString();
 		}
-		mcServer.getLogAgent().logInfo(par2EntityPlayerMP.username + "[" + var4 + "] logged in with entity id " + par2EntityPlayerMP.entityId + " at (" + par2EntityPlayerMP.posX + ", " + par2EntityPlayerMP.posY + ", " + par2EntityPlayerMP.posZ + ")");
+		mcServer.getLogAgent().logInfo(par2EntityPlayerMP.getCommandSenderName() + "[" + var4 + "] logged in with entity id " + par2EntityPlayerMP.entityId + " at (" + par2EntityPlayerMP.posX + ", " + par2EntityPlayerMP.posY + ", " + par2EntityPlayerMP.posZ + ")");
 		WorldServer var5 = mcServer.worldServerForDimension(par2EntityPlayerMP.dimension);
 		ChunkCoordinates var6 = var5.getSpawnPoint();
 		func_72381_a(par2EntityPlayerMP, (EntityPlayerMP) null, var5);
 		NetServerHandler var7 = new NetServerHandler(mcServer, par1INetworkManager, par2EntityPlayerMP);
 		var7.sendPacketToPlayer(new Packet1Login(par2EntityPlayerMP.entityId, var5.getWorldInfo().getTerrainType(), par2EntityPlayerMP.theItemInWorldManager.getGameType(), var5.getWorldInfo().isHardcoreModeEnabled(), var5.provider.dimensionId, var5.difficultySetting, var5.getHeight(), getMaxPlayers()));
+		var7.sendPacketToPlayer(new Packet250CustomPayload("MC|Brand", getServerInstance().getServerModName().getBytes(Charsets.UTF_8)));
 		var7.sendPacketToPlayer(new Packet6SpawnPosition(var6.posX, var6.posY, var6.posZ));
 		var7.sendPacketToPlayer(new Packet202PlayerAbilities(par2EntityPlayerMP.capabilities));
 		var7.sendPacketToPlayer(new Packet16BlockItemSwitch(par2EntityPlayerMP.inventory.currentItem));
 		func_96456_a((ServerScoreboard) var5.getScoreboard(), par2EntityPlayerMP);
 		updateTimeAndWeatherForPlayer(par2EntityPlayerMP, var5);
-		sendPacketToAllPlayers(new Packet3Chat(EnumChatFormatting.YELLOW + par2EntityPlayerMP.getTranslatedEntityName() + EnumChatFormatting.YELLOW + " joined the game."));
+		sendChatMsg(ChatMessageComponent.func_111082_b("multiplayer.player.joined", new Object[] { par2EntityPlayerMP.getTranslatedEntityName() }).func_111059_a(EnumChatFormatting.YELLOW));
 		playerLoggedIn(par2EntityPlayerMP);
 		var7.setPlayerLocation(par2EntityPlayerMP.posX, par2EntityPlayerMP.posY, par2EntityPlayerMP.posZ, par2EntityPlayerMP.rotationYaw, par2EntityPlayerMP.rotationPitch);
 		mcServer.getNetworkThread().addPlayer(var7);
-		var7.sendPacketToPlayer(new Packet4UpdateTime(var5.getTotalWorldTime(), var5.getWorldTime()));
+		var7.sendPacketToPlayer(new Packet4UpdateTime(var5.getTotalWorldTime(), var5.getWorldTime(), var5.getGameRules().getGameRuleBooleanValue("doDaylightCycle")));
 		if(mcServer.getTexturePack().length() > 0)
 		{
 			par2EntityPlayerMP.requestTexturePackLoad(mcServer.getTexturePack(), mcServer.textureSize());
@@ -434,7 +436,7 @@ public abstract class ServerConfigurationManager
 	
 	public void playerLoggedIn(EntityPlayerMP par1EntityPlayerMP)
 	{
-		sendPacketToAllPlayers(new Packet201PlayerInfo(par1EntityPlayerMP.username, true, 1000));
+		sendPacketToAllPlayers(new Packet201PlayerInfo(par1EntityPlayerMP.getCommandSenderName(), true, 1000));
 		playerEntityList.add(par1EntityPlayerMP);
 		WorldServer var2 = mcServer.worldServerForDimension(par1EntityPlayerMP.dimension);
 		var2.spawnEntityInWorld(par1EntityPlayerMP);
@@ -442,7 +444,7 @@ public abstract class ServerConfigurationManager
 		for(int var3 = 0; var3 < playerEntityList.size(); ++var3)
 		{
 			EntityPlayerMP var4 = (EntityPlayerMP) playerEntityList.get(var3);
-			par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet201PlayerInfo(var4.username, true, var4.ping));
+			par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet201PlayerInfo(var4.getCommandSenderName(), true, var4.ping));
 		}
 	}
 	
@@ -452,13 +454,13 @@ public abstract class ServerConfigurationManager
 		WorldServer var2 = par1EntityPlayerMP.getServerForPlayer();
 		if(par1EntityPlayerMP.ridingEntity != null)
 		{
-			var2.removeEntity(par1EntityPlayerMP.ridingEntity);
+			var2.removePlayerEntityDangerously(par1EntityPlayerMP.ridingEntity);
 			System.out.println("removing player mount");
 		}
 		var2.removeEntity(par1EntityPlayerMP);
 		var2.getPlayerManager().removePlayer(par1EntityPlayerMP);
 		playerEntityList.remove(par1EntityPlayerMP);
-		sendPacketToAllPlayers(new Packet201PlayerInfo(par1EntityPlayerMP.username, false, 9999));
+		sendPacketToAllPlayers(new Packet201PlayerInfo(par1EntityPlayerMP.getCommandSenderName(), false, 9999));
 	}
 	
 	public NBTTagCompound readPlayerDataFromFile(EntityPlayerMP par1EntityPlayerMP)
@@ -513,7 +515,7 @@ public abstract class ServerConfigurationManager
 		{
 			var6 = new ItemInWorldManager(mcServer.worldServerForDimension(par1EntityPlayerMP.dimension));
 		}
-		EntityPlayerMP var7 = new EntityPlayerMP(mcServer, mcServer.worldServerForDimension(par1EntityPlayerMP.dimension), par1EntityPlayerMP.username, (ItemInWorldManager) var6);
+		EntityPlayerMP var7 = new EntityPlayerMP(mcServer, mcServer.worldServerForDimension(par1EntityPlayerMP.dimension), par1EntityPlayerMP.getCommandSenderName(), (ItemInWorldManager) var6);
 		var7.playerNetServerHandler = par1EntityPlayerMP.playerNetServerHandler;
 		var7.clonePlayer(par1EntityPlayerMP, par3);
 		var7.entityId = par1EntityPlayerMP.entityId;
@@ -547,7 +549,7 @@ public abstract class ServerConfigurationManager
 		var8.spawnEntityInWorld(var7);
 		playerEntityList.add(var7);
 		var7.addSelfToInternalCraftingInventory();
-		var7.setEntityHealth(var7.getHealth());
+		var7.setEntityHealth(var7.func_110143_aJ());
 		return var7;
 	}
 	
@@ -559,10 +561,9 @@ public abstract class ServerConfigurationManager
 		}
 	}
 	
-	public void sendChatMsg(String par1Str)
+	public void sendChatMsg(ChatMessageComponent par1ChatMessageComponent)
 	{
-		mcServer.logInfo(par1Str);
-		sendPacketToAllPlayers(new Packet3Chat(par1Str));
+		func_110459_a(par1ChatMessageComponent, true);
 	}
 	
 	public void sendPacketToAllPlayers(Packet par1Packet)
@@ -594,7 +595,7 @@ public abstract class ServerConfigurationManager
 		if(playerPingIndex < playerEntityList.size())
 		{
 			EntityPlayerMP var1 = (EntityPlayerMP) playerEntityList.get(playerPingIndex);
-			sendPacketToAllPlayers(new Packet201PlayerInfo(var1.username, true, var1.ping));
+			sendPacketToAllPlayers(new Packet201PlayerInfo(var1.getCommandSenderName(), true, var1.ping));
 		}
 	}
 	
@@ -743,7 +744,7 @@ public abstract class ServerConfigurationManager
 	
 	public void updateTimeAndWeatherForPlayer(EntityPlayerMP par1EntityPlayerMP, WorldServer par2WorldServer)
 	{
-		par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet4UpdateTime(par2WorldServer.getTotalWorldTime(), par2WorldServer.getWorldTime()));
+		par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet4UpdateTime(par2WorldServer.getTotalWorldTime(), par2WorldServer.getWorldTime(), par2WorldServer.getGameRules().getGameRuleBooleanValue("doDaylightCycle")));
 		if(par2WorldServer.isRaining())
 		{
 			par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet70GameEvent(1, 0));

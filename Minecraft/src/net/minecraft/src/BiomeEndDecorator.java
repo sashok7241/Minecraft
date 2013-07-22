@@ -18,10 +18,6 @@ public class BiomeEndDecorator extends BiomeDecorator
 			int var1 = chunk_X + randomGenerator.nextInt(16) + 8;
 			int var2 = chunk_Z + randomGenerator.nextInt(16) + 8;
 			int var3 = currentWorld.getTopSolidOrLiquidBlock(var1, var2);
-			if(var3 > 0)
-			{
-				;
-			}
 			spikeGen.generate(currentWorld, randomGenerator, var1, var3, var2);
 		}
 		if(chunk_X == 0 && chunk_Z == 0)

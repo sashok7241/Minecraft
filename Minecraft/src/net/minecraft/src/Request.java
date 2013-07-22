@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import net.minecraft.client.Minecraft;
+
 public abstract class Request
 {
 	protected HttpURLConnection field_96367_a;
@@ -16,7 +18,7 @@ public abstract class Request
 		try
 		{
 			field_96365_b = par1Str;
-			field_96367_a = (HttpURLConnection) new URL(par1Str).openConnection();
+			field_96367_a = (HttpURLConnection) new URL(par1Str).openConnection(Minecraft.getMinecraft().func_110437_J());
 			field_96367_a.setConnectTimeout(par2);
 			field_96367_a.setReadTimeout(par3);
 		} catch(Exception var5)
@@ -37,9 +39,33 @@ public abstract class Request
 		}
 	}
 	
+	public int func_111221_b()
+	{
+		String var1 = field_96367_a.getHeaderField("Retry-After");
+		try
+		{
+			return Integer.valueOf(var1).intValue();
+		} catch(Exception var3)
+		{
+			return 5;
+		}
+	}
+	
+	public int func_130110_g()
+	{
+		String var1 = field_96367_a.getHeaderField("Error-Code");
+		try
+		{
+			return Integer.valueOf(var1).intValue();
+		} catch(Exception var3)
+		{
+			return -1;
+		}
+	}
+	
 	private String func_96352_a(InputStream par1InputStream) throws IOException
 	{
-		if(par1InputStream == null) throw new IllegalArgumentException("input stream cannot be null");
+		if(par1InputStream == null) throw new IOException("No response (null)");
 		else
 		{
 			StringBuilder var2 = new StringBuilder();
@@ -124,17 +150,6 @@ public abstract class Request
 		{
 			throw new ExceptionMcoHttp("Failed URL: " + field_96365_b, var2);
 		}
-	}
-	
-	public McoOption func_98175_b()
-	{
-		String var1 = field_96367_a.getHeaderField("Set-Cookie");
-		if(var1 != null)
-		{
-			String var2 = var1.substring(0, var1.indexOf("="));
-			String var3 = var1.substring(var1.indexOf("=") + 1, var1.indexOf(";"));
-			return McoOption.func_98153_a(McoPair.func_98157_a(var2, var3));
-		} else return McoOption.func_98154_b();
 	}
 	
 	public static Request func_104064_a(String par0Str, String par1Str, int par2, int par3)

@@ -28,20 +28,18 @@ public class GuiScreenAddServer extends GuiScreen
 				parentGui.confirmClicked(true, 0);
 			} else if(par1GuiButton.id == 2)
 			{
-				StringTranslate var2 = StringTranslate.getInstance();
 				newServerData.setHideAddress(!newServerData.isHidingAddress());
-				((GuiButton) buttonList.get(2)).displayString = var2.translateKey("addServer.hideAddress") + ": " + (newServerData.isHidingAddress() ? var2.translateKey("gui.yes") : var2.translateKey("gui.no"));
+				((GuiButton) buttonList.get(2)).displayString = I18n.func_135053_a("addServer.hideAddress") + ": " + (newServerData.isHidingAddress() ? I18n.func_135053_a("gui.yes") : I18n.func_135053_a("gui.no"));
 			}
 		}
 	}
 	
 	@Override public void drawScreen(int par1, int par2, float par3)
 	{
-		StringTranslate var4 = StringTranslate.getInstance();
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, var4.translateKey("addServer.title"), width / 2, 17, 16777215);
-		drawString(fontRenderer, var4.translateKey("addServer.enterName"), width / 2 - 100, 53, 10526880);
-		drawString(fontRenderer, var4.translateKey("addServer.enterIp"), width / 2 - 100, 94, 10526880);
+		drawCenteredString(fontRenderer, I18n.func_135053_a("addServer.title"), width / 2, 17, 16777215);
+		drawString(fontRenderer, I18n.func_135053_a("addServer.enterName"), width / 2 - 100, 53, 10526880);
+		drawString(fontRenderer, I18n.func_135053_a("addServer.enterIp"), width / 2 - 100, 94, 10526880);
 		serverName.drawTextBox();
 		serverAddress.drawTextBox();
 		super.drawScreen(par1, par2, par3);
@@ -49,12 +47,11 @@ public class GuiScreenAddServer extends GuiScreen
 	
 	@Override public void initGui()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
 		Keyboard.enableRepeatEvents(true);
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + 12, var1.translateKey("addServer.add")));
-		buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + 12, var1.translateKey("gui.cancel")));
-		buttonList.add(new GuiButton(2, width / 2 - 100, 142, var1.translateKey("addServer.hideAddress") + ": " + (newServerData.isHidingAddress() ? var1.translateKey("gui.yes") : var1.translateKey("gui.no"))));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + 12, I18n.func_135053_a("addServer.add")));
+		buttonList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + 12, I18n.func_135053_a("gui.cancel")));
+		buttonList.add(new GuiButton(2, width / 2 - 100, 142, I18n.func_135053_a("addServer.hideAddress") + ": " + (newServerData.isHidingAddress() ? I18n.func_135053_a("gui.yes") : I18n.func_135053_a("gui.no"))));
 		serverName = new GuiTextField(fontRenderer, width / 2 - 100, 66, 200, 20);
 		serverName.setFocused(true);
 		serverName.setText(newServerData.serverName);
@@ -68,19 +65,12 @@ public class GuiScreenAddServer extends GuiScreen
 	{
 		serverName.textboxKeyTyped(par1, par2);
 		serverAddress.textboxKeyTyped(par1, par2);
-		if(par1 == 9)
+		if(par2 == 15)
 		{
-			if(serverName.isFocused())
-			{
-				serverName.setFocused(false);
-				serverAddress.setFocused(true);
-			} else
-			{
-				serverName.setFocused(true);
-				serverAddress.setFocused(false);
-			}
+			serverName.setFocused(!serverName.isFocused());
+			serverAddress.setFocused(!serverAddress.isFocused());
 		}
-		if(par1 == 13)
+		if(par2 == 28 || par2 == 156)
 		{
 			actionPerformed((GuiButton) buttonList.get(0));
 		}

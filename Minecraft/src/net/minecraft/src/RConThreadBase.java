@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class RConThreadBase implements Runnable
 {
-	protected boolean running = false;
+	protected boolean running;
 	protected IServer server;
 	protected Thread rconThread;
 	protected int field_72615_d = 5;

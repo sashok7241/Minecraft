@@ -1,17 +1,15 @@
 package net.minecraft.src;
 
-import net.minecraft.client.Minecraft;
 
 public class RenderWitch extends RenderLiving
 {
-	private ModelWitch field_82414_a;
-	private int field_82413_f;
+	private static final ResourceLocation field_110910_a = new ResourceLocation("textures/entity/witch.png");
+	private final ModelWitch field_82414_a;
 	
 	public RenderWitch()
 	{
 		super(new ModelWitch(0.0F), 0.5F);
 		field_82414_a = (ModelWitch) mainModel;
-		field_82413_f = field_82414_a.func_82899_a();
 	}
 	
 	@Override public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
@@ -22,6 +20,16 @@ public class RenderWitch extends RenderLiving
 	@Override public void doRenderLiving(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
 	{
 		func_82412_a((EntityWitch) par1EntityLiving, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110909_a((EntityWitch) par1Entity);
+	}
+	
+	protected ResourceLocation func_110909_a(EntityWitch par1EntityWitch)
+	{
+		return field_110910_a;
 	}
 	
 	protected void func_82409_b(EntityWitch par1EntityWitch, float par2)
@@ -105,23 +113,22 @@ public class RenderWitch extends RenderLiving
 	public void func_82412_a(EntityWitch par1EntityWitch, double par2, double par4, double par6, float par8, float par9)
 	{
 		ItemStack var10 = par1EntityWitch.getHeldItem();
-		if(field_82414_a.func_82899_a() != field_82413_f)
-		{
-			Minecraft.getMinecraft().getLogAgent().logInfo("Loaded new witch model");
-			mainModel = field_82414_a = new ModelWitch(0.0F);
-			field_82413_f = field_82414_a.func_82899_a();
-		}
 		field_82414_a.field_82900_g = var10 != null;
 		super.doRenderLiving(par1EntityWitch, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected void preRenderCallback(EntityLiving par1EntityLiving, float par2)
+	@Override protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
 	{
-		func_82409_b((EntityWitch) par1EntityLiving, par2);
+		func_82409_b((EntityWitch) par1EntityLivingBase, par2);
 	}
 	
-	@Override protected void renderEquippedItems(EntityLiving par1EntityLiving, float par2)
+	@Override protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
 	{
-		func_82411_a((EntityWitch) par1EntityLiving, par2);
+		func_82411_a((EntityWitch) par1EntityLivingBase, par2);
+	}
+	
+	@Override public void renderPlayer(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
+	{
+		func_82412_a((EntityWitch) par1EntityLivingBase, par2, par4, par6, par8, par9);
 	}
 }

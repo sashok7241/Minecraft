@@ -26,6 +26,11 @@ public class Slot
 		return inventory.decrStackSize(slotIndex, par1);
 	}
 	
+	public boolean func_111238_b()
+	{
+		return true;
+	}
+	
 	public Icon getBackgroundIconIndex()
 	{
 		return null;

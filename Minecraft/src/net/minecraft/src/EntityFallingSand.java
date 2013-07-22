@@ -18,13 +18,9 @@ public class EntityFallingSand extends Entity
 	public EntityFallingSand(World par1World)
 	{
 		super(par1World);
-		fallTime = 0;
 		shouldDropItem = true;
-		isBreakingAnvil = false;
-		isAnvil = false;
 		fallHurtMax = 40;
 		fallHurtAmount = 2.0F;
-		fallingBlockTileEntityData = null;
 	}
 	
 	public EntityFallingSand(World par1World, double par2, double par4, double par6, int par8)
@@ -35,13 +31,9 @@ public class EntityFallingSand extends Entity
 	public EntityFallingSand(World par1World, double par2, double par4, double par6, int par8, int par9)
 	{
 		super(par1World);
-		fallTime = 0;
 		shouldDropItem = true;
-		isBreakingAnvil = false;
-		isAnvil = false;
 		fallHurtMax = 40;
 		fallHurtAmount = 2.0F;
-		fallingBlockTileEntityData = null;
 		blockID = par8;
 		metadata = par9;
 		preventEntitySpawning = true;

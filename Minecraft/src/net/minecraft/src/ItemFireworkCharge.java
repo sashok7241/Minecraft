@@ -65,7 +65,7 @@ public class ItemFireworkCharge extends Item
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		super.registerIcons(par1IconRegister);
-		theIcon = par1IconRegister.registerIcon("fireworksCharge_overlay");
+		theIcon = par1IconRegister.registerIcon(func_111208_A() + "_overlay");
 	}
 	
 	@Override public boolean requiresMultipleRenderPasses()

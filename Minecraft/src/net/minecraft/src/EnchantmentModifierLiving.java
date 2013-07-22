@@ -2,8 +2,8 @@ package net.minecraft.src;
 
 final class EnchantmentModifierLiving implements IEnchantmentModifier
 {
-	public int livingModifier;
-	public EntityLiving entityLiving;
+	public float livingModifier;
+	public EntityLivingBase entityLiving;
 	
 	private EnchantmentModifierLiving()
 	{

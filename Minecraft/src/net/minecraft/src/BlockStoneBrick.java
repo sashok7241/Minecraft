@@ -5,7 +5,7 @@ import java.util.List;
 public class BlockStoneBrick extends Block
 {
 	public static final String[] STONE_BRICK_TYPES = new String[] { "default", "mossy", "cracked", "chiseled" };
-	public static final String[] field_94407_b = new String[] { "stonebricksmooth", "stonebricksmooth_mossy", "stonebricksmooth_cracked", "stonebricksmooth_carved" };
+	public static final String[] field_94407_b = new String[] { null, "mossy", "cracked", "carved" };
 	private Icon[] field_94408_c;
 	
 	public BlockStoneBrick(int par1)
@@ -41,7 +41,12 @@ public class BlockStoneBrick extends Block
 		field_94408_c = new Icon[field_94407_b.length];
 		for(int var2 = 0; var2 < field_94408_c.length; ++var2)
 		{
-			field_94408_c[var2] = par1IconRegister.registerIcon(field_94407_b[var2]);
+			String var3 = func_111023_E();
+			if(field_94407_b[var2] != null)
+			{
+				var3 = var3 + "_" + field_94407_b[var2];
+			}
+			field_94408_c[var2] = par1IconRegister.registerIcon(var3);
 		}
 	}
 }

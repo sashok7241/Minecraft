@@ -7,6 +7,25 @@ public abstract class NetHandler
 		return false;
 	}
 	
+	public void func_110773_a(Packet44UpdateAttributes par1Packet44UpdateAttributes)
+	{
+		unexpectedPacket(par1Packet44UpdateAttributes);
+	}
+	
+	public void func_110774_a(Packet27PlayerInput par1Packet27PlayerInput)
+	{
+		unexpectedPacket(par1Packet27PlayerInput);
+	}
+	
+	public void func_142031_a(Packet133TileEditorOpen par1Packet133TileEditorOpen)
+	{
+	}
+	
+	public boolean func_142032_c()
+	{
+		return false;
+	}
+	
 	public void handleAnimation(Packet18Animation par1Packet18Animation)
 	{
 		unexpectedPacket(par1Packet18Animation);

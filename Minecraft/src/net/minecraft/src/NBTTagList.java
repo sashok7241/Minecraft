@@ -62,16 +62,20 @@ public class NBTTagList extends NBTBase
 		return super.hashCode() ^ tagList.hashCode();
 	}
 	
-	@Override void load(DataInput par1DataInput) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
-		tagType = par1DataInput.readByte();
-		int var2 = par1DataInput.readInt();
-		tagList = new ArrayList();
-		for(int var3 = 0; var3 < var2; ++var3)
+		if(par2 > 512) throw new RuntimeException("Tried to read NBT tag with too high complexity, depth > 512");
+		else
 		{
-			NBTBase var4 = NBTBase.newTag(tagType, (String) null);
-			var4.load(par1DataInput);
-			tagList.add(var4);
+			tagType = par1DataInput.readByte();
+			int var3 = par1DataInput.readInt();
+			tagList = new ArrayList();
+			for(int var4 = 0; var4 < var3; ++var4)
+			{
+				NBTBase var5 = NBTBase.newTag(tagType, (String) null);
+				var5.load(par1DataInput, par2 + 1);
+				tagList.add(var5);
+			}
 		}
 	}
 	

@@ -20,32 +20,32 @@ public class GameSettings
 	public float musicVolume = 1.0F;
 	public float soundVolume = 1.0F;
 	public float mouseSensitivity = 0.5F;
-	public boolean invertMouse = false;
-	public int renderDistance = 0;
+	public boolean invertMouse;
+	public int renderDistance;
 	public boolean viewBobbing = true;
-	public boolean anaglyph = false;
-	public boolean advancedOpengl = false;
+	public boolean anaglyph;
+	public boolean advancedOpengl;
 	public int limitFramerate = 1;
 	public boolean fancyGraphics = true;
 	public int ambientOcclusion = 2;
 	public boolean clouds = true;
 	public String skin = "Default";
-	public int chatVisibility = 0;
+	public int chatVisibility;
 	public boolean chatColours = true;
 	public boolean chatLinks = true;
 	public boolean chatLinksPrompt = true;
 	public float chatOpacity = 1.0F;
 	public boolean serverTextures = true;
 	public boolean snooperEnabled = true;
-	public boolean fullScreen = false;
+	public boolean fullScreen;
 	public boolean enableVsync = true;
-	public boolean hideServerAddress = false;
-	public boolean advancedItemTooltips = false;
+	public boolean hideServerAddress;
+	public boolean advancedItemTooltips;
 	public boolean pauseOnLostFocus = true;
 	public boolean showCape = true;
-	public boolean touchscreen = false;
-	public int overrideWidth = 0;
-	public int overrideHeight = 0;
+	public boolean touchscreen;
+	public int overrideWidth;
+	public int overrideHeight;
 	public boolean heldItemTooltips = true;
 	public float chatScale = 1.0F;
 	public float chatWidth = 1.0F;
@@ -89,20 +89,9 @@ public class GameSettings
 	{
 		keyBindings = new KeyBinding[] { keyBindAttack, keyBindUseItem, keyBindForward, keyBindLeft, keyBindBack, keyBindRight, keyBindJump, keyBindSneak, keyBindDrop, keyBindInventory, keyBindChat, keyBindPlayerList, keyBindPickBlock, keyBindCommand };
 		difficulty = 2;
-		hideGUI = false;
-		thirdPersonView = 0;
-		showDebugInfo = false;
-		showDebugProfilerChart = false;
 		lastServer = "";
-		noclip = false;
-		smoothCamera = false;
-		debugCamEnable = false;
 		noclipRate = 1.0F;
 		debugCamRate = 1.0F;
-		fovSetting = 0.0F;
-		gammaSetting = 0.0F;
-		guiScale = 0;
-		particleSetting = 0;
 		language = "en_US";
 	}
 	
@@ -110,20 +99,9 @@ public class GameSettings
 	{
 		keyBindings = new KeyBinding[] { keyBindAttack, keyBindUseItem, keyBindForward, keyBindLeft, keyBindBack, keyBindRight, keyBindJump, keyBindSneak, keyBindDrop, keyBindInventory, keyBindChat, keyBindPlayerList, keyBindPickBlock, keyBindCommand };
 		difficulty = 2;
-		hideGUI = false;
-		thirdPersonView = 0;
-		showDebugInfo = false;
-		showDebugProfilerChart = false;
 		lastServer = "";
-		noclip = false;
-		smoothCamera = false;
-		debugCamEnable = false;
 		noclipRate = 1.0F;
 		debugCamRate = 1.0F;
-		fovSetting = 0.0F;
-		gammaSetting = 0.0F;
-		guiScale = 0;
-		particleSetting = 0;
 		language = "en_US";
 		mc = par1Minecraft;
 		optionsFile = new File(par2File, "options.txt");
@@ -132,23 +110,36 @@ public class GameSettings
 	
 	public String getKeyBinding(EnumOptions par1EnumOptions)
 	{
-		StringTranslate var2 = StringTranslate.getInstance();
-		String var3 = var2.translateKey(par1EnumOptions.getEnumString()) + ": ";
+		String var2 = I18n.func_135053_a(par1EnumOptions.getEnumString()) + ": ";
 		if(par1EnumOptions.getEnumFloat())
 		{
 			float var5 = getOptionFloatValue(par1EnumOptions);
-			return par1EnumOptions == EnumOptions.SENSITIVITY ? var5 == 0.0F ? var3 + var2.translateKey("options.sensitivity.min") : var5 == 1.0F ? var3 + var2.translateKey("options.sensitivity.max") : var3 + (int) (var5 * 200.0F) + "%" : par1EnumOptions == EnumOptions.FOV ? var5 == 0.0F ? var3 + var2.translateKey("options.fov.min") : var5 == 1.0F ? var3 + var2.translateKey("options.fov.max") : var3 + (int) (70.0F + var5 * 40.0F) : par1EnumOptions == EnumOptions.GAMMA ? var5 == 0.0F ? var3 + var2.translateKey("options.gamma.min") : var5 == 1.0F ? var3 + var2.translateKey("options.gamma.max") : var3 + "+" + (int) (var5 * 100.0F) + "%" : par1EnumOptions == EnumOptions.CHAT_OPACITY ? var3 + (int) (var5 * 90.0F + 10.0F) + "%" : par1EnumOptions == EnumOptions.CHAT_HEIGHT_UNFOCUSED ? var3 + GuiNewChat.func_96130_b(var5) + "px" : par1EnumOptions == EnumOptions.CHAT_HEIGHT_FOCUSED ? var3 + GuiNewChat.func_96130_b(var5) + "px" : par1EnumOptions == EnumOptions.CHAT_WIDTH ? var3 + GuiNewChat.func_96128_a(var5) + "px" : var5 == 0.0F ? var3 + var2.translateKey("options.off") : var3 + (int) (var5 * 100.0F) + "%";
+			return par1EnumOptions == EnumOptions.SENSITIVITY ? var5 == 0.0F ? var2 + I18n.func_135053_a("options.sensitivity.min") : var5 == 1.0F ? var2 + I18n.func_135053_a("options.sensitivity.max") : var2 + (int) (var5 * 200.0F) + "%" : par1EnumOptions == EnumOptions.FOV ? var5 == 0.0F ? var2 + I18n.func_135053_a("options.fov.min") : var5 == 1.0F ? var2 + I18n.func_135053_a("options.fov.max") : var2 + (int) (70.0F + var5 * 40.0F) : par1EnumOptions == EnumOptions.GAMMA ? var5 == 0.0F ? var2 + I18n.func_135053_a("options.gamma.min") : var5 == 1.0F ? var2 + I18n.func_135053_a("options.gamma.max") : var2 + "+" + (int) (var5 * 100.0F) + "%" : par1EnumOptions == EnumOptions.CHAT_OPACITY ? var2 + (int) (var5 * 90.0F + 10.0F) + "%" : par1EnumOptions == EnumOptions.CHAT_HEIGHT_UNFOCUSED ? var2 + GuiNewChat.func_96130_b(var5) + "px" : par1EnumOptions == EnumOptions.CHAT_HEIGHT_FOCUSED ? var2 + GuiNewChat.func_96130_b(var5) + "px" : par1EnumOptions == EnumOptions.CHAT_WIDTH ? var2 + GuiNewChat.func_96128_a(var5) + "px" : var5 == 0.0F ? var2 + I18n.func_135053_a("options.off") : var2 + (int) (var5 * 100.0F) + "%";
 		} else if(par1EnumOptions.getEnumBoolean())
 		{
 			boolean var4 = getOptionOrdinalValue(par1EnumOptions);
-			return var4 ? var3 + var2.translateKey("options.on") : var3 + var2.translateKey("options.off");
-		} else return par1EnumOptions == EnumOptions.RENDER_DISTANCE ? var3 + getTranslation(RENDER_DISTANCES, renderDistance) : par1EnumOptions == EnumOptions.DIFFICULTY ? var3 + getTranslation(DIFFICULTIES, difficulty) : par1EnumOptions == EnumOptions.GUI_SCALE ? var3 + getTranslation(GUISCALES, guiScale) : par1EnumOptions == EnumOptions.CHAT_VISIBILITY ? var3 + getTranslation(CHAT_VISIBILITIES, chatVisibility) : par1EnumOptions == EnumOptions.PARTICLES ? var3 + getTranslation(PARTICLES, particleSetting) : par1EnumOptions == EnumOptions.FRAMERATE_LIMIT ? var3 + getTranslation(LIMIT_FRAMERATES, limitFramerate) : par1EnumOptions == EnumOptions.AMBIENT_OCCLUSION ? var3 + getTranslation(AMBIENT_OCCLUSIONS, ambientOcclusion) : par1EnumOptions == EnumOptions.GRAPHICS ? fancyGraphics ? var3 + var2.translateKey("options.graphics.fancy") : var3 + var2.translateKey("options.graphics.fast") : var3;
+			return var4 ? var2 + I18n.func_135053_a("options.on") : var2 + I18n.func_135053_a("options.off");
+		} else if(par1EnumOptions == EnumOptions.RENDER_DISTANCE) return var2 + getTranslation(RENDER_DISTANCES, renderDistance);
+		else if(par1EnumOptions == EnumOptions.DIFFICULTY) return var2 + getTranslation(DIFFICULTIES, difficulty);
+		else if(par1EnumOptions == EnumOptions.GUI_SCALE) return var2 + getTranslation(GUISCALES, guiScale);
+		else if(par1EnumOptions == EnumOptions.CHAT_VISIBILITY) return var2 + getTranslation(CHAT_VISIBILITIES, chatVisibility);
+		else if(par1EnumOptions == EnumOptions.PARTICLES) return var2 + getTranslation(PARTICLES, particleSetting);
+		else if(par1EnumOptions == EnumOptions.FRAMERATE_LIMIT) return var2 + getTranslation(LIMIT_FRAMERATES, limitFramerate);
+		else if(par1EnumOptions == EnumOptions.AMBIENT_OCCLUSION) return var2 + getTranslation(AMBIENT_OCCLUSIONS, ambientOcclusion);
+		else if(par1EnumOptions == EnumOptions.GRAPHICS)
+		{
+			if(fancyGraphics) return var2 + I18n.func_135053_a("options.graphics.fancy");
+			else
+			{
+				String var3 = "options.graphics.fast";
+				return var2 + I18n.func_135053_a("options.graphics.fast");
+			}
+		} else return var2;
 	}
 	
 	public String getKeyBindingDescription(int par1)
 	{
-		StringTranslate var2 = StringTranslate.getInstance();
-		return var2.translateKey(keyBindings[par1].keyDescription);
+		return I18n.func_135053_a(keyBindings[par1].keyDescription);
 	}
 	
 	public String getOptionDisplayString(int par1)
@@ -294,7 +285,7 @@ public class GameSettings
 					}
 					if(var3[0].equals("lastServer") && var3.length >= 2)
 					{
-						lastServer = var3[1];
+						lastServer = var2.substring(var2.indexOf(58) + 1);
 					}
 					if(var3[0].equals("lang") && var3.length >= 2)
 					{
@@ -568,7 +559,7 @@ public class GameSettings
 		if(par1EnumOptions == EnumOptions.ANAGLYPH)
 		{
 			anaglyph = !anaglyph;
-			mc.renderEngine.refreshTextures();
+			mc.func_110436_a();
 		}
 		if(par1EnumOptions == EnumOptions.FRAMERATE_LIMIT)
 		{
@@ -643,7 +634,7 @@ public class GameSettings
 	
 	public static String getKeyDisplayString(int par0)
 	{
-		return par0 < 0 ? StatCollector.translateToLocalFormatted("key.mouseButton", new Object[] { Integer.valueOf(par0 + 101) }) : Keyboard.getKeyName(par0);
+		return par0 < 0 ? I18n.func_135052_a("key.mouseButton", new Object[] { Integer.valueOf(par0 + 101) }) : Keyboard.getKeyName(par0);
 	}
 	
 	private static String getTranslation(String[] par0ArrayOfStr, int par1)
@@ -652,8 +643,7 @@ public class GameSettings
 		{
 			par1 = 0;
 		}
-		StringTranslate var2 = StringTranslate.getInstance();
-		return var2.translateKey(par0ArrayOfStr[par1]);
+		return I18n.func_135053_a(par0ArrayOfStr[par1]);
 	}
 	
 	public static boolean isKeyDown(KeyBinding par0KeyBinding)

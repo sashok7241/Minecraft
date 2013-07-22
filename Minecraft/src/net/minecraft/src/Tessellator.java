@@ -8,35 +8,35 @@ import java.nio.ShortBuffer;
 
 public class Tessellator
 {
-	private static boolean convertQuadsToTriangles = false;
-	private static boolean tryVBO = false;
+	private static boolean convertQuadsToTriangles;
+	private static boolean tryVBO;
 	private ByteBuffer byteBuffer;
 	private IntBuffer intBuffer;
 	private FloatBuffer floatBuffer;
 	private ShortBuffer shortBuffer;
 	private int[] rawBuffer;
-	private int vertexCount = 0;
+	private int vertexCount;
 	private double textureU;
 	private double textureV;
 	private int brightness;
 	private int color;
-	private boolean hasColor = false;
-	private boolean hasTexture = false;
-	private boolean hasBrightness = false;
-	private boolean hasNormals = false;
-	private int rawBufferIndex = 0;
-	private int addedVertices = 0;
-	private boolean isColorDisabled = false;
+	private boolean hasColor;
+	private boolean hasTexture;
+	private boolean hasBrightness;
+	private boolean hasNormals;
+	private int rawBufferIndex;
+	private int addedVertices;
+	private boolean isColorDisabled;
 	private int drawMode;
 	private double xOffset;
 	private double yOffset;
 	private double zOffset;
 	private int normal;
 	public static final Tessellator instance = new Tessellator(2097152);
-	private boolean isDrawing = false;
-	private boolean useVBO = false;
+	private boolean isDrawing;
+	private boolean useVBO;
 	private IntBuffer vertexBuffers;
-	private int vboIndex = 0;
+	private int vboIndex;
 	private int vboCount = 10;
 	private int bufferSize;
 	

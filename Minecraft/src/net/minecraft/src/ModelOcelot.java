@@ -84,9 +84,9 @@ public class ModelOcelot extends ModelBase
 		}
 	}
 	
-	@Override public void setLivingAnimations(EntityLiving par1EntityLiving, float par2, float par3, float par4)
+	@Override public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
-		EntityOcelot var5 = (EntityOcelot) par1EntityLiving;
+		EntityOcelot var5 = (EntityOcelot) par1EntityLivingBase;
 		ocelotBody.rotationPointY = 12.0F;
 		ocelotBody.rotationPointZ = -10.0F;
 		ocelotHead.rotationPointY = 15.0F;

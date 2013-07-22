@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public interface IBossDisplayData
 {
-	int getBossHealth();
+	float func_110138_aP();
+	
+	float func_110143_aJ();
 	
 	String getEntityName();
-	
-	int getMaxHealth();
 }

@@ -9,11 +9,11 @@ public class GuiChat extends GuiScreen
 {
 	private String field_73898_b = "";
 	private int sentHistoryCursor = -1;
-	private boolean field_73897_d = false;
-	private boolean field_73905_m = false;
-	private int field_73903_n = 0;
+	private boolean field_73897_d;
+	private boolean field_73905_m;
+	private int field_73903_n;
 	private List field_73904_o = new ArrayList();
-	private URI clickedURI = null;
+	private URI clickedURI;
 	protected GuiTextField inputField;
 	private String defaultInputFieldText = "";
 	
@@ -211,7 +211,25 @@ public class GuiChat extends GuiScreen
 		if(par2 == 1)
 		{
 			mc.displayGuiScreen((GuiScreen) null);
-		} else if(par2 == 28)
+		} else if(par2 != 28 && par2 != 156)
+		{
+			if(par2 == 200)
+			{
+				getSentHistory(-1);
+			} else if(par2 == 208)
+			{
+				getSentHistory(1);
+			} else if(par2 == 201)
+			{
+				mc.ingameGUI.getChatGUI().scroll(mc.ingameGUI.getChatGUI().func_96127_i() - 1);
+			} else if(par2 == 209)
+			{
+				mc.ingameGUI.getChatGUI().scroll(-mc.ingameGUI.getChatGUI().func_96127_i() + 1);
+			} else
+			{
+				inputField.textboxKeyTyped(par1, par2);
+			}
+		} else
 		{
 			String var3 = inputField.getText().trim();
 			if(var3.length() > 0)
@@ -223,21 +241,6 @@ public class GuiChat extends GuiScreen
 				}
 			}
 			mc.displayGuiScreen((GuiScreen) null);
-		} else if(par2 == 200)
-		{
-			getSentHistory(-1);
-		} else if(par2 == 208)
-		{
-			getSentHistory(1);
-		} else if(par2 == 201)
-		{
-			mc.ingameGUI.getChatGUI().scroll(mc.ingameGUI.getChatGUI().func_96127_i() - 1);
-		} else if(par2 == 209)
-		{
-			mc.ingameGUI.getChatGUI().scroll(-mc.ingameGUI.getChatGUI().func_96127_i() + 1);
-		} else
-		{
-			inputField.textboxKeyTyped(par1, par2);
 		}
 	}
 	

@@ -37,11 +37,11 @@ class GuiWorldSlot extends GuiSlot
 			var9 = GuiSelectWorld.func_82314_j(parentWorldGui)[var6.getEnumGameType().getID()];
 			if(var6.isHardcoreModeEnabled())
 			{
-				var9 = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal("gameMode.hardcore") + EnumChatFormatting.RESET;
+				var9 = EnumChatFormatting.DARK_RED + I18n.func_135053_a("gameMode.hardcore") + EnumChatFormatting.RESET;
 			}
 			if(var6.getCheatsEnabled())
 			{
-				var9 = var9 + ", " + StatCollector.translateToLocal("selectWorld.cheats");
+				var9 = var9 + ", " + I18n.func_135053_a("selectWorld.cheats");
 			}
 		}
 		parentWorldGui.drawString(parentWorldGui.fontRenderer, var7, par2 + 2, par3 + 1, 16777215);

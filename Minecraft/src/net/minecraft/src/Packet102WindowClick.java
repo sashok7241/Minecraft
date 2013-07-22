@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet102WindowClick extends Packet
@@ -37,23 +37,23 @@ public class Packet102WindowClick extends Packet
 		par1NetHandler.handleWindowClick(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		window_Id = par1DataInputStream.readByte();
-		inventorySlot = par1DataInputStream.readShort();
-		mouseClick = par1DataInputStream.readByte();
-		action = par1DataInputStream.readShort();
-		holdingShift = par1DataInputStream.readByte();
-		itemStack = readItemStack(par1DataInputStream);
+		window_Id = par1DataInput.readByte();
+		inventorySlot = par1DataInput.readShort();
+		mouseClick = par1DataInput.readByte();
+		action = par1DataInput.readShort();
+		holdingShift = par1DataInput.readByte();
+		itemStack = readItemStack(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeByte(window_Id);
-		par1DataOutputStream.writeShort(inventorySlot);
-		par1DataOutputStream.writeByte(mouseClick);
-		par1DataOutputStream.writeShort(action);
-		par1DataOutputStream.writeByte(holdingShift);
-		writeItemStack(itemStack, par1DataOutputStream);
+		par1DataOutput.writeByte(window_Id);
+		par1DataOutput.writeShort(inventorySlot);
+		par1DataOutput.writeByte(mouseClick);
+		par1DataOutput.writeShort(action);
+		par1DataOutput.writeByte(holdingShift);
+		writeItemStack(itemStack, par1DataOutput);
 	}
 }

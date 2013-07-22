@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet15Place extends Packet
@@ -81,27 +81,27 @@ public class Packet15Place extends Packet
 		par1NetHandler.handlePlace(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xPosition = par1DataInputStream.readInt();
-		yPosition = par1DataInputStream.read();
-		zPosition = par1DataInputStream.readInt();
-		direction = par1DataInputStream.read();
-		itemStack = readItemStack(par1DataInputStream);
-		xOffset = par1DataInputStream.read() / 16.0F;
-		yOffset = par1DataInputStream.read() / 16.0F;
-		zOffset = par1DataInputStream.read() / 16.0F;
+		xPosition = par1DataInput.readInt();
+		yPosition = par1DataInput.readUnsignedByte();
+		zPosition = par1DataInput.readInt();
+		direction = par1DataInput.readUnsignedByte();
+		itemStack = readItemStack(par1DataInput);
+		xOffset = par1DataInput.readUnsignedByte() / 16.0F;
+		yOffset = par1DataInput.readUnsignedByte() / 16.0F;
+		zOffset = par1DataInput.readUnsignedByte() / 16.0F;
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(xPosition);
-		par1DataOutputStream.write(yPosition);
-		par1DataOutputStream.writeInt(zPosition);
-		par1DataOutputStream.write(direction);
-		writeItemStack(itemStack, par1DataOutputStream);
-		par1DataOutputStream.write((int) (xOffset * 16.0F));
-		par1DataOutputStream.write((int) (yOffset * 16.0F));
-		par1DataOutputStream.write((int) (zOffset * 16.0F));
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.write(yPosition);
+		par1DataOutput.writeInt(zPosition);
+		par1DataOutput.write(direction);
+		writeItemStack(itemStack, par1DataOutput);
+		par1DataOutput.write((int) (xOffset * 16.0F));
+		par1DataOutput.write((int) (yOffset * 16.0F));
+		par1DataOutput.write((int) (zOffset * 16.0F));
 	}
 }

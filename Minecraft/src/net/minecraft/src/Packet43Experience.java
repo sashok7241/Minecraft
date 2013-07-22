@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet43Experience extends Packet
@@ -41,17 +41,17 @@ public class Packet43Experience extends Packet
 		par1NetHandler.handleExperience(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		experience = par1DataInputStream.readFloat();
-		experienceLevel = par1DataInputStream.readShort();
-		experienceTotal = par1DataInputStream.readShort();
+		experience = par1DataInput.readFloat();
+		experienceLevel = par1DataInput.readShort();
+		experienceTotal = par1DataInput.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeFloat(experience);
-		par1DataOutputStream.writeShort(experienceLevel);
-		par1DataOutputStream.writeShort(experienceTotal);
+		par1DataOutput.writeFloat(experience);
+		par1DataOutput.writeShort(experienceLevel);
+		par1DataOutput.writeShort(experienceTotal);
 	}
 }

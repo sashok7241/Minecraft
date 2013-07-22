@@ -13,9 +13,8 @@ public class GuiDisconnected extends GuiScreen
 	
 	public GuiDisconnected(GuiScreen par1GuiScreen, String par2Str, String par3Str, Object ... par4ArrayOfObj)
 	{
-		StringTranslate var5 = StringTranslate.getInstance();
 		field_98095_n = par1GuiScreen;
-		errorMessage = var5.translateKey(par2Str);
+		errorMessage = I18n.func_135053_a(par2Str);
 		errorDetail = par3Str;
 		field_74247_c = par4ArrayOfObj;
 	}
@@ -46,15 +45,14 @@ public class GuiDisconnected extends GuiScreen
 	
 	@Override public void initGui()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, var1.translateKey("gui.toMenu")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, I18n.func_135053_a("gui.toMenu")));
 		if(field_74247_c != null)
 		{
-			field_74245_d = fontRenderer.listFormattedStringToWidth(var1.translateKeyFormat(errorDetail, field_74247_c), width - 50);
+			field_74245_d = fontRenderer.listFormattedStringToWidth(I18n.func_135052_a(errorDetail, field_74247_c), width - 50);
 		} else
 		{
-			field_74245_d = fontRenderer.listFormattedStringToWidth(var1.translateKey(errorDetail), width - 50);
+			field_74245_d = fontRenderer.listFormattedStringToWidth(I18n.func_135053_a(errorDetail), width - 50);
 		}
 	}
 	

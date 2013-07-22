@@ -43,11 +43,7 @@ public class ModelRenderer
 	{
 		textureWidth = 64.0F;
 		textureHeight = 32.0F;
-		compiled = false;
-		displayList = 0;
-		mirror = false;
 		showModel = true;
-		isHidden = false;
 		cubeList = new ArrayList();
 		baseModel = par1ModelBase;
 		par1ModelBase.boxList.add(this);

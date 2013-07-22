@@ -7,27 +7,17 @@ public class ServerData
 	public String populationInfo;
 	public String serverMOTD;
 	public long pingToServer;
-	public int field_82821_f = 61;
-	public String gameVersion = "1.5.2";
-	public boolean field_78841_f = false;
+	public int field_82821_f = 74;
+	public String gameVersion = "1.6.2";
+	public boolean field_78841_f;
 	private boolean field_78842_g = true;
-	private boolean acceptsTextures = false;
-	private boolean hideAddress = false;
+	private boolean acceptsTextures;
+	private boolean hideAddress;
 	
 	public ServerData(String par1Str, String par2Str)
 	{
 		serverName = par1Str;
 		serverIP = par2Str;
-	}
-	
-	public boolean func_78840_c()
-	{
-		return field_78842_g;
-	}
-	
-	public boolean getAcceptsTextures()
-	{
-		return acceptsTextures;
 	}
 	
 	public NBTTagCompound getNBTCompound()

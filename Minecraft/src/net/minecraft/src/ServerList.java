@@ -37,9 +37,10 @@ public class ServerList
 	{
 		try
 		{
-			NBTTagCompound var1 = CompressedStreamTools.read(new File(mc.mcDataDir, "servers.dat"));
-			NBTTagList var2 = var1.getTagList("servers");
 			servers.clear();
+			NBTTagCompound var1 = CompressedStreamTools.read(new File(mc.mcDataDir, "servers.dat"));
+			if(var1 == null) return;
+			NBTTagList var2 = var1.getTagList("servers");
 			for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 			{
 				servers.add(ServerData.getServerDataFromNBTCompound((NBTTagCompound) var2.tagAt(var3)));
@@ -75,32 +76,11 @@ public class ServerList
 		}
 	}
 	
-	public void setServer(int par1, ServerData par2ServerData)
-	{
-		servers.set(par1, par2ServerData);
-	}
-	
 	public void swapServers(int par1, int par2)
 	{
 		ServerData var3 = getServerData(par1);
 		servers.set(par1, getServerData(par2));
 		servers.set(par2, var3);
 		saveServerList();
-	}
-	
-	public static void func_78852_b(ServerData par0ServerData)
-	{
-		ServerList var1 = new ServerList(Minecraft.getMinecraft());
-		var1.loadServerList();
-		for(int var2 = 0; var2 < var1.countServers(); ++var2)
-		{
-			ServerData var3 = var1.getServerData(var2);
-			if(var3.serverName.equals(par0ServerData.serverName) && var3.serverIP.equals(par0ServerData.serverIP))
-			{
-				var1.setServer(var2, par0ServerData);
-				break;
-			}
-		}
-		var1.saveServerList();
 	}
 }

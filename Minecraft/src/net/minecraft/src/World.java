@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import net.minecraft.server.MinecraftServer;
+
 public abstract class World implements IBlockAccess
 {
-	public boolean scheduledUpdatesAreImmediate = false;
+	public boolean scheduledUpdatesAreImmediate;
 	public List loadedEntityList = new ArrayList();
 	protected List unloadedEntityList = new ArrayList();
 	public List loadedTileEntityList = new ArrayList();
@@ -20,14 +22,14 @@ public abstract class World implements IBlockAccess
 	public List playerEntities = new ArrayList();
 	public List weatherEffects = new ArrayList();
 	private long cloudColour = 16777215L;
-	public int skylightSubtracted = 0;
+	public int skylightSubtracted;
 	protected int updateLCG = new Random().nextInt();
 	protected final int DIST_HASH_MAGIC = 1013904223;
 	protected float prevRainingStrength;
 	protected float rainingStrength;
 	protected float prevThunderingStrength;
 	protected float thunderingStrength;
-	public int lastLightningBolt = 0;
+	public int lastLightningBolt;
 	public int difficultySetting;
 	public Random rand = new Random();
 	public final WorldProvider provider;
@@ -57,7 +59,6 @@ public abstract class World implements IBlockAccess
 	{
 		ambientTickCountdown = rand.nextInt(12000);
 		lightUpdateBlockList = new int[32768];
-		isRemote = false;
 		saveHandler = par1ISaveHandler;
 		theProfiler = par5Profiler;
 		worldInfo = new WorldInfo(par4WorldSettings, par2Str);
@@ -84,7 +85,6 @@ public abstract class World implements IBlockAccess
 	{
 		ambientTickCountdown = rand.nextInt(12000);
 		lightUpdateBlockList = new int[32768];
-		isRemote = false;
 		saveHandler = par1ISaveHandler;
 		theProfiler = par5Profiler;
 		mapStorage = new MapStorage(par1ISaveHandler);
@@ -598,6 +598,33 @@ public abstract class World implements IBlockAccess
 		return var5;
 	}
 	
+	public float func_110746_b(double par1, double par3, double par5)
+	{
+		return func_110750_I(MathHelper.floor_double(par1), MathHelper.floor_double(par3), MathHelper.floor_double(par5));
+	}
+	
+	public float func_110750_I(int par1, int par2, int par3)
+	{
+		float var4 = 0.0F;
+		boolean var5 = difficultySetting == 3;
+		if(blockExists(par1, par2, par3))
+		{
+			float var6 = func_130001_d();
+			var4 += MathHelper.clamp_float(getChunkFromBlockCoords(par1, par3).field_111204_q / 3600000.0F, 0.0F, 1.0F) * (var5 ? 1.0F : 0.75F);
+			var4 += var6 * 0.25F;
+		}
+		if(difficultySetting < 2)
+		{
+			var4 *= difficultySetting / 2.0F;
+		}
+		return MathHelper.clamp_float(var4, 0.0F, var5 ? 1.5F : 1.0F);
+	}
+	
+	public float func_130001_d()
+	{
+		return WorldProvider.field_111203_a[provider.getMoonPhase(worldInfo.getWorldTime())];
+	}
+	
 	public IUpdatePlayerListBox func_82735_a(EntityMinecart par1EntityMinecart)
 	{
 		return null;
@@ -1093,7 +1120,7 @@ public abstract class World implements IBlockAccess
 	{
 		if(getTotalWorldTime() % 600L == 0L)
 		{
-			theCalendar.setTimeInMillis(System.currentTimeMillis());
+			theCalendar.setTimeInMillis(MinecraftServer.func_130071_aq());
 		}
 		return theCalendar;
 	}
@@ -1280,7 +1307,7 @@ public abstract class World implements IBlockAccess
 	{
 		for(int var2 = 0; var2 < playerEntities.size(); ++var2)
 		{
-			if(par1Str.equals(((EntityPlayer) playerEntities.get(var2)).username)) return (EntityPlayer) playerEntities.get(var2);
+			if(par1Str.equals(((EntityPlayer) playerEntities.get(var2)).getCommandSenderName())) return (EntityPlayer) playerEntities.get(var2);
 		}
 		return null;
 	}
@@ -2791,12 +2818,12 @@ public abstract class World implements IBlockAccess
 			par1Entity.prevRotationPitch = par1Entity.rotationPitch;
 			if(par2 && par1Entity.addedToChunk)
 			{
+				++par1Entity.ticksExisted;
 				if(par1Entity.ridingEntity != null)
 				{
 					par1Entity.updateRidden();
 				} else
 				{
-					++par1Entity.ticksExisted;
 					par1Entity.onUpdate();
 				}
 			}

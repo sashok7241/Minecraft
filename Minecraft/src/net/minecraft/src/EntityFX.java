@@ -22,10 +22,7 @@ public class EntityFX extends Entity
 	protected EntityFX(World par1World, double par2, double par4, double par6)
 	{
 		super(par1World);
-		particleAge = 0;
-		particleMaxAge = 0;
 		particleAlpha = 1.0F;
-		particleIcon = null;
 		setSize(0.2F, 0.2F);
 		yOffset = height / 2.0F;
 		setPosition(par2, par4, par6);
@@ -65,6 +62,18 @@ public class EntityFX extends Entity
 	
 	@Override protected void entityInit()
 	{
+	}
+	
+	public void func_110125_a(Icon par1Icon)
+	{
+		if(getFXLayer() == 1)
+		{
+			particleIcon = par1Icon;
+		} else
+		{
+			if(getFXLayer() != 2) throw new RuntimeException("Invalid call to Particle.setTex, use coordinate methods");
+			particleIcon = par1Icon;
+		}
 	}
 	
 	public float getBlueColorF()
@@ -160,18 +169,6 @@ public class EntityFX extends Entity
 	public void setAlphaF(float par1)
 	{
 		particleAlpha = par1;
-	}
-	
-	public void setParticleIcon(RenderEngine par1RenderEngine, Icon par2Icon)
-	{
-		if(getFXLayer() == 1)
-		{
-			particleIcon = par2Icon;
-		} else
-		{
-			if(getFXLayer() != 2) throw new RuntimeException("Invalid call to Particle.setTex, use coordinate methods");
-			particleIcon = par2Icon;
-		}
 	}
 	
 	public void setParticleTextureIndex(int par1)

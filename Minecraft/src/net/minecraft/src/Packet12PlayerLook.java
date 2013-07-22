@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet12PlayerLook extends Packet10Flying
@@ -24,17 +24,17 @@ public class Packet12PlayerLook extends Packet10Flying
 		return 9;
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		yaw = par1DataInputStream.readFloat();
-		pitch = par1DataInputStream.readFloat();
-		super.readPacketData(par1DataInputStream);
+		yaw = par1DataInput.readFloat();
+		pitch = par1DataInput.readFloat();
+		super.readPacketData(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeFloat(yaw);
-		par1DataOutputStream.writeFloat(pitch);
-		super.writePacketData(par1DataOutputStream);
+		par1DataOutput.writeFloat(yaw);
+		par1DataOutput.writeFloat(pitch);
+		super.writePacketData(par1DataOutput);
 	}
 }

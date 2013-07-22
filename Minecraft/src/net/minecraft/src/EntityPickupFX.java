@@ -5,8 +5,8 @@ public class EntityPickupFX extends EntityFX
 {
 	private Entity entityToPickUp;
 	private Entity entityPickingUp;
-	private int age = 0;
-	private int maxAge = 0;
+	private int age;
+	private int maxAge;
 	private float yOffs;
 	
 	public EntityPickupFX(World par1World, Entity par2Entity, Entity par3Entity, float par4)

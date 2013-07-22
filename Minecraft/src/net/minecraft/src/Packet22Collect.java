@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet22Collect extends Packet
@@ -29,15 +29,15 @@ public class Packet22Collect extends Packet
 		par1NetHandler.handleCollect(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream par1DataInputStream) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		collectedEntityId = par1DataInputStream.readInt();
-		collectorEntityId = par1DataInputStream.readInt();
+		collectedEntityId = par1DataInput.readInt();
+		collectorEntityId = par1DataInput.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		par1DataOutputStream.writeInt(collectedEntityId);
-		par1DataOutputStream.writeInt(collectorEntityId);
+		par1DataOutput.writeInt(collectedEntityId);
+		par1DataOutput.writeInt(collectorEntityId);
 	}
 }

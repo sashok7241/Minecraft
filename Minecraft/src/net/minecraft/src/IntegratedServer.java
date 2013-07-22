@@ -10,16 +10,17 @@ public class IntegratedServer extends MinecraftServer
 {
 	private final Minecraft mc;
 	private final WorldSettings theWorldSettings;
-	private final ILogAgent serverLogAgent = new LogAgent("Minecraft-Server", " [SERVER]", new File(Minecraft.getMinecraftDir(), "output-server.log").getAbsolutePath());
+	private final ILogAgent serverLogAgent;
 	private IntegratedServerListenThread theServerListeningThread;
-	private boolean isGamePaused = false;
+	private boolean isGamePaused;
 	private boolean isPublic;
 	private ThreadLanServerPing lanServerPing;
 	
 	public IntegratedServer(Minecraft par1Minecraft, String par2Str, String par3Str, WorldSettings par4WorldSettings)
 	{
-		super(new File(Minecraft.getMinecraftDir(), "saves"));
-		setServerOwner(par1Minecraft.session.username);
+		super(new File(par1Minecraft.mcDataDir, "saves"));
+		serverLogAgent = new LogAgent("Minecraft-Server", " [SERVER]", new File(par1Minecraft.mcDataDir, "output-server.log").getAbsolutePath());
+		setServerOwner(par1Minecraft.func_110432_I().func_111285_a());
 		setFolderName(par2Str);
 		setWorldName(par3Str);
 		setDemo(par1Minecraft.isDemo());
@@ -27,6 +28,7 @@ public class IntegratedServer extends MinecraftServer
 		setBuildLimit(256);
 		setConfigurationManager(new IntegratedPlayerList(this));
 		mc = par1Minecraft;
+		field_110456_c = par1Minecraft.func_110437_J();
 		theWorldSettings = par4WorldSettings;
 		try
 		{
@@ -59,6 +61,11 @@ public class IntegratedServer extends MinecraftServer
 	@Override protected void finalTick(CrashReport par1CrashReport)
 	{
 		mc.crashed(par1CrashReport);
+	}
+	
+	@Override public int func_110455_j()
+	{
+		return 4;
 	}
 	
 	@Override protected File getDataDirectory()
@@ -188,7 +195,7 @@ public class IntegratedServer extends MinecraftServer
 	
 	@Override protected boolean startServer() throws IOException
 	{
-		serverLogAgent.logInfo("Starting integrated minecraft server version 1.5.2");
+		serverLogAgent.logInfo("Starting integrated minecraft server version 1.6.2");
 		setOnlineMode(false);
 		setCanSpawnAnimals(true);
 		setCanSpawnNPCs(true);

@@ -1,21 +1,21 @@
 package net.minecraft.src;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 class StructureVillageStart extends StructureStart
 {
-	private boolean hasMoreThanTwoComponents = false;
+	private boolean hasMoreThanTwoComponents;
 	
 	public StructureVillageStart(World par1World, Random par2Random, int par3, int par4, int par5)
 	{
-		ArrayList var6 = StructureVillagePieces.getStructureVillageWeightedPieceList(par2Random, par5);
+		List var6 = StructureVillagePieces.getStructureVillageWeightedPieceList(par2Random, par5);
 		ComponentVillageStartPiece var7 = new ComponentVillageStartPiece(par1World.getWorldChunkManager(), 0, par2Random, (par3 << 4) + 2, (par4 << 4) + 2, var6, par5);
 		components.add(var7);
 		var7.buildComponent(var7, components, par2Random);
-		ArrayList var8 = var7.field_74930_j;
-		ArrayList var9 = var7.field_74932_i;
+		List var8 = var7.field_74930_j;
+		List var9 = var7.field_74932_i;
 		int var10;
 		while(!var8.isEmpty() || !var9.isEmpty())
 		{
