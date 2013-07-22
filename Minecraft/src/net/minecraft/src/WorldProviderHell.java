@@ -2,12 +2,12 @@ package net.minecraft.src;
 
 public class WorldProviderHell extends WorldProvider
 {
-	@Override public float calculateCelestialAngle(long p_76563_1_, float p_76563_3_)
+	@Override public float calculateCelestialAngle(long par1, float par3)
 	{
 		return 0.5F;
 	}
 	
-	@Override public boolean canCoordinateBeSpawn(int p_76566_1_, int p_76566_2_)
+	@Override public boolean canCoordinateBeSpawn(int par1, int par2)
 	{
 		return false;
 	}

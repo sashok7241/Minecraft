@@ -4,21 +4,19 @@ public class EntityPig extends EntityAnimal
 {
 	private final EntityAIControlledByPlayer aiControlledByPlayer;
 	
-	public EntityPig(World p_i3520_1_)
+	public EntityPig(World par1World)
 	{
-		super(p_i3520_1_);
-		texture = "/mob/pig.png";
+		super(par1World);
 		setSize(0.9F, 0.9F);
 		getNavigator().setAvoidsWater(true);
-		float var2 = 0.25F;
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIPanic(this, 0.38F));
-		tasks.addTask(2, aiControlledByPlayer = new EntityAIControlledByPlayer(this, 0.34F));
-		tasks.addTask(3, new EntityAIMate(this, var2));
-		tasks.addTask(4, new EntityAITempt(this, 0.3F, Item.carrotOnAStick.itemID, false));
-		tasks.addTask(4, new EntityAITempt(this, 0.3F, Item.carrot.itemID, false));
-		tasks.addTask(5, new EntityAIFollowParent(this, 0.28F));
-		tasks.addTask(6, new EntityAIWander(this, var2));
+		tasks.addTask(1, new EntityAIPanic(this, 1.25D));
+		tasks.addTask(2, aiControlledByPlayer = new EntityAIControlledByPlayer(this, 0.3F));
+		tasks.addTask(3, new EntityAIMate(this, 1.0D));
+		tasks.addTask(4, new EntityAITempt(this, 1.2D, Item.carrotOnAStick.itemID, false));
+		tasks.addTask(4, new EntityAITempt(this, 1.2D, Item.carrot.itemID, false));
+		tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
+		tasks.addTask(6, new EntityAIWander(this, 1.0D));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		tasks.addTask(8, new EntityAILookIdle(this));
 	}
@@ -29,14 +27,14 @@ public class EntityPig extends EntityAnimal
 		return var1 != null && var1.itemID == Item.carrotOnAStick.itemID;
 	}
 	
-	@Override public EntityAgeable createChild(EntityAgeable p_90011_1_)
+	@Override public EntityAgeable createChild(EntityAgeable par1EntityAgeable)
 	{
-		return spawnBabyAnimal(p_90011_1_);
+		return spawnBabyAnimal(par1EntityAgeable);
 	}
 	
-	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+	@Override protected void dropFewItems(boolean par1, int par2)
 	{
-		int var3 = rand.nextInt(3) + 1 + rand.nextInt(1 + p_70628_2_);
+		int var3 = rand.nextInt(3) + 1 + rand.nextInt(1 + par2);
 		for(int var4 = 0; var4 < var3; ++var4)
 		{
 			if(isBurning())
@@ -59,13 +57,20 @@ public class EntityPig extends EntityAnimal
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 	}
 	
-	@Override protected void fall(float p_70069_1_)
+	@Override protected void fall(float par1)
 	{
-		super.fall(p_70069_1_);
-		if(p_70069_1_ > 5.0F && riddenByEntity instanceof EntityPlayer)
+		super.fall(par1);
+		if(par1 > 5.0F && riddenByEntity instanceof EntityPlayer)
 		{
 			((EntityPlayer) riddenByEntity).triggerAchievement(AchievementList.flyPig);
 		}
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(10.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
 	}
 	
 	public EntityAIControlledByPlayer getAIControlledByPlayer()
@@ -93,22 +98,17 @@ public class EntityPig extends EntityAnimal
 		return "mob.pig.say";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 10;
-	}
-	
 	public boolean getSaddled()
 	{
 		return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
 	}
 	
-	@Override public boolean interact(EntityPlayer p_70085_1_)
+	@Override public boolean interact(EntityPlayer par1EntityPlayer)
 	{
-		if(super.interact(p_70085_1_)) return true;
-		else if(getSaddled() && !worldObj.isRemote && (riddenByEntity == null || riddenByEntity == p_70085_1_))
+		if(super.interact(par1EntityPlayer)) return true;
+		else if(getSaddled() && !worldObj.isRemote && (riddenByEntity == null || riddenByEntity == par1EntityPlayer))
 		{
-			p_70085_1_.mountEntity(this);
+			par1EntityPlayer.mountEntity(this);
 			return true;
 		} else return false;
 	}
@@ -118,12 +118,12 @@ public class EntityPig extends EntityAnimal
 		return true;
 	}
 	
-	@Override public boolean isBreedingItem(ItemStack p_70877_1_)
+	@Override public boolean isBreedingItem(ItemStack par1ItemStack)
 	{
-		return p_70877_1_ != null && p_70877_1_.itemID == Item.carrot.itemID;
+		return par1ItemStack != null && par1ItemStack.itemID == Item.carrot.itemID;
 	}
 	
-	@Override public void onStruckByLightning(EntityLightningBolt p_70077_1_)
+	@Override public void onStruckByLightning(EntityLightningBolt par1EntityLightningBolt)
 	{
 		if(!worldObj.isRemote)
 		{
@@ -134,20 +134,20 @@ public class EntityPig extends EntityAnimal
 		}
 	}
 	
-	@Override protected void playStepSound(int p_70036_1_, int p_70036_2_, int p_70036_3_, int p_70036_4_)
+	@Override protected void playStepSound(int par1, int par2, int par3, int par4)
 	{
 		playSound("mob.pig.step", 0.15F, 1.0F);
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		setSaddled(p_70037_1_.getBoolean("Saddle"));
+		super.readEntityFromNBT(par1NBTTagCompound);
+		setSaddled(par1NBTTagCompound.getBoolean("Saddle"));
 	}
 	
-	public void setSaddled(boolean p_70900_1_)
+	public void setSaddled(boolean par1)
 	{
-		if(p_70900_1_)
+		if(par1)
 		{
 			dataWatcher.updateObject(16, Byte.valueOf((byte) 1));
 		} else
@@ -156,7 +156,7 @@ public class EntityPig extends EntityAnimal
 		}
 	}
 	
-	public EntityPig spawnBabyAnimal(EntityAgeable p_70879_1_)
+	public EntityPig spawnBabyAnimal(EntityAgeable par1EntityAgeable)
 	{
 		return new EntityPig(worldObj);
 	}
@@ -166,9 +166,9 @@ public class EntityPig extends EntityAnimal
 		super.updateAITasks();
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setBoolean("Saddle", getSaddled());
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setBoolean("Saddle", getSaddled());
 	}
 }

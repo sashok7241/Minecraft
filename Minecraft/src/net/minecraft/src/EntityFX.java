@@ -19,19 +19,16 @@ public class EntityFX extends Entity
 	public static double interpPosY;
 	public static double interpPosZ;
 	
-	protected EntityFX(World p_i8001_1_, double p_i8001_2_, double p_i8001_4_, double p_i8001_6_)
+	protected EntityFX(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i8001_1_);
-		particleAge = 0;
-		particleMaxAge = 0;
+		super(par1World);
 		particleAlpha = 1.0F;
-		particleIcon = null;
 		setSize(0.2F, 0.2F);
 		yOffset = height / 2.0F;
-		setPosition(p_i8001_2_, p_i8001_4_, p_i8001_6_);
-		lastTickPosX = p_i8001_2_;
-		lastTickPosY = p_i8001_4_;
-		lastTickPosZ = p_i8001_6_;
+		setPosition(par2, par4, par6);
+		lastTickPosX = par2;
+		lastTickPosY = par4;
+		lastTickPosZ = par6;
 		particleRed = particleGreen = particleBlue = 1.0F;
 		particleTextureJitterX = rand.nextFloat() * 3.0F;
 		particleTextureJitterY = rand.nextFloat() * 3.0F;
@@ -40,12 +37,12 @@ public class EntityFX extends Entity
 		particleAge = 0;
 	}
 	
-	public EntityFX(World p_i3154_1_, double p_i3154_2_, double p_i3154_4_, double p_i3154_6_, double p_i3154_8_, double p_i3154_10_, double p_i3154_12_)
+	public EntityFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		this(p_i3154_1_, p_i3154_2_, p_i3154_4_, p_i3154_6_);
-		motionX = p_i3154_8_ + (float) (Math.random() * 2.0D - 1.0D) * 0.4F;
-		motionY = p_i3154_10_ + (float) (Math.random() * 2.0D - 1.0D) * 0.4F;
-		motionZ = p_i3154_12_ + (float) (Math.random() * 2.0D - 1.0D) * 0.4F;
+		this(par1World, par2, par4, par6);
+		motionX = par8 + (float) (Math.random() * 2.0D - 1.0D) * 0.4F;
+		motionY = par10 + (float) (Math.random() * 2.0D - 1.0D) * 0.4F;
+		motionZ = par12 + (float) (Math.random() * 2.0D - 1.0D) * 0.4F;
 		float var14 = (float) (Math.random() + Math.random() + 1.0D) * 0.15F;
 		float var15 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
 		motionX = motionX / var15 * var14 * 0.4000000059604645D;
@@ -65,6 +62,18 @@ public class EntityFX extends Entity
 	
 	@Override protected void entityInit()
 	{
+	}
+	
+	public void func_110125_a(Icon par1Icon)
+	{
+		if(getFXLayer() == 1)
+		{
+			particleIcon = par1Icon;
+		} else
+		{
+			if(getFXLayer() != 2) throw new RuntimeException("Invalid call to Particle.setTex, use coordinate methods");
+			particleIcon = par1Icon;
+		}
 	}
 	
 	public float getBlueColorF()
@@ -128,7 +137,7 @@ public class EntityFX extends Entity
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
 	}
 	
@@ -162,18 +171,6 @@ public class EntityFX extends Entity
 		particleAlpha = par1;
 	}
 	
-	public void setParticleIcon(RenderEngine p_94052_1_, Icon p_94052_2_)
-	{
-		if(getFXLayer() == 1)
-		{
-			particleIcon = p_94052_2_;
-		} else
-		{
-			if(getFXLayer() != 2) throw new RuntimeException("Invalid call to Particle.setTex, use coordinate methods");
-			particleIcon = p_94052_2_;
-		}
-	}
-	
 	public void setParticleTextureIndex(int par1)
 	{
 		if(getFXLayer() != 0) throw new RuntimeException("Invalid call to Particle.setMiscTex");
@@ -196,7 +193,7 @@ public class EntityFX extends Entity
 		return this.getClass().getSimpleName() + ", Pos (" + posX + "," + posY + "," + posZ + "), RGBA (" + particleRed + "," + particleGreen + "," + particleBlue + "," + particleAlpha + "), Age " + particleAge;
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 	}
 }

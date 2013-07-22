@@ -7,19 +7,17 @@ public class EntityCrit2FX extends EntityFX
 	private int maximumLife;
 	private String particleName;
 	
-	public EntityCrit2FX(World p_i3171_1_, Entity p_i3171_2_)
+	public EntityCrit2FX(World par1World, Entity par2Entity)
 	{
-		this(p_i3171_1_, p_i3171_2_, "crit");
+		this(par1World, par2Entity, "crit");
 	}
 	
-	public EntityCrit2FX(World p_i3172_1_, Entity p_i3172_2_, String p_i3172_3_)
+	public EntityCrit2FX(World par1World, Entity par2Entity, String par3Str)
 	{
-		super(p_i3172_1_, p_i3172_2_.posX, p_i3172_2_.boundingBox.minY + p_i3172_2_.height / 2.0F, p_i3172_2_.posZ, p_i3172_2_.motionX, p_i3172_2_.motionY, p_i3172_2_.motionZ);
-		currentLife = 0;
-		maximumLife = 0;
-		theEntity = p_i3172_2_;
+		super(par1World, par2Entity.posX, par2Entity.boundingBox.minY + par2Entity.height / 2.0F, par2Entity.posZ, par2Entity.motionX, par2Entity.motionY, par2Entity.motionZ);
+		theEntity = par2Entity;
 		maximumLife = 3;
-		particleName = p_i3172_3_;
+		particleName = par3Str;
 		onUpdate();
 	}
 	

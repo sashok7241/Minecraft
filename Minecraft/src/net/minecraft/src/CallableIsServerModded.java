@@ -8,9 +8,9 @@ public class CallableIsServerModded implements Callable
 {
 	final MinecraftServer mcServer;
 	
-	public CallableIsServerModded(MinecraftServer p_i5006_1_)
+	public CallableIsServerModded(MinecraftServer par1MinecraftServer)
 	{
-		mcServer = p_i5006_1_;
+		mcServer = par1MinecraftServer;
 	}
 	
 	@Override public Object call()

@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class PotionHealth extends Potion
 {
-	public PotionHealth(int p_i3432_1_, boolean p_i3432_2_, int p_i3432_3_)
+	public PotionHealth(int par1, boolean par2, int par3)
 	{
-		super(p_i3432_1_, p_i3432_2_, p_i3432_3_);
+		super(par1, par2, par3);
 	}
 	
 	@Override public boolean isInstant()
@@ -12,8 +12,8 @@ public class PotionHealth extends Potion
 		return true;
 	}
 	
-	@Override public boolean isReady(int p_76397_1_, int p_76397_2_)
+	@Override public boolean isReady(int par1, int par2)
 	{
-		return p_76397_1_ >= 1;
+		return par1 >= 1;
 	}
 }

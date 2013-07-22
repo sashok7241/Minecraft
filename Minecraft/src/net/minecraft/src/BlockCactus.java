@@ -7,35 +7,35 @@ public class BlockCactus extends Block
 	private Icon cactusTopIcon;
 	private Icon cactusBottomIcon;
 	
-	protected BlockCactus(int p_i9043_1_)
+	protected BlockCactus(int par1)
 	{
-		super(p_i9043_1_, Material.cactus);
+		super(par1, Material.cactus);
 		setTickRandomly(true);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public boolean canBlockStay(World p_71854_1_, int p_71854_2_, int p_71854_3_, int p_71854_4_)
+	@Override public boolean canBlockStay(World par1World, int par2, int par3, int par4)
 	{
-		if(p_71854_1_.getBlockMaterial(p_71854_2_ - 1, p_71854_3_, p_71854_4_).isSolid()) return false;
-		else if(p_71854_1_.getBlockMaterial(p_71854_2_ + 1, p_71854_3_, p_71854_4_).isSolid()) return false;
-		else if(p_71854_1_.getBlockMaterial(p_71854_2_, p_71854_3_, p_71854_4_ - 1).isSolid()) return false;
-		else if(p_71854_1_.getBlockMaterial(p_71854_2_, p_71854_3_, p_71854_4_ + 1).isSolid()) return false;
+		if(par1World.getBlockMaterial(par2 - 1, par3, par4).isSolid()) return false;
+		else if(par1World.getBlockMaterial(par2 + 1, par3, par4).isSolid()) return false;
+		else if(par1World.getBlockMaterial(par2, par3, par4 - 1).isSolid()) return false;
+		else if(par1World.getBlockMaterial(par2, par3, par4 + 1).isSolid()) return false;
 		else
 		{
-			int var5 = p_71854_1_.getBlockId(p_71854_2_, p_71854_3_ - 1, p_71854_4_);
+			int var5 = par1World.getBlockId(par2, par3 - 1, par4);
 			return var5 == Block.cactus.blockID || var5 == Block.sand.blockID;
 		}
 	}
 	
-	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
+	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
 	{
-		return !super.canPlaceBlockAt(p_71930_1_, p_71930_2_, p_71930_3_, p_71930_4_) ? false : canBlockStay(p_71930_1_, p_71930_2_, p_71930_3_, p_71930_4_);
+		return !super.canPlaceBlockAt(par1World, par2, par3, par4) ? false : canBlockStay(par1World, par2, par3, par4);
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
 		float var5 = 0.0625F;
-		return AxisAlignedBB.getAABBPool().getAABB(p_71872_2_ + var5, p_71872_3_, p_71872_4_ + var5, p_71872_2_ + 1 - var5, p_71872_3_ + 1 - var5, p_71872_4_ + 1 - var5);
+		return AxisAlignedBB.getAABBPool().getAABB(par2 + var5, par3, par4 + var5, par2 + 1 - var5, par3 + 1 - var5, par4 + 1 - var5);
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -59,24 +59,24 @@ public class BlockCactus extends Block
 		return false;
 	}
 	
-	@Override public void onEntityCollidedWithBlock(World p_71869_1_, int p_71869_2_, int p_71869_3_, int p_71869_4_, Entity p_71869_5_)
+	@Override public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
 	{
-		p_71869_5_.attackEntityFrom(DamageSource.cactus, 1);
+		par5Entity.attackEntityFrom(DamageSource.cactus, 1.0F);
 	}
 	
-	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
+	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
-		if(!canBlockStay(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_))
+		if(!canBlockStay(par1World, par2, par3, par4))
 		{
-			p_71863_1_.destroyBlock(p_71863_2_, p_71863_3_, p_71863_4_, true);
+			par1World.destroyBlock(par2, par3, par4, true);
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("cactus_side");
-		cactusTopIcon = par1IconRegister.registerIcon("cactus_top");
-		cactusBottomIcon = par1IconRegister.registerIcon("cactus_bottom");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		cactusTopIcon = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		cactusBottomIcon = par1IconRegister.registerIcon(func_111023_E() + "_bottom");
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -84,26 +84,26 @@ public class BlockCactus extends Block
 		return false;
 	}
 	
-	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
+	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		if(p_71847_1_.isAirBlock(p_71847_2_, p_71847_3_ + 1, p_71847_4_))
+		if(par1World.isAirBlock(par2, par3 + 1, par4))
 		{
 			int var6;
-			for(var6 = 1; p_71847_1_.getBlockId(p_71847_2_, p_71847_3_ - var6, p_71847_4_) == blockID; ++var6)
+			for(var6 = 1; par1World.getBlockId(par2, par3 - var6, par4) == blockID; ++var6)
 			{
 				;
 			}
 			if(var6 < 3)
 			{
-				int var7 = p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_);
+				int var7 = par1World.getBlockMetadata(par2, par3, par4);
 				if(var7 == 15)
 				{
-					p_71847_1_.setBlock(p_71847_2_, p_71847_3_ + 1, p_71847_4_, blockID);
-					p_71847_1_.setBlockMetadataWithNotify(p_71847_2_, p_71847_3_, p_71847_4_, 0, 4);
-					onNeighborBlockChange(p_71847_1_, p_71847_2_, p_71847_3_ + 1, p_71847_4_, blockID);
+					par1World.setBlock(par2, par3 + 1, par4, blockID);
+					par1World.setBlockMetadataWithNotify(par2, par3, par4, 0, 4);
+					onNeighborBlockChange(par1World, par2, par3 + 1, par4, blockID);
 				} else
 				{
-					p_71847_1_.setBlockMetadataWithNotify(p_71847_2_, p_71847_3_, p_71847_4_, var7 + 1, 4);
+					par1World.setBlockMetadataWithNotify(par2, par3, par4, var7 + 1, 4);
 				}
 			}
 		}

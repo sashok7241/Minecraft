@@ -2,8 +2,8 @@ package net.minecraft.src;
 
 public class BiomeGenSnow extends BiomeGenBase
 {
-	public BiomeGenSnow(int p_i3758_1_)
+	public BiomeGenSnow(int par1)
 	{
-		super(p_i3758_1_);
+		super(par1);
 	}
 }

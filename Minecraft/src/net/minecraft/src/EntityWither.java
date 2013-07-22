@@ -13,44 +13,42 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 	private int field_82222_j;
 	private static final IEntitySelector attackEntitySelector = new EntityWitherAttackFilter();
 	
-	public EntityWither(World p_i5065_1_)
+	public EntityWither(World par1World)
 	{
-		super(p_i5065_1_);
-		setEntityHealth(getMaxHealth());
-		texture = "/mob/wither.png";
+		super(par1World);
+		setEntityHealth(func_110138_aP());
 		setSize(0.9F, 4.0F);
 		isImmuneToFire = true;
-		moveSpeed = 0.6F;
 		getNavigator().setCanSwim(true);
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(2, new EntityAIArrowAttack(this, moveSpeed, 40, 20.0F));
-		tasks.addTask(5, new EntityAIWander(this, moveSpeed));
+		tasks.addTask(2, new EntityAIArrowAttack(this, 1.0D, 40, 20.0F));
+		tasks.addTask(5, new EntityAIWander(this, 1.0D));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(7, new EntityAILookIdle(this));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 30.0F, 0, false, false, attackEntitySelector));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 0, false, false, attackEntitySelector));
 		experienceValue = 50;
 	}
 	
-	@Override public void addPotionEffect(PotionEffect p_70690_1_)
+	@Override public void addPotionEffect(PotionEffect par1PotionEffect)
 	{
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
-		else if(p_70097_1_ == DamageSource.drown) return false;
+		else if(par1DamageSource == DamageSource.drown) return false;
 		else if(func_82212_n() > 0) return false;
 		else
 		{
 			Entity var3;
 			if(isArmored())
 			{
-				var3 = p_70097_1_.getSourceOfDamage();
+				var3 = par1DamageSource.getSourceOfDamage();
 				if(var3 instanceof EntityArrow) return false;
 			}
-			var3 = p_70097_1_.getEntity();
-			if(var3 != null && !(var3 instanceof EntityPlayer) && var3 instanceof EntityLiving && ((EntityLiving) var3).getCreatureAttribute() == getCreatureAttribute()) return false;
+			var3 = par1DamageSource.getEntity();
+			if(var3 != null && !(var3 instanceof EntityPlayer) && var3 instanceof EntityLivingBase && ((EntityLivingBase) var3).getCreatureAttribute() == getCreatureAttribute()) return false;
 			else
 			{
 				if(field_82222_j <= 0)
@@ -61,14 +59,14 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 				{
 					field_82224_i[var4] += 3;
 				}
-				return super.attackEntityFrom(p_70097_1_, p_70097_2_);
+				return super.attackEntityFrom(par1DamageSource, par2);
 			}
 		}
 	}
 	
-	@Override public void attackEntityWithRangedAttack(EntityLiving p_82196_1_, float p_82196_2_)
+	@Override public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2)
 	{
-		func_82216_a(0, p_82196_1_);
+		func_82216_a(0, par1EntityLivingBase);
 	}
 	
 	@Override public boolean canBeCollidedWith()
@@ -81,7 +79,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		entityAge = 0;
 	}
 	
-	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+	@Override protected void dropFewItems(boolean par1, int par2)
 	{
 		dropItem(Item.netherStar.itemID, 1);
 	}
@@ -89,35 +87,42 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 	@Override protected void entityInit()
 	{
 		super.entityInit();
-		dataWatcher.addObject(16, new Integer(100));
 		dataWatcher.addObject(17, new Integer(0));
 		dataWatcher.addObject(18, new Integer(0));
 		dataWatcher.addObject(19, new Integer(0));
 		dataWatcher.addObject(20, new Integer(0));
 	}
 	
-	@Override protected void fall(float p_70069_1_)
+	@Override protected void fall(float par1)
 	{
 	}
 	
-	private float func_82204_b(float p_82204_1_, float p_82204_2_, float p_82204_3_)
+	@Override protected void func_110147_ax()
 	{
-		float var4 = MathHelper.wrapAngleTo180_float(p_82204_2_ - p_82204_1_);
-		if(var4 > p_82204_3_)
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(300.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.6000000238418579D);
+		func_110148_a(SharedMonsterAttributes.field_111265_b).func_111128_a(40.0D);
+	}
+	
+	private float func_82204_b(float par1, float par2, float par3)
+	{
+		float var4 = MathHelper.wrapAngleTo180_float(par2 - par1);
+		if(var4 > par3)
 		{
-			var4 = p_82204_3_;
+			var4 = par3;
 		}
-		if(var4 < -p_82204_3_)
+		if(var4 < -par3)
 		{
-			var4 = -p_82204_3_;
+			var4 = -par3;
 		}
-		return p_82204_1_ + var4;
+		return par1 + var4;
 	}
 	
 	public void func_82206_m()
 	{
 		func_82215_s(220);
-		setEntityHealth(getMaxHealth() / 3);
+		setEntityHealth(func_110138_aP() / 3.0F);
 	}
 	
 	public float func_82207_a(int par1)
@@ -125,22 +130,22 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		return field_82221_e[par1];
 	}
 	
-	private double func_82208_v(int p_82208_1_)
+	private double func_82208_v(int par1)
 	{
-		return p_82208_1_ <= 0 ? posY + 3.0D : posY + 2.2D;
+		return par1 <= 0 ? posY + 3.0D : posY + 2.2D;
 	}
 	
-	private void func_82209_a(int p_82209_1_, double p_82209_2_, double p_82209_4_, double p_82209_6_, boolean p_82209_8_)
+	private void func_82209_a(int par1, double par2, double par4, double par6, boolean par8)
 	{
 		worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1014, (int) posX, (int) posY, (int) posZ, 0);
-		double var9 = func_82214_u(p_82209_1_);
-		double var11 = func_82208_v(p_82209_1_);
-		double var13 = func_82213_w(p_82209_1_);
-		double var15 = p_82209_2_ - var9;
-		double var17 = p_82209_4_ - var11;
-		double var19 = p_82209_6_ - var13;
+		double var9 = func_82214_u(par1);
+		double var11 = func_82208_v(par1);
+		double var13 = func_82213_w(par1);
+		double var15 = par2 - var9;
+		double var17 = par4 - var11;
+		double var19 = par6 - var13;
 		EntityWitherSkull var21 = new EntityWitherSkull(worldObj, this, var15, var17, var19);
-		if(p_82209_8_)
+		if(par8)
 		{
 			var21.setInvulnerable(true);
 		}
@@ -155,9 +160,9 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		return field_82220_d[par1];
 	}
 	
-	public void func_82211_c(int p_82211_1_, int p_82211_2_)
+	public void func_82211_c(int par1, int par2)
 	{
-		dataWatcher.updateObject(17 + p_82211_1_, Integer.valueOf(p_82211_2_));
+		dataWatcher.updateObject(17 + par1, Integer.valueOf(par2));
 	}
 	
 	public int func_82212_n()
@@ -165,41 +170,36 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		return dataWatcher.getWatchableObjectInt(20);
 	}
 	
-	private double func_82213_w(int p_82213_1_)
+	private double func_82213_w(int par1)
 	{
-		if(p_82213_1_ <= 0) return posZ;
+		if(par1 <= 0) return posZ;
 		else
 		{
-			float var2 = (renderYawOffset + 180 * (p_82213_1_ - 1)) / 180.0F * (float) Math.PI;
+			float var2 = (renderYawOffset + 180 * (par1 - 1)) / 180.0F * (float) Math.PI;
 			float var3 = MathHelper.sin(var2);
 			return posZ + var3 * 1.3D;
 		}
 	}
 	
-	private double func_82214_u(int p_82214_1_)
+	private double func_82214_u(int par1)
 	{
-		if(p_82214_1_ <= 0) return posX;
+		if(par1 <= 0) return posX;
 		else
 		{
-			float var2 = (renderYawOffset + 180 * (p_82214_1_ - 1)) / 180.0F * (float) Math.PI;
+			float var2 = (renderYawOffset + 180 * (par1 - 1)) / 180.0F * (float) Math.PI;
 			float var3 = MathHelper.cos(var2);
 			return posX + var3 * 1.3D;
 		}
 	}
 	
-	public void func_82215_s(int p_82215_1_)
+	public void func_82215_s(int par1)
 	{
-		dataWatcher.updateObject(20, Integer.valueOf(p_82215_1_));
+		dataWatcher.updateObject(20, Integer.valueOf(par1));
 	}
 	
-	private void func_82216_a(int p_82216_1_, EntityLiving p_82216_2_)
+	private void func_82216_a(int par1, EntityLivingBase par2EntityLivingBase)
 	{
-		func_82209_a(p_82216_1_, p_82216_2_.posX, p_82216_2_.posY + p_82216_2_.getEyeHeight() * 0.5D, p_82216_2_.posZ, p_82216_1_ == 0 && rand.nextFloat() < 0.001F);
-	}
-	
-	@Override public int getBossHealth()
-	{
-		return dataWatcher.getWatchableObjectInt(16);
+		func_82209_a(par1, par2EntityLivingBase.posX, par2EntityLivingBase.posY + par2EntityLivingBase.getEyeHeight() * 0.5D, par2EntityLivingBase.posZ, par1 == 0 && rand.nextFloat() < 0.001F);
 	}
 	
 	@Override public int getBrightnessForRender(float par1)
@@ -227,20 +227,9 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		return "mob.wither.idle";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 300;
-	}
-	
 	@Override public float getShadowSize()
 	{
 		return height / 8.0F;
-	}
-	
-	@Override public String getTexture()
-	{
-		int var1 = func_82212_n();
-		return var1 > 0 && (var1 > 80 || var1 / 5 % 2 != 1) ? "/mob/wither_invul.png" : "/mob/wither.png";
 	}
 	
 	@Override public int getTotalArmorValue()
@@ -248,9 +237,9 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		return 4;
 	}
 	
-	public int getWatchedTargetId(int p_82203_1_)
+	public int getWatchedTargetId(int par1)
 	{
-		return dataWatcher.getWatchableObjectInt(17 + p_82203_1_);
+		return dataWatcher.getWatchableObjectInt(17 + par1);
 	}
 	
 	@Override protected boolean isAIEnabled()
@@ -260,20 +249,16 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 	
 	public boolean isArmored()
 	{
-		return getBossHealth() <= getMaxHealth() / 2;
+		return func_110143_aJ() <= func_110138_aP() / 2.0F;
 	}
 	
-	@Override public void mountEntity(Entity p_70078_1_)
+	@Override public void mountEntity(Entity par1Entity)
 	{
 		ridingEntity = null;
 	}
 	
 	@Override public void onLivingUpdate()
 	{
-		if(!worldObj.isRemote)
-		{
-			dataWatcher.updateObject(16, Integer.valueOf(health));
-		}
 		motionY *= 0.6000000238418579D;
 		double var4;
 		double var6;
@@ -361,11 +346,10 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		func_82215_s(p_70037_1_.getInteger("Invul"));
-		dataWatcher.updateObject(16, Integer.valueOf(health));
+		super.readEntityFromNBT(par1NBTTagCompound);
+		func_82215_s(par1NBTTagCompound.getInteger("Invul"));
 	}
 	
 	@Override public void setInWeb()
@@ -386,7 +370,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 			func_82215_s(var1);
 			if(ticksExisted % 10 == 0)
 			{
-				heal(10);
+				heal(10.0F);
 			}
 		} else
 		{
@@ -419,7 +403,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 						Entity var14 = worldObj.getEntityByID(var12);
 						if(var14 != null && var14.isEntityAlive() && getDistanceSqToEntity(var14) <= 900.0D && canEntityBeSeen(var14))
 						{
-							func_82216_a(var1 + 1, (EntityLiving) var14);
+							func_82216_a(var1 + 1, (EntityLivingBase) var14);
 							field_82223_h[var1 - 1] = ticksExisted + 40 + rand.nextInt(20);
 							field_82224_i[var1 - 1] = 0;
 						} else
@@ -428,10 +412,10 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 						}
 					} else
 					{
-						List var13 = worldObj.selectEntitiesWithinAABB(EntityLiving.class, boundingBox.expand(20.0D, 8.0D, 20.0D), attackEntitySelector);
+						List var13 = worldObj.selectEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(20.0D, 8.0D, 20.0D), attackEntitySelector);
 						for(int var16 = 0; var16 < 10 && !var13.isEmpty(); ++var16)
 						{
-							EntityLiving var5 = (EntityLiving) var13.get(rand.nextInt(var13.size()));
+							EntityLivingBase var5 = (EntityLivingBase) var13.get(rand.nextInt(var13.size()));
 							if(var5 != this && var5.isEntityAlive() && canEntityBeSeen(var5))
 							{
 								if(var5 instanceof EntityPlayer)
@@ -492,14 +476,14 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 			}
 			if(ticksExisted % 20 == 0)
 			{
-				heal(1);
+				heal(1.0F);
 			}
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setInteger("Invul", func_82212_n());
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setInteger("Invul", func_82212_n());
 	}
 }

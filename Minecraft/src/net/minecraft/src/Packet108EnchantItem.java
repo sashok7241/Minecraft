@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet108EnchantItem extends Packet
@@ -13,10 +13,10 @@ public class Packet108EnchantItem extends Packet
 	{
 	}
 	
-	public Packet108EnchantItem(int p_i3308_1_, int p_i3308_2_)
+	public Packet108EnchantItem(int par1, int par2)
 	{
-		windowId = p_i3308_1_;
-		enchantment = p_i3308_2_;
+		windowId = par1;
+		enchantment = par2;
 	}
 	
 	@Override public int getPacketSize()
@@ -24,20 +24,20 @@ public class Packet108EnchantItem extends Packet
 		return 2;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleEnchantItem(this);
+		par1NetHandler.handleEnchantItem(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		windowId = p_73267_1_.readByte();
-		enchantment = p_73267_1_.readByte();
+		windowId = par1DataInput.readByte();
+		enchantment = par1DataInput.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeByte(windowId);
-		p_73273_1_.writeByte(enchantment);
+		par1DataOutput.writeByte(windowId);
+		par1DataOutput.writeByte(enchantment);
 	}
 }

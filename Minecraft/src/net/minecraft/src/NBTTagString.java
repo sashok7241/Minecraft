@@ -8,16 +8,16 @@ public class NBTTagString extends NBTBase
 {
 	public String data;
 	
-	public NBTTagString(String p_i3279_1_)
+	public NBTTagString(String par1Str)
 	{
-		super(p_i3279_1_);
+		super(par1Str);
 	}
 	
-	public NBTTagString(String p_i3280_1_, String p_i3280_2_)
+	public NBTTagString(String par1Str, String par2Str)
 	{
-		super(p_i3280_1_);
-		data = p_i3280_2_;
-		if(p_i3280_2_ == null) throw new IllegalArgumentException("Empty string not allowed");
+		super(par1Str);
+		data = par2Str;
+		if(par2Str == null) throw new IllegalArgumentException("Empty string not allowed");
 	}
 	
 	@Override public NBTBase copy()
@@ -25,12 +25,12 @@ public class NBTTagString extends NBTBase
 		return new NBTTagString(getName(), data);
 	}
 	
-	@Override public boolean equals(Object p_equals_1_)
+	@Override public boolean equals(Object par1Obj)
 	{
-		if(!super.equals(p_equals_1_)) return false;
+		if(!super.equals(par1Obj)) return false;
 		else
 		{
-			NBTTagString var2 = (NBTTagString) p_equals_1_;
+			NBTTagString var2 = (NBTTagString) par1Obj;
 			return data == null && var2.data == null || data != null && data.equals(var2.data);
 		}
 	}
@@ -45,9 +45,9 @@ public class NBTTagString extends NBTBase
 		return super.hashCode() ^ data.hashCode();
 	}
 	
-	@Override void load(DataInput p_74735_1_) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
-		data = p_74735_1_.readUTF();
+		data = par1DataInput.readUTF();
 	}
 	
 	@Override public String toString()
@@ -55,8 +55,8 @@ public class NBTTagString extends NBTBase
 		return "" + data;
 	}
 	
-	@Override void write(DataOutput p_74734_1_) throws IOException
+	@Override void write(DataOutput par1DataOutput) throws IOException
 	{
-		p_74734_1_.writeUTF(data);
+		par1DataOutput.writeUTF(data);
 	}
 }

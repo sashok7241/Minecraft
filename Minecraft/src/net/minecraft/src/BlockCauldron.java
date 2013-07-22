@@ -9,37 +9,43 @@ public class BlockCauldron extends Block
 	private Icon cauldronTopIcon;
 	private Icon cauldronBottomIcon;
 	
-	public BlockCauldron(int p_i3927_1_)
+	public BlockCauldron(int par1)
 	{
-		super(p_i3927_1_, Material.iron);
+		super(par1, Material.iron);
 	}
 	
-	@Override public void addCollisionBoxesToList(World p_71871_1_, int p_71871_2_, int p_71871_3_, int p_71871_4_, AxisAlignedBB p_71871_5_, List p_71871_6_, Entity p_71871_7_)
+	@Override public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)
 	{
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.3125F, 1.0F);
-		super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
+		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 		float var8 = 0.125F;
 		setBlockBounds(0.0F, 0.0F, 0.0F, var8, 1.0F, 1.0F);
-		super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
+		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var8);
-		super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
+		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 		setBlockBounds(1.0F - var8, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-		super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
+		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 		setBlockBounds(0.0F, 0.0F, 1.0F - var8, 1.0F, 1.0F, 1.0F);
-		super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
+		super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 		setBlockBoundsForItemRender();
 	}
 	
-	@Override public void fillWithRain(World p_71892_1_, int p_71892_2_, int p_71892_3_, int p_71892_4_)
+	@Override public void fillWithRain(World par1World, int par2, int par3, int par4)
 	{
-		if(p_71892_1_.rand.nextInt(20) == 1)
+		if(par1World.rand.nextInt(20) == 1)
 		{
-			int var5 = p_71892_1_.getBlockMetadata(p_71892_2_, p_71892_3_, p_71892_4_);
+			int var5 = par1World.getBlockMetadata(par2, par3, par4);
 			if(var5 < 3)
 			{
-				p_71892_1_.setBlockMetadataWithNotify(p_71892_2_, p_71892_3_, p_71892_4_, var5 + 1, 2);
+				par1World.setBlockMetadataWithNotify(par2, par3, par4, var5 + 1, 2);
 			}
 		}
+	}
+	
+	@Override public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
+	{
+		int var6 = par1World.getBlockMetadata(par2, par3, par4);
+		return func_111045_h_(var6);
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -52,7 +58,12 @@ public class BlockCauldron extends Block
 		return 24;
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public boolean hasComparatorInputOverride()
+	{
+		return true;
+	}
+	
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return Item.cauldron.itemID;
 	}
@@ -67,53 +78,57 @@ public class BlockCauldron extends Block
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
-		if(p_71903_1_.isRemote) return true;
+		if(par1World.isRemote) return true;
 		else
 		{
-			ItemStack var10 = p_71903_5_.inventory.getCurrentItem();
+			ItemStack var10 = par5EntityPlayer.inventory.getCurrentItem();
 			if(var10 == null) return true;
 			else
 			{
-				int var11 = p_71903_1_.getBlockMetadata(p_71903_2_, p_71903_3_, p_71903_4_);
+				int var11 = par1World.getBlockMetadata(par2, par3, par4);
+				int var12 = func_111045_h_(var11);
 				if(var10.itemID == Item.bucketWater.itemID)
 				{
-					if(var11 < 3)
+					if(var12 < 3)
 					{
-						if(!p_71903_5_.capabilities.isCreativeMode)
+						if(!par5EntityPlayer.capabilities.isCreativeMode)
 						{
-							p_71903_5_.inventory.setInventorySlotContents(p_71903_5_.inventory.currentItem, new ItemStack(Item.bucketEmpty));
+							par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, new ItemStack(Item.bucketEmpty));
 						}
-						p_71903_1_.setBlockMetadataWithNotify(p_71903_2_, p_71903_3_, p_71903_4_, 3, 2);
+						par1World.setBlockMetadataWithNotify(par2, par3, par4, 3, 2);
+						par1World.func_96440_m(par2, par3, par4, blockID);
 					}
 					return true;
 				} else
 				{
 					if(var10.itemID == Item.glassBottle.itemID)
 					{
-						if(var11 > 0)
+						if(var12 > 0)
 						{
-							ItemStack var12 = new ItemStack(Item.potion, 1, 0);
-							if(!p_71903_5_.inventory.addItemStackToInventory(var12))
+							ItemStack var13 = new ItemStack(Item.potion, 1, 0);
+							if(!par5EntityPlayer.inventory.addItemStackToInventory(var13))
 							{
-								p_71903_1_.spawnEntityInWorld(new EntityItem(p_71903_1_, p_71903_2_ + 0.5D, p_71903_3_ + 1.5D, p_71903_4_ + 0.5D, var12));
-							} else if(p_71903_5_ instanceof EntityPlayerMP)
+								par1World.spawnEntityInWorld(new EntityItem(par1World, par2 + 0.5D, par3 + 1.5D, par4 + 0.5D, var13));
+							} else if(par5EntityPlayer instanceof EntityPlayerMP)
 							{
-								((EntityPlayerMP) p_71903_5_).sendContainerToPlayer(p_71903_5_.inventoryContainer);
+								((EntityPlayerMP) par5EntityPlayer).sendContainerToPlayer(par5EntityPlayer.inventoryContainer);
 							}
 							--var10.stackSize;
 							if(var10.stackSize <= 0)
 							{
-								p_71903_5_.inventory.setInventorySlotContents(p_71903_5_.inventory.currentItem, (ItemStack) null);
+								par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, (ItemStack) null);
 							}
-							p_71903_1_.setBlockMetadataWithNotify(p_71903_2_, p_71903_3_, p_71903_4_, var11 - 1, 2);
+							par1World.setBlockMetadataWithNotify(par2, par3, par4, var12 - 1, 2);
+							par1World.func_96440_m(par2, par3, par4, blockID);
 						}
-					} else if(var11 > 0 && var10.getItem() instanceof ItemArmor && ((ItemArmor) var10.getItem()).getArmorMaterial() == EnumArmorMaterial.CLOTH)
+					} else if(var12 > 0 && var10.getItem() instanceof ItemArmor && ((ItemArmor) var10.getItem()).getArmorMaterial() == EnumArmorMaterial.CLOTH)
 					{
-						ItemArmor var13 = (ItemArmor) var10.getItem();
-						var13.removeColor(var10);
-						p_71903_1_.setBlockMetadataWithNotify(p_71903_2_, p_71903_3_, p_71903_4_, var11 - 1, 2);
+						ItemArmor var14 = (ItemArmor) var10.getItem();
+						var14.removeColor(var10);
+						par1World.setBlockMetadataWithNotify(par2, par3, par4, var12 - 1, 2);
+						par1World.func_96440_m(par2, par3, par4, blockID);
 						return true;
 					}
 					return true;
@@ -124,10 +139,10 @@ public class BlockCauldron extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		field_94378_a = par1IconRegister.registerIcon("cauldron_inner");
-		cauldronTopIcon = par1IconRegister.registerIcon("cauldron_top");
-		cauldronBottomIcon = par1IconRegister.registerIcon("cauldron_bottom");
-		blockIcon = par1IconRegister.registerIcon("cauldron_side");
+		field_94378_a = par1IconRegister.registerIcon(func_111023_E() + "_" + "inner");
+		cauldronTopIcon = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		cauldronBottomIcon = par1IconRegister.registerIcon(func_111023_E() + "_" + "bottom");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -140,8 +155,13 @@ public class BlockCauldron extends Block
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 	
+	public static int func_111045_h_(int par0)
+	{
+		return par0;
+	}
+	
 	public static Icon func_94375_b(String par0Str)
 	{
-		return par0Str == "cauldron_inner" ? Block.cauldron.field_94378_a : par0Str == "cauldron_bottom" ? Block.cauldron.cauldronBottomIcon : null;
+		return par0Str.equals("inner") ? Block.cauldron.field_94378_a : par0Str.equals("bottom") ? Block.cauldron.cauldronBottomIcon : null;
 	}
 }

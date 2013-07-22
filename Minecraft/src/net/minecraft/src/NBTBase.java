@@ -9,25 +9,25 @@ public abstract class NBTBase
 	public static final String[] NBTTypes = new String[] { "END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]" };
 	private String name;
 	
-	protected NBTBase(String p_i3281_1_)
+	protected NBTBase(String par1Str)
 	{
-		if(p_i3281_1_ == null)
+		if(par1Str == null)
 		{
 			name = "";
 		} else
 		{
-			name = p_i3281_1_;
+			name = par1Str;
 		}
 	}
 	
 	public abstract NBTBase copy();
 	
-	@Override public boolean equals(Object p_equals_1_)
+	@Override public boolean equals(Object par1Obj)
 	{
-		if(!(p_equals_1_ instanceof NBTBase)) return false;
+		if(!(par1Obj instanceof NBTBase)) return false;
 		else
 		{
-			NBTBase var2 = (NBTBase) p_equals_1_;
+			NBTBase var2 = (NBTBase) par1Obj;
 			return getId() != var2.getId() ? false : (name != null || var2.name == null) && (name == null || var2.name != null) ? name == null || name.equals(var2.name) : false;
 		}
 	}
@@ -44,25 +44,48 @@ public abstract class NBTBase
 		return name.hashCode() ^ getId();
 	}
 	
-	abstract void load(DataInput var1) throws IOException;
+	abstract void load(DataInput var1, int var2) throws IOException;
 	
-	public NBTBase setName(String p_74738_1_)
+	public NBTBase setName(String par1Str)
 	{
-		if(p_74738_1_ == null)
+		if(par1Str == null)
 		{
 			name = "";
 		} else
 		{
-			name = p_74738_1_;
+			name = par1Str;
 		}
 		return this;
 	}
 	
 	abstract void write(DataOutput var1) throws IOException;
 	
-	public static String getTagName(byte p_74736_0_)
+	public static NBTBase func_130104_b(DataInput par0DataInput, int par1) throws IOException
 	{
-		switch(p_74736_0_)
+		byte var2 = par0DataInput.readByte();
+		if(var2 == 0) return new NBTTagEnd();
+		else
+		{
+			String var3 = par0DataInput.readUTF();
+			NBTBase var4 = newTag(var2, var3);
+			try
+			{
+				var4.load(par0DataInput, par1);
+				return var4;
+			} catch(IOException var8)
+			{
+				CrashReport var6 = CrashReport.makeCrashReport(var8, "Loading NBT data");
+				CrashReportCategory var7 = var6.makeCategory("NBT Tag");
+				var7.addCrashSection("Tag name", var3);
+				var7.addCrashSection("Tag type", Byte.valueOf(var2));
+				throw new ReportedException(var6);
+			}
+		}
+	}
+	
+	public static String getTagName(byte par0)
+	{
+		switch(par0)
 		{
 			case 0:
 				return "TAG_End";
@@ -93,69 +116,51 @@ public abstract class NBTBase
 		}
 	}
 	
-	public static NBTBase newTag(byte p_74733_0_, String p_74733_1_)
+	public static NBTBase newTag(byte par0, String par1Str)
 	{
-		switch(p_74733_0_)
+		switch(par0)
 		{
 			case 0:
 				return new NBTTagEnd();
 			case 1:
-				return new NBTTagByte(p_74733_1_);
+				return new NBTTagByte(par1Str);
 			case 2:
-				return new NBTTagShort(p_74733_1_);
+				return new NBTTagShort(par1Str);
 			case 3:
-				return new NBTTagInt(p_74733_1_);
+				return new NBTTagInt(par1Str);
 			case 4:
-				return new NBTTagLong(p_74733_1_);
+				return new NBTTagLong(par1Str);
 			case 5:
-				return new NBTTagFloat(p_74733_1_);
+				return new NBTTagFloat(par1Str);
 			case 6:
-				return new NBTTagDouble(p_74733_1_);
+				return new NBTTagDouble(par1Str);
 			case 7:
-				return new NBTTagByteArray(p_74733_1_);
+				return new NBTTagByteArray(par1Str);
 			case 8:
-				return new NBTTagString(p_74733_1_);
+				return new NBTTagString(par1Str);
 			case 9:
-				return new NBTTagList(p_74733_1_);
+				return new NBTTagList(par1Str);
 			case 10:
-				return new NBTTagCompound(p_74733_1_);
+				return new NBTTagCompound(par1Str);
 			case 11:
-				return new NBTTagIntArray(p_74733_1_);
+				return new NBTTagIntArray(par1Str);
 			default:
 				return null;
 		}
 	}
 	
-	public static NBTBase readNamedTag(DataInput p_74739_0_) throws IOException
+	public static NBTBase readNamedTag(DataInput par0DataInput) throws IOException
 	{
-		byte var1 = p_74739_0_.readByte();
-		if(var1 == 0) return new NBTTagEnd();
-		else
-		{
-			String var2 = p_74739_0_.readUTF();
-			NBTBase var3 = newTag(var1, var2);
-			try
-			{
-				var3.load(p_74739_0_);
-				return var3;
-			} catch(IOException var7)
-			{
-				CrashReport var5 = CrashReport.makeCrashReport(var7, "Loading NBT data");
-				CrashReportCategory var6 = var5.makeCategory("NBT Tag");
-				var6.addCrashSection("Tag name", var2);
-				var6.addCrashSection("Tag type", Byte.valueOf(var1));
-				throw new ReportedException(var5);
-			}
-		}
+		return func_130104_b(par0DataInput, 0);
 	}
 	
-	public static void writeNamedTag(NBTBase p_74731_0_, DataOutput p_74731_1_) throws IOException
+	public static void writeNamedTag(NBTBase par0NBTBase, DataOutput par1DataOutput) throws IOException
 	{
-		p_74731_1_.writeByte(p_74731_0_.getId());
-		if(p_74731_0_.getId() != 0)
+		par1DataOutput.writeByte(par0NBTBase.getId());
+		if(par0NBTBase.getId() != 0)
 		{
-			p_74731_1_.writeUTF(p_74731_0_.getName());
-			p_74731_0_.write(p_74731_1_);
+			par1DataOutput.writeUTF(par0NBTBase.getName());
+			par0NBTBase.write(par1DataOutput);
 		}
 	}
 }

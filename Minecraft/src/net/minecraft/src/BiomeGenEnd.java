@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BiomeGenEnd extends BiomeGenBase
 {
-	public BiomeGenEnd(int p_i3766_1_)
+	public BiomeGenEnd(int par1)
 	{
-		super(p_i3766_1_);
+		super(par1);
 		spawnableMonsterList.clear();
 		spawnableCreatureList.clear();
 		spawnableWaterCreatureList.clear();

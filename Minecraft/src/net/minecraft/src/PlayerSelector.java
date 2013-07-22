@@ -13,32 +13,32 @@ import net.minecraft.server.MinecraftServer;
 public class PlayerSelector
 {
 	private static final Pattern tokenPattern = Pattern.compile("^@([parf])(?:\\[([\\w=,!-]*)\\])?$");
-	private static final Pattern intListPattern = Pattern.compile("\\G([-!]?\\w*)(?:$|,)");
-	private static final Pattern keyValueListPattern = Pattern.compile("\\G(\\w+)=([-!]?\\w*)(?:$|,)");
+	private static final Pattern intListPattern = Pattern.compile("\\G([-!]?[\\w-]*)(?:$|,)");
+	private static final Pattern keyValueListPattern = Pattern.compile("\\G(\\w+)=([-!]?[\\w-]*)(?:$|,)");
 	
-	public static Map func_96560_a(Map p_96560_0_)
+	public static Map func_96560_a(Map par0Map)
 	{
 		HashMap var1 = new HashMap();
-		Iterator var2 = p_96560_0_.keySet().iterator();
+		Iterator var2 = par0Map.keySet().iterator();
 		while(var2.hasNext())
 		{
 			String var3 = (String) var2.next();
 			if(var3.startsWith("score_") && var3.length() > "score_".length())
 			{
 				String var4 = var3.substring("score_".length());
-				var1.put(var4, Integer.valueOf(MathHelper.parseIntWithDefault((String) p_96560_0_.get(var3), 1)));
+				var1.put(var4, Integer.valueOf(MathHelper.parseIntWithDefault((String) par0Map.get(var3), 1)));
 			}
 		}
 		return var1;
 	}
 	
-	private static Map getArgumentMap(String p_82381_0_)
+	private static Map getArgumentMap(String par0Str)
 	{
 		HashMap var1 = new HashMap();
-		if(p_82381_0_ == null) return var1;
+		if(par0Str == null) return var1;
 		else
 		{
-			Matcher var2 = intListPattern.matcher(p_82381_0_);
+			Matcher var2 = intListPattern.matcher(par0Str);
 			int var3 = 0;
 			int var4;
 			for(var4 = -1; var2.find(); var4 = var2.end())
@@ -63,9 +63,9 @@ public class PlayerSelector
 					var1.put(var5, var2.group(1));
 				}
 			}
-			if(var4 < p_82381_0_.length())
+			if(var4 < par0Str.length())
 			{
-				var2 = keyValueListPattern.matcher(var4 == -1 ? p_82381_0_ : p_82381_0_.substring(var4));
+				var2 = keyValueListPattern.matcher(var4 == -1 ? par0Str : par0Str.substring(var4));
 				while(var2.find())
 				{
 					var1.put(var2.group(1), var2.group(2));
@@ -75,49 +75,49 @@ public class PlayerSelector
 		}
 	}
 	
-	private static final int getDefaultCount(String p_82382_0_)
+	private static final int getDefaultCount(String par0Str)
 	{
-		return p_82382_0_.equals("a") ? 0 : 1;
+		return par0Str.equals("a") ? 0 : 1;
 	}
 	
-	private static final int getDefaultMaximumLevel(String p_82376_0_)
+	private static final int getDefaultMaximumLevel(String par0Str)
 	{
 		return Integer.MAX_VALUE;
 	}
 	
-	private static final int getDefaultMaximumRange(String p_82379_0_)
+	private static final int getDefaultMaximumRange(String par0Str)
 	{
 		return 0;
 	}
 	
-	private static final int getDefaultMinimumLevel(String p_82375_0_)
+	private static final int getDefaultMinimumLevel(String par0Str)
 	{
 		return 0;
 	}
 	
-	private static final int getDefaultMinimumRange(String p_82384_0_)
+	private static final int getDefaultMinimumRange(String par0Str)
 	{
 		return 0;
 	}
 	
-	public static boolean hasArguments(String p_82378_0_)
+	public static boolean hasArguments(String par0Str)
 	{
-		return hasTheseArguments(p_82378_0_, (String) null);
+		return hasTheseArguments(par0Str, (String) null);
 	}
 	
-	public static boolean hasTheseArguments(String p_82383_0_, String p_82383_1_)
+	public static boolean hasTheseArguments(String par0Str, String par1Str)
 	{
-		Matcher var2 = tokenPattern.matcher(p_82383_0_);
+		Matcher var2 = tokenPattern.matcher(par0Str);
 		if(var2.matches())
 		{
 			String var3 = var2.group(1);
-			return p_82383_1_ == null || p_82383_1_.equals(var3);
+			return par1Str == null || par1Str.equals(var3);
 		} else return false;
 	}
 	
-	public static boolean matchesMultiplePlayers(String p_82377_0_)
+	public static boolean matchesMultiplePlayers(String par0Str)
 	{
-		Matcher var1 = tokenPattern.matcher(p_82377_0_);
+		Matcher var1 = tokenPattern.matcher(par0Str);
 		if(var1.matches())
 		{
 			Map var2 = getArgumentMap(var1.group(2));
@@ -131,16 +131,17 @@ public class PlayerSelector
 		} else return false;
 	}
 	
-	public static EntityPlayerMP matchOnePlayer(ICommandSender p_82386_0_, String p_82386_1_)
+	public static EntityPlayerMP matchOnePlayer(ICommandSender par0ICommandSender, String par1Str)
 	{
-		EntityPlayerMP[] var2 = matchPlayers(p_82386_0_, p_82386_1_);
+		EntityPlayerMP[] var2 = matchPlayers(par0ICommandSender, par1Str);
 		return var2 != null && var2.length == 1 ? var2[0] : null;
 	}
 	
-	public static EntityPlayerMP[] matchPlayers(ICommandSender p_82380_0_, String p_82380_1_)
+	public static EntityPlayerMP[] matchPlayers(ICommandSender par0ICommandSender, String par1Str)
 	{
-		Matcher var2 = tokenPattern.matcher(p_82380_1_);
-		if(var2.matches())
+		Matcher var2 = tokenPattern.matcher(par1Str);
+		if(!var2.matches()) return null;
+		else
 		{
 			Map var3 = getArgumentMap(var2.group(2));
 			String var4 = var2.group(1);
@@ -150,17 +151,20 @@ public class PlayerSelector
 			int var8 = getDefaultMaximumLevel(var4);
 			int var9 = getDefaultCount(var4);
 			int var10 = EnumGameType.NOT_SET.getID();
-			ChunkCoordinates var11 = p_82380_0_.getPlayerCoordinates();
+			ChunkCoordinates var11 = par0ICommandSender.getPlayerCoordinates();
 			Map var12 = func_96560_a(var3);
 			String var13 = null;
 			String var14 = null;
+			boolean var15 = false;
 			if(var3.containsKey("rm"))
 			{
 				var5 = MathHelper.parseIntWithDefault((String) var3.get("rm"), var5);
+				var15 = true;
 			}
 			if(var3.containsKey("r"))
 			{
 				var6 = MathHelper.parseIntWithDefault((String) var3.get("r"), var6);
+				var15 = true;
 			}
 			if(var3.containsKey("lm"))
 			{
@@ -173,14 +177,17 @@ public class PlayerSelector
 			if(var3.containsKey("x"))
 			{
 				var11.posX = MathHelper.parseIntWithDefault((String) var3.get("x"), var11.posX);
+				var15 = true;
 			}
 			if(var3.containsKey("y"))
 			{
 				var11.posY = MathHelper.parseIntWithDefault((String) var3.get("y"), var11.posY);
+				var15 = true;
 			}
 			if(var3.containsKey("z"))
 			{
 				var11.posZ = MathHelper.parseIntWithDefault((String) var3.get("z"), var11.posZ);
+				var15 = true;
 			}
 			if(var3.containsKey("m"))
 			{
@@ -198,28 +205,29 @@ public class PlayerSelector
 			{
 				var13 = (String) var3.get("name");
 			}
-			List var15;
+			World var16 = var15 ? par0ICommandSender.func_130014_f_() : null;
+			List var17;
 			if(!var4.equals("p") && !var4.equals("a"))
 			{
 				if(!var4.equals("r")) return null;
 				else
 				{
-					var15 = MinecraftServer.getServer().getConfigurationManager().findPlayers(var11, var5, var6, 0, var10, var7, var8, var12, var13, var14);
-					Collections.shuffle(var15);
-					var15 = var15.subList(0, Math.min(var9, var15.size()));
-					return var15 != null && !var15.isEmpty() ? (EntityPlayerMP[]) var15.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
+					var17 = MinecraftServer.getServer().getConfigurationManager().findPlayers(var11, var5, var6, 0, var10, var7, var8, var12, var13, var14, var16);
+					Collections.shuffle(var17);
+					var17 = var17.subList(0, Math.min(var9, var17.size()));
+					return var17 != null && !var17.isEmpty() ? (EntityPlayerMP[]) var17.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
 				}
 			} else
 			{
-				var15 = MinecraftServer.getServer().getConfigurationManager().findPlayers(var11, var5, var6, var9, var10, var7, var8, var12, var13, var14);
-				return var15 != null && !var15.isEmpty() ? (EntityPlayerMP[]) var15.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
+				var17 = MinecraftServer.getServer().getConfigurationManager().findPlayers(var11, var5, var6, var9, var10, var7, var8, var12, var13, var14, var16);
+				return var17 != null && !var17.isEmpty() ? (EntityPlayerMP[]) var17.toArray(new EntityPlayerMP[0]) : new EntityPlayerMP[0];
 			}
-		} else return null;
+		}
 	}
 	
-	public static String matchPlayersAsString(ICommandSender p_82385_0_, String p_82385_1_)
+	public static String matchPlayersAsString(ICommandSender par0ICommandSender, String par1Str)
 	{
-		EntityPlayerMP[] var2 = matchPlayers(p_82385_0_, p_82385_1_);
+		EntityPlayerMP[] var2 = matchPlayers(par0ICommandSender, par1Str);
 		if(var2 != null && var2.length != 0)
 		{
 			String[] var3 = new String[var2.length];

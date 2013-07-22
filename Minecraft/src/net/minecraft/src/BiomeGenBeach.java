@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BiomeGenBeach extends BiomeGenBase
 {
-	public BiomeGenBeach(int p_i3745_1_)
+	public BiomeGenBeach(int par1)
 	{
-		super(p_i3745_1_);
+		super(par1);
 		spawnableCreatureList.clear();
 		topBlock = (byte) Block.sand.blockID;
 		fillerBlock = (byte) Block.sand.blockID;

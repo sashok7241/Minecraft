@@ -4,19 +4,19 @@ public class EntityDamageSourceIndirect extends EntityDamageSource
 {
 	private Entity indirectEntity;
 	
-	public EntityDamageSourceIndirect(String p_i3431_1_, Entity p_i3431_2_, Entity p_i3431_3_)
+	public EntityDamageSourceIndirect(String par1Str, Entity par2Entity, Entity par3Entity)
 	{
-		super(p_i3431_1_, p_i3431_2_);
-		indirectEntity = p_i3431_3_;
+		super(par1Str, par2Entity);
+		indirectEntity = par3Entity;
 	}
 	
-	@Override public String getDeathMessage(EntityLiving p_76360_1_)
+	@Override public ChatMessageComponent getDeathMessage(EntityLivingBase par1EntityLivingBase)
 	{
 		String var2 = indirectEntity == null ? damageSourceEntity.getTranslatedEntityName() : indirectEntity.getTranslatedEntityName();
-		ItemStack var3 = indirectEntity instanceof EntityLiving ? ((EntityLiving) indirectEntity).getHeldItem() : null;
+		ItemStack var3 = indirectEntity instanceof EntityLivingBase ? ((EntityLivingBase) indirectEntity).getHeldItem() : null;
 		String var4 = "death.attack." + damageType;
 		String var5 = var4 + ".item";
-		return var3 != null && var3.hasDisplayName() && StatCollector.func_94522_b(var5) ? StatCollector.translateToLocalFormatted(var5, new Object[] { p_76360_1_.getTranslatedEntityName(), var2, var3.getDisplayName() }) : StatCollector.translateToLocalFormatted(var4, new Object[] { p_76360_1_.getTranslatedEntityName(), var2 });
+		return var3 != null && var3.hasDisplayName() && StatCollector.func_94522_b(var5) ? ChatMessageComponent.func_111082_b(var5, new Object[] { par1EntityLivingBase.getTranslatedEntityName(), var2, var3.getDisplayName() }) : ChatMessageComponent.func_111082_b(var4, new Object[] { par1EntityLivingBase.getTranslatedEntityName(), var2 });
 	}
 	
 	@Override public Entity getEntity()

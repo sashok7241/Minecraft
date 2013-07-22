@@ -7,100 +7,100 @@ public class ComponentVillageChurch extends ComponentVillage
 {
 	private int averageGroundLevel = -1;
 	
-	public ComponentVillageChurch(ComponentVillageStartPiece p_i3868_1_, int p_i3868_2_, Random p_i3868_3_, StructureBoundingBox p_i3868_4_, int p_i3868_5_)
+	public ComponentVillageChurch(ComponentVillageStartPiece par1ComponentVillageStartPiece, int par2, Random par3Random, StructureBoundingBox par4StructureBoundingBox, int par5)
 	{
-		super(p_i3868_1_, p_i3868_2_);
-		coordBaseMode = p_i3868_5_;
-		boundingBox = p_i3868_4_;
+		super(par1ComponentVillageStartPiece, par2);
+		coordBaseMode = par5;
+		boundingBox = par4StructureBoundingBox;
 	}
 	
-	@Override public boolean addComponentParts(World p_74875_1_, Random p_74875_2_, StructureBoundingBox p_74875_3_)
+	@Override public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
 	{
 		if(averageGroundLevel < 0)
 		{
-			averageGroundLevel = getAverageGroundLevel(p_74875_1_, p_74875_3_);
+			averageGroundLevel = getAverageGroundLevel(par1World, par3StructureBoundingBox);
 			if(averageGroundLevel < 0) return true;
 			boundingBox.offset(0, averageGroundLevel - boundingBox.maxY + 12 - 1, 0);
 		}
-		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 1, 1, 3, 3, 7, 0, 0, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 5, 1, 3, 9, 3, 0, 0, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 0, 0, 3, 0, 8, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 1, 0, 3, 10, 0, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 0, 1, 1, 0, 10, 3, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 4, 1, 1, 4, 10, 3, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 0, 0, 4, 0, 4, 7, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 4, 0, 4, 4, 4, 7, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 1, 8, 3, 4, 8, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 5, 4, 3, 10, 4, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 1, 5, 5, 3, 5, 7, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 0, 9, 0, 4, 9, 4, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		fillWithBlocks(p_74875_1_, p_74875_3_, 0, 4, 0, 4, 4, 4, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 0, 11, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 4, 11, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 2, 11, 0, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 2, 11, 4, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 1, 1, 6, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 1, 1, 7, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 2, 1, 7, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 3, 1, 6, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.cobblestone.blockID, 0, 3, 1, 7, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), 1, 1, 5, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), 2, 1, 6, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), 3, 1, 5, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 1), 1, 2, 7, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 0), 3, 2, 7, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 0, 2, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 0, 3, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 4, 2, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 4, 3, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 0, 6, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 0, 7, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 4, 6, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 4, 7, 2, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 2, 6, 0, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 2, 7, 0, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 2, 6, 4, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 2, 7, 4, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 0, 3, 6, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 4, 3, 6, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.thinGlass.blockID, 0, 2, 3, 8, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 2, 4, 7, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 1, 4, 6, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 3, 4, 6, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, Block.torchWood.blockID, 0, 2, 4, 5, p_74875_3_);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 1, 1, 3, 3, 7, 0, 0, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 5, 1, 3, 9, 3, 0, 0, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 0, 0, 3, 0, 8, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 1, 0, 3, 10, 0, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 0, 1, 1, 0, 10, 3, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 4, 1, 1, 4, 10, 3, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 0, 0, 4, 0, 4, 7, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 4, 0, 4, 4, 4, 7, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 1, 8, 3, 4, 8, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 5, 4, 3, 10, 4, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 1, 5, 5, 3, 5, 7, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 0, 9, 0, 4, 9, 4, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		fillWithBlocks(par1World, par3StructureBoundingBox, 0, 4, 0, 4, 4, 4, Block.cobblestone.blockID, Block.cobblestone.blockID, false);
+		placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 0, 11, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 4, 11, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 2, 11, 0, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 2, 11, 4, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 1, 1, 6, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 1, 1, 7, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 2, 1, 7, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 3, 1, 6, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.cobblestone.blockID, 0, 3, 1, 7, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), 1, 1, 5, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), 2, 1, 6, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), 3, 1, 5, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 1), 1, 2, 7, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 0), 3, 2, 7, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 0, 2, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 0, 3, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 4, 2, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 4, 3, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 0, 6, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 0, 7, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 4, 6, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 4, 7, 2, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 2, 6, 0, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 2, 7, 0, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 2, 6, 4, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 2, 7, 4, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 0, 3, 6, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 4, 3, 6, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.thinGlass.blockID, 0, 2, 3, 8, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 2, 4, 7, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 1, 4, 6, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 3, 4, 6, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, Block.torchWood.blockID, 0, 2, 4, 5, par3StructureBoundingBox);
 		int var4 = getMetadataWithOffset(Block.ladder.blockID, 4);
 		int var5;
 		for(var5 = 1; var5 <= 9; ++var5)
 		{
-			placeBlockAtCurrentPosition(p_74875_1_, Block.ladder.blockID, var4, 3, var5, 3, p_74875_3_);
+			placeBlockAtCurrentPosition(par1World, Block.ladder.blockID, var4, 3, var5, 3, par3StructureBoundingBox);
 		}
-		placeBlockAtCurrentPosition(p_74875_1_, 0, 0, 2, 1, 0, p_74875_3_);
-		placeBlockAtCurrentPosition(p_74875_1_, 0, 0, 2, 2, 0, p_74875_3_);
-		placeDoorAtCurrentPosition(p_74875_1_, p_74875_3_, p_74875_2_, 2, 1, 0, getMetadataWithOffset(Block.doorWood.blockID, 1));
-		if(getBlockIdAtCurrentPosition(p_74875_1_, 2, 0, -1, p_74875_3_) == 0 && getBlockIdAtCurrentPosition(p_74875_1_, 2, -1, -1, p_74875_3_) != 0)
+		placeBlockAtCurrentPosition(par1World, 0, 0, 2, 1, 0, par3StructureBoundingBox);
+		placeBlockAtCurrentPosition(par1World, 0, 0, 2, 2, 0, par3StructureBoundingBox);
+		placeDoorAtCurrentPosition(par1World, par3StructureBoundingBox, par2Random, 2, 1, 0, getMetadataWithOffset(Block.doorWood.blockID, 1));
+		if(getBlockIdAtCurrentPosition(par1World, 2, 0, -1, par3StructureBoundingBox) == 0 && getBlockIdAtCurrentPosition(par1World, 2, -1, -1, par3StructureBoundingBox) != 0)
 		{
-			placeBlockAtCurrentPosition(p_74875_1_, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), 2, 0, -1, p_74875_3_);
+			placeBlockAtCurrentPosition(par1World, Block.stairsCobblestone.blockID, getMetadataWithOffset(Block.stairsCobblestone.blockID, 3), 2, 0, -1, par3StructureBoundingBox);
 		}
 		for(var5 = 0; var5 < 9; ++var5)
 		{
 			for(int var6 = 0; var6 < 5; ++var6)
 			{
-				clearCurrentPositionBlocksUpwards(p_74875_1_, var6, 12, var5, p_74875_3_);
-				fillCurrentPositionBlocksDownwards(p_74875_1_, Block.cobblestone.blockID, 0, var6, -1, var5, p_74875_3_);
+				clearCurrentPositionBlocksUpwards(par1World, var6, 12, var5, par3StructureBoundingBox);
+				fillCurrentPositionBlocksDownwards(par1World, Block.cobblestone.blockID, 0, var6, -1, var5, par3StructureBoundingBox);
 			}
 		}
-		spawnVillagers(p_74875_1_, p_74875_3_, 2, 1, 2, 1);
+		spawnVillagers(par1World, par3StructureBoundingBox, 2, 1, 2, 1);
 		return true;
 	}
 	
-	@Override protected int getVillagerType(int p_74888_1_)
+	@Override protected int getVillagerType(int par1)
 	{
 		return 2;
 	}
 	
-	public static ComponentVillageChurch func_74919_a(ComponentVillageStartPiece p_74919_0_, List p_74919_1_, Random p_74919_2_, int p_74919_3_, int p_74919_4_, int p_74919_5_, int p_74919_6_, int p_74919_7_)
+	public static ComponentVillageChurch func_74919_a(ComponentVillageStartPiece par0ComponentVillageStartPiece, List par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
 	{
-		StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(p_74919_3_, p_74919_4_, p_74919_5_, 0, 0, 0, 5, 12, 9, p_74919_6_);
-		return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(p_74919_1_, var8) == null ? new ComponentVillageChurch(p_74919_0_, p_74919_7_, p_74919_2_, var8, p_74919_6_) : null;
+		StructureBoundingBox var8 = StructureBoundingBox.getComponentToAddBoundingBox(par3, par4, par5, 0, 0, 0, 5, 12, 9, par6);
+		return canVillageGoDeeper(var8) && StructureComponent.findIntersecting(par1List, var8) == null ? new ComponentVillageChurch(par0ComponentVillageStartPiece, par7, par2Random, var8, par6) : null;
 	}
 }

@@ -7,20 +7,20 @@ public class ModelZombieVillager extends ModelBiped
 		this(0.0F, 0.0F, false);
 	}
 	
-	public ModelZombieVillager(float p_i5020_1_, float p_i5020_2_, boolean p_i5020_3_)
+	public ModelZombieVillager(float par1, float par2, boolean par3)
 	{
-		super(p_i5020_1_, 0.0F, 64, p_i5020_3_ ? 32 : 64);
-		if(p_i5020_3_)
+		super(par1, 0.0F, 64, par3 ? 32 : 64);
+		if(par3)
 		{
 			bipedHead = new ModelRenderer(this, 0, 0);
-			bipedHead.addBox(-4.0F, -10.0F, -4.0F, 8, 6, 8, p_i5020_1_);
-			bipedHead.setRotationPoint(0.0F, 0.0F + p_i5020_2_, 0.0F);
+			bipedHead.addBox(-4.0F, -10.0F, -4.0F, 8, 6, 8, par1);
+			bipedHead.setRotationPoint(0.0F, 0.0F + par2, 0.0F);
 		} else
 		{
 			bipedHead = new ModelRenderer(this);
-			bipedHead.setRotationPoint(0.0F, 0.0F + p_i5020_2_, 0.0F);
-			bipedHead.setTextureOffset(0, 32).addBox(-4.0F, -10.0F, -4.0F, 8, 10, 8, p_i5020_1_);
-			bipedHead.setTextureOffset(24, 32).addBox(-1.0F, -3.0F, -6.0F, 2, 4, 2, p_i5020_1_);
+			bipedHead.setRotationPoint(0.0F, 0.0F + par2, 0.0F);
+			bipedHead.setTextureOffset(0, 32).addBox(-4.0F, -10.0F, -4.0F, 8, 10, 8, par1);
+			bipedHead.setTextureOffset(24, 32).addBox(-1.0F, -3.0F, -6.0F, 2, 4, 2, par1);
 		}
 	}
 	

@@ -9,13 +9,13 @@ public class ItemRecord extends Item
 	private static final Map records = new HashMap();
 	public final String recordName;
 	
-	protected ItemRecord(int p_i3677_1_, String p_i3677_2_)
+	protected ItemRecord(int par1, String par2Str)
 	{
-		super(p_i3677_1_);
-		recordName = p_i3677_2_;
+		super(par1);
+		recordName = par2Str;
 		maxStackSize = 1;
 		setCreativeTab(CreativeTabs.tabMisc);
-		records.put(p_i3677_2_, this);
+		records.put(par2Str, this);
 	}
 	
 	@Override public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
@@ -38,24 +38,19 @@ public class ItemRecord extends Item
 		return "C418 - " + recordName;
 	}
 	
-	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
-		if(p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_) == Block.jukebox.blockID && p_77648_3_.getBlockMetadata(p_77648_4_, p_77648_5_, p_77648_6_) == 0)
+		if(par3World.getBlockId(par4, par5, par6) == Block.jukebox.blockID && par3World.getBlockMetadata(par4, par5, par6) == 0)
 		{
-			if(p_77648_3_.isRemote) return true;
+			if(par3World.isRemote) return true;
 			else
 			{
-				((BlockJukeBox) Block.jukebox).insertRecord(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_1_);
-				p_77648_3_.playAuxSFXAtEntity((EntityPlayer) null, 1005, p_77648_4_, p_77648_5_, p_77648_6_, itemID);
-				--p_77648_1_.stackSize;
+				((BlockJukeBox) Block.jukebox).insertRecord(par3World, par4, par5, par6, par1ItemStack);
+				par3World.playAuxSFXAtEntity((EntityPlayer) null, 1005, par4, par5, par6, itemID);
+				--par1ItemStack.stackSize;
 				return true;
 			}
 		} else return false;
-	}
-	
-	@Override public void registerIcons(IconRegister par1IconRegister)
-	{
-		itemIcon = par1IconRegister.registerIcon("record_" + recordName);
 	}
 	
 	public static ItemRecord getRecord(String par0Str)

@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 public abstract class BlockDirectional extends Block
 {
-	protected BlockDirectional(int p_i3936_1_, Material p_i3936_2_)
+	protected BlockDirectional(int par1, Material par2Material)
 	{
-		super(p_i3936_1_, p_i3936_2_);
+		super(par1, par2Material);
 	}
 	
-	public static int getDirection(int p_72217_0_)
+	public static int getDirection(int par0)
 	{
-		return p_72217_0_ & 3;
+		return par0 & 3;
 	}
 }

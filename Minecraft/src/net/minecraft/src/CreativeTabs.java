@@ -5,29 +5,30 @@ import java.util.List;
 public class CreativeTabs
 {
 	public static final CreativeTabs[] creativeTabArray = new CreativeTabs[12];
-	public static final CreativeTabs tabBlock = new CreativeTabBlock(0, "buildingBlocks");
-	public static final CreativeTabs tabDecorations = new CreativeTabDeco(1, "decorations");
-	public static final CreativeTabs tabRedstone = new CreativeTabRedstone(2, "redstone");
-	public static final CreativeTabs tabTransport = new CreativeTabTransport(3, "transportation");
-	public static final CreativeTabs tabMisc = new CreativeTabMisc(4, "misc");
-	public static final CreativeTabs tabAllSearch = new CreativeTabSearch(5, "search").setBackgroundImageName("search.png");
-	public static final CreativeTabs tabFood = new CreativeTabFood(6, "food");
-	public static final CreativeTabs tabTools = new CreativeTabTools(7, "tools");
-	public static final CreativeTabs tabCombat = new CreativeTabCombat(8, "combat");
+	public static final CreativeTabs tabBlock = new CreativeTabCombat(0, "buildingBlocks");
+	public static final CreativeTabs tabDecorations = new CreativeTabBlock(1, "decorations");
+	public static final CreativeTabs tabRedstone = new CreativeTabDeco(2, "redstone");
+	public static final CreativeTabs tabTransport = new CreativeTabRedstone(3, "transportation");
+	public static final CreativeTabs tabMisc = new CreativeTabTransport(4, "misc").func_111229_a(new EnumEnchantmentType[] { EnumEnchantmentType.all });
+	public static final CreativeTabs tabAllSearch = new CreativeTabMisc(5, "search").setBackgroundImageName("item_search.png");
+	public static final CreativeTabs tabFood = new CreativeTabSearch(6, "food");
+	public static final CreativeTabs tabTools = new CreativeTabFood(7, "tools").func_111229_a(new EnumEnchantmentType[] { EnumEnchantmentType.digger });
+	public static final CreativeTabs tabCombat = new CreativeTabTools(8, "combat").func_111229_a(new EnumEnchantmentType[] { EnumEnchantmentType.armor, EnumEnchantmentType.armor_feet, EnumEnchantmentType.armor_head, EnumEnchantmentType.armor_legs, EnumEnchantmentType.armor_torso, EnumEnchantmentType.bow, EnumEnchantmentType.weapon });
 	public static final CreativeTabs tabBrewing = new CreativeTabBrewing(9, "brewing");
 	public static final CreativeTabs tabMaterials = new CreativeTabMaterial(10, "materials");
-	public static final CreativeTabs tabInventory = new CreativeTabInventory(11, "inventory").setBackgroundImageName("survival_inv.png").setNoScrollbar().setNoTitle();
+	public static final CreativeTabs tabInventory = new CreativeTabInventory(11, "inventory").setBackgroundImageName("inventory.png").setNoScrollbar().setNoTitle();
 	private final int tabIndex;
 	private final String tabLabel;
-	private String backgroundImageName = "list_items.png";
+	private String backgroundImageName = "items.png";
 	private boolean hasScrollbar = true;
 	private boolean drawTitle = true;
+	private EnumEnchantmentType[] field_111230_s;
 	
-	public CreativeTabs(int p_i3642_1_, String p_i3642_2_)
+	public CreativeTabs(int par1, String par2Str)
 	{
-		tabIndex = p_i3642_1_;
-		tabLabel = p_i3642_2_;
-		creativeTabArray[p_i3642_1_] = this;
+		tabIndex = par1;
+		tabLabel = par2Str;
+		creativeTabArray[par1] = this;
 	}
 	
 	public void addEnchantmentBooksToList(List par1List, EnumEnchantmentType ... par2ArrayOfEnumEnchantmentType)
@@ -67,11 +68,42 @@ public class CreativeTabs
 				var5.getSubItems(var5.itemID, this, par1List);
 			}
 		}
+		if(func_111225_m() != null)
+		{
+			addEnchantmentBooksToList(par1List, func_111225_m());
+		}
 	}
 	
 	public boolean drawInForegroundOfTab()
 	{
 		return drawTitle;
+	}
+	
+	public EnumEnchantmentType[] func_111225_m()
+	{
+		return field_111230_s;
+	}
+	
+	public boolean func_111226_a(EnumEnchantmentType par1EnumEnchantmentType)
+	{
+		if(field_111230_s == null) return false;
+		else
+		{
+			EnumEnchantmentType[] var2 = field_111230_s;
+			int var3 = var2.length;
+			for(int var4 = 0; var4 < var3; ++var4)
+			{
+				EnumEnchantmentType var5 = var2[var4];
+				if(var5 == par1EnumEnchantmentType) return true;
+			}
+			return false;
+		}
+	}
+	
+	public CreativeTabs func_111229_a(EnumEnchantmentType ... par1ArrayOfEnumEnchantmentType)
+	{
+		field_111230_s = par1ArrayOfEnumEnchantmentType;
+		return this;
 	}
 	
 	public String getBackgroundImageName()
@@ -106,7 +138,7 @@ public class CreativeTabs
 	
 	public String getTranslatedTabLabel()
 	{
-		return StringTranslate.getInstance().translateKey("itemGroup." + getTabLabel());
+		return "itemGroup." + getTabLabel();
 	}
 	
 	public boolean isTabInFirstRow()
@@ -114,9 +146,9 @@ public class CreativeTabs
 		return tabIndex < 6;
 	}
 	
-	public CreativeTabs setBackgroundImageName(String p_78025_1_)
+	public CreativeTabs setBackgroundImageName(String par1Str)
 	{
-		backgroundImageName = p_78025_1_;
+		backgroundImageName = par1Str;
 		return this;
 	}
 	

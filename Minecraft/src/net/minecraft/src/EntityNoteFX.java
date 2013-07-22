@@ -4,23 +4,23 @@ public class EntityNoteFX extends EntityFX
 {
 	float noteParticleScale;
 	
-	public EntityNoteFX(World p_i3158_1_, double p_i3158_2_, double p_i3158_4_, double p_i3158_6_, double p_i3158_8_, double p_i3158_10_, double p_i3158_12_)
+	public EntityNoteFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		this(p_i3158_1_, p_i3158_2_, p_i3158_4_, p_i3158_6_, p_i3158_8_, p_i3158_10_, p_i3158_12_, 2.0F);
+		this(par1World, par2, par4, par6, par8, par10, par12, 2.0F);
 	}
 	
-	public EntityNoteFX(World p_i3159_1_, double p_i3159_2_, double p_i3159_4_, double p_i3159_6_, double p_i3159_8_, double p_i3159_10_, double p_i3159_12_, float p_i3159_14_)
+	public EntityNoteFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, float par14)
 	{
-		super(p_i3159_1_, p_i3159_2_, p_i3159_4_, p_i3159_6_, 0.0D, 0.0D, 0.0D);
+		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
 		motionX *= 0.009999999776482582D;
 		motionY *= 0.009999999776482582D;
 		motionZ *= 0.009999999776482582D;
 		motionY += 0.2D;
-		particleRed = MathHelper.sin(((float) p_i3159_8_ + 0.0F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
-		particleGreen = MathHelper.sin(((float) p_i3159_8_ + 0.33333334F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
-		particleBlue = MathHelper.sin(((float) p_i3159_8_ + 0.6666667F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
+		particleRed = MathHelper.sin(((float) par8 + 0.0F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
+		particleGreen = MathHelper.sin(((float) par8 + 0.33333334F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
+		particleBlue = MathHelper.sin(((float) par8 + 0.6666667F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
 		particleScale *= 0.75F;
-		particleScale *= p_i3159_14_;
+		particleScale *= par14;
 		noteParticleScale = particleScale;
 		particleMaxAge = 6;
 		noClip = false;

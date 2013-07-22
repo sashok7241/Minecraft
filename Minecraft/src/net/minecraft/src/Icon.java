@@ -19,8 +19,4 @@ public interface Icon
 	int getOriginX();
 	
 	int getOriginY();
-	
-	int getSheetHeight();
-	
-	int getSheetWidth();
 }

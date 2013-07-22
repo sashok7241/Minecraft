@@ -6,9 +6,9 @@ class CallableServerType implements Callable
 {
 	final DedicatedServer theDedicatedServer;
 	
-	CallableServerType(DedicatedServer p_i6810_1_)
+	CallableServerType(DedicatedServer par1DedicatedServer)
 	{
-		theDedicatedServer = p_i6810_1_;
+		theDedicatedServer = par1DedicatedServer;
 	}
 	
 	@Override public Object call()

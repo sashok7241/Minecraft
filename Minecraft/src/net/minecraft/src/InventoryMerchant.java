@@ -8,43 +8,43 @@ public class InventoryMerchant implements IInventory
 	private MerchantRecipe currentRecipe;
 	private int currentRecipeIndex;
 	
-	public InventoryMerchant(EntityPlayer p_i3612_1_, IMerchant p_i3612_2_)
+	public InventoryMerchant(EntityPlayer par1EntityPlayer, IMerchant par2IMerchant)
 	{
-		thePlayer = p_i3612_1_;
-		theMerchant = p_i3612_2_;
+		thePlayer = par1EntityPlayer;
+		theMerchant = par2IMerchant;
 	}
 	
 	@Override public void closeChest()
 	{
 	}
 	
-	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
+	@Override public ItemStack decrStackSize(int par1, int par2)
 	{
-		if(theInventory[p_70298_1_] != null)
+		if(theInventory[par1] != null)
 		{
 			ItemStack var3;
-			if(p_70298_1_ == 2)
+			if(par1 == 2)
 			{
-				var3 = theInventory[p_70298_1_];
-				theInventory[p_70298_1_] = null;
+				var3 = theInventory[par1];
+				theInventory[par1] = null;
 				return var3;
-			} else if(theInventory[p_70298_1_].stackSize <= p_70298_2_)
+			} else if(theInventory[par1].stackSize <= par2)
 			{
-				var3 = theInventory[p_70298_1_];
-				theInventory[p_70298_1_] = null;
-				if(inventoryResetNeededOnSlotChange(p_70298_1_))
+				var3 = theInventory[par1];
+				theInventory[par1] = null;
+				if(inventoryResetNeededOnSlotChange(par1))
 				{
 					resetRecipeAndSlots();
 				}
 				return var3;
 			} else
 			{
-				var3 = theInventory[p_70298_1_].splitStack(p_70298_2_);
-				if(theInventory[p_70298_1_].stackSize == 0)
+				var3 = theInventory[par1].splitStack(par2);
+				if(theInventory[par1].stackSize == 0)
 				{
-					theInventory[p_70298_1_] = null;
+					theInventory[par1] = null;
 				}
-				if(inventoryResetNeededOnSlotChange(p_70298_1_))
+				if(inventoryResetNeededOnSlotChange(par1))
 				{
 					resetRecipeAndSlots();
 				}
@@ -73,24 +73,24 @@ public class InventoryMerchant implements IInventory
 		return theInventory.length;
 	}
 	
-	@Override public ItemStack getStackInSlot(int p_70301_1_)
+	@Override public ItemStack getStackInSlot(int par1)
 	{
-		return theInventory[p_70301_1_];
+		return theInventory[par1];
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
+	@Override public ItemStack getStackInSlotOnClosing(int par1)
 	{
-		if(theInventory[p_70304_1_] != null)
+		if(theInventory[par1] != null)
 		{
-			ItemStack var2 = theInventory[p_70304_1_];
-			theInventory[p_70304_1_] = null;
+			ItemStack var2 = theInventory[par1];
+			theInventory[par1] = null;
 			return var2;
 		} else return null;
 	}
 	
-	private boolean inventoryResetNeededOnSlotChange(int p_70469_1_)
+	private boolean inventoryResetNeededOnSlotChange(int par1)
 	{
-		return p_70469_1_ == 0 || p_70469_1_ == 1;
+		return par1 == 0 || par1 == 1;
 	}
 	
 	@Override public boolean isInvNameLocalized()
@@ -98,14 +98,14 @@ public class InventoryMerchant implements IInventory
 		return false;
 	}
 	
-	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
+	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
 	{
 		return true;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
+	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
 	{
-		return theMerchant.getCustomer() == p_70300_1_;
+		return theMerchant.getCustomer() == par1EntityPlayer;
 	}
 	
 	@Override public void onInventoryChanged()
@@ -157,22 +157,23 @@ public class InventoryMerchant implements IInventory
 				}
 			}
 		}
+		theMerchant.func_110297_a_(getStackInSlot(2));
 	}
 	
-	public void setCurrentRecipeIndex(int p_70471_1_)
+	public void setCurrentRecipeIndex(int par1)
 	{
-		currentRecipeIndex = p_70471_1_;
+		currentRecipeIndex = par1;
 		resetRecipeAndSlots();
 	}
 	
-	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
+	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
 	{
-		theInventory[p_70299_1_] = p_70299_2_;
-		if(p_70299_2_ != null && p_70299_2_.stackSize > getInventoryStackLimit())
+		theInventory[par1] = par2ItemStack;
+		if(par2ItemStack != null && par2ItemStack.stackSize > getInventoryStackLimit())
 		{
-			p_70299_2_.stackSize = getInventoryStackLimit();
+			par2ItemStack.stackSize = getInventoryStackLimit();
 		}
-		if(inventoryResetNeededOnSlotChange(p_70299_1_))
+		if(inventoryResetNeededOnSlotChange(par1))
 		{
 			resetRecipeAndSlots();
 		}

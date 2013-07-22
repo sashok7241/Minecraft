@@ -7,12 +7,12 @@ public class GuiEditSign extends GuiScreen
 	protected String screenTitle = "Edit sign message:";
 	private TileEntitySign entitySign;
 	private int updateCounter;
-	private int editLine = 0;
+	private int editLine;
 	private GuiButton doneBtn;
 	
-	public GuiEditSign(TileEntitySign p_i3080_1_)
+	public GuiEditSign(TileEntitySign par1TileEntitySign)
 	{
-		entitySign = p_i3080_1_;
+		entitySign = par1TileEntitySign;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -85,7 +85,7 @@ public class GuiEditSign extends GuiScreen
 		{
 			editLine = editLine - 1 & 3;
 		}
-		if(par2 == 208 || par2 == 28)
+		if(par2 == 208 || par2 == 28 || par2 == 156)
 		{
 			editLine = editLine + 1 & 3;
 		}

@@ -3,6 +3,7 @@ package net.minecraft.src;
 
 public class RenderSnowMan extends RenderLiving
 {
+	private static final ResourceLocation field_110895_a = new ResourceLocation("textures/entity/snowman.png");
 	private ModelSnowMan snowmanModel;
 	
 	public RenderSnowMan()
@@ -12,7 +13,17 @@ public class RenderSnowMan extends RenderLiving
 		setRenderPassModel(snowmanModel);
 	}
 	
-	@Override protected void renderEquippedItems(EntityLiving par1EntityLivingBase, float par2)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110894_a((EntitySnowman) par1Entity);
+	}
+	
+	protected ResourceLocation func_110894_a(EntitySnowman par1EntitySnowman)
+	{
+		return field_110895_a;
+	}
+	
+	@Override protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
 	{
 		renderSnowmanPumpkin((EntitySnowman) par1EntityLivingBase, par2);
 	}

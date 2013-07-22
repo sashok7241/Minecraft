@@ -6,10 +6,10 @@ public class RequestPut extends Request
 {
 	private byte[] field_96369_c;
 	
-	public RequestPut(String p_i10029_1_, byte[] p_i10029_2_, int p_i10029_3_, int p_i10029_4_)
+	public RequestPut(String par1Str, byte[] par2ArrayOfByte, int par3, int par4)
 	{
-		super(p_i10029_1_, p_i10029_3_, p_i10029_4_);
-		field_96369_c = p_i10029_2_;
+		super(par1Str, par3, par4);
+		field_96369_c = par2ArrayOfByte;
 	}
 	
 	@Override public Request func_96359_e()

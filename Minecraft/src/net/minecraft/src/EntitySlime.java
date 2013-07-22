@@ -2,16 +2,14 @@ package net.minecraft.src;
 
 public class EntitySlime extends EntityLiving implements IMob
 {
-	private static final float[] spawnChances = new float[] { 1.0F, 0.75F, 0.5F, 0.25F, 0.0F, 0.25F, 0.5F, 0.75F };
 	public float field_70813_a;
 	public float field_70811_b;
 	public float field_70812_c;
-	private int slimeJumpDelay = 0;
+	private int slimeJumpDelay;
 	
-	public EntitySlime(World p_i3556_1_)
+	public EntitySlime(World par1World)
 	{
-		super(p_i3556_1_);
-		texture = "/mob/slime.png";
+		super(par1World);
 		int var2 = 1 << rand.nextInt(3);
 		yOffset = 0.0F;
 		slimeJumpDelay = rand.nextInt(20) + 10;
@@ -53,7 +51,7 @@ public class EntitySlime extends EntityLiving implements IMob
 			if(getSlimeSize() == 1 || worldObj.difficultySetting > 0)
 			{
 				BiomeGenBase var2 = worldObj.getBiomeGenForCoords(MathHelper.floor_double(posX), MathHelper.floor_double(posZ));
-				if(var2 == BiomeGenBase.swampland && posY > 50.0D && posY < 70.0D && rand.nextFloat() < 0.5F && rand.nextFloat() < spawnChances[worldObj.getMoonPhase()] && worldObj.getBlockLightValue(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) <= rand.nextInt(8)) return super.getCanSpawnHere();
+				if(var2 == BiomeGenBase.swampland && posY > 50.0D && posY < 70.0D && rand.nextFloat() < 0.5F && rand.nextFloat() < worldObj.func_130001_d() && worldObj.getBlockLightValue(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)) <= rand.nextInt(8)) return super.getCanSpawnHere();
 				if(rand.nextInt(10) == 0 && var1.getRandomWithSeed(987234911L).nextInt(10) == 0 && posY < 40.0D) return super.getCanSpawnHere();
 			}
 			return false;
@@ -83,12 +81,6 @@ public class EntitySlime extends EntityLiving implements IMob
 	protected String getJumpSound()
 	{
 		return "mob.slime." + (getSlimeSize() > 1 ? "big" : "small");
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		int var1 = getSlimeSize();
-		return var1 * var1;
 	}
 	
 	protected String getSlimeParticle()
@@ -121,12 +113,12 @@ public class EntitySlime extends EntityLiving implements IMob
 		return getSlimeSize() > 2;
 	}
 	
-	@Override public void onCollideWithPlayer(EntityPlayer p_70100_1_)
+	@Override public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
 	{
 		if(canDamagePlayer())
 		{
 			int var2 = getSlimeSize();
-			if(canEntityBeSeen(p_70100_1_) && getDistanceSqToEntity(p_70100_1_) < 0.6D * var2 * 0.6D * var2 && p_70100_1_.attackEntityFrom(DamageSource.causeMobDamage(this), getAttackStrength()))
+			if(canEntityBeSeen(par1EntityPlayer) && getDistanceSqToEntity(par1EntityPlayer) < 0.6D * var2 * 0.6D * var2 && par1EntityPlayer.attackEntityFrom(DamageSource.causeMobDamage(this), getAttackStrength()))
 			{
 				playSound("mob.attack", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 			}
@@ -172,16 +164,16 @@ public class EntitySlime extends EntityLiving implements IMob
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		setSlimeSize(p_70037_1_.getInteger("Size") + 1);
+		super.readEntityFromNBT(par1NBTTagCompound);
+		setSlimeSize(par1NBTTagCompound.getInteger("Size") + 1);
 	}
 	
 	@Override public void setDead()
 	{
 		int var1 = getSlimeSize();
-		if(!worldObj.isRemote && var1 > 1 && getHealth() <= 0)
+		if(!worldObj.isRemote && var1 > 1 && func_110143_aJ() <= 0.0F)
 		{
 			int var2 = 2 + rand.nextInt(3);
 			for(int var3 = 0; var3 < var2; ++var3)
@@ -197,13 +189,14 @@ public class EntitySlime extends EntityLiving implements IMob
 		super.setDead();
 	}
 	
-	protected void setSlimeSize(int p_70799_1_)
+	protected void setSlimeSize(int par1)
 	{
-		dataWatcher.updateObject(16, new Byte((byte) p_70799_1_));
-		setSize(0.6F * p_70799_1_, 0.6F * p_70799_1_);
+		dataWatcher.updateObject(16, new Byte((byte) par1));
+		setSize(0.6F * par1, 0.6F * par1);
 		setPosition(posX, posY, posZ);
-		setEntityHealth(getMaxHealth());
-		experienceValue = p_70799_1_;
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(par1 * par1);
+		setEntityHealth(func_110138_aP());
+		experienceValue = par1;
 	}
 	
 	@Override protected void updateEntityActionState()
@@ -238,9 +231,9 @@ public class EntitySlime extends EntityLiving implements IMob
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setInteger("Size", getSlimeSize() - 1);
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setInteger("Size", getSlimeSize() - 1);
 	}
 }

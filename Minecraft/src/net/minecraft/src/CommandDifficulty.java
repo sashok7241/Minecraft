@@ -8,9 +8,9 @@ public class CommandDifficulty extends CommandBase
 {
 	private static final String[] difficulties = new String[] { "options.difficulty.peaceful", "options.difficulty.easy", "options.difficulty.normal", "options.difficulty.hard" };
 	
-	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
+	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		return p_71516_2_.length == 1 ? getListOfStringsMatchingLastWord(p_71516_2_, new String[] { "peaceful", "easy", "normal", "hard" }) : null;
+		return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] { "peaceful", "easy", "normal", "hard" }) : null;
 	}
 	
 	@Override public String getCommandName()
@@ -18,14 +18,14 @@ public class CommandDifficulty extends CommandBase
 		return "difficulty";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender p_71518_1_)
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return p_71518_1_.translateString("commands.difficulty.usage", new Object[0]);
+		return "commands.difficulty.usage";
 	}
 	
-	protected int getDifficultyForName(ICommandSender p_82364_1_, String p_82364_2_)
+	protected int getDifficultyForName(ICommandSender par1ICommandSender, String par2Str)
 	{
-		return !p_82364_2_.equalsIgnoreCase("peaceful") && !p_82364_2_.equalsIgnoreCase("p") ? !p_82364_2_.equalsIgnoreCase("easy") && !p_82364_2_.equalsIgnoreCase("e") ? !p_82364_2_.equalsIgnoreCase("normal") && !p_82364_2_.equalsIgnoreCase("n") ? !p_82364_2_.equalsIgnoreCase("hard") && !p_82364_2_.equalsIgnoreCase("h") ? parseIntBounded(p_82364_1_, p_82364_2_, 0, 3) : 3 : 2 : 1 : 0;
+		return !par2Str.equalsIgnoreCase("peaceful") && !par2Str.equalsIgnoreCase("p") ? !par2Str.equalsIgnoreCase("easy") && !par2Str.equalsIgnoreCase("e") ? !par2Str.equalsIgnoreCase("normal") && !par2Str.equalsIgnoreCase("n") ? !par2Str.equalsIgnoreCase("hard") && !par2Str.equalsIgnoreCase("h") ? parseIntBounded(par1ICommandSender, par2Str, 0, 3) : 3 : 2 : 1 : 0;
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -33,14 +33,13 @@ public class CommandDifficulty extends CommandBase
 		return 2;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		if(p_71515_2_.length > 0)
+		if(par2ArrayOfStr.length > 0)
 		{
-			int var3 = getDifficultyForName(p_71515_1_, p_71515_2_[0]);
+			int var3 = getDifficultyForName(par1ICommandSender, par2ArrayOfStr[0]);
 			MinecraftServer.getServer().setDifficultyForAllWorlds(var3);
-			String var4 = StatCollector.translateToLocal(difficulties[var3]);
-			notifyAdmins(p_71515_1_, "commands.difficulty.success", new Object[] { var4 });
+			notifyAdmins(par1ICommandSender, "commands.difficulty.success", new Object[] { ChatMessageComponent.func_111077_e(difficulties[var3]) });
 		} else throw new WrongUsageException("commands.difficulty.usage", new Object[0]);
 	}
 }

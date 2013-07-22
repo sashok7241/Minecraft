@@ -21,19 +21,24 @@ public class NetLoginHandler extends NetHandler
 	private byte[] verifyToken;
 	private final MinecraftServer mcServer;
 	public final TcpConnection myTCPConnection;
-	public boolean connectionComplete = false;
-	private int connectionTimer = 0;
-	private String clientUsername = null;
-	private volatile boolean field_72544_i = false;
+	public boolean connectionComplete;
+	private int connectionTimer;
+	private String clientUsername;
+	private volatile boolean field_72544_i;
 	private String loginServerId = "";
-	private boolean field_92079_k = false;
-	private SecretKey sharedKey = null;
+	private boolean field_92079_k;
+	private SecretKey sharedKey;
 	
-	public NetLoginHandler(MinecraftServer p_i3400_1_, Socket p_i3400_2_, String p_i3400_3_) throws IOException
+	public NetLoginHandler(MinecraftServer par1MinecraftServer, Socket par2Socket, String par3Str) throws IOException
 	{
-		mcServer = p_i3400_1_;
-		myTCPConnection = new TcpConnection(p_i3400_1_.getLogAgent(), p_i3400_2_, p_i3400_3_, this, p_i3400_1_.getKeyPair().getPrivate());
+		mcServer = par1MinecraftServer;
+		myTCPConnection = new TcpConnection(par1MinecraftServer.getLogAgent(), par2Socket, par3Str, this, par1MinecraftServer.getKeyPair().getPrivate());
 		myTCPConnection.field_74468_e = 0;
+	}
+	
+	@Override public boolean func_142032_c()
+	{
+		return connectionComplete;
 	}
 	
 	public String getUsernameAndAddress()
@@ -41,9 +46,9 @@ public class NetLoginHandler extends NetHandler
 		return clientUsername != null ? clientUsername + " [" + myTCPConnection.getSocketAddress().toString() + "]" : myTCPConnection.getSocketAddress().toString();
 	}
 	
-	@Override public void handleClientCommand(Packet205ClientCommand p_72458_1_)
+	@Override public void handleClientCommand(Packet205ClientCommand par1Packet205ClientCommand)
 	{
-		if(p_72458_1_.forceRespawn == 0)
+		if(par1Packet205ClientCommand.forceRespawn == 0)
 		{
 			if(field_92079_k)
 			{
@@ -61,18 +66,18 @@ public class NetLoginHandler extends NetHandler
 		}
 	}
 	
-	@Override public void handleClientProtocol(Packet2ClientProtocol p_72500_1_)
+	@Override public void handleClientProtocol(Packet2ClientProtocol par1Packet2ClientProtocol)
 	{
-		clientUsername = p_72500_1_.getUsername();
+		clientUsername = par1Packet2ClientProtocol.getUsername();
 		if(!clientUsername.equals(StringUtils.stripControlCodes(clientUsername)))
 		{
 			raiseErrorAndDisconnect("Invalid username!");
 		} else
 		{
 			PublicKey var2 = mcServer.getKeyPair().getPublic();
-			if(p_72500_1_.getProtocolVersion() != 61)
+			if(par1Packet2ClientProtocol.getProtocolVersion() != 74)
 			{
-				if(p_72500_1_.getProtocolVersion() > 61)
+				if(par1Packet2ClientProtocol.getProtocolVersion() > 74)
 				{
 					raiseErrorAndDisconnect("Outdated server!");
 				} else
@@ -89,25 +94,28 @@ public class NetLoginHandler extends NetHandler
 		}
 	}
 	
-	@Override public void handleErrorMessage(String p_72515_1_, Object[] p_72515_2_)
+	@Override public void handleErrorMessage(String par1Str, Object[] par2ArrayOfObj)
 	{
 		mcServer.getLogAgent().logInfo(getUsernameAndAddress() + " lost connection");
 		connectionComplete = true;
 	}
 	
-	@Override public void handleLogin(Packet1Login p_72455_1_)
+	@Override public void handleLogin(Packet1Login par1Packet1Login)
 	{
 	}
 	
-	@Override public void handleServerPing(Packet254ServerPing p_72467_1_)
+	@Override public void handleServerPing(Packet254ServerPing par1Packet254ServerPing)
 	{
 		try
 		{
 			ServerConfigurationManager var2 = mcServer.getConfigurationManager();
 			String var3 = null;
-			if(p_72467_1_.readSuccessfully == 1)
+			if(par1Packet254ServerPing.func_140050_d())
 			{
-				List var4 = Arrays.asList(new Serializable[] { Integer.valueOf(1), Integer.valueOf(61), mcServer.getMinecraftVersion(), mcServer.getMOTD(), Integer.valueOf(var2.getCurrentPlayerCount()), Integer.valueOf(var2.getMaxPlayers()) });
+				var3 = mcServer.getMOTD() + "\u00a7" + var2.getCurrentPlayerCount() + "\u00a7" + var2.getMaxPlayers();
+			} else
+			{
+				List var4 = Arrays.asList(new Serializable[] { Integer.valueOf(1), Integer.valueOf(74), mcServer.getMinecraftVersion(), mcServer.getMOTD(), Integer.valueOf(var2.getCurrentPlayerCount()), Integer.valueOf(var2.getMaxPlayers()) });
 				Object var6;
 				for(Iterator var5 = var4.iterator(); var5.hasNext(); var3 = var3 + var6.toString().replaceAll("\u0000", ""))
 				{
@@ -120,9 +128,6 @@ public class NetLoginHandler extends NetHandler
 						var3 = var3 + "\u0000";
 					}
 				}
-			} else
-			{
-				var3 = mcServer.getMOTD() + "\u00a7" + var2.getCurrentPlayerCount() + "\u00a7" + var2.getMaxPlayers();
 			}
 			InetAddress var8 = null;
 			if(myTCPConnection.getSocket() != null)
@@ -142,11 +147,11 @@ public class NetLoginHandler extends NetHandler
 		}
 	}
 	
-	@Override public void handleSharedKey(Packet252SharedKey p_72513_1_)
+	@Override public void handleSharedKey(Packet252SharedKey par1Packet252SharedKey)
 	{
 		PrivateKey var2 = mcServer.getKeyPair().getPrivate();
-		sharedKey = p_72513_1_.getSharedKey(var2);
-		if(!Arrays.equals(verifyToken, p_72513_1_.getVerifyToken(var2)))
+		sharedKey = par1Packet252SharedKey.getSharedKey(var2);
+		if(!Arrays.equals(verifyToken, par1Packet252SharedKey.getVerifyToken(var2)))
 		{
 			raiseErrorAndDisconnect("Invalid client reply");
 		}
@@ -175,12 +180,12 @@ public class NetLoginHandler extends NetHandler
 		return true;
 	}
 	
-	public void raiseErrorAndDisconnect(String p_72527_1_)
+	public void raiseErrorAndDisconnect(String par1Str)
 	{
 		try
 		{
-			mcServer.getLogAgent().logInfo("Disconnecting " + getUsernameAndAddress() + ": " + p_72527_1_);
-			myTCPConnection.addToSendQueue(new Packet255KickDisconnect(p_72527_1_));
+			mcServer.getLogAgent().logInfo("Disconnecting " + getUsernameAndAddress() + ": " + par1Str);
+			myTCPConnection.addToSendQueue(new Packet255KickDisconnect(par1Str));
 			myTCPConnection.serverShutdown();
 			connectionComplete = true;
 		} catch(Exception var3)
@@ -204,33 +209,33 @@ public class NetLoginHandler extends NetHandler
 		}
 	}
 	
-	@Override public void unexpectedPacket(Packet p_72509_1_)
+	@Override public void unexpectedPacket(Packet par1Packet)
 	{
 		raiseErrorAndDisconnect("Protocol error");
 	}
 	
-	static boolean func_72531_a(NetLoginHandler p_72531_0_, boolean p_72531_1_)
+	static boolean func_72531_a(NetLoginHandler par0NetLoginHandler, boolean par1)
 	{
-		return p_72531_0_.field_72544_i = p_72531_1_;
+		return par0NetLoginHandler.field_72544_i = par1;
 	}
 	
-	static String getClientUsername(NetLoginHandler p_72533_0_)
+	static String getClientUsername(NetLoginHandler par0NetLoginHandler)
 	{
-		return p_72533_0_.clientUsername;
+		return par0NetLoginHandler.clientUsername;
 	}
 	
-	static MinecraftServer getLoginMinecraftServer(NetLoginHandler p_72530_0_)
+	static MinecraftServer getLoginMinecraftServer(NetLoginHandler par0NetLoginHandler)
 	{
-		return p_72530_0_.mcServer;
+		return par0NetLoginHandler.mcServer;
 	}
 	
-	static String getServerId(NetLoginHandler p_72526_0_)
+	static String getServerId(NetLoginHandler par0NetLoginHandler)
 	{
-		return p_72526_0_.loginServerId;
+		return par0NetLoginHandler.loginServerId;
 	}
 	
-	static SecretKey getSharedKey(NetLoginHandler p_72525_0_)
+	static SecretKey getSharedKey(NetLoginHandler par0NetLoginHandler)
 	{
-		return p_72525_0_.sharedKey;
+		return par0NetLoginHandler.sharedKey;
 	}
 }

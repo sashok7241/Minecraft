@@ -6,9 +6,9 @@ class CallableLevelSpawnLocation implements Callable
 {
 	final WorldInfo worldInfoInstance;
 	
-	CallableLevelSpawnLocation(WorldInfo p_i6823_1_)
+	CallableLevelSpawnLocation(WorldInfo par1WorldInfo)
 	{
-		worldInfoInstance = p_i6823_1_;
+		worldInfoInstance = par1WorldInfo;
 	}
 	
 	@Override public Object call()

@@ -1,28 +1,30 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet39AttachEntity extends Packet
 {
-	public int entityId;
+	public int field_111007_a;
+	public int field_111006_b;
 	public int vehicleEntityId;
 	
 	public Packet39AttachEntity()
 	{
 	}
 	
-	public Packet39AttachEntity(Entity p_i3353_1_, Entity p_i3353_2_)
+	public Packet39AttachEntity(int par1, Entity par2Entity, Entity par3Entity)
 	{
-		entityId = p_i3353_1_.entityId;
-		vehicleEntityId = p_i3353_2_ != null ? p_i3353_2_.entityId : -1;
+		field_111007_a = par1;
+		field_111006_b = par2Entity.entityId;
+		vehicleEntityId = par3Entity != null ? par3Entity.entityId : -1;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
+	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
 	{
-		Packet39AttachEntity var2 = (Packet39AttachEntity) p_73268_1_;
-		return var2.entityId == entityId;
+		Packet39AttachEntity var2 = (Packet39AttachEntity) par1Packet;
+		return var2.field_111006_b == field_111006_b;
 	}
 	
 	@Override public int getPacketSize()
@@ -35,20 +37,22 @@ public class Packet39AttachEntity extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleAttachEntity(this);
+		par1NetHandler.handleAttachEntity(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = p_73267_1_.readInt();
-		vehicleEntityId = p_73267_1_.readInt();
+		field_111006_b = par1DataInput.readInt();
+		vehicleEntityId = par1DataInput.readInt();
+		field_111007_a = par1DataInput.readUnsignedByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(entityId);
-		p_73273_1_.writeInt(vehicleEntityId);
+		par1DataOutput.writeInt(field_111006_b);
+		par1DataOutput.writeInt(vehicleEntityId);
+		par1DataOutput.writeByte(field_111007_a);
 	}
 }

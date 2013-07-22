@@ -2,15 +2,15 @@ package net.minecraft.src;
 
 public class EnchantmentArrowKnockback extends Enchantment
 {
-	public EnchantmentArrowKnockback(int p_i3705_1_, int p_i3705_2_)
+	public EnchantmentArrowKnockback(int par1, int par2)
 	{
-		super(p_i3705_1_, p_i3705_2_, EnumEnchantmentType.bow);
+		super(par1, par2, EnumEnchantmentType.bow);
 		setName("arrowKnockback");
 	}
 	
-	@Override public int getMaxEnchantability(int p_77317_1_)
+	@Override public int getMaxEnchantability(int par1)
 	{
-		return getMinEnchantability(p_77317_1_) + 25;
+		return getMinEnchantability(par1) + 25;
 	}
 	
 	@Override public int getMaxLevel()
@@ -18,8 +18,8 @@ public class EnchantmentArrowKnockback extends Enchantment
 		return 2;
 	}
 	
-	@Override public int getMinEnchantability(int p_77321_1_)
+	@Override public int getMinEnchantability(int par1)
 	{
-		return 12 + (p_77321_1_ - 1) * 20;
+		return 12 + (par1 - 1) * 20;
 	}
 }

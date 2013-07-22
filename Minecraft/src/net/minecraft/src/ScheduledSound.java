@@ -10,14 +10,14 @@ class ScheduledSound
 	float field_92063_f;
 	int field_92064_g;
 	
-	public ScheduledSound(String p_i8000_1_, float p_i8000_2_, float p_i8000_3_, float p_i8000_4_, float p_i8000_5_, float p_i8000_6_, int p_i8000_7_)
+	public ScheduledSound(String par1Str, float par2, float par3, float par4, float par5, float par6, int par7)
 	{
-		field_92069_a = p_i8000_1_;
-		field_92067_b = p_i8000_2_;
-		field_92068_c = p_i8000_3_;
-		field_92065_d = p_i8000_4_;
-		field_92066_e = p_i8000_5_;
-		field_92063_f = p_i8000_6_;
-		field_92064_g = p_i8000_7_;
+		field_92069_a = par1Str;
+		field_92067_b = par2;
+		field_92068_c = par3;
+		field_92065_d = par4;
+		field_92066_e = par5;
+		field_92063_f = par6;
+		field_92064_g = par7;
 	}
 }

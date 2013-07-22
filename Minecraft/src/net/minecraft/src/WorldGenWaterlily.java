@@ -4,16 +4,16 @@ import java.util.Random;
 
 public class WorldGenWaterlily extends WorldGenerator
 {
-	@Override public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_)
+	@Override public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
 	{
 		for(int var6 = 0; var6 < 10; ++var6)
 		{
-			int var7 = p_76484_3_ + p_76484_2_.nextInt(8) - p_76484_2_.nextInt(8);
-			int var8 = p_76484_4_ + p_76484_2_.nextInt(4) - p_76484_2_.nextInt(4);
-			int var9 = p_76484_5_ + p_76484_2_.nextInt(8) - p_76484_2_.nextInt(8);
-			if(p_76484_1_.isAirBlock(var7, var8, var9) && Block.waterlily.canPlaceBlockAt(p_76484_1_, var7, var8, var9))
+			int var7 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
+			int var8 = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
+			int var9 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
+			if(par1World.isAirBlock(var7, var8, var9) && Block.waterlily.canPlaceBlockAt(par1World, var7, var8, var9))
 			{
-				p_76484_1_.setBlock(var7, var8, var9, Block.waterlily.blockID, 0, 2);
+				par1World.setBlock(var7, var8, var9, Block.waterlily.blockID, 0, 2);
 			}
 		}
 		return true;

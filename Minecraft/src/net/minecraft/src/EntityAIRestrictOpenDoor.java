@@ -5,9 +5,9 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
 	private EntityCreature entityObj;
 	private VillageDoorInfo frontDoor;
 	
-	public EntityAIRestrictOpenDoor(EntityCreature p_i3490_1_)
+	public EntityAIRestrictOpenDoor(EntityCreature par1EntityCreature)
 	{
-		entityObj = p_i3490_1_;
+		entityObj = par1EntityCreature;
 	}
 	
 	@Override public boolean continueExecuting()

@@ -51,8 +51,10 @@ public class ModelBat extends ModelBase
 	@Override public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
 	{
 		EntityBat var8 = (EntityBat) par1Entity;
+		float var9;
 		if(var8.getIsBatHanging())
 		{
+			var9 = 180F / (float) Math.PI;
 			batHead.rotateAngleX = par6 / (180F / (float) Math.PI);
 			batHead.rotateAngleY = (float) Math.PI - par5 / (180F / (float) Math.PI);
 			batHead.rotateAngleZ = (float) Math.PI;
@@ -68,6 +70,7 @@ public class ModelBat extends ModelBase
 			batOuterLeftWing.rotateAngleY = -batOuterRightWing.rotateAngleY;
 		} else
 		{
+			var9 = 180F / (float) Math.PI;
 			batHead.rotateAngleX = par6 / (180F / (float) Math.PI);
 			batHead.rotateAngleY = par5 / (180F / (float) Math.PI);
 			batHead.rotateAngleZ = 0.0F;

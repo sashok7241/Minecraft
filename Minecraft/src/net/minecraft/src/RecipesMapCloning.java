@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 public class RecipesMapCloning implements IRecipe
 {
-	@Override public ItemStack getCraftingResult(InventoryCrafting p_77572_1_)
+	@Override public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
 	{
 		int var2 = 0;
 		ItemStack var3 = null;
-		for(int var4 = 0; var4 < p_77572_1_.getSizeInventory(); ++var4)
+		for(int var4 = 0; var4 < par1InventoryCrafting.getSizeInventory(); ++var4)
 		{
-			ItemStack var5 = p_77572_1_.getStackInSlot(var4);
+			ItemStack var5 = par1InventoryCrafting.getStackInSlot(var4);
 			if(var5 != null)
 			{
 				if(var5.itemID == Item.map.itemID)
@@ -43,13 +43,13 @@ public class RecipesMapCloning implements IRecipe
 		return 9;
 	}
 	
-	@Override public boolean matches(InventoryCrafting p_77569_1_, World p_77569_2_)
+	@Override public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
 	{
 		int var3 = 0;
 		ItemStack var4 = null;
-		for(int var5 = 0; var5 < p_77569_1_.getSizeInventory(); ++var5)
+		for(int var5 = 0; var5 < par1InventoryCrafting.getSizeInventory(); ++var5)
 		{
-			ItemStack var6 = p_77569_1_.getStackInSlot(var5);
+			ItemStack var6 = par1InventoryCrafting.getStackInSlot(var5);
 			if(var6 != null)
 			{
 				if(var6.itemID == Item.map.itemID)

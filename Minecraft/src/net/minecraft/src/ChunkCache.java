@@ -8,13 +8,13 @@ public class ChunkCache implements IBlockAccess
 	private boolean isEmpty;
 	private World worldObj;
 	
-	public ChunkCache(World p_i22009_1_, int p_i22009_2_, int p_i22009_3_, int p_i22009_4_, int p_i22009_5_, int p_i22009_6_, int p_i22009_7_, int p_i22009_8_)
+	public ChunkCache(World par1World, int par2, int par3, int par4, int par5, int par6, int par7, int par8)
 	{
-		worldObj = p_i22009_1_;
-		chunkX = p_i22009_2_ - p_i22009_8_ >> 4;
-		chunkZ = p_i22009_4_ - p_i22009_8_ >> 4;
-		int var9 = p_i22009_5_ + p_i22009_8_ >> 4;
-		int var10 = p_i22009_7_ + p_i22009_8_ >> 4;
+		worldObj = par1World;
+		chunkX = par2 - par8 >> 4;
+		chunkZ = par4 - par8 >> 4;
+		int var9 = par5 + par8 >> 4;
+		int var10 = par7 + par8 >> 4;
 		chunkArray = new Chunk[var9 - chunkX + 1][var10 - chunkZ + 1];
 		isEmpty = true;
 		int var11;
@@ -24,19 +24,19 @@ public class ChunkCache implements IBlockAccess
 		{
 			for(var12 = chunkZ; var12 <= var10; ++var12)
 			{
-				var13 = p_i22009_1_.getChunkFromChunkCoords(var11, var12);
+				var13 = par1World.getChunkFromChunkCoords(var11, var12);
 				if(var13 != null)
 				{
 					chunkArray[var11 - chunkX][var12 - chunkZ] = var13;
 				}
 			}
 		}
-		for(var11 = p_i22009_2_ >> 4; var11 <= p_i22009_5_ >> 4; ++var11)
+		for(var11 = par2 >> 4; var11 <= par5 >> 4; ++var11)
 		{
-			for(var12 = p_i22009_4_ >> 4; var12 <= p_i22009_7_ >> 4; ++var12)
+			for(var12 = par4 >> 4; var12 <= par7 >> 4; ++var12)
 			{
 				var13 = chunkArray[var11 - chunkX][var12 - chunkZ];
-				if(var13 != null && !var13.getAreLevelsEmpty(p_i22009_3_, p_i22009_6_))
+				if(var13 != null && !var13.getAreLevelsEmpty(par3, par6))
 				{
 					isEmpty = false;
 				}
@@ -44,10 +44,10 @@ public class ChunkCache implements IBlockAccess
 		}
 	}
 	
-	@Override public boolean doesBlockHaveSolidTopSurface(int p_72797_1_, int p_72797_2_, int p_72797_3_)
+	@Override public boolean doesBlockHaveSolidTopSurface(int par1, int par2, int par3)
 	{
-		Block var4 = Block.blocksList[getBlockId(p_72797_1_, p_72797_2_, p_72797_3_)];
-		return worldObj.isBlockTopFacingSurfaceSolid(var4, getBlockMetadata(p_72797_1_, p_72797_2_, p_72797_3_));
+		Block var4 = Block.blocksList[getBlockId(par1, par2, par3)];
+		return worldObj.isBlockTopFacingSurfaceSolid(var4, getBlockMetadata(par1, par2, par3));
 	}
 	
 	@Override public boolean extendedLevelsInChunkCache()
@@ -55,50 +55,50 @@ public class ChunkCache implements IBlockAccess
 		return isEmpty;
 	}
 	
-	@Override public BiomeGenBase getBiomeGenForCoords(int p_72807_1_, int p_72807_2_)
+	@Override public BiomeGenBase getBiomeGenForCoords(int par1, int par2)
 	{
-		return worldObj.getBiomeGenForCoords(p_72807_1_, p_72807_2_);
+		return worldObj.getBiomeGenForCoords(par1, par2);
 	}
 	
-	@Override public int getBlockId(int p_72798_1_, int p_72798_2_, int p_72798_3_)
+	@Override public int getBlockId(int par1, int par2, int par3)
 	{
-		if(p_72798_2_ < 0) return 0;
-		else if(p_72798_2_ >= 256) return 0;
+		if(par2 < 0) return 0;
+		else if(par2 >= 256) return 0;
 		else
 		{
-			int var4 = (p_72798_1_ >> 4) - chunkX;
-			int var5 = (p_72798_3_ >> 4) - chunkZ;
+			int var4 = (par1 >> 4) - chunkX;
+			int var5 = (par3 >> 4) - chunkZ;
 			if(var4 >= 0 && var4 < chunkArray.length && var5 >= 0 && var5 < chunkArray[var4].length)
 			{
 				Chunk var6 = chunkArray[var4][var5];
-				return var6 == null ? 0 : var6.getBlockID(p_72798_1_ & 15, p_72798_2_, p_72798_3_ & 15);
+				return var6 == null ? 0 : var6.getBlockID(par1 & 15, par2, par3 & 15);
 			} else return 0;
 		}
 	}
 	
-	@Override public Material getBlockMaterial(int p_72803_1_, int p_72803_2_, int p_72803_3_)
+	@Override public Material getBlockMaterial(int par1, int par2, int par3)
 	{
-		int var4 = getBlockId(p_72803_1_, p_72803_2_, p_72803_3_);
+		int var4 = getBlockId(par1, par2, par3);
 		return var4 == 0 ? Material.air : Block.blocksList[var4].blockMaterial;
 	}
 	
-	@Override public int getBlockMetadata(int p_72805_1_, int p_72805_2_, int p_72805_3_)
+	@Override public int getBlockMetadata(int par1, int par2, int par3)
 	{
-		if(p_72805_2_ < 0) return 0;
-		else if(p_72805_2_ >= 256) return 0;
+		if(par2 < 0) return 0;
+		else if(par2 >= 256) return 0;
 		else
 		{
-			int var4 = (p_72805_1_ >> 4) - chunkX;
-			int var5 = (p_72805_3_ >> 4) - chunkZ;
-			return chunkArray[var4][var5].getBlockMetadata(p_72805_1_ & 15, p_72805_2_, p_72805_3_ & 15);
+			int var4 = (par1 >> 4) - chunkX;
+			int var5 = (par3 >> 4) - chunkZ;
+			return chunkArray[var4][var5].getBlockMetadata(par1 & 15, par2, par3 & 15);
 		}
 	}
 	
-	@Override public TileEntity getBlockTileEntity(int p_72796_1_, int p_72796_2_, int p_72796_3_)
+	@Override public TileEntity getBlockTileEntity(int par1, int par2, int par3)
 	{
-		int var4 = (p_72796_1_ >> 4) - chunkX;
-		int var5 = (p_72796_3_ >> 4) - chunkZ;
-		return chunkArray[var4][var5].getChunkBlockTileEntity(p_72796_1_ & 15, p_72796_2_, p_72796_3_ & 15);
+		int var4 = (par1 >> 4) - chunkX;
+		int var5 = (par3 >> 4) - chunkZ;
+		return chunkArray[var4][var5].getChunkBlockTileEntity(par1 & 15, par2, par3 & 15);
 	}
 	
 	@Override public float getBrightness(int par1, int par2, int par3, int par4)
@@ -116,9 +116,9 @@ public class ChunkCache implements IBlockAccess
 		return 256;
 	}
 	
-	@Override public float getLightBrightness(int p_72801_1_, int p_72801_2_, int p_72801_3_)
+	@Override public float getLightBrightness(int par1, int par2, int par3)
 	{
-		return worldObj.provider.lightBrightnessTable[getLightValue(p_72801_1_, p_72801_2_, p_72801_3_)];
+		return worldObj.provider.lightBrightnessTable[getLightValue(par1, par2, par3)];
 	}
 	
 	@Override public int getLightBrightnessForSkyBlocks(int par1, int par2, int par3, int par4)
@@ -264,27 +264,27 @@ public class ChunkCache implements IBlockAccess
 		return worldObj.getWorldVec3Pool();
 	}
 	
-	@Override public boolean isAirBlock(int p_72799_1_, int p_72799_2_, int p_72799_3_)
+	@Override public boolean isAirBlock(int par1, int par2, int par3)
 	{
-		Block var4 = Block.blocksList[getBlockId(p_72799_1_, p_72799_2_, p_72799_3_)];
+		Block var4 = Block.blocksList[getBlockId(par1, par2, par3)];
 		return var4 == null;
 	}
 	
-	@Override public boolean isBlockNormalCube(int p_72809_1_, int p_72809_2_, int p_72809_3_)
+	@Override public boolean isBlockNormalCube(int par1, int par2, int par3)
 	{
-		Block var4 = Block.blocksList[getBlockId(p_72809_1_, p_72809_2_, p_72809_3_)];
+		Block var4 = Block.blocksList[getBlockId(par1, par2, par3)];
 		return var4 == null ? false : var4.blockMaterial.blocksMovement() && var4.renderAsNormalBlock();
 	}
 	
-	@Override public boolean isBlockOpaqueCube(int p_72804_1_, int p_72804_2_, int p_72804_3_)
+	@Override public boolean isBlockOpaqueCube(int par1, int par2, int par3)
 	{
-		Block var4 = Block.blocksList[getBlockId(p_72804_1_, p_72804_2_, p_72804_3_)];
+		Block var4 = Block.blocksList[getBlockId(par1, par2, par3)];
 		return var4 == null ? false : var4.isOpaqueCube();
 	}
 	
-	@Override public int isBlockProvidingPowerTo(int p_72879_1_, int p_72879_2_, int p_72879_3_, int p_72879_4_)
+	@Override public int isBlockProvidingPowerTo(int par1, int par2, int par3, int par4)
 	{
-		int var5 = getBlockId(p_72879_1_, p_72879_2_, p_72879_3_);
-		return var5 == 0 ? 0 : Block.blocksList[var5].isProvidingStrongPower(this, p_72879_1_, p_72879_2_, p_72879_3_, p_72879_4_);
+		int var5 = getBlockId(par1, par2, par3);
+		return var5 == 0 ? 0 : Block.blocksList[var5].isProvidingStrongPower(this, par1, par2, par3, par4);
 	}
 }

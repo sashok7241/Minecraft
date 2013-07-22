@@ -2,27 +2,27 @@ package net.minecraft.src;
 
 public abstract class BlockContainer extends Block implements ITileEntityProvider
 {
-	protected BlockContainer(int p_i10059_1_, Material p_i10059_2_)
+	protected BlockContainer(int par1, Material par2Material)
 	{
-		super(p_i10059_1_, p_i10059_2_);
+		super(par1, par2Material);
 		isBlockContainer = true;
 	}
 	
-	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
+	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
 	{
-		super.breakBlock(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_, p_71852_6_);
-		p_71852_1_.removeBlockTileEntity(p_71852_2_, p_71852_3_, p_71852_4_);
+		super.breakBlock(par1World, par2, par3, par4, par5, par6);
+		par1World.removeBlockTileEntity(par2, par3, par4);
 	}
 	
-	@Override public void onBlockAdded(World p_71861_1_, int p_71861_2_, int p_71861_3_, int p_71861_4_)
+	@Override public void onBlockAdded(World par1World, int par2, int par3, int par4)
 	{
-		super.onBlockAdded(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_);
+		super.onBlockAdded(par1World, par2, par3, par4);
 	}
 	
-	@Override public boolean onBlockEventReceived(World p_71883_1_, int p_71883_2_, int p_71883_3_, int p_71883_4_, int p_71883_5_, int p_71883_6_)
+	@Override public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6)
 	{
-		super.onBlockEventReceived(p_71883_1_, p_71883_2_, p_71883_3_, p_71883_4_, p_71883_5_, p_71883_6_);
-		TileEntity var7 = p_71883_1_.getBlockTileEntity(p_71883_2_, p_71883_3_, p_71883_4_);
-		return var7 != null ? var7.receiveClientEvent(p_71883_5_, p_71883_6_) : false;
+		super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
+		TileEntity var7 = par1World.getBlockTileEntity(par2, par3, par4);
+		return var7 != null ? var7.receiveClientEvent(par5, par6) : false;
 	}
 }

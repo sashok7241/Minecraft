@@ -9,15 +9,20 @@ public class CommandToggleDownfall extends CommandBase
 		return "toggledownfall";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.downfall.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 2;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
 		toggleDownfall();
-		notifyAdmins(p_71515_1_, "commands.downfall.success", new Object[0]);
+		notifyAdmins(par1ICommandSender, "commands.downfall.success", new Object[0]);
 	}
 	
 	protected void toggleDownfall()

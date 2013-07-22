@@ -8,9 +8,9 @@ public class MD5String
 {
 	private String salt;
 	
-	public MD5String(String p_i3417_1_)
+	public MD5String(String par1Str)
 	{
-		salt = p_i3417_1_;
+		salt = par1Str;
 	}
 	
 	public String getMD5String(String par1Str)

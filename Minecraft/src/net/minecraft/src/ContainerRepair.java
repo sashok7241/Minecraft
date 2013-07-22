@@ -6,54 +6,54 @@ import java.util.Map;
 public class ContainerRepair extends Container
 {
 	private IInventory outputSlot = new InventoryCraftResult();
-	private IInventory inputSlots = new InventoryRepair(this, "Repair", true, 2);
+	private IInventory inputSlots = new ContainerRepairINNER1(this, "Repair", true, 2);
 	private World theWorld;
 	private int field_82861_i;
 	private int field_82858_j;
 	private int field_82859_k;
-	public int maximumCost = 0;
-	private int stackSizeToBeUsedInRepair = 0;
+	public int maximumCost;
+	private int stackSizeToBeUsedInRepair;
 	private String repairedItemName;
 	private final EntityPlayer thePlayer;
 	
-	public ContainerRepair(InventoryPlayer p_i5080_1_, World p_i5080_2_, int p_i5080_3_, int p_i5080_4_, int p_i5080_5_, EntityPlayer p_i5080_6_)
+	public ContainerRepair(InventoryPlayer par1InventoryPlayer, World par2World, int par3, int par4, int par5, EntityPlayer par6EntityPlayer)
 	{
-		theWorld = p_i5080_2_;
-		field_82861_i = p_i5080_3_;
-		field_82858_j = p_i5080_4_;
-		field_82859_k = p_i5080_5_;
-		thePlayer = p_i5080_6_;
+		theWorld = par2World;
+		field_82861_i = par3;
+		field_82858_j = par4;
+		field_82859_k = par5;
+		thePlayer = par6EntityPlayer;
 		addSlotToContainer(new Slot(inputSlots, 0, 27, 47));
 		addSlotToContainer(new Slot(inputSlots, 1, 76, 47));
-		addSlotToContainer(new SlotRepair(this, outputSlot, 2, 134, 47, p_i5080_2_, p_i5080_3_, p_i5080_4_, p_i5080_5_));
+		addSlotToContainer(new ContainerRepairINNER2(this, outputSlot, 2, 134, 47, par2World, par3, par4, par5));
 		int var7;
 		for(var7 = 0; var7 < 3; ++var7)
 		{
 			for(int var8 = 0; var8 < 9; ++var8)
 			{
-				addSlotToContainer(new Slot(p_i5080_1_, var8 + var7 * 9 + 9, 8 + var8 * 18, 84 + var7 * 18));
+				addSlotToContainer(new Slot(par1InventoryPlayer, var8 + var7 * 9 + 9, 8 + var8 * 18, 84 + var7 * 18));
 			}
 		}
 		for(var7 = 0; var7 < 9; ++var7)
 		{
-			addSlotToContainer(new Slot(p_i5080_1_, var7, 8 + var7 * 18, 142));
+			addSlotToContainer(new Slot(par1InventoryPlayer, var7, 8 + var7 * 18, 142));
 		}
 	}
 	
-	@Override public void addCraftingToCrafters(ICrafting p_75132_1_)
+	@Override public void addCraftingToCrafters(ICrafting par1ICrafting)
 	{
-		super.addCraftingToCrafters(p_75132_1_);
-		p_75132_1_.sendProgressBarUpdate(this, 0, maximumCost);
+		super.addCraftingToCrafters(par1ICrafting);
+		par1ICrafting.sendProgressBarUpdate(this, 0, maximumCost);
 	}
 	
-	@Override public boolean canInteractWith(EntityPlayer p_75145_1_)
+	@Override public boolean canInteractWith(EntityPlayer par1EntityPlayer)
 	{
-		return theWorld.getBlockId(field_82861_i, field_82858_j, field_82859_k) != Block.anvil.blockID ? false : p_75145_1_.getDistanceSq(field_82861_i + 0.5D, field_82858_j + 0.5D, field_82859_k + 0.5D) <= 64.0D;
+		return theWorld.getBlockId(field_82861_i, field_82858_j, field_82859_k) != Block.anvil.blockID ? false : par1EntityPlayer.getDistanceSq(field_82861_i + 0.5D, field_82858_j + 0.5D, field_82859_k + 0.5D) <= 64.0D;
 	}
 	
-	@Override public void onContainerClosed(EntityPlayer p_75134_1_)
+	@Override public void onContainerClosed(EntityPlayer par1EntityPlayer)
 	{
-		super.onContainerClosed(p_75134_1_);
+		super.onContainerClosed(par1EntityPlayer);
 		if(!theWorld.isRemote)
 		{
 			for(int var2 = 0; var2 < inputSlots.getSizeInventory(); ++var2)
@@ -61,36 +61,36 @@ public class ContainerRepair extends Container
 				ItemStack var3 = inputSlots.getStackInSlotOnClosing(var2);
 				if(var3 != null)
 				{
-					p_75134_1_.dropPlayerItem(var3);
+					par1EntityPlayer.dropPlayerItem(var3);
 				}
 			}
 		}
 	}
 	
-	@Override public void onCraftMatrixChanged(IInventory p_75130_1_)
+	@Override public void onCraftMatrixChanged(IInventory par1IInventory)
 	{
-		super.onCraftMatrixChanged(p_75130_1_);
-		if(p_75130_1_ == inputSlots)
+		super.onCraftMatrixChanged(par1IInventory);
+		if(par1IInventory == inputSlots)
 		{
 			updateRepairOutput();
 		}
 	}
 	
-	@Override public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
+	@Override public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
 	{
 		ItemStack var3 = null;
-		Slot var4 = (Slot) inventorySlots.get(p_82846_2_);
+		Slot var4 = (Slot) inventorySlots.get(par2);
 		if(var4 != null && var4.getHasStack())
 		{
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			if(p_82846_2_ == 2)
+			if(par2 == 2)
 			{
 				if(!mergeItemStack(var5, 3, 39, true)) return null;
 				var4.onSlotChange(var5, var3);
-			} else if(p_82846_2_ != 0 && p_82846_2_ != 1)
+			} else if(par2 != 0 && par2 != 1)
 			{
-				if(p_82846_2_ >= 3 && p_82846_2_ < 39 && !mergeItemStack(var5, 0, 2, false)) return null;
+				if(par2 >= 3 && par2 < 39 && !mergeItemStack(var5, 0, 2, false)) return null;
 			} else if(!mergeItemStack(var5, 3, 39, false)) return null;
 			if(var5.stackSize == 0)
 			{
@@ -100,17 +100,24 @@ public class ContainerRepair extends Container
 				var4.onSlotChanged();
 			}
 			if(var5.stackSize == var3.stackSize) return null;
-			var4.onPickupFromSlot(p_82846_1_, var5);
+			var4.onPickupFromSlot(par1EntityPlayer, var5);
 		}
 		return var3;
 	}
 	
-	public void updateItemName(String p_82850_1_)
+	public void updateItemName(String par1Str)
 	{
-		repairedItemName = p_82850_1_;
+		repairedItemName = par1Str;
 		if(getSlot(2).getHasStack())
 		{
-			getSlot(2).getStack().setItemName(repairedItemName);
+			ItemStack var2 = getSlot(2).getStack();
+			if(org.apache.commons.lang3.StringUtils.isBlank(par1Str))
+			{
+				var2.func_135074_t();
+			} else
+			{
+				var2.setItemName(repairedItemName);
+			}
 		}
 		updateRepairOutput();
 	}
@@ -266,7 +273,15 @@ public class ContainerRepair extends Container
 					}
 				}
 			}
-			if(repairedItemName != null && repairedItemName.length() > 0 && !repairedItemName.equalsIgnoreCase(thePlayer.getTranslator().translateNamedKey(var1.getItemName())) && !repairedItemName.equals(var1.getDisplayName()))
+			if(org.apache.commons.lang3.StringUtils.isBlank(repairedItemName))
+			{
+				if(var1.hasDisplayName())
+				{
+					var4 = var1.isItemStackDamageable() ? 7 : var1.stackSize * 5;
+					var2 += var4;
+					var5.func_135074_t();
+				}
+			} else if(!repairedItemName.equals(var1.getDisplayName()))
 			{
 				var4 = var1.isItemStackDamageable() ? 7 : var1.stackSize * 5;
 				var2 += var4;
@@ -321,7 +336,6 @@ public class ContainerRepair extends Container
 			}
 			if(var4 == var2 && var4 > 0 && maximumCost >= 40)
 			{
-				theWorld.getWorldLogAgent().logInfo("Naming an item only, cost too high; giving discount to cap cost to 39 levels");
 				maximumCost = 39;
 			}
 			if(maximumCost >= 40 && !thePlayer.capabilities.isCreativeMode)
@@ -352,13 +366,13 @@ public class ContainerRepair extends Container
 		}
 	}
 	
-	static IInventory getRepairInputInventory(ContainerRepair p_82851_0_)
+	static IInventory getRepairInputInventory(ContainerRepair par0ContainerRepair)
 	{
-		return p_82851_0_.inputSlots;
+		return par0ContainerRepair.inputSlots;
 	}
 	
-	static int getStackSizeUsedInRepair(ContainerRepair p_82849_0_)
+	static int getStackSizeUsedInRepair(ContainerRepair par0ContainerRepair)
 	{
-		return p_82849_0_.stackSizeToBeUsedInRepair;
+		return par0ContainerRepair.stackSizeToBeUsedInRepair;
 	}
 }

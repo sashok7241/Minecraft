@@ -9,12 +9,12 @@ public class DestroyBlockProgress
 	private int partialBlockProgress;
 	private int createdAtCloudUpdateTick;
 	
-	public DestroyBlockProgress(int p_i3385_1_, int p_i3385_2_, int p_i3385_3_, int p_i3385_4_)
+	public DestroyBlockProgress(int par1, int par2, int par3, int par4)
 	{
-		miningPlayerEntId = p_i3385_1_;
-		partialBlockX = p_i3385_2_;
-		partialBlockY = p_i3385_3_;
-		partialBlockZ = p_i3385_4_;
+		miningPlayerEntId = par1;
+		partialBlockX = par2;
+		partialBlockY = par3;
+		partialBlockZ = par4;
 	}
 	
 	public int getCreationCloudUpdateTick()

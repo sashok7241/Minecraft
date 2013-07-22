@@ -4,16 +4,16 @@ import java.util.Random;
 
 public class BiomeGenForest extends BiomeGenBase
 {
-	public BiomeGenForest(int p_i3756_1_)
+	public BiomeGenForest(int par1)
 	{
-		super(p_i3756_1_);
+		super(par1);
 		spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 5, 4, 4));
 		theBiomeDecorator.treesPerChunk = 10;
 		theBiomeDecorator.grassPerChunk = 2;
 	}
 	
-	@Override public WorldGenerator getRandomWorldGenForTrees(Random p_76740_1_)
+	@Override public WorldGenerator getRandomWorldGenForTrees(Random par1Random)
 	{
-		return p_76740_1_.nextInt(5) == 0 ? worldGeneratorForest : p_76740_1_.nextInt(10) == 0 ? worldGeneratorBigTree : worldGeneratorTrees;
+		return par1Random.nextInt(5) == 0 ? worldGeneratorForest : par1Random.nextInt(10) == 0 ? worldGeneratorBigTree : worldGeneratorTrees;
 	}
 }

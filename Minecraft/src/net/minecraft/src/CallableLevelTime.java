@@ -6,9 +6,9 @@ class CallableLevelTime implements Callable
 {
 	final WorldInfo worldInfoInstance;
 	
-	CallableLevelTime(WorldInfo p_i6824_1_)
+	CallableLevelTime(WorldInfo par1WorldInfo)
 	{
-		worldInfoInstance = p_i6824_1_;
+		worldInfoInstance = par1WorldInfo;
 	}
 	
 	@Override public Object call()

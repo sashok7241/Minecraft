@@ -1,17 +1,19 @@
 package net.minecraft.src;
 
 import java.util.List;
+import java.util.UUID;
 
 public class EntityPigZombie extends EntityZombie
 {
-	private int angerLevel = 0;
-	private int randomSoundDelay = 0;
+	private static final UUID field_110189_bq = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
+	private static final AttributeModifier field_110190_br = new AttributeModifier(field_110189_bq, "Attacking speed boost", 0.45D, 0).func_111168_a(false);
+	private int angerLevel;
+	private int randomSoundDelay;
+	private Entity field_110191_bu;
 	
-	public EntityPigZombie(World p_i3553_1_)
+	public EntityPigZombie(World par1World)
 	{
-		super(p_i3553_1_);
-		texture = "/mob/pigzombie.png";
-		moveSpeed = 0.5F;
+		super(par1World);
 		isImmuneToFire = true;
 	}
 	
@@ -20,12 +22,12 @@ public class EntityPigZombie extends EntityZombie
 		setCurrentItemOrArmor(0, new ItemStack(Item.swordGold));
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
 		{
-			Entity var3 = p_70097_1_.getEntity();
+			Entity var3 = par1DamageSource.getEntity();
 			if(var3 instanceof EntityPlayer)
 			{
 				List var4 = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(32.0D, 32.0D, 32.0D));
@@ -40,33 +42,33 @@ public class EntityPigZombie extends EntityZombie
 				}
 				becomeAngryAt(var3);
 			}
-			return super.attackEntityFrom(p_70097_1_, p_70097_2_);
+			return super.attackEntityFrom(par1DamageSource, par2);
 		}
 	}
 	
-	private void becomeAngryAt(Entity p_70835_1_)
+	private void becomeAngryAt(Entity par1Entity)
 	{
-		entityToAttack = p_70835_1_;
+		entityToAttack = par1Entity;
 		angerLevel = 400 + rand.nextInt(400);
 		randomSoundDelay = rand.nextInt(40);
 	}
 	
-	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+	@Override protected void dropFewItems(boolean par1, int par2)
 	{
-		int var3 = rand.nextInt(2 + p_70628_2_);
+		int var3 = rand.nextInt(2 + par2);
 		int var4;
 		for(var4 = 0; var4 < var3; ++var4)
 		{
 			dropItem(Item.rottenFlesh.itemID, 1);
 		}
-		var3 = rand.nextInt(2 + p_70628_2_);
+		var3 = rand.nextInt(2 + par2);
 		for(var4 = 0; var4 < var3; ++var4)
 		{
 			dropItem(Item.goldNugget.itemID, 1);
 		}
 	}
 	
-	@Override protected void dropRareDrop(int p_70600_1_)
+	@Override protected void dropRareDrop(int par1)
 	{
 		dropItem(Item.ingotGold.itemID, 1);
 	}
@@ -76,15 +78,19 @@ public class EntityPigZombie extends EntityZombie
 		return angerLevel == 0 ? null : super.findPlayerToAttack();
 	}
 	
-	@Override public int getAttackStrength(Entity p_82193_1_)
+	@Override protected void func_110147_ax()
 	{
-		ItemStack var2 = getHeldItem();
-		int var3 = 5;
-		if(var2 != null)
-		{
-			var3 += var2.getDamageVsEntity(this);
-		}
-		return var3;
+		super.func_110147_ax();
+		func_110148_a(field_110186_bp).func_111128_a(0.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.5D);
+		func_110148_a(SharedMonsterAttributes.field_111264_e).func_111128_a(5.0D);
+	}
+	
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	{
+		super.func_110161_a(par1EntityLivingData);
+		setVillager(false);
+		return par1EntityLivingData;
 	}
 	
 	@Override public boolean getCanSpawnHere()
@@ -112,18 +118,7 @@ public class EntityPigZombie extends EntityZombie
 		return "mob.zombiepig.zpig";
 	}
 	
-	@Override public String getTexture()
-	{
-		return "/mob/pigzombie.png";
-	}
-	
-	@Override public void initCreature()
-	{
-		super.initCreature();
-		setVillager(false);
-	}
-	
-	@Override public boolean interact(EntityPlayer p_70085_1_)
+	@Override public boolean interact(EntityPlayer par1EntityPlayer)
 	{
 		return false;
 	}
@@ -135,7 +130,16 @@ public class EntityPigZombie extends EntityZombie
 	
 	@Override public void onUpdate()
 	{
-		moveSpeed = entityToAttack != null ? 0.95F : 0.5F;
+		if(field_110191_bu != entityToAttack && !worldObj.isRemote)
+		{
+			AttributeInstance var1 = func_110148_a(SharedMonsterAttributes.field_111263_d);
+			var1.func_111124_b(field_110190_br);
+			if(entityToAttack != null)
+			{
+				var1.func_111121_a(field_110190_br);
+			}
+		}
+		field_110191_bu = entityToAttack;
 		if(randomSoundDelay > 0 && --randomSoundDelay == 0)
 		{
 			playSound("mob.zombiepig.zpigangry", getSoundVolume() * 2.0F, ((rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F) * 1.8F);
@@ -143,15 +147,15 @@ public class EntityPigZombie extends EntityZombie
 		super.onUpdate();
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		angerLevel = p_70037_1_.getShort("Anger");
+		super.readEntityFromNBT(par1NBTTagCompound);
+		angerLevel = par1NBTTagCompound.getShort("Anger");
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setShort("Anger", (short) angerLevel);
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setShort("Anger", (short) angerLevel);
 	}
 }

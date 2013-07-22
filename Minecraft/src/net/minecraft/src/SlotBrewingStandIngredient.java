@@ -4,10 +4,10 @@ class SlotBrewingStandIngredient extends Slot
 {
 	final ContainerBrewingStand brewingStand;
 	
-	public SlotBrewingStandIngredient(ContainerBrewingStand p_i3598_1_, IInventory p_i3598_2_, int p_i3598_3_, int p_i3598_4_, int p_i3598_5_)
+	public SlotBrewingStandIngredient(ContainerBrewingStand par1ContainerBrewingStand, IInventory par2IInventory, int par3, int par4, int par5)
 	{
-		super(p_i3598_2_, p_i3598_3_, p_i3598_4_, p_i3598_5_);
-		brewingStand = p_i3598_1_;
+		super(par2IInventory, par3, par4, par5);
+		brewingStand = par1ContainerBrewingStand;
 	}
 	
 	@Override public int getSlotStackLimit()
@@ -15,8 +15,8 @@ class SlotBrewingStandIngredient extends Slot
 		return 64;
 	}
 	
-	@Override public boolean isItemValid(ItemStack p_75214_1_)
+	@Override public boolean isItemValid(ItemStack par1ItemStack)
 	{
-		return p_75214_1_ != null ? Item.itemsList[p_75214_1_.itemID].isPotionIngredient() : false;
+		return par1ItemStack != null ? Item.itemsList[par1ItemStack.itemID].isPotionIngredient() : false;
 	}
 }

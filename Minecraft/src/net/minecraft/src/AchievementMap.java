@@ -29,8 +29,8 @@ public class AchievementMap
 		}
 	}
 	
-	public static String getGuid(int p_75962_0_)
+	public static String getGuid(int par0)
 	{
-		return (String) instance.guidMap.get(Integer.valueOf(p_75962_0_));
+		return (String) instance.guidMap.get(Integer.valueOf(par0));
 	}
 }

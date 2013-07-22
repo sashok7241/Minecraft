@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet103SetSlot extends Packet
@@ -14,11 +14,11 @@ public class Packet103SetSlot extends Packet
 	{
 	}
 	
-	public Packet103SetSlot(int p_i3314_1_, int p_i3314_2_, ItemStack p_i3314_3_)
+	public Packet103SetSlot(int par1, int par2, ItemStack par3ItemStack)
 	{
-		windowId = p_i3314_1_;
-		itemSlot = p_i3314_2_;
-		myItemStack = p_i3314_3_ == null ? p_i3314_3_ : p_i3314_3_.copy();
+		windowId = par1;
+		itemSlot = par2;
+		myItemStack = par3ItemStack == null ? par3ItemStack : par3ItemStack.copy();
 	}
 	
 	@Override public int getPacketSize()
@@ -26,22 +26,22 @@ public class Packet103SetSlot extends Packet
 		return 8;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleSetSlot(this);
+		par1NetHandler.handleSetSlot(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		windowId = p_73267_1_.readByte();
-		itemSlot = p_73267_1_.readShort();
-		myItemStack = readItemStack(p_73267_1_);
+		windowId = par1DataInput.readByte();
+		itemSlot = par1DataInput.readShort();
+		myItemStack = readItemStack(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeByte(windowId);
-		p_73273_1_.writeShort(itemSlot);
-		writeItemStack(myItemStack, p_73273_1_);
+		par1DataOutput.writeByte(windowId);
+		par1DataOutput.writeShort(itemSlot);
+		writeItemStack(myItemStack, par1DataOutput);
 	}
 }

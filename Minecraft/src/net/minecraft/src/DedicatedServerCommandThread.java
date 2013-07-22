@@ -8,9 +8,9 @@ class DedicatedServerCommandThread extends Thread
 {
 	final DedicatedServer server;
 	
-	DedicatedServerCommandThread(DedicatedServer p_i3380_1_)
+	DedicatedServerCommandThread(DedicatedServer par1DedicatedServer)
 	{
-		server = p_i3380_1_;
+		server = par1DedicatedServer;
 	}
 	
 	@Override public void run()

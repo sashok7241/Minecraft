@@ -4,13 +4,13 @@ import java.util.Comparator;
 
 final class ScoreComparator implements Comparator
 {
-	@Override public int compare(Object p_compare_1_, Object p_compare_2_)
+	@Override public int compare(Object par1Obj, Object par2Obj)
 	{
-		return func_96659_a((Score) p_compare_1_, (Score) p_compare_2_);
+		return func_96659_a((Score) par1Obj, (Score) par2Obj);
 	}
 	
-	public int func_96659_a(Score p_96659_1_, Score p_96659_2_)
+	public int func_96659_a(Score par1Score, Score par2Score)
 	{
-		return p_96659_1_.getScorePoints() > p_96659_2_.getScorePoints() ? 1 : p_96659_1_.getScorePoints() < p_96659_2_.getScorePoints() ? -1 : 0;
+		return par1Score.getScorePoints() > par2Score.getScorePoints() ? 1 : par1Score.getScorePoints() < par2Score.getScorePoints() ? -1 : 0;
 	}
 }

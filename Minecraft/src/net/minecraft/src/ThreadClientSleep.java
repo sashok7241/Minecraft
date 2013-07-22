@@ -2,14 +2,14 @@ package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
-public class ThreadClientSleep extends Thread
+class ThreadClientSleep extends Thread
 {
 	final Minecraft mc;
 	
-	public ThreadClientSleep(Minecraft p_i3019_1_, String p_i3019_2_)
+	ThreadClientSleep(Minecraft par1Minecraft, String par2Str)
 	{
-		super(p_i3019_2_);
-		mc = p_i3019_1_;
+		super(par2Str);
+		mc = par1Minecraft;
 	}
 	
 	@Override public void run()

@@ -7,9 +7,9 @@ public class BlockMycelium extends Block
 	private Icon field_94422_a;
 	private Icon field_94421_b;
 	
-	protected BlockMycelium(int p_i3973_1_)
+	protected BlockMycelium(int par1)
 	{
-		super(p_i3973_1_, Material.grass);
+		super(par1, Material.grass);
 		setTickRandomly(true);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
@@ -30,9 +30,9 @@ public class BlockMycelium extends Block
 		return par1 == 1 ? field_94422_a : par1 == 0 ? Block.dirt.getBlockTextureFromSide(par1) : blockIcon;
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
-		return Block.dirt.idDropped(0, p_71885_2_, p_71885_3_);
+		return Block.dirt.idDropped(0, par2Random, par3);
 	}
 	
 	@Override public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
@@ -46,29 +46,29 @@ public class BlockMycelium extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("mycel_side");
-		field_94422_a = par1IconRegister.registerIcon("mycel_top");
-		field_94421_b = par1IconRegister.registerIcon("snow_side");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		field_94422_a = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		field_94421_b = par1IconRegister.registerIcon("grass_side_snowed");
 	}
 	
-	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
+	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		if(!p_71847_1_.isRemote)
+		if(!par1World.isRemote)
 		{
-			if(p_71847_1_.getBlockLightValue(p_71847_2_, p_71847_3_ + 1, p_71847_4_) < 4 && Block.lightOpacity[p_71847_1_.getBlockId(p_71847_2_, p_71847_3_ + 1, p_71847_4_)] > 2)
+			if(par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && Block.lightOpacity[par1World.getBlockId(par2, par3 + 1, par4)] > 2)
 			{
-				p_71847_1_.setBlock(p_71847_2_, p_71847_3_, p_71847_4_, Block.dirt.blockID);
-			} else if(p_71847_1_.getBlockLightValue(p_71847_2_, p_71847_3_ + 1, p_71847_4_) >= 9)
+				par1World.setBlock(par2, par3, par4, Block.dirt.blockID);
+			} else if(par1World.getBlockLightValue(par2, par3 + 1, par4) >= 9)
 			{
 				for(int var6 = 0; var6 < 4; ++var6)
 				{
-					int var7 = p_71847_2_ + p_71847_5_.nextInt(3) - 1;
-					int var8 = p_71847_3_ + p_71847_5_.nextInt(5) - 3;
-					int var9 = p_71847_4_ + p_71847_5_.nextInt(3) - 1;
-					int var10 = p_71847_1_.getBlockId(var7, var8 + 1, var9);
-					if(p_71847_1_.getBlockId(var7, var8, var9) == Block.dirt.blockID && p_71847_1_.getBlockLightValue(var7, var8 + 1, var9) >= 4 && Block.lightOpacity[var10] <= 2)
+					int var7 = par2 + par5Random.nextInt(3) - 1;
+					int var8 = par3 + par5Random.nextInt(5) - 3;
+					int var9 = par4 + par5Random.nextInt(3) - 1;
+					int var10 = par1World.getBlockId(var7, var8 + 1, var9);
+					if(par1World.getBlockId(var7, var8, var9) == Block.dirt.blockID && par1World.getBlockLightValue(var7, var8 + 1, var9) >= 4 && Block.lightOpacity[var10] <= 2)
 					{
-						p_71847_1_.setBlock(var7, var8, var9, blockID);
+						par1World.setBlock(var7, var8, var9, blockID);
 					}
 				}
 			}

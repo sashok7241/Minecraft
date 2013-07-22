@@ -9,31 +9,31 @@ public class TileEntityRecordPlayer extends TileEntity
 		return record;
 	}
 	
-	public void func_96098_a(ItemStack p_96098_1_)
+	public void func_96098_a(ItemStack par1ItemStack)
 	{
-		record = p_96098_1_;
+		record = par1ItemStack;
 		onInventoryChanged();
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
+	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readFromNBT(p_70307_1_);
-		if(p_70307_1_.hasKey("RecordItem"))
+		super.readFromNBT(par1NBTTagCompound);
+		if(par1NBTTagCompound.hasKey("RecordItem"))
 		{
-			func_96098_a(ItemStack.loadItemStackFromNBT(p_70307_1_.getCompoundTag("RecordItem")));
-		} else if(p_70307_1_.getInteger("Record") > 0)
+			func_96098_a(ItemStack.loadItemStackFromNBT(par1NBTTagCompound.getCompoundTag("RecordItem")));
+		} else if(par1NBTTagCompound.getInteger("Record") > 0)
 		{
-			func_96098_a(new ItemStack(p_70307_1_.getInteger("Record"), 1, 0));
+			func_96098_a(new ItemStack(par1NBTTagCompound.getInteger("Record"), 1, 0));
 		}
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
+	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeToNBT(p_70310_1_);
+		super.writeToNBT(par1NBTTagCompound);
 		if(func_96097_a() != null)
 		{
-			p_70310_1_.setCompoundTag("RecordItem", func_96097_a().writeToNBT(new NBTTagCompound()));
-			p_70310_1_.setInteger("Record", func_96097_a().itemID);
+			par1NBTTagCompound.setCompoundTag("RecordItem", func_96097_a().writeToNBT(new NBTTagCompound()));
+			par1NBTTagCompound.setInteger("Record", func_96097_a().itemID);
 		}
 	}
 }

@@ -7,10 +7,10 @@ class CallableScreenSize implements Callable
 	final ScaledResolution theScaledResolution;
 	final EntityRenderer theEntityRenderer;
 	
-	CallableScreenSize(EntityRenderer p_i7004_1_, ScaledResolution p_i7004_2_)
+	CallableScreenSize(EntityRenderer par1EntityRenderer, ScaledResolution par2ScaledResolution)
 	{
-		theEntityRenderer = p_i7004_1_;
-		theScaledResolution = p_i7004_2_;
+		theEntityRenderer = par1EntityRenderer;
+		theScaledResolution = par2ScaledResolution;
 	}
 	
 	@Override public Object call()

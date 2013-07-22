@@ -6,10 +6,14 @@ public class NpcMerchant implements IMerchant
 	private EntityPlayer customer;
 	private MerchantRecipeList recipeList;
 	
-	public NpcMerchant(EntityPlayer p_i3559_1_)
+	public NpcMerchant(EntityPlayer par1EntityPlayer)
 	{
-		customer = p_i3559_1_;
-		theMerchantInventory = new InventoryMerchant(p_i3559_1_, this);
+		customer = par1EntityPlayer;
+		theMerchantInventory = new InventoryMerchant(par1EntityPlayer, this);
+	}
+	
+	@Override public void func_110297_a_(ItemStack par1ItemStack)
+	{
 	}
 	
 	@Override public EntityPlayer getCustomer()
@@ -17,12 +21,12 @@ public class NpcMerchant implements IMerchant
 		return customer;
 	}
 	
-	@Override public MerchantRecipeList getRecipes(EntityPlayer p_70934_1_)
+	@Override public MerchantRecipeList getRecipes(EntityPlayer par1EntityPlayer)
 	{
 		return recipeList;
 	}
 	
-	@Override public void setCustomer(EntityPlayer p_70932_1_)
+	@Override public void setCustomer(EntityPlayer par1EntityPlayer)
 	{
 	}
 	
@@ -31,7 +35,7 @@ public class NpcMerchant implements IMerchant
 		recipeList = par1MerchantRecipeList;
 	}
 	
-	@Override public void useRecipe(MerchantRecipe p_70933_1_)
+	@Override public void useRecipe(MerchantRecipe par1MerchantRecipe)
 	{
 	}
 }

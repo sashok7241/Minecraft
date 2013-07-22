@@ -2,63 +2,62 @@ package net.minecraft.src;
 
 public class EntityIronGolem extends EntityGolem
 {
-	private int homeCheckTimer = 0;
-	Village villageObj = null;
+	private int homeCheckTimer;
+	Village villageObj;
 	private int attackTimer;
 	private int holdRoseTick;
 	
-	public EntityIronGolem(World p_i3524_1_)
+	public EntityIronGolem(World par1World)
 	{
-		super(p_i3524_1_);
-		texture = "/mob/villager_golem.png";
+		super(par1World);
 		setSize(1.4F, 2.9F);
 		getNavigator().setAvoidsWater(true);
-		tasks.addTask(1, new EntityAIAttackOnCollide(this, 0.25F, true));
-		tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.22F, 32.0F));
-		tasks.addTask(3, new EntityAIMoveThroughVillage(this, 0.16F, true));
-		tasks.addTask(4, new EntityAIMoveTwardsRestriction(this, 0.16F));
+		tasks.addTask(1, new EntityAIAttackOnCollide(this, 1.0D, true));
+		tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
+		tasks.addTask(3, new EntityAIMoveThroughVillage(this, 0.6D, true));
+		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
 		tasks.addTask(5, new EntityAILookAtVillager(this));
-		tasks.addTask(6, new EntityAIWander(this, 0.16F));
+		tasks.addTask(6, new EntityAIWander(this, 0.6D));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		tasks.addTask(8, new EntityAILookIdle(this));
 		targetTasks.addTask(1, new EntityAIDefendVillage(this));
 		targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
-		targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 16.0F, 0, false, true, IMob.mobSelector));
+		targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 0, false, true, IMob.mobSelector));
 	}
 	
-	@Override public boolean attackEntityAsMob(Entity p_70652_1_)
+	@Override public boolean attackEntityAsMob(Entity par1Entity)
 	{
 		attackTimer = 10;
 		worldObj.setEntityState(this, (byte) 4);
-		boolean var2 = p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), 7 + rand.nextInt(15));
+		boolean var2 = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), 7 + rand.nextInt(15));
 		if(var2)
 		{
-			p_70652_1_.motionY += 0.4000000059604645D;
+			par1Entity.motionY += 0.4000000059604645D;
 		}
 		playSound("mob.irongolem.throw", 1.0F, 1.0F);
 		return var2;
 	}
 	
-	@Override public boolean canAttackClass(Class p_70686_1_)
+	@Override public boolean canAttackClass(Class par1Class)
 	{
-		return isPlayerCreated() && EntityPlayer.class.isAssignableFrom(p_70686_1_) ? false : super.canAttackClass(p_70686_1_);
+		return isPlayerCreated() && EntityPlayer.class.isAssignableFrom(par1Class) ? false : super.canAttackClass(par1Class);
 	}
 	
-	@Override protected void collideWithEntity(Entity p_82167_1_)
+	@Override protected void collideWithEntity(Entity par1Entity)
 	{
-		if(p_82167_1_ instanceof IMob && getRNG().nextInt(20) == 0)
+		if(par1Entity instanceof IMob && getRNG().nextInt(20) == 0)
 		{
-			setAttackTarget((EntityLiving) p_82167_1_);
+			setAttackTarget((EntityLivingBase) par1Entity);
 		}
-		super.collideWithEntity(p_82167_1_);
+		super.collideWithEntity(par1Entity);
 	}
 	
-	@Override protected int decreaseAirSupply(int p_70682_1_)
+	@Override protected int decreaseAirSupply(int par1)
 	{
-		return p_70682_1_;
+		return par1;
 	}
 	
-	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+	@Override protected void dropFewItems(boolean par1, int par2)
 	{
 		int var3 = rand.nextInt(3);
 		int var4;
@@ -77,6 +76,13 @@ public class EntityIronGolem extends EntityGolem
 	{
 		super.entityInit();
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(100.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.25D);
 	}
 	
 	public int getAttackTimer()
@@ -102,11 +108,6 @@ public class EntityIronGolem extends EntityGolem
 	@Override protected String getLivingSound()
 	{
 		return "none";
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return 100;
 	}
 	
 	public Village getVillage()
@@ -139,13 +140,13 @@ public class EntityIronGolem extends EntityGolem
 		return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
 	}
 	
-	@Override public void onDeath(DamageSource p_70645_1_)
+	@Override public void onDeath(DamageSource par1DamageSource)
 	{
 		if(!isPlayerCreated() && attackingPlayer != null && villageObj != null)
 		{
 			villageObj.setReputationForPlayer(attackingPlayer.getCommandSenderName(), -5);
 		}
-		super.onDeath(p_70645_1_);
+		super.onDeath(par1DamageSource);
 	}
 	
 	@Override public void onLivingUpdate()
@@ -172,27 +173,27 @@ public class EntityIronGolem extends EntityGolem
 		}
 	}
 	
-	@Override protected void playStepSound(int p_70036_1_, int p_70036_2_, int p_70036_3_, int p_70036_4_)
+	@Override protected void playStepSound(int par1, int par2, int par3, int par4)
 	{
 		playSound("mob.irongolem.walk", 1.0F, 1.0F);
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		setPlayerCreated(p_70037_1_.getBoolean("PlayerCreated"));
+		super.readEntityFromNBT(par1NBTTagCompound);
+		setPlayerCreated(par1NBTTagCompound.getBoolean("PlayerCreated"));
 	}
 	
-	public void setHoldingRose(boolean p_70851_1_)
+	public void setHoldingRose(boolean par1)
 	{
-		holdRoseTick = p_70851_1_ ? 400 : 0;
+		holdRoseTick = par1 ? 400 : 0;
 		worldObj.setEntityState(this, (byte) 11);
 	}
 	
-	public void setPlayerCreated(boolean p_70849_1_)
+	public void setPlayerCreated(boolean par1)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
-		if(p_70849_1_)
+		if(par1)
 		{
 			dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 1)));
 		} else
@@ -209,19 +210,19 @@ public class EntityIronGolem extends EntityGolem
 			villageObj = worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), 32);
 			if(villageObj == null)
 			{
-				detachHome();
+				func_110177_bN();
 			} else
 			{
 				ChunkCoordinates var1 = villageObj.getCenter();
-				setHomeArea(var1.posX, var1.posY, var1.posZ, (int) (villageObj.getVillageRadius() * 0.6F));
+				func_110171_b(var1.posX, var1.posY, var1.posZ, (int) (villageObj.getVillageRadius() * 0.6F));
 			}
 		}
 		super.updateAITick();
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setBoolean("PlayerCreated", isPlayerCreated());
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setBoolean("PlayerCreated", isPlayerCreated());
 	}
 }

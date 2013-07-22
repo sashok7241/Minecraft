@@ -5,68 +5,68 @@ import java.util.Random;
 public class WorldGenHellLava extends WorldGenerator
 {
 	private int hellLavaID;
-	private boolean field_94524_b = false;
+	private boolean field_94524_b;
 	
-	public WorldGenHellLava(int p_i9034_1_, boolean p_i9034_2_)
+	public WorldGenHellLava(int par1, boolean par2)
 	{
-		hellLavaID = p_i9034_1_;
-		field_94524_b = p_i9034_2_;
+		hellLavaID = par1;
+		field_94524_b = par2;
 	}
 	
-	@Override public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_)
+	@Override public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
 	{
-		if(p_76484_1_.getBlockId(p_76484_3_, p_76484_4_ + 1, p_76484_5_) != Block.netherrack.blockID) return false;
-		else if(p_76484_1_.getBlockId(p_76484_3_, p_76484_4_, p_76484_5_) != 0 && p_76484_1_.getBlockId(p_76484_3_, p_76484_4_, p_76484_5_) != Block.netherrack.blockID) return false;
+		if(par1World.getBlockId(par3, par4 + 1, par5) != Block.netherrack.blockID) return false;
+		else if(par1World.getBlockId(par3, par4, par5) != 0 && par1World.getBlockId(par3, par4, par5) != Block.netherrack.blockID) return false;
 		else
 		{
 			int var6 = 0;
-			if(p_76484_1_.getBlockId(p_76484_3_ - 1, p_76484_4_, p_76484_5_) == Block.netherrack.blockID)
+			if(par1World.getBlockId(par3 - 1, par4, par5) == Block.netherrack.blockID)
 			{
 				++var6;
 			}
-			if(p_76484_1_.getBlockId(p_76484_3_ + 1, p_76484_4_, p_76484_5_) == Block.netherrack.blockID)
+			if(par1World.getBlockId(par3 + 1, par4, par5) == Block.netherrack.blockID)
 			{
 				++var6;
 			}
-			if(p_76484_1_.getBlockId(p_76484_3_, p_76484_4_, p_76484_5_ - 1) == Block.netherrack.blockID)
+			if(par1World.getBlockId(par3, par4, par5 - 1) == Block.netherrack.blockID)
 			{
 				++var6;
 			}
-			if(p_76484_1_.getBlockId(p_76484_3_, p_76484_4_, p_76484_5_ + 1) == Block.netherrack.blockID)
+			if(par1World.getBlockId(par3, par4, par5 + 1) == Block.netherrack.blockID)
 			{
 				++var6;
 			}
-			if(p_76484_1_.getBlockId(p_76484_3_, p_76484_4_ - 1, p_76484_5_) == Block.netherrack.blockID)
+			if(par1World.getBlockId(par3, par4 - 1, par5) == Block.netherrack.blockID)
 			{
 				++var6;
 			}
 			int var7 = 0;
-			if(p_76484_1_.isAirBlock(p_76484_3_ - 1, p_76484_4_, p_76484_5_))
+			if(par1World.isAirBlock(par3 - 1, par4, par5))
 			{
 				++var7;
 			}
-			if(p_76484_1_.isAirBlock(p_76484_3_ + 1, p_76484_4_, p_76484_5_))
+			if(par1World.isAirBlock(par3 + 1, par4, par5))
 			{
 				++var7;
 			}
-			if(p_76484_1_.isAirBlock(p_76484_3_, p_76484_4_, p_76484_5_ - 1))
+			if(par1World.isAirBlock(par3, par4, par5 - 1))
 			{
 				++var7;
 			}
-			if(p_76484_1_.isAirBlock(p_76484_3_, p_76484_4_, p_76484_5_ + 1))
+			if(par1World.isAirBlock(par3, par4, par5 + 1))
 			{
 				++var7;
 			}
-			if(p_76484_1_.isAirBlock(p_76484_3_, p_76484_4_ - 1, p_76484_5_))
+			if(par1World.isAirBlock(par3, par4 - 1, par5))
 			{
 				++var7;
 			}
 			if(!field_94524_b && var6 == 4 && var7 == 1 || var6 == 5)
 			{
-				p_76484_1_.setBlock(p_76484_3_, p_76484_4_, p_76484_5_, hellLavaID, 0, 2);
-				p_76484_1_.scheduledUpdatesAreImmediate = true;
-				Block.blocksList[hellLavaID].updateTick(p_76484_1_, p_76484_3_, p_76484_4_, p_76484_5_, p_76484_2_);
-				p_76484_1_.scheduledUpdatesAreImmediate = false;
+				par1World.setBlock(par3, par4, par5, hellLavaID, 0, 2);
+				par1World.scheduledUpdatesAreImmediate = true;
+				Block.blocksList[hellLavaID].updateTick(par1World, par3, par4, par5, par2Random);
+				par1World.scheduledUpdatesAreImmediate = false;
 			}
 			return true;
 		}

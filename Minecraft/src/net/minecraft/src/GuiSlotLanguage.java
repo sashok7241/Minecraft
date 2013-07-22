@@ -1,26 +1,27 @@
 package net.minecraft.src;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.TreeMap;
+import java.util.List;
+import java.util.Map;
 
 class GuiSlotLanguage extends GuiSlot
 {
-	private ArrayList field_77251_g;
-	private TreeMap field_77253_h;
+	private final List field_77251_g;
+	private final Map field_77253_h;
 	final GuiLanguage languageGui;
 	
-	public GuiSlotLanguage(GuiLanguage p_i3061_1_)
+	public GuiSlotLanguage(GuiLanguage par1GuiLanguage)
 	{
-		super(p_i3061_1_.mc, p_i3061_1_.width, p_i3061_1_.height, 32, p_i3061_1_.height - 65 + 4, 18);
-		languageGui = p_i3061_1_;
-		field_77253_h = StringTranslate.getInstance().getLanguageList();
-		field_77251_g = new ArrayList();
-		Iterator var2 = field_77253_h.keySet().iterator();
+		super(par1GuiLanguage.mc, par1GuiLanguage.width, par1GuiLanguage.height, 32, par1GuiLanguage.height - 65 + 4, 18);
+		languageGui = par1GuiLanguage;
+		field_77251_g = Lists.newArrayList();
+		field_77253_h = Maps.newHashMap();
+		Iterator var2 = GuiLanguage.func_135011_a(par1GuiLanguage).func_135040_d().iterator();
 		while(var2.hasNext())
 		{
-			String var3 = (String) var2.next();
-			field_77251_g.add(var3);
+			Language var3 = (Language) var2.next();
+			field_77253_h.put(var3.func_135034_a(), var3);
+			field_77251_g.add(var3.func_135034_a());
 		}
 	}
 	
@@ -32,17 +33,19 @@ class GuiSlotLanguage extends GuiSlot
 	@Override protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
 	{
 		languageGui.fontRenderer.setBidiFlag(true);
-		languageGui.drawCenteredString(languageGui.fontRenderer, (String) field_77253_h.get(field_77251_g.get(par1)), languageGui.width / 2, par3 + 1, 16777215);
-		languageGui.fontRenderer.setBidiFlag(StringTranslate.isBidirectional(GuiLanguage.getGameSettings(languageGui).language));
+		languageGui.drawCenteredString(languageGui.fontRenderer, ((Language) field_77253_h.get(field_77251_g.get(par1))).toString(), languageGui.width / 2, par3 + 1, 16777215);
+		languageGui.fontRenderer.setBidiFlag(GuiLanguage.func_135011_a(languageGui).func_135041_c().func_135035_b());
 	}
 	
 	@Override protected void elementClicked(int par1, boolean par2)
 	{
-		StringTranslate.getInstance().setLanguage((String) field_77251_g.get(par1), false);
-		languageGui.mc.fontRenderer.setUnicodeFlag(StringTranslate.getInstance().isUnicode());
-		GuiLanguage.getGameSettings(languageGui).language = (String) field_77251_g.get(par1);
-		languageGui.fontRenderer.setBidiFlag(StringTranslate.isBidirectional(GuiLanguage.getGameSettings(languageGui).language));
-		GuiLanguage.getDoneButton(languageGui).displayString = StringTranslate.getInstance().translateKey("gui.done");
+		Language var3 = (Language) field_77253_h.get(field_77251_g.get(par1));
+		GuiLanguage.func_135011_a(languageGui).func_135045_a(var3);
+		GuiLanguage.getGameSettings(languageGui).language = var3.func_135034_a();
+		languageGui.mc.func_110436_a();
+		languageGui.fontRenderer.setUnicodeFlag(GuiLanguage.func_135011_a(languageGui).func_135042_a());
+		languageGui.fontRenderer.setBidiFlag(GuiLanguage.func_135011_a(languageGui).func_135044_b());
+		GuiLanguage.getDoneButton(languageGui).displayString = I18n.func_135053_a("gui.done");
 		GuiLanguage.getGameSettings(languageGui).saveOptions();
 	}
 	
@@ -58,6 +61,6 @@ class GuiSlotLanguage extends GuiSlot
 	
 	@Override protected boolean isSelected(int par1)
 	{
-		return ((String) field_77251_g.get(par1)).equals(StringTranslate.getInstance().getCurrentLanguage());
+		return ((String) field_77251_g.get(par1)).equals(GuiLanguage.func_135011_a(languageGui).func_135041_c().func_135034_a());
 	}
 }

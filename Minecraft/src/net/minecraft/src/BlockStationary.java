@@ -4,75 +4,75 @@ import java.util.Random;
 
 public class BlockStationary extends BlockFluid
 {
-	protected BlockStationary(int p_i3966_1_, Material p_i3966_2_)
+	protected BlockStationary(int par1, Material par2Material)
 	{
-		super(p_i3966_1_, p_i3966_2_);
+		super(par1, par2Material);
 		setTickRandomly(false);
-		if(p_i3966_2_ == Material.lava)
+		if(par2Material == Material.lava)
 		{
 			setTickRandomly(true);
 		}
 	}
 	
-	@Override public boolean getBlocksMovement(IBlockAccess p_71918_1_, int p_71918_2_, int p_71918_3_, int p_71918_4_)
+	@Override public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
 		return blockMaterial != Material.lava;
 	}
 	
-	private boolean isFlammable(World p_72216_1_, int p_72216_2_, int p_72216_3_, int p_72216_4_)
+	private boolean isFlammable(World par1World, int par2, int par3, int par4)
 	{
-		return p_72216_1_.getBlockMaterial(p_72216_2_, p_72216_3_, p_72216_4_).getCanBurn();
+		return par1World.getBlockMaterial(par2, par3, par4).getCanBurn();
 	}
 	
-	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
+	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
-		super.onNeighborBlockChange(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, p_71863_5_);
-		if(p_71863_1_.getBlockId(p_71863_2_, p_71863_3_, p_71863_4_) == blockID)
+		super.onNeighborBlockChange(par1World, par2, par3, par4, par5);
+		if(par1World.getBlockId(par2, par3, par4) == blockID)
 		{
-			setNotStationary(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_);
+			setNotStationary(par1World, par2, par3, par4);
 		}
 	}
 	
-	private void setNotStationary(World p_72215_1_, int p_72215_2_, int p_72215_3_, int p_72215_4_)
+	private void setNotStationary(World par1World, int par2, int par3, int par4)
 	{
-		int var5 = p_72215_1_.getBlockMetadata(p_72215_2_, p_72215_3_, p_72215_4_);
-		p_72215_1_.setBlock(p_72215_2_, p_72215_3_, p_72215_4_, blockID - 1, var5, 2);
-		p_72215_1_.scheduleBlockUpdate(p_72215_2_, p_72215_3_, p_72215_4_, blockID - 1, tickRate(p_72215_1_));
+		int var5 = par1World.getBlockMetadata(par2, par3, par4);
+		par1World.setBlock(par2, par3, par4, blockID - 1, var5, 2);
+		par1World.scheduleBlockUpdate(par2, par3, par4, blockID - 1, tickRate(par1World));
 	}
 	
-	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
+	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
 		if(blockMaterial == Material.lava)
 		{
-			int var6 = p_71847_5_.nextInt(3);
+			int var6 = par5Random.nextInt(3);
 			int var7;
 			int var8;
 			for(var7 = 0; var7 < var6; ++var7)
 			{
-				p_71847_2_ += p_71847_5_.nextInt(3) - 1;
-				++p_71847_3_;
-				p_71847_4_ += p_71847_5_.nextInt(3) - 1;
-				var8 = p_71847_1_.getBlockId(p_71847_2_, p_71847_3_, p_71847_4_);
+				par2 += par5Random.nextInt(3) - 1;
+				++par3;
+				par4 += par5Random.nextInt(3) - 1;
+				var8 = par1World.getBlockId(par2, par3, par4);
 				if(var8 == 0)
 				{
-					if(isFlammable(p_71847_1_, p_71847_2_ - 1, p_71847_3_, p_71847_4_) || isFlammable(p_71847_1_, p_71847_2_ + 1, p_71847_3_, p_71847_4_) || isFlammable(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_ - 1) || isFlammable(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_ + 1) || isFlammable(p_71847_1_, p_71847_2_, p_71847_3_ - 1, p_71847_4_) || isFlammable(p_71847_1_, p_71847_2_, p_71847_3_ + 1, p_71847_4_))
+					if(isFlammable(par1World, par2 - 1, par3, par4) || isFlammable(par1World, par2 + 1, par3, par4) || isFlammable(par1World, par2, par3, par4 - 1) || isFlammable(par1World, par2, par3, par4 + 1) || isFlammable(par1World, par2, par3 - 1, par4) || isFlammable(par1World, par2, par3 + 1, par4))
 					{
-						p_71847_1_.setBlock(p_71847_2_, p_71847_3_, p_71847_4_, Block.fire.blockID);
+						par1World.setBlock(par2, par3, par4, Block.fire.blockID);
 						return;
 					}
 				} else if(Block.blocksList[var8].blockMaterial.blocksMovement()) return;
 			}
 			if(var6 == 0)
 			{
-				var7 = p_71847_2_;
-				var8 = p_71847_4_;
+				var7 = par2;
+				var8 = par4;
 				for(int var9 = 0; var9 < 3; ++var9)
 				{
-					p_71847_2_ = var7 + p_71847_5_.nextInt(3) - 1;
-					p_71847_4_ = var8 + p_71847_5_.nextInt(3) - 1;
-					if(p_71847_1_.isAirBlock(p_71847_2_, p_71847_3_ + 1, p_71847_4_) && isFlammable(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_))
+					par2 = var7 + par5Random.nextInt(3) - 1;
+					par4 = var8 + par5Random.nextInt(3) - 1;
+					if(par1World.isAirBlock(par2, par3 + 1, par4) && isFlammable(par1World, par2, par3, par4))
 					{
-						p_71847_1_.setBlock(p_71847_2_, p_71847_3_ + 1, p_71847_4_, Block.fire.blockID);
+						par1World.setBlock(par2, par3 + 1, par4, Block.fire.blockID);
 					}
 				}
 			}

@@ -3,52 +3,49 @@ package net.minecraft.src;
 public class EntityAIAttackOnCollide extends EntityAIBase
 {
 	World worldObj;
-	EntityLiving attacker;
-	EntityLiving entityTarget;
+	EntityCreature attacker;
 	int attackTick;
-	float field_75440_e;
+	double field_75440_e;
 	boolean field_75437_f;
 	PathEntity entityPathEntity;
 	Class classTarget;
 	private int field_75445_i;
 	
-	public EntityAIAttackOnCollide(EntityLiving p_i3476_1_, Class p_i3476_2_, float p_i3476_3_, boolean p_i3476_4_)
+	public EntityAIAttackOnCollide(EntityCreature par1EntityCreature, Class par2Class, double par3, boolean par5)
 	{
-		this(p_i3476_1_, p_i3476_3_, p_i3476_4_);
-		classTarget = p_i3476_2_;
+		this(par1EntityCreature, par3, par5);
+		classTarget = par2Class;
 	}
 	
-	public EntityAIAttackOnCollide(EntityLiving p_i3477_1_, float p_i3477_2_, boolean p_i3477_3_)
+	public EntityAIAttackOnCollide(EntityCreature par1EntityCreature, double par2, boolean par4)
 	{
-		attackTick = 0;
-		attacker = p_i3477_1_;
-		worldObj = p_i3477_1_.worldObj;
-		field_75440_e = p_i3477_2_;
-		field_75437_f = p_i3477_3_;
+		attacker = par1EntityCreature;
+		worldObj = par1EntityCreature.worldObj;
+		field_75440_e = par2;
+		field_75437_f = par4;
 		setMutexBits(3);
 	}
 	
 	@Override public boolean continueExecuting()
 	{
-		EntityLiving var1 = attacker.getAttackTarget();
-		return var1 == null ? false : !entityTarget.isEntityAlive() ? false : !field_75437_f ? !attacker.getNavigator().noPath() : attacker.isWithinHomeDistance(MathHelper.floor_double(entityTarget.posX), MathHelper.floor_double(entityTarget.posY), MathHelper.floor_double(entityTarget.posZ));
+		EntityLivingBase var1 = attacker.getAttackTarget();
+		return var1 == null ? false : !var1.isEntityAlive() ? false : !field_75437_f ? !attacker.getNavigator().noPath() : attacker.func_110176_b(MathHelper.floor_double(var1.posX), MathHelper.floor_double(var1.posY), MathHelper.floor_double(var1.posZ));
 	}
 	
 	@Override public void resetTask()
 	{
-		entityTarget = null;
 		attacker.getNavigator().clearPathEntity();
 	}
 	
 	@Override public boolean shouldExecute()
 	{
-		EntityLiving var1 = attacker.getAttackTarget();
+		EntityLivingBase var1 = attacker.getAttackTarget();
 		if(var1 == null) return false;
+		else if(!var1.isEntityAlive()) return false;
 		else if(classTarget != null && !classTarget.isAssignableFrom(var1.getClass())) return false;
 		else
 		{
-			entityTarget = var1;
-			entityPathEntity = attacker.getNavigator().getPathToEntityLiving(entityTarget);
+			entityPathEntity = attacker.getNavigator().getPathToEntityLiving(var1);
 			return entityPathEntity != null;
 		}
 	}
@@ -61,15 +58,16 @@ public class EntityAIAttackOnCollide extends EntityAIBase
 	
 	@Override public void updateTask()
 	{
-		attacker.getLookHelper().setLookPositionWithEntity(entityTarget, 30.0F, 30.0F);
-		if((field_75437_f || attacker.getEntitySenses().canSee(entityTarget)) && --field_75445_i <= 0)
+		EntityLivingBase var1 = attacker.getAttackTarget();
+		attacker.getLookHelper().setLookPositionWithEntity(var1, 30.0F, 30.0F);
+		if((field_75437_f || attacker.getEntitySenses().canSee(var1)) && --field_75445_i <= 0)
 		{
 			field_75445_i = 4 + attacker.getRNG().nextInt(7);
-			attacker.getNavigator().tryMoveToEntityLiving(entityTarget, field_75440_e);
+			attacker.getNavigator().tryMoveToEntityLiving(var1, field_75440_e);
 		}
 		attackTick = Math.max(attackTick - 1, 0);
-		double var1 = attacker.width * 2.0F * attacker.width * 2.0F;
-		if(attacker.getDistanceSq(entityTarget.posX, entityTarget.boundingBox.minY, entityTarget.posZ) <= var1)
+		double var2 = attacker.width * 2.0F * attacker.width * 2.0F + var1.width;
+		if(attacker.getDistanceSq(var1.posX, var1.boundingBox.minY, var1.posZ) <= var2)
 		{
 			if(attackTick <= 0)
 			{
@@ -78,7 +76,7 @@ public class EntityAIAttackOnCollide extends EntityAIBase
 				{
 					attacker.swingItem();
 				}
-				attacker.attackEntityAsMob(entityTarget);
+				attacker.attackEntityAsMob(var1);
 			}
 		}
 	}

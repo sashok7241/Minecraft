@@ -9,22 +9,22 @@ public class BlockEventData
 	private int eventID;
 	private int eventParameter;
 	
-	public BlockEventData(int p_i3742_1_, int p_i3742_2_, int p_i3742_3_, int p_i3742_4_, int p_i3742_5_, int p_i3742_6_)
+	public BlockEventData(int par1, int par2, int par3, int par4, int par5, int par6)
 	{
-		coordX = p_i3742_1_;
-		coordY = p_i3742_2_;
-		coordZ = p_i3742_3_;
-		eventID = p_i3742_5_;
-		eventParameter = p_i3742_6_;
-		blockID = p_i3742_4_;
+		coordX = par1;
+		coordY = par2;
+		coordZ = par3;
+		eventID = par5;
+		eventParameter = par6;
+		blockID = par4;
 	}
 	
-	@Override public boolean equals(Object p_equals_1_)
+	@Override public boolean equals(Object par1Obj)
 	{
-		if(!(p_equals_1_ instanceof BlockEventData)) return false;
+		if(!(par1Obj instanceof BlockEventData)) return false;
 		else
 		{
-			BlockEventData var2 = (BlockEventData) p_equals_1_;
+			BlockEventData var2 = (BlockEventData) par1Obj;
 			return coordX == var2.coordX && coordY == var2.coordY && coordZ == var2.coordZ && eventID == var2.eventID && eventParameter == var2.eventParameter && blockID == var2.blockID;
 		}
 	}

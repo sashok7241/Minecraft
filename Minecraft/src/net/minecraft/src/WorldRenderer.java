@@ -9,7 +9,7 @@ public class WorldRenderer
 	public World worldObj;
 	private int glRenderList = -1;
 	private static Tessellator tessellator = Tessellator.instance;
-	public static int chunksUpdated = 0;
+	public static int chunksUpdated;
 	public int posX;
 	public int posY;
 	public int posZ;
@@ -19,7 +19,7 @@ public class WorldRenderer
 	public int posXClip;
 	public int posYClip;
 	public int posZClip;
-	public boolean isInFrustum = false;
+	public boolean isInFrustum;
 	public boolean[] skipRenderPass = new boolean[2];
 	public int posXPlus;
 	public int posYPlus;
@@ -31,18 +31,18 @@ public class WorldRenderer
 	public boolean isWaitingOnOcclusionQuery;
 	public int glOcclusionQuery;
 	public boolean isChunkLit;
-	private boolean isInitialized = false;
+	private boolean isInitialized;
 	public List tileEntityRenderers = new ArrayList();
 	private List tileEntities;
 	private int bytesDrawn;
 	
-	public WorldRenderer(World p_i3196_1_, List p_i3196_2_, int p_i3196_3_, int p_i3196_4_, int p_i3196_5_, int p_i3196_6_)
+	public WorldRenderer(World par1World, List par2List, int par3, int par4, int par5, int par6)
 	{
-		worldObj = p_i3196_1_;
-		tileEntities = p_i3196_2_;
-		glRenderList = p_i3196_6_;
+		worldObj = par1World;
+		tileEntities = par2List;
+		glRenderList = par6;
 		posX = -999;
-		setPosition(p_i3196_3_, p_i3196_4_, p_i3196_5_);
+		setPosition(par3, par4, par5);
 		needsUpdate = false;
 	}
 	

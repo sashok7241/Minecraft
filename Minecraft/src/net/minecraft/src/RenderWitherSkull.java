@@ -3,11 +3,23 @@ package net.minecraft.src;
 
 public class RenderWitherSkull extends Render
 {
-	ModelSkeletonHead skeletonHeadModel = new ModelSkeletonHead();
+	private static final ResourceLocation field_110811_a = new ResourceLocation("textures/entity/wither/wither_invulnerable.png");
+	private static final ResourceLocation field_110810_f = new ResourceLocation("textures/entity/wither/wither.png");
+	private final ModelSkeletonHead skeletonHeadModel = new ModelSkeletonHead();
 	
 	@Override public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
 		func_82399_a((EntityWitherSkull) par1Entity, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110809_a((EntityWitherSkull) par1Entity);
+	}
+	
+	protected ResourceLocation func_110809_a(EntityWitherSkull par1EntityWitherSkull)
+	{
+		return par1EntityWitherSkull.isInvulnerable() ? field_110811_a : field_110810_f;
 	}
 	
 	public void func_82399_a(EntityWitherSkull par1EntityWitherSkull, double par2, double par4, double par6, float par8, float par9)
@@ -21,13 +33,7 @@ public class RenderWitherSkull extends Render
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScalef(-1.0F, -1.0F, 1.0F);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		if(par1EntityWitherSkull.isInvulnerable())
-		{
-			loadTexture("/mob/wither_invul.png");
-		} else
-		{
-			loadTexture("/mob/wither.png");
-		}
+		func_110777_b(par1EntityWitherSkull);
 		skeletonHeadModel.render(par1EntityWitherSkull, 0.0F, 0.0F, 0.0F, var10, var11, var12);
 		GL11.glPopMatrix();
 	}

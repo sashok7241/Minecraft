@@ -9,47 +9,47 @@ public class PotionEffect
 	private boolean isAmbient;
 	private boolean isPotionDurationMax;
 	
-	public PotionEffect(int p_i5051_1_, int p_i5051_2_)
+	public PotionEffect(int par1, int par2)
 	{
-		this(p_i5051_1_, p_i5051_2_, 0);
+		this(par1, par2, 0);
 	}
 	
-	public PotionEffect(int p_i3434_1_, int p_i3434_2_, int p_i3434_3_)
+	public PotionEffect(int par1, int par2, int par3)
 	{
-		this(p_i3434_1_, p_i3434_2_, p_i3434_3_, false);
+		this(par1, par2, par3, false);
 	}
 	
-	public PotionEffect(int p_i5052_1_, int p_i5052_2_, int p_i5052_3_, boolean p_i5052_4_)
+	public PotionEffect(int par1, int par2, int par3, boolean par4)
 	{
-		potionID = p_i5052_1_;
-		duration = p_i5052_2_;
-		amplifier = p_i5052_3_;
-		isAmbient = p_i5052_4_;
+		potionID = par1;
+		duration = par2;
+		amplifier = par3;
+		isAmbient = par4;
 	}
 	
-	public PotionEffect(PotionEffect p_i3435_1_)
+	public PotionEffect(PotionEffect par1PotionEffect)
 	{
-		potionID = p_i3435_1_.potionID;
-		duration = p_i3435_1_.duration;
-		amplifier = p_i3435_1_.amplifier;
+		potionID = par1PotionEffect.potionID;
+		duration = par1PotionEffect.duration;
+		amplifier = par1PotionEffect.amplifier;
 	}
 	
-	public void combine(PotionEffect p_76452_1_)
+	public void combine(PotionEffect par1PotionEffect)
 	{
-		if(potionID != p_76452_1_.potionID)
+		if(potionID != par1PotionEffect.potionID)
 		{
 			System.err.println("This method should only be called for matching effects!");
 		}
-		if(p_76452_1_.amplifier > amplifier)
+		if(par1PotionEffect.amplifier > amplifier)
 		{
-			amplifier = p_76452_1_.amplifier;
-			duration = p_76452_1_.duration;
-		} else if(p_76452_1_.amplifier == amplifier && duration < p_76452_1_.duration)
+			amplifier = par1PotionEffect.amplifier;
+			duration = par1PotionEffect.duration;
+		} else if(par1PotionEffect.amplifier == amplifier && duration < par1PotionEffect.duration)
 		{
-			duration = p_76452_1_.duration;
-		} else if(!p_76452_1_.isAmbient && isAmbient)
+			duration = par1PotionEffect.duration;
+		} else if(!par1PotionEffect.isAmbient && isAmbient)
 		{
-			isAmbient = p_76452_1_.isAmbient;
+			isAmbient = par1PotionEffect.isAmbient;
 		}
 	}
 	
@@ -58,12 +58,12 @@ public class PotionEffect
 		return --duration;
 	}
 	
-	@Override public boolean equals(Object p_equals_1_)
+	@Override public boolean equals(Object par1Obj)
 	{
-		if(!(p_equals_1_ instanceof PotionEffect)) return false;
+		if(!(par1Obj instanceof PotionEffect)) return false;
 		else
 		{
-			PotionEffect var2 = (PotionEffect) p_equals_1_;
+			PotionEffect var2 = (PotionEffect) par1Obj;
 			return potionID == var2.potionID && amplifier == var2.amplifier && duration == var2.duration && isSplashPotion == var2.isSplashPotion && isAmbient == var2.isAmbient;
 		}
 	}
@@ -103,29 +103,24 @@ public class PotionEffect
 		return potionID;
 	}
 	
-	public boolean isSplashPotionEffect()
-	{
-		return isSplashPotion;
-	}
-	
-	public boolean onUpdate(EntityLiving p_76455_1_)
+	public boolean onUpdate(EntityLivingBase par1EntityLivingBase)
 	{
 		if(duration > 0)
 		{
 			if(Potion.potionTypes[potionID].isReady(duration, amplifier))
 			{
-				performEffect(p_76455_1_);
+				performEffect(par1EntityLivingBase);
 			}
 			deincrementDuration();
 		}
 		return duration > 0;
 	}
 	
-	public void performEffect(EntityLiving p_76457_1_)
+	public void performEffect(EntityLivingBase par1EntityLivingBase)
 	{
 		if(duration > 0)
 		{
-			Potion.potionTypes[potionID].performEffect(p_76457_1_, amplifier);
+			Potion.potionTypes[potionID].performEffect(par1EntityLivingBase, amplifier);
 		}
 	}
 	
@@ -134,9 +129,9 @@ public class PotionEffect
 		isPotionDurationMax = par1;
 	}
 	
-	public void setSplashPotion(boolean p_82721_1_)
+	public void setSplashPotion(boolean par1)
 	{
-		isSplashPotion = p_82721_1_;
+		isSplashPotion = par1;
 	}
 	
 	@Override public String toString()
@@ -156,21 +151,21 @@ public class PotionEffect
 		return Potion.potionTypes[potionID].isUsable() ? "(" + var1 + ")" : var1;
 	}
 	
-	public NBTTagCompound writeCustomPotionEffectToNBT(NBTTagCompound p_82719_1_)
+	public NBTTagCompound writeCustomPotionEffectToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		p_82719_1_.setByte("Id", (byte) getPotionID());
-		p_82719_1_.setByte("Amplifier", (byte) getAmplifier());
-		p_82719_1_.setInteger("Duration", getDuration());
-		p_82719_1_.setBoolean("Ambient", getIsAmbient());
-		return p_82719_1_;
+		par1NBTTagCompound.setByte("Id", (byte) getPotionID());
+		par1NBTTagCompound.setByte("Amplifier", (byte) getAmplifier());
+		par1NBTTagCompound.setInteger("Duration", getDuration());
+		par1NBTTagCompound.setBoolean("Ambient", getIsAmbient());
+		return par1NBTTagCompound;
 	}
 	
-	public static PotionEffect readCustomPotionEffectFromNBT(NBTTagCompound p_82722_0_)
+	public static PotionEffect readCustomPotionEffectFromNBT(NBTTagCompound par0NBTTagCompound)
 	{
-		byte var1 = p_82722_0_.getByte("Id");
-		byte var2 = p_82722_0_.getByte("Amplifier");
-		int var3 = p_82722_0_.getInteger("Duration");
-		boolean var4 = p_82722_0_.getBoolean("Ambient");
+		byte var1 = par0NBTTagCompound.getByte("Id");
+		byte var2 = par0NBTTagCompound.getByte("Amplifier");
+		int var3 = par0NBTTagCompound.getInteger("Duration");
+		boolean var4 = par0NBTTagCompound.getBoolean("Ambient");
 		return new PotionEffect(var1, var3, var2, var4);
 	}
 }

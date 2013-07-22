@@ -2,8 +2,8 @@ package net.minecraft.src;
 
 public class TileEntityNote extends TileEntity
 {
-	public byte note = 0;
-	public boolean previousRedstoneState = false;
+	public byte note;
+	public boolean previousRedstoneState;
 	
 	public void changePitch()
 	{
@@ -11,10 +11,10 @@ public class TileEntityNote extends TileEntity
 		onInventoryChanged();
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
+	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readFromNBT(p_70307_1_);
-		note = p_70307_1_.getByte("note");
+		super.readFromNBT(par1NBTTagCompound);
+		note = par1NBTTagCompound.getByte("note");
 		if(note < 0)
 		{
 			note = 0;
@@ -25,11 +25,11 @@ public class TileEntityNote extends TileEntity
 		}
 	}
 	
-	public void triggerNote(World p_70414_1_, int p_70414_2_, int p_70414_3_, int p_70414_4_)
+	public void triggerNote(World par1World, int par2, int par3, int par4)
 	{
-		if(p_70414_1_.getBlockMaterial(p_70414_2_, p_70414_3_ + 1, p_70414_4_) == Material.air)
+		if(par1World.getBlockMaterial(par2, par3 + 1, par4) == Material.air)
 		{
-			Material var5 = p_70414_1_.getBlockMaterial(p_70414_2_, p_70414_3_ - 1, p_70414_4_);
+			Material var5 = par1World.getBlockMaterial(par2, par3 - 1, par4);
 			byte var6 = 0;
 			if(var5 == Material.rock)
 			{
@@ -47,13 +47,13 @@ public class TileEntityNote extends TileEntity
 			{
 				var6 = 4;
 			}
-			p_70414_1_.addBlockEvent(p_70414_2_, p_70414_3_, p_70414_4_, Block.music.blockID, var6, note);
+			par1World.addBlockEvent(par2, par3, par4, Block.music.blockID, var6, note);
 		}
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
+	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeToNBT(p_70310_1_);
-		p_70310_1_.setByte("note", note);
+		super.writeToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setByte("note", note);
 	}
 }

@@ -7,20 +7,17 @@ public class FlatLayerInfo
 	private int layerFillBlockMeta;
 	private int layerMinimumY;
 	
-	public FlatLayerInfo(int p_i5091_1_, int p_i5091_2_)
+	public FlatLayerInfo(int par1, int par2)
 	{
 		layerCount = 1;
-		layerFillBlock = 0;
-		layerFillBlockMeta = 0;
-		layerMinimumY = 0;
-		layerCount = p_i5091_1_;
-		layerFillBlock = p_i5091_2_;
+		layerCount = par1;
+		layerFillBlock = par2;
 	}
 	
-	public FlatLayerInfo(int p_i5092_1_, int p_i5092_2_, int p_i5092_3_)
+	public FlatLayerInfo(int par1, int par2, int par3)
 	{
-		this(p_i5092_1_, p_i5092_2_);
-		layerFillBlockMeta = p_i5092_3_;
+		this(par1, par2);
+		layerFillBlockMeta = par3;
 	}
 	
 	public int getFillBlock()
@@ -43,9 +40,9 @@ public class FlatLayerInfo
 		return layerMinimumY;
 	}
 	
-	public void setMinY(int p_82660_1_)
+	public void setMinY(int par1)
 	{
-		layerMinimumY = p_82660_1_;
+		layerMinimumY = par1;
 	}
 	
 	@Override public String toString()

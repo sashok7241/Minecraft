@@ -6,12 +6,12 @@ public class WeightedRandomMinecart extends WeightedRandomItem
 	public final String minecartName;
 	final MobSpawnerBaseLogic field_98221_d;
 	
-	public WeightedRandomMinecart(MobSpawnerBaseLogic p_i11041_1_, NBTTagCompound p_i11041_2_)
+	public WeightedRandomMinecart(MobSpawnerBaseLogic par1MobSpawnerBaseLogic, NBTTagCompound par2NBTTagCompound)
 	{
-		super(p_i11041_2_.getInteger("Weight"));
-		field_98221_d = p_i11041_1_;
-		NBTTagCompound var3 = p_i11041_2_.getCompoundTag("Properties");
-		String var4 = p_i11041_2_.getString("Type");
+		super(par2NBTTagCompound.getInteger("Weight"));
+		field_98221_d = par1MobSpawnerBaseLogic;
+		NBTTagCompound var3 = par2NBTTagCompound.getCompoundTag("Properties");
+		String var4 = par2NBTTagCompound.getString("Type");
 		if(var4.equals("Minecart"))
 		{
 			if(var3 != null)
@@ -36,32 +36,32 @@ public class WeightedRandomMinecart extends WeightedRandomItem
 		minecartName = var4;
 	}
 	
-	public WeightedRandomMinecart(MobSpawnerBaseLogic p_i11042_1_, NBTTagCompound p_i11042_2_, String p_i11042_3_)
+	public WeightedRandomMinecart(MobSpawnerBaseLogic par1MobSpawnerBaseLogic, NBTTagCompound par2NBTTagCompound, String par3Str)
 	{
 		super(1);
-		field_98221_d = p_i11042_1_;
-		if(p_i11042_3_.equals("Minecart"))
+		field_98221_d = par1MobSpawnerBaseLogic;
+		if(par3Str.equals("Minecart"))
 		{
-			if(p_i11042_2_ != null)
+			if(par2NBTTagCompound != null)
 			{
-				switch(p_i11042_2_.getInteger("Type"))
+				switch(par2NBTTagCompound.getInteger("Type"))
 				{
 					case 0:
-						p_i11042_3_ = "MinecartRideable";
+						par3Str = "MinecartRideable";
 						break;
 					case 1:
-						p_i11042_3_ = "MinecartChest";
+						par3Str = "MinecartChest";
 						break;
 					case 2:
-						p_i11042_3_ = "MinecartFurnace";
+						par3Str = "MinecartFurnace";
 				}
 			} else
 			{
-				p_i11042_3_ = "MinecartRideable";
+				par3Str = "MinecartRideable";
 			}
 		}
-		field_98222_b = p_i11042_2_;
-		minecartName = p_i11042_3_;
+		field_98222_b = par2NBTTagCompound;
+		minecartName = par3Str;
 	}
 	
 	public NBTTagCompound func_98220_a()

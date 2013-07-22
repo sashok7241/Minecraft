@@ -4,12 +4,12 @@ public class EntityDiggingFX extends EntityFX
 {
 	private Block blockInstance;
 	
-	public EntityDiggingFX(World p_i9005_1_, double p_i9005_2_, double p_i9005_4_, double p_i9005_6_, double p_i9005_8_, double p_i9005_10_, double p_i9005_12_, Block p_i9005_14_, int p_i9005_15_, int p_i9005_16_, RenderEngine p_i9005_17_)
+	public EntityDiggingFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, Block par14Block, int par15)
 	{
-		super(p_i9005_1_, p_i9005_2_, p_i9005_4_, p_i9005_6_, p_i9005_8_, p_i9005_10_, p_i9005_12_);
-		blockInstance = p_i9005_14_;
-		setParticleIcon(p_i9005_17_, p_i9005_14_.getIcon(0, p_i9005_16_));
-		particleGravity = p_i9005_14_.blockParticleGravity;
+		super(par1World, par2, par4, par6, par8, par10, par12);
+		blockInstance = par14Block;
+		func_110125_a(par14Block.getIcon(0, par15));
+		particleGravity = par14Block.blockParticleGravity;
 		particleRed = particleGreen = particleBlue = 0.6F;
 		particleScale /= 2.0F;
 	}

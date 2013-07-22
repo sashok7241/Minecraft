@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class MaterialLiquid extends Material
 {
-	public MaterialLiquid(MapColor p_i3880_1_)
+	public MaterialLiquid(MapColor par1MapColor)
 	{
-		super(p_i3880_1_);
+		super(par1MapColor);
 		setReplaceable();
 		setNoPushMobility();
 	}

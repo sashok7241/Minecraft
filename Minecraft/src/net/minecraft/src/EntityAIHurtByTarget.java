@@ -6,47 +6,36 @@ import java.util.List;
 public class EntityAIHurtByTarget extends EntityAITarget
 {
 	boolean entityCallsForHelp;
-	EntityLiving entityPathNavigate;
+	private int field_142052_b;
 	
-	public EntityAIHurtByTarget(EntityLiving p_i3498_1_, boolean p_i3498_2_)
+	public EntityAIHurtByTarget(EntityCreature par1EntityCreature, boolean par2)
 	{
-		super(p_i3498_1_, 16.0F, false);
-		entityCallsForHelp = p_i3498_2_;
+		super(par1EntityCreature, false);
+		entityCallsForHelp = par2;
 		setMutexBits(1);
-	}
-	
-	@Override public boolean continueExecuting()
-	{
-		return taskOwner.getAITarget() != null && taskOwner.getAITarget() != entityPathNavigate;
-	}
-	
-	@Override public void resetTask()
-	{
-		if(taskOwner.getAttackTarget() != null && taskOwner.getAttackTarget() instanceof EntityPlayer && ((EntityPlayer) taskOwner.getAttackTarget()).capabilities.disableDamage)
-		{
-			super.resetTask();
-		}
 	}
 	
 	@Override public boolean shouldExecute()
 	{
-		return isSuitableTarget(taskOwner.getAITarget(), true);
+		int var1 = taskOwner.func_142015_aE();
+		return var1 != field_142052_b && isSuitableTarget(taskOwner.getAITarget(), false);
 	}
 	
 	@Override public void startExecuting()
 	{
 		taskOwner.setAttackTarget(taskOwner.getAITarget());
-		entityPathNavigate = taskOwner.getAITarget();
+		field_142052_b = taskOwner.func_142015_aE();
 		if(entityCallsForHelp)
 		{
-			List var1 = taskOwner.worldObj.getEntitiesWithinAABB(taskOwner.getClass(), AxisAlignedBB.getAABBPool().getAABB(taskOwner.posX, taskOwner.posY, taskOwner.posZ, taskOwner.posX + 1.0D, taskOwner.posY + 1.0D, taskOwner.posZ + 1.0D).expand(targetDistance, 10.0D, targetDistance));
-			Iterator var2 = var1.iterator();
-			while(var2.hasNext())
+			double var1 = func_111175_f();
+			List var3 = taskOwner.worldObj.getEntitiesWithinAABB(taskOwner.getClass(), AxisAlignedBB.getAABBPool().getAABB(taskOwner.posX, taskOwner.posY, taskOwner.posZ, taskOwner.posX + 1.0D, taskOwner.posY + 1.0D, taskOwner.posZ + 1.0D).expand(var1, 10.0D, var1));
+			Iterator var4 = var3.iterator();
+			while(var4.hasNext())
 			{
-				EntityLiving var3 = (EntityLiving) var2.next();
-				if(taskOwner != var3 && var3.getAttackTarget() == null)
+				EntityCreature var5 = (EntityCreature) var4.next();
+				if(taskOwner != var5 && var5.getAttackTarget() == null && !var5.func_142014_c(taskOwner.getAITarget()))
 				{
-					var3.setAttackTarget(taskOwner.getAITarget());
+					var5.setAttackTarget(taskOwner.getAITarget());
 				}
 			}
 		}

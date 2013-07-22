@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BlockSponge extends Block
 {
-	protected BlockSponge(int p_i3996_1_)
+	protected BlockSponge(int par1)
 	{
-		super(p_i3996_1_, Material.sponge);
+		super(par1, Material.sponge);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 }

@@ -28,31 +28,27 @@ public class ModelRenderer
 	public float offsetY;
 	public float offsetZ;
 	
-	public ModelRenderer(ModelBase p_i3148_1_)
+	public ModelRenderer(ModelBase par1ModelBase)
 	{
-		this(p_i3148_1_, (String) null);
+		this(par1ModelBase, (String) null);
 	}
 	
-	public ModelRenderer(ModelBase p_i3149_1_, int p_i3149_2_, int p_i3149_3_)
+	public ModelRenderer(ModelBase par1ModelBase, int par2, int par3)
 	{
-		this(p_i3149_1_);
-		setTextureOffset(p_i3149_2_, p_i3149_3_);
+		this(par1ModelBase);
+		setTextureOffset(par2, par3);
 	}
 	
-	public ModelRenderer(ModelBase p_i3147_1_, String p_i3147_2_)
+	public ModelRenderer(ModelBase par1ModelBase, String par2Str)
 	{
 		textureWidth = 64.0F;
 		textureHeight = 32.0F;
-		compiled = false;
-		displayList = 0;
-		mirror = false;
 		showModel = true;
-		isHidden = false;
 		cubeList = new ArrayList();
-		baseModel = p_i3147_1_;
-		p_i3147_1_.boxList.add(this);
-		boxName = p_i3147_2_;
-		setTextureSize(p_i3147_1_.textureWidth, p_i3147_1_.textureHeight);
+		baseModel = par1ModelBase;
+		par1ModelBase.boxList.add(this);
+		boxName = par2Str;
+		setTextureSize(par1ModelBase.textureWidth, par1ModelBase.textureHeight);
 	}
 	
 	public ModelRenderer addBox(float par1, float par2, float par3, int par4, int par5, int par6)

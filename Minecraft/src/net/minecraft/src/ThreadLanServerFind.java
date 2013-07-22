@@ -14,10 +14,10 @@ public class ThreadLanServerFind extends Thread
 	private final InetAddress broadcastAddress;
 	private final MulticastSocket socket;
 	
-	public ThreadLanServerFind(LanServerList p_i3122_1_) throws IOException
+	public ThreadLanServerFind(LanServerList par1LanServerList) throws IOException
 	{
 		super("LanServerDetector");
-		localServerList = p_i3122_1_;
+		localServerList = par1LanServerList;
 		setDaemon(true);
 		socket = new MulticastSocket(4445);
 		broadcastAddress = InetAddress.getByName("224.0.2.60");

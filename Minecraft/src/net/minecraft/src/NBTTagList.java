@@ -17,15 +17,15 @@ public class NBTTagList extends NBTBase
 		super("");
 	}
 	
-	public NBTTagList(String p_i3274_1_)
+	public NBTTagList(String par1Str)
 	{
-		super(p_i3274_1_);
+		super(par1Str);
 	}
 	
-	public void appendTag(NBTBase p_74742_1_)
+	public void appendTag(NBTBase par1NBTBase)
 	{
-		tagType = p_74742_1_.getId();
-		tagList.add(p_74742_1_);
+		tagType = par1NBTBase.getId();
+		tagList.add(par1NBTBase);
 	}
 	
 	@Override public NBTBase copy()
@@ -42,11 +42,11 @@ public class NBTTagList extends NBTBase
 		return var1;
 	}
 	
-	@Override public boolean equals(Object p_equals_1_)
+	@Override public boolean equals(Object par1Obj)
 	{
-		if(super.equals(p_equals_1_))
+		if(super.equals(par1Obj))
 		{
-			NBTTagList var2 = (NBTTagList) p_equals_1_;
+			NBTTagList var2 = (NBTTagList) par1Obj;
 			if(tagType == var2.tagType) return tagList.equals(var2.tagList);
 		}
 		return false;
@@ -62,16 +62,20 @@ public class NBTTagList extends NBTBase
 		return super.hashCode() ^ tagList.hashCode();
 	}
 	
-	@Override void load(DataInput p_74735_1_) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
-		tagType = p_74735_1_.readByte();
-		int var2 = p_74735_1_.readInt();
-		tagList = new ArrayList();
-		for(int var3 = 0; var3 < var2; ++var3)
+		if(par2 > 512) throw new RuntimeException("Tried to read NBT tag with too high complexity, depth > 512");
+		else
 		{
-			NBTBase var4 = NBTBase.newTag(tagType, (String) null);
-			var4.load(p_74735_1_);
-			tagList.add(var4);
+			tagType = par1DataInput.readByte();
+			int var3 = par1DataInput.readInt();
+			tagList = new ArrayList();
+			for(int var4 = 0; var4 < var3; ++var4)
+			{
+				NBTBase var5 = NBTBase.newTag(tagType, (String) null);
+				var5.load(par1DataInput, par2 + 1);
+				tagList.add(var5);
+			}
 		}
 	}
 	
@@ -80,9 +84,9 @@ public class NBTTagList extends NBTBase
 		return (NBTBase) tagList.remove(par1);
 	}
 	
-	public NBTBase tagAt(int p_74743_1_)
+	public NBTBase tagAt(int par1)
 	{
-		return (NBTBase) tagList.get(p_74743_1_);
+		return (NBTBase) tagList.get(par1);
 	}
 	
 	public int tagCount()
@@ -95,7 +99,7 @@ public class NBTTagList extends NBTBase
 		return "" + tagList.size() + " entries of type " + NBTBase.getTagName(tagType);
 	}
 	
-	@Override void write(DataOutput p_74734_1_) throws IOException
+	@Override void write(DataOutput par1DataOutput) throws IOException
 	{
 		if(!tagList.isEmpty())
 		{
@@ -104,11 +108,11 @@ public class NBTTagList extends NBTBase
 		{
 			tagType = 1;
 		}
-		p_74734_1_.writeByte(tagType);
-		p_74734_1_.writeInt(tagList.size());
+		par1DataOutput.writeByte(tagType);
+		par1DataOutput.writeInt(tagList.size());
 		for(int var2 = 0; var2 < tagList.size(); ++var2)
 		{
-			((NBTBase) tagList.get(var2)).write(p_74734_1_);
+			((NBTBase) tagList.get(var2)).write(par1DataOutput);
 		}
 	}
 }

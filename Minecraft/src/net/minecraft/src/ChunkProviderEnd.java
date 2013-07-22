@@ -21,10 +21,10 @@ public class ChunkProviderEnd implements IChunkProvider
 	double[] noiseData5;
 	int[][] field_73203_h = new int[32][32];
 	
-	public ChunkProviderEnd(World p_i3783_1_, long p_i3783_2_)
+	public ChunkProviderEnd(World par1World, long par2)
 	{
-		endWorld = p_i3783_1_;
-		endRNG = new Random(p_i3783_2_);
+		endWorld = par1World;
+		endRNG = new Random(par2);
 		noiseGen1 = new NoiseGeneratorOctaves(endRNG, 16);
 		noiseGen2 = new NoiseGeneratorOctaves(endRNG, 16);
 		noiseGen3 = new NoiseGeneratorOctaves(endRNG, 8);
@@ -37,12 +37,12 @@ public class ChunkProviderEnd implements IChunkProvider
 		return true;
 	}
 	
-	@Override public boolean chunkExists(int p_73149_1_, int p_73149_2_)
+	@Override public boolean chunkExists(int par1, int par2)
 	{
 		return true;
 	}
 	
-	@Override public ChunkPosition findClosestStructure(World p_73150_1_, String p_73150_2_, int p_73150_3_, int p_73150_4_, int p_73150_5_)
+	@Override public ChunkPosition findClosestStructure(World par1World, String par2Str, int par3, int par4, int par5)
 	{
 		return null;
 	}
@@ -51,13 +51,13 @@ public class ChunkProviderEnd implements IChunkProvider
 	{
 	}
 	
-	public void generateTerrain(int p_73189_1_, int p_73189_2_, byte[] p_73189_3_, BiomeGenBase[] p_73189_4_)
+	public void generateTerrain(int par1, int par2, byte[] par3ArrayOfByte, BiomeGenBase[] par4ArrayOfBiomeGenBase)
 	{
 		byte var5 = 2;
 		int var6 = var5 + 1;
 		byte var7 = 33;
 		int var8 = var5 + 1;
-		densities = initializeNoiseField(densities, p_73189_1_ * var5, 0, p_73189_2_ * var5, var6, var7, var8);
+		densities = initializeNoiseField(densities, par1 * var5, 0, par2 * var5, var6, var7, var8);
 		for(int var9 = 0; var9 < var5; ++var9)
 		{
 			for(int var10 = 0; var10 < var5; ++var10)
@@ -94,7 +94,7 @@ public class ChunkProviderEnd implements IChunkProvider
 								{
 									var51 = Block.whiteStone.blockID;
 								}
-								p_73189_3_[var42] = (byte) var51;
+								par3ArrayOfByte[var42] = (byte) var51;
 								var42 += var43;
 								var46 += var48;
 							}
@@ -116,31 +116,31 @@ public class ChunkProviderEnd implements IChunkProvider
 		return 0;
 	}
 	
-	@Override public List getPossibleCreatures(EnumCreatureType p_73155_1_, int p_73155_2_, int p_73155_3_, int p_73155_4_)
+	@Override public List getPossibleCreatures(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
 	{
-		BiomeGenBase var5 = endWorld.getBiomeGenForCoords(p_73155_2_, p_73155_4_);
-		return var5 == null ? null : var5.getSpawnableList(p_73155_1_);
+		BiomeGenBase var5 = endWorld.getBiomeGenForCoords(par2, par4);
+		return var5 == null ? null : var5.getSpawnableList(par1EnumCreatureType);
 	}
 	
-	private double[] initializeNoiseField(double[] p_73187_1_, int p_73187_2_, int p_73187_3_, int p_73187_4_, int p_73187_5_, int p_73187_6_, int p_73187_7_)
+	private double[] initializeNoiseField(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, int par6, int par7)
 	{
-		if(p_73187_1_ == null)
+		if(par1ArrayOfDouble == null)
 		{
-			p_73187_1_ = new double[p_73187_5_ * p_73187_6_ * p_73187_7_];
+			par1ArrayOfDouble = new double[par5 * par6 * par7];
 		}
 		double var8 = 684.412D;
 		double var10 = 684.412D;
-		noiseData4 = noiseGen4.generateNoiseOctaves(noiseData4, p_73187_2_, p_73187_4_, p_73187_5_, p_73187_7_, 1.121D, 1.121D, 0.5D);
-		noiseData5 = noiseGen5.generateNoiseOctaves(noiseData5, p_73187_2_, p_73187_4_, p_73187_5_, p_73187_7_, 200.0D, 200.0D, 0.5D);
+		noiseData4 = noiseGen4.generateNoiseOctaves(noiseData4, par2, par4, par5, par7, 1.121D, 1.121D, 0.5D);
+		noiseData5 = noiseGen5.generateNoiseOctaves(noiseData5, par2, par4, par5, par7, 200.0D, 200.0D, 0.5D);
 		var8 *= 2.0D;
-		noiseData1 = noiseGen3.generateNoiseOctaves(noiseData1, p_73187_2_, p_73187_3_, p_73187_4_, p_73187_5_, p_73187_6_, p_73187_7_, var8 / 80.0D, var10 / 160.0D, var8 / 80.0D);
-		noiseData2 = noiseGen1.generateNoiseOctaves(noiseData2, p_73187_2_, p_73187_3_, p_73187_4_, p_73187_5_, p_73187_6_, p_73187_7_, var8, var10, var8);
-		noiseData3 = noiseGen2.generateNoiseOctaves(noiseData3, p_73187_2_, p_73187_3_, p_73187_4_, p_73187_5_, p_73187_6_, p_73187_7_, var8, var10, var8);
+		noiseData1 = noiseGen3.generateNoiseOctaves(noiseData1, par2, par3, par4, par5, par6, par7, var8 / 80.0D, var10 / 160.0D, var8 / 80.0D);
+		noiseData2 = noiseGen1.generateNoiseOctaves(noiseData2, par2, par3, par4, par5, par6, par7, var8, var10, var8);
+		noiseData3 = noiseGen2.generateNoiseOctaves(noiseData3, par2, par3, par4, par5, par6, par7, var8, var10, var8);
 		int var12 = 0;
 		int var13 = 0;
-		for(int var14 = 0; var14 < p_73187_5_; ++var14)
+		for(int var14 = 0; var14 < par5; ++var14)
 		{
-			for(int var15 = 0; var15 < p_73187_7_; ++var15)
+			for(int var15 = 0; var15 < par7; ++var15)
 			{
 				double var16 = (noiseData4[var13] + 256.0D) / 512.0D;
 				if(var16 > 1.0D)
@@ -153,8 +153,8 @@ public class ChunkProviderEnd implements IChunkProvider
 					var18 = -var18 * 0.3D;
 				}
 				var18 = var18 * 3.0D - 2.0D;
-				float var20 = (var14 + p_73187_2_ - 0) / 1.0F;
-				float var21 = (var15 + p_73187_4_ - 0) / 1.0F;
+				float var20 = (var14 + par2 - 0) / 1.0F;
+				float var21 = (var15 + par4 - 0) / 1.0F;
 				float var22 = 100.0F - MathHelper.sqrt_float(var20 * var20 + var21 * var21) * 8.0F;
 				if(var22 > 80.0F)
 				{
@@ -175,10 +175,10 @@ public class ChunkProviderEnd implements IChunkProvider
 					var16 = 0.0D;
 				}
 				var16 += 0.5D;
-				var18 = var18 * p_73187_6_ / 16.0D;
+				var18 = var18 * par6 / 16.0D;
 				++var13;
-				double var23 = p_73187_6_ / 2.0D;
-				for(int var25 = 0; var25 < p_73187_6_; ++var25)
+				double var23 = par6 / 2.0D;
+				for(int var25 = 0; var25 < par6; ++var25)
 				{
 					double var26 = 0.0D;
 					double var28 = (var25 - var23) * 8.0D / var16;
@@ -203,9 +203,9 @@ public class ChunkProviderEnd implements IChunkProvider
 					var26 += var22;
 					byte var36 = 2;
 					double var37;
-					if(var25 > p_73187_6_ / 2 - var36)
+					if(var25 > par6 / 2 - var36)
 					{
-						var37 = (var25 - (p_73187_6_ / 2 - var36)) / 64.0F;
+						var37 = (var25 - (par6 / 2 - var36)) / 64.0F;
 						if(var37 < 0.0D)
 						{
 							var37 = 0.0D;
@@ -222,17 +222,17 @@ public class ChunkProviderEnd implements IChunkProvider
 						var37 = (var36 - var25) / (var36 - 1.0F);
 						var26 = var26 * (1.0D - var37) + -30.0D * var37;
 					}
-					p_73187_1_[var12] = var26;
+					par1ArrayOfDouble[var12] = var26;
 					++var12;
 				}
 			}
 		}
-		return p_73187_1_;
+		return par1ArrayOfDouble;
 	}
 	
-	@Override public Chunk loadChunk(int p_73158_1_, int p_73158_2_)
+	@Override public Chunk loadChunk(int par1, int par2)
 	{
-		return provideChunk(p_73158_1_, p_73158_2_);
+		return provideChunk(par1, par2);
 	}
 	
 	@Override public String makeString()
@@ -240,24 +240,24 @@ public class ChunkProviderEnd implements IChunkProvider
 		return "RandomLevelSource";
 	}
 	
-	@Override public void populate(IChunkProvider p_73153_1_, int p_73153_2_, int p_73153_3_)
+	@Override public void populate(IChunkProvider par1IChunkProvider, int par2, int par3)
 	{
 		BlockSand.fallInstantly = true;
-		int var4 = p_73153_2_ * 16;
-		int var5 = p_73153_3_ * 16;
+		int var4 = par2 * 16;
+		int var5 = par3 * 16;
 		BiomeGenBase var6 = endWorld.getBiomeGenForCoords(var4 + 16, var5 + 16);
 		var6.decorate(endWorld, endWorld.rand, var4, var5);
 		BlockSand.fallInstantly = false;
 	}
 	
-	@Override public Chunk provideChunk(int p_73154_1_, int p_73154_2_)
+	@Override public Chunk provideChunk(int par1, int par2)
 	{
-		endRNG.setSeed(p_73154_1_ * 341873128712L + p_73154_2_ * 132897987541L);
+		endRNG.setSeed(par1 * 341873128712L + par2 * 132897987541L);
 		byte[] var3 = new byte[32768];
-		biomesForGeneration = endWorld.getWorldChunkManager().loadBlockGeneratorData(biomesForGeneration, p_73154_1_ * 16, p_73154_2_ * 16, 16, 16);
-		generateTerrain(p_73154_1_, p_73154_2_, var3, biomesForGeneration);
-		replaceBlocksForBiome(p_73154_1_, p_73154_2_, var3, biomesForGeneration);
-		Chunk var4 = new Chunk(endWorld, var3, p_73154_1_, p_73154_2_);
+		biomesForGeneration = endWorld.getWorldChunkManager().loadBlockGeneratorData(biomesForGeneration, par1 * 16, par2 * 16, 16, 16);
+		generateTerrain(par1, par2, var3, biomesForGeneration);
+		replaceBlocksForBiome(par1, par2, var3, biomesForGeneration);
+		Chunk var4 = new Chunk(endWorld, var3, par1, par2);
 		byte[] var5 = var4.getBiomeArray();
 		for(int var6 = 0; var6 < var5.length; ++var6)
 		{
@@ -267,11 +267,11 @@ public class ChunkProviderEnd implements IChunkProvider
 		return var4;
 	}
 	
-	@Override public void recreateStructures(int p_82695_1_, int p_82695_2_)
+	@Override public void recreateStructures(int par1, int par2)
 	{
 	}
 	
-	public void replaceBlocksForBiome(int p_73188_1_, int p_73188_2_, byte[] p_73188_3_, BiomeGenBase[] p_73188_4_)
+	public void replaceBlocksForBiome(int par1, int par2, byte[] par3ArrayOfByte, BiomeGenBase[] par4ArrayOfBiomeGenBase)
 	{
 		for(int var5 = 0; var5 < 16; ++var5)
 		{
@@ -284,7 +284,7 @@ public class ChunkProviderEnd implements IChunkProvider
 				for(int var11 = 127; var11 >= 0; --var11)
 				{
 					int var12 = (var6 * 16 + var5) * 128 + var11;
-					byte var13 = p_73188_3_[var12];
+					byte var13 = par3ArrayOfByte[var12];
 					if(var13 == 0)
 					{
 						var8 = -1;
@@ -300,15 +300,15 @@ public class ChunkProviderEnd implements IChunkProvider
 							var8 = var7;
 							if(var11 >= 0)
 							{
-								p_73188_3_[var12] = var9;
+								par3ArrayOfByte[var12] = var9;
 							} else
 							{
-								p_73188_3_[var12] = var10;
+								par3ArrayOfByte[var12] = var10;
 							}
 						} else if(var8 > 0)
 						{
 							--var8;
-							p_73188_3_[var12] = var10;
+							par3ArrayOfByte[var12] = var10;
 						}
 					}
 				}
@@ -316,7 +316,7 @@ public class ChunkProviderEnd implements IChunkProvider
 		}
 	}
 	
-	@Override public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_)
+	@Override public boolean saveChunks(boolean par1, IProgressUpdate par2IProgressUpdate)
 	{
 		return true;
 	}

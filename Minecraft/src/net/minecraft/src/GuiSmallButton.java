@@ -4,21 +4,21 @@ public class GuiSmallButton extends GuiButton
 {
 	private final EnumOptions enumOptions;
 	
-	public GuiSmallButton(int p_i3059_1_, int p_i3059_2_, int p_i3059_3_, EnumOptions p_i3059_4_, String p_i3059_5_)
+	public GuiSmallButton(int par1, int par2, int par3, EnumOptions par4EnumOptions, String par5Str)
 	{
-		super(p_i3059_1_, p_i3059_2_, p_i3059_3_, 150, 20, p_i3059_5_);
-		enumOptions = p_i3059_4_;
+		super(par1, par2, par3, 150, 20, par5Str);
+		enumOptions = par4EnumOptions;
 	}
 	
-	public GuiSmallButton(int p_i3058_1_, int p_i3058_2_, int p_i3058_3_, int p_i3058_4_, int p_i3058_5_, String p_i3058_6_)
+	public GuiSmallButton(int par1, int par2, int par3, int par4, int par5, String par6Str)
 	{
-		super(p_i3058_1_, p_i3058_2_, p_i3058_3_, p_i3058_4_, p_i3058_5_, p_i3058_6_);
+		super(par1, par2, par3, par4, par5, par6Str);
 		enumOptions = null;
 	}
 	
-	public GuiSmallButton(int p_i3057_1_, int p_i3057_2_, int p_i3057_3_, String p_i3057_4_)
+	public GuiSmallButton(int par1, int par2, int par3, String par4Str)
 	{
-		this(p_i3057_1_, p_i3057_2_, p_i3057_3_, (EnumOptions) null, p_i3057_4_);
+		this(par1, par2, par3, (EnumOptions) null, par4Str);
 	}
 	
 	public EnumOptions returnEnumOptions()

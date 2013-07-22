@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet203AutoComplete extends Packet
@@ -12,12 +12,12 @@ public class Packet203AutoComplete extends Packet
 	{
 	}
 	
-	public Packet203AutoComplete(String p_i3299_1_)
+	public Packet203AutoComplete(String par1Str)
 	{
-		text = p_i3299_1_;
+		text = par1Str;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
+	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
 	{
 		return true;
 	}
@@ -37,18 +37,18 @@ public class Packet203AutoComplete extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleAutoComplete(this);
+		par1NetHandler.handleAutoComplete(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		text = readString(p_73267_1_, Packet3Chat.maxChatLength);
+		text = readString(par1DataInput, 32767);
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(text, p_73273_1_);
+		writeString(org.apache.commons.lang3.StringUtils.substring(text, 0, 32767), par1DataOutput);
 	}
 }

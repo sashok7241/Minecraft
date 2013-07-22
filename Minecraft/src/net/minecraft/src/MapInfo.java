@@ -14,15 +14,12 @@ public class MapInfo
 	private boolean field_82570_i;
 	final MapData mapDataObj;
 	
-	public MapInfo(MapData p_i3904_1_, EntityPlayer p_i3904_2_)
+	public MapInfo(MapData par1MapData, EntityPlayer par2EntityPlayer)
 	{
-		mapDataObj = p_i3904_1_;
+		mapDataObj = par1MapData;
 		field_76209_b = new int[128];
 		field_76210_c = new int[128];
-		currentRandomNumber = 0;
-		ticksUntilPlayerLocationMapUpdate = 0;
-		field_82570_i = false;
-		entityplayerObj = p_i3904_2_;
+		entityplayerObj = par2EntityPlayer;
 		for(int var3 = 0; var3 < field_76209_b.length; ++var3)
 		{
 			field_76209_b[var3] = 0;
@@ -30,7 +27,7 @@ public class MapInfo
 		}
 	}
 	
-	public byte[] getPlayersOnMap(ItemStack p_76204_1_)
+	public byte[] getPlayersOnMap(ItemStack par1ItemStack)
 	{
 		byte[] var2;
 		if(!field_82570_i)
@@ -55,7 +52,7 @@ public class MapInfo
 					var2[var3 * 3 + 2] = var5.centerX;
 					var2[var3 * 3 + 3] = var5.centerZ;
 				}
-				boolean var9 = !p_76204_1_.isOnItemFrame();
+				boolean var9 = !par1ItemStack.isOnItemFrame();
 				if(lastPlayerLocationOnMap != null && lastPlayerLocationOnMap.length == var2.length)
 				{
 					for(var10 = 0; var10 < var2.length; ++var10)

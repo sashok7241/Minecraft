@@ -8,10 +8,10 @@ public abstract class MobSpawnerBaseLogic
 {
 	public int spawnDelay = 20;
 	private String mobID = "Pig";
-	private List minecartToSpawn = null;
-	private WeightedRandomMinecart randomMinecart = null;
+	private List minecartToSpawn;
+	private WeightedRandomMinecart randomMinecart;
 	public double field_98287_c;
-	public double field_98284_d = 0.0D;
+	public double field_98284_d;
 	private int minSpawnDelay = 200;
 	private int maxSpawnDelay = 800;
 	private int spawnCount = 4;
@@ -25,28 +25,28 @@ public abstract class MobSpawnerBaseLogic
 		return getSpawnerWorld().getClosestPlayer(getSpawnerX() + 0.5D, getSpawnerY() + 0.5D, getSpawnerZ() + 0.5D, activatingRangeFromPlayer) != null;
 	}
 	
-	public Entity func_98265_a(Entity p_98265_1_)
+	public Entity func_98265_a(Entity par1Entity)
 	{
 		if(getRandomMinecart() != null)
 		{
 			NBTTagCompound var2 = new NBTTagCompound();
-			p_98265_1_.addEntityID(var2);
+			par1Entity.addEntityID(var2);
 			Iterator var3 = getRandomMinecart().field_98222_b.getTags().iterator();
 			while(var3.hasNext())
 			{
 				NBTBase var4 = (NBTBase) var3.next();
 				var2.setTag(var4.getName(), var4.copy());
 			}
-			p_98265_1_.readFromNBT(var2);
-			if(p_98265_1_.worldObj != null)
+			par1Entity.readFromNBT(var2);
+			if(par1Entity.worldObj != null)
 			{
-				p_98265_1_.worldObj.spawnEntityInWorld(p_98265_1_);
+				par1Entity.worldObj.spawnEntityInWorld(par1Entity);
 			}
 			NBTTagCompound var10;
-			for(Entity var9 = p_98265_1_; var2.hasKey("Riding"); var2 = var10)
+			for(Entity var9 = par1Entity; var2.hasKey("Riding"); var2 = var10)
 			{
 				var10 = var2.getCompoundTag("Riding");
-				Entity var5 = EntityList.createEntityByName(var10.getString("id"), getSpawnerWorld());
+				Entity var5 = EntityList.createEntityByName(var10.getString("id"), par1Entity.worldObj);
 				if(var5 != null)
 				{
 					NBTTagCompound var6 = new NBTTagCompound();
@@ -59,17 +59,20 @@ public abstract class MobSpawnerBaseLogic
 					}
 					var5.readFromNBT(var6);
 					var5.setLocationAndAngles(var9.posX, var9.posY, var9.posZ, var9.rotationYaw, var9.rotationPitch);
-					getSpawnerWorld().spawnEntityInWorld(var5);
+					if(par1Entity.worldObj != null)
+					{
+						par1Entity.worldObj.spawnEntityInWorld(var5);
+					}
 					var9.mountEntity(var5);
 				}
 				var9 = var5;
 			}
-		} else if(p_98265_1_ instanceof EntityLiving && p_98265_1_.worldObj != null)
+		} else if(par1Entity instanceof EntityLivingBase && par1Entity.worldObj != null)
 		{
-			((EntityLiving) p_98265_1_).initCreature();
-			getSpawnerWorld().spawnEntityInWorld(p_98265_1_);
+			((EntityLiving) par1Entity).func_110161_a((EntityLivingData) null);
+			getSpawnerWorld().spawnEntityInWorld(par1Entity);
 		}
-		return p_98265_1_;
+		return par1Entity;
 	}
 	
 	public abstract void func_98267_a(int var1);
@@ -127,14 +130,14 @@ public abstract class MobSpawnerBaseLogic
 	
 	public abstract int getSpawnerZ();
 	
-	public void readFromNBT(NBTTagCompound p_98270_1_)
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		mobID = p_98270_1_.getString("EntityId");
-		spawnDelay = p_98270_1_.getShort("Delay");
-		if(p_98270_1_.hasKey("SpawnPotentials"))
+		mobID = par1NBTTagCompound.getString("EntityId");
+		spawnDelay = par1NBTTagCompound.getShort("Delay");
+		if(par1NBTTagCompound.hasKey("SpawnPotentials"))
 		{
 			minecartToSpawn = new ArrayList();
-			NBTTagList var2 = p_98270_1_.getTagList("SpawnPotentials");
+			NBTTagList var2 = par1NBTTagCompound.getTagList("SpawnPotentials");
 			for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 			{
 				minecartToSpawn.add(new WeightedRandomMinecart(this, (NBTTagCompound) var2.tagAt(var3)));
@@ -143,27 +146,27 @@ public abstract class MobSpawnerBaseLogic
 		{
 			minecartToSpawn = null;
 		}
-		if(p_98270_1_.hasKey("SpawnData"))
+		if(par1NBTTagCompound.hasKey("SpawnData"))
 		{
-			setRandomMinecart(new WeightedRandomMinecart(this, p_98270_1_.getCompoundTag("SpawnData"), mobID));
+			setRandomMinecart(new WeightedRandomMinecart(this, par1NBTTagCompound.getCompoundTag("SpawnData"), mobID));
 		} else
 		{
 			setRandomMinecart((WeightedRandomMinecart) null);
 		}
-		if(p_98270_1_.hasKey("MinSpawnDelay"))
+		if(par1NBTTagCompound.hasKey("MinSpawnDelay"))
 		{
-			minSpawnDelay = p_98270_1_.getShort("MinSpawnDelay");
-			maxSpawnDelay = p_98270_1_.getShort("MaxSpawnDelay");
-			spawnCount = p_98270_1_.getShort("SpawnCount");
+			minSpawnDelay = par1NBTTagCompound.getShort("MinSpawnDelay");
+			maxSpawnDelay = par1NBTTagCompound.getShort("MaxSpawnDelay");
+			spawnCount = par1NBTTagCompound.getShort("SpawnCount");
 		}
-		if(p_98270_1_.hasKey("MaxNearbyEntities"))
+		if(par1NBTTagCompound.hasKey("MaxNearbyEntities"))
 		{
-			maxNearbyEntities = p_98270_1_.getShort("MaxNearbyEntities");
-			activatingRangeFromPlayer = p_98270_1_.getShort("RequiredPlayerRange");
+			maxNearbyEntities = par1NBTTagCompound.getShort("MaxNearbyEntities");
+			activatingRangeFromPlayer = par1NBTTagCompound.getShort("RequiredPlayerRange");
 		}
-		if(p_98270_1_.hasKey("SpawnRange"))
+		if(par1NBTTagCompound.hasKey("SpawnRange"))
 		{
-			spawnRange = p_98270_1_.getShort("SpawnRange");
+			spawnRange = par1NBTTagCompound.getShort("SpawnRange");
 		}
 		if(getSpawnerWorld() != null && getSpawnerWorld().isRemote)
 		{
@@ -171,23 +174,23 @@ public abstract class MobSpawnerBaseLogic
 		}
 	}
 	
-	public boolean setDelayToMin(int p_98268_1_)
+	public boolean setDelayToMin(int par1)
 	{
-		if(p_98268_1_ == 1 && getSpawnerWorld().isRemote)
+		if(par1 == 1 && getSpawnerWorld().isRemote)
 		{
 			spawnDelay = minSpawnDelay;
 			return true;
 		} else return false;
 	}
 	
-	public void setMobID(String p_98272_1_)
+	public void setMobID(String par1Str)
 	{
-		mobID = p_98272_1_;
+		mobID = par1Str;
 	}
 	
-	public void setRandomMinecart(WeightedRandomMinecart p_98277_1_)
+	public void setRandomMinecart(WeightedRandomMinecart par1WeightedRandomMinecart)
 	{
-		randomMinecart = p_98277_1_;
+		randomMinecart = par1WeightedRandomMinecart;
 	}
 	
 	public void updateSpawner()
@@ -254,19 +257,19 @@ public abstract class MobSpawnerBaseLogic
 		}
 	}
 	
-	public void writeToNBT(NBTTagCompound p_98280_1_)
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		p_98280_1_.setString("EntityId", getEntityNameToSpawn());
-		p_98280_1_.setShort("Delay", (short) spawnDelay);
-		p_98280_1_.setShort("MinSpawnDelay", (short) minSpawnDelay);
-		p_98280_1_.setShort("MaxSpawnDelay", (short) maxSpawnDelay);
-		p_98280_1_.setShort("SpawnCount", (short) spawnCount);
-		p_98280_1_.setShort("MaxNearbyEntities", (short) maxNearbyEntities);
-		p_98280_1_.setShort("RequiredPlayerRange", (short) activatingRangeFromPlayer);
-		p_98280_1_.setShort("SpawnRange", (short) spawnRange);
+		par1NBTTagCompound.setString("EntityId", getEntityNameToSpawn());
+		par1NBTTagCompound.setShort("Delay", (short) spawnDelay);
+		par1NBTTagCompound.setShort("MinSpawnDelay", (short) minSpawnDelay);
+		par1NBTTagCompound.setShort("MaxSpawnDelay", (short) maxSpawnDelay);
+		par1NBTTagCompound.setShort("SpawnCount", (short) spawnCount);
+		par1NBTTagCompound.setShort("MaxNearbyEntities", (short) maxNearbyEntities);
+		par1NBTTagCompound.setShort("RequiredPlayerRange", (short) activatingRangeFromPlayer);
+		par1NBTTagCompound.setShort("SpawnRange", (short) spawnRange);
 		if(getRandomMinecart() != null)
 		{
-			p_98280_1_.setCompoundTag("SpawnData", (NBTTagCompound) getRandomMinecart().field_98222_b.copy());
+			par1NBTTagCompound.setCompoundTag("SpawnData", (NBTTagCompound) getRandomMinecart().field_98222_b.copy());
 		}
 		if(getRandomMinecart() != null || minecartToSpawn != null && minecartToSpawn.size() > 0)
 		{
@@ -283,7 +286,7 @@ public abstract class MobSpawnerBaseLogic
 			{
 				var2.appendTag(getRandomMinecart().func_98220_a());
 			}
-			p_98280_1_.setTag("SpawnPotentials", var2);
+			par1NBTTagCompound.setTag("SpawnPotentials", var2);
 		}
 	}
 }

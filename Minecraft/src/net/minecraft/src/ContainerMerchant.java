@@ -6,36 +6,36 @@ public class ContainerMerchant extends Container
 	private InventoryMerchant merchantInventory;
 	private final World theWorld;
 	
-	public ContainerMerchant(InventoryPlayer p_i3613_1_, IMerchant p_i3613_2_, World p_i3613_3_)
+	public ContainerMerchant(InventoryPlayer par1InventoryPlayer, IMerchant par2IMerchant, World par3World)
 	{
-		theMerchant = p_i3613_2_;
-		theWorld = p_i3613_3_;
-		merchantInventory = new InventoryMerchant(p_i3613_1_.player, p_i3613_2_);
+		theMerchant = par2IMerchant;
+		theWorld = par3World;
+		merchantInventory = new InventoryMerchant(par1InventoryPlayer.player, par2IMerchant);
 		addSlotToContainer(new Slot(merchantInventory, 0, 36, 53));
 		addSlotToContainer(new Slot(merchantInventory, 1, 62, 53));
-		addSlotToContainer(new SlotMerchantResult(p_i3613_1_.player, p_i3613_2_, merchantInventory, 2, 120, 53));
+		addSlotToContainer(new SlotMerchantResult(par1InventoryPlayer.player, par2IMerchant, merchantInventory, 2, 120, 53));
 		int var4;
 		for(var4 = 0; var4 < 3; ++var4)
 		{
 			for(int var5 = 0; var5 < 9; ++var5)
 			{
-				addSlotToContainer(new Slot(p_i3613_1_, var5 + var4 * 9 + 9, 8 + var5 * 18, 84 + var4 * 18));
+				addSlotToContainer(new Slot(par1InventoryPlayer, var5 + var4 * 9 + 9, 8 + var5 * 18, 84 + var4 * 18));
 			}
 		}
 		for(var4 = 0; var4 < 9; ++var4)
 		{
-			addSlotToContainer(new Slot(p_i3613_1_, var4, 8 + var4 * 18, 142));
+			addSlotToContainer(new Slot(par1InventoryPlayer, var4, 8 + var4 * 18, 142));
 		}
 	}
 	
-	@Override public void addCraftingToCrafters(ICrafting p_75132_1_)
+	@Override public void addCraftingToCrafters(ICrafting par1ICrafting)
 	{
-		super.addCraftingToCrafters(p_75132_1_);
+		super.addCraftingToCrafters(par1ICrafting);
 	}
 	
-	@Override public boolean canInteractWith(EntityPlayer p_75145_1_)
+	@Override public boolean canInteractWith(EntityPlayer par1EntityPlayer)
 	{
-		return theMerchant.getCustomer() == p_75145_1_;
+		return theMerchant.getCustomer() == par1EntityPlayer;
 	}
 	
 	@Override public void detectAndSendChanges()
@@ -48,55 +48,55 @@ public class ContainerMerchant extends Container
 		return merchantInventory;
 	}
 	
-	@Override public void onContainerClosed(EntityPlayer p_75134_1_)
+	@Override public void onContainerClosed(EntityPlayer par1EntityPlayer)
 	{
-		super.onContainerClosed(p_75134_1_);
+		super.onContainerClosed(par1EntityPlayer);
 		theMerchant.setCustomer((EntityPlayer) null);
-		super.onContainerClosed(p_75134_1_);
+		super.onContainerClosed(par1EntityPlayer);
 		if(!theWorld.isRemote)
 		{
 			ItemStack var2 = merchantInventory.getStackInSlotOnClosing(0);
 			if(var2 != null)
 			{
-				p_75134_1_.dropPlayerItem(var2);
+				par1EntityPlayer.dropPlayerItem(var2);
 			}
 			var2 = merchantInventory.getStackInSlotOnClosing(1);
 			if(var2 != null)
 			{
-				p_75134_1_.dropPlayerItem(var2);
+				par1EntityPlayer.dropPlayerItem(var2);
 			}
 		}
 	}
 	
-	@Override public void onCraftMatrixChanged(IInventory p_75130_1_)
+	@Override public void onCraftMatrixChanged(IInventory par1IInventory)
 	{
 		merchantInventory.resetRecipeAndSlots();
-		super.onCraftMatrixChanged(p_75130_1_);
+		super.onCraftMatrixChanged(par1IInventory);
 	}
 	
-	public void setCurrentRecipeIndex(int p_75175_1_)
+	public void setCurrentRecipeIndex(int par1)
 	{
-		merchantInventory.setCurrentRecipeIndex(p_75175_1_);
+		merchantInventory.setCurrentRecipeIndex(par1);
 	}
 	
-	@Override public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
+	@Override public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
 	{
 		ItemStack var3 = null;
-		Slot var4 = (Slot) inventorySlots.get(p_82846_2_);
+		Slot var4 = (Slot) inventorySlots.get(par2);
 		if(var4 != null && var4.getHasStack())
 		{
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			if(p_82846_2_ == 2)
+			if(par2 == 2)
 			{
 				if(!mergeItemStack(var5, 3, 39, true)) return null;
 				var4.onSlotChange(var5, var3);
-			} else if(p_82846_2_ != 0 && p_82846_2_ != 1)
+			} else if(par2 != 0 && par2 != 1)
 			{
-				if(p_82846_2_ >= 3 && p_82846_2_ < 30)
+				if(par2 >= 3 && par2 < 30)
 				{
 					if(!mergeItemStack(var5, 30, 39, false)) return null;
-				} else if(p_82846_2_ >= 30 && p_82846_2_ < 39 && !mergeItemStack(var5, 3, 30, false)) return null;
+				} else if(par2 >= 30 && par2 < 39 && !mergeItemStack(var5, 3, 30, false)) return null;
 			} else if(!mergeItemStack(var5, 3, 39, false)) return null;
 			if(var5.stackSize == 0)
 			{
@@ -106,7 +106,7 @@ public class ContainerMerchant extends Container
 				var4.onSlotChanged();
 			}
 			if(var5.stackSize == var3.stackSize) return null;
-			var4.onPickupFromSlot(p_82846_1_, var5);
+			var4.onPickupFromSlot(par1EntityPlayer, var5);
 		}
 		return var3;
 	}

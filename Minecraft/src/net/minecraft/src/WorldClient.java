@@ -17,13 +17,13 @@ public class WorldClient extends World
 	private final Minecraft mc = Minecraft.getMinecraft();
 	private final Set previousActiveChunkSet = new HashSet();
 	
-	public WorldClient(NetClientHandler p_i11015_1_, WorldSettings p_i11015_2_, int p_i11015_3_, int p_i11015_4_, Profiler p_i11015_5_, ILogAgent p_i11015_6_)
+	public WorldClient(NetClientHandler par1NetClientHandler, WorldSettings par2WorldSettings, int par3, int par4, Profiler par5Profiler, ILogAgent par6ILogAgent)
 	{
-		super(new SaveHandlerMP(), "MpServer", WorldProvider.getProviderForDimension(p_i11015_3_), p_i11015_2_, p_i11015_5_, p_i11015_6_);
-		sendQueue = p_i11015_1_;
-		difficultySetting = p_i11015_4_;
+		super(new SaveHandlerMP(), "MpServer", WorldProvider.getProviderForDimension(par3), par2WorldSettings, par5Profiler, par6ILogAgent);
+		sendQueue = par1NetClientHandler;
+		difficultySetting = par4;
 		this.setSpawnLocation(8, 64, 8);
-		mapStorage = p_i11015_1_.mapStorage;
+		mapStorage = par1NetClientHandler.mapStorage;
 	}
 	
 	public void addEntityToWorld(int par1, Entity par2Entity)
@@ -42,11 +42,13 @@ public class WorldClient extends World
 		entityHashSet.addKey(par1, par2Entity);
 	}
 	
-	@Override public CrashReportCategory addWorldInfoToCrashReport(CrashReport p_72914_1_)
+	@Override public CrashReportCategory addWorldInfoToCrashReport(CrashReport par1CrashReport)
 	{
-		CrashReportCategory var2 = super.addWorldInfoToCrashReport(p_72914_1_);
+		CrashReportCategory var2 = super.addWorldInfoToCrashReport(par1CrashReport);
 		var2.addCrashSectionCallable("Forced entities", new CallableMPL1(this));
 		var2.addCrashSectionCallable("Retry entities", new CallableMPL2(this));
+		var2.addCrashSectionCallable("Server brand", new WorldClientINNER3(this));
+		var2.addCrashSectionCallable("Server type", new WorldClientINNER4(this));
 		return var2;
 	}
 	
@@ -91,9 +93,9 @@ public class WorldClient extends World
 		}
 	}
 	
-	@Override public IUpdatePlayerListBox func_82735_a(EntityMinecart p_82735_1_)
+	@Override public IUpdatePlayerListBox func_82735_a(EntityMinecart par1EntityMinecart)
 	{
-		return new SoundUpdaterMinecart(mc.sndManager, p_82735_1_, mc.thePlayer);
+		return new SoundUpdaterMinecart(mc.sndManager, par1EntityMinecart, mc.thePlayer);
 	}
 	
 	@Override public void func_92088_a(double par1, double par3, double par5, double par7, double par9, double par11, NBTTagCompound par13NBTTagCompound)
@@ -106,56 +108,56 @@ public class WorldClient extends World
 		worldScoreboard = par1Scoreboard;
 	}
 	
-	@Override public Entity getEntityByID(int p_73045_1_)
+	@Override public Entity getEntityByID(int par1)
 	{
-		return p_73045_1_ == mc.thePlayer.entityId ? mc.thePlayer : (Entity) entityHashSet.lookup(p_73045_1_);
+		return par1 == mc.thePlayer.entityId ? mc.thePlayer : (Entity) entityHashSet.lookup(par1);
 	}
 	
 	public void invalidateBlockReceiveRegion(int par1, int par2, int par3, int par4, int par5, int par6)
 	{
 	}
 	
-	@Override protected void onEntityAdded(Entity p_72923_1_)
+	@Override protected void onEntityAdded(Entity par1Entity)
 	{
-		super.onEntityAdded(p_72923_1_);
-		if(entitySpawnQueue.contains(p_72923_1_))
+		super.onEntityAdded(par1Entity);
+		if(entitySpawnQueue.contains(par1Entity))
 		{
-			entitySpawnQueue.remove(p_72923_1_);
+			entitySpawnQueue.remove(par1Entity);
 		}
 	}
 	
-	@Override protected void onEntityRemoved(Entity p_72847_1_)
+	@Override protected void onEntityRemoved(Entity par1Entity)
 	{
-		super.onEntityRemoved(p_72847_1_);
-		if(entityList.contains(p_72847_1_))
+		super.onEntityRemoved(par1Entity);
+		if(entityList.contains(par1Entity))
 		{
-			if(p_72847_1_.isEntityAlive())
+			if(par1Entity.isEntityAlive())
 			{
-				entitySpawnQueue.add(p_72847_1_);
+				entitySpawnQueue.add(par1Entity);
 			} else
 			{
-				entityList.remove(p_72847_1_);
+				entityList.remove(par1Entity);
 			}
 		}
 	}
 	
-	@Override public void playSound(double p_72980_1_, double p_72980_3_, double p_72980_5_, String p_72980_7_, float p_72980_8_, float p_72980_9_, boolean p_72980_10_)
+	@Override public void playSound(double par1, double par3, double par5, String par7Str, float par8, float par9, boolean par10)
 	{
 		float var11 = 16.0F;
-		if(p_72980_8_ > 1.0F)
+		if(par8 > 1.0F)
 		{
-			var11 *= p_72980_8_;
+			var11 *= par8;
 		}
-		double var12 = mc.renderViewEntity.getDistanceSq(p_72980_1_, p_72980_3_, p_72980_5_);
+		double var12 = mc.renderViewEntity.getDistanceSq(par1, par3, par5);
 		if(var12 < var11 * var11)
 		{
-			if(p_72980_10_ && var12 > 100.0D)
+			if(par10 && var12 > 100.0D)
 			{
 				double var14 = Math.sqrt(var12) / 40.0D;
-				mc.sndManager.func_92070_a(p_72980_7_, (float) p_72980_1_, (float) p_72980_3_, (float) p_72980_5_, p_72980_8_, p_72980_9_, (int) Math.round(var14 * 20.0D));
+				mc.sndManager.func_92070_a(par7Str, (float) par1, (float) par3, (float) par5, par8, par9, (int) Math.round(var14 * 20.0D));
 			} else
 			{
-				mc.sndManager.playSound(p_72980_7_, (float) p_72980_1_, (float) p_72980_3_, (float) p_72980_5_, p_72980_8_, p_72980_9_);
+				mc.sndManager.playSound(par7Str, (float) par1, (float) par3, (float) par5, par8, par9);
 			}
 		}
 	}
@@ -208,10 +210,10 @@ public class WorldClient extends World
 		}
 	}
 	
-	@Override public void removeEntity(Entity p_72900_1_)
+	@Override public void removeEntity(Entity par1Entity)
 	{
-		super.removeEntity(p_72900_1_);
-		entityList.remove(p_72900_1_);
+		super.removeEntity(par1Entity);
+		entityList.remove(par1Entity);
 	}
 	
 	public Entity removeEntityFromWorld(int par1)
@@ -236,13 +238,26 @@ public class WorldClient extends World
 		return super.setBlock(par1, par2, par3, par4, par5, 3);
 	}
 	
-	@Override public boolean spawnEntityInWorld(Entity p_72838_1_)
+	@Override public void setWorldTime(long par1)
 	{
-		boolean var2 = super.spawnEntityInWorld(p_72838_1_);
-		entityList.add(p_72838_1_);
+		if(par1 < 0L)
+		{
+			par1 = -par1;
+			getGameRules().setOrCreateGameRule("doDaylightCycle", "false");
+		} else
+		{
+			getGameRules().setOrCreateGameRule("doDaylightCycle", "true");
+		}
+		super.setWorldTime(par1);
+	}
+	
+	@Override public boolean spawnEntityInWorld(Entity par1Entity)
+	{
+		boolean var2 = super.spawnEntityInWorld(par1Entity);
+		entityList.add(par1Entity);
 		if(!var2)
 		{
-			entitySpawnQueue.add(p_72838_1_);
+			entitySpawnQueue.add(par1Entity);
 		}
 		return var2;
 	}
@@ -251,7 +266,10 @@ public class WorldClient extends World
 	{
 		super.tick();
 		func_82738_a(getTotalWorldTime() + 1L);
-		setWorldTime(getWorldTime() + 1L);
+		if(getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
+		{
+			setWorldTime(getWorldTime() + 1L);
+		}
 		theProfiler.startSection("reEntryProcessing");
 		for(int var1 = 0; var1 < 10 && !entitySpawnQueue.isEmpty(); ++var1)
 		{
@@ -336,6 +354,11 @@ public class WorldClient extends World
 				thunderingStrength = 1.0F;
 			}
 		}
+	}
+	
+	static Minecraft func_142030_c(WorldClient par0WorldClient)
+	{
+		return par0WorldClient.mc;
 	}
 	
 	static Set getEntityList(WorldClient par0WorldClient)

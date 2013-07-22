@@ -3,12 +3,25 @@ package net.minecraft.src;
 
 public class RenderGhast extends RenderLiving
 {
+	private static final ResourceLocation field_110869_a = new ResourceLocation("textures/entity/ghast/ghast.png");
+	private static final ResourceLocation field_110868_f = new ResourceLocation("textures/entity/ghast/ghast_shooting.png");
+	
 	public RenderGhast()
 	{
 		super(new ModelGhast(), 0.5F);
 	}
 	
-	@Override protected void preRenderCallback(EntityLiving par1EntityLivingBase, float par2)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110867_a((EntityGhast) par1Entity);
+	}
+	
+	protected ResourceLocation func_110867_a(EntityGhast par1EntityGhast)
+	{
+		return par1EntityGhast.func_110182_bF() ? field_110868_f : field_110869_a;
+	}
+	
+	@Override protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
 	{
 		preRenderGhast((EntityGhast) par1EntityLivingBase, par2);
 	}

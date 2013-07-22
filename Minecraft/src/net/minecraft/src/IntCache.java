@@ -16,10 +16,10 @@ public class IntCache
 		return "cache: " + freeLargeArrays.size() + ", tcache: " + freeSmallArrays.size() + ", allocated: " + inUseLargeArrays.size() + ", tallocated: " + inUseSmallArrays.size();
 	}
 	
-	public static synchronized int[] getIntCache(int p_76445_0_)
+	public static synchronized int[] getIntCache(int par0)
 	{
 		int[] var1;
-		if(p_76445_0_ <= 256)
+		if(par0 <= 256)
 		{
 			if(freeSmallArrays.isEmpty())
 			{
@@ -32,9 +32,9 @@ public class IntCache
 				inUseSmallArrays.add(var1);
 				return var1;
 			}
-		} else if(p_76445_0_ > intCacheSize)
+		} else if(par0 > intCacheSize)
 		{
-			intCacheSize = p_76445_0_;
+			intCacheSize = par0;
 			freeLargeArrays.clear();
 			inUseLargeArrays.clear();
 			var1 = new int[intCacheSize];

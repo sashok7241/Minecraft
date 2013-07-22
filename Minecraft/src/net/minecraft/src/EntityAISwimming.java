@@ -4,11 +4,11 @@ public class EntityAISwimming extends EntityAIBase
 {
 	private EntityLiving theEntity;
 	
-	public EntityAISwimming(EntityLiving p_i3465_1_)
+	public EntityAISwimming(EntityLiving par1EntityLiving)
 	{
-		theEntity = p_i3465_1_;
+		theEntity = par1EntityLiving;
 		setMutexBits(4);
-		p_i3465_1_.getNavigator().setCanSwim(true);
+		par1EntityLiving.getNavigator().setCanSwim(true);
 	}
 	
 	@Override public boolean shouldExecute()

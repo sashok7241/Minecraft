@@ -2,16 +2,16 @@ package net.minecraft.src;
 
 public class EntitySplashFX extends EntityRainFX
 {
-	public EntitySplashFX(World p_i3163_1_, double p_i3163_2_, double p_i3163_4_, double p_i3163_6_, double p_i3163_8_, double p_i3163_10_, double p_i3163_12_)
+	public EntitySplashFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		super(p_i3163_1_, p_i3163_2_, p_i3163_4_, p_i3163_6_);
+		super(par1World, par2, par4, par6);
 		particleGravity = 0.04F;
 		nextTextureIndexX();
-		if(p_i3163_10_ == 0.0D && (p_i3163_8_ != 0.0D || p_i3163_12_ != 0.0D))
+		if(par10 == 0.0D && (par8 != 0.0D || par12 != 0.0D))
 		{
-			motionX = p_i3163_8_;
-			motionY = p_i3163_10_ + 0.1D;
-			motionZ = p_i3163_12_;
+			motionX = par8;
+			motionY = par10 + 0.1D;
+			motionZ = par12;
 		}
 	}
 }

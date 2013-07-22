@@ -5,14 +5,14 @@ import net.minecraft.client.Minecraft;
 public class GuiSlider extends GuiButton
 {
 	public float sliderValue = 1.0F;
-	public boolean dragging = false;
-	private EnumOptions idFloat = null;
+	public boolean dragging;
+	private EnumOptions idFloat;
 	
-	public GuiSlider(int p_i3039_1_, int p_i3039_2_, int p_i3039_3_, EnumOptions p_i3039_4_, String p_i3039_5_, float p_i3039_6_)
+	public GuiSlider(int par1, int par2, int par3, EnumOptions par4EnumOptions, String par5Str, float par6)
 	{
-		super(p_i3039_1_, p_i3039_2_, p_i3039_3_, 150, 20, p_i3039_5_);
-		idFloat = p_i3039_4_;
-		sliderValue = p_i3039_6_;
+		super(par1, par2, par3, 150, 20, par5Str);
+		idFloat = par4EnumOptions;
+		sliderValue = par6;
 	}
 	
 	@Override protected int getHoverState(boolean par1)

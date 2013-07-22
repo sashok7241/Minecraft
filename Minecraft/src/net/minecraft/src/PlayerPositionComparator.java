@@ -6,20 +6,20 @@ public class PlayerPositionComparator implements Comparator
 {
 	private final ChunkCoordinates theChunkCoordinates;
 	
-	public PlayerPositionComparator(ChunkCoordinates p_i5050_1_)
+	public PlayerPositionComparator(ChunkCoordinates par1ChunkCoordinates)
 	{
-		theChunkCoordinates = p_i5050_1_;
+		theChunkCoordinates = par1ChunkCoordinates;
 	}
 	
-	@Override public int compare(Object p_compare_1_, Object p_compare_2_)
+	@Override public int compare(Object par1Obj, Object par2Obj)
 	{
-		return comparePlayers((EntityPlayerMP) p_compare_1_, (EntityPlayerMP) p_compare_2_);
+		return comparePlayers((EntityPlayerMP) par1Obj, (EntityPlayerMP) par2Obj);
 	}
 	
-	public int comparePlayers(EntityPlayerMP p_82547_1_, EntityPlayerMP p_82547_2_)
+	public int comparePlayers(EntityPlayerMP par1EntityPlayerMP, EntityPlayerMP par2EntityPlayerMP)
 	{
-		double var3 = p_82547_1_.getDistanceSq(theChunkCoordinates.posX, theChunkCoordinates.posY, theChunkCoordinates.posZ);
-		double var5 = p_82547_2_.getDistanceSq(theChunkCoordinates.posX, theChunkCoordinates.posY, theChunkCoordinates.posZ);
+		double var3 = par1EntityPlayerMP.getDistanceSq(theChunkCoordinates.posX, theChunkCoordinates.posY, theChunkCoordinates.posZ);
+		double var5 = par2EntityPlayerMP.getDistanceSq(theChunkCoordinates.posX, theChunkCoordinates.posY, theChunkCoordinates.posZ);
 		return var3 < var5 ? -1 : var3 > var5 ? 1 : 0;
 	}
 }

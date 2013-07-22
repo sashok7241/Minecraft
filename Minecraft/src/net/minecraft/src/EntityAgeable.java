@@ -5,9 +5,9 @@ public abstract class EntityAgeable extends EntityCreature
 	private float field_98056_d = -1.0F;
 	private float field_98057_e;
 	
-	public EntityAgeable(World p_i3436_1_)
+	public EntityAgeable(World par1World)
 	{
-		super(p_i3436_1_);
+		super(par1World);
 	}
 	
 	public abstract EntityAgeable createChild(EntityAgeable var1);
@@ -18,14 +18,25 @@ public abstract class EntityAgeable extends EntityCreature
 		dataWatcher.addObject(12, new Integer(0));
 	}
 	
-	public void func_98054_a(boolean p_98054_1_)
+	public void func_110195_a(int par1)
 	{
-		func_98055_j(p_98054_1_ ? 0.5F : 1.0F);
+		int var2 = getGrowingAge();
+		var2 += par1 * 20;
+		if(var2 > 0)
+		{
+			var2 = 0;
+		}
+		setGrowingAge(var2);
 	}
 	
-	private void func_98055_j(float p_98055_1_)
+	public void func_98054_a(boolean par1)
 	{
-		super.setSize(field_98056_d * p_98055_1_, field_98057_e * p_98055_1_);
+		func_98055_j(par1 ? 0.5F : 1.0F);
+	}
+	
+	protected final void func_98055_j(float par1)
+	{
+		super.setSize(field_98056_d * par1, field_98057_e * par1);
 	}
 	
 	public int getGrowingAge()
@@ -33,36 +44,39 @@ public abstract class EntityAgeable extends EntityCreature
 		return dataWatcher.getWatchableObjectInt(12);
 	}
 	
-	@Override public boolean interact(EntityPlayer p_70085_1_)
+	@Override public boolean interact(EntityPlayer par1EntityPlayer)
 	{
-		ItemStack var2 = p_70085_1_.inventory.getCurrentItem();
-		if(var2 != null && var2.itemID == Item.monsterPlacer.itemID && !worldObj.isRemote)
+		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
+		if(var2 != null && var2.itemID == Item.monsterPlacer.itemID)
 		{
-			Class var3 = EntityList.getClassFromID(var2.getItemDamage());
-			if(var3 != null && var3.isAssignableFrom(this.getClass()))
+			if(!worldObj.isRemote)
 			{
-				EntityAgeable var4 = createChild(this);
-				if(var4 != null)
+				Class var3 = EntityList.getClassFromID(var2.getItemDamage());
+				if(var3 != null && var3.isAssignableFrom(this.getClass()))
 				{
-					var4.setGrowingAge(-24000);
-					var4.setLocationAndAngles(posX, posY, posZ, 0.0F, 0.0F);
-					worldObj.spawnEntityInWorld(var4);
-					if(var2.hasDisplayName())
+					EntityAgeable var4 = createChild(this);
+					if(var4 != null)
 					{
-						var4.func_94058_c(var2.getDisplayName());
-					}
-					if(!p_70085_1_.capabilities.isCreativeMode)
-					{
-						--var2.stackSize;
-						if(var2.stackSize <= 0)
+						var4.setGrowingAge(-24000);
+						var4.setLocationAndAngles(posX, posY, posZ, 0.0F, 0.0F);
+						worldObj.spawnEntityInWorld(var4);
+						if(var2.hasDisplayName())
 						{
-							p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack) null);
+							var4.func_94058_c(var2.getDisplayName());
+						}
+						if(!par1EntityPlayer.capabilities.isCreativeMode)
+						{
+							--var2.stackSize;
+							if(var2.stackSize <= 0)
+							{
+								par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
+							}
 						}
 					}
 				}
 			}
-		}
-		return super.interact(p_70085_1_);
+			return true;
+		} else return false;
 	}
 	
 	@Override public boolean isChild()
@@ -91,32 +105,32 @@ public abstract class EntityAgeable extends EntityCreature
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		setGrowingAge(p_70037_1_.getInteger("Age"));
+		super.readEntityFromNBT(par1NBTTagCompound);
+		setGrowingAge(par1NBTTagCompound.getInteger("Age"));
 	}
 	
-	public void setGrowingAge(int p_70873_1_)
+	public void setGrowingAge(int par1)
 	{
-		dataWatcher.updateObject(12, Integer.valueOf(p_70873_1_));
+		dataWatcher.updateObject(12, Integer.valueOf(par1));
 		func_98054_a(isChild());
 	}
 	
-	@Override protected final void setSize(float p_70105_1_, float p_70105_2_)
+	@Override protected final void setSize(float par1, float par2)
 	{
 		boolean var3 = field_98056_d > 0.0F;
-		field_98056_d = p_70105_1_;
-		field_98057_e = p_70105_2_;
+		field_98056_d = par1;
+		field_98057_e = par2;
 		if(!var3)
 		{
 			func_98055_j(1.0F);
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setInteger("Age", getGrowingAge());
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setInteger("Age", getGrowingAge());
 	}
 }

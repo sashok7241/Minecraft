@@ -10,38 +10,42 @@ class PlayerInstance
 	private short[] locationOfBlockChange;
 	private int numberOfTilesToUpdate;
 	private int field_73260_f;
+	private long field_111198_g;
 	final PlayerManager thePlayerManager;
 	
-	public PlayerInstance(PlayerManager p_i3391_1_, int p_i3391_2_, int p_i3391_3_)
+	public PlayerInstance(PlayerManager par1PlayerManager, int par2, int par3)
 	{
-		thePlayerManager = p_i3391_1_;
+		thePlayerManager = par1PlayerManager;
 		playersInChunk = new ArrayList();
 		locationOfBlockChange = new short[64];
-		numberOfTilesToUpdate = 0;
-		chunkLocation = new ChunkCoordIntPair(p_i3391_2_, p_i3391_3_);
-		p_i3391_1_.getWorldServer().theChunkProviderServer.loadChunk(p_i3391_2_, p_i3391_3_);
+		chunkLocation = new ChunkCoordIntPair(par2, par3);
+		par1PlayerManager.getWorldServer().theChunkProviderServer.loadChunk(par2, par3);
 	}
 	
-	public void addPlayer(EntityPlayerMP p_73255_1_)
+	public void addPlayer(EntityPlayerMP par1EntityPlayerMP)
 	{
-		if(playersInChunk.contains(p_73255_1_)) throw new IllegalStateException("Failed to add player. " + p_73255_1_ + " already is in chunk " + chunkLocation.chunkXPos + ", " + chunkLocation.chunkZPos);
+		if(playersInChunk.contains(par1EntityPlayerMP)) throw new IllegalStateException("Failed to add player. " + par1EntityPlayerMP + " already is in chunk " + chunkLocation.chunkXPos + ", " + chunkLocation.chunkZPos);
 		else
 		{
-			playersInChunk.add(p_73255_1_);
-			p_73255_1_.loadedChunks.add(chunkLocation);
+			if(playersInChunk.isEmpty())
+			{
+				field_111198_g = PlayerManager.getWorldServer(thePlayerManager).getTotalWorldTime();
+			}
+			playersInChunk.add(par1EntityPlayerMP);
+			par1EntityPlayerMP.loadedChunks.add(chunkLocation);
 		}
 	}
 	
-	public void flagChunkForUpdate(int p_73259_1_, int p_73259_2_, int p_73259_3_)
+	public void flagChunkForUpdate(int par1, int par2, int par3)
 	{
 		if(numberOfTilesToUpdate == 0)
 		{
 			PlayerManager.getChunkWatchersWithPlayers(thePlayerManager).add(this);
 		}
-		field_73260_f |= 1 << (p_73259_2_ >> 4);
+		field_73260_f |= 1 << (par2 >> 4);
 		if(numberOfTilesToUpdate < 64)
 		{
-			short var4 = (short) (p_73259_1_ << 12 | p_73259_3_ << 8 | p_73259_2_);
+			short var4 = (short) (par1 << 12 | par3 << 8 | par2);
 			for(int var5 = 0; var5 < numberOfTilesToUpdate; ++var5)
 			{
 				if(locationOfBlockChange[var5] == var4) return;
@@ -50,17 +54,31 @@ class PlayerInstance
 		}
 	}
 	
-	public void removePlayer(EntityPlayerMP p_73252_1_)
+	public void func_111194_a()
 	{
-		if(playersInChunk.contains(p_73252_1_))
+		func_111196_a(PlayerManager.getWorldServer(thePlayerManager).getChunkFromChunkCoords(chunkLocation.chunkXPos, chunkLocation.chunkZPos));
+	}
+	
+	private void func_111196_a(Chunk par1Chunk)
+	{
+		par1Chunk.field_111204_q += PlayerManager.getWorldServer(thePlayerManager).getTotalWorldTime() - field_111198_g;
+		field_111198_g = PlayerManager.getWorldServer(thePlayerManager).getTotalWorldTime();
+	}
+	
+	public void removePlayer(EntityPlayerMP par1EntityPlayerMP)
+	{
+		if(playersInChunk.contains(par1EntityPlayerMP))
 		{
-			p_73252_1_.playerNetServerHandler.sendPacketToPlayer(new Packet51MapChunk(PlayerManager.getWorldServer(thePlayerManager).getChunkFromChunkCoords(chunkLocation.chunkXPos, chunkLocation.chunkZPos), true, 0));
-			playersInChunk.remove(p_73252_1_);
-			p_73252_1_.loadedChunks.remove(chunkLocation);
+			Chunk var2 = PlayerManager.getWorldServer(thePlayerManager).getChunkFromChunkCoords(chunkLocation.chunkXPos, chunkLocation.chunkZPos);
+			par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet51MapChunk(var2, true, 0));
+			playersInChunk.remove(par1EntityPlayerMP);
+			par1EntityPlayerMP.loadedChunks.remove(chunkLocation);
 			if(playersInChunk.isEmpty())
 			{
-				long var2 = chunkLocation.chunkXPos + 2147483647L | chunkLocation.chunkZPos + 2147483647L << 32;
-				PlayerManager.getChunkWatchers(thePlayerManager).remove(var2);
+				long var3 = chunkLocation.chunkXPos + 2147483647L | chunkLocation.chunkZPos + 2147483647L << 32;
+				func_111196_a(var2);
+				PlayerManager.getChunkWatchers(thePlayerManager).remove(var3);
+				PlayerManager.func_111191_d(thePlayerManager).remove(this);
 				if(numberOfTilesToUpdate > 0)
 				{
 					PlayerManager.getChunkWatchersWithPlayers(thePlayerManager).remove(this);
@@ -127,11 +145,11 @@ class PlayerInstance
 		}
 	}
 	
-	private void sendTileToAllPlayersWatchingChunk(TileEntity p_73257_1_)
+	private void sendTileToAllPlayersWatchingChunk(TileEntity par1TileEntity)
 	{
-		if(p_73257_1_ != null)
+		if(par1TileEntity != null)
 		{
-			Packet var2 = p_73257_1_.getDescriptionPacket();
+			Packet var2 = par1TileEntity.getDescriptionPacket();
 			if(var2 != null)
 			{
 				sendToAllPlayersWatchingChunk(var2);
@@ -139,25 +157,25 @@ class PlayerInstance
 		}
 	}
 	
-	public void sendToAllPlayersWatchingChunk(Packet p_73256_1_)
+	public void sendToAllPlayersWatchingChunk(Packet par1Packet)
 	{
 		for(int var2 = 0; var2 < playersInChunk.size(); ++var2)
 		{
 			EntityPlayerMP var3 = (EntityPlayerMP) playersInChunk.get(var2);
 			if(!var3.loadedChunks.contains(chunkLocation))
 			{
-				var3.playerNetServerHandler.sendPacketToPlayer(p_73256_1_);
+				var3.playerNetServerHandler.sendPacketToPlayer(par1Packet);
 			}
 		}
 	}
 	
-	static ChunkCoordIntPair getChunkLocation(PlayerInstance p_73253_0_)
+	static ChunkCoordIntPair getChunkLocation(PlayerInstance par0PlayerInstance)
 	{
-		return p_73253_0_.chunkLocation;
+		return par0PlayerInstance.chunkLocation;
 	}
 	
-	static List getPlayersInChunk(PlayerInstance p_73258_0_)
+	static List getPlayersInChunk(PlayerInstance par0PlayerInstance)
 	{
-		return p_73258_0_.playersInChunk;
+		return par0PlayerInstance.playersInChunk;
 	}
 }

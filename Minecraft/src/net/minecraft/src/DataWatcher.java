@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,29 +19,39 @@ public class DataWatcher
 	private boolean objectChanged;
 	private ReadWriteLock lock = new ReentrantReadWriteLock();
 	
-	public void addObject(int p_75682_1_, Object p_75682_2_)
+	public void addObject(int par1, Object par2Obj)
 	{
-		Integer var3 = (Integer) dataTypes.get(p_75682_2_.getClass());
-		if(var3 == null) throw new IllegalArgumentException("Unknown data type: " + p_75682_2_.getClass());
-		else if(p_75682_1_ > 31) throw new IllegalArgumentException("Data value id is too big with " + p_75682_1_ + "! (Max is " + 31 + ")");
-		else if(watchedObjects.containsKey(Integer.valueOf(p_75682_1_))) throw new IllegalArgumentException("Duplicate id value for " + p_75682_1_ + "!");
+		Integer var3 = (Integer) dataTypes.get(par2Obj.getClass());
+		if(var3 == null) throw new IllegalArgumentException("Unknown data type: " + par2Obj.getClass());
+		else if(par1 > 31) throw new IllegalArgumentException("Data value id is too big with " + par1 + "! (Max is " + 31 + ")");
+		else if(watchedObjects.containsKey(Integer.valueOf(par1))) throw new IllegalArgumentException("Duplicate id value for " + par1 + "!");
 		else
 		{
-			WatchableObject var4 = new WatchableObject(var3.intValue(), p_75682_1_, p_75682_2_);
+			WatchableObject var4 = new WatchableObject(var3.intValue(), par1, par2Obj);
 			lock.writeLock().lock();
-			watchedObjects.put(Integer.valueOf(p_75682_1_), var4);
+			watchedObjects.put(Integer.valueOf(par1), var4);
 			lock.writeLock().unlock();
 			isBlank = false;
 		}
 	}
 	
-	public void addObjectByDataType(int p_82709_1_, int p_82709_2_)
+	public void addObjectByDataType(int par1, int par2)
 	{
-		WatchableObject var3 = new WatchableObject(p_82709_2_, p_82709_1_, (Object) null);
+		WatchableObject var3 = new WatchableObject(par2, par1, (Object) null);
 		lock.writeLock().lock();
-		watchedObjects.put(Integer.valueOf(p_82709_1_), var3);
+		watchedObjects.put(Integer.valueOf(par1), var3);
 		lock.writeLock().unlock();
 		isBlank = false;
+	}
+	
+	public void func_111144_e()
+	{
+		objectChanged = false;
+	}
+	
+	public float func_111145_d(int par1)
+	{
+		return ((Float) getWatchedObject(par1).getObject()).floatValue();
 	}
 	
 	public List getAllWatched()
@@ -66,43 +76,43 @@ public class DataWatcher
 		return isBlank;
 	}
 	
-	public byte getWatchableObjectByte(int p_75683_1_)
+	public byte getWatchableObjectByte(int par1)
 	{
-		return ((Byte) getWatchedObject(p_75683_1_).getObject()).byteValue();
+		return ((Byte) getWatchedObject(par1).getObject()).byteValue();
 	}
 	
-	public int getWatchableObjectInt(int p_75679_1_)
+	public int getWatchableObjectInt(int par1)
 	{
-		return ((Integer) getWatchedObject(p_75679_1_).getObject()).intValue();
+		return ((Integer) getWatchedObject(par1).getObject()).intValue();
 	}
 	
-	public ItemStack getWatchableObjectItemStack(int p_82710_1_)
+	public ItemStack getWatchableObjectItemStack(int par1)
 	{
-		return (ItemStack) getWatchedObject(p_82710_1_).getObject();
+		return (ItemStack) getWatchedObject(par1).getObject();
 	}
 	
-	public short getWatchableObjectShort(int p_75693_1_)
+	public short getWatchableObjectShort(int par1)
 	{
-		return ((Short) getWatchedObject(p_75693_1_).getObject()).shortValue();
+		return ((Short) getWatchedObject(par1).getObject()).shortValue();
 	}
 	
-	public String getWatchableObjectString(int p_75681_1_)
+	public String getWatchableObjectString(int par1)
 	{
-		return (String) getWatchedObject(p_75681_1_).getObject();
+		return (String) getWatchedObject(par1).getObject();
 	}
 	
-	private WatchableObject getWatchedObject(int p_75691_1_)
+	private WatchableObject getWatchedObject(int par1)
 	{
 		lock.readLock().lock();
 		WatchableObject var2;
 		try
 		{
-			var2 = (WatchableObject) watchedObjects.get(Integer.valueOf(p_75691_1_));
+			var2 = (WatchableObject) watchedObjects.get(Integer.valueOf(par1));
 		} catch(Throwable var6)
 		{
 			CrashReport var4 = CrashReport.makeCrashReport(var6, "Getting synched entity data");
 			CrashReportCategory var5 = var4.makeCategory("Synched entity data");
-			var5.addCrashSection("Data ID", Integer.valueOf(p_75691_1_));
+			var5.addCrashSection("Data ID", Integer.valueOf(par1));
 			throw new ReportedException(var4);
 		}
 		lock.readLock().unlock();
@@ -114,9 +124,9 @@ public class DataWatcher
 		return objectChanged;
 	}
 	
-	public void setObjectWatched(int p_82708_1_)
+	public void setObjectWatched(int par1)
 	{
-		WatchableObject.setWatchableObjectWatched(getWatchedObject(p_82708_1_), true);
+		WatchableObject.setWatchableObjectWatched(getWatchedObject(par1), true);
 		objectChanged = true;
 	}
 	
@@ -146,12 +156,12 @@ public class DataWatcher
 		return var1;
 	}
 	
-	public void updateObject(int p_75692_1_, Object p_75692_2_)
+	public void updateObject(int par1, Object par2Obj)
 	{
-		WatchableObject var3 = getWatchedObject(p_75692_1_);
-		if(!p_75692_2_.equals(var3.getObject()))
+		WatchableObject var3 = getWatchedObject(par1);
+		if(!par2Obj.equals(var3.getObject()))
 		{
-			var3.setObject(p_75692_2_);
+			var3.setObject(par2Obj);
 			var3.setWatched(true);
 			objectChanged = true;
 		}
@@ -171,25 +181,26 @@ public class DataWatcher
 			}
 		}
 		lock.writeLock().unlock();
+		objectChanged = true;
 	}
 	
-	public void writeWatchableObjects(DataOutputStream p_75689_1_) throws IOException
+	public void writeWatchableObjects(DataOutput par1DataOutput) throws IOException
 	{
 		lock.readLock().lock();
 		Iterator var2 = watchedObjects.values().iterator();
 		while(var2.hasNext())
 		{
 			WatchableObject var3 = (WatchableObject) var2.next();
-			writeWatchableObject(p_75689_1_, var3);
+			writeWatchableObject(par1DataOutput, var3);
 		}
 		lock.readLock().unlock();
-		p_75689_1_.writeByte(127);
+		par1DataOutput.writeByte(127);
 	}
 	
-	public static List readWatchableObjects(DataInputStream p_75686_0_) throws IOException
+	public static List readWatchableObjects(DataInput par0DataInput) throws IOException
 	{
 		ArrayList var1 = null;
-		for(byte var2 = p_75686_0_.readByte(); var2 != 127; var2 = p_75686_0_.readByte())
+		for(byte var2 = par0DataInput.readByte(); var2 != 127; var2 = par0DataInput.readByte())
 		{
 			if(var1 == null)
 			{
@@ -201,27 +212,27 @@ public class DataWatcher
 			switch(var3)
 			{
 				case 0:
-					var5 = new WatchableObject(var3, var4, Byte.valueOf(p_75686_0_.readByte()));
+					var5 = new WatchableObject(var3, var4, Byte.valueOf(par0DataInput.readByte()));
 					break;
 				case 1:
-					var5 = new WatchableObject(var3, var4, Short.valueOf(p_75686_0_.readShort()));
+					var5 = new WatchableObject(var3, var4, Short.valueOf(par0DataInput.readShort()));
 					break;
 				case 2:
-					var5 = new WatchableObject(var3, var4, Integer.valueOf(p_75686_0_.readInt()));
+					var5 = new WatchableObject(var3, var4, Integer.valueOf(par0DataInput.readInt()));
 					break;
 				case 3:
-					var5 = new WatchableObject(var3, var4, Float.valueOf(p_75686_0_.readFloat()));
+					var5 = new WatchableObject(var3, var4, Float.valueOf(par0DataInput.readFloat()));
 					break;
 				case 4:
-					var5 = new WatchableObject(var3, var4, Packet.readString(p_75686_0_, 64));
+					var5 = new WatchableObject(var3, var4, Packet.readString(par0DataInput, 64));
 					break;
 				case 5:
-					var5 = new WatchableObject(var3, var4, Packet.readItemStack(p_75686_0_));
+					var5 = new WatchableObject(var3, var4, Packet.readItemStack(par0DataInput));
 					break;
 				case 6:
-					int var6 = p_75686_0_.readInt();
-					int var7 = p_75686_0_.readInt();
-					int var8 = p_75686_0_.readInt();
+					int var6 = par0DataInput.readInt();
+					int var7 = par0DataInput.readInt();
+					int var8 = par0DataInput.readInt();
 					var5 = new WatchableObject(var3, var4, new ChunkCoordinates(var6, var7, var8));
 			}
 			var1.add(var5);
@@ -229,50 +240,50 @@ public class DataWatcher
 		return var1;
 	}
 	
-	public static void writeObjectsInListToStream(List p_75680_0_, DataOutputStream p_75680_1_) throws IOException
+	public static void writeObjectsInListToStream(List par0List, DataOutput par1DataOutput) throws IOException
 	{
-		if(p_75680_0_ != null)
+		if(par0List != null)
 		{
-			Iterator var2 = p_75680_0_.iterator();
+			Iterator var2 = par0List.iterator();
 			while(var2.hasNext())
 			{
 				WatchableObject var3 = (WatchableObject) var2.next();
-				writeWatchableObject(p_75680_1_, var3);
+				writeWatchableObject(par1DataOutput, var3);
 			}
 		}
-		p_75680_1_.writeByte(127);
+		par1DataOutput.writeByte(127);
 	}
 	
-	private static void writeWatchableObject(DataOutputStream p_75690_0_, WatchableObject p_75690_1_) throws IOException
+	private static void writeWatchableObject(DataOutput par0DataOutput, WatchableObject par1WatchableObject) throws IOException
 	{
-		int var2 = (p_75690_1_.getObjectType() << 5 | p_75690_1_.getDataValueId() & 31) & 255;
-		p_75690_0_.writeByte(var2);
-		switch(p_75690_1_.getObjectType())
+		int var2 = (par1WatchableObject.getObjectType() << 5 | par1WatchableObject.getDataValueId() & 31) & 255;
+		par0DataOutput.writeByte(var2);
+		switch(par1WatchableObject.getObjectType())
 		{
 			case 0:
-				p_75690_0_.writeByte(((Byte) p_75690_1_.getObject()).byteValue());
+				par0DataOutput.writeByte(((Byte) par1WatchableObject.getObject()).byteValue());
 				break;
 			case 1:
-				p_75690_0_.writeShort(((Short) p_75690_1_.getObject()).shortValue());
+				par0DataOutput.writeShort(((Short) par1WatchableObject.getObject()).shortValue());
 				break;
 			case 2:
-				p_75690_0_.writeInt(((Integer) p_75690_1_.getObject()).intValue());
+				par0DataOutput.writeInt(((Integer) par1WatchableObject.getObject()).intValue());
 				break;
 			case 3:
-				p_75690_0_.writeFloat(((Float) p_75690_1_.getObject()).floatValue());
+				par0DataOutput.writeFloat(((Float) par1WatchableObject.getObject()).floatValue());
 				break;
 			case 4:
-				Packet.writeString((String) p_75690_1_.getObject(), p_75690_0_);
+				Packet.writeString((String) par1WatchableObject.getObject(), par0DataOutput);
 				break;
 			case 5:
-				ItemStack var4 = (ItemStack) p_75690_1_.getObject();
-				Packet.writeItemStack(var4, p_75690_0_);
+				ItemStack var4 = (ItemStack) par1WatchableObject.getObject();
+				Packet.writeItemStack(var4, par0DataOutput);
 				break;
 			case 6:
-				ChunkCoordinates var3 = (ChunkCoordinates) p_75690_1_.getObject();
-				p_75690_0_.writeInt(var3.posX);
-				p_75690_0_.writeInt(var3.posY);
-				p_75690_0_.writeInt(var3.posZ);
+				ChunkCoordinates var3 = (ChunkCoordinates) par1WatchableObject.getObject();
+				par0DataOutput.writeInt(var3.posX);
+				par0DataOutput.writeInt(var3.posY);
+				par0DataOutput.writeInt(var3.posZ);
 		}
 	}
 	

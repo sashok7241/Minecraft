@@ -4,6 +4,12 @@ import java.util.Calendar;
 
 public class TileEntityChestRenderer extends TileEntitySpecialRenderer
 {
+	private static final ResourceLocation field_110635_a = new ResourceLocation("textures/entity/chest/trapped_double.png");
+	private static final ResourceLocation field_110634_c = new ResourceLocation("textures/entity/chest/christmas_double.png");
+	private static final ResourceLocation field_110632_d = new ResourceLocation("textures/entity/chest/normal_double.png");
+	private static final ResourceLocation field_110633_e = new ResourceLocation("textures/entity/chest/trapped.png");
+	private static final ResourceLocation field_110630_f = new ResourceLocation("textures/entity/chest/christmas.png");
+	private static final ResourceLocation field_110631_g = new ResourceLocation("textures/entity/chest/normal.png");
 	private ModelChest chestModel = new ModelChest();
 	private ModelChest largeChestModel = new ModelLargeChest();
 	private boolean isChristmas;
@@ -47,26 +53,26 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer
 				var14 = chestModel;
 				if(par1TileEntityChest.func_98041_l() == 1)
 				{
-					bindTextureByName("/item/chests/trap_small.png");
+					func_110628_a(field_110633_e);
 				} else if(isChristmas)
 				{
-					bindTextureByName("/item/xmaschest.png");
+					func_110628_a(field_110630_f);
 				} else
 				{
-					bindTextureByName("/item/chest.png");
+					func_110628_a(field_110631_g);
 				}
 			} else
 			{
 				var14 = largeChestModel;
 				if(par1TileEntityChest.func_98041_l() == 1)
 				{
-					bindTextureByName("/item/chests/trap_large.png");
+					func_110628_a(field_110635_a);
 				} else if(isChristmas)
 				{
-					bindTextureByName("/item/largexmaschest.png");
+					func_110628_a(field_110634_c);
 				} else
 				{
-					bindTextureByName("/item/largechest.png");
+					func_110628_a(field_110632_d);
 				}
 			}
 			GL11.glPushMatrix();

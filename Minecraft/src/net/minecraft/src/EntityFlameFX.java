@@ -4,15 +4,15 @@ public class EntityFlameFX extends EntityFX
 {
 	private float flameScale;
 	
-	public EntityFlameFX(World p_i3150_1_, double p_i3150_2_, double p_i3150_4_, double p_i3150_6_, double p_i3150_8_, double p_i3150_10_, double p_i3150_12_)
+	public EntityFlameFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		super(p_i3150_1_, p_i3150_2_, p_i3150_4_, p_i3150_6_, p_i3150_8_, p_i3150_10_, p_i3150_12_);
-		motionX = motionX * 0.009999999776482582D + p_i3150_8_;
-		motionY = motionY * 0.009999999776482582D + p_i3150_10_;
-		motionZ = motionZ * 0.009999999776482582D + p_i3150_12_;
-		double var10000 = p_i3150_2_ + (rand.nextFloat() - rand.nextFloat()) * 0.05F;
-		var10000 = p_i3150_4_ + (rand.nextFloat() - rand.nextFloat()) * 0.05F;
-		var10000 = p_i3150_6_ + (rand.nextFloat() - rand.nextFloat()) * 0.05F;
+		super(par1World, par2, par4, par6, par8, par10, par12);
+		motionX = motionX * 0.009999999776482582D + par8;
+		motionY = motionY * 0.009999999776482582D + par10;
+		motionZ = motionZ * 0.009999999776482582D + par12;
+		double var10000 = par2 + (rand.nextFloat() - rand.nextFloat()) * 0.05F;
+		var10000 = par4 + (rand.nextFloat() - rand.nextFloat()) * 0.05F;
+		var10000 = par6 + (rand.nextFloat() - rand.nextFloat()) * 0.05F;
 		flameScale = particleScale;
 		particleRed = particleGreen = particleBlue = 1.0F;
 		particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
@@ -20,9 +20,9 @@ public class EntityFlameFX extends EntityFX
 		setParticleTextureIndex(48);
 	}
 	
-	@Override public float getBrightness(float p_70013_1_)
+	@Override public float getBrightness(float par1)
 	{
-		float var2 = (particleAge + p_70013_1_) / particleMaxAge;
+		float var2 = (particleAge + par1) / particleMaxAge;
 		if(var2 < 0.0F)
 		{
 			var2 = 0.0F;
@@ -31,7 +31,7 @@ public class EntityFlameFX extends EntityFX
 		{
 			var2 = 1.0F;
 		}
-		float var3 = super.getBrightness(p_70013_1_);
+		float var3 = super.getBrightness(par1);
 		return var3 * var2 + (1.0F - var2);
 	}
 	

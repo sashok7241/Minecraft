@@ -17,14 +17,14 @@ public class Scoreboard
 	private final Map field_96542_e = new HashMap();
 	private final Map teamMemberships = new HashMap();
 	
-	public ScorePlayerTeam func_96508_e(String p_96508_1_)
+	public ScorePlayerTeam func_96508_e(String par1Str)
 	{
-		return (ScorePlayerTeam) field_96542_e.get(p_96508_1_);
+		return (ScorePlayerTeam) field_96542_e.get(par1Str);
 	}
 	
-	public Map func_96510_d(String p_96510_1_)
+	public Map func_96510_d(String par1Str)
 	{
-		Object var2 = field_96544_c.get(p_96510_1_);
+		Object var2 = field_96544_c.get(par1Str);
 		if(var2 == null)
 		{
 			var2 = new HashMap();
@@ -32,89 +32,89 @@ public class Scoreboard
 		return (Map) var2;
 	}
 	
-	public void func_96511_d(ScorePlayerTeam p_96511_1_)
+	public void func_96511_d(ScorePlayerTeam par1ScorePlayerTeam)
 	{
-		field_96542_e.remove(p_96511_1_.func_96661_b());
-		Iterator var2 = p_96511_1_.getMembershipCollection().iterator();
+		field_96542_e.remove(par1ScorePlayerTeam.func_96661_b());
+		Iterator var2 = par1ScorePlayerTeam.getMembershipCollection().iterator();
 		while(var2.hasNext())
 		{
 			String var3 = (String) var2.next();
 			teamMemberships.remove(var3);
 		}
-		func_96513_c(p_96511_1_);
+		func_96513_c(par1ScorePlayerTeam);
 	}
 	
-	public void func_96513_c(ScorePlayerTeam p_96513_1_)
+	public void func_96513_c(ScorePlayerTeam par1ScorePlayerTeam)
 	{
 	}
 	
-	public void func_96515_c(String p_96515_1_)
+	public void func_96515_c(String par1Str)
 	{
-		Map var2 = (Map) field_96544_c.remove(p_96515_1_);
+		Map var2 = (Map) field_96544_c.remove(par1Str);
 		if(var2 != null)
 		{
-			func_96516_a(p_96515_1_);
+			func_96516_a(par1Str);
 		}
 	}
 	
-	public void func_96516_a(String p_96516_1_)
+	public void func_96516_a(String par1Str)
 	{
 	}
 	
-	public void func_96519_k(ScoreObjective p_96519_1_)
+	public void func_96519_k(ScoreObjective par1ScoreObjective)
 	{
-		scoreObjectives.remove(p_96519_1_.getName());
+		scoreObjectives.remove(par1ScoreObjective.getName());
 		for(int var2 = 0; var2 < 3; ++var2)
 		{
-			if(func_96539_a(var2) == p_96519_1_)
+			if(func_96539_a(var2) == par1ScoreObjective)
 			{
 				func_96530_a(var2, (ScoreObjective) null);
 			}
 		}
-		List var5 = (List) field_96543_b.get(p_96519_1_.getCriteria());
+		List var5 = (List) field_96543_b.get(par1ScoreObjective.getCriteria());
 		if(var5 != null)
 		{
-			var5.remove(p_96519_1_);
+			var5.remove(par1ScoreObjective);
 		}
 		Iterator var3 = field_96544_c.values().iterator();
 		while(var3.hasNext())
 		{
 			Map var4 = (Map) var3.next();
-			var4.remove(p_96519_1_);
+			var4.remove(par1ScoreObjective);
 		}
-		func_96533_c(p_96519_1_);
+		func_96533_c(par1ScoreObjective);
 	}
 	
-	public Collection func_96520_a(ScoreObjectiveCriteria p_96520_1_)
+	public Collection func_96520_a(ScoreObjectiveCriteria par1ScoreObjectiveCriteria)
 	{
-		Collection var2 = (Collection) field_96543_b.get(p_96520_1_);
+		Collection var2 = (Collection) field_96543_b.get(par1ScoreObjectiveCriteria);
 		return var2 == null ? new ArrayList() : new ArrayList(var2);
 	}
 	
-	public void func_96521_a(String p_96521_1_, ScorePlayerTeam p_96521_2_)
+	public void func_96521_a(String par1Str, ScorePlayerTeam par2ScorePlayerTeam)
 	{
-		if(getPlayersTeam(p_96521_1_) != null)
+		if(getPlayersTeam(par1Str) != null)
 		{
-			func_96524_g(p_96521_1_);
+			func_96524_g(par1Str);
 		}
-		teamMemberships.put(p_96521_1_, p_96521_2_);
-		p_96521_2_.getMembershipCollection().add(p_96521_1_);
+		teamMemberships.put(par1Str, par2ScorePlayerTeam);
+		par2ScorePlayerTeam.getMembershipCollection().add(par1Str);
 	}
 	
-	public void func_96522_a(ScoreObjective p_96522_1_)
+	public void func_96522_a(ScoreObjective par1ScoreObjective)
 	{
 	}
 	
-	public void func_96523_a(ScorePlayerTeam p_96523_1_)
+	public void func_96523_a(ScorePlayerTeam par1ScorePlayerTeam)
 	{
 	}
 	
-	public boolean func_96524_g(String p_96524_1_)
+	public boolean func_96524_g(String par1Str)
 	{
-		ScorePlayerTeam var2 = getPlayersTeam(p_96524_1_);
+		ScorePlayerTeam var2 = getPlayersTeam(par1Str);
 		if(var2 != null)
 		{
-			removePlayerFromTeam(p_96524_1_, var2);
+			removePlayerFromTeam(par1Str, var2);
 			return true;
 		} else return false;
 	}
@@ -124,14 +124,14 @@ public class Scoreboard
 		return field_96542_e.values();
 	}
 	
-	public ScorePlayerTeam func_96527_f(String p_96527_1_)
+	public ScorePlayerTeam func_96527_f(String par1Str)
 	{
-		ScorePlayerTeam var2 = func_96508_e(p_96527_1_);
-		if(var2 != null) throw new IllegalArgumentException("An objective with the name \'" + p_96527_1_ + "\' already exists!");
+		ScorePlayerTeam var2 = func_96508_e(par1Str);
+		if(var2 != null) throw new IllegalArgumentException("An objective with the name \'" + par1Str + "\' already exists!");
 		else
 		{
-			var2 = new ScorePlayerTeam(this, p_96527_1_);
-			field_96542_e.put(p_96527_1_, var2);
+			var2 = new ScorePlayerTeam(this, par1Str);
+			field_96542_e.put(par1Str, var2);
 			func_96523_a(var2);
 			return var2;
 		}
@@ -141,38 +141,35 @@ public class Scoreboard
 	{
 		Collection var1 = field_96544_c.values();
 		ArrayList var2 = new ArrayList();
-		if(var1 != null)
+		Iterator var3 = var1.iterator();
+		while(var3.hasNext())
 		{
-			Iterator var3 = var1.iterator();
-			while(var3.hasNext())
-			{
-				Map var4 = (Map) var3.next();
-				var2.addAll(var4.values());
-			}
+			Map var4 = (Map) var3.next();
+			var2.addAll(var4.values());
 		}
 		return var2;
 	}
 	
-	public Score func_96529_a(String p_96529_1_, ScoreObjective p_96529_2_)
+	public Score func_96529_a(String par1Str, ScoreObjective par2ScoreObjective)
 	{
-		Object var3 = field_96544_c.get(p_96529_1_);
+		Object var3 = field_96544_c.get(par1Str);
 		if(var3 == null)
 		{
 			var3 = new HashMap();
-			field_96544_c.put(p_96529_1_, var3);
+			field_96544_c.put(par1Str, var3);
 		}
-		Score var4 = (Score) ((Map) var3).get(p_96529_2_);
+		Score var4 = (Score) ((Map) var3).get(par2ScoreObjective);
 		if(var4 == null)
 		{
-			var4 = new Score(this, p_96529_2_, p_96529_1_);
-			((Map) var3).put(p_96529_2_, var4);
+			var4 = new Score(this, par2ScoreObjective, par1Str);
+			((Map) var3).put(par2ScoreObjective, var4);
 		}
 		return var4;
 	}
 	
-	public void func_96530_a(int p_96530_1_, ScoreObjective p_96530_2_)
+	public void func_96530_a(int par1, ScoreObjective par2ScoreObjective)
 	{
-		field_96541_d[p_96530_1_] = p_96530_2_;
+		field_96541_d[par1] = par2ScoreObjective;
 	}
 	
 	public Collection func_96531_f()
@@ -180,22 +177,22 @@ public class Scoreboard
 		return field_96542_e.keySet();
 	}
 	
-	public void func_96532_b(ScoreObjective p_96532_1_)
+	public void func_96532_b(ScoreObjective par1ScoreObjective)
 	{
 	}
 	
-	public void func_96533_c(ScoreObjective p_96533_1_)
+	public void func_96533_c(ScoreObjective par1ScoreObjective)
 	{
 	}
 	
-	public Collection func_96534_i(ScoreObjective p_96534_1_)
+	public Collection func_96534_i(ScoreObjective par1ScoreObjective)
 	{
 		ArrayList var2 = new ArrayList();
 		Iterator var3 = field_96544_c.values().iterator();
 		while(var3.hasNext())
 		{
 			Map var4 = (Map) var3.next();
-			Score var5 = (Score) var4.get(p_96534_1_);
+			Score var5 = (Score) var4.get(par1ScoreObjective);
 			if(var5 != null)
 			{
 				var2.add(var5);
@@ -205,42 +202,42 @@ public class Scoreboard
 		return var2;
 	}
 	
-	public ScoreObjective func_96535_a(String p_96535_1_, ScoreObjectiveCriteria p_96535_2_)
+	public ScoreObjective func_96535_a(String par1Str, ScoreObjectiveCriteria par2ScoreObjectiveCriteria)
 	{
-		ScoreObjective var3 = getObjective(p_96535_1_);
-		if(var3 != null) throw new IllegalArgumentException("An objective with the name \'" + p_96535_1_ + "\' already exists!");
+		ScoreObjective var3 = getObjective(par1Str);
+		if(var3 != null) throw new IllegalArgumentException("An objective with the name \'" + par1Str + "\' already exists!");
 		else
 		{
-			var3 = new ScoreObjective(this, p_96535_1_, p_96535_2_);
-			Object var4 = field_96543_b.get(p_96535_2_);
+			var3 = new ScoreObjective(this, par1Str, par2ScoreObjectiveCriteria);
+			Object var4 = field_96543_b.get(par2ScoreObjectiveCriteria);
 			if(var4 == null)
 			{
 				var4 = new ArrayList();
-				field_96543_b.put(p_96535_2_, var4);
+				field_96543_b.put(par2ScoreObjectiveCriteria, var4);
 			}
 			((List) var4).add(var3);
-			scoreObjectives.put(p_96535_1_, var3);
+			scoreObjectives.put(par1Str, var3);
 			func_96522_a(var3);
 			return var3;
 		}
 	}
 	
-	public void func_96536_a(Score p_96536_1_)
+	public void func_96536_a(Score par1Score)
 	{
 	}
 	
-	public void func_96538_b(ScorePlayerTeam p_96538_1_)
+	public void func_96538_b(ScorePlayerTeam par1ScorePlayerTeam)
 	{
 	}
 	
-	public ScoreObjective func_96539_a(int p_96539_1_)
+	public ScoreObjective func_96539_a(int par1)
 	{
-		return field_96541_d[p_96539_1_];
+		return field_96541_d[par1];
 	}
 	
-	public ScoreObjective getObjective(String p_96518_1_)
+	public ScoreObjective getObjective(String par1Str)
 	{
-		return (ScoreObjective) scoreObjectives.get(p_96518_1_);
+		return (ScoreObjective) scoreObjectives.get(par1Str);
 	}
 	
 	public Collection getObjectiveNames()
@@ -248,9 +245,9 @@ public class Scoreboard
 		return field_96544_c.keySet();
 	}
 	
-	public ScorePlayerTeam getPlayersTeam(String p_96509_1_)
+	public ScorePlayerTeam getPlayersTeam(String par1Str)
 	{
-		return (ScorePlayerTeam) teamMemberships.get(p_96509_1_);
+		return (ScorePlayerTeam) teamMemberships.get(par1Str);
 	}
 	
 	public Collection getScoreObjectives()
@@ -258,19 +255,19 @@ public class Scoreboard
 		return scoreObjectives.values();
 	}
 	
-	public void removePlayerFromTeam(String p_96512_1_, ScorePlayerTeam p_96512_2_)
+	public void removePlayerFromTeam(String par1Str, ScorePlayerTeam par2ScorePlayerTeam)
 	{
-		if(getPlayersTeam(p_96512_1_) != p_96512_2_) throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + p_96512_2_.func_96661_b() + "\'.");
+		if(getPlayersTeam(par1Str) != par2ScorePlayerTeam) throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + par2ScorePlayerTeam.func_96661_b() + "\'.");
 		else
 		{
-			teamMemberships.remove(p_96512_1_);
-			p_96512_2_.getMembershipCollection().remove(p_96512_1_);
+			teamMemberships.remove(par1Str);
+			par2ScorePlayerTeam.getMembershipCollection().remove(par1Str);
 		}
 	}
 	
-	public static String getObjectiveDisplaySlot(int p_96517_0_)
+	public static String getObjectiveDisplaySlot(int par0)
 	{
-		switch(p_96517_0_)
+		switch(par0)
 		{
 			case 0:
 				return "list";
@@ -283,8 +280,8 @@ public class Scoreboard
 		}
 	}
 	
-	public static int getObjectiveDisplaySlotNumber(String p_96537_0_)
+	public static int getObjectiveDisplaySlotNumber(String par0Str)
 	{
-		return p_96537_0_.equalsIgnoreCase("list") ? 0 : p_96537_0_.equalsIgnoreCase("sidebar") ? 1 : p_96537_0_.equalsIgnoreCase("belowName") ? 2 : -1;
+		return par0Str.equalsIgnoreCase("list") ? 0 : par0Str.equalsIgnoreCase("sidebar") ? 1 : par0Str.equalsIgnoreCase("belowName") ? 2 : -1;
 	}
 }

@@ -21,7 +21,7 @@ public class NBTTagEnd extends NBTBase
 		return (byte) 0;
 	}
 	
-	@Override void load(DataInput p_74735_1_) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
 	}
 	
@@ -30,7 +30,7 @@ public class NBTTagEnd extends NBTBase
 		return "END";
 	}
 	
-	@Override void write(DataOutput p_74734_1_) throws IOException
+	@Override void write(DataOutput par1DataOutput) throws IOException
 	{
 	}
 }

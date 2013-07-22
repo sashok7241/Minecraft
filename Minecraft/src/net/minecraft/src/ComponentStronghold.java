@@ -5,65 +5,65 @@ import java.util.Random;
 
 abstract class ComponentStronghold extends StructureComponent
 {
-	protected ComponentStronghold(int p_i3856_1_)
+	protected ComponentStronghold(int par1)
 	{
-		super(p_i3856_1_);
+		super(par1);
 	}
 	
-	protected StructureComponent getNextComponentNormal(ComponentStrongholdStairs2 p_74986_1_, List p_74986_2_, Random p_74986_3_, int p_74986_4_, int p_74986_5_)
+	protected StructureComponent getNextComponentNormal(ComponentStrongholdStairs2 par1ComponentStrongholdStairs2, List par2List, Random par3Random, int par4, int par5)
 	{
 		switch(coordBaseMode)
 		{
 			case 0:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74986_1_, p_74986_2_, p_74986_3_, boundingBox.minX + p_74986_4_, boundingBox.minY + p_74986_5_, boundingBox.maxZ + 1, coordBaseMode, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX + par4, boundingBox.minY + par5, boundingBox.maxZ + 1, coordBaseMode, getComponentType());
 			case 1:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74986_1_, p_74986_2_, p_74986_3_, boundingBox.minX - 1, boundingBox.minY + p_74986_5_, boundingBox.minZ + p_74986_4_, coordBaseMode, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX - 1, boundingBox.minY + par5, boundingBox.minZ + par4, coordBaseMode, getComponentType());
 			case 2:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74986_1_, p_74986_2_, p_74986_3_, boundingBox.minX + p_74986_4_, boundingBox.minY + p_74986_5_, boundingBox.minZ - 1, coordBaseMode, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX + par4, boundingBox.minY + par5, boundingBox.minZ - 1, coordBaseMode, getComponentType());
 			case 3:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74986_1_, p_74986_2_, p_74986_3_, boundingBox.maxX + 1, boundingBox.minY + p_74986_5_, boundingBox.minZ + p_74986_4_, coordBaseMode, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.maxX + 1, boundingBox.minY + par5, boundingBox.minZ + par4, coordBaseMode, getComponentType());
 			default:
 				return null;
 		}
 	}
 	
-	protected StructureComponent getNextComponentX(ComponentStrongholdStairs2 p_74989_1_, List p_74989_2_, Random p_74989_3_, int p_74989_4_, int p_74989_5_)
+	protected StructureComponent getNextComponentX(ComponentStrongholdStairs2 par1ComponentStrongholdStairs2, List par2List, Random par3Random, int par4, int par5)
 	{
 		switch(coordBaseMode)
 		{
 			case 0:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74989_1_, p_74989_2_, p_74989_3_, boundingBox.minX - 1, boundingBox.minY + p_74989_4_, boundingBox.minZ + p_74989_5_, 1, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX - 1, boundingBox.minY + par4, boundingBox.minZ + par5, 1, getComponentType());
 			case 1:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74989_1_, p_74989_2_, p_74989_3_, boundingBox.minX + p_74989_5_, boundingBox.minY + p_74989_4_, boundingBox.minZ - 1, 2, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX + par5, boundingBox.minY + par4, boundingBox.minZ - 1, 2, getComponentType());
 			case 2:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74989_1_, p_74989_2_, p_74989_3_, boundingBox.minX - 1, boundingBox.minY + p_74989_4_, boundingBox.minZ + p_74989_5_, 1, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX - 1, boundingBox.minY + par4, boundingBox.minZ + par5, 1, getComponentType());
 			case 3:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74989_1_, p_74989_2_, p_74989_3_, boundingBox.minX + p_74989_5_, boundingBox.minY + p_74989_4_, boundingBox.minZ - 1, 2, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX + par5, boundingBox.minY + par4, boundingBox.minZ - 1, 2, getComponentType());
 			default:
 				return null;
 		}
 	}
 	
-	protected StructureComponent getNextComponentZ(ComponentStrongholdStairs2 p_74987_1_, List p_74987_2_, Random p_74987_3_, int p_74987_4_, int p_74987_5_)
+	protected StructureComponent getNextComponentZ(ComponentStrongholdStairs2 par1ComponentStrongholdStairs2, List par2List, Random par3Random, int par4, int par5)
 	{
 		switch(coordBaseMode)
 		{
 			case 0:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74987_1_, p_74987_2_, p_74987_3_, boundingBox.maxX + 1, boundingBox.minY + p_74987_4_, boundingBox.minZ + p_74987_5_, 3, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.maxX + 1, boundingBox.minY + par4, boundingBox.minZ + par5, 3, getComponentType());
 			case 1:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74987_1_, p_74987_2_, p_74987_3_, boundingBox.minX + p_74987_5_, boundingBox.minY + p_74987_4_, boundingBox.maxZ + 1, 0, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX + par5, boundingBox.minY + par4, boundingBox.maxZ + 1, 0, getComponentType());
 			case 2:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74987_1_, p_74987_2_, p_74987_3_, boundingBox.maxX + 1, boundingBox.minY + p_74987_4_, boundingBox.minZ + p_74987_5_, 3, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.maxX + 1, boundingBox.minY + par4, boundingBox.minZ + par5, 3, getComponentType());
 			case 3:
-				return StructureStrongholdPieces.getNextValidComponentAccess(p_74987_1_, p_74987_2_, p_74987_3_, boundingBox.minX + p_74987_5_, boundingBox.minY + p_74987_4_, boundingBox.maxZ + 1, 0, getComponentType());
+				return StructureStrongholdPieces.getNextValidComponentAccess(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX + par5, boundingBox.minY + par4, boundingBox.maxZ + 1, 0, getComponentType());
 			default:
 				return null;
 		}
 	}
 	
-	protected EnumDoor getRandomDoor(Random p_74988_1_)
+	protected EnumDoor getRandomDoor(Random par1Random)
 	{
-		int var2 = p_74988_1_.nextInt(5);
+		int var2 = par1Random.nextInt(5);
 		switch(var2)
 		{
 			case 0:
@@ -79,53 +79,53 @@ abstract class ComponentStronghold extends StructureComponent
 		}
 	}
 	
-	protected void placeDoor(World p_74990_1_, Random p_74990_2_, StructureBoundingBox p_74990_3_, EnumDoor p_74990_4_, int p_74990_5_, int p_74990_6_, int p_74990_7_)
+	protected void placeDoor(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox, EnumDoor par4EnumDoor, int par5, int par6, int par7)
 	{
-		switch(EnumDoorHelper.doorEnum[p_74990_4_.ordinal()])
+		switch(EnumDoorHelper.doorEnum[par4EnumDoor.ordinal()])
 		{
 			case 1:
 			default:
-				fillWithBlocks(p_74990_1_, p_74990_3_, p_74990_5_, p_74990_6_, p_74990_7_, p_74990_5_ + 3 - 1, p_74990_6_ + 3 - 1, p_74990_7_, 0, 0, false);
+				fillWithBlocks(par1World, par3StructureBoundingBox, par5, par6, par7, par5 + 3 - 1, par6 + 3 - 1, par7, 0, 0, false);
 				break;
 			case 2:
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_, p_74990_6_, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_, p_74990_6_ + 1, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_, p_74990_6_ + 2, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_ + 1, p_74990_6_ + 2, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_ + 2, p_74990_6_ + 2, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_ + 2, p_74990_6_ + 1, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_ + 2, p_74990_6_, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.doorWood.blockID, 0, p_74990_5_ + 1, p_74990_6_, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.doorWood.blockID, 8, p_74990_5_ + 1, p_74990_6_ + 1, p_74990_7_, p_74990_3_);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5, par6, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5, par6 + 1, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5, par6 + 2, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5 + 1, par6 + 2, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5 + 2, par6 + 2, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5 + 2, par6 + 1, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5 + 2, par6, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.doorWood.blockID, 0, par5 + 1, par6, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.doorWood.blockID, 8, par5 + 1, par6 + 1, par7, par3StructureBoundingBox);
 				break;
 			case 3:
-				placeBlockAtCurrentPosition(p_74990_1_, 0, 0, p_74990_5_ + 1, p_74990_6_, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, 0, 0, p_74990_5_ + 1, p_74990_6_ + 1, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.fenceIron.blockID, 0, p_74990_5_, p_74990_6_, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.fenceIron.blockID, 0, p_74990_5_, p_74990_6_ + 1, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.fenceIron.blockID, 0, p_74990_5_, p_74990_6_ + 2, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.fenceIron.blockID, 0, p_74990_5_ + 1, p_74990_6_ + 2, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.fenceIron.blockID, 0, p_74990_5_ + 2, p_74990_6_ + 2, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.fenceIron.blockID, 0, p_74990_5_ + 2, p_74990_6_ + 1, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.fenceIron.blockID, 0, p_74990_5_ + 2, p_74990_6_, p_74990_7_, p_74990_3_);
+				placeBlockAtCurrentPosition(par1World, 0, 0, par5 + 1, par6, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, 0, 0, par5 + 1, par6 + 1, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.fenceIron.blockID, 0, par5, par6, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.fenceIron.blockID, 0, par5, par6 + 1, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.fenceIron.blockID, 0, par5, par6 + 2, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.fenceIron.blockID, 0, par5 + 1, par6 + 2, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.fenceIron.blockID, 0, par5 + 2, par6 + 2, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.fenceIron.blockID, 0, par5 + 2, par6 + 1, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.fenceIron.blockID, 0, par5 + 2, par6, par7, par3StructureBoundingBox);
 				break;
 			case 4:
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_, p_74990_6_, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_, p_74990_6_ + 1, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_, p_74990_6_ + 2, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_ + 1, p_74990_6_ + 2, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_ + 2, p_74990_6_ + 2, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_ + 2, p_74990_6_ + 1, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneBrick.blockID, 0, p_74990_5_ + 2, p_74990_6_, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.doorIron.blockID, 0, p_74990_5_ + 1, p_74990_6_, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.doorIron.blockID, 8, p_74990_5_ + 1, p_74990_6_ + 1, p_74990_7_, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneButton.blockID, getMetadataWithOffset(Block.stoneButton.blockID, 4), p_74990_5_ + 2, p_74990_6_ + 1, p_74990_7_ + 1, p_74990_3_);
-				placeBlockAtCurrentPosition(p_74990_1_, Block.stoneButton.blockID, getMetadataWithOffset(Block.stoneButton.blockID, 3), p_74990_5_ + 2, p_74990_6_ + 1, p_74990_7_ - 1, p_74990_3_);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5, par6, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5, par6 + 1, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5, par6 + 2, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5 + 1, par6 + 2, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5 + 2, par6 + 2, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5 + 2, par6 + 1, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneBrick.blockID, 0, par5 + 2, par6, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.doorIron.blockID, 0, par5 + 1, par6, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.doorIron.blockID, 8, par5 + 1, par6 + 1, par7, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneButton.blockID, getMetadataWithOffset(Block.stoneButton.blockID, 4), par5 + 2, par6 + 1, par7 + 1, par3StructureBoundingBox);
+				placeBlockAtCurrentPosition(par1World, Block.stoneButton.blockID, getMetadataWithOffset(Block.stoneButton.blockID, 3), par5 + 2, par6 + 1, par7 - 1, par3StructureBoundingBox);
 		}
 	}
 	
-	protected static boolean canStrongholdGoDeeper(StructureBoundingBox p_74991_0_)
+	protected static boolean canStrongholdGoDeeper(StructureBoundingBox par0StructureBoundingBox)
 	{
-		return p_74991_0_ != null && p_74991_0_.minY > 10;
+		return par0StructureBoundingBox != null && par0StructureBoundingBox.minY > 10;
 	}
 }

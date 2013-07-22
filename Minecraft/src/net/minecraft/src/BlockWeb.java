@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class BlockWeb extends Block
 {
-	public BlockWeb(int p_i9100_1_)
+	public BlockWeb(int par1)
 	{
-		super(p_i9100_1_, Material.web);
+		super(par1, Material.web);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
@@ -15,7 +15,7 @@ public class BlockWeb extends Block
 		return true;
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
 		return null;
 	}
@@ -25,7 +25,7 @@ public class BlockWeb extends Block
 		return 1;
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return Item.silk.itemID;
 	}
@@ -35,9 +35,9 @@ public class BlockWeb extends Block
 		return false;
 	}
 	
-	@Override public void onEntityCollidedWithBlock(World p_71869_1_, int p_71869_2_, int p_71869_3_, int p_71869_4_, Entity p_71869_5_)
+	@Override public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
 	{
-		p_71869_5_.setInWeb();
+		par5Entity.setInWeb();
 	}
 	
 	@Override public boolean renderAsNormalBlock()

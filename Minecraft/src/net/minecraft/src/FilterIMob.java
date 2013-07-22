@@ -2,8 +2,8 @@ package net.minecraft.src;
 
 final class FilterIMob implements IEntitySelector
 {
-	@Override public boolean isEntityApplicable(Entity p_82704_1_)
+	@Override public boolean isEntityApplicable(Entity par1Entity)
 	{
-		return p_82704_1_ instanceof IMob;
+		return par1Entity instanceof IMob;
 	}
 }

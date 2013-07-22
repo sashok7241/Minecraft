@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class EntityRainFX extends EntityFX
 {
-	public EntityRainFX(World p_i3157_1_, double p_i3157_2_, double p_i3157_4_, double p_i3157_6_)
+	public EntityRainFX(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i3157_1_, p_i3157_2_, p_i3157_4_, p_i3157_6_, 0.0D, 0.0D, 0.0D);
+		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
 		motionX *= 0.30000001192092896D;
 		motionY = (float) Math.random() * 0.2F + 0.1F;
 		motionZ *= 0.30000001192092896D;

@@ -80,7 +80,7 @@ public class ModelWolf extends ModelBase
 		}
 	}
 	
-	@Override public void setLivingAnimations(EntityLiving par1EntityLivingBase, float par2, float par3, float par4)
+	@Override public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
 		EntityWolf var5 = (EntityWolf) par1EntityLivingBase;
 		if(var5.isAngry())

@@ -6,9 +6,9 @@ class CallableLevelWeather implements Callable
 {
 	final WorldInfo worldInfoInstance;
 	
-	CallableLevelWeather(WorldInfo p_i6827_1_)
+	CallableLevelWeather(WorldInfo par1WorldInfo)
 	{
-		worldInfoInstance = p_i6827_1_;
+		worldInfoInstance = par1WorldInfo;
 	}
 	
 	@Override public Object call()

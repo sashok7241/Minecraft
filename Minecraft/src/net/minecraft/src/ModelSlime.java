@@ -7,13 +7,13 @@ public class ModelSlime extends ModelBase
 	ModelRenderer slimeLeftEye;
 	ModelRenderer slimeMouth;
 	
-	public ModelSlime(int p_i3128_1_)
+	public ModelSlime(int par1)
 	{
-		slimeBodies = new ModelRenderer(this, 0, p_i3128_1_);
+		slimeBodies = new ModelRenderer(this, 0, par1);
 		slimeBodies.addBox(-4.0F, 16.0F, -4.0F, 8, 8, 8);
-		if(p_i3128_1_ > 0)
+		if(par1 > 0)
 		{
-			slimeBodies = new ModelRenderer(this, 0, p_i3128_1_);
+			slimeBodies = new ModelRenderer(this, 0, par1);
 			slimeBodies.addBox(-3.0F, 17.0F, -3.0F, 6, 6, 6);
 			slimeRightEye = new ModelRenderer(this, 32, 0);
 			slimeRightEye.addBox(-3.25F, 18.0F, -3.5F, 2, 2, 2);

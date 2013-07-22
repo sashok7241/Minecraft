@@ -11,11 +11,11 @@ public class Score
 	private final String field_96654_d;
 	private int field_96655_e;
 	
-	public Score(Scoreboard p_i10063_1_, ScoreObjective p_i10063_2_, String p_i10063_3_)
+	public Score(Scoreboard par1Scoreboard, ScoreObjective par2ScoreObjective, String par3Str)
 	{
-		theScoreboard = p_i10063_1_;
-		field_96657_c = p_i10063_2_;
-		field_96654_d = p_i10063_3_;
+		theScoreboard = par1Scoreboard;
+		field_96657_c = par2ScoreObjective;
+		field_96654_d = par3Str;
 	}
 	
 	public ScoreObjective func_96645_d()
@@ -23,20 +23,20 @@ public class Score
 		return field_96657_c;
 	}
 	
-	public void func_96646_b(int p_96646_1_)
+	public void func_96646_b(int par1)
 	{
 		if(field_96657_c.getCriteria().isReadOnly()) throw new IllegalStateException("Cannot modify read-only score");
 		else
 		{
-			func_96647_c(getScorePoints() - p_96646_1_);
+			func_96647_c(getScorePoints() - par1);
 		}
 	}
 	
-	public void func_96647_c(int p_96647_1_)
+	public void func_96647_c(int par1)
 	{
 		int var2 = field_96655_e;
-		field_96655_e = p_96647_1_;
-		if(var2 != p_96647_1_)
+		field_96655_e = par1;
+		if(var2 != par1)
 		{
 			func_96650_f().func_96536_a(this);
 		}
@@ -51,12 +51,12 @@ public class Score
 		}
 	}
 	
-	public void func_96649_a(int p_96649_1_)
+	public void func_96649_a(int par1)
 	{
 		if(field_96657_c.getCriteria().isReadOnly()) throw new IllegalStateException("Cannot modify read-only score");
 		else
 		{
-			func_96647_c(getScorePoints() + p_96649_1_);
+			func_96647_c(getScorePoints() + par1);
 		}
 	}
 	
@@ -65,9 +65,9 @@ public class Score
 		return theScoreboard;
 	}
 	
-	public void func_96651_a(List p_96651_1_)
+	public void func_96651_a(List par1List)
 	{
-		func_96647_c(field_96657_c.getCriteria().func_96635_a(p_96651_1_));
+		func_96647_c(field_96657_c.getCriteria().func_96635_a(par1List));
 	}
 	
 	public String getPlayerName()

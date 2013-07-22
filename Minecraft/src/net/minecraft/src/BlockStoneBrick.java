@@ -5,18 +5,18 @@ import java.util.List;
 public class BlockStoneBrick extends Block
 {
 	public static final String[] STONE_BRICK_TYPES = new String[] { "default", "mossy", "cracked", "chiseled" };
-	public static final String[] field_94407_b = new String[] { "stonebricksmooth", "stonebricksmooth_mossy", "stonebricksmooth_cracked", "stonebricksmooth_carved" };
+	public static final String[] field_94407_b = new String[] { null, "mossy", "cracked", "carved" };
 	private Icon[] field_94408_c;
 	
-	public BlockStoneBrick(int p_i3994_1_)
+	public BlockStoneBrick(int par1)
 	{
-		super(p_i3994_1_, Material.rock);
+		super(par1, Material.rock);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	@Override public int damageDropped(int p_71899_1_)
+	@Override public int damageDropped(int par1)
 	{
-		return p_71899_1_;
+		return par1;
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -41,7 +41,12 @@ public class BlockStoneBrick extends Block
 		field_94408_c = new Icon[field_94407_b.length];
 		for(int var2 = 0; var2 < field_94408_c.length; ++var2)
 		{
-			field_94408_c[var2] = par1IconRegister.registerIcon(field_94407_b[var2]);
+			String var3 = func_111023_E();
+			if(field_94407_b[var2] != null)
+			{
+				var3 = var3 + "_" + field_94407_b[var2];
+			}
+			field_94408_c[var2] = par1IconRegister.registerIcon(var3);
 		}
 	}
 }

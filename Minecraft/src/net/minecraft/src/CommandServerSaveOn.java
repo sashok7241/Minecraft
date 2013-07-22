@@ -9,22 +9,35 @@ public class CommandServerSaveOn extends CommandBase
 		return "save-on";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.save-on.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 4;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
 		MinecraftServer var3 = MinecraftServer.getServer();
+		boolean var4 = false;
 		for(WorldServer worldServer : var3.worldServers)
 		{
 			if(worldServer != null)
 			{
-				WorldServer var5 = worldServer;
-				var5.canNotSave = false;
+				WorldServer var6 = worldServer;
+				if(var6.canNotSave)
+				{
+					var6.canNotSave = false;
+					var4 = true;
+				}
 			}
 		}
-		notifyAdmins(p_71515_1_, "commands.save.enabled", new Object[0]);
+		if(var4)
+		{
+			notifyAdmins(par1ICommandSender, "commands.save.enabled", new Object[0]);
+		} else throw new CommandException("commands.save-on.alreadyOn", new Object[0]);
 	}
 }

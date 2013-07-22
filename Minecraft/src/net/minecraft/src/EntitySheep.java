@@ -9,32 +9,30 @@ public class EntitySheep extends EntityAnimal
 	private int sheepTimer;
 	private EntityAIEatGrass aiEatGrass = new EntityAIEatGrass(this);
 	
-	public EntitySheep(World p_i3521_1_)
+	public EntitySheep(World par1World)
 	{
-		super(p_i3521_1_);
-		texture = "/mob/sheep.png";
+		super(par1World);
 		setSize(0.9F, 1.3F);
-		float var2 = 0.23F;
 		getNavigator().setAvoidsWater(true);
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIPanic(this, 0.38F));
-		tasks.addTask(2, new EntityAIMate(this, var2));
-		tasks.addTask(3, new EntityAITempt(this, 0.25F, Item.wheat.itemID, false));
-		tasks.addTask(4, new EntityAIFollowParent(this, 0.25F));
+		tasks.addTask(1, new EntityAIPanic(this, 1.25D));
+		tasks.addTask(2, new EntityAIMate(this, 1.0D));
+		tasks.addTask(3, new EntityAITempt(this, 1.1D, Item.wheat.itemID, false));
+		tasks.addTask(4, new EntityAIFollowParent(this, 1.1D));
 		tasks.addTask(5, aiEatGrass);
-		tasks.addTask(6, new EntityAIWander(this, var2));
+		tasks.addTask(6, new EntityAIWander(this, 1.0D));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		tasks.addTask(8, new EntityAILookIdle(this));
 		field_90016_e.setInventorySlotContents(0, new ItemStack(Item.dyePowder, 1, 0));
 		field_90016_e.setInventorySlotContents(1, new ItemStack(Item.dyePowder, 1, 0));
 	}
 	
-	@Override public EntityAgeable createChild(EntityAgeable p_90011_1_)
+	@Override public EntityAgeable createChild(EntityAgeable par1EntityAgeable)
 	{
-		return func_90015_b(p_90011_1_);
+		return func_90015_b(par1EntityAgeable);
 	}
 	
-	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+	@Override protected void dropFewItems(boolean par1, int par2)
 	{
 		if(!getSheared())
 		{
@@ -47,12 +45,7 @@ public class EntitySheep extends EntityAnimal
 		setSheared(false);
 		if(isChild())
 		{
-			int var1 = getGrowingAge() + 1200;
-			if(var1 > 0)
-			{
-				var1 = 0;
-			}
-			setGrowingAge(var1);
+			func_110195_a(60);
 		}
 	}
 	
@@ -60,6 +53,20 @@ public class EntitySheep extends EntityAnimal
 	{
 		super.entityInit();
 		dataWatcher.addObject(16, new Byte((byte) 0));
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(8.0D);
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.23000000417232513D);
+	}
+	
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	{
+		par1EntityLivingData = super.func_110161_a(par1EntityLivingData);
+		setFleeceColor(getRandomFleeceColor(worldObj.rand));
+		return par1EntityLivingData;
 	}
 	
 	public float func_70890_k(float par1)
@@ -76,18 +83,18 @@ public class EntitySheep extends EntityAnimal
 		return sheepTimer <= 0 ? 0.0F : sheepTimer >= 4 && sheepTimer <= 36 ? 1.0F : sheepTimer < 4 ? (sheepTimer - par1) / 4.0F : -(sheepTimer - 40 - par1) / 4.0F;
 	}
 	
-	private int func_90013_b(EntityAnimal p_90013_1_)
+	private int func_90013_b(EntityAnimal par1EntityAnimal)
 	{
-		return 15 - ((EntitySheep) p_90013_1_).getFleeceColor();
+		return 15 - ((EntitySheep) par1EntityAnimal).getFleeceColor();
 	}
 	
-	private int func_90014_a(EntityAnimal p_90014_1_, EntityAnimal p_90014_2_)
+	private int func_90014_a(EntityAnimal par1EntityAnimal, EntityAnimal par2EntityAnimal)
 	{
-		int var3 = func_90013_b(p_90014_1_);
-		int var4 = func_90013_b(p_90014_2_);
+		int var3 = func_90013_b(par1EntityAnimal);
+		int var4 = func_90013_b(par2EntityAnimal);
 		field_90016_e.getStackInSlot(0).setItemDamage(var3);
 		field_90016_e.getStackInSlot(1).setItemDamage(var4);
-		ItemStack var5 = CraftingManager.getInstance().findMatchingRecipe(field_90016_e, ((EntitySheep) p_90014_1_).worldObj);
+		ItemStack var5 = CraftingManager.getInstance().findMatchingRecipe(field_90016_e, ((EntitySheep) par1EntityAnimal).worldObj);
 		int var6;
 		if(var5 != null && var5.getItem().itemID == Item.dyePowder.itemID)
 		{
@@ -99,9 +106,9 @@ public class EntitySheep extends EntityAnimal
 		return var6;
 	}
 	
-	public EntitySheep func_90015_b(EntityAgeable p_90015_1_)
+	public EntitySheep func_90015_b(EntityAgeable par1EntityAgeable)
 	{
-		EntitySheep var2 = (EntitySheep) p_90015_1_;
+		EntitySheep var2 = (EntitySheep) par1EntityAgeable;
 		EntitySheep var3 = new EntitySheep(worldObj);
 		int var4 = func_90014_a(this, var2);
 		var3.setFleeceColor(15 - var4);
@@ -133,11 +140,6 @@ public class EntitySheep extends EntityAnimal
 		return "mob.sheep.say";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 8;
-	}
-	
 	public boolean getSheared()
 	{
 		return (dataWatcher.getWatchableObjectByte(16) & 16) != 0;
@@ -154,14 +156,9 @@ public class EntitySheep extends EntityAnimal
 		}
 	}
 	
-	@Override public void initCreature()
+	@Override public boolean interact(EntityPlayer par1EntityPlayer)
 	{
-		setFleeceColor(getRandomFleeceColor(worldObj.rand));
-	}
-	
-	@Override public boolean interact(EntityPlayer p_70085_1_)
-	{
-		ItemStack var2 = p_70085_1_.inventory.getCurrentItem();
+		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
 		if(var2 != null && var2.itemID == Item.shears.itemID && !getSheared() && !isChild())
 		{
 			if(!worldObj.isRemote)
@@ -176,10 +173,10 @@ public class EntitySheep extends EntityAnimal
 					var5.motionZ += (rand.nextFloat() - rand.nextFloat()) * 0.1F;
 				}
 			}
-			var2.damageItem(1, p_70085_1_);
+			var2.damageItem(1, par1EntityPlayer);
 			playSound("mob.sheep.shear", 1.0F, 1.0F);
 		}
-		return super.interact(p_70085_1_);
+		return super.interact(par1EntityPlayer);
 	}
 	
 	@Override protected boolean isAIEnabled()
@@ -196,28 +193,28 @@ public class EntitySheep extends EntityAnimal
 		super.onLivingUpdate();
 	}
 	
-	@Override protected void playStepSound(int p_70036_1_, int p_70036_2_, int p_70036_3_, int p_70036_4_)
+	@Override protected void playStepSound(int par1, int par2, int par3, int par4)
 	{
 		playSound("mob.sheep.step", 0.15F, 1.0F);
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		setSheared(p_70037_1_.getBoolean("Sheared"));
-		setFleeceColor(p_70037_1_.getByte("Color"));
+		super.readEntityFromNBT(par1NBTTagCompound);
+		setSheared(par1NBTTagCompound.getBoolean("Sheared"));
+		setFleeceColor(par1NBTTagCompound.getByte("Color"));
 	}
 	
-	public void setFleeceColor(int p_70891_1_)
+	public void setFleeceColor(int par1)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
-		dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 & 240 | p_70891_1_ & 15)));
+		dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 & 240 | par1 & 15)));
 	}
 	
-	public void setSheared(boolean p_70893_1_)
+	public void setSheared(boolean par1)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
-		if(p_70893_1_)
+		if(par1)
 		{
 			dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 16)));
 		} else
@@ -232,16 +229,16 @@ public class EntitySheep extends EntityAnimal
 		super.updateAITasks();
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setBoolean("Sheared", getSheared());
-		p_70014_1_.setByte("Color", (byte) getFleeceColor());
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setBoolean("Sheared", getSheared());
+		par1NBTTagCompound.setByte("Color", (byte) getFleeceColor());
 	}
 	
-	public static int getRandomFleeceColor(Random p_70895_0_)
+	public static int getRandomFleeceColor(Random par0Random)
 	{
-		int var1 = p_70895_0_.nextInt(100);
-		return var1 < 5 ? 15 : var1 < 10 ? 7 : var1 < 15 ? 8 : var1 < 18 ? 12 : p_70895_0_.nextInt(500) == 0 ? 6 : 0;
+		int var1 = par0Random.nextInt(100);
+		return var1 < 5 ? 15 : var1 < 10 ? 7 : var1 < 15 ? 8 : var1 < 18 ? 12 : par0Random.nextInt(500) == 0 ? 6 : 0;
 	}
 }

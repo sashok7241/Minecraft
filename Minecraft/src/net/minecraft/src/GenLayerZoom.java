@@ -2,23 +2,23 @@ package net.minecraft.src;
 
 public class GenLayerZoom extends GenLayer
 {
-	public GenLayerZoom(long p_i3900_1_, GenLayer p_i3900_3_)
+	public GenLayerZoom(long par1, GenLayer par3GenLayer)
 	{
-		super(p_i3900_1_);
-		super.parent = p_i3900_3_;
+		super(par1);
+		super.parent = par3GenLayer;
 	}
 	
-	protected int choose(int p_75917_1_, int p_75917_2_)
+	protected int choose(int par1, int par2)
 	{
-		return nextInt(2) == 0 ? p_75917_1_ : p_75917_2_;
+		return nextInt(2) == 0 ? par1 : par2;
 	}
 	
-	@Override public int[] getInts(int p_75904_1_, int p_75904_2_, int p_75904_3_, int p_75904_4_)
+	@Override public int[] getInts(int par1, int par2, int par3, int par4)
 	{
-		int var5 = p_75904_1_ >> 1;
-		int var6 = p_75904_2_ >> 1;
-		int var7 = (p_75904_3_ >> 1) + 3;
-		int var8 = (p_75904_4_ >> 1) + 3;
+		int var5 = par1 >> 1;
+		int var6 = par2 >> 1;
+		int var7 = (par3 >> 1) + 3;
+		int var8 = (par4 >> 1) + 3;
 		int[] var9 = parent.getInts(var5, var6, var7, var8);
 		int[] var10 = IntCache.getIntCache(var7 * 2 * var8 * 2);
 		int var11 = var7 << 1;
@@ -42,45 +42,45 @@ public class GenLayerZoom extends GenLayer
 				var16 = var19;
 			}
 		}
-		int[] var20 = IntCache.getIntCache(p_75904_3_ * p_75904_4_);
-		for(var13 = 0; var13 < p_75904_4_; ++var13)
+		int[] var20 = IntCache.getIntCache(par3 * par4);
+		for(var13 = 0; var13 < par4; ++var13)
 		{
-			System.arraycopy(var10, (var13 + (p_75904_2_ & 1)) * (var7 << 1) + (p_75904_1_ & 1), var20, var13 * p_75904_3_, p_75904_3_);
+			System.arraycopy(var10, (var13 + (par2 & 1)) * (var7 << 1) + (par1 & 1), var20, var13 * par3, par3);
 		}
 		return var20;
 	}
 	
-	protected int modeOrRandom(int p_75916_1_, int p_75916_2_, int p_75916_3_, int p_75916_4_)
+	protected int modeOrRandom(int par1, int par2, int par3, int par4)
 	{
-		if(p_75916_2_ == p_75916_3_ && p_75916_3_ == p_75916_4_) return p_75916_2_;
-		else if(p_75916_1_ == p_75916_2_ && p_75916_1_ == p_75916_3_) return p_75916_1_;
-		else if(p_75916_1_ == p_75916_2_ && p_75916_1_ == p_75916_4_) return p_75916_1_;
-		else if(p_75916_1_ == p_75916_3_ && p_75916_1_ == p_75916_4_) return p_75916_1_;
-		else if(p_75916_1_ == p_75916_2_ && p_75916_3_ != p_75916_4_) return p_75916_1_;
-		else if(p_75916_1_ == p_75916_3_ && p_75916_2_ != p_75916_4_) return p_75916_1_;
-		else if(p_75916_1_ == p_75916_4_ && p_75916_2_ != p_75916_3_) return p_75916_1_;
-		else if(p_75916_2_ == p_75916_1_ && p_75916_3_ != p_75916_4_) return p_75916_2_;
-		else if(p_75916_2_ == p_75916_3_ && p_75916_1_ != p_75916_4_) return p_75916_2_;
-		else if(p_75916_2_ == p_75916_4_ && p_75916_1_ != p_75916_3_) return p_75916_2_;
-		else if(p_75916_3_ == p_75916_1_ && p_75916_2_ != p_75916_4_) return p_75916_3_;
-		else if(p_75916_3_ == p_75916_2_ && p_75916_1_ != p_75916_4_) return p_75916_3_;
-		else if(p_75916_3_ == p_75916_4_ && p_75916_1_ != p_75916_2_) return p_75916_3_;
-		else if(p_75916_4_ == p_75916_1_ && p_75916_2_ != p_75916_3_) return p_75916_3_;
-		else if(p_75916_4_ == p_75916_2_ && p_75916_1_ != p_75916_3_) return p_75916_3_;
-		else if(p_75916_4_ == p_75916_3_ && p_75916_1_ != p_75916_2_) return p_75916_3_;
+		if(par2 == par3 && par3 == par4) return par2;
+		else if(par1 == par2 && par1 == par3) return par1;
+		else if(par1 == par2 && par1 == par4) return par1;
+		else if(par1 == par3 && par1 == par4) return par1;
+		else if(par1 == par2 && par3 != par4) return par1;
+		else if(par1 == par3 && par2 != par4) return par1;
+		else if(par1 == par4 && par2 != par3) return par1;
+		else if(par2 == par1 && par3 != par4) return par2;
+		else if(par2 == par3 && par1 != par4) return par2;
+		else if(par2 == par4 && par1 != par3) return par2;
+		else if(par3 == par1 && par2 != par4) return par3;
+		else if(par3 == par2 && par1 != par4) return par3;
+		else if(par3 == par4 && par1 != par2) return par3;
+		else if(par4 == par1 && par2 != par3) return par3;
+		else if(par4 == par2 && par1 != par3) return par3;
+		else if(par4 == par3 && par1 != par2) return par3;
 		else
 		{
 			int var5 = nextInt(4);
-			return var5 == 0 ? p_75916_1_ : var5 == 1 ? p_75916_2_ : var5 == 2 ? p_75916_3_ : p_75916_4_;
+			return var5 == 0 ? par1 : var5 == 1 ? par2 : var5 == 2 ? par3 : par4;
 		}
 	}
 	
-	public static GenLayer magnify(long p_75915_0_, GenLayer p_75915_2_, int p_75915_3_)
+	public static GenLayer magnify(long par0, GenLayer par2GenLayer, int par3)
 	{
-		Object var4 = p_75915_2_;
-		for(int var5 = 0; var5 < p_75915_3_; ++var5)
+		Object var4 = par2GenLayer;
+		for(int var5 = 0; var5 < par3; ++var5)
 		{
-			var4 = new GenLayerZoom(p_75915_0_ + var5, (GenLayer) var4);
+			var4 = new GenLayerZoom(par0 + var5, (GenLayer) var4);
 		}
 		return (GenLayer) var4;
 	}

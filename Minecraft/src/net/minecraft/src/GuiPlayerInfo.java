@@ -6,9 +6,9 @@ public class GuiPlayerInfo
 	private final String nameinLowerCase;
 	public int responseTime;
 	
-	public GuiPlayerInfo(String p_i3109_1_)
+	public GuiPlayerInfo(String par1Str)
 	{
-		name = p_i3109_1_;
-		nameinLowerCase = p_i3109_1_.toLowerCase();
+		name = par1Str;
+		nameinLowerCase = par1Str.toLowerCase();
 	}
 }

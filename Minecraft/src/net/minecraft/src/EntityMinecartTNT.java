@@ -4,21 +4,21 @@ public class EntityMinecartTNT extends EntityMinecart
 {
 	private int minecartTNTFuse = -1;
 	
-	public EntityMinecartTNT(World p_i9007_1_)
+	public EntityMinecartTNT(World par1World)
 	{
-		super(p_i9007_1_);
+		super(par1World);
 	}
 	
-	public EntityMinecartTNT(World p_i9008_1_, double p_i9008_2_, double p_i9008_4_, double p_i9008_6_)
+	public EntityMinecartTNT(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i9008_1_, p_i9008_2_, p_i9008_4_, p_i9008_6_);
+		super(par1World, par2, par4, par6);
 	}
 	
-	protected void explodeCart(double p_94103_1_)
+	protected void explodeCart(double par1)
 	{
 		if(!worldObj.isRemote)
 		{
-			double var3 = Math.sqrt(p_94103_1_);
+			double var3 = Math.sqrt(par1);
 			if(var3 > 5.0D)
 			{
 				var3 = 5.0D;
@@ -28,19 +28,19 @@ public class EntityMinecartTNT extends EntityMinecart
 		}
 	}
 	
-	@Override protected void fall(float p_70069_1_)
+	@Override protected void fall(float par1)
 	{
-		if(p_70069_1_ >= 3.0F)
+		if(par1 >= 3.0F)
 		{
-			float var2 = p_70069_1_ / 10.0F;
+			float var2 = par1 / 10.0F;
 			explodeCart(var2 * var2);
 		}
-		super.fall(p_70069_1_);
+		super.fall(par1);
 	}
 	
-	@Override public float func_82146_a(Explosion p_82146_1_, World p_82146_2_, int p_82146_3_, int p_82146_4_, int p_82146_5_, Block p_82146_6_)
+	@Override public float func_82146_a(Explosion par1Explosion, World par2World, int par3, int par4, int par5, Block par6Block)
 	{
-		return isIgnited() && (BlockRailBase.isRailBlock(p_82146_6_.blockID) || BlockRailBase.isRailBlockAt(p_82146_2_, p_82146_3_, p_82146_4_ + 1, p_82146_5_)) ? 0.0F : super.func_82146_a(p_82146_1_, p_82146_2_, p_82146_3_, p_82146_4_, p_82146_5_, p_82146_6_);
+		return isIgnited() && (BlockRailBase.isRailBlock(par6Block.blockID) || BlockRailBase.isRailBlockAt(par2World, par3, par4 + 1, par5)) ? 0.0F : super.func_82146_a(par1Explosion, par2World, par3, par4, par5, par6Block);
 	}
 	
 	public int func_94104_d()
@@ -48,9 +48,9 @@ public class EntityMinecartTNT extends EntityMinecart
 		return minecartTNTFuse;
 	}
 	
-	@Override public boolean func_96091_a(Explosion p_96091_1_, World p_96091_2_, int p_96091_3_, int p_96091_4_, int p_96091_5_, int p_96091_6_, float p_96091_7_)
+	@Override public boolean func_96091_a(Explosion par1Explosion, World par2World, int par3, int par4, int par5, int par6, float par7)
 	{
-		return isIgnited() && (BlockRailBase.isRailBlock(p_96091_6_) || BlockRailBase.isRailBlockAt(p_96091_2_, p_96091_3_, p_96091_4_ + 1, p_96091_5_)) ? false : super.func_96091_a(p_96091_1_, p_96091_2_, p_96091_3_, p_96091_4_, p_96091_5_, p_96091_6_, p_96091_7_);
+		return isIgnited() && (BlockRailBase.isRailBlock(par6) || BlockRailBase.isRailBlockAt(par2World, par3, par4 + 1, par5)) ? false : super.func_96091_a(par1Explosion, par2World, par3, par4, par5, par6, par7);
 	}
 	
 	@Override public Block getDefaultDisplayTile()
@@ -89,23 +89,23 @@ public class EntityMinecartTNT extends EntityMinecart
 		return minecartTNTFuse > -1;
 	}
 	
-	@Override public void killMinecart(DamageSource p_94095_1_)
+	@Override public void killMinecart(DamageSource par1DamageSource)
 	{
-		super.killMinecart(p_94095_1_);
+		super.killMinecart(par1DamageSource);
 		double var2 = motionX * motionX + motionZ * motionZ;
-		if(!p_94095_1_.isExplosion())
+		if(!par1DamageSource.isExplosion())
 		{
 			entityDropItem(new ItemStack(Block.tnt, 1), 0.0F);
 		}
-		if(p_94095_1_.isFireDamage() || p_94095_1_.isExplosion() || var2 >= 0.009999999776482582D)
+		if(par1DamageSource.isFireDamage() || par1DamageSource.isExplosion() || var2 >= 0.009999999776482582D)
 		{
 			explodeCart(var2);
 		}
 	}
 	
-	@Override public void onActivatorRailPass(int p_96095_1_, int p_96095_2_, int p_96095_3_, boolean p_96095_4_)
+	@Override public void onActivatorRailPass(int par1, int par2, int par3, boolean par4)
 	{
-		if(p_96095_4_ && minecartTNTFuse < 0)
+		if(par4 && minecartTNTFuse < 0)
 		{
 			ignite();
 		}
@@ -132,18 +132,18 @@ public class EntityMinecartTNT extends EntityMinecart
 		}
 	}
 	
-	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		if(p_70037_1_.hasKey("TNTFuse"))
+		super.readEntityFromNBT(par1NBTTagCompound);
+		if(par1NBTTagCompound.hasKey("TNTFuse"))
 		{
-			minecartTNTFuse = p_70037_1_.getInteger("TNTFuse");
+			minecartTNTFuse = par1NBTTagCompound.getInteger("TNTFuse");
 		}
 	}
 	
-	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setInteger("TNTFuse", minecartTNTFuse);
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setInteger("TNTFuse", minecartTNTFuse);
 	}
 }

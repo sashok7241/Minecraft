@@ -4,10 +4,10 @@ class TcpReaderThread extends Thread
 {
 	final TcpConnection theTcpConnection;
 	
-	TcpReaderThread(TcpConnection p_i3283_1_, String p_i3283_2_)
+	TcpReaderThread(TcpConnection par1TcpConnection, String par2Str)
 	{
-		super(p_i3283_2_);
-		theTcpConnection = p_i3283_1_;
+		super(par2Str);
+		theTcpConnection = par1TcpConnection;
 	}
 	
 	@Override public void run()

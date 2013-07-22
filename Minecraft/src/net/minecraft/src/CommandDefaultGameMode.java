@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+import java.util.Iterator;
+
 import net.minecraft.server.MinecraftServer;
 
 public class CommandDefaultGameMode extends CommandGameMode
@@ -9,24 +11,33 @@ public class CommandDefaultGameMode extends CommandGameMode
 		return "defaultgamemode";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender p_71518_1_)
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return p_71518_1_.translateString("commands.defaultgamemode.usage", new Object[0]);
+		return "commands.defaultgamemode.usage";
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		if(p_71515_2_.length > 0)
+		if(par2ArrayOfStr.length > 0)
 		{
-			EnumGameType var3 = getGameModeFromCommand(p_71515_1_, p_71515_2_[0]);
+			EnumGameType var3 = getGameModeFromCommand(par1ICommandSender, par2ArrayOfStr[0]);
 			setGameType(var3);
-			String var4 = StatCollector.translateToLocal("gameMode." + var3.getName());
-			notifyAdmins(p_71515_1_, "commands.defaultgamemode.success", new Object[] { var4 });
+			notifyAdmins(par1ICommandSender, "commands.defaultgamemode.success", new Object[] { ChatMessageComponent.func_111077_e("gameMode." + var3.getName()) });
 		} else throw new WrongUsageException("commands.defaultgamemode.usage", new Object[0]);
 	}
 	
-	protected void setGameType(EnumGameType p_71541_1_)
+	protected void setGameType(EnumGameType par1EnumGameType)
 	{
-		MinecraftServer.getServer().setGameType(p_71541_1_);
+		MinecraftServer var2 = MinecraftServer.getServer();
+		var2.setGameType(par1EnumGameType);
+		EntityPlayerMP var4;
+		if(var2.func_104056_am())
+		{
+			for(Iterator var3 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator(); var3.hasNext(); var4.fallDistance = 0.0F)
+			{
+				var4 = (EntityPlayerMP) var3.next();
+				var4.setGameType(par1EnumGameType);
+			}
+		}
 	}
 }

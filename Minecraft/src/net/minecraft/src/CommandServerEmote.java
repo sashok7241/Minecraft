@@ -6,9 +6,9 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandServerEmote extends CommandBase
 {
-	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
+	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		return getListOfStringsMatchingLastWord(p_71516_2_, MinecraftServer.getServer().getAllUsernames());
+		return getListOfStringsMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getAllUsernames());
 	}
 	
 	@Override public String getCommandName()
@@ -16,9 +16,9 @@ public class CommandServerEmote extends CommandBase
 		return "me";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender p_71518_1_)
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return p_71518_1_.translateString("commands.me.usage", new Object[0]);
+		return "commands.me.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -26,12 +26,12 @@ public class CommandServerEmote extends CommandBase
 		return 0;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		if(p_71515_2_.length > 0)
+		if(par2ArrayOfStr.length > 0)
 		{
-			String var3 = func_82361_a(p_71515_1_, p_71515_2_, 0, p_71515_1_.canCommandSenderUseCommand(1, "me"));
-			MinecraftServer.getServer().getConfigurationManager().sendPacketToAllPlayers(new Packet3Chat("* " + p_71515_1_.getCommandSenderName() + " " + var3));
+			String var3 = func_82361_a(par1ICommandSender, par2ArrayOfStr, 0, par1ICommandSender.canCommandSenderUseCommand(1, "me"));
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(ChatMessageComponent.func_111082_b("chat.type.emote", new Object[] { par1ICommandSender.getCommandSenderName(), var3 }));
 		} else throw new WrongUsageException("commands.me.usage", new Object[0]);
 	}
 }

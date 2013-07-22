@@ -6,19 +6,19 @@ public class BlockFence extends Block
 {
 	private final String field_94464_a;
 	
-	public BlockFence(int p_i9055_1_, String p_i9055_2_, Material p_i9055_3_)
+	public BlockFence(int par1, String par2Str, Material par3Material)
 	{
-		super(p_i9055_1_, p_i9055_3_);
-		field_94464_a = p_i9055_2_;
+		super(par1, par3Material);
+		field_94464_a = par2Str;
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public void addCollisionBoxesToList(World p_71871_1_, int p_71871_2_, int p_71871_3_, int p_71871_4_, AxisAlignedBB p_71871_5_, List p_71871_6_, Entity p_71871_7_)
+	@Override public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)
 	{
-		boolean var8 = canConnectFenceTo(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_ - 1);
-		boolean var9 = canConnectFenceTo(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_ + 1);
-		boolean var10 = canConnectFenceTo(p_71871_1_, p_71871_2_ - 1, p_71871_3_, p_71871_4_);
-		boolean var11 = canConnectFenceTo(p_71871_1_, p_71871_2_ + 1, p_71871_3_, p_71871_4_);
+		boolean var8 = canConnectFenceTo(par1World, par2, par3, par4 - 1);
+		boolean var9 = canConnectFenceTo(par1World, par2, par3, par4 + 1);
+		boolean var10 = canConnectFenceTo(par1World, par2 - 1, par3, par4);
+		boolean var11 = canConnectFenceTo(par1World, par2 + 1, par3, par4);
 		float var12 = 0.375F;
 		float var13 = 0.625F;
 		float var14 = 0.375F;
@@ -34,7 +34,7 @@ public class BlockFence extends Block
 		if(var8 || var9)
 		{
 			setBlockBounds(var12, 0.0F, var14, var13, 1.5F, var15);
-			super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
+			super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 		}
 		var14 = 0.375F;
 		var15 = 0.625F;
@@ -49,7 +49,7 @@ public class BlockFence extends Block
 		if(var10 || var11 || !var8 && !var9)
 		{
 			setBlockBounds(var12, 0.0F, var14, var13, 1.5F, var15);
-			super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
+			super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 		}
 		if(var8)
 		{
@@ -62,9 +62,9 @@ public class BlockFence extends Block
 		setBlockBounds(var12, 0.0F, var14, var13, 1.0F, var15);
 	}
 	
-	public boolean canConnectFenceTo(IBlockAccess p_72250_1_, int p_72250_2_, int p_72250_3_, int p_72250_4_)
+	public boolean canConnectFenceTo(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		int var5 = p_72250_1_.getBlockId(p_72250_2_, p_72250_3_, p_72250_4_);
+		int var5 = par1IBlockAccess.getBlockId(par2, par3, par4);
 		if(var5 != blockID && var5 != Block.fenceGate.blockID)
 		{
 			Block var6 = Block.blocksList[var5];
@@ -72,7 +72,7 @@ public class BlockFence extends Block
 		} else return true;
 	}
 	
-	@Override public boolean getBlocksMovement(IBlockAccess p_71918_1_, int p_71918_2_, int p_71918_3_, int p_71918_4_)
+	@Override public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
 		return false;
 	}
@@ -87,6 +87,11 @@ public class BlockFence extends Block
 		return false;
 	}
 	
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+	{
+		return par1World.isRemote ? true : ItemLeash.func_135066_a(par5EntityPlayer, par1World, par2, par3, par4);
+	}
+	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		blockIcon = par1IconRegister.registerIcon(field_94464_a);
@@ -97,12 +102,12 @@ public class BlockFence extends Block
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		boolean var5 = canConnectFenceTo(p_71902_1_, p_71902_2_, p_71902_3_, p_71902_4_ - 1);
-		boolean var6 = canConnectFenceTo(p_71902_1_, p_71902_2_, p_71902_3_, p_71902_4_ + 1);
-		boolean var7 = canConnectFenceTo(p_71902_1_, p_71902_2_ - 1, p_71902_3_, p_71902_4_);
-		boolean var8 = canConnectFenceTo(p_71902_1_, p_71902_2_ + 1, p_71902_3_, p_71902_4_);
+		boolean var5 = canConnectFenceTo(par1IBlockAccess, par2, par3, par4 - 1);
+		boolean var6 = canConnectFenceTo(par1IBlockAccess, par2, par3, par4 + 1);
+		boolean var7 = canConnectFenceTo(par1IBlockAccess, par2 - 1, par3, par4);
+		boolean var8 = canConnectFenceTo(par1IBlockAccess, par2 + 1, par3, par4);
 		float var9 = 0.375F;
 		float var10 = 0.625F;
 		float var11 = 0.375F;
@@ -131,8 +136,8 @@ public class BlockFence extends Block
 		return true;
 	}
 	
-	public static boolean isIdAFence(int p_72249_0_)
+	public static boolean isIdAFence(int par0)
 	{
-		return p_72249_0_ == Block.fence.blockID || p_72249_0_ == Block.netherFence.blockID;
+		return par0 == Block.fence.blockID || par0 == Block.netherFence.blockID;
 	}
 }

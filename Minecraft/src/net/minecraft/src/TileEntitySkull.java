@@ -28,33 +28,33 @@ public class TileEntitySkull extends TileEntity
 		return skullType;
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
+	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readFromNBT(p_70307_1_);
-		skullType = p_70307_1_.getByte("SkullType");
-		skullRotation = p_70307_1_.getByte("Rot");
-		if(p_70307_1_.hasKey("ExtraType"))
+		super.readFromNBT(par1NBTTagCompound);
+		skullType = par1NBTTagCompound.getByte("SkullType");
+		skullRotation = par1NBTTagCompound.getByte("Rot");
+		if(par1NBTTagCompound.hasKey("ExtraType"))
 		{
-			extraType = p_70307_1_.getString("ExtraType");
+			extraType = par1NBTTagCompound.getString("ExtraType");
 		}
 	}
 	
-	public void setSkullRotation(int p_82116_1_)
+	public void setSkullRotation(int par1)
 	{
-		skullRotation = p_82116_1_;
+		skullRotation = par1;
 	}
 	
-	public void setSkullType(int p_82118_1_, String p_82118_2_)
+	public void setSkullType(int par1, String par2Str)
 	{
-		skullType = p_82118_1_;
-		extraType = p_82118_2_;
+		skullType = par1;
+		extraType = par2Str;
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
+	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeToNBT(p_70310_1_);
-		p_70310_1_.setByte("SkullType", (byte) (skullType & 255));
-		p_70310_1_.setByte("Rot", (byte) (skullRotation & 255));
-		p_70310_1_.setString("ExtraType", extraType);
+		super.writeToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setByte("SkullType", (byte) (skullType & 255));
+		par1NBTTagCompound.setByte("Rot", (byte) (skullRotation & 255));
+		par1NBTTagCompound.setString("ExtraType", extraType);
 	}
 }

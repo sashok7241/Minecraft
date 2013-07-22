@@ -10,17 +10,17 @@ public class BlockBed extends BlockDirectional
 	private Icon[] bedSideIcons;
 	private Icon[] bedTopIcons;
 	
-	public BlockBed(int p_i3919_1_)
+	public BlockBed(int par1)
 	{
-		super(p_i3919_1_, Material.cloth);
+		super(par1, Material.cloth);
 		setBounds();
 	}
 	
-	@Override public void dropBlockAsItemWithChance(World p_71914_1_, int p_71914_2_, int p_71914_3_, int p_71914_4_, int p_71914_5_, float p_71914_6_, int p_71914_7_)
+	@Override public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
 	{
-		if(!isBlockHeadOfBed(p_71914_5_))
+		if(!isBlockHeadOfBed(par5))
 		{
-			super.dropBlockAsItemWithChance(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, p_71914_5_, p_71914_6_, 0);
+			super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, 0);
 		}
 	}
 	
@@ -46,9 +46,9 @@ public class BlockBed extends BlockDirectional
 		return 14;
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
-		return isBlockHeadOfBed(p_71885_1_) ? 0 : Item.bed.itemID;
+		return isBlockHeadOfBed(par1) ? 0 : Item.bed.itemID;
 	}
 	
 	@Override public int idPicked(World par1World, int par2, int par3, int par4)
@@ -61,33 +61,33 @@ public class BlockBed extends BlockDirectional
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
-		if(p_71903_1_.isRemote) return true;
+		if(par1World.isRemote) return true;
 		else
 		{
-			int var10 = p_71903_1_.getBlockMetadata(p_71903_2_, p_71903_3_, p_71903_4_);
+			int var10 = par1World.getBlockMetadata(par2, par3, par4);
 			if(!isBlockHeadOfBed(var10))
 			{
 				int var11 = getDirection(var10);
-				p_71903_2_ += footBlockToHeadBlockMap[var11][0];
-				p_71903_4_ += footBlockToHeadBlockMap[var11][1];
-				if(p_71903_1_.getBlockId(p_71903_2_, p_71903_3_, p_71903_4_) != blockID) return true;
-				var10 = p_71903_1_.getBlockMetadata(p_71903_2_, p_71903_3_, p_71903_4_);
+				par2 += footBlockToHeadBlockMap[var11][0];
+				par4 += footBlockToHeadBlockMap[var11][1];
+				if(par1World.getBlockId(par2, par3, par4) != blockID) return true;
+				var10 = par1World.getBlockMetadata(par2, par3, par4);
 			}
-			if(p_71903_1_.provider.canRespawnHere() && p_71903_1_.getBiomeGenForCoords(p_71903_2_, p_71903_4_) != BiomeGenBase.hell)
+			if(par1World.provider.canRespawnHere() && par1World.getBiomeGenForCoords(par2, par4) != BiomeGenBase.hell)
 			{
 				if(isBedOccupied(var10))
 				{
 					EntityPlayer var20 = null;
-					Iterator var12 = p_71903_1_.playerEntities.iterator();
+					Iterator var12 = par1World.playerEntities.iterator();
 					while(var12.hasNext())
 					{
 						EntityPlayer var21 = (EntityPlayer) var12.next();
 						if(var21.isPlayerSleeping())
 						{
 							ChunkCoordinates var14 = var21.playerLocation;
-							if(var14.posX == p_71903_2_ && var14.posY == p_71903_3_ && var14.posZ == p_71903_4_)
+							if(var14.posX == par2 && var14.posY == par3 && var14.posZ == par4)
 							{
 								var20 = var21;
 							}
@@ -95,88 +95,88 @@ public class BlockBed extends BlockDirectional
 					}
 					if(var20 != null)
 					{
-						p_71903_5_.addChatMessage("tile.bed.occupied");
+						par5EntityPlayer.addChatMessage("tile.bed.occupied");
 						return true;
 					}
-					setBedOccupied(p_71903_1_, p_71903_2_, p_71903_3_, p_71903_4_, false);
+					setBedOccupied(par1World, par2, par3, par4, false);
 				}
-				EnumStatus var19 = p_71903_5_.sleepInBedAt(p_71903_2_, p_71903_3_, p_71903_4_);
+				EnumStatus var19 = par5EntityPlayer.sleepInBedAt(par2, par3, par4);
 				if(var19 == EnumStatus.OK)
 				{
-					setBedOccupied(p_71903_1_, p_71903_2_, p_71903_3_, p_71903_4_, true);
+					setBedOccupied(par1World, par2, par3, par4, true);
 					return true;
 				} else
 				{
 					if(var19 == EnumStatus.NOT_POSSIBLE_NOW)
 					{
-						p_71903_5_.addChatMessage("tile.bed.noSleep");
+						par5EntityPlayer.addChatMessage("tile.bed.noSleep");
 					} else if(var19 == EnumStatus.NOT_SAFE)
 					{
-						p_71903_5_.addChatMessage("tile.bed.notSafe");
+						par5EntityPlayer.addChatMessage("tile.bed.notSafe");
 					}
 					return true;
 				}
 			} else
 			{
-				double var18 = p_71903_2_ + 0.5D;
-				double var13 = p_71903_3_ + 0.5D;
-				double var15 = p_71903_4_ + 0.5D;
-				p_71903_1_.setBlockToAir(p_71903_2_, p_71903_3_, p_71903_4_);
+				double var18 = par2 + 0.5D;
+				double var13 = par3 + 0.5D;
+				double var15 = par4 + 0.5D;
+				par1World.setBlockToAir(par2, par3, par4);
 				int var17 = getDirection(var10);
-				p_71903_2_ += footBlockToHeadBlockMap[var17][0];
-				p_71903_4_ += footBlockToHeadBlockMap[var17][1];
-				if(p_71903_1_.getBlockId(p_71903_2_, p_71903_3_, p_71903_4_) == blockID)
+				par2 += footBlockToHeadBlockMap[var17][0];
+				par4 += footBlockToHeadBlockMap[var17][1];
+				if(par1World.getBlockId(par2, par3, par4) == blockID)
 				{
-					p_71903_1_.setBlockToAir(p_71903_2_, p_71903_3_, p_71903_4_);
-					var18 = (var18 + p_71903_2_ + 0.5D) / 2.0D;
-					var13 = (var13 + p_71903_3_ + 0.5D) / 2.0D;
-					var15 = (var15 + p_71903_4_ + 0.5D) / 2.0D;
+					par1World.setBlockToAir(par2, par3, par4);
+					var18 = (var18 + par2 + 0.5D) / 2.0D;
+					var13 = (var13 + par3 + 0.5D) / 2.0D;
+					var15 = (var15 + par4 + 0.5D) / 2.0D;
 				}
-				p_71903_1_.newExplosion((Entity) null, p_71903_2_ + 0.5F, p_71903_3_ + 0.5F, p_71903_4_ + 0.5F, 5.0F, true, true);
+				par1World.newExplosion((Entity) null, par2 + 0.5F, par3 + 0.5F, par4 + 0.5F, 5.0F, true, true);
 				return true;
 			}
 		}
 	}
 	
-	@Override public void onBlockHarvested(World p_71846_1_, int p_71846_2_, int p_71846_3_, int p_71846_4_, int p_71846_5_, EntityPlayer p_71846_6_)
+	@Override public void onBlockHarvested(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer)
 	{
-		if(p_71846_6_.capabilities.isCreativeMode && isBlockHeadOfBed(p_71846_5_))
+		if(par6EntityPlayer.capabilities.isCreativeMode && isBlockHeadOfBed(par5))
 		{
-			int var7 = getDirection(p_71846_5_);
-			p_71846_2_ -= footBlockToHeadBlockMap[var7][0];
-			p_71846_4_ -= footBlockToHeadBlockMap[var7][1];
-			if(p_71846_1_.getBlockId(p_71846_2_, p_71846_3_, p_71846_4_) == blockID)
+			int var7 = getDirection(par5);
+			par2 -= footBlockToHeadBlockMap[var7][0];
+			par4 -= footBlockToHeadBlockMap[var7][1];
+			if(par1World.getBlockId(par2, par3, par4) == blockID)
 			{
-				p_71846_1_.setBlockToAir(p_71846_2_, p_71846_3_, p_71846_4_);
+				par1World.setBlockToAir(par2, par3, par4);
 			}
 		}
 	}
 	
-	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
+	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
-		int var6 = p_71863_1_.getBlockMetadata(p_71863_2_, p_71863_3_, p_71863_4_);
+		int var6 = par1World.getBlockMetadata(par2, par3, par4);
 		int var7 = getDirection(var6);
 		if(isBlockHeadOfBed(var6))
 		{
-			if(p_71863_1_.getBlockId(p_71863_2_ - footBlockToHeadBlockMap[var7][0], p_71863_3_, p_71863_4_ - footBlockToHeadBlockMap[var7][1]) != blockID)
+			if(par1World.getBlockId(par2 - footBlockToHeadBlockMap[var7][0], par3, par4 - footBlockToHeadBlockMap[var7][1]) != blockID)
 			{
-				p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
+				par1World.setBlockToAir(par2, par3, par4);
 			}
-		} else if(p_71863_1_.getBlockId(p_71863_2_ + footBlockToHeadBlockMap[var7][0], p_71863_3_, p_71863_4_ + footBlockToHeadBlockMap[var7][1]) != blockID)
+		} else if(par1World.getBlockId(par2 + footBlockToHeadBlockMap[var7][0], par3, par4 + footBlockToHeadBlockMap[var7][1]) != blockID)
 		{
-			p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
-			if(!p_71863_1_.isRemote)
+			par1World.setBlockToAir(par2, par3, par4);
+			if(!par1World.isRemote)
 			{
-				dropBlockAsItem(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, var6, 0);
+				dropBlockAsItem(par1World, par2, par3, par4, var6, 0);
 			}
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		bedTopIcons = new Icon[] { par1IconRegister.registerIcon("bed_feet_top"), par1IconRegister.registerIcon("bed_head_top") };
-		field_94472_b = new Icon[] { par1IconRegister.registerIcon("bed_feet_end"), par1IconRegister.registerIcon("bed_head_end") };
-		bedSideIcons = new Icon[] { par1IconRegister.registerIcon("bed_feet_side"), par1IconRegister.registerIcon("bed_head_side") };
+		bedTopIcons = new Icon[] { par1IconRegister.registerIcon(func_111023_E() + "_feet_top"), par1IconRegister.registerIcon(func_111023_E() + "_head_top") };
+		field_94472_b = new Icon[] { par1IconRegister.registerIcon(func_111023_E() + "_feet_end"), par1IconRegister.registerIcon(func_111023_E() + "_head_end") };
+		bedSideIcons = new Icon[] { par1IconRegister.registerIcon(func_111023_E() + "_feet_side"), par1IconRegister.registerIcon(func_111023_E() + "_head_side") };
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -184,7 +184,7 @@ public class BlockBed extends BlockDirectional
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
 		setBounds();
 	}
@@ -194,24 +194,24 @@ public class BlockBed extends BlockDirectional
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5625F, 1.0F);
 	}
 	
-	public static ChunkCoordinates getNearestEmptyChunkCoordinates(World p_72226_0_, int p_72226_1_, int p_72226_2_, int p_72226_3_, int p_72226_4_)
+	public static ChunkCoordinates getNearestEmptyChunkCoordinates(World par0World, int par1, int par2, int par3, int par4)
 	{
-		int var5 = p_72226_0_.getBlockMetadata(p_72226_1_, p_72226_2_, p_72226_3_);
+		int var5 = par0World.getBlockMetadata(par1, par2, par3);
 		int var6 = BlockDirectional.getDirection(var5);
 		for(int var7 = 0; var7 <= 1; ++var7)
 		{
-			int var8 = p_72226_1_ - footBlockToHeadBlockMap[var6][0] * var7 - 1;
-			int var9 = p_72226_3_ - footBlockToHeadBlockMap[var6][1] * var7 - 1;
+			int var8 = par1 - footBlockToHeadBlockMap[var6][0] * var7 - 1;
+			int var9 = par3 - footBlockToHeadBlockMap[var6][1] * var7 - 1;
 			int var10 = var8 + 2;
 			int var11 = var9 + 2;
 			for(int var12 = var8; var12 <= var10; ++var12)
 			{
 				for(int var13 = var9; var13 <= var11; ++var13)
 				{
-					if(p_72226_0_.doesBlockHaveSolidTopSurface(var12, p_72226_2_ - 1, var13) && p_72226_0_.isAirBlock(var12, p_72226_2_, var13) && p_72226_0_.isAirBlock(var12, p_72226_2_ + 1, var13))
+					if(par0World.doesBlockHaveSolidTopSurface(var12, par2 - 1, var13) && !par0World.getBlockMaterial(var12, par2, var13).isOpaque() && !par0World.getBlockMaterial(var12, par2 + 1, var13).isOpaque())
 					{
-						if(p_72226_4_ <= 0) return new ChunkCoordinates(var12, p_72226_2_, var13);
-						--p_72226_4_;
+						if(par4 <= 0) return new ChunkCoordinates(var12, par2, var13);
+						--par4;
 					}
 				}
 			}
@@ -219,26 +219,26 @@ public class BlockBed extends BlockDirectional
 		return null;
 	}
 	
-	public static boolean isBedOccupied(int p_72225_0_)
+	public static boolean isBedOccupied(int par0)
 	{
-		return (p_72225_0_ & 4) != 0;
+		return (par0 & 4) != 0;
 	}
 	
-	public static boolean isBlockHeadOfBed(int p_72229_0_)
+	public static boolean isBlockHeadOfBed(int par0)
 	{
-		return (p_72229_0_ & 8) != 0;
+		return (par0 & 8) != 0;
 	}
 	
-	public static void setBedOccupied(World p_72228_0_, int p_72228_1_, int p_72228_2_, int p_72228_3_, boolean p_72228_4_)
+	public static void setBedOccupied(World par0World, int par1, int par2, int par3, boolean par4)
 	{
-		int var5 = p_72228_0_.getBlockMetadata(p_72228_1_, p_72228_2_, p_72228_3_);
-		if(p_72228_4_)
+		int var5 = par0World.getBlockMetadata(par1, par2, par3);
+		if(par4)
 		{
 			var5 |= 4;
 		} else
 		{
 			var5 &= -5;
 		}
-		p_72228_0_.setBlockMetadataWithNotify(p_72228_1_, p_72228_2_, p_72228_3_, var5, 4);
+		par0World.setBlockMetadataWithNotify(par1, par2, par3, var5, 4);
 	}
 }

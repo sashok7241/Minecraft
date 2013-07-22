@@ -4,13 +4,13 @@ import java.util.concurrent.Callable;
 
 import net.minecraft.client.Minecraft;
 
-public class CallableParticleScreenName implements Callable
+class CallableParticleScreenName implements Callable
 {
 	final Minecraft theMinecraft;
 	
-	public CallableParticleScreenName(Minecraft p_i7001_1_)
+	CallableParticleScreenName(Minecraft par1Minecraft)
 	{
-		theMinecraft = p_i7001_1_;
+		theMinecraft = par1Minecraft;
 	}
 	
 	@Override public Object call()

@@ -8,31 +8,31 @@ public class LongHashMap
 	private final float percentUseable = 0.75F;
 	private transient volatile int modCount;
 	
-	public void add(long p_76163_1_, Object p_76163_3_)
+	public void add(long par1, Object par3Obj)
 	{
-		int var4 = getHashedKey(p_76163_1_);
+		int var4 = getHashedKey(par1);
 		int var5 = getHashIndex(var4, hashArray.length);
 		for(LongHashMapEntry var6 = hashArray[var5]; var6 != null; var6 = var6.nextEntry)
 		{
-			if(var6.key == p_76163_1_)
+			if(var6.key == par1)
 			{
-				var6.value = p_76163_3_;
+				var6.value = par3Obj;
 				return;
 			}
 		}
 		++modCount;
-		createKey(var4, p_76163_1_, p_76163_3_, var5);
+		createKey(var4, par1, par3Obj, var5);
 	}
 	
-	public boolean containsItem(long p_76161_1_)
+	public boolean containsItem(long par1)
 	{
-		return getEntry(p_76161_1_) != null;
+		return getEntry(par1) != null;
 	}
 	
-	private void copyHashTableTo(LongHashMapEntry[] p_76154_1_)
+	private void copyHashTableTo(LongHashMapEntry[] par1ArrayOfLongHashMapEntry)
 	{
 		LongHashMapEntry[] var2 = hashArray;
-		int var3 = p_76154_1_.length;
+		int var3 = par1ArrayOfLongHashMapEntry.length;
 		for(int var4 = 0; var4 < var2.length; ++var4)
 		{
 			LongHashMapEntry var5 = var2[var4];
@@ -44,30 +44,30 @@ public class LongHashMap
 				{
 					var6 = var5.nextEntry;
 					int var7 = getHashIndex(var5.hash, var3);
-					var5.nextEntry = p_76154_1_[var7];
-					p_76154_1_[var7] = var5;
+					var5.nextEntry = par1ArrayOfLongHashMapEntry[var7];
+					par1ArrayOfLongHashMapEntry[var7] = var5;
 					var5 = var6;
 				} while(var6 != null);
 			}
 		}
 	}
 	
-	private void createKey(int p_76156_1_, long p_76156_2_, Object p_76156_4_, int p_76156_5_)
+	private void createKey(int par1, long par2, Object par4Obj, int par5)
 	{
-		LongHashMapEntry var6 = hashArray[p_76156_5_];
-		hashArray[p_76156_5_] = new LongHashMapEntry(p_76156_1_, p_76156_2_, p_76156_4_, var6);
+		LongHashMapEntry var6 = hashArray[par5];
+		hashArray[par5] = new LongHashMapEntry(par1, par2, par4Obj, var6);
 		if(numHashElements++ >= capacity)
 		{
 			resizeTable(2 * hashArray.length);
 		}
 	}
 	
-	final LongHashMapEntry getEntry(long p_76160_1_)
+	final LongHashMapEntry getEntry(long par1)
 	{
-		int var3 = getHashedKey(p_76160_1_);
+		int var3 = getHashedKey(par1);
 		for(LongHashMapEntry var4 = hashArray[getHashIndex(var3, hashArray.length)]; var4 != null; var4 = var4.nextEntry)
 		{
-			if(var4.key == p_76160_1_) return var4;
+			if(var4.key == par1) return var4;
 		}
 		return null;
 	}
@@ -77,25 +77,25 @@ public class LongHashMap
 		return numHashElements;
 	}
 	
-	public Object getValueByKey(long p_76164_1_)
+	public Object getValueByKey(long par1)
 	{
-		int var3 = getHashedKey(p_76164_1_);
+		int var3 = getHashedKey(par1);
 		for(LongHashMapEntry var4 = hashArray[getHashIndex(var3, hashArray.length)]; var4 != null; var4 = var4.nextEntry)
 		{
-			if(var4.key == p_76164_1_) return var4.value;
+			if(var4.key == par1) return var4.value;
 		}
 		return null;
 	}
 	
-	public Object remove(long p_76159_1_)
+	public Object remove(long par1)
 	{
-		LongHashMapEntry var3 = removeKey(p_76159_1_);
+		LongHashMapEntry var3 = removeKey(par1);
 		return var3 == null ? null : var3.value;
 	}
 	
-	final LongHashMapEntry removeKey(long p_76152_1_)
+	final LongHashMapEntry removeKey(long par1)
 	{
-		int var3 = getHashedKey(p_76152_1_);
+		int var3 = getHashedKey(par1);
 		int var4 = getHashIndex(var3, hashArray.length);
 		LongHashMapEntry var5 = hashArray[var4];
 		LongHashMapEntry var6;
@@ -103,7 +103,7 @@ public class LongHashMap
 		for(var6 = var5; var6 != null; var6 = var7)
 		{
 			var7 = var6.nextEntry;
-			if(var6.key == p_76152_1_)
+			if(var6.key == par1)
 			{
 				++modCount;
 				--numHashElements;
@@ -121,7 +121,7 @@ public class LongHashMap
 		return var6;
 	}
 	
-	private void resizeTable(int p_76153_1_)
+	private void resizeTable(int par1)
 	{
 		LongHashMapEntry[] var2 = hashArray;
 		int var3 = var2.length;
@@ -130,31 +130,31 @@ public class LongHashMap
 			capacity = Integer.MAX_VALUE;
 		} else
 		{
-			LongHashMapEntry[] var4 = new LongHashMapEntry[p_76153_1_];
+			LongHashMapEntry[] var4 = new LongHashMapEntry[par1];
 			copyHashTableTo(var4);
 			hashArray = var4;
-			capacity = (int) (p_76153_1_ * percentUseable);
+			capacity = (int) (par1 * percentUseable);
 		}
 	}
 	
-	static int getHashCode(long p_76151_0_)
+	static int getHashCode(long par0)
 	{
-		return getHashedKey(p_76151_0_);
+		return getHashedKey(par0);
 	}
 	
-	private static int getHashedKey(long p_76155_0_)
+	private static int getHashedKey(long par0)
 	{
-		return hash((int) (p_76155_0_ ^ p_76155_0_ >>> 32));
+		return hash((int) (par0 ^ par0 >>> 32));
 	}
 	
-	private static int getHashIndex(int p_76158_0_, int p_76158_1_)
+	private static int getHashIndex(int par0, int par1)
 	{
-		return p_76158_0_ & p_76158_1_ - 1;
+		return par0 & par1 - 1;
 	}
 	
-	private static int hash(int p_76157_0_)
+	private static int hash(int par0)
 	{
-		p_76157_0_ ^= p_76157_0_ >>> 20 ^ p_76157_0_ >>> 12;
-		return p_76157_0_ ^ p_76157_0_ >>> 7 ^ p_76157_0_ >>> 4;
+		par0 ^= par0 >>> 20 ^ par0 >>> 12;
+		return par0 ^ par0 >>> 7 ^ par0 >>> 4;
 	}
 }

@@ -20,20 +20,21 @@ public class WorldServer extends World
 	public ChunkProviderServer theChunkProviderServer;
 	public boolean canNotSave;
 	private boolean allPlayersSleeping;
-	private int updateEntityTick = 0;
+	private int updateEntityTick;
 	private final Teleporter field_85177_Q;
+	private final SpawnerAnimals field_135059_Q = new SpawnerAnimals();
 	private ServerBlockEventList[] blockEventCache = new ServerBlockEventList[] { new ServerBlockEventList((ServerBlockEvent) null), new ServerBlockEventList((ServerBlockEvent) null) };
-	private int blockEventCacheIndex = 0;
+	private int blockEventCacheIndex;
 	private static final WeightedRandomChestContent[] bonusChestContent = new WeightedRandomChestContent[] { new WeightedRandomChestContent(Item.stick.itemID, 0, 1, 3, 10), new WeightedRandomChestContent(Block.planks.blockID, 0, 1, 3, 10), new WeightedRandomChestContent(Block.wood.blockID, 0, 1, 3, 10), new WeightedRandomChestContent(Item.axeStone.itemID, 0, 1, 1, 3), new WeightedRandomChestContent(Item.axeWood.itemID, 0, 1, 1, 5), new WeightedRandomChestContent(Item.pickaxeStone.itemID, 0, 1, 1, 3), new WeightedRandomChestContent(Item.pickaxeWood.itemID, 0, 1, 1, 5), new WeightedRandomChestContent(Item.appleRed.itemID, 0, 2, 3, 5), new WeightedRandomChestContent(Item.bread.itemID, 0, 2, 3, 3) };
-	private ArrayList pendingTickListEntriesThisTick = new ArrayList();
+	private List pendingTickListEntriesThisTick = new ArrayList();
 	private IntHashMap entityIdMap;
 	
-	public WorldServer(MinecraftServer p_i11031_1_, ISaveHandler p_i11031_2_, String p_i11031_3_, int p_i11031_4_, WorldSettings p_i11031_5_, Profiler p_i11031_6_, ILogAgent p_i11031_7_)
+	public WorldServer(MinecraftServer par1MinecraftServer, ISaveHandler par2ISaveHandler, String par3Str, int par4, WorldSettings par5WorldSettings, Profiler par6Profiler, ILogAgent par7ILogAgent)
 	{
-		super(p_i11031_2_, p_i11031_3_, p_i11031_5_, WorldProvider.getProviderForDimension(p_i11031_4_), p_i11031_6_, p_i11031_7_);
-		mcServer = p_i11031_1_;
+		super(par2ISaveHandler, par3Str, par5WorldSettings, WorldProvider.getProviderForDimension(par4), par6Profiler, par7ILogAgent);
+		mcServer = par1MinecraftServer;
 		theEntityTracker = new EntityTracker(this);
-		thePlayerManager = new PlayerManager(this, p_i11031_1_.getConfigurationManager().getViewDistance());
+		thePlayerManager = new PlayerManager(this, par1MinecraftServer.getConfigurationManager().getViewDistance());
 		if(entityIdMap == null)
 		{
 			entityIdMap = new IntHashMap();
@@ -47,7 +48,7 @@ public class WorldServer extends World
 			pendingTickListEntriesTreeSet = new TreeSet();
 		}
 		field_85177_Q = new Teleporter(this);
-		worldScoreboard = new ServerScoreboard(p_i11031_1_);
+		worldScoreboard = new ServerScoreboard(par1MinecraftServer);
 		ScoreboardSaveData var8 = (ScoreboardSaveData) mapStorage.loadData(ScoreboardSaveData.class, "scoreboard");
 		if(var8 == null)
 		{
@@ -58,9 +59,9 @@ public class WorldServer extends World
 		((ServerScoreboard) worldScoreboard).func_96547_a(var8);
 	}
 	
-	@Override public void addBlockEvent(int p_72965_1_, int p_72965_2_, int p_72965_3_, int p_72965_4_, int p_72965_5_, int p_72965_6_)
+	@Override public void addBlockEvent(int par1, int par2, int par3, int par4, int par5, int par6)
 	{
-		BlockEventData var7 = new BlockEventData(p_72965_1_, p_72965_2_, p_72965_3_, p_72965_4_, p_72965_5_, p_72965_6_);
+		BlockEventData var7 = new BlockEventData(par1, par2, par3, par4, par5, par6);
 		Iterator var8 = blockEventCache[blockEventCacheIndex].iterator();
 		BlockEventData var9;
 		do
@@ -74,11 +75,11 @@ public class WorldServer extends World
 		} while(!var9.equals(var7));
 	}
 	
-	@Override public boolean addWeatherEffect(Entity p_72942_1_)
+	@Override public boolean addWeatherEffect(Entity par1Entity)
 	{
-		if(super.addWeatherEffect(p_72942_1_))
+		if(super.addWeatherEffect(par1Entity))
 		{
-			mcServer.getConfigurationManager().sendToAllNear(p_72942_1_.posX, p_72942_1_.posY, p_72942_1_.posZ, 512.0D, provider.dimensionId, new Packet71Weather(p_72942_1_));
+			mcServer.getConfigurationManager().sendToAllNear(par1Entity.posX, par1Entity.posY, par1Entity.posZ, 512.0D, provider.dimensionId, new Packet71Weather(par1Entity));
 			return true;
 		} else return false;
 	}
@@ -98,9 +99,9 @@ public class WorldServer extends World
 		} else return false;
 	}
 	
-	@Override public boolean canMineBlock(EntityPlayer p_72962_1_, int p_72962_2_, int p_72962_3_, int p_72962_4_)
+	@Override public boolean canMineBlock(EntityPlayer par1EntityPlayer, int par2, int par3, int par4)
 	{
-		return !mcServer.func_96290_a(this, p_72962_2_, p_72962_3_, p_72962_4_, p_72962_1_);
+		return !mcServer.func_96290_a(this, par2, par3, par4, par1EntityPlayer);
 	}
 	
 	protected void createBonusChest()
@@ -125,7 +126,7 @@ public class WorldServer extends World
 		return theChunkProviderServer;
 	}
 	
-	protected void createSpawnPosition(WorldSettings p_73052_1_)
+	protected void createSpawnPosition(WorldSettings par1WorldSettings)
 	{
 		if(!provider.canRespawnHere())
 		{
@@ -161,7 +162,7 @@ public class WorldServer extends World
 			}
 			worldInfo.setSpawnPosition(var6, var7, var8);
 			findingSpawnPoint = false;
-			if(p_73052_1_.isBonusChestEnabled())
+			if(par1WorldSettings.isBonusChestEnabled())
 			{
 				createBonusChest();
 			}
@@ -181,13 +182,13 @@ public class WorldServer extends World
 		}
 	}
 	
-	public List getAllTileEntityInBox(int p_73049_1_, int p_73049_2_, int p_73049_3_, int p_73049_4_, int p_73049_5_, int p_73049_6_)
+	public List getAllTileEntityInBox(int par1, int par2, int par3, int par4, int par5, int par6)
 	{
 		ArrayList var7 = new ArrayList();
 		for(int var8 = 0; var8 < loadedTileEntityList.size(); ++var8)
 		{
 			TileEntity var9 = (TileEntity) loadedTileEntityList.get(var8);
-			if(var9.xCoord >= p_73049_1_ && var9.yCoord >= p_73049_2_ && var9.zCoord >= p_73049_3_ && var9.xCoord < p_73049_4_ && var9.yCoord < p_73049_5_ && var9.zCoord < p_73049_6_)
+			if(var9.xCoord >= par1 && var9.yCoord >= par2 && var9.zCoord >= par3 && var9.xCoord < par4 && var9.yCoord < par5 && var9.zCoord < par6)
 			{
 				var7.add(var9);
 			}
@@ -200,9 +201,9 @@ public class WorldServer extends World
 		return field_85177_Q;
 	}
 	
-	@Override public Entity getEntityByID(int p_73045_1_)
+	@Override public Entity getEntityByID(int par1)
 	{
-		return (Entity) entityIdMap.lookup(p_73045_1_);
+		return (Entity) entityIdMap.lookup(par1);
 	}
 	
 	public EntityTracker getEntityTracker()
@@ -220,10 +221,10 @@ public class WorldServer extends World
 		return mcServer;
 	}
 	
-	@Override public List getPendingBlockUpdates(Chunk p_72920_1_, boolean p_72920_2_)
+	@Override public List getPendingBlockUpdates(Chunk par1Chunk, boolean par2)
 	{
 		ArrayList var3 = null;
-		ChunkCoordIntPair var4 = p_72920_1_.getChunkCoordIntPair();
+		ChunkCoordIntPair var4 = par1Chunk.getChunkCoordIntPair();
 		int var5 = (var4.chunkXPos << 4) - 2;
 		int var6 = var5 + 16 + 2;
 		int var7 = (var4.chunkZPos << 4) - 2;
@@ -247,7 +248,7 @@ public class WorldServer extends World
 				NextTickListEntry var11 = (NextTickListEntry) var10.next();
 				if(var11.xCoord >= var5 && var11.xCoord < var6 && var11.zCoord >= var7 && var11.zCoord < var8)
 				{
-					if(p_72920_2_)
+					if(par2)
 					{
 						pendingTickListEntriesHashSet.remove(var11);
 						var10.remove();
@@ -268,7 +269,7 @@ public class WorldServer extends World
 		return thePlayerManager;
 	}
 	
-	@Override protected void initialize(WorldSettings p_72963_1_)
+	@Override protected void initialize(WorldSettings par1WorldSettings)
 	{
 		if(entityIdMap == null)
 		{
@@ -282,24 +283,24 @@ public class WorldServer extends World
 		{
 			pendingTickListEntriesTreeSet = new TreeSet();
 		}
-		createSpawnPosition(p_72963_1_);
-		super.initialize(p_72963_1_);
+		createSpawnPosition(par1WorldSettings);
+		super.initialize(par1WorldSettings);
 	}
 	
-	@Override public boolean isBlockTickScheduledThisTick(int p_94573_1_, int p_94573_2_, int p_94573_3_, int p_94573_4_)
+	@Override public boolean isBlockTickScheduledThisTick(int par1, int par2, int par3, int par4)
 	{
-		NextTickListEntry var5 = new NextTickListEntry(p_94573_1_, p_94573_2_, p_94573_3_, p_94573_4_);
+		NextTickListEntry var5 = new NextTickListEntry(par1, par2, par3, par4);
 		return pendingTickListEntriesThisTick.contains(var5);
 	}
 	
-	@Override public Explosion newExplosion(Entity p_72885_1_, double p_72885_2_, double p_72885_4_, double p_72885_6_, float p_72885_8_, boolean p_72885_9_, boolean p_72885_10_)
+	@Override public Explosion newExplosion(Entity par1Entity, double par2, double par4, double par6, float par8, boolean par9, boolean par10)
 	{
-		Explosion var11 = new Explosion(this, p_72885_1_, p_72885_2_, p_72885_4_, p_72885_6_, p_72885_8_);
-		var11.isFlaming = p_72885_9_;
-		var11.isSmoking = p_72885_10_;
+		Explosion var11 = new Explosion(this, par1Entity, par2, par4, par6, par8);
+		var11.isFlaming = par9;
+		var11.isSmoking = par10;
 		var11.doExplosionA();
 		var11.doExplosionB(false);
-		if(!p_72885_10_)
+		if(!par10)
 		{
 			var11.affectedBlockPositions.clear();
 		}
@@ -307,25 +308,25 @@ public class WorldServer extends World
 		while(var12.hasNext())
 		{
 			EntityPlayer var13 = (EntityPlayer) var12.next();
-			if(var13.getDistanceSq(p_72885_2_, p_72885_4_, p_72885_6_) < 4096.0D)
+			if(var13.getDistanceSq(par2, par4, par6) < 4096.0D)
 			{
-				((EntityPlayerMP) var13).playerNetServerHandler.sendPacketToPlayer(new Packet60Explosion(p_72885_2_, p_72885_4_, p_72885_6_, p_72885_8_, var11.affectedBlockPositions, (Vec3) var11.func_77277_b().get(var13)));
+				((EntityPlayerMP) var13).playerNetServerHandler.sendPacketToPlayer(new Packet60Explosion(par2, par4, par6, par8, var11.affectedBlockPositions, (Vec3) var11.func_77277_b().get(var13)));
 			}
 		}
 		return var11;
 	}
 	
-	private boolean onBlockEventReceived(BlockEventData p_73043_1_)
+	private boolean onBlockEventReceived(BlockEventData par1BlockEventData)
 	{
-		int var2 = getBlockId(p_73043_1_.getX(), p_73043_1_.getY(), p_73043_1_.getZ());
-		return var2 == p_73043_1_.getBlockID() ? Block.blocksList[var2].onBlockEventReceived(this, p_73043_1_.getX(), p_73043_1_.getY(), p_73043_1_.getZ(), p_73043_1_.getEventID(), p_73043_1_.getEventParameter()) : false;
+		int var2 = getBlockId(par1BlockEventData.getX(), par1BlockEventData.getY(), par1BlockEventData.getZ());
+		return var2 == par1BlockEventData.getBlockID() ? Block.blocksList[var2].onBlockEventReceived(this, par1BlockEventData.getX(), par1BlockEventData.getY(), par1BlockEventData.getZ(), par1BlockEventData.getEventID(), par1BlockEventData.getEventParameter()) : false;
 	}
 	
-	@Override protected void onEntityAdded(Entity p_72923_1_)
+	@Override protected void onEntityAdded(Entity par1Entity)
 	{
-		super.onEntityAdded(p_72923_1_);
-		entityIdMap.addKey(p_72923_1_.entityId, p_72923_1_);
-		Entity[] var2 = p_72923_1_.getParts();
+		super.onEntityAdded(par1Entity);
+		entityIdMap.addKey(par1Entity.entityId, par1Entity);
+		Entity[] var2 = par1Entity.getParts();
 		if(var2 != null)
 		{
 			for(Entity element : var2)
@@ -335,11 +336,11 @@ public class WorldServer extends World
 		}
 	}
 	
-	@Override protected void onEntityRemoved(Entity p_72847_1_)
+	@Override protected void onEntityRemoved(Entity par1Entity)
 	{
-		super.onEntityRemoved(p_72847_1_);
-		entityIdMap.removeObject(p_72847_1_.entityId);
-		Entity[] var2 = p_72847_1_.getParts();
+		super.onEntityRemoved(par1Entity);
+		entityIdMap.removeObject(par1Entity.entityId);
+		Entity[] var2 = par1Entity.getParts();
 		if(var2 != null)
 		{
 			for(Entity element : var2)
@@ -362,20 +363,20 @@ public class WorldServer extends World
 		updateEntityTick = 0;
 	}
 	
-	public void saveAllChunks(boolean p_73044_1_, IProgressUpdate p_73044_2_) throws MinecraftException
+	public void saveAllChunks(boolean par1, IProgressUpdate par2IProgressUpdate) throws MinecraftException
 	{
 		if(chunkProvider.canSave())
 		{
-			if(p_73044_2_ != null)
+			if(par2IProgressUpdate != null)
 			{
-				p_73044_2_.displayProgressMessage("Saving level");
+				par2IProgressUpdate.displayProgressMessage("Saving level");
 			}
 			saveLevel();
-			if(p_73044_2_ != null)
+			if(par2IProgressUpdate != null)
 			{
-				p_73044_2_.resetProgresAndWorkingMessage("Saving chunks");
+				par2IProgressUpdate.resetProgresAndWorkingMessage("Saving chunks");
 			}
-			chunkProvider.saveChunks(p_73044_1_, p_73044_2_);
+			chunkProvider.saveChunks(par1, par2IProgressUpdate);
 		}
 	}
 	
@@ -386,18 +387,18 @@ public class WorldServer extends World
 		mapStorage.saveAllData();
 	}
 	
-	@Override public void scheduleBlockUpdate(int p_72836_1_, int p_72836_2_, int p_72836_3_, int p_72836_4_, int p_72836_5_)
+	@Override public void scheduleBlockUpdate(int par1, int par2, int par3, int par4, int par5)
 	{
-		scheduleBlockUpdateWithPriority(p_72836_1_, p_72836_2_, p_72836_3_, p_72836_4_, p_72836_5_, 0);
+		scheduleBlockUpdateWithPriority(par1, par2, par3, par4, par5, 0);
 	}
 	
-	@Override public void scheduleBlockUpdateFromLoad(int p_72892_1_, int p_72892_2_, int p_72892_3_, int p_72892_4_, int p_72892_5_, int p_72892_6_)
+	@Override public void scheduleBlockUpdateFromLoad(int par1, int par2, int par3, int par4, int par5, int par6)
 	{
-		NextTickListEntry var7 = new NextTickListEntry(p_72892_1_, p_72892_2_, p_72892_3_, p_72892_4_);
-		var7.setPriority(p_72892_6_);
-		if(p_72892_4_ > 0)
+		NextTickListEntry var7 = new NextTickListEntry(par1, par2, par3, par4);
+		var7.setPriority(par6);
+		if(par4 > 0)
 		{
-			var7.setScheduledTime(p_72892_5_ + worldInfo.getWorldTotalTime());
+			var7.setScheduledTime(par5 + worldInfo.getWorldTotalTime());
 		}
 		if(!pendingTickListEntriesHashSet.contains(var7))
 		{
@@ -406,14 +407,15 @@ public class WorldServer extends World
 		}
 	}
 	
-	@Override public void scheduleBlockUpdateWithPriority(int p_82740_1_, int p_82740_2_, int p_82740_3_, int p_82740_4_, int p_82740_5_, int p_82740_6_)
+	@Override public void scheduleBlockUpdateWithPriority(int par1, int par2, int par3, int par4, int par5, int par6)
 	{
-		NextTickListEntry var7 = new NextTickListEntry(p_82740_1_, p_82740_2_, p_82740_3_, p_82740_4_);
+		NextTickListEntry var7 = new NextTickListEntry(par1, par2, par3, par4);
 		byte var8 = 0;
-		if(scheduledUpdatesAreImmediate && p_82740_4_ > 0)
+		if(scheduledUpdatesAreImmediate && par4 > 0)
 		{
-			if(Block.blocksList[p_82740_4_].func_82506_l())
+			if(Block.blocksList[par4].func_82506_l())
 			{
+				var8 = 8;
 				if(checkChunksExist(var7.xCoord - var8, var7.yCoord - var8, var7.zCoord - var8, var7.xCoord + var8, var7.yCoord + var8, var7.zCoord + var8))
 				{
 					int var9 = getBlockId(var7.xCoord, var7.yCoord, var7.zCoord);
@@ -424,14 +426,14 @@ public class WorldServer extends World
 				}
 				return;
 			}
-			p_82740_5_ = 1;
+			par5 = 1;
 		}
-		if(checkChunksExist(p_82740_1_ - var8, p_82740_2_ - var8, p_82740_3_ - var8, p_82740_1_ + var8, p_82740_2_ + var8, p_82740_3_ + var8))
+		if(checkChunksExist(par1 - var8, par2 - var8, par3 - var8, par1 + var8, par2 + var8, par3 + var8))
 		{
-			if(p_82740_4_ > 0)
+			if(par4 > 0)
 			{
-				var7.setScheduledTime(p_82740_5_ + worldInfo.getWorldTotalTime());
-				var7.setPriority(p_82740_6_);
+				var7.setScheduledTime(par5 + worldInfo.getWorldTotalTime());
+				var7.setPriority(par6);
 			}
 			if(!pendingTickListEntriesHashSet.contains(var7))
 			{
@@ -460,10 +462,10 @@ public class WorldServer extends World
 		}
 	}
 	
-	@Override public void setEntityState(Entity p_72960_1_, byte p_72960_2_)
+	@Override public void setEntityState(Entity par1Entity, byte par2)
 	{
-		Packet38EntityStatus var3 = new Packet38EntityStatus(p_72960_1_.entityId, p_72960_2_);
-		getEntityTracker().sendPacketToAllAssociatedPlayers(p_72960_1_, var3);
+		Packet38EntityStatus var3 = new Packet38EntityStatus(par1Entity.entityId, par2);
+		getEntityTracker().sendPacketToAllAssociatedPlayers(par1Entity, var3);
 	}
 	
 	@Override public void setSpawnLocation()
@@ -489,9 +491,9 @@ public class WorldServer extends World
 		worldInfo.setSpawnZ(var2);
 	}
 	
-	public SpawnListEntry spawnRandomCreature(EnumCreatureType p_73057_1_, int p_73057_2_, int p_73057_3_, int p_73057_4_)
+	public SpawnListEntry spawnRandomCreature(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
 	{
-		List var5 = getChunkProvider().getPossibleCreatures(p_73057_1_, p_73057_2_, p_73057_3_, p_73057_4_);
+		List var5 = getChunkProvider().getPossibleCreatures(par1EnumCreatureType, par2, par3, par4);
 		return var5 != null && !var5.isEmpty() ? (SpawnListEntry) WeightedRandom.getRandomItem(rand, var5) : null;
 	}
 	
@@ -505,32 +507,30 @@ public class WorldServer extends World
 		provider.worldChunkMgr.cleanupCache();
 		if(areAllPlayersAsleep())
 		{
-			boolean var1 = false;
-			if(spawnHostileMobs && difficultySetting >= 1)
+			if(getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
 			{
-				;
+				long var1 = worldInfo.getWorldTime() + 24000L;
+				worldInfo.setWorldTime(var1 - var1 % 24000L);
 			}
-			if(!var1)
-			{
-				long var2 = worldInfo.getWorldTime() + 24000L;
-				worldInfo.setWorldTime(var2 - var2 % 24000L);
-				wakeAllPlayers();
-			}
+			wakeAllPlayers();
 		}
 		theProfiler.startSection("mobSpawner");
 		if(getGameRules().getGameRuleBooleanValue("doMobSpawning"))
 		{
-			SpawnerAnimals.findChunksForSpawning(this, spawnHostileMobs, spawnPeacefulMobs, worldInfo.getWorldTotalTime() % 400L == 0L);
+			field_135059_Q.findChunksForSpawning(this, spawnHostileMobs, spawnPeacefulMobs, worldInfo.getWorldTotalTime() % 400L == 0L);
 		}
 		theProfiler.endStartSection("chunkSource");
 		chunkProvider.unloadQueuedChunks();
-		int var4 = calculateSkylightSubtracted(1.0F);
-		if(var4 != skylightSubtracted)
+		int var3 = calculateSkylightSubtracted(1.0F);
+		if(var3 != skylightSubtracted)
 		{
-			skylightSubtracted = var4;
+			skylightSubtracted = var3;
 		}
 		worldInfo.incrementTotalWorldTime(worldInfo.getWorldTotalTime() + 1L);
-		worldInfo.setWorldTime(worldInfo.getWorldTime() + 1L);
+		if(getGameRules().getGameRuleBooleanValue("doDaylightCycle"))
+		{
+			worldInfo.setWorldTime(worldInfo.getWorldTime() + 1L);
+		}
 		theProfiler.endStartSection("tickPending");
 		tickUpdates(false);
 		theProfiler.endStartSection("tickTiles");
@@ -639,7 +639,7 @@ public class WorldServer extends World
 		}
 	}
 	
-	@Override public boolean tickUpdates(boolean p_72955_1_)
+	@Override public boolean tickUpdates(boolean par1)
 	{
 		int var2 = pendingTickListEntriesTreeSet.size();
 		if(var2 != pendingTickListEntriesHashSet.size()) throw new IllegalStateException("TickNextTick list out of synch");
@@ -654,7 +654,7 @@ public class WorldServer extends World
 			for(int var3 = 0; var3 < var2; ++var3)
 			{
 				var4 = (NextTickListEntry) pendingTickListEntriesTreeSet.first();
-				if(!p_72955_1_ && var4.scheduledTime > worldInfo.getWorldTotalTime())
+				if(!par1 && var4.scheduledTime > worldInfo.getWorldTotalTime())
 				{
 					break;
 				}
@@ -705,11 +705,6 @@ public class WorldServer extends World
 		}
 	}
 	
-	public void uncheckedUpdateEntity(Entity p_73050_1_, boolean p_73050_2_)
-	{
-		super.updateEntityWithOptionalForce(p_73050_1_, p_73050_2_);
-	}
-	
 	@Override public void updateAllPlayersSleepingFlag()
 	{
 		allPlayersSleeping = !playerEntities.isEmpty();
@@ -737,20 +732,17 @@ public class WorldServer extends World
 		super.updateEntities();
 	}
 	
-	@Override public void updateEntityWithOptionalForce(Entity p_72866_1_, boolean p_72866_2_)
+	@Override public void updateEntityWithOptionalForce(Entity par1Entity, boolean par2)
 	{
-		if(!mcServer.getCanSpawnAnimals() && (p_72866_1_ instanceof EntityAnimal || p_72866_1_ instanceof EntityWaterMob))
+		if(!mcServer.getCanSpawnAnimals() && (par1Entity instanceof EntityAnimal || par1Entity instanceof EntityWaterMob))
 		{
-			p_72866_1_.setDead();
+			par1Entity.setDead();
 		}
-		if(!mcServer.getCanSpawnNPCs() && p_72866_1_ instanceof INpc)
+		if(!mcServer.getCanSpawnNPCs() && par1Entity instanceof INpc)
 		{
-			p_72866_1_.setDead();
+			par1Entity.setDead();
 		}
-		if(!(p_72866_1_.riddenByEntity instanceof EntityPlayer))
-		{
-			super.updateEntityWithOptionalForce(p_72866_1_, p_72866_2_);
-		}
+		super.updateEntityWithOptionalForce(par1Entity, par2);
 	}
 	
 	@Override protected void updateWeather()

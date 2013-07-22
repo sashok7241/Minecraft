@@ -5,9 +5,9 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract
 	private int breakingTime;
 	private int field_75358_j = -1;
 	
-	public EntityAIBreakDoor(EntityLiving p_i3460_1_)
+	public EntityAIBreakDoor(EntityLiving par1EntityLiving)
 	{
-		super(p_i3460_1_);
+		super(par1EntityLiving);
 	}
 	
 	@Override public boolean continueExecuting()

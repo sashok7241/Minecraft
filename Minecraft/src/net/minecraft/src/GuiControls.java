@@ -7,10 +7,10 @@ public class GuiControls extends GuiScreen
 	private GameSettings options;
 	private int buttonId = -1;
 	
-	public GuiControls(GuiScreen p_i3032_1_, GameSettings p_i3032_2_)
+	public GuiControls(GuiScreen par1GuiScreen, GameSettings par2GameSettings)
 	{
-		parentScreen = p_i3032_1_;
-		options = p_i3032_2_;
+		parentScreen = par1GuiScreen;
+		options = par2GameSettings;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -75,14 +75,13 @@ public class GuiControls extends GuiScreen
 	
 	@Override public void initGui()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
-		int var2 = getLeftBorder();
-		for(int var3 = 0; var3 < options.keyBindings.length; ++var3)
+		int var1 = getLeftBorder();
+		for(int var2 = 0; var2 < options.keyBindings.length; ++var2)
 		{
-			buttonList.add(new GuiSmallButton(var3, var2 + var3 % 2 * 160, height / 6 + 24 * (var3 >> 1), 70, 20, options.getOptionDisplayString(var3)));
+			buttonList.add(new GuiSmallButton(var2, var1 + var2 % 2 * 160, height / 6 + 24 * (var2 >> 1), 70, 20, options.getOptionDisplayString(var2)));
 		}
-		buttonList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168, var1.translateKey("gui.done")));
-		screenTitle = var1.translateKey("controls.title");
+		buttonList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168, I18n.func_135053_a("gui.done")));
+		screenTitle = I18n.func_135053_a("controls.title");
 	}
 	
 	@Override protected void keyTyped(char par1, int par2)

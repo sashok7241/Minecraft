@@ -7,10 +7,10 @@ class CallablePacketClass implements Callable
 	final Packet thePacket;
 	final NetServerHandler theNetServerHandler;
 	
-	CallablePacketClass(NetServerHandler p_i11033_1_, Packet p_i11033_2_)
+	CallablePacketClass(NetServerHandler par1NetServerHandler, Packet par2Packet)
 	{
-		theNetServerHandler = p_i11033_1_;
-		thePacket = p_i11033_2_;
+		theNetServerHandler = par1NetServerHandler;
+		thePacket = par2Packet;
 	}
 	
 	@Override public Object call()

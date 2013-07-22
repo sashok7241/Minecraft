@@ -3,6 +3,8 @@ package net.minecraft.src;
 
 public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer
 {
+	private static final ResourceLocation field_110629_a = new ResourceLocation("textures/entity/beacon_beam.png");
+	
 	@Override public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
 	{
 		renderTileEntityBeaconAt((TileEntityBeacon) par1TileEntity, par2, par4, par6, par8);
@@ -14,7 +16,7 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer
 		if(var9 > 0.0F)
 		{
 			Tessellator var10 = Tessellator.instance;
-			bindTextureByName("/misc/beam.png");
+			func_110628_a(field_110629_a);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
 			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);
 			GL11.glDisable(GL11.GL_LIGHTING);

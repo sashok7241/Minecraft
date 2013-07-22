@@ -4,24 +4,24 @@ import java.util.Random;
 
 public class BlockMobSpawner extends BlockContainer
 {
-	protected BlockMobSpawner(int p_i9072_1_)
+	protected BlockMobSpawner(int par1)
 	{
-		super(p_i9072_1_, Material.rock);
+		super(par1, Material.rock);
 	}
 	
-	@Override public TileEntity createNewTileEntity(World p_72274_1_)
+	@Override public TileEntity createNewTileEntity(World par1World)
 	{
 		return new TileEntityMobSpawner();
 	}
 	
-	@Override public void dropBlockAsItemWithChance(World p_71914_1_, int p_71914_2_, int p_71914_3_, int p_71914_4_, int p_71914_5_, float p_71914_6_, int p_71914_7_)
+	@Override public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
 	{
-		super.dropBlockAsItemWithChance(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, p_71914_5_, p_71914_6_, p_71914_7_);
-		int var8 = 15 + p_71914_1_.rand.nextInt(15) + p_71914_1_.rand.nextInt(15);
-		dropXpOnBlockBreak(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, var8);
+		super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, par7);
+		int var8 = 15 + par1World.rand.nextInt(15) + par1World.rand.nextInt(15);
+		dropXpOnBlockBreak(par1World, par2, par3, par4, var8);
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return 0;
 	}
@@ -36,7 +36,7 @@ public class BlockMobSpawner extends BlockContainer
 		return false;
 	}
 	
-	@Override public int quantityDropped(Random p_71925_1_)
+	@Override public int quantityDropped(Random par1Random)
 	{
 		return 0;
 	}

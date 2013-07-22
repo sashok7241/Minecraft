@@ -1,5 +1,6 @@
 package net.minecraft.src;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryBasic implements IInventory
@@ -10,40 +11,60 @@ public class InventoryBasic implements IInventory
 	private List field_70480_d;
 	private boolean field_94051_e;
 	
-	public InventoryBasic(String p_i9018_1_, boolean p_i9018_2_, int p_i9018_3_)
+	public InventoryBasic(String par1Str, boolean par2, int par3)
 	{
-		inventoryTitle = p_i9018_1_;
-		field_94051_e = p_i9018_2_;
-		slotsCount = p_i9018_3_;
-		inventoryContents = new ItemStack[p_i9018_3_];
+		inventoryTitle = par1Str;
+		field_94051_e = par2;
+		slotsCount = par3;
+		inventoryContents = new ItemStack[par3];
 	}
 	
 	@Override public void closeChest()
 	{
 	}
 	
-	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
+	@Override public ItemStack decrStackSize(int par1, int par2)
 	{
-		if(inventoryContents[p_70298_1_] != null)
+		if(inventoryContents[par1] != null)
 		{
 			ItemStack var3;
-			if(inventoryContents[p_70298_1_].stackSize <= p_70298_2_)
+			if(inventoryContents[par1].stackSize <= par2)
 			{
-				var3 = inventoryContents[p_70298_1_];
-				inventoryContents[p_70298_1_] = null;
+				var3 = inventoryContents[par1];
+				inventoryContents[par1] = null;
 				onInventoryChanged();
 				return var3;
 			} else
 			{
-				var3 = inventoryContents[p_70298_1_].splitStack(p_70298_2_);
-				if(inventoryContents[p_70298_1_].stackSize == 0)
+				var3 = inventoryContents[par1].splitStack(par2);
+				if(inventoryContents[par1].stackSize == 0)
 				{
-					inventoryContents[p_70298_1_] = null;
+					inventoryContents[par1] = null;
 				}
 				onInventoryChanged();
 				return var3;
 			}
 		} else return null;
+	}
+	
+	public void func_110132_b(IInvBasic par1IInvBasic)
+	{
+		field_70480_d.remove(par1IInvBasic);
+	}
+	
+	public void func_110133_a(String par1Str)
+	{
+		field_94051_e = true;
+		inventoryTitle = par1Str;
+	}
+	
+	public void func_110134_a(IInvBasic par1IInvBasic)
+	{
+		if(field_70480_d == null)
+		{
+			field_70480_d = new ArrayList();
+		}
+		field_70480_d.add(par1IInvBasic);
 	}
 	
 	@Override public int getInventoryStackLimit()
@@ -61,17 +82,17 @@ public class InventoryBasic implements IInventory
 		return slotsCount;
 	}
 	
-	@Override public ItemStack getStackInSlot(int p_70301_1_)
+	@Override public ItemStack getStackInSlot(int par1)
 	{
-		return inventoryContents[p_70301_1_];
+		return inventoryContents[par1];
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
+	@Override public ItemStack getStackInSlotOnClosing(int par1)
 	{
-		if(inventoryContents[p_70304_1_] != null)
+		if(inventoryContents[par1] != null)
 		{
-			ItemStack var2 = inventoryContents[p_70304_1_];
-			inventoryContents[p_70304_1_] = null;
+			ItemStack var2 = inventoryContents[par1];
+			inventoryContents[par1] = null;
 			return var2;
 		} else return null;
 	}
@@ -81,12 +102,12 @@ public class InventoryBasic implements IInventory
 		return field_94051_e;
 	}
 	
-	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
+	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
 	{
 		return true;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
+	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
 	{
 		return true;
 	}
@@ -106,12 +127,12 @@ public class InventoryBasic implements IInventory
 	{
 	}
 	
-	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
+	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
 	{
-		inventoryContents[p_70299_1_] = p_70299_2_;
-		if(p_70299_2_ != null && p_70299_2_.stackSize > getInventoryStackLimit())
+		inventoryContents[par1] = par2ItemStack;
+		if(par2ItemStack != null && par2ItemStack.stackSize > getInventoryStackLimit())
 		{
-			p_70299_2_.stackSize = getInventoryStackLimit();
+			par2ItemStack.stackSize = getInventoryStackLimit();
 		}
 		onInventoryChanged();
 	}

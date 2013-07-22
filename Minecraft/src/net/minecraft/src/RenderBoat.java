@@ -3,6 +3,7 @@ package net.minecraft.src;
 
 public class RenderBoat extends Render
 {
+	private static final ResourceLocation field_110782_f = new ResourceLocation("textures/entity/boat.png");
 	protected ModelBase modelBoat;
 	
 	public RenderBoat()
@@ -14,6 +15,16 @@ public class RenderBoat extends Render
 	@Override public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
 		renderBoat((EntityBoat) par1Entity, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110781_a((EntityBoat) par1Entity);
+	}
+	
+	protected ResourceLocation func_110781_a(EntityBoat par1EntityBoat)
+	{
+		return field_110782_f;
 	}
 	
 	public void renderBoat(EntityBoat par1EntityBoat, double par2, double par4, double par6, float par8, float par9)
@@ -31,11 +42,10 @@ public class RenderBoat extends Render
 		{
 			GL11.glRotatef(MathHelper.sin(var10) * var10 * var11 / 10.0F * par1EntityBoat.getForwardDirection(), 1.0F, 0.0F, 0.0F);
 		}
-		loadTexture("/terrain.png");
 		float var12 = 0.75F;
 		GL11.glScalef(var12, var12, var12);
 		GL11.glScalef(1.0F / var12, 1.0F / var12, 1.0F / var12);
-		loadTexture("/item/boat.png");
+		func_110777_b(par1EntityBoat);
 		GL11.glScalef(-1.0F, -1.0F, 1.0F);
 		modelBoat.render(par1EntityBoat, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		GL11.glPopMatrix();

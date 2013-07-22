@@ -4,45 +4,45 @@ public class ContainerDispenser extends Container
 {
 	private TileEntityDispenser tileEntityDispenser;
 	
-	public ContainerDispenser(IInventory p_i3617_1_, TileEntityDispenser p_i3617_2_)
+	public ContainerDispenser(IInventory par1IInventory, TileEntityDispenser par2TileEntityDispenser)
 	{
-		tileEntityDispenser = p_i3617_2_;
+		tileEntityDispenser = par2TileEntityDispenser;
 		int var3;
 		int var4;
 		for(var3 = 0; var3 < 3; ++var3)
 		{
 			for(var4 = 0; var4 < 3; ++var4)
 			{
-				addSlotToContainer(new Slot(p_i3617_2_, var4 + var3 * 3, 62 + var4 * 18, 17 + var3 * 18));
+				addSlotToContainer(new Slot(par2TileEntityDispenser, var4 + var3 * 3, 62 + var4 * 18, 17 + var3 * 18));
 			}
 		}
 		for(var3 = 0; var3 < 3; ++var3)
 		{
 			for(var4 = 0; var4 < 9; ++var4)
 			{
-				addSlotToContainer(new Slot(p_i3617_1_, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
+				addSlotToContainer(new Slot(par1IInventory, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
 			}
 		}
 		for(var3 = 0; var3 < 9; ++var3)
 		{
-			addSlotToContainer(new Slot(p_i3617_1_, var3, 8 + var3 * 18, 142));
+			addSlotToContainer(new Slot(par1IInventory, var3, 8 + var3 * 18, 142));
 		}
 	}
 	
-	@Override public boolean canInteractWith(EntityPlayer p_75145_1_)
+	@Override public boolean canInteractWith(EntityPlayer par1EntityPlayer)
 	{
-		return tileEntityDispenser.isUseableByPlayer(p_75145_1_);
+		return tileEntityDispenser.isUseableByPlayer(par1EntityPlayer);
 	}
 	
-	@Override public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
+	@Override public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
 	{
 		ItemStack var3 = null;
-		Slot var4 = (Slot) inventorySlots.get(p_82846_2_);
+		Slot var4 = (Slot) inventorySlots.get(par2);
 		if(var4 != null && var4.getHasStack())
 		{
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			if(p_82846_2_ < 9)
+			if(par2 < 9)
 			{
 				if(!mergeItemStack(var5, 9, 45, true)) return null;
 			} else if(!mergeItemStack(var5, 0, 9, false)) return null;
@@ -54,7 +54,7 @@ public class ContainerDispenser extends Container
 				var4.onSlotChanged();
 			}
 			if(var5.stackSize == var3.stackSize) return null;
-			var4.onPickupFromSlot(p_82846_1_, var5);
+			var4.onPickupFromSlot(par1EntityPlayer, var5);
 		}
 		return var3;
 	}

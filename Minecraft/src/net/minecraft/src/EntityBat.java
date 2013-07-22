@@ -6,15 +6,14 @@ public class EntityBat extends EntityAmbientCreature
 {
 	private ChunkCoordinates currentFlightTarget;
 	
-	public EntityBat(World p_i5063_1_)
+	public EntityBat(World par1World)
 	{
-		super(p_i5063_1_);
-		texture = "/mob/bat.png";
+		super(par1World);
 		setSize(0.5F, 0.9F);
 		setIsBatHanging(true);
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -23,7 +22,7 @@ public class EntityBat extends EntityAmbientCreature
 			{
 				setIsBatHanging(false);
 			}
-			return super.attackEntityFrom(p_70097_1_, p_70097_2_);
+			return super.attackEntityFrom(par1DamageSource, par2);
 		}
 	}
 	
@@ -37,7 +36,7 @@ public class EntityBat extends EntityAmbientCreature
 		return false;
 	}
 	
-	@Override protected void collideWithEntity(Entity p_82167_1_)
+	@Override protected void collideWithEntity(Entity par1Entity)
 	{
 	}
 	
@@ -56,8 +55,14 @@ public class EntityBat extends EntityAmbientCreature
 		dataWatcher.addObject(16, new Byte((byte) 0));
 	}
 	
-	@Override protected void fall(float p_70069_1_)
+	@Override protected void fall(float par1)
 	{
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(6.0D);
 	}
 	
 	@Override public boolean getCanSpawnHere()
@@ -102,11 +107,6 @@ public class EntityBat extends EntityAmbientCreature
 		return getIsBatHanging() && rand.nextInt(4) != 0 ? null : "mob.bat.idle";
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 6;
-	}
-	
 	@Override protected float getSoundPitch()
 	{
 		return super.getSoundPitch() * 0.95F;
@@ -115,10 +115,6 @@ public class EntityBat extends EntityAmbientCreature
 	@Override protected float getSoundVolume()
 	{
 		return 0.1F;
-	}
-	
-	@Override public void initCreature()
-	{
 	}
 	
 	@Override protected boolean isAIEnabled()
@@ -139,16 +135,16 @@ public class EntityBat extends EntityAmbientCreature
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		dataWatcher.updateObject(16, Byte.valueOf(p_70037_1_.getByte("BatFlags")));
+		super.readEntityFromNBT(par1NBTTagCompound);
+		dataWatcher.updateObject(16, Byte.valueOf(par1NBTTagCompound.getByte("BatFlags")));
 	}
 	
-	public void setIsBatHanging(boolean p_82236_1_)
+	public void setIsBatHanging(boolean par1)
 	{
 		byte var2 = dataWatcher.getWatchableObjectByte(16);
-		if(p_82236_1_)
+		if(par1)
 		{
 			dataWatcher.updateObject(16, Byte.valueOf((byte) (var2 | 1)));
 		} else
@@ -205,13 +201,13 @@ public class EntityBat extends EntityAmbientCreature
 		}
 	}
 	
-	@Override protected void updateFallState(double p_70064_1_, boolean p_70064_3_)
+	@Override protected void updateFallState(double par1, boolean par3)
 	{
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setByte("BatFlags", dataWatcher.getWatchableObjectByte(16));
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setByte("BatFlags", dataWatcher.getWatchableObjectByte(16));
 	}
 }

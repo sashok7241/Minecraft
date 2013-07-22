@@ -3,18 +3,19 @@ package net.minecraft.src;
 
 public class GuiFurnace extends GuiContainer
 {
+	private static final ResourceLocation field_110410_t = new ResourceLocation("textures/gui/container/furnace.png");
 	private TileEntityFurnace furnaceInventory;
 	
-	public GuiFurnace(InventoryPlayer p_i3094_1_, TileEntityFurnace p_i3094_2_)
+	public GuiFurnace(InventoryPlayer par1InventoryPlayer, TileEntityFurnace par2TileEntityFurnace)
 	{
-		super(new ContainerFurnace(p_i3094_1_, p_i3094_2_));
-		furnaceInventory = p_i3094_2_;
+		super(new ContainerFurnace(par1InventoryPlayer, par2TileEntityFurnace));
+		furnaceInventory = par2TileEntityFurnace;
 	}
 	
 	@Override protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/gui/furnace.png");
+		mc.func_110434_K().func_110577_a(field_110410_t);
 		int var4 = (width - xSize) / 2;
 		int var5 = (height - ySize) / 2;
 		drawTexturedModalRect(var4, var5, 0, 0, xSize, ySize);
@@ -30,8 +31,8 @@ public class GuiFurnace extends GuiContainer
 	
 	@Override protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		String var3 = furnaceInventory.isInvNameLocalized() ? furnaceInventory.getInvName() : StatCollector.translateToLocal(furnaceInventory.getInvName());
+		String var3 = furnaceInventory.isInvNameLocalized() ? furnaceInventory.getInvName() : I18n.func_135053_a(furnaceInventory.getInvName());
 		fontRenderer.drawString(var3, xSize / 2 - fontRenderer.getStringWidth(var3) / 2, 6, 4210752);
-		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+		fontRenderer.drawString(I18n.func_135053_a("container.inventory"), 8, ySize - 96 + 2, 4210752);
 	}
 }

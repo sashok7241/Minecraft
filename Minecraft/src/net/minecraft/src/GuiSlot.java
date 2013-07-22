@@ -1,7 +1,5 @@
 package net.minecraft.src;
 
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 
 public abstract class GuiSlot
@@ -22,21 +20,21 @@ public abstract class GuiSlot
 	private float scrollMultiplier;
 	private float amountScrolled;
 	private int selectedElement = -1;
-	private long lastClicked = 0L;
+	private long lastClicked;
 	private boolean showSelectionBox = true;
 	private boolean field_77243_s;
 	private int field_77242_t;
 	
-	public GuiSlot(Minecraft p_i3060_1_, int p_i3060_2_, int p_i3060_3_, int p_i3060_4_, int p_i3060_5_, int p_i3060_6_)
+	public GuiSlot(Minecraft par1Minecraft, int par2, int par3, int par4, int par5, int par6)
 	{
-		mc = p_i3060_1_;
-		width = p_i3060_2_;
-		height = p_i3060_3_;
-		top = p_i3060_4_;
-		bottom = p_i3060_5_;
-		slotHeight = p_i3060_6_;
+		mc = par1Minecraft;
+		width = par2;
+		height = par3;
+		top = par4;
+		bottom = par5;
+		slotHeight = par6;
 		left = 0;
-		right = p_i3060_2_;
+		right = par2;
 	}
 	
 	public void actionPerformed(GuiButton par1GuiButton)
@@ -172,7 +170,7 @@ public abstract class GuiSlot
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_FOG);
 		Tessellator var18 = Tessellator.instance;
-		mc.renderEngine.bindTexture("/gui/background.png");
+		mc.func_110434_K().func_110577_a(Gui.field_110325_k);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float var17 = 32.0F;
 		var18.startDrawingQuads();
@@ -363,7 +361,7 @@ public abstract class GuiSlot
 	private void overlayBackground(int par1, int par2, int par3, int par4)
 	{
 		Tessellator var5 = Tessellator.instance;
-		mc.renderEngine.bindTexture("/gui/background.png");
+		mc.func_110434_K().func_110577_a(Gui.field_110325_k);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float var6 = 32.0F;
 		var5.startDrawingQuads();
@@ -376,10 +374,10 @@ public abstract class GuiSlot
 		var5.draw();
 	}
 	
-	public void registerScrollButtons(List par1, int par2, int p_77220_3_)
+	public void registerScrollButtons(int par1, int par2)
 	{
-		scrollUpButtonID = par2;
-		scrollDownButtonID = p_77220_3_;
+		scrollUpButtonID = par1;
+		scrollDownButtonID = par2;
 	}
 	
 	public void setShowSelectionBox(boolean par1)

@@ -13,12 +13,12 @@ public class BanEntry
 	private final String username;
 	private Date banStartDate = new Date();
 	private String bannedBy = "(Unknown)";
-	private Date banEndDate = null;
+	private Date banEndDate;
 	private String reason = "Banned by an operator.";
 	
-	public BanEntry(String p_i3367_1_)
+	public BanEntry(String par1Str)
 	{
-		username = p_i3367_1_;
+		username = par1Str;
 	}
 	
 	public String buildBanString()
@@ -66,32 +66,32 @@ public class BanEntry
 		return banEndDate == null ? false : banEndDate.before(new Date());
 	}
 	
-	public void setBanEndDate(Date p_73691_1_)
+	public void setBanEndDate(Date par1Date)
 	{
-		banEndDate = p_73691_1_;
+		banEndDate = par1Date;
 	}
 	
-	public void setBannedBy(String p_73687_1_)
+	public void setBannedBy(String par1Str)
 	{
-		bannedBy = p_73687_1_;
+		bannedBy = par1Str;
 	}
 	
-	public void setBanReason(String p_73689_1_)
+	public void setBanReason(String par1Str)
 	{
-		reason = p_73689_1_;
+		reason = par1Str;
 	}
 	
-	public void setBanStartDate(Date p_73681_1_)
+	public void setBanStartDate(Date par1Date)
 	{
-		banStartDate = p_73681_1_ != null ? p_73681_1_ : new Date();
+		banStartDate = par1Date != null ? par1Date : new Date();
 	}
 	
-	public static BanEntry parse(String p_73688_0_)
+	public static BanEntry parse(String par0Str)
 	{
-		if(p_73688_0_.trim().length() < 2) return null;
+		if(par0Str.trim().length() < 2) return null;
 		else
 		{
-			String[] var1 = p_73688_0_.trim().split(Pattern.quote("|"), 5);
+			String[] var1 = par0Str.trim().split(Pattern.quote("|"), 5);
 			BanEntry var2 = new BanEntry(var1[0].trim());
 			byte var3 = 0;
 			int var10000 = var1.length;

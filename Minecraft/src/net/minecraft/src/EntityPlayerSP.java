@@ -2,64 +2,61 @@ package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
-public class EntityPlayerSP extends EntityPlayer
+public class EntityPlayerSP extends AbstractClientPlayer
 {
 	public MovementInput movementInput;
 	protected Minecraft mc;
-	protected int sprintToggleTimer = 0;
-	public int sprintingTicksLeft = 0;
+	protected int sprintToggleTimer;
+	public int sprintingTicksLeft;
 	public float renderArmYaw;
 	public float renderArmPitch;
 	public float prevRenderArmYaw;
 	public float prevRenderArmPitch;
+	private int field_110320_a;
+	private float field_110321_bQ;
 	private MouseFilter field_71162_ch = new MouseFilter();
 	private MouseFilter field_71160_ci = new MouseFilter();
 	private MouseFilter field_71161_cj = new MouseFilter();
 	public float timeInPortal;
 	public float prevTimeInPortal;
 	
-	public EntityPlayerSP(Minecraft p_i3116_1_, World p_i3116_2_, Session p_i3116_3_, int p_i3116_4_)
+	public EntityPlayerSP(Minecraft par1Minecraft, World par2World, Session par3Session, int par4)
 	{
-		super(p_i3116_2_);
-		mc = p_i3116_1_;
-		dimension = p_i3116_4_;
-		if(p_i3116_3_ != null && p_i3116_3_.username != null && p_i3116_3_.username.length() > 0)
-		{
-			skinUrl = "http://skins.minecraft.net/MinecraftSkins/" + StringUtils.stripControlCodes(p_i3116_3_.username) + ".png";
-		}
-		username = p_i3116_3_.username;
+		super(par2World, par3Session.func_111285_a());
+		mc = par1Minecraft;
+		dimension = par4;
 	}
 	
-	@Override public void addChatMessage(String p_71035_1_)
+	@Override public void addChatMessage(String par1Str)
 	{
-		mc.ingameGUI.getChatGUI().addTranslatedMessage(p_71035_1_, new Object[0]);
+		mc.ingameGUI.getChatGUI().addTranslatedMessage(par1Str, new Object[0]);
 	}
 	
-	@Override public void addStat(StatBase p_71064_1_, int p_71064_2_)
+	@Override public void addStat(StatBase par1StatBase, int par2)
 	{
-		if(p_71064_1_ != null)
+		if(par1StatBase != null)
 		{
-			if(p_71064_1_.isAchievement())
+			if(par1StatBase.isAchievement())
 			{
-				Achievement var3 = (Achievement) p_71064_1_;
+				Achievement var3 = (Achievement) par1StatBase;
 				if(var3.parentAchievement == null || mc.statFileWriter.hasAchievementUnlocked(var3.parentAchievement))
 				{
 					if(!mc.statFileWriter.hasAchievementUnlocked(var3))
 					{
 						mc.guiAchievement.queueTakenAchievement(var3);
 					}
-					mc.statFileWriter.readStat(p_71064_1_, p_71064_2_);
+					mc.statFileWriter.readStat(par1StatBase, par2);
 				}
 			} else
 			{
-				mc.statFileWriter.readStat(p_71064_1_, p_71064_2_);
+				mc.statFileWriter.readStat(par1StatBase, par2);
 			}
 		}
 	}
 	
-	@Override public boolean canCommandSenderUseCommand(int p_70003_1_, String p_70003_2_)
+	@Override public boolean canCommandSenderUseCommand(int par1, String par2Str)
 	{
-		return p_70003_1_ <= 0;
+		return par1 <= 0;
 	}
 	
 	@Override public void closeScreen()
@@ -68,82 +65,101 @@ public class EntityPlayerSP extends EntityPlayer
 		mc.displayGuiScreen((GuiScreen) null);
 	}
 	
-	@Override public void displayGUIAnvil(int p_82244_1_, int p_82244_2_, int p_82244_3_)
+	@Override public void displayGUIAnvil(int par1, int par2, int par3)
 	{
-		mc.displayGuiScreen(new GuiRepair(inventory, worldObj, p_82244_1_, p_82244_2_, p_82244_3_));
+		mc.displayGuiScreen(new GuiRepair(inventory, worldObj, par1, par2, par3));
 	}
 	
-	@Override public void displayGUIBeacon(TileEntityBeacon p_82240_1_)
+	@Override public void displayGUIBeacon(TileEntityBeacon par1TileEntityBeacon)
 	{
-		mc.displayGuiScreen(new GuiBeacon(inventory, p_82240_1_));
+		mc.displayGuiScreen(new GuiBeacon(inventory, par1TileEntityBeacon));
 	}
 	
-	@Override public void displayGUIBook(ItemStack p_71048_1_)
+	@Override public void displayGUIBook(ItemStack par1ItemStack)
 	{
-		Item var2 = p_71048_1_.getItem();
+		Item var2 = par1ItemStack.getItem();
 		if(var2 == Item.writtenBook)
 		{
-			mc.displayGuiScreen(new GuiScreenBook(this, p_71048_1_, false));
+			mc.displayGuiScreen(new GuiScreenBook(this, par1ItemStack, false));
 		} else if(var2 == Item.writableBook)
 		{
-			mc.displayGuiScreen(new GuiScreenBook(this, p_71048_1_, true));
+			mc.displayGuiScreen(new GuiScreenBook(this, par1ItemStack, true));
 		}
 	}
 	
-	@Override public void displayGUIBrewingStand(TileEntityBrewingStand p_71017_1_)
+	@Override public void displayGUIBrewingStand(TileEntityBrewingStand par1TileEntityBrewingStand)
 	{
-		mc.displayGuiScreen(new GuiBrewingStand(inventory, p_71017_1_));
+		mc.displayGuiScreen(new GuiBrewingStand(inventory, par1TileEntityBrewingStand));
 	}
 	
-	@Override public void displayGUIChest(IInventory p_71007_1_)
+	@Override public void displayGUIChest(IInventory par1IInventory)
 	{
-		mc.displayGuiScreen(new GuiChest(inventory, p_71007_1_));
+		mc.displayGuiScreen(new GuiChest(inventory, par1IInventory));
 	}
 	
-	@Override public void displayGUIDispenser(TileEntityDispenser p_71006_1_)
+	@Override public void displayGUIDispenser(TileEntityDispenser par1TileEntityDispenser)
 	{
-		mc.displayGuiScreen(new GuiDispenser(inventory, p_71006_1_));
+		mc.displayGuiScreen(new GuiDispenser(inventory, par1TileEntityDispenser));
 	}
 	
-	@Override public void displayGUIEditSign(TileEntity p_71014_1_)
+	@Override public void displayGUIEditSign(TileEntity par1TileEntity)
 	{
-		if(p_71014_1_ instanceof TileEntitySign)
+		if(par1TileEntity instanceof TileEntitySign)
 		{
-			mc.displayGuiScreen(new GuiEditSign((TileEntitySign) p_71014_1_));
-		} else if(p_71014_1_ instanceof TileEntityCommandBlock)
+			mc.displayGuiScreen(new GuiEditSign((TileEntitySign) par1TileEntity));
+		} else if(par1TileEntity instanceof TileEntityCommandBlock)
 		{
-			mc.displayGuiScreen(new GuiCommandBlock((TileEntityCommandBlock) p_71014_1_));
+			mc.displayGuiScreen(new GuiCommandBlock((TileEntityCommandBlock) par1TileEntity));
 		}
 	}
 	
-	@Override public void displayGUIEnchantment(int p_71002_1_, int p_71002_2_, int p_71002_3_, String p_71002_4_)
+	@Override public void displayGUIEnchantment(int par1, int par2, int par3, String par4Str)
 	{
-		mc.displayGuiScreen(new GuiEnchantment(inventory, worldObj, p_71002_1_, p_71002_2_, p_71002_3_, p_71002_4_));
+		mc.displayGuiScreen(new GuiEnchantment(inventory, worldObj, par1, par2, par3, par4Str));
 	}
 	
-	@Override public void displayGUIFurnace(TileEntityFurnace p_71042_1_)
+	@Override public void displayGUIFurnace(TileEntityFurnace par1TileEntityFurnace)
 	{
-		mc.displayGuiScreen(new GuiFurnace(inventory, p_71042_1_));
+		mc.displayGuiScreen(new GuiFurnace(inventory, par1TileEntityFurnace));
 	}
 	
-	@Override public void displayGUIHopper(TileEntityHopper p_94064_1_)
+	@Override public void displayGUIHopper(TileEntityHopper par1TileEntityHopper)
 	{
-		mc.displayGuiScreen(new GuiHopper(inventory, p_94064_1_));
+		mc.displayGuiScreen(new GuiHopper(inventory, par1TileEntityHopper));
 	}
 	
-	@Override public void displayGUIHopperMinecart(EntityMinecartHopper p_96125_1_)
+	@Override public void displayGUIHopperMinecart(EntityMinecartHopper par1EntityMinecartHopper)
 	{
-		mc.displayGuiScreen(new GuiHopper(inventory, p_96125_1_));
+		mc.displayGuiScreen(new GuiHopper(inventory, par1EntityMinecartHopper));
 	}
 	
-	@Override public void displayGUIMerchant(IMerchant p_71030_1_, String p_71030_2_)
+	@Override public void displayGUIMerchant(IMerchant par1IMerchant, String par2Str)
 	{
-		mc.displayGuiScreen(new GuiMerchant(inventory, p_71030_1_, worldObj, p_71030_2_));
+		mc.displayGuiScreen(new GuiMerchant(inventory, par1IMerchant, worldObj, par2Str));
 	}
 	
-	@Override public void displayGUIWorkbench(int p_71058_1_, int p_71058_2_, int p_71058_3_)
+	@Override public void displayGUIWorkbench(int par1, int par2, int par3)
 	{
-		mc.displayGuiScreen(new GuiCrafting(inventory, worldObj, p_71058_1_, p_71058_2_, p_71058_3_));
+		mc.displayGuiScreen(new GuiCrafting(inventory, worldObj, par1, par2, par3));
+	}
+	
+	@Override public void func_110298_a(EntityHorse par1EntityHorse, IInventory par2IInventory)
+	{
+		mc.displayGuiScreen(new GuiScreenHorseInventory(inventory, par2IInventory, par1EntityHorse));
+	}
+	
+	public boolean func_110317_t()
+	{
+		return ridingEntity != null && ridingEntity instanceof EntityHorse;
+	}
+	
+	protected void func_110318_g()
+	{
+	}
+	
+	public float func_110319_bJ()
+	{
+		return field_110321_bQ;
 	}
 	
 	public float getFOVMultiplier()
@@ -153,19 +169,20 @@ public class EntityPlayerSP extends EntityPlayer
 		{
 			var1 *= 1.1F;
 		}
-		var1 *= (landMovementFactor * getSpeedModifier() / speedOnGround + 1.0F) / 2.0F;
+		AttributeInstance var2 = func_110148_a(SharedMonsterAttributes.field_111263_d);
+		var1 = (float) (var1 * ((var2.func_111126_e() / capabilities.getWalkSpeed() + 1.0D) / 2.0D));
 		if(isUsingItem() && getItemInUse().itemID == Item.bow.itemID)
 		{
-			int var2 = getItemInUseDuration();
-			float var3 = var2 / 20.0F;
-			if(var3 > 1.0F)
+			int var3 = getItemInUseDuration();
+			float var4 = var3 / 20.0F;
+			if(var4 > 1.0F)
 			{
-				var3 = 1.0F;
+				var4 = 1.0F;
 			} else
 			{
-				var3 *= var3;
+				var4 *= var4;
 			}
-			var1 *= 1.0F - var3 * 0.15F;
+			var1 *= 1.0F - var4 * 0.15F;
 		}
 		return var1;
 	}
@@ -185,7 +202,7 @@ public class EntityPlayerSP extends EntityPlayer
 		return worldObj.isBlockNormalCube(par1, par2, par3);
 	}
 	
-	@Override protected boolean isClientWorld()
+	@Override public boolean isClientWorld()
 	{
 		return true;
 	}
@@ -195,25 +212,20 @@ public class EntityPlayerSP extends EntityPlayer
 		return movementInput.sneak && !sleeping;
 	}
 	
-	@Override public void moveEntity(double p_70091_1_, double p_70091_3_, double p_70091_5_)
+	@Override public void onCriticalHit(Entity par1Entity)
 	{
-		super.moveEntity(p_70091_1_, p_70091_3_, p_70091_5_);
+		mc.effectRenderer.addEffect(new EntityCrit2FX(mc.theWorld, par1Entity));
 	}
 	
-	@Override public void onCriticalHit(Entity p_71009_1_)
+	@Override public void onEnchantmentCritical(Entity par1Entity)
 	{
-		mc.effectRenderer.addEffect(new EntityCrit2FX(mc.theWorld, p_71009_1_));
-	}
-	
-	@Override public void onEnchantmentCritical(Entity p_71047_1_)
-	{
-		EntityCrit2FX var2 = new EntityCrit2FX(mc.theWorld, p_71047_1_, "magicCrit");
+		EntityCrit2FX var2 = new EntityCrit2FX(mc.theWorld, par1Entity, "magicCrit");
 		mc.effectRenderer.addEffect(var2);
 	}
 	
-	@Override public void onItemPickup(Entity p_71001_1_, int p_71001_2_)
+	@Override public void onItemPickup(Entity par1Entity, int par2)
 	{
-		mc.effectRenderer.addEffect(new EntityPickupFX(mc.theWorld, p_71001_1_, this, -0.5F));
+		mc.effectRenderer.addEffect(new EntityPickupFX(mc.theWorld, par1Entity, this, -0.5F));
 	}
 	
 	@Override public void onLivingUpdate()
@@ -287,7 +299,7 @@ public class EntityPlayerSP extends EntityPlayer
 			float var2 = 0.8F;
 			boolean var3 = movementInput.moveForward >= var2;
 			movementInput.updatePlayerMoveState();
-			if(isUsingItem())
+			if(isUsingItem() && !isRiding())
 			{
 				movementInput.moveStrafe *= 0.2F;
 				movementInput.moveForward *= 0.2F;
@@ -344,6 +356,39 @@ public class EntityPlayerSP extends EntityPlayer
 					motionY += 0.15D;
 				}
 			}
+			if(func_110317_t())
+			{
+				if(field_110320_a < 0)
+				{
+					++field_110320_a;
+					if(field_110320_a == 0)
+					{
+						field_110321_bQ = 0.0F;
+					}
+				}
+				if(var1 && !movementInput.jump)
+				{
+					field_110320_a = -10;
+					func_110318_g();
+				} else if(!var1 && movementInput.jump)
+				{
+					field_110320_a = 0;
+					field_110321_bQ = 0.0F;
+				} else if(var1)
+				{
+					++field_110320_a;
+					if(field_110320_a < 10)
+					{
+						field_110321_bQ = field_110320_a * 0.1F;
+					} else
+					{
+						field_110321_bQ = 0.8F + 2.0F / (field_110320_a - 9) * 0.1F;
+					}
+				}
+			} else
+			{
+				field_110321_bQ = 0.0F;
+			}
 			super.onLivingUpdate();
 			if(onGround && capabilities.isFlying)
 			{
@@ -353,18 +398,18 @@ public class EntityPlayerSP extends EntityPlayer
 		}
 	}
 	
-	@Override public void playSound(String p_85030_1_, float p_85030_2_, float p_85030_3_)
+	@Override public void playSound(String par1Str, float par2, float par3)
 	{
-		worldObj.playSound(posX, posY - yOffset, posZ, p_85030_1_, p_85030_2_, p_85030_3_, false);
+		worldObj.playSound(posX, posY - yOffset, posZ, par1Str, par2, par3, false);
 	}
 	
-	@Override protected boolean pushOutOfBlocks(double p_70048_1_, double p_70048_3_, double p_70048_5_)
+	@Override protected boolean pushOutOfBlocks(double par1, double par3, double par5)
 	{
-		int var7 = MathHelper.floor_double(p_70048_1_);
-		int var8 = MathHelper.floor_double(p_70048_3_);
-		int var9 = MathHelper.floor_double(p_70048_5_);
-		double var10 = p_70048_1_ - var7;
-		double var12 = p_70048_5_ - var9;
+		int var7 = MathHelper.floor_double(par1);
+		int var8 = MathHelper.floor_double(par3);
+		int var9 = MathHelper.floor_double(par5);
+		double var10 = par1 - var7;
+		double var12 = par5 - var9;
 		if(isBlockTranslucent(var7, var8, var9) || isBlockTranslucent(var7, var8 + 1, var9))
 		{
 			boolean var14 = !isBlockTranslucent(var7 - 1, var8, var9) && !isBlockTranslucent(var7 - 1, var8 + 1, var9);
@@ -414,35 +459,35 @@ public class EntityPlayerSP extends EntityPlayer
 		return false;
 	}
 	
-	@Override public void sendChatToPlayer(String p_70006_1_)
+	@Override public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent)
 	{
-		mc.ingameGUI.getChatGUI().printChatMessage(p_70006_1_);
+		mc.ingameGUI.getChatGUI().printChatMessage(par1ChatMessageComponent.func_111068_a(true));
 	}
 	
-	public void setHealth(int par1)
+	public void setHealth(float par1)
 	{
-		int var2 = getHealth() - par1;
-		if(var2 <= 0)
+		float var2 = func_110143_aJ() - par1;
+		if(var2 <= 0.0F)
 		{
 			setEntityHealth(par1);
-			if(var2 < 0)
+			if(var2 < 0.0F)
 			{
 				hurtResistantTime = maxHurtResistantTime / 2;
 			}
 		} else
 		{
-			lastDamage = var2;
-			setEntityHealth(getHealth());
+			field_110153_bc = var2;
+			setEntityHealth(func_110143_aJ());
 			hurtResistantTime = maxHurtResistantTime;
 			damageEntity(DamageSource.generic, var2);
 			hurtTime = maxHurtTime = 10;
 		}
 	}
 	
-	@Override public void setSprinting(boolean p_70031_1_)
+	@Override public void setSprinting(boolean par1)
 	{
-		super.setSprinting(p_70031_1_);
-		sprintingTicksLeft = p_70031_1_ ? 600 : 0;
+		super.setSprinting(par1);
+		sprintingTicksLeft = par1 ? 600 : 0;
 	}
 	
 	public void setXPStats(float par1, int par2, int par3)
@@ -450,11 +495,6 @@ public class EntityPlayerSP extends EntityPlayer
 		experience = par1;
 		experienceTotal = par2;
 		experienceLevel = par3;
-	}
-	
-	@Override public void updateCloak()
-	{
-		cloakUrl = "http://skins.minecraft.net/MinecraftCloaks/" + StringUtils.stripControlCodes(username) + ".png";
 	}
 	
 	@Override public void updateEntityActionState()

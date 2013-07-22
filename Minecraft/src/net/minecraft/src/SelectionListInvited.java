@@ -4,10 +4,10 @@ class SelectionListInvited extends SelectionListBase
 {
 	final GuiScreenConfigureWorld field_98264_a;
 	
-	public SelectionListInvited(GuiScreenConfigureWorld p_i11005_1_)
+	public SelectionListInvited(GuiScreenConfigureWorld par1GuiScreenConfigureWorld)
 	{
-		super(GuiScreenConfigureWorld.func_96265_a(p_i11005_1_), GuiScreenConfigureWorld.func_96271_b(p_i11005_1_), GuiScreenConfigureWorld.func_96274_a(p_i11005_1_, 2), GuiScreenConfigureWorld.func_96269_c(p_i11005_1_), GuiScreenConfigureWorld.func_96274_a(p_i11005_1_, 9) - GuiScreenConfigureWorld.func_96274_a(p_i11005_1_, 2), 12);
-		field_98264_a = p_i11005_1_;
+		super(GuiScreenConfigureWorld.func_96265_a(par1GuiScreenConfigureWorld), GuiScreenConfigureWorld.func_96271_b(par1GuiScreenConfigureWorld), GuiScreenConfigureWorld.func_96274_a(par1GuiScreenConfigureWorld, 2), GuiScreenConfigureWorld.func_96269_c(par1GuiScreenConfigureWorld), GuiScreenConfigureWorld.func_96274_a(par1GuiScreenConfigureWorld, 9) - GuiScreenConfigureWorld.func_96274_a(par1GuiScreenConfigureWorld, 2), 12);
+		field_98264_a = par1GuiScreenConfigureWorld;
 	}
 	
 	@Override protected int func_96608_a()

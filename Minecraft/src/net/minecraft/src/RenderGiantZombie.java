@@ -3,15 +3,26 @@ package net.minecraft.src;
 
 public class RenderGiantZombie extends RenderLiving
 {
+	private static final ResourceLocation field_110871_a = new ResourceLocation("textures/entity/zombie/zombie.png");
 	private float scale;
 	
-	public RenderGiantZombie(ModelBase p_i3205_1_, float p_i3205_2_, float p_i3205_3_)
+	public RenderGiantZombie(ModelBase par1ModelBase, float par2, float par3)
 	{
-		super(p_i3205_1_, p_i3205_2_ * p_i3205_3_);
-		scale = p_i3205_3_;
+		super(par1ModelBase, par2 * par3);
+		scale = par3;
 	}
 	
-	@Override protected void preRenderCallback(EntityLiving par1EntityLivingBase, float par2)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110870_a((EntityGiantZombie) par1Entity);
+	}
+	
+	protected ResourceLocation func_110870_a(EntityGiantZombie par1EntityGiantZombie)
+	{
+		return field_110871_a;
+	}
+	
+	@Override protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
 	{
 		preRenderScale((EntityGiantZombie) par1EntityLivingBase, par2);
 	}

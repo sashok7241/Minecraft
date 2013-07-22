@@ -6,21 +6,21 @@ public class BlockFurnace extends BlockContainer
 {
 	private final Random furnaceRand = new Random();
 	private final boolean isActive;
-	private static boolean keepFurnaceInventory = false;
+	private static boolean keepFurnaceInventory;
 	private Icon furnaceIconTop;
 	private Icon furnaceIconFront;
 	
-	protected BlockFurnace(int p_i3950_1_, boolean p_i3950_2_)
+	protected BlockFurnace(int par1, boolean par2)
 	{
-		super(p_i3950_1_, Material.rock);
-		isActive = p_i3950_2_;
+		super(par1, Material.rock);
+		isActive = par2;
 	}
 	
-	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
+	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
 	{
 		if(!keepFurnaceInventory)
 		{
-			TileEntityFurnace var7 = (TileEntityFurnace) p_71852_1_.getBlockTileEntity(p_71852_2_, p_71852_3_, p_71852_4_);
+			TileEntityFurnace var7 = (TileEntityFurnace) par1World.getBlockTileEntity(par2, par3, par4);
 			if(var7 != null)
 			{
 				for(int var8 = 0; var8 < var7.getSizeInventory(); ++var8)
@@ -39,7 +39,7 @@ public class BlockFurnace extends BlockContainer
 								var13 = var9.stackSize;
 							}
 							var9.stackSize -= var13;
-							EntityItem var14 = new EntityItem(p_71852_1_, p_71852_2_ + var10, p_71852_3_ + var11, p_71852_4_ + var12, new ItemStack(var9.itemID, var13, var9.getItemDamage()));
+							EntityItem var14 = new EntityItem(par1World, par2 + var10, par3 + var11, par4 + var12, new ItemStack(var9.itemID, var13, var9.getItemDamage()));
 							if(var9.hasTagCompound())
 							{
 								var14.getEntityItem().setTagCompound((NBTTagCompound) var9.getTagCompound().copy());
@@ -48,24 +48,24 @@ public class BlockFurnace extends BlockContainer
 							var14.motionX = (float) furnaceRand.nextGaussian() * var15;
 							var14.motionY = (float) furnaceRand.nextGaussian() * var15 + 0.2F;
 							var14.motionZ = (float) furnaceRand.nextGaussian() * var15;
-							p_71852_1_.spawnEntityInWorld(var14);
+							par1World.spawnEntityInWorld(var14);
 						}
 					}
 				}
-				p_71852_1_.func_96440_m(p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_);
+				par1World.func_96440_m(par2, par3, par4, par5);
 			}
 		}
-		super.breakBlock(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_, p_71852_6_);
+		super.breakBlock(par1World, par2, par3, par4, par5, par6);
 	}
 	
-	@Override public TileEntity createNewTileEntity(World p_72274_1_)
+	@Override public TileEntity createNewTileEntity(World par1World)
 	{
 		return new TileEntityFurnace();
 	}
 	
-	@Override public int getComparatorInputOverride(World p_94328_1_, int p_94328_2_, int p_94328_3_, int p_94328_4_, int p_94328_5_)
+	@Override public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
 	{
-		return Container.calcRedstoneFromInventory((IInventory) p_94328_1_.getBlockTileEntity(p_94328_2_, p_94328_3_, p_94328_4_));
+		return Container.calcRedstoneFromInventory((IInventory) par1World.getBlockTileEntity(par2, par3, par4));
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -78,7 +78,7 @@ public class BlockFurnace extends BlockContainer
 		return true;
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return Block.furnaceIdle.blockID;
 	}
@@ -88,48 +88,48 @@ public class BlockFurnace extends BlockContainer
 		return Block.furnaceIdle.blockID;
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
-		if(p_71903_1_.isRemote) return true;
+		if(par1World.isRemote) return true;
 		else
 		{
-			TileEntityFurnace var10 = (TileEntityFurnace) p_71903_1_.getBlockTileEntity(p_71903_2_, p_71903_3_, p_71903_4_);
+			TileEntityFurnace var10 = (TileEntityFurnace) par1World.getBlockTileEntity(par2, par3, par4);
 			if(var10 != null)
 			{
-				p_71903_5_.displayGUIFurnace(var10);
+				par5EntityPlayer.displayGUIFurnace(var10);
 			}
 			return true;
 		}
 	}
 	
-	@Override public void onBlockAdded(World p_71861_1_, int p_71861_2_, int p_71861_3_, int p_71861_4_)
+	@Override public void onBlockAdded(World par1World, int par2, int par3, int par4)
 	{
-		super.onBlockAdded(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_);
-		setDefaultDirection(p_71861_1_, p_71861_2_, p_71861_3_, p_71861_4_);
+		super.onBlockAdded(par1World, par2, par3, par4);
+		setDefaultDirection(par1World, par2, par3, par4);
 	}
 	
-	@Override public void onBlockPlacedBy(World p_71860_1_, int p_71860_2_, int p_71860_3_, int p_71860_4_, EntityLiving p_71860_5_, ItemStack p_71860_6_)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		int var7 = MathHelper.floor_double(p_71860_5_.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		int var7 = MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		if(var7 == 0)
 		{
-			p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, 2, 2);
+			par1World.setBlockMetadataWithNotify(par2, par3, par4, 2, 2);
 		}
 		if(var7 == 1)
 		{
-			p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, 5, 2);
+			par1World.setBlockMetadataWithNotify(par2, par3, par4, 5, 2);
 		}
 		if(var7 == 2)
 		{
-			p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, 3, 2);
+			par1World.setBlockMetadataWithNotify(par2, par3, par4, 3, 2);
 		}
 		if(var7 == 3)
 		{
-			p_71860_1_.setBlockMetadataWithNotify(p_71860_2_, p_71860_3_, p_71860_4_, 4, 2);
+			par1World.setBlockMetadataWithNotify(par2, par3, par4, 4, 2);
 		}
-		if(p_71860_6_.hasDisplayName())
+		if(par6ItemStack.hasDisplayName())
 		{
-			((TileEntityFurnace) p_71860_1_.getBlockTileEntity(p_71860_2_, p_71860_3_, p_71860_4_)).setGuiDisplayName(p_71860_6_.getDisplayName());
+			((TileEntityFurnace) par1World.getBlockTileEntity(par2, par3, par4)).setGuiDisplayName(par6ItemStack.getDisplayName());
 		}
 	}
 	
@@ -166,18 +166,18 @@ public class BlockFurnace extends BlockContainer
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		blockIcon = par1IconRegister.registerIcon("furnace_side");
-		furnaceIconFront = par1IconRegister.registerIcon(isActive ? "furnace_front_lit" : "furnace_front");
+		furnaceIconFront = par1IconRegister.registerIcon(isActive ? "furnace_front_on" : "furnace_front_off");
 		furnaceIconTop = par1IconRegister.registerIcon("furnace_top");
 	}
 	
-	private void setDefaultDirection(World p_72285_1_, int p_72285_2_, int p_72285_3_, int p_72285_4_)
+	private void setDefaultDirection(World par1World, int par2, int par3, int par4)
 	{
-		if(!p_72285_1_.isRemote)
+		if(!par1World.isRemote)
 		{
-			int var5 = p_72285_1_.getBlockId(p_72285_2_, p_72285_3_, p_72285_4_ - 1);
-			int var6 = p_72285_1_.getBlockId(p_72285_2_, p_72285_3_, p_72285_4_ + 1);
-			int var7 = p_72285_1_.getBlockId(p_72285_2_ - 1, p_72285_3_, p_72285_4_);
-			int var8 = p_72285_1_.getBlockId(p_72285_2_ + 1, p_72285_3_, p_72285_4_);
+			int var5 = par1World.getBlockId(par2, par3, par4 - 1);
+			int var6 = par1World.getBlockId(par2, par3, par4 + 1);
+			int var7 = par1World.getBlockId(par2 - 1, par3, par4);
+			int var8 = par1World.getBlockId(par2 + 1, par3, par4);
 			byte var9 = 3;
 			if(Block.opaqueCubeLookup[var5] && !Block.opaqueCubeLookup[var6])
 			{
@@ -195,28 +195,28 @@ public class BlockFurnace extends BlockContainer
 			{
 				var9 = 4;
 			}
-			p_72285_1_.setBlockMetadataWithNotify(p_72285_2_, p_72285_3_, p_72285_4_, var9, 2);
+			par1World.setBlockMetadataWithNotify(par2, par3, par4, var9, 2);
 		}
 	}
 	
-	public static void updateFurnaceBlockState(boolean p_72286_0_, World p_72286_1_, int p_72286_2_, int p_72286_3_, int p_72286_4_)
+	public static void updateFurnaceBlockState(boolean par0, World par1World, int par2, int par3, int par4)
 	{
-		int var5 = p_72286_1_.getBlockMetadata(p_72286_2_, p_72286_3_, p_72286_4_);
-		TileEntity var6 = p_72286_1_.getBlockTileEntity(p_72286_2_, p_72286_3_, p_72286_4_);
+		int var5 = par1World.getBlockMetadata(par2, par3, par4);
+		TileEntity var6 = par1World.getBlockTileEntity(par2, par3, par4);
 		keepFurnaceInventory = true;
-		if(p_72286_0_)
+		if(par0)
 		{
-			p_72286_1_.setBlock(p_72286_2_, p_72286_3_, p_72286_4_, Block.furnaceBurning.blockID);
+			par1World.setBlock(par2, par3, par4, Block.furnaceBurning.blockID);
 		} else
 		{
-			p_72286_1_.setBlock(p_72286_2_, p_72286_3_, p_72286_4_, Block.furnaceIdle.blockID);
+			par1World.setBlock(par2, par3, par4, Block.furnaceIdle.blockID);
 		}
 		keepFurnaceInventory = false;
-		p_72286_1_.setBlockMetadataWithNotify(p_72286_2_, p_72286_3_, p_72286_4_, var5, 2);
+		par1World.setBlockMetadataWithNotify(par2, par3, par4, var5, 2);
 		if(var6 != null)
 		{
 			var6.validate();
-			p_72286_1_.setBlockTileEntity(p_72286_2_, p_72286_3_, p_72286_4_, var6);
+			par1World.setBlockTileEntity(par2, par3, par4, var6);
 		}
 	}
 }

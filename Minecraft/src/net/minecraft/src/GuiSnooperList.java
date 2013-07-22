@@ -4,10 +4,10 @@ class GuiSnooperList extends GuiSlot
 {
 	final GuiSnooper snooperGui;
 	
-	public GuiSnooperList(GuiSnooper p_i3068_1_)
+	public GuiSnooperList(GuiSnooper par1GuiSnooper)
 	{
-		super(p_i3068_1_.mc, p_i3068_1_.width, p_i3068_1_.height, 80, p_i3068_1_.height - 40, p_i3068_1_.fontRenderer.FONT_HEIGHT + 1);
-		snooperGui = p_i3068_1_;
+		super(par1GuiSnooper.mc, par1GuiSnooper.width, par1GuiSnooper.height, 80, par1GuiSnooper.height - 40, par1GuiSnooper.fontRenderer.FONT_HEIGHT + 1);
+		snooperGui = par1GuiSnooper;
 	}
 	
 	@Override protected void drawBackground()

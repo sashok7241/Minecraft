@@ -7,60 +7,60 @@ public abstract class EntityFireball extends Entity
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
-	private int inTile = 0;
-	private boolean inGround = false;
-	public EntityLiving shootingEntity;
+	private int inTile;
+	private boolean inGround;
+	public EntityLivingBase shootingEntity;
 	private int ticksAlive;
-	private int ticksInAir = 0;
+	private int ticksInAir;
 	public double accelerationX;
 	public double accelerationY;
 	public double accelerationZ;
 	
-	public EntityFireball(World p_i3571_1_)
+	public EntityFireball(World par1World)
 	{
-		super(p_i3571_1_);
+		super(par1World);
 		setSize(1.0F, 1.0F);
 	}
 	
-	public EntityFireball(World p_i3572_1_, double p_i3572_2_, double p_i3572_4_, double p_i3572_6_, double p_i3572_8_, double p_i3572_10_, double p_i3572_12_)
+	public EntityFireball(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		super(p_i3572_1_);
+		super(par1World);
 		setSize(1.0F, 1.0F);
-		setLocationAndAngles(p_i3572_2_, p_i3572_4_, p_i3572_6_, rotationYaw, rotationPitch);
-		setPosition(p_i3572_2_, p_i3572_4_, p_i3572_6_);
-		double var14 = MathHelper.sqrt_double(p_i3572_8_ * p_i3572_8_ + p_i3572_10_ * p_i3572_10_ + p_i3572_12_ * p_i3572_12_);
-		accelerationX = p_i3572_8_ / var14 * 0.1D;
-		accelerationY = p_i3572_10_ / var14 * 0.1D;
-		accelerationZ = p_i3572_12_ / var14 * 0.1D;
+		setLocationAndAngles(par2, par4, par6, rotationYaw, rotationPitch);
+		setPosition(par2, par4, par6);
+		double var14 = MathHelper.sqrt_double(par8 * par8 + par10 * par10 + par12 * par12);
+		accelerationX = par8 / var14 * 0.1D;
+		accelerationY = par10 / var14 * 0.1D;
+		accelerationZ = par12 / var14 * 0.1D;
 	}
 	
-	public EntityFireball(World p_i3573_1_, EntityLiving p_i3573_2_, double p_i3573_3_, double p_i3573_5_, double p_i3573_7_)
+	public EntityFireball(World par1World, EntityLivingBase par2EntityLivingBase, double par3, double par5, double par7)
 	{
-		super(p_i3573_1_);
-		shootingEntity = p_i3573_2_;
+		super(par1World);
+		shootingEntity = par2EntityLivingBase;
 		setSize(1.0F, 1.0F);
-		setLocationAndAngles(p_i3573_2_.posX, p_i3573_2_.posY, p_i3573_2_.posZ, p_i3573_2_.rotationYaw, p_i3573_2_.rotationPitch);
+		setLocationAndAngles(par2EntityLivingBase.posX, par2EntityLivingBase.posY, par2EntityLivingBase.posZ, par2EntityLivingBase.rotationYaw, par2EntityLivingBase.rotationPitch);
 		setPosition(posX, posY, posZ);
 		yOffset = 0.0F;
 		motionX = motionY = motionZ = 0.0D;
-		p_i3573_3_ += rand.nextGaussian() * 0.4D;
-		p_i3573_5_ += rand.nextGaussian() * 0.4D;
-		p_i3573_7_ += rand.nextGaussian() * 0.4D;
-		double var9 = MathHelper.sqrt_double(p_i3573_3_ * p_i3573_3_ + p_i3573_5_ * p_i3573_5_ + p_i3573_7_ * p_i3573_7_);
-		accelerationX = p_i3573_3_ / var9 * 0.1D;
-		accelerationY = p_i3573_5_ / var9 * 0.1D;
-		accelerationZ = p_i3573_7_ / var9 * 0.1D;
+		par3 += rand.nextGaussian() * 0.4D;
+		par5 += rand.nextGaussian() * 0.4D;
+		par7 += rand.nextGaussian() * 0.4D;
+		double var9 = MathHelper.sqrt_double(par3 * par3 + par5 * par5 + par7 * par7);
+		accelerationX = par3 / var9 * 0.1D;
+		accelerationY = par5 / var9 * 0.1D;
+		accelerationZ = par7 / var9 * 0.1D;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
 		{
 			setBeenAttacked();
-			if(p_70097_1_.getEntity() != null)
+			if(par1DamageSource.getEntity() != null)
 			{
-				Vec3 var3 = p_70097_1_.getEntity().getLookVec();
+				Vec3 var3 = par1DamageSource.getEntity().getLookVec();
 				if(var3 != null)
 				{
 					motionX = var3.xCoord;
@@ -70,9 +70,9 @@ public abstract class EntityFireball extends Entity
 					accelerationY = motionY * 0.1D;
 					accelerationZ = motionZ * 0.1D;
 				}
-				if(p_70097_1_.getEntity() instanceof EntityLiving)
+				if(par1DamageSource.getEntity() instanceof EntityLivingBase)
 				{
-					shootingEntity = (EntityLiving) p_70097_1_.getEntity();
+					shootingEntity = (EntityLivingBase) par1DamageSource.getEntity();
 				}
 				return true;
 			} else return false;
@@ -88,7 +88,7 @@ public abstract class EntityFireball extends Entity
 	{
 	}
 	
-	@Override public float getBrightness(float p_70013_1_)
+	@Override public float getBrightness(float par1)
 	{
 		return 1.0F;
 	}
@@ -236,16 +236,16 @@ public abstract class EntityFireball extends Entity
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		xTile = p_70037_1_.getShort("xTile");
-		yTile = p_70037_1_.getShort("yTile");
-		zTile = p_70037_1_.getShort("zTile");
-		inTile = p_70037_1_.getByte("inTile") & 255;
-		inGround = p_70037_1_.getByte("inGround") == 1;
-		if(p_70037_1_.hasKey("direction"))
+		xTile = par1NBTTagCompound.getShort("xTile");
+		yTile = par1NBTTagCompound.getShort("yTile");
+		zTile = par1NBTTagCompound.getShort("zTile");
+		inTile = par1NBTTagCompound.getByte("inTile") & 255;
+		inGround = par1NBTTagCompound.getByte("inGround") == 1;
+		if(par1NBTTagCompound.hasKey("direction"))
 		{
-			NBTTagList var2 = p_70037_1_.getTagList("direction");
+			NBTTagList var2 = par1NBTTagCompound.getTagList("direction");
 			motionX = ((NBTTagDouble) var2.tagAt(0)).data;
 			motionY = ((NBTTagDouble) var2.tagAt(1)).data;
 			motionZ = ((NBTTagDouble) var2.tagAt(2)).data;
@@ -255,13 +255,13 @@ public abstract class EntityFireball extends Entity
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		p_70014_1_.setShort("xTile", (short) xTile);
-		p_70014_1_.setShort("yTile", (short) yTile);
-		p_70014_1_.setShort("zTile", (short) zTile);
-		p_70014_1_.setByte("inTile", (byte) inTile);
-		p_70014_1_.setByte("inGround", (byte) (inGround ? 1 : 0));
-		p_70014_1_.setTag("direction", newDoubleNBTList(new double[] { motionX, motionY, motionZ }));
+		par1NBTTagCompound.setShort("xTile", (short) xTile);
+		par1NBTTagCompound.setShort("yTile", (short) yTile);
+		par1NBTTagCompound.setShort("zTile", (short) zTile);
+		par1NBTTagCompound.setByte("inTile", (byte) inTile);
+		par1NBTTagCompound.setByte("inGround", (byte) (inGround ? 1 : 0));
+		par1NBTTagCompound.setTag("direction", newDoubleNBTList(new double[] { motionX, motionY, motionZ }));
 	}
 }

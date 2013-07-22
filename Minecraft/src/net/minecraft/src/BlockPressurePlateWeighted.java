@@ -6,21 +6,21 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
 {
 	private final int maxItemsWeighted;
 	
-	protected BlockPressurePlateWeighted(int p_i9016_1_, String p_i9016_2_, Material p_i9016_3_, int p_i9016_4_)
+	protected BlockPressurePlateWeighted(int par1, String par2Str, Material par3Material, int par4)
 	{
-		super(p_i9016_1_, p_i9016_2_, p_i9016_3_);
-		maxItemsWeighted = p_i9016_4_;
+		super(par1, par2Str, par3Material);
+		maxItemsWeighted = par4;
 	}
 	
-	@Override protected int getMetaFromWeight(int p_94355_1_)
+	@Override protected int getMetaFromWeight(int par1)
 	{
-		return p_94355_1_;
+		return par1;
 	}
 	
-	@Override protected int getPlateState(World p_94351_1_, int p_94351_2_, int p_94351_3_, int p_94351_4_)
+	@Override protected int getPlateState(World par1World, int par2, int par3, int par4)
 	{
 		int var5 = 0;
-		Iterator var6 = p_94351_1_.getEntitiesWithinAABB(EntityItem.class, getSensitiveAABB(p_94351_2_, p_94351_3_, p_94351_4_)).iterator();
+		Iterator var6 = par1World.getEntitiesWithinAABB(EntityItem.class, getSensitiveAABB(par2, par3, par4)).iterator();
 		while(var6.hasNext())
 		{
 			EntityItem var7 = (EntityItem) var6.next();
@@ -38,12 +38,12 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
 		}
 	}
 	
-	@Override protected int getPowerSupply(int p_94350_1_)
+	@Override protected int getPowerSupply(int par1)
 	{
-		return p_94350_1_;
+		return par1;
 	}
 	
-	@Override public int tickRate(World p_71859_1_)
+	@Override public int tickRate(World par1World)
 	{
 		return 10;
 	}

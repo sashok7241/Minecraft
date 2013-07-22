@@ -5,25 +5,25 @@ import net.minecraft.client.Minecraft;
 public class GuiConnecting extends GuiScreen
 {
 	private NetClientHandler clientHandler;
-	private boolean cancelled = false;
+	private boolean cancelled;
 	private final GuiScreen field_98098_c;
 	
-	public GuiConnecting(GuiScreen p_i11013_1_, Minecraft p_i11013_2_, ServerData p_i11013_3_)
+	public GuiConnecting(GuiScreen par1GuiScreen, Minecraft par2Minecraft, ServerData par3ServerData)
 	{
-		mc = p_i11013_2_;
-		field_98098_c = p_i11013_1_;
-		ServerAddress var4 = ServerAddress.func_78860_a(p_i11013_3_.serverIP);
-		p_i11013_2_.loadWorld((WorldClient) null);
-		p_i11013_2_.setServerData(p_i11013_3_);
+		mc = par2Minecraft;
+		field_98098_c = par1GuiScreen;
+		ServerAddress var4 = ServerAddress.func_78860_a(par3ServerData.serverIP);
+		par2Minecraft.loadWorld((WorldClient) null);
+		par2Minecraft.setServerData(par3ServerData);
 		spawnNewServerThread(var4.getIP(), var4.getPort());
 	}
 	
-	public GuiConnecting(GuiScreen p_i11014_1_, Minecraft p_i11014_2_, String p_i11014_3_, int p_i11014_4_)
+	public GuiConnecting(GuiScreen par1GuiScreen, Minecraft par2Minecraft, String par3Str, int par4)
 	{
-		mc = p_i11014_2_;
-		field_98098_c = p_i11014_1_;
-		p_i11014_2_.loadWorld((WorldClient) null);
-		spawnNewServerThread(p_i11014_3_, p_i11014_4_);
+		mc = par2Minecraft;
+		field_98098_c = par1GuiScreen;
+		par2Minecraft.loadWorld((WorldClient) null);
+		spawnNewServerThread(par3Str, par4);
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -42,14 +42,13 @@ public class GuiConnecting extends GuiScreen
 	@Override public void drawScreen(int par1, int par2, float par3)
 	{
 		drawDefaultBackground();
-		StringTranslate var4 = StringTranslate.getInstance();
 		if(clientHandler == null)
 		{
-			drawCenteredString(fontRenderer, var4.translateKey("connect.connecting"), width / 2, height / 2 - 50, 16777215);
+			drawCenteredString(fontRenderer, I18n.func_135053_a("connect.connecting"), width / 2, height / 2 - 50, 16777215);
 			drawCenteredString(fontRenderer, "", width / 2, height / 2 - 10, 16777215);
 		} else
 		{
-			drawCenteredString(fontRenderer, var4.translateKey("connect.authorizing"), width / 2, height / 2 - 50, 16777215);
+			drawCenteredString(fontRenderer, I18n.func_135053_a("connect.authorizing"), width / 2, height / 2 - 50, 16777215);
 			drawCenteredString(fontRenderer, clientHandler.field_72560_a, width / 2, height / 2 - 10, 16777215);
 		}
 		super.drawScreen(par1, par2, par3);
@@ -57,9 +56,8 @@ public class GuiConnecting extends GuiScreen
 	
 	@Override public void initGui()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, var1.translateKey("gui.cancel")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, I18n.func_135053_a("gui.cancel")));
 	}
 	
 	@Override protected void keyTyped(char par1, int par2)

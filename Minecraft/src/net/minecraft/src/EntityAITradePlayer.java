@@ -4,9 +4,9 @@ public class EntityAITradePlayer extends EntityAIBase
 {
 	private EntityVillager villager;
 	
-	public EntityAITradePlayer(EntityVillager p_i3496_1_)
+	public EntityAITradePlayer(EntityVillager par1EntityVillager)
 	{
-		villager = p_i3496_1_;
+		villager = par1EntityVillager;
 		setMutexBits(5);
 	}
 	

@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class ItemWritableBook extends Item
 {
-	public ItemWritableBook(int p_i3697_1_)
+	public ItemWritableBook(int par1)
 	{
-		super(p_i3697_1_);
+		super(par1);
 		setMaxStackSize(1);
 	}
 	
@@ -13,19 +13,19 @@ public class ItemWritableBook extends Item
 		return true;
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		p_77659_3_.displayGUIBook(p_77659_1_);
-		return p_77659_1_;
+		par3EntityPlayer.displayGUIBook(par1ItemStack);
+		return par1ItemStack;
 	}
 	
-	public static boolean validBookTagPages(NBTTagCompound p_77829_0_)
+	public static boolean validBookTagPages(NBTTagCompound par0NBTTagCompound)
 	{
-		if(p_77829_0_ == null) return false;
-		else if(!p_77829_0_.hasKey("pages")) return false;
+		if(par0NBTTagCompound == null) return false;
+		else if(!par0NBTTagCompound.hasKey("pages")) return false;
 		else
 		{
-			NBTTagList var1 = (NBTTagList) p_77829_0_.getTag("pages");
+			NBTTagList var1 = (NBTTagList) par0NBTTagCompound.getTag("pages");
 			for(int var2 = 0; var2 < var1.tagCount(); ++var2)
 			{
 				NBTTagString var3 = (NBTTagString) var1.tagAt(var2);

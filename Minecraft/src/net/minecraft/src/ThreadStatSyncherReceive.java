@@ -4,9 +4,9 @@ class ThreadStatSyncherReceive extends Thread
 {
 	final StatsSyncher syncher;
 	
-	ThreadStatSyncherReceive(StatsSyncher p_i3219_1_)
+	ThreadStatSyncherReceive(StatsSyncher par1StatsSyncher)
 	{
-		syncher = p_i3219_1_;
+		syncher = par1StatsSyncher;
 	}
 	
 	@Override public void run()

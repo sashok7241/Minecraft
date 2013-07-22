@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet22Collect extends Packet
@@ -13,10 +13,10 @@ public class Packet22Collect extends Packet
 	{
 	}
 	
-	public Packet22Collect(int p_i3358_1_, int p_i3358_2_)
+	public Packet22Collect(int par1, int par2)
 	{
-		collectedEntityId = p_i3358_1_;
-		collectorEntityId = p_i3358_2_;
+		collectedEntityId = par1;
+		collectorEntityId = par2;
 	}
 	
 	@Override public int getPacketSize()
@@ -24,20 +24,20 @@ public class Packet22Collect extends Packet
 		return 8;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleCollect(this);
+		par1NetHandler.handleCollect(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		collectedEntityId = p_73267_1_.readInt();
-		collectorEntityId = p_73267_1_.readInt();
+		collectedEntityId = par1DataInput.readInt();
+		collectorEntityId = par1DataInput.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(collectedEntityId);
-		p_73273_1_.writeInt(collectorEntityId);
+		par1DataOutput.writeInt(collectedEntityId);
+		par1DataOutput.writeInt(collectorEntityId);
 	}
 }

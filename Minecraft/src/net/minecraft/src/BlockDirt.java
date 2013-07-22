@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BlockDirt extends Block
 {
-	protected BlockDirt(int p_i9052_1_)
+	protected BlockDirt(int par1)
 	{
-		super(p_i9052_1_, Material.ground);
+		super(par1, Material.ground);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 }

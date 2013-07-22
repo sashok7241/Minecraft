@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 
 public class GuiButton extends Gui
 {
+	protected static final ResourceLocation field_110332_a = new ResourceLocation("textures/gui/widgets.png");
 	protected int width;
 	protected int height;
 	public int xPosition;
@@ -14,23 +15,23 @@ public class GuiButton extends Gui
 	public boolean drawButton;
 	protected boolean field_82253_i;
 	
-	public GuiButton(int p_i3056_1_, int p_i3056_2_, int p_i3056_3_, int p_i3056_4_, int p_i3056_5_, String p_i3056_6_)
+	public GuiButton(int par1, int par2, int par3, int par4, int par5, String par6Str)
 	{
 		width = 200;
 		height = 20;
 		enabled = true;
 		drawButton = true;
-		id = p_i3056_1_;
-		xPosition = p_i3056_2_;
-		yPosition = p_i3056_3_;
-		width = p_i3056_4_;
-		height = p_i3056_5_;
-		displayString = p_i3056_6_;
+		id = par1;
+		xPosition = par2;
+		yPosition = par3;
+		width = par4;
+		height = par5;
+		displayString = par6Str;
 	}
 	
-	public GuiButton(int p_i3055_1_, int p_i3055_2_, int p_i3055_3_, String p_i3055_4_)
+	public GuiButton(int par1, int par2, int par3, String par4Str)
 	{
-		this(p_i3055_1_, p_i3055_2_, p_i3055_3_, 200, 20, p_i3055_4_);
+		this(par1, par2, par3, 200, 20, par4Str);
 	}
 	
 	public void drawButton(Minecraft par1Minecraft, int par2, int par3)
@@ -38,7 +39,7 @@ public class GuiButton extends Gui
 		if(drawButton)
 		{
 			FontRenderer var4 = par1Minecraft.fontRenderer;
-			par1Minecraft.renderEngine.bindTexture("/gui/gui.png");
+			par1Minecraft.func_110434_K().func_110577_a(field_110332_a);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			field_82253_i = par2 >= xPosition && par3 >= yPosition && par2 < xPosition + width && par3 < yPosition + height;
 			int var5 = getHoverState(field_82253_i);

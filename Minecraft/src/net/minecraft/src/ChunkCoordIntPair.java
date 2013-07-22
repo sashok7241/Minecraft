@@ -5,15 +5,15 @@ public class ChunkCoordIntPair
 	public final int chunkXPos;
 	public final int chunkZPos;
 	
-	public ChunkCoordIntPair(int p_i3726_1_, int p_i3726_2_)
+	public ChunkCoordIntPair(int par1, int par2)
 	{
-		chunkXPos = p_i3726_1_;
-		chunkZPos = p_i3726_2_;
+		chunkXPos = par1;
+		chunkZPos = par2;
 	}
 	
-	@Override public boolean equals(Object p_equals_1_)
+	@Override public boolean equals(Object par1Obj)
 	{
-		ChunkCoordIntPair var2 = (ChunkCoordIntPair) p_equals_1_;
+		ChunkCoordIntPair var2 = (ChunkCoordIntPair) par1Obj;
 		return var2.chunkXPos == chunkXPos && var2.chunkZPos == chunkZPos;
 	}
 	
@@ -27,9 +27,9 @@ public class ChunkCoordIntPair
 		return (chunkZPos << 4) + 8;
 	}
 	
-	public ChunkPosition getChunkPosition(int p_77271_1_)
+	public ChunkPosition getChunkPosition(int par1)
 	{
-		return new ChunkPosition(getCenterXPos(), p_77271_1_, getCenterZPosition());
+		return new ChunkPosition(getCenterXPos(), par1, getCenterZPosition());
 	}
 	
 	@Override public int hashCode()
@@ -45,8 +45,8 @@ public class ChunkCoordIntPair
 		return "[" + chunkXPos + ", " + chunkZPos + "]";
 	}
 	
-	public static long chunkXZ2Int(int p_77272_0_, int p_77272_1_)
+	public static long chunkXZ2Int(int par0, int par1)
 	{
-		return p_77272_0_ & 4294967295L | (p_77272_1_ & 4294967295L) << 32;
+		return par0 & 4294967295L | (par1 & 4294967295L) << 32;
 	}
 }

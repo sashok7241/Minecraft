@@ -11,33 +11,31 @@ public abstract class EntityHanging extends Entity
 	public int yPosition;
 	public int zPosition;
 	
-	public EntityHanging(World p_i5053_1_)
+	public EntityHanging(World par1World)
 	{
-		super(p_i5053_1_);
-		tickCounter1 = 0;
-		hangingDirection = 0;
+		super(par1World);
 		yOffset = 0.0F;
 		setSize(0.5F, 0.5F);
 	}
 	
-	public EntityHanging(World p_i5054_1_, int p_i5054_2_, int p_i5054_3_, int p_i5054_4_, int p_i5054_5_)
+	public EntityHanging(World par1World, int par2, int par3, int par4, int par5)
 	{
-		this(p_i5054_1_);
-		xPosition = p_i5054_2_;
-		yPosition = p_i5054_3_;
-		zPosition = p_i5054_4_;
+		this(par1World);
+		xPosition = par2;
+		yPosition = par3;
+		zPosition = par4;
 	}
 	
-	@Override public void addVelocity(double p_70024_1_, double p_70024_3_, double p_70024_5_)
+	@Override public void addVelocity(double par1, double par3, double par5)
 	{
-		if(!worldObj.isRemote && !isDead && p_70024_1_ * p_70024_1_ + p_70024_3_ * p_70024_3_ + p_70024_5_ * p_70024_5_ > 0.0D)
+		if(!worldObj.isRemote && !isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
 		{
 			setDead();
-			dropItemStack();
+			func_110128_b((Entity) null);
 		}
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else
@@ -46,13 +44,7 @@ public abstract class EntityHanging extends Entity
 			{
 				setDead();
 				setBeenAttacked();
-				EntityPlayer var3 = null;
-				if(p_70097_1_.getEntity() instanceof EntityPlayer)
-				{
-					var3 = (EntityPlayer) p_70097_1_.getEntity();
-				}
-				if(var3 != null && var3.capabilities.isCreativeMode) return true;
-				dropItemStack();
+				func_110128_b(par1DamageSource.getEntity());
 			}
 			return true;
 		}
@@ -63,44 +55,52 @@ public abstract class EntityHanging extends Entity
 		return true;
 	}
 	
-	public abstract void dropItemStack();
-	
 	@Override protected void entityInit()
 	{
 	}
 	
-	private float func_70517_b(int p_70517_1_)
+	public abstract void func_110128_b(Entity var1);
+	
+	@Override protected boolean func_142008_O()
 	{
-		return p_70517_1_ == 32 ? 0.5F : p_70517_1_ == 64 ? 0.5F : 0.0F;
+		return false;
+	}
+	
+	private float func_70517_b(int par1)
+	{
+		return par1 == 32 ? 0.5F : par1 == 64 ? 0.5F : 0.0F;
 	}
 	
 	public abstract int func_82329_d();
 	
 	public abstract int func_82330_g();
 	
-	@Override public boolean func_85031_j(Entity p_85031_1_)
+	@Override public boolean func_85031_j(Entity par1Entity)
 	{
-		return p_85031_1_ instanceof EntityPlayer ? attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) p_85031_1_), 0) : false;
+		return par1Entity instanceof EntityPlayer ? attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) par1Entity), 0.0F) : false;
 	}
 	
-	@Override public void moveEntity(double p_70091_1_, double p_70091_3_, double p_70091_5_)
+	@Override public void moveEntity(double par1, double par3, double par5)
 	{
-		if(!worldObj.isRemote && !isDead && p_70091_1_ * p_70091_1_ + p_70091_3_ * p_70091_3_ + p_70091_5_ * p_70091_5_ > 0.0D)
+		if(!worldObj.isRemote && !isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
 		{
 			setDead();
-			dropItemStack();
+			func_110128_b((Entity) null);
 		}
 	}
 	
 	@Override public void onUpdate()
 	{
+		prevPosX = posX;
+		prevPosY = posY;
+		prevPosZ = posZ;
 		if(tickCounter1++ == 100 && !worldObj.isRemote)
 		{
 			tickCounter1 = 0;
 			if(!isDead && !onValidSurface())
 			{
 				setDead();
-				dropItemStack();
+				func_110128_b((Entity) null);
 			}
 		}
 	}
@@ -159,14 +159,14 @@ public abstract class EntityHanging extends Entity
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		if(p_70037_1_.hasKey("Direction"))
+		if(par1NBTTagCompound.hasKey("Direction"))
 		{
-			hangingDirection = p_70037_1_.getByte("Direction");
+			hangingDirection = par1NBTTagCompound.getByte("Direction");
 		} else
 		{
-			switch(p_70037_1_.getByte("Dir"))
+			switch(par1NBTTagCompound.getByte("Dir"))
 			{
 				case 0:
 					hangingDirection = 2;
@@ -181,26 +181,26 @@ public abstract class EntityHanging extends Entity
 					hangingDirection = 3;
 			}
 		}
-		xPosition = p_70037_1_.getInteger("TileX");
-		yPosition = p_70037_1_.getInteger("TileY");
-		zPosition = p_70037_1_.getInteger("TileZ");
+		xPosition = par1NBTTagCompound.getInteger("TileX");
+		yPosition = par1NBTTagCompound.getInteger("TileY");
+		zPosition = par1NBTTagCompound.getInteger("TileZ");
 		setDirection(hangingDirection);
 	}
 	
-	public void setDirection(int p_82328_1_)
+	public void setDirection(int par1)
 	{
-		hangingDirection = p_82328_1_;
-		prevRotationYaw = rotationYaw = p_82328_1_ * 90;
+		hangingDirection = par1;
+		prevRotationYaw = rotationYaw = par1 * 90;
 		float var2 = func_82329_d();
 		float var3 = func_82330_g();
 		float var4 = func_82329_d();
-		if(p_82328_1_ != 2 && p_82328_1_ != 0)
+		if(par1 != 2 && par1 != 0)
 		{
 			var2 = 0.5F;
 		} else
 		{
 			var4 = 0.5F;
-			rotationYaw = prevRotationYaw = Direction.rotateOpposite[p_82328_1_] * 90;
+			rotationYaw = prevRotationYaw = Direction.rotateOpposite[par1] * 90;
 		}
 		var2 /= 32.0F;
 		var3 /= 32.0F;
@@ -209,35 +209,35 @@ public abstract class EntityHanging extends Entity
 		float var6 = yPosition + 0.5F;
 		float var7 = zPosition + 0.5F;
 		float var8 = 0.5625F;
-		if(p_82328_1_ == 2)
+		if(par1 == 2)
 		{
 			var7 -= var8;
 		}
-		if(p_82328_1_ == 1)
+		if(par1 == 1)
 		{
 			var5 -= var8;
 		}
-		if(p_82328_1_ == 0)
+		if(par1 == 0)
 		{
 			var7 += var8;
 		}
-		if(p_82328_1_ == 3)
+		if(par1 == 3)
 		{
 			var5 += var8;
 		}
-		if(p_82328_1_ == 2)
+		if(par1 == 2)
 		{
 			var5 -= func_70517_b(func_82329_d());
 		}
-		if(p_82328_1_ == 1)
+		if(par1 == 1)
 		{
 			var7 += func_70517_b(func_82329_d());
 		}
-		if(p_82328_1_ == 0)
+		if(par1 == 0)
 		{
 			var5 += func_70517_b(func_82329_d());
 		}
-		if(p_82328_1_ == 3)
+		if(par1 == 3)
 		{
 			var7 -= func_70517_b(func_82329_d());
 		}
@@ -247,25 +247,25 @@ public abstract class EntityHanging extends Entity
 		boundingBox.setBounds(var5 - var2 - var9, var6 - var3 - var9, var7 - var4 - var9, var5 + var2 + var9, var6 + var3 + var9, var7 + var4 + var9);
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		p_70014_1_.setByte("Direction", (byte) hangingDirection);
-		p_70014_1_.setInteger("TileX", xPosition);
-		p_70014_1_.setInteger("TileY", yPosition);
-		p_70014_1_.setInteger("TileZ", zPosition);
+		par1NBTTagCompound.setByte("Direction", (byte) hangingDirection);
+		par1NBTTagCompound.setInteger("TileX", xPosition);
+		par1NBTTagCompound.setInteger("TileY", yPosition);
+		par1NBTTagCompound.setInteger("TileZ", zPosition);
 		switch(hangingDirection)
 		{
 			case 0:
-				p_70014_1_.setByte("Dir", (byte) 2);
+				par1NBTTagCompound.setByte("Dir", (byte) 2);
 				break;
 			case 1:
-				p_70014_1_.setByte("Dir", (byte) 1);
+				par1NBTTagCompound.setByte("Dir", (byte) 1);
 				break;
 			case 2:
-				p_70014_1_.setByte("Dir", (byte) 0);
+				par1NBTTagCompound.setByte("Dir", (byte) 0);
 				break;
 			case 3:
-				p_70014_1_.setByte("Dir", (byte) 3);
+				par1NBTTagCompound.setByte("Dir", (byte) 3);
 		}
 	}
 }

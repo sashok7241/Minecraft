@@ -4,34 +4,33 @@ public class EntityAIArrowAttack extends EntityAIBase
 {
 	private final EntityLiving entityHost;
 	private final IRangedAttackMob rangedAttackEntityHost;
-	private EntityLiving attackTarget;
+	private EntityLivingBase attackTarget;
 	private int rangedAttackTime;
-	private float entityMoveSpeed;
+	private double entityMoveSpeed;
 	private int field_75318_f;
 	private int field_96561_g;
 	private int maxRangedAttackTime;
 	private float field_96562_i;
 	private float field_82642_h;
 	
-	public EntityAIArrowAttack(IRangedAttackMob p_i5059_1_, float p_i5059_2_, int p_i5059_3_, float p_i5059_4_)
+	public EntityAIArrowAttack(IRangedAttackMob par1IRangedAttackMob, double par2, int par4, float par5)
 	{
-		this(p_i5059_1_, p_i5059_2_, p_i5059_3_, p_i5059_3_, p_i5059_4_);
+		this(par1IRangedAttackMob, par2, par4, par4, par5);
 	}
 	
-	public EntityAIArrowAttack(IRangedAttackMob p_i10050_1_, float p_i10050_2_, int p_i10050_3_, int p_i10050_4_, float p_i10050_5_)
+	public EntityAIArrowAttack(IRangedAttackMob par1IRangedAttackMob, double par2, int par4, int par5, float par6)
 	{
 		rangedAttackTime = -1;
-		field_75318_f = 0;
-		if(!(p_i10050_1_ instanceof EntityLiving)) throw new IllegalArgumentException("ArrowAttackGoal requires Mob implements RangedAttackMob");
+		if(!(par1IRangedAttackMob instanceof EntityLivingBase)) throw new IllegalArgumentException("ArrowAttackGoal requires Mob implements RangedAttackMob");
 		else
 		{
-			rangedAttackEntityHost = p_i10050_1_;
-			entityHost = (EntityLiving) p_i10050_1_;
-			entityMoveSpeed = p_i10050_2_;
-			field_96561_g = p_i10050_3_;
-			maxRangedAttackTime = p_i10050_4_;
-			field_96562_i = p_i10050_5_;
-			field_82642_h = p_i10050_5_ * p_i10050_5_;
+			rangedAttackEntityHost = par1IRangedAttackMob;
+			entityHost = (EntityLiving) par1IRangedAttackMob;
+			entityMoveSpeed = par2;
+			field_96561_g = par4;
+			maxRangedAttackTime = par5;
+			field_96562_i = par6;
+			field_82642_h = par6 * par6;
 			setMutexBits(3);
 		}
 	}
@@ -50,7 +49,7 @@ public class EntityAIArrowAttack extends EntityAIBase
 	
 	@Override public boolean shouldExecute()
 	{
-		EntityLiving var1 = entityHost.getAttackTarget();
+		EntityLivingBase var1 = entityHost.getAttackTarget();
 		if(var1 == null) return false;
 		else
 		{

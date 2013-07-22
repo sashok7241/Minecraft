@@ -7,9 +7,9 @@ class GameRuleValue
 	private int valueInteger;
 	private double valueDouble;
 	
-	public GameRuleValue(String p_i5089_1_)
+	public GameRuleValue(String par1Str)
 	{
-		setValue(p_i5089_1_);
+		setValue(par1Str);
 	}
 	
 	public boolean getGameRuleBooleanValue()
@@ -22,20 +22,20 @@ class GameRuleValue
 		return valueString;
 	}
 	
-	public void setValue(String p_82757_1_)
+	public void setValue(String par1Str)
 	{
-		valueString = p_82757_1_;
-		valueBoolean = Boolean.parseBoolean(p_82757_1_);
+		valueString = par1Str;
+		valueBoolean = Boolean.parseBoolean(par1Str);
 		try
 		{
-			valueInteger = Integer.parseInt(p_82757_1_);
+			valueInteger = Integer.parseInt(par1Str);
 		} catch(NumberFormatException var4)
 		{
 			;
 		}
 		try
 		{
-			valueDouble = Double.parseDouble(p_82757_1_);
+			valueDouble = Double.parseDouble(par1Str);
 		} catch(NumberFormatException var3)
 		{
 			;

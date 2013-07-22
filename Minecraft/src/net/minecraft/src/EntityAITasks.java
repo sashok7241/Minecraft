@@ -9,44 +9,44 @@ public class EntityAITasks
 	private List taskEntries = new ArrayList();
 	private List executingTaskEntries = new ArrayList();
 	private final Profiler theProfiler;
-	private int tickCount = 0;
+	private int tickCount;
 	private int tickRate = 3;
 	
-	public EntityAITasks(Profiler p_i3469_1_)
+	public EntityAITasks(Profiler par1Profiler)
 	{
-		theProfiler = p_i3469_1_;
+		theProfiler = par1Profiler;
 	}
 	
-	public void addTask(int p_75776_1_, EntityAIBase p_75776_2_)
+	public void addTask(int par1, EntityAIBase par2EntityAIBase)
 	{
-		taskEntries.add(new EntityAITaskEntry(this, p_75776_1_, p_75776_2_));
+		taskEntries.add(new EntityAITaskEntry(this, par1, par2EntityAIBase));
 	}
 	
-	private boolean areTasksCompatible(EntityAITaskEntry p_75777_1_, EntityAITaskEntry p_75777_2_)
+	private boolean areTasksCompatible(EntityAITaskEntry par1EntityAITaskEntry, EntityAITaskEntry par2EntityAITaskEntry)
 	{
-		return (p_75777_1_.action.getMutexBits() & p_75777_2_.action.getMutexBits()) == 0;
+		return (par1EntityAITaskEntry.action.getMutexBits() & par2EntityAITaskEntry.action.getMutexBits()) == 0;
 	}
 	
-	private boolean canContinue(EntityAITaskEntry p_75773_1_)
+	private boolean canContinue(EntityAITaskEntry par1EntityAITaskEntry)
 	{
 		theProfiler.startSection("canContinue");
-		boolean var2 = p_75773_1_.action.continueExecuting();
+		boolean var2 = par1EntityAITaskEntry.action.continueExecuting();
 		theProfiler.endSection();
 		return var2;
 	}
 	
-	private boolean canUse(EntityAITaskEntry p_75775_1_)
+	private boolean canUse(EntityAITaskEntry par1EntityAITaskEntry)
 	{
 		theProfiler.startSection("canUse");
 		Iterator var2 = taskEntries.iterator();
 		while(var2.hasNext())
 		{
 			EntityAITaskEntry var3 = (EntityAITaskEntry) var2.next();
-			if(var3 != p_75775_1_)
+			if(var3 != par1EntityAITaskEntry)
 			{
-				if(p_75775_1_.priority >= var3.priority)
+				if(par1EntityAITaskEntry.priority >= var3.priority)
 				{
-					if(executingTaskEntries.contains(var3) && !areTasksCompatible(p_75775_1_, var3))
+					if(executingTaskEntries.contains(var3) && !areTasksCompatible(par1EntityAITaskEntry, var3))
 					{
 						theProfiler.endSection();
 						return false;
@@ -122,14 +122,14 @@ public class EntityAITasks
 		theProfiler.endSection();
 	}
 	
-	public void removeTask(EntityAIBase p_85156_1_)
+	public void removeTask(EntityAIBase par1EntityAIBase)
 	{
 		Iterator var2 = taskEntries.iterator();
 		while(var2.hasNext())
 		{
 			EntityAITaskEntry var3 = (EntityAITaskEntry) var2.next();
 			EntityAIBase var4 = var3.action;
-			if(var4 == p_85156_1_)
+			if(var4 == par1EntityAIBase)
 			{
 				if(executingTaskEntries.contains(var3))
 				{

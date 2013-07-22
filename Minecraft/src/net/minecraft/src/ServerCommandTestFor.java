@@ -7,23 +7,28 @@ public class ServerCommandTestFor extends CommandBase
 		return "testfor";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.testfor.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 2;
 	}
 	
-	@Override public boolean isUsernameIndex(String[] p_82358_1_, int p_82358_2_)
+	@Override public boolean isUsernameIndex(String[] par1ArrayOfStr, int par2)
 	{
-		return p_82358_2_ == 0;
+		return par2 == 0;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		if(p_71515_2_.length != 1) throw new WrongUsageException("commands.testfor.usage", new Object[0]);
-		else if(!(p_71515_1_ instanceof TileEntityCommandBlock)) throw new CommandException("commands.testfor.failed", new Object[0]);
+		if(par2ArrayOfStr.length != 1) throw new WrongUsageException("commands.testfor.usage", new Object[0]);
+		else if(!(par1ICommandSender instanceof TileEntityCommandBlock)) throw new CommandException("commands.testfor.failed", new Object[0]);
 		else
 		{
-			func_82359_c(p_71515_1_, p_71515_2_[0]);
+			func_82359_c(par1ICommandSender, par2ArrayOfStr[0]);
 		}
 	}
 }

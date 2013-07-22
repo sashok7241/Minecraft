@@ -6,14 +6,14 @@ import java.util.List;
 public class EntityAIPlay extends EntityAIBase
 {
 	private EntityVillager villagerObj;
-	private EntityLiving targetVillager;
-	private float field_75261_c;
+	private EntityLivingBase targetVillager;
+	private double field_75261_c;
 	private int playTime;
 	
-	public EntityAIPlay(EntityVillager p_i3487_1_, float p_i3487_2_)
+	public EntityAIPlay(EntityVillager par1EntityVillager, double par2)
 	{
-		villagerObj = p_i3487_1_;
-		field_75261_c = p_i3487_2_;
+		villagerObj = par1EntityVillager;
+		field_75261_c = par2;
 		setMutexBits(1);
 	}
 	

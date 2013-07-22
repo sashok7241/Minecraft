@@ -6,10 +6,10 @@ class GuiFlatPresetsItem
 	public String presetName;
 	public String presetData;
 	
-	public GuiFlatPresetsItem(int p_i5003_1_, String p_i5003_2_, String p_i5003_3_)
+	public GuiFlatPresetsItem(int par1, String par2Str, String par3Str)
 	{
-		iconId = p_i5003_1_;
-		presetName = p_i5003_2_;
-		presetData = p_i5003_3_;
+		iconId = par1;
+		presetName = par2Str;
+		presetData = par3Str;
 	}
 }

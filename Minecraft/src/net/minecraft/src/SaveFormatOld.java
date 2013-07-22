@@ -10,13 +10,13 @@ public class SaveFormatOld implements ISaveFormat
 {
 	protected final File savesDirectory;
 	
-	public SaveFormatOld(File p_i3913_1_)
+	public SaveFormatOld(File par1File)
 	{
-		if(!p_i3913_1_.exists())
+		if(!par1File.exists())
 		{
-			p_i3913_1_.mkdirs();
+			par1File.mkdirs();
 		}
-		savesDirectory = p_i3913_1_;
+		savesDirectory = par1File;
 	}
 	
 	@Override public boolean canLoadWorld(String par1Str)
@@ -25,18 +25,18 @@ public class SaveFormatOld implements ISaveFormat
 		return var2.isDirectory();
 	}
 	
-	@Override public boolean convertMapFormat(String p_75805_1_, IProgressUpdate p_75805_2_)
+	@Override public boolean convertMapFormat(String par1Str, IProgressUpdate par2IProgressUpdate)
 	{
 		return false;
 	}
 	
-	@Override public boolean deleteWorldDirectory(String p_75802_1_)
+	@Override public boolean deleteWorldDirectory(String par1Str)
 	{
-		File var2 = new File(savesDirectory, p_75802_1_);
+		File var2 = new File(savesDirectory, par1Str);
 		if(!var2.exists()) return true;
 		else
 		{
-			System.out.println("Deleting level " + p_75802_1_);
+			System.out.println("Deleting level " + par1Str);
 			for(int var3 = 1; var3 <= 5; ++var3)
 			{
 				System.out.println("Attempt " + var3 + "...");
@@ -79,14 +79,14 @@ public class SaveFormatOld implements ISaveFormat
 		return var1;
 	}
 	
-	@Override public ISaveHandler getSaveLoader(String p_75804_1_, boolean p_75804_2_)
+	@Override public ISaveHandler getSaveLoader(String par1Str, boolean par2)
 	{
-		return new SaveHandler(savesDirectory, p_75804_1_, p_75804_2_);
+		return new SaveHandler(savesDirectory, par1Str, par2);
 	}
 	
-	@Override public WorldInfo getWorldInfo(String p_75803_1_)
+	@Override public WorldInfo getWorldInfo(String par1Str)
 	{
-		File var2 = new File(savesDirectory, p_75803_1_);
+		File var2 = new File(savesDirectory, par1Str);
 		if(!var2.exists()) return null;
 		else
 		{
@@ -122,7 +122,7 @@ public class SaveFormatOld implements ISaveFormat
 		}
 	}
 	
-	@Override public boolean isOldMapFormat(String p_75801_1_)
+	@Override public boolean isOldMapFormat(String par1Str)
 	{
 		return false;
 	}
@@ -149,9 +149,9 @@ public class SaveFormatOld implements ISaveFormat
 		}
 	}
 	
-	protected static boolean deleteFiles(File[] p_75807_0_)
+	protected static boolean deleteFiles(File[] par0ArrayOfFile)
 	{
-		for(File element : p_75807_0_)
+		for(File element : par0ArrayOfFile)
 		{
 			File var2 = element;
 			System.out.println("Deleting " + var2);

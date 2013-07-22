@@ -8,15 +8,15 @@ public class NBTTagFloat extends NBTBase
 {
 	public float data;
 	
-	public NBTTagFloat(String p_i3268_1_)
+	public NBTTagFloat(String par1Str)
 	{
-		super(p_i3268_1_);
+		super(par1Str);
 	}
 	
-	public NBTTagFloat(String p_i3269_1_, float p_i3269_2_)
+	public NBTTagFloat(String par1Str, float par2)
 	{
-		super(p_i3269_1_);
-		data = p_i3269_2_;
+		super(par1Str);
+		data = par2;
 	}
 	
 	@Override public NBTBase copy()
@@ -24,11 +24,11 @@ public class NBTTagFloat extends NBTBase
 		return new NBTTagFloat(getName(), data);
 	}
 	
-	@Override public boolean equals(Object p_equals_1_)
+	@Override public boolean equals(Object par1Obj)
 	{
-		if(super.equals(p_equals_1_))
+		if(super.equals(par1Obj))
 		{
-			NBTTagFloat var2 = (NBTTagFloat) p_equals_1_;
+			NBTTagFloat var2 = (NBTTagFloat) par1Obj;
 			return data == var2.data;
 		} else return false;
 	}
@@ -43,9 +43,9 @@ public class NBTTagFloat extends NBTBase
 		return super.hashCode() ^ Float.floatToIntBits(data);
 	}
 	
-	@Override void load(DataInput p_74735_1_) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
-		data = p_74735_1_.readFloat();
+		data = par1DataInput.readFloat();
 	}
 	
 	@Override public String toString()
@@ -53,8 +53,8 @@ public class NBTTagFloat extends NBTBase
 		return "" + data;
 	}
 	
-	@Override void write(DataOutput p_74734_1_) throws IOException
+	@Override void write(DataOutput par1DataOutput) throws IOException
 	{
-		p_74734_1_.writeFloat(data);
+		par1DataOutput.writeFloat(data);
 	}
 }

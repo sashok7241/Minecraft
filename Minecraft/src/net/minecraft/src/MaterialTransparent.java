@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class MaterialTransparent extends Material
 {
-	public MaterialTransparent(MapColor p_i3879_1_)
+	public MaterialTransparent(MapColor par1MapColor)
 	{
-		super(p_i3879_1_);
+		super(par1MapColor);
 		setReplaceable();
 	}
 	

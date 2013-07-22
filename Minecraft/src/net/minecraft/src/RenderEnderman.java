@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class RenderEnderman extends RenderLiving
 {
+	private static final ResourceLocation field_110840_a = new ResourceLocation("textures/entity/enderman/enderman_eyes.png");
+	private static final ResourceLocation field_110839_f = new ResourceLocation("textures/entity/enderman/enderman.png");
 	private ModelEnderman endermanModel;
 	private Random rnd = new Random();
 	
@@ -22,6 +24,16 @@ public class RenderEnderman extends RenderLiving
 	@Override public void doRenderLiving(EntityLiving par1EntityLiving, double par2, double par4, double par6, float par8, float par9)
 	{
 		renderEnderman((EntityEnderman) par1EntityLiving, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110838_a((EntityEnderman) par1Entity);
+	}
+	
+	protected ResourceLocation func_110838_a(EntityEnderman par1EntityEnderman)
+	{
+		return field_110839_f;
 	}
 	
 	protected void renderCarrying(EntityEnderman par1EntityEnderman, float par2)
@@ -43,7 +55,7 @@ public class RenderEnderman extends RenderLiving
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var5 / 1.0F, var6 / 1.0F);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			loadTexture("/terrain.png");
+			func_110776_a(TextureMap.field_110575_b);
 			renderBlocks.renderBlockAsItem(Block.blocksList[par1EntityEnderman.getCarried()], par1EntityEnderman.getCarryingData(), 1.0F);
 			GL11.glPopMatrix();
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -63,7 +75,7 @@ public class RenderEnderman extends RenderLiving
 		super.doRenderLiving(par1EntityEnderman, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected void renderEquippedItems(EntityLiving par1EntityLivingBase, float par2)
+	@Override protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
 	{
 		renderCarrying((EntityEnderman) par1EntityLivingBase, par2);
 	}
@@ -73,7 +85,7 @@ public class RenderEnderman extends RenderLiving
 		if(par2 != 0) return -1;
 		else
 		{
-			loadTexture("/mob/enderman_eyes.png");
+			func_110776_a(field_110840_a);
 			float var4 = 1.0F;
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -97,7 +109,12 @@ public class RenderEnderman extends RenderLiving
 		}
 	}
 	
-	@Override protected int shouldRenderPass(EntityLiving par1EntityLivingBase, int par2, float par3)
+	@Override public void renderPlayer(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
+	{
+		renderEnderman((EntityEnderman) par1EntityLivingBase, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
 	{
 		return renderEyes((EntityEnderman) par1EntityLivingBase, par2, par3);
 	}

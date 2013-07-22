@@ -10,13 +10,13 @@ public class IntegratedServerListenThread extends NetworkListenThread
 	private final MemoryConnection netMemoryConnection;
 	private MemoryConnection theMemoryConnection;
 	private String field_71759_e;
-	private boolean field_71756_f = false;
+	private boolean field_71756_f;
 	private ServerListenThread myServerListenThread;
 	
-	public IntegratedServerListenThread(IntegratedServer p_i3121_1_) throws IOException
+	public IntegratedServerListenThread(IntegratedServer par1IntegratedServer) throws IOException
 	{
-		super(p_i3121_1_);
-		netMemoryConnection = new MemoryConnection(p_i3121_1_.getLogAgent(), (NetHandler) null);
+		super(par1IntegratedServer);
+		netMemoryConnection = new MemoryConnection(par1IntegratedServer.getLogAgent(), (NetHandler) null);
 	}
 	
 	public void func_71754_a(MemoryConnection par1MemoryConnection, String par2Str)
@@ -50,7 +50,7 @@ public class IntegratedServerListenThread extends NetworkListenThread
 				throw var3;
 			}
 		}
-		return myServerListenThread.getInetAddress().getHostAddress() + ":" + myServerListenThread.getMyPort();
+		return String.valueOf(myServerListenThread.getMyPort());
 	}
 	
 	public IntegratedServer getIntegratedServer()

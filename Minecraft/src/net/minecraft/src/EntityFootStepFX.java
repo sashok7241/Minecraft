@@ -3,14 +3,15 @@ package net.minecraft.src;
 
 public class EntityFootStepFX extends EntityFX
 {
-	private int field_70576_a = 0;
-	private int field_70578_aq = 0;
-	private RenderEngine currentFootSteps;
+	private static final ResourceLocation field_110126_a = new ResourceLocation("textures/particle/footprint.png");
+	private int field_70576_a;
+	private int field_70578_aq;
+	private TextureManager currentFootSteps;
 	
-	public EntityFootStepFX(RenderEngine p_i3168_1_, World p_i3168_2_, double p_i3168_3_, double p_i3168_5_, double p_i3168_7_)
+	public EntityFootStepFX(TextureManager par1TextureManager, World par2World, double par3, double par5, double par7)
 	{
-		super(p_i3168_2_, p_i3168_3_, p_i3168_5_, p_i3168_7_, 0.0D, 0.0D, 0.0D);
-		currentFootSteps = p_i3168_1_;
+		super(par2World, par3, par5, par7, 0.0D, 0.0D, 0.0D);
+		currentFootSteps = par1TextureManager;
 		motionX = motionY = motionZ = 0.0D;
 		field_70578_aq = 200;
 	}
@@ -45,7 +46,7 @@ public class EntityFootStepFX extends EntityFX
 		float var12 = (float) (posY - interpPosY);
 		float var13 = (float) (posZ - interpPosZ);
 		float var14 = worldObj.getLightBrightness(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ));
-		currentFootSteps.bindTexture("/misc/footprint.png");
+		currentFootSteps.func_110577_a(field_110126_a);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		par1Tessellator.startDrawingQuads();

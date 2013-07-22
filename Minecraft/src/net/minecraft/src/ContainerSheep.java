@@ -4,12 +4,12 @@ class ContainerSheep extends Container
 {
 	final EntitySheep field_90034_a;
 	
-	ContainerSheep(EntitySheep p_i7007_1_)
+	ContainerSheep(EntitySheep par1EntitySheep)
 	{
-		field_90034_a = p_i7007_1_;
+		field_90034_a = par1EntitySheep;
 	}
 	
-	@Override public boolean canInteractWith(EntityPlayer p_75145_1_)
+	@Override public boolean canInteractWith(EntityPlayer par1EntityPlayer)
 	{
 		return false;
 	}

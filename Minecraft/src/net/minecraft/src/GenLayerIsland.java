@@ -2,25 +2,25 @@ package net.minecraft.src;
 
 public class GenLayerIsland extends GenLayer
 {
-	public GenLayerIsland(long p_i3890_1_)
+	public GenLayerIsland(long par1)
 	{
-		super(p_i3890_1_);
+		super(par1);
 	}
 	
-	@Override public int[] getInts(int p_75904_1_, int p_75904_2_, int p_75904_3_, int p_75904_4_)
+	@Override public int[] getInts(int par1, int par2, int par3, int par4)
 	{
-		int[] var5 = IntCache.getIntCache(p_75904_3_ * p_75904_4_);
-		for(int var6 = 0; var6 < p_75904_4_; ++var6)
+		int[] var5 = IntCache.getIntCache(par3 * par4);
+		for(int var6 = 0; var6 < par4; ++var6)
 		{
-			for(int var7 = 0; var7 < p_75904_3_; ++var7)
+			for(int var7 = 0; var7 < par3; ++var7)
 			{
-				initChunkSeed(p_75904_1_ + var7, p_75904_2_ + var6);
-				var5[var7 + var6 * p_75904_3_] = nextInt(10) == 0 ? 1 : 0;
+				initChunkSeed(par1 + var7, par2 + var6);
+				var5[var7 + var6 * par3] = nextInt(10) == 0 ? 1 : 0;
 			}
 		}
-		if(p_75904_1_ > -p_75904_3_ && p_75904_1_ <= 0 && p_75904_2_ > -p_75904_4_ && p_75904_2_ <= 0)
+		if(par1 > -par3 && par1 <= 0 && par2 > -par4 && par2 <= 0)
 		{
-			var5[-p_75904_1_ + -p_75904_2_ * p_75904_3_] = 1;
+			var5[-par1 + -par2 * par3] = 1;
 		}
 		return var5;
 	}

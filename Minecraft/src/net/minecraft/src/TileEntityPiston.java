@@ -19,13 +19,13 @@ public class TileEntityPiston extends TileEntity
 	{
 	}
 	
-	public TileEntityPiston(int p_i4028_1_, int p_i4028_2_, int p_i4028_3_, boolean p_i4028_4_, boolean p_i4028_5_)
+	public TileEntityPiston(int par1, int par2, int par3, boolean par4, boolean par5)
 	{
-		storedBlockID = p_i4028_1_;
-		storedMetadata = p_i4028_2_;
-		storedOrientation = p_i4028_3_;
-		extending = p_i4028_4_;
-		shouldHeadBeRendered = p_i4028_5_;
+		storedBlockID = par1;
+		storedMetadata = par2;
+		storedOrientation = par3;
+		extending = par4;
+		shouldHeadBeRendered = par5;
 	}
 	
 	public void clearPistonTileEntity()
@@ -68,13 +68,13 @@ public class TileEntityPiston extends TileEntity
 		return storedOrientation;
 	}
 	
-	public float getProgress(float p_70333_1_)
+	public float getProgress(float par1)
 	{
-		if(p_70333_1_ > 1.0F)
+		if(par1 > 1.0F)
 		{
-			p_70333_1_ = 1.0F;
+			par1 = 1.0F;
 		}
-		return lastProgress + (progress - lastProgress) * p_70333_1_;
+		return lastProgress + (progress - lastProgress) * par1;
 	}
 	
 	public int getStoredBlockID()
@@ -87,14 +87,14 @@ public class TileEntityPiston extends TileEntity
 		return extending;
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
+	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readFromNBT(p_70307_1_);
-		storedBlockID = p_70307_1_.getInteger("blockId");
-		storedMetadata = p_70307_1_.getInteger("blockData");
-		storedOrientation = p_70307_1_.getInteger("facing");
-		lastProgress = progress = p_70307_1_.getFloat("progress");
-		extending = p_70307_1_.getBoolean("extending");
+		super.readFromNBT(par1NBTTagCompound);
+		storedBlockID = par1NBTTagCompound.getInteger("blockId");
+		storedMetadata = par1NBTTagCompound.getInteger("blockData");
+		storedOrientation = par1NBTTagCompound.getInteger("facing");
+		lastProgress = progress = par1NBTTagCompound.getFloat("progress");
+		extending = par1NBTTagCompound.getBoolean("extending");
 	}
 	
 	public boolean shouldRenderHead()
@@ -129,16 +129,16 @@ public class TileEntityPiston extends TileEntity
 		}
 	}
 	
-	private void updatePushedObjects(float p_70335_1_, float p_70335_2_)
+	private void updatePushedObjects(float par1, float par2)
 	{
 		if(extending)
 		{
-			p_70335_1_ = 1.0F - p_70335_1_;
+			par1 = 1.0F - par1;
 		} else
 		{
-			--p_70335_1_;
+			--par1;
 		}
-		AxisAlignedBB var3 = Block.pistonMoving.getAxisAlignedBB(worldObj, xCoord, yCoord, zCoord, storedBlockID, p_70335_1_, storedOrientation);
+		AxisAlignedBB var3 = Block.pistonMoving.getAxisAlignedBB(worldObj, xCoord, yCoord, zCoord, storedBlockID, par1, storedOrientation);
 		if(var3 != null)
 		{
 			List var4 = worldObj.getEntitiesWithinAABBExcludingEntity((Entity) null, var3);
@@ -149,20 +149,20 @@ public class TileEntityPiston extends TileEntity
 				while(var5.hasNext())
 				{
 					Entity var6 = (Entity) var5.next();
-					var6.moveEntity(p_70335_2_ * Facing.offsetsXForSide[storedOrientation], p_70335_2_ * Facing.offsetsYForSide[storedOrientation], p_70335_2_ * Facing.offsetsZForSide[storedOrientation]);
+					var6.moveEntity(par2 * Facing.offsetsXForSide[storedOrientation], par2 * Facing.offsetsYForSide[storedOrientation], par2 * Facing.offsetsZForSide[storedOrientation]);
 				}
 				pushedObjects.clear();
 			}
 		}
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
+	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeToNBT(p_70310_1_);
-		p_70310_1_.setInteger("blockId", storedBlockID);
-		p_70310_1_.setInteger("blockData", storedMetadata);
-		p_70310_1_.setInteger("facing", storedOrientation);
-		p_70310_1_.setFloat("progress", lastProgress);
-		p_70310_1_.setBoolean("extending", extending);
+		super.writeToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setInteger("blockId", storedBlockID);
+		par1NBTTagCompound.setInteger("blockData", storedMetadata);
+		par1NBTTagCompound.setInteger("facing", storedOrientation);
+		par1NBTTagCompound.setFloat("progress", lastProgress);
+		par1NBTTagCompound.setBoolean("extending", extending);
 	}
 }

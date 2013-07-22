@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet26EntityExpOrb extends Packet
@@ -16,13 +16,13 @@ public class Packet26EntityExpOrb extends Packet
 	{
 	}
 	
-	public Packet26EntityExpOrb(EntityXPOrb p_i3291_1_)
+	public Packet26EntityExpOrb(EntityXPOrb par1EntityXPOrb)
 	{
-		entityId = p_i3291_1_.entityId;
-		posX = MathHelper.floor_double(p_i3291_1_.posX * 32.0D);
-		posY = MathHelper.floor_double(p_i3291_1_.posY * 32.0D);
-		posZ = MathHelper.floor_double(p_i3291_1_.posZ * 32.0D);
-		xpValue = p_i3291_1_.getXpValue();
+		entityId = par1EntityXPOrb.entityId;
+		posX = MathHelper.floor_double(par1EntityXPOrb.posX * 32.0D);
+		posY = MathHelper.floor_double(par1EntityXPOrb.posY * 32.0D);
+		posZ = MathHelper.floor_double(par1EntityXPOrb.posZ * 32.0D);
+		xpValue = par1EntityXPOrb.getXpValue();
 	}
 	
 	@Override public int getPacketSize()
@@ -30,26 +30,26 @@ public class Packet26EntityExpOrb extends Packet
 		return 18;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleEntityExpOrb(this);
+		par1NetHandler.handleEntityExpOrb(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = p_73267_1_.readInt();
-		posX = p_73267_1_.readInt();
-		posY = p_73267_1_.readInt();
-		posZ = p_73267_1_.readInt();
-		xpValue = p_73267_1_.readShort();
+		entityId = par1DataInput.readInt();
+		posX = par1DataInput.readInt();
+		posY = par1DataInput.readInt();
+		posZ = par1DataInput.readInt();
+		xpValue = par1DataInput.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(entityId);
-		p_73273_1_.writeInt(posX);
-		p_73273_1_.writeInt(posY);
-		p_73273_1_.writeInt(posZ);
-		p_73273_1_.writeShort(xpValue);
+		par1DataOutput.writeInt(entityId);
+		par1DataOutput.writeInt(posX);
+		par1DataOutput.writeInt(posY);
+		par1DataOutput.writeInt(posZ);
+		par1DataOutput.writeShort(xpValue);
 	}
 }

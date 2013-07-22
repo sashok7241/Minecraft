@@ -12,20 +12,20 @@ public class PropertyManager
 	private final ILogAgent logger;
 	private final File associatedFile;
 	
-	public PropertyManager(File p_i11028_1_, ILogAgent p_i11028_2_)
+	public PropertyManager(File par1File, ILogAgent par2ILogAgent)
 	{
-		associatedFile = p_i11028_1_;
-		logger = p_i11028_2_;
-		if(p_i11028_1_.exists())
+		associatedFile = par1File;
+		logger = par2ILogAgent;
+		if(par1File.exists())
 		{
 			FileInputStream var3 = null;
 			try
 			{
-				var3 = new FileInputStream(p_i11028_1_);
+				var3 = new FileInputStream(par1File);
 				properties.load(var3);
 			} catch(Exception var13)
 			{
-				p_i11028_2_.logWarningException("Failed to load " + p_i11028_1_, var13);
+				par2ILogAgent.logWarningException("Failed to load " + par1File, var13);
 				logMessageAndSave();
 			} finally
 			{
@@ -42,32 +42,32 @@ public class PropertyManager
 			}
 		} else
 		{
-			p_i11028_2_.logWarning(p_i11028_1_ + " does not exist");
+			par2ILogAgent.logWarning(par1File + " does not exist");
 			logMessageAndSave();
 		}
 	}
 	
-	public boolean getBooleanProperty(String p_73670_1_, boolean p_73670_2_)
+	public boolean getBooleanProperty(String par1Str, boolean par2)
 	{
 		try
 		{
-			return Boolean.parseBoolean(getProperty(p_73670_1_, "" + p_73670_2_));
+			return Boolean.parseBoolean(getProperty(par1Str, "" + par2));
 		} catch(Exception var4)
 		{
-			properties.setProperty(p_73670_1_, "" + p_73670_2_);
-			return p_73670_2_;
+			properties.setProperty(par1Str, "" + par2);
+			return par2;
 		}
 	}
 	
-	public int getIntProperty(String p_73669_1_, int p_73669_2_)
+	public int getIntProperty(String par1Str, int par2)
 	{
 		try
 		{
-			return Integer.parseInt(getProperty(p_73669_1_, "" + p_73669_2_));
+			return Integer.parseInt(getProperty(par1Str, "" + par2));
 		} catch(Exception var4)
 		{
-			properties.setProperty(p_73669_1_, "" + p_73669_2_);
-			return p_73669_2_;
+			properties.setProperty(par1Str, "" + par2);
+			return par2;
 		}
 	}
 	
@@ -76,14 +76,14 @@ public class PropertyManager
 		return associatedFile;
 	}
 	
-	public String getProperty(String p_73671_1_, String p_73671_2_)
+	public String getProperty(String par1Str, String par2Str)
 	{
-		if(!properties.containsKey(p_73671_1_))
+		if(!properties.containsKey(par1Str))
 		{
-			properties.setProperty(p_73671_1_, p_73671_2_);
+			properties.setProperty(par1Str, par2Str);
 			saveProperties();
 		}
-		return properties.getProperty(p_73671_1_, p_73671_2_);
+		return properties.getProperty(par1Str, par2Str);
 	}
 	
 	public void logMessageAndSave()
@@ -118,8 +118,8 @@ public class PropertyManager
 		}
 	}
 	
-	public void setProperty(String p_73667_1_, Object p_73667_2_)
+	public void setProperty(String par1Str, Object par2Obj)
 	{
-		properties.setProperty(p_73667_1_, "" + p_73667_2_);
+		properties.setProperty(par1Str, "" + par2Obj);
 	}
 }

@@ -8,16 +8,16 @@ public class EntitySorter implements Comparator
 	private double entityPosY;
 	private double entityPosZ;
 	
-	public EntitySorter(Entity p_i3189_1_)
+	public EntitySorter(Entity par1Entity)
 	{
-		entityPosX = -p_i3189_1_.posX;
-		entityPosY = -p_i3189_1_.posY;
-		entityPosZ = -p_i3189_1_.posZ;
+		entityPosX = -par1Entity.posX;
+		entityPosY = -par1Entity.posY;
+		entityPosZ = -par1Entity.posZ;
 	}
 	
-	@Override public int compare(Object p_compare_1_, Object p_compare_2_)
+	@Override public int compare(Object par1Obj, Object par2Obj)
 	{
-		return sortByDistanceToEntity((WorldRenderer) p_compare_1_, (WorldRenderer) p_compare_2_);
+		return sortByDistanceToEntity((WorldRenderer) par1Obj, (WorldRenderer) par2Obj);
 	}
 	
 	public int sortByDistanceToEntity(WorldRenderer par1WorldRenderer, WorldRenderer par2WorldRenderer)

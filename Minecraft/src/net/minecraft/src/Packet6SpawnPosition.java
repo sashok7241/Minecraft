@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet6SpawnPosition extends Packet
@@ -14,11 +14,11 @@ public class Packet6SpawnPosition extends Packet
 	{
 	}
 	
-	public Packet6SpawnPosition(int p_i3354_1_, int p_i3354_2_, int p_i3354_3_)
+	public Packet6SpawnPosition(int par1, int par2, int par3)
 	{
-		xPosition = p_i3354_1_;
-		yPosition = p_i3354_2_;
-		zPosition = p_i3354_3_;
+		xPosition = par1;
+		yPosition = par2;
+		zPosition = par3;
 	}
 	
 	@Override public boolean canProcessAsync()
@@ -26,7 +26,7 @@ public class Packet6SpawnPosition extends Packet
 		return false;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
+	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
 	{
 		return true;
 	}
@@ -41,22 +41,22 @@ public class Packet6SpawnPosition extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleSpawnPosition(this);
+		par1NetHandler.handleSpawnPosition(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xPosition = p_73267_1_.readInt();
-		yPosition = p_73267_1_.readInt();
-		zPosition = p_73267_1_.readInt();
+		xPosition = par1DataInput.readInt();
+		yPosition = par1DataInput.readInt();
+		zPosition = par1DataInput.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(xPosition);
-		p_73273_1_.writeInt(yPosition);
-		p_73273_1_.writeInt(zPosition);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeInt(yPosition);
+		par1DataOutput.writeInt(zPosition);
 	}
 }

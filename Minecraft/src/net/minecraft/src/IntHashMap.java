@@ -12,21 +12,21 @@ public class IntHashMap
 	private transient volatile int versionStamp;
 	private Set keySet = new HashSet();
 	
-	public void addKey(int p_76038_1_, Object p_76038_2_)
+	public void addKey(int par1, Object par2Obj)
 	{
-		keySet.add(Integer.valueOf(p_76038_1_));
-		int var3 = computeHash(p_76038_1_);
+		keySet.add(Integer.valueOf(par1));
+		int var3 = computeHash(par1);
 		int var4 = getSlotIndex(var3, slots.length);
 		for(IntHashMapEntry var5 = slots[var4]; var5 != null; var5 = var5.nextEntry)
 		{
-			if(var5.hashEntry == p_76038_1_)
+			if(var5.hashEntry == par1)
 			{
-				var5.valueEntry = p_76038_2_;
+				var5.valueEntry = par2Obj;
 				return;
 			}
 		}
 		++versionStamp;
-		insert(var3, p_76038_1_, p_76038_2_, var4);
+		insert(var3, par1, par2Obj, var4);
 	}
 	
 	public void clearMap()
@@ -40,15 +40,15 @@ public class IntHashMap
 		count = 0;
 	}
 	
-	public boolean containsItem(int p_76037_1_)
+	public boolean containsItem(int par1)
 	{
-		return lookupEntry(p_76037_1_) != null;
+		return lookupEntry(par1) != null;
 	}
 	
-	private void copyTo(IntHashMapEntry[] p_76048_1_)
+	private void copyTo(IntHashMapEntry[] par1ArrayOfIntHashMapEntry)
 	{
 		IntHashMapEntry[] var2 = slots;
-		int var3 = p_76048_1_.length;
+		int var3 = par1ArrayOfIntHashMapEntry.length;
 		for(int var4 = 0; var4 < var2.length; ++var4)
 		{
 			IntHashMapEntry var5 = var2[var4];
@@ -60,20 +60,15 @@ public class IntHashMap
 				{
 					var6 = var5.nextEntry;
 					int var7 = getSlotIndex(var5.slotHash, var3);
-					var5.nextEntry = p_76048_1_[var7];
-					p_76048_1_[var7] = var5;
+					var5.nextEntry = par1ArrayOfIntHashMapEntry[var7];
+					par1ArrayOfIntHashMapEntry[var7] = var5;
 					var5 = var6;
 				} while(var6 != null);
 			}
 		}
 	}
 	
-	public Set getKeySet()
-	{
-		return keySet;
-	}
-	
-	private void grow(int p_76047_1_)
+	private void grow(int par1)
 	{
 		IntHashMapEntry[] var2 = slots;
 		int var3 = var2.length;
@@ -82,46 +77,46 @@ public class IntHashMap
 			threshold = Integer.MAX_VALUE;
 		} else
 		{
-			IntHashMapEntry[] var4 = new IntHashMapEntry[p_76047_1_];
+			IntHashMapEntry[] var4 = new IntHashMapEntry[par1];
 			copyTo(var4);
 			slots = var4;
-			threshold = (int) (p_76047_1_ * growFactor);
+			threshold = (int) (par1 * growFactor);
 		}
 	}
 	
-	private void insert(int p_76040_1_, int p_76040_2_, Object p_76040_3_, int p_76040_4_)
+	private void insert(int par1, int par2, Object par3Obj, int par4)
 	{
-		IntHashMapEntry var5 = slots[p_76040_4_];
-		slots[p_76040_4_] = new IntHashMapEntry(p_76040_1_, p_76040_2_, p_76040_3_, var5);
+		IntHashMapEntry var5 = slots[par4];
+		slots[par4] = new IntHashMapEntry(par1, par2, par3Obj, var5);
 		if(count++ >= threshold)
 		{
 			grow(2 * slots.length);
 		}
 	}
 	
-	public Object lookup(int p_76041_1_)
+	public Object lookup(int par1)
 	{
-		int var2 = computeHash(p_76041_1_);
+		int var2 = computeHash(par1);
 		for(IntHashMapEntry var3 = slots[getSlotIndex(var2, slots.length)]; var3 != null; var3 = var3.nextEntry)
 		{
-			if(var3.hashEntry == p_76041_1_) return var3.valueEntry;
+			if(var3.hashEntry == par1) return var3.valueEntry;
 		}
 		return null;
 	}
 	
-	final IntHashMapEntry lookupEntry(int p_76045_1_)
+	final IntHashMapEntry lookupEntry(int par1)
 	{
-		int var2 = computeHash(p_76045_1_);
+		int var2 = computeHash(par1);
 		for(IntHashMapEntry var3 = slots[getSlotIndex(var2, slots.length)]; var3 != null; var3 = var3.nextEntry)
 		{
-			if(var3.hashEntry == p_76045_1_) return var3;
+			if(var3.hashEntry == par1) return var3;
 		}
 		return null;
 	}
 	
-	final IntHashMapEntry removeEntry(int p_76036_1_)
+	final IntHashMapEntry removeEntry(int par1)
 	{
-		int var2 = computeHash(p_76036_1_);
+		int var2 = computeHash(par1);
 		int var3 = getSlotIndex(var2, slots.length);
 		IntHashMapEntry var4 = slots[var3];
 		IntHashMapEntry var5;
@@ -129,7 +124,7 @@ public class IntHashMap
 		for(var5 = var4; var5 != null; var5 = var6)
 		{
 			var6 = var5.nextEntry;
-			if(var5.hashEntry == p_76036_1_)
+			if(var5.hashEntry == par1)
 			{
 				++versionStamp;
 				--count;
@@ -147,26 +142,26 @@ public class IntHashMap
 		return var5;
 	}
 	
-	public Object removeObject(int p_76049_1_)
+	public Object removeObject(int par1)
 	{
-		keySet.remove(Integer.valueOf(p_76049_1_));
-		IntHashMapEntry var2 = removeEntry(p_76049_1_);
+		keySet.remove(Integer.valueOf(par1));
+		IntHashMapEntry var2 = removeEntry(par1);
 		return var2 == null ? null : var2.valueEntry;
 	}
 	
-	private static int computeHash(int p_76044_0_)
+	private static int computeHash(int par0)
 	{
-		p_76044_0_ ^= p_76044_0_ >>> 20 ^ p_76044_0_ >>> 12;
-		return p_76044_0_ ^ p_76044_0_ >>> 7 ^ p_76044_0_ >>> 4;
+		par0 ^= par0 >>> 20 ^ par0 >>> 12;
+		return par0 ^ par0 >>> 7 ^ par0 >>> 4;
 	}
 	
-	static int getHash(int p_76042_0_)
+	static int getHash(int par0)
 	{
-		return computeHash(p_76042_0_);
+		return computeHash(par0);
 	}
 	
-	private static int getSlotIndex(int p_76043_0_, int p_76043_1_)
+	private static int getSlotIndex(int par0, int par1)
 	{
-		return p_76043_0_ & p_76043_1_ - 1;
+		return par0 & par1 - 1;
 	}
 }

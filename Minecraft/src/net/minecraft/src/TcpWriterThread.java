@@ -6,10 +6,10 @@ class TcpWriterThread extends Thread
 {
 	final TcpConnection theTcpConnection;
 	
-	TcpWriterThread(TcpConnection p_i3284_1_, String p_i3284_2_)
+	TcpWriterThread(TcpConnection par1TcpConnection, String par2Str)
 	{
-		super(p_i3284_2_);
-		theTcpConnection = p_i3284_1_;
+		super(par2Str);
+		theTcpConnection = par1TcpConnection;
 	}
 	
 	@Override public void run()

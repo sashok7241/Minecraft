@@ -59,7 +59,7 @@ public class ModelWither extends ModelBase
 		}
 	}
 	
-	@Override public void setLivingAnimations(EntityLiving par1EntityLivingBase, float par2, float par3, float par4)
+	@Override public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
 		EntityWither var5 = (EntityWither) par1EntityLivingBase;
 		for(int var6 = 1; var6 < 3; ++var6)

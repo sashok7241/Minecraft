@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class ItemPotion extends Item
 {
@@ -15,9 +16,9 @@ public class ItemPotion extends Item
 	private Icon field_94590_d;
 	private Icon field_94592_ct;
 	
-	public ItemPotion(int p_i3675_1_)
+	public ItemPotion(int par1)
 	{
-		super(p_i3675_1_);
+		super(par1);
 		setMaxStackSize(1);
 		setHasSubtypes(true);
 		setMaxDamage(0);
@@ -29,33 +30,76 @@ public class ItemPotion extends Item
 		if(par1ItemStack.getItemDamage() != 0)
 		{
 			List var5 = Item.potion.getEffects(par1ItemStack);
+			HashMultimap var6 = HashMultimap.create();
+			Iterator var16;
 			if(var5 != null && !var5.isEmpty())
 			{
-				Iterator var9 = var5.iterator();
-				while(var9.hasNext())
+				var16 = var5.iterator();
+				while(var16.hasNext())
 				{
-					PotionEffect var7 = (PotionEffect) var9.next();
-					String var8 = StatCollector.translateToLocal(var7.getEffectName()).trim();
-					if(var7.getAmplifier() > 0)
+					PotionEffect var8 = (PotionEffect) var16.next();
+					String var9 = StatCollector.translateToLocal(var8.getEffectName()).trim();
+					Potion var10 = Potion.potionTypes[var8.getPotionID()];
+					Map var11 = var10.func_111186_k();
+					if(var11 != null && var11.size() > 0)
 					{
-						var8 = var8 + " " + StatCollector.translateToLocal("potion.potency." + var7.getAmplifier()).trim();
+						Iterator var12 = var11.entrySet().iterator();
+						while(var12.hasNext())
+						{
+							Entry var13 = (Entry) var12.next();
+							AttributeModifier var14 = (AttributeModifier) var13.getValue();
+							AttributeModifier var15 = new AttributeModifier(var14.func_111166_b(), var10.func_111183_a(var8.getAmplifier(), var14), var14.func_111169_c());
+							var6.put(((Attribute) var13.getKey()).func_111108_a(), var15);
+						}
 					}
-					if(var7.getDuration() > 20)
+					if(var8.getAmplifier() > 0)
 					{
-						var8 = var8 + " (" + Potion.getDurationString(var7) + ")";
+						var9 = var9 + " " + StatCollector.translateToLocal("potion.potency." + var8.getAmplifier()).trim();
 					}
-					if(Potion.potionTypes[var7.getPotionID()].isBadEffect())
+					if(var8.getDuration() > 20)
 					{
-						par3List.add(EnumChatFormatting.RED + var8);
+						var9 = var9 + " (" + Potion.getDurationString(var8) + ")";
+					}
+					if(var10.isBadEffect())
+					{
+						par3List.add(EnumChatFormatting.RED + var9);
 					} else
 					{
-						par3List.add(EnumChatFormatting.GRAY + var8);
+						par3List.add(EnumChatFormatting.GRAY + var9);
 					}
 				}
 			} else
 			{
-				String var6 = StatCollector.translateToLocal("potion.empty").trim();
-				par3List.add(EnumChatFormatting.GRAY + var6);
+				String var7 = StatCollector.translateToLocal("potion.empty").trim();
+				par3List.add(EnumChatFormatting.GRAY + var7);
+			}
+			if(!var6.isEmpty())
+			{
+				par3List.add("");
+				par3List.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("potion.effects.whenDrank"));
+				var16 = var6.entries().iterator();
+				while(var16.hasNext())
+				{
+					Entry var17 = (Entry) var16.next();
+					AttributeModifier var18 = (AttributeModifier) var17.getValue();
+					double var19 = var18.func_111164_d();
+					double var20;
+					if(var18.func_111169_c() != 1 && var18.func_111169_c() != 2)
+					{
+						var20 = var18.func_111164_d();
+					} else
+					{
+						var20 = var18.func_111164_d() * 100.0D;
+					}
+					if(var19 > 0.0D)
+					{
+						par3List.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus." + var18.func_111169_c(), new Object[] { ItemStack.field_111284_a.format(var20), StatCollector.translateToLocal("attribute.name." + (String) var17.getKey()) }));
+					} else if(var19 < 0.0D)
+					{
+						var20 *= -1.0D;
+						par3List.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("attribute.modifier.take." + var18.func_111169_c(), new Object[] { ItemStack.field_111284_a.format(var20), StatCollector.translateToLocal("attribute.name." + (String) var17.getKey()) }));
+					}
+				}
 			}
 		}
 	}
@@ -70,23 +114,23 @@ public class ItemPotion extends Item
 		return par2 > 0 ? 16777215 : getColorFromDamage(par1ItemStack.getItemDamage());
 	}
 	
-	public List getEffects(int p_77834_1_)
+	public List getEffects(int par1)
 	{
-		List var2 = (List) effectCache.get(Integer.valueOf(p_77834_1_));
+		List var2 = (List) effectCache.get(Integer.valueOf(par1));
 		if(var2 == null)
 		{
-			var2 = PotionHelper.getPotionEffects(p_77834_1_, false);
-			effectCache.put(Integer.valueOf(p_77834_1_), var2);
+			var2 = PotionHelper.getPotionEffects(par1, false);
+			effectCache.put(Integer.valueOf(par1), var2);
 		}
 		return var2;
 	}
 	
-	public List getEffects(ItemStack p_77832_1_)
+	public List getEffects(ItemStack par1ItemStack)
 	{
-		if(p_77832_1_.hasTagCompound() && p_77832_1_.getTagCompound().hasKey("CustomPotionEffects"))
+		if(par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("CustomPotionEffects"))
 		{
 			ArrayList var6 = new ArrayList();
-			NBTTagList var3 = p_77832_1_.getTagCompound().getTagList("CustomPotionEffects");
+			NBTTagList var3 = par1ItemStack.getTagCompound().getTagList("CustomPotionEffects");
 			for(int var4 = 0; var4 < var3.tagCount(); ++var4)
 			{
 				NBTTagCompound var5 = (NBTTagCompound) var3.tagAt(var4);
@@ -95,11 +139,11 @@ public class ItemPotion extends Item
 			return var6;
 		} else
 		{
-			List var2 = (List) effectCache.get(Integer.valueOf(p_77832_1_.getItemDamage()));
+			List var2 = (List) effectCache.get(Integer.valueOf(par1ItemStack.getItemDamage()));
 			if(var2 == null)
 			{
-				var2 = PotionHelper.getPotionEffects(p_77832_1_.getItemDamage(), false);
-				effectCache.put(Integer.valueOf(p_77832_1_.getItemDamage()), var2);
+				var2 = PotionHelper.getPotionEffects(par1ItemStack.getItemDamage(), false);
+				effectCache.put(Integer.valueOf(par1ItemStack.getItemDamage()), var2);
 			}
 			return var2;
 		}
@@ -115,17 +159,17 @@ public class ItemPotion extends Item
 		return par2 == 0 ? field_94592_ct : super.getIconFromDamageForRenderPass(par1, par2);
 	}
 	
-	@Override public String getItemDisplayName(ItemStack p_77628_1_)
+	@Override public String getItemDisplayName(ItemStack par1ItemStack)
 	{
-		if(p_77628_1_.getItemDamage() == 0) return StatCollector.translateToLocal("item.emptyPotion.name").trim();
+		if(par1ItemStack.getItemDamage() == 0) return StatCollector.translateToLocal("item.emptyPotion.name").trim();
 		else
 		{
 			String var2 = "";
-			if(isSplash(p_77628_1_.getItemDamage()))
+			if(isSplash(par1ItemStack.getItemDamage()))
 			{
 				var2 = StatCollector.translateToLocal("potion.prefix.grenade").trim() + " ";
 			}
-			List var3 = Item.potion.getEffects(p_77628_1_);
+			List var3 = Item.potion.getEffects(par1ItemStack);
 			String var4;
 			if(var3 != null && !var3.isEmpty())
 			{
@@ -134,18 +178,18 @@ public class ItemPotion extends Item
 				return var2 + StatCollector.translateToLocal(var4).trim();
 			} else
 			{
-				var4 = PotionHelper.func_77905_c(p_77628_1_.getItemDamage());
-				return StatCollector.translateToLocal(var4).trim() + " " + super.getItemDisplayName(p_77628_1_);
+				var4 = PotionHelper.func_77905_c(par1ItemStack.getItemDamage());
+				return StatCollector.translateToLocal(var4).trim() + " " + super.getItemDisplayName(par1ItemStack);
 			}
 		}
 	}
 	
-	@Override public EnumAction getItemUseAction(ItemStack p_77661_1_)
+	@Override public EnumAction getItemUseAction(ItemStack par1ItemStack)
 	{
 		return EnumAction.drink;
 	}
 	
-	@Override public int getMaxItemUseDuration(ItemStack p_77626_1_)
+	@Override public int getMaxItemUseDuration(ItemStack par1ItemStack)
 	{
 		return 32;
 	}
@@ -220,64 +264,64 @@ public class ItemPotion extends Item
 		} else return false;
 	}
 	
-	@Override public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
+	@Override public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if(!p_77654_3_.capabilities.isCreativeMode)
+		if(!par3EntityPlayer.capabilities.isCreativeMode)
 		{
-			--p_77654_1_.stackSize;
+			--par1ItemStack.stackSize;
 		}
-		if(!p_77654_2_.isRemote)
+		if(!par2World.isRemote)
 		{
-			List var4 = this.getEffects(p_77654_1_);
+			List var4 = this.getEffects(par1ItemStack);
 			if(var4 != null)
 			{
 				Iterator var5 = var4.iterator();
 				while(var5.hasNext())
 				{
 					PotionEffect var6 = (PotionEffect) var5.next();
-					p_77654_3_.addPotionEffect(new PotionEffect(var6));
+					par3EntityPlayer.addPotionEffect(new PotionEffect(var6));
 				}
 			}
 		}
-		if(!p_77654_3_.capabilities.isCreativeMode)
+		if(!par3EntityPlayer.capabilities.isCreativeMode)
 		{
-			if(p_77654_1_.stackSize <= 0) return new ItemStack(Item.glassBottle);
-			p_77654_3_.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle));
+			if(par1ItemStack.stackSize <= 0) return new ItemStack(Item.glassBottle);
+			par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(Item.glassBottle));
 		}
-		return p_77654_1_;
+		return par1ItemStack;
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if(isSplash(p_77659_1_.getItemDamage()))
+		if(isSplash(par1ItemStack.getItemDamage()))
 		{
-			if(!p_77659_3_.capabilities.isCreativeMode)
+			if(!par3EntityPlayer.capabilities.isCreativeMode)
 			{
-				--p_77659_1_.stackSize;
+				--par1ItemStack.stackSize;
 			}
-			p_77659_2_.playSoundAtEntity(p_77659_3_, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-			if(!p_77659_2_.isRemote)
+			par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+			if(!par2World.isRemote)
 			{
-				p_77659_2_.spawnEntityInWorld(new EntityPotion(p_77659_2_, p_77659_3_, p_77659_1_));
+				par2World.spawnEntityInWorld(new EntityPotion(par2World, par3EntityPlayer, par1ItemStack));
 			}
-			return p_77659_1_;
+			return par1ItemStack;
 		} else
 		{
-			p_77659_3_.setItemInUse(p_77659_1_, getMaxItemUseDuration(p_77659_1_));
-			return p_77659_1_;
+			par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
+			return par1ItemStack;
 		}
 	}
 	
-	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
 		return false;
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		field_94590_d = par1IconRegister.registerIcon("potion");
-		field_94591_c = par1IconRegister.registerIcon("potion_splash");
-		field_94592_ct = par1IconRegister.registerIcon("potion_contents");
+		field_94590_d = par1IconRegister.registerIcon(func_111208_A() + "_" + "bottle_drinkable");
+		field_94591_c = par1IconRegister.registerIcon(func_111208_A() + "_" + "bottle_splash");
+		field_94592_ct = par1IconRegister.registerIcon(func_111208_A() + "_" + "overlay");
 	}
 	
 	@Override public boolean requiresMultipleRenderPasses()
@@ -287,11 +331,11 @@ public class ItemPotion extends Item
 	
 	public static Icon func_94589_d(String par0Str)
 	{
-		return par0Str == "potion" ? Item.potion.field_94590_d : par0Str == "potion_splash" ? Item.potion.field_94591_c : par0Str == "potion_contents" ? Item.potion.field_94592_ct : null;
+		return par0Str.equals("bottle_drinkable") ? Item.potion.field_94590_d : par0Str.equals("bottle_splash") ? Item.potion.field_94591_c : par0Str.equals("overlay") ? Item.potion.field_94592_ct : null;
 	}
 	
-	public static boolean isSplash(int p_77831_0_)
+	public static boolean isSplash(int par0)
 	{
-		return (p_77831_0_ & 16384) != 0;
+		return (par0 & 16384) != 0;
 	}
 }

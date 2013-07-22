@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet61DoorChange extends Packet
@@ -17,14 +17,14 @@ public class Packet61DoorChange extends Packet
 	{
 	}
 	
-	public Packet61DoorChange(int p_i5033_1_, int p_i5033_2_, int p_i5033_3_, int p_i5033_4_, int p_i5033_5_, boolean p_i5033_6_)
+	public Packet61DoorChange(int par1, int par2, int par3, int par4, int par5, boolean par6)
 	{
-		sfxID = p_i5033_1_;
-		posX = p_i5033_2_;
-		posY = p_i5033_3_;
-		posZ = p_i5033_4_;
-		auxData = p_i5033_5_;
-		disableRelativeVolume = p_i5033_6_;
+		sfxID = par1;
+		posX = par2;
+		posY = par3;
+		posZ = par4;
+		auxData = par5;
+		disableRelativeVolume = par6;
 	}
 	
 	@Override public int getPacketSize()
@@ -37,28 +37,28 @@ public class Packet61DoorChange extends Packet
 		return disableRelativeVolume;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleDoorChange(this);
+		par1NetHandler.handleDoorChange(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		sfxID = p_73267_1_.readInt();
-		posX = p_73267_1_.readInt();
-		posY = p_73267_1_.readByte() & 255;
-		posZ = p_73267_1_.readInt();
-		auxData = p_73267_1_.readInt();
-		disableRelativeVolume = p_73267_1_.readBoolean();
+		sfxID = par1DataInput.readInt();
+		posX = par1DataInput.readInt();
+		posY = par1DataInput.readByte() & 255;
+		posZ = par1DataInput.readInt();
+		auxData = par1DataInput.readInt();
+		disableRelativeVolume = par1DataInput.readBoolean();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(sfxID);
-		p_73273_1_.writeInt(posX);
-		p_73273_1_.writeByte(posY & 255);
-		p_73273_1_.writeInt(posZ);
-		p_73273_1_.writeInt(auxData);
-		p_73273_1_.writeBoolean(disableRelativeVolume);
+		par1DataOutput.writeInt(sfxID);
+		par1DataOutput.writeInt(posX);
+		par1DataOutput.writeByte(posY & 255);
+		par1DataOutput.writeInt(posZ);
+		par1DataOutput.writeInt(auxData);
+		par1DataOutput.writeBoolean(disableRelativeVolume);
 	}
 }

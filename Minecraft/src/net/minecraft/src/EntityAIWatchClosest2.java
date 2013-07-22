@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class EntityAIWatchClosest2 extends EntityAIWatchClosest
 {
-	public EntityAIWatchClosest2(EntityLiving p_i3470_1_, Class p_i3470_2_, float p_i3470_3_, float p_i3470_4_)
+	public EntityAIWatchClosest2(EntityLiving par1EntityLiving, Class par2Class, float par3, float par4)
 	{
-		super(p_i3470_1_, p_i3470_2_, p_i3470_3_, p_i3470_4_);
+		super(par1EntityLiving, par2Class, par3, par4);
 		setMutexBits(3);
 	}
 }

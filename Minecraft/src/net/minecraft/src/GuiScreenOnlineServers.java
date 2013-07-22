@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,26 +12,27 @@ import net.minecraft.client.Minecraft;
 
 public class GuiScreenOnlineServers extends GuiScreen
 {
+	private static final ResourceLocation field_130039_a = new ResourceLocation("textures/gui/widgets.png");
 	private GuiScreen field_96188_a;
 	private GuiSlotOnlineServerList field_96186_b;
-	private static int field_96187_c = 0;
+	private static int field_96187_c;
 	private static final Object field_96185_d = new Object();
-	private int field_96189_n = -1;
+	private long field_96189_n = -1L;
 	private GuiButton field_96190_o;
 	private GuiButton field_96198_p;
 	private GuiButtonLink field_96197_q;
 	private GuiButton field_96196_r;
-	private String field_96195_s = null;
-	private McoServerList field_96194_t;
+	private String field_96195_s;
+	private static McoServerList field_96194_t = new McoServerList();
 	private boolean field_96193_u;
-	private List field_96192_v = Collections.emptyList();
-	private volatile int field_96199_x;
+	private List field_96192_v = Lists.newArrayList();
+	private volatile int field_96199_x = 0;
 	private Long field_102019_y;
-	private int field_104044_y = 0;
+	private int field_104044_y;
 	
-	public GuiScreenOnlineServers(GuiScreen p_i10007_1_)
+	public GuiScreenOnlineServers(GuiScreen par1GuiScreen)
 	{
-		field_96188_a = p_i10007_1_;
+		field_96188_a = par1GuiScreen;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)
@@ -41,20 +41,10 @@ public class GuiScreenOnlineServers extends GuiScreen
 		{
 			if(par1GuiButton.id == 1)
 			{
-				func_96159_a(field_96189_n);
+				func_140032_e(field_96189_n);
 			} else if(par1GuiButton.id == 3)
 			{
-				List var2 = field_96194_t.func_98252_c();
-				if(field_96189_n < var2.size())
-				{
-					McoServer var3 = (McoServer) var2.get(field_96189_n);
-					McoServer var4 = func_98086_a(var3.field_96408_a);
-					if(var4 != null)
-					{
-						field_96194_t.func_98248_d();
-						mc.displayGuiScreen(new GuiScreenConfigureWorld(this, var4));
-					}
-				}
+				func_140019_s();
 			} else if(par1GuiButton.id == 0)
 			{
 				field_96194_t.func_98248_d();
@@ -73,23 +63,32 @@ public class GuiScreenOnlineServers extends GuiScreen
 		}
 	}
 	
+	@Override public void confirmClicked(boolean par1, int par2)
+	{
+		if(par2 == 3 && par1)
+		{
+			new ThreadOnlineScreen(this).start();
+		}
+		mc.displayGuiScreen(this);
+	}
+	
 	@Override public void drawScreen(int par1, int par2, float par3)
 	{
 		field_96195_s = null;
-		StringTranslate var4 = StringTranslate.getInstance();
 		drawDefaultBackground();
 		field_96186_b.drawScreen(par1, par2, par3);
-		drawCenteredString(fontRenderer, var4.translateKey("mco.title"), width / 2, 20, 16777215);
+		drawCenteredString(fontRenderer, I18n.func_135053_a("mco.title"), width / 2, 20, 16777215);
 		super.drawScreen(par1, par2, par3);
 		if(field_96195_s != null)
 		{
 			func_96165_a(field_96195_s, par1, par2);
 		}
+		func_130038_b(par1, par2);
 	}
 	
 	private void func_101001_e(int par1, int par2, int par3, int par4)
 	{
-		mc.renderEngine.bindTexture("/gui/gui.png");
+		mc.func_110434_K().func_110577_a(field_130039_a);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5F, 0.5F, 0.5F);
@@ -97,13 +96,13 @@ public class GuiScreenOnlineServers extends GuiScreen
 		GL11.glPopMatrix();
 		if(par3 >= par1 && par3 <= par1 + 9 && par4 >= par2 && par4 <= par2 + 9)
 		{
-			field_96195_s = "Closed World";
+			field_96195_s = I18n.func_135053_a("mco.selectServer.closed");
 		}
 	}
 	
 	private void func_101006_d(int par1, int par2, int par3, int par4)
 	{
-		mc.renderEngine.bindTexture("/gui/gui.png");
+		mc.func_110434_K().func_110577_a(field_130039_a);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5F, 0.5F, 0.5F);
@@ -111,13 +110,13 @@ public class GuiScreenOnlineServers extends GuiScreen
 		GL11.glPopMatrix();
 		if(par3 >= par1 && par3 <= par1 + 9 && par4 >= par2 && par4 <= par2 + 9)
 		{
-			field_96195_s = "Open World";
+			field_96195_s = I18n.func_135053_a("mco.selectServer.open");
 		}
 	}
 	
 	private void func_101008_c(int par1, int par2, int par3, int par4)
 	{
-		mc.renderEngine.bindTexture("/gui/gui.png");
+		mc.func_110434_K().func_110577_a(field_130039_a);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPushMatrix();
 		GL11.glScalef(0.5F, 0.5F, 0.5F);
@@ -125,13 +124,13 @@ public class GuiScreenOnlineServers extends GuiScreen
 		GL11.glPopMatrix();
 		if(par3 >= par1 && par3 <= par1 + 9 && par4 >= par2 && par4 <= par2 + 9)
 		{
-			field_96195_s = "Expired World";
+			field_96195_s = I18n.func_135053_a("mco.selectServer.expired");
 		}
 	}
 	
 	public void func_102018_a(long par1)
 	{
-		field_96189_n = -1;
+		field_96189_n = -1L;
 		field_102019_y = Long.valueOf(par1);
 	}
 	
@@ -139,7 +138,7 @@ public class GuiScreenOnlineServers extends GuiScreen
 	{
 		if(field_104044_y % 20 < 10)
 		{
-			mc.renderEngine.bindTexture("/gui/gui.png");
+			mc.func_110434_K().func_110577_a(field_130039_a);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glPushMatrix();
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
@@ -150,23 +149,127 @@ public class GuiScreenOnlineServers extends GuiScreen
 		{
 			if(par5 == 0)
 			{
-				field_96195_s = "Expires in < a day";
+				field_96195_s = I18n.func_135053_a("mco.selectServer.expires.soon");
+			} else if(par5 == 1)
+			{
+				field_96195_s = I18n.func_135053_a("mco.selectServer.expires.day");
 			} else
 			{
-				field_96195_s = "Expires in " + par5 + (par5 > 1 ? " days" : " day");
+				field_96195_s = I18n.func_135052_a("mco.selectServer.expires.days", new Object[] { Integer.valueOf(par5) });
 			}
 		}
 	}
 	
-	private void func_96159_a(int p_96159_1_)
+	private boolean func_130037_c(int par1, int par2)
 	{
-		if(p_96159_1_ >= 0 && p_96159_1_ < field_96192_v.size())
+		int var3 = width / 2 + 56;
+		int var4 = width / 2 + 78;
+		byte var5 = 13;
+		byte var6 = 27;
+		return var3 <= par1 && par1 <= var4 && var5 <= par2 && par2 <= var6;
+	}
+	
+	private void func_130038_b(int par1, int par2)
+	{
+		int var3 = field_96194_t.func_130124_d();
+		boolean var4 = func_130037_c(par1, par2);
+		mc.func_110434_K().func_110577_a(field_130039_a);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glPushMatrix();
+		drawTexturedModalRect(width / 2 + 58, 15, var4 ? 166 : 182, 22, 16, 16);
+		GL11.glPopMatrix();
+		int var5;
+		int var6;
+		if(var3 != 0)
 		{
-			McoServer var2 = (McoServer) field_96192_v.get(p_96159_1_);
+			var5 = 198 + (Math.min(var3, 6) - 1) * 8;
+			var6 = (int) (Math.max(0.0F, Math.max(MathHelper.sin((10 + field_104044_y) * 0.57F), MathHelper.cos(field_104044_y * 0.35F))) * -6.0F);
+			mc.func_110434_K().func_110577_a(field_130039_a);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			GL11.glPushMatrix();
+			drawTexturedModalRect(width / 2 + 58 + 4, 19 + var6, var5, 22, 8, 8);
+			GL11.glPopMatrix();
+		}
+		if(var4 && var3 != 0)
+		{
+			var5 = par1 + 12;
+			var6 = par2 - 12;
+			String var7 = I18n.func_135053_a("mco.invites.pending");
+			int var8 = fontRenderer.getStringWidth(var7);
+			drawGradientRect(var5 - 3, var6 - 3, var5 + var8 + 3, var6 + 8 + 3, -1073741824, -1073741824);
+			fontRenderer.drawStringWithShadow(var7, var5, var6, -1);
+		}
+	}
+	
+	private int func_140009_c(long par1)
+	{
+		for(int var3 = 0; var3 < field_96192_v.size(); ++var3)
+		{
+			if(((McoServer) field_96192_v.get(var3)).field_96408_a == par1) return var3;
+		}
+		return -1;
+	}
+	
+	private void func_140012_t()
+	{
+		int var1 = func_140009_c(field_96189_n);
+		if(field_96192_v.size() - 1 == var1)
+		{
+			--var1;
+		}
+		if(field_96192_v.size() == 0)
+		{
+			var1 = -1;
+		}
+		if(var1 >= 0 && var1 < field_96192_v.size())
+		{
+			field_96189_n = ((McoServer) field_96192_v.get(var1)).field_96408_a;
+		}
+	}
+	
+	private void func_140019_s()
+	{
+		McoServer var1 = func_140030_b(field_96189_n);
+		if(var1 != null)
+		{
+			if(mc.func_110432_I().func_111285_a().equals(var1.field_96405_e))
+			{
+				McoServer var2 = func_98086_a(var1.field_96408_a);
+				if(var2 != null)
+				{
+					field_96194_t.func_98248_d();
+					mc.displayGuiScreen(new GuiScreenConfigureWorld(this, var2));
+				}
+			} else
+			{
+				String var4 = I18n.func_135053_a("mco.configure.world.leave.question.line1");
+				String var3 = I18n.func_135053_a("mco.configure.world.leave.question.line2");
+				mc.displayGuiScreen(new GuiScreenConfirmation(this, GuiScreenConfirmationType.Info, var4, var3, 3));
+			}
+		}
+	}
+	
+	private McoServer func_140030_b(long par1)
+	{
+		Iterator var3 = field_96192_v.iterator();
+		McoServer var4;
+		do
+		{
+			if(!var3.hasNext()) return null;
+			var4 = (McoServer) var3.next();
+		} while(var4.field_96408_a != par1);
+		return var4;
+	}
+	
+	private void func_140032_e(long par1)
+	{
+		McoServer var3 = func_140030_b(par1);
+		if(var3 != null)
+		{
 			field_96194_t.func_98248_d();
-			GuiScreenLongRunningTask var3 = new GuiScreenLongRunningTask(mc, this, new TaskOnlineConnect(this, var2));
-			var3.func_98117_g();
-			mc.displayGuiScreen(var3);
+			GuiScreenLongRunningTask var4 = new GuiScreenLongRunningTask(mc, this, new TaskOnlineConnect(this, var3));
+			var4.func_98117_g();
+			mc.displayGuiScreen(var4);
 		}
 	}
 	
@@ -188,7 +291,7 @@ public class GuiScreenOnlineServers extends GuiScreen
 		{
 			par1McoServer.field_96414_k = EnumChatFormatting.GRAY + "" + 0;
 		}
-		par1McoServer.field_96415_h = 61;
+		par1McoServer.field_96415_h = 74;
 		ServerAddress var2 = ServerAddress.func_78860_a(par1McoServer.field_96403_g);
 		Socket var3 = null;
 		DataInputStream var4 = null;
@@ -224,7 +327,6 @@ public class GuiScreenOnlineServers extends GuiScreen
 				if(MathHelper.parseIntWithDefault(var27[0], 0) == 1)
 				{
 					par1McoServer.field_96415_h = MathHelper.parseIntWithDefault(var27[1], par1McoServer.field_96415_h);
-					par1McoServer.field_96413_j = var27[2];
 					var9 = MathHelper.parseIntWithDefault(var27[4], 0);
 					var10 = MathHelper.parseIntWithDefault(var27[5], 0);
 					if(var9 >= 0 && var10 >= 0)
@@ -236,8 +338,7 @@ public class GuiScreenOnlineServers extends GuiScreen
 					}
 				} else
 				{
-					par1McoServer.field_96413_j = "???";
-					par1McoServer.field_96415_h = 62;
+					par1McoServer.field_96415_h = 75;
 					par1McoServer.field_96414_k = "" + EnumChatFormatting.DARK_GRAY + "???";
 				}
 			} else
@@ -262,8 +363,7 @@ public class GuiScreenOnlineServers extends GuiScreen
 				{
 					par1McoServer.field_96414_k = "" + EnumChatFormatting.DARK_GRAY + "???";
 				}
-				par1McoServer.field_96413_j = "1.3";
-				par1McoServer.field_96415_h = 60;
+				par1McoServer.field_96415_h = 73;
 			}
 		} finally
 		{
@@ -302,30 +402,32 @@ public class GuiScreenOnlineServers extends GuiScreen
 	
 	public void func_96178_g()
 	{
-		StringTranslate var1 = StringTranslate.getInstance();
-		buttonList.add(field_96196_r = new GuiButton(1, width / 2 - 154, height - 52, 100, 20, var1.translateKey("mco.selectServer.select")));
-		buttonList.add(field_96198_p = new GuiButton(2, width / 2 - 48, height - 52, 100, 20, var1.translateKey("mco.selectServer.create")));
-		buttonList.add(field_96190_o = new GuiButton(3, width / 2 + 58, height - 52, 100, 20, var1.translateKey("mco.selectServer.configure")));
-		buttonList.add(field_96197_q = new GuiButtonLink(4, width / 2 - 154, height - 28, 154, 20, var1.translateKey("mco.selectServer.moreinfo")));
-		buttonList.add(new GuiButton(0, width / 2 + 6, height - 28, 153, 20, var1.translateKey("gui.cancel")));
-		boolean var2 = field_96189_n >= 0 && field_96189_n < field_96186_b.getSize();
-		field_96196_r.enabled = var2 && ((McoServer) field_96192_v.get(field_96189_n)).field_96404_d.equals("OPEN") && !((McoServer) field_96192_v.get(field_96189_n)).field_98166_h;
-		field_96190_o.enabled = var2 && mc.session.username.equals(((McoServer) field_96192_v.get(field_96189_n)).field_96405_e);
+		buttonList.add(field_96196_r = new GuiButton(1, width / 2 - 154, height - 52, 100, 20, I18n.func_135053_a("mco.selectServer.play")));
+		buttonList.add(field_96198_p = new GuiButton(2, width / 2 - 48, height - 52, 100, 20, I18n.func_135053_a("mco.selectServer.create")));
+		buttonList.add(field_96190_o = new GuiButton(3, width / 2 + 58, height - 52, 100, 20, I18n.func_135053_a("mco.selectServer.configure")));
+		buttonList.add(field_96197_q = new GuiButtonLink(4, width / 2 - 154, height - 28, 154, 20, I18n.func_135053_a("mco.selectServer.moreinfo")));
+		buttonList.add(new GuiButton(0, width / 2 + 6, height - 28, 153, 20, I18n.func_135053_a("gui.cancel")));
+		McoServer var1 = func_140030_b(field_96189_n);
+		field_96196_r.enabled = var1 != null && var1.field_96404_d.equals("OPEN") && !var1.field_98166_h;
 		field_96198_p.enabled = field_96199_x > 0;
+		if(var1 != null && !var1.field_96405_e.equals(mc.func_110432_I().func_111285_a()))
+		{
+			field_96190_o.displayString = I18n.func_135053_a("mco.selectServer.leave");
+		}
 	}
 	
 	private McoServer func_98086_a(long par1)
 	{
-		McoClient var3 = new McoClient(mc.session);
+		McoClient var3 = new McoClient(mc.func_110432_I());
 		try
 		{
 			return var3.func_98176_a(par1);
 		} catch(ExceptionMcoService var5)
 		{
-			;
+			mc.getLogAgent().logSevere(var5.toString());
 		} catch(IOException var6)
 		{
-			;
+			mc.getLogAgent().logWarning("Realms: could not parse response");
 		}
 		return null;
 	}
@@ -334,7 +436,7 @@ public class GuiScreenOnlineServers extends GuiScreen
 	{
 		Keyboard.enableRepeatEvents(true);
 		buttonList.clear();
-		field_96194_t = new McoServerList(mc.session);
+		field_96194_t.func_130129_a(mc.func_110432_I());
 		if(!field_96193_u)
 		{
 			field_96193_u = true;
@@ -343,7 +445,6 @@ public class GuiScreenOnlineServers extends GuiScreen
 		{
 			field_96186_b.func_104084_a(width, height, 32, height - 64);
 		}
-		new ThreadOnlineScreen(this).start();
 		func_96178_g();
 	}
 	
@@ -355,13 +456,23 @@ public class GuiScreenOnlineServers extends GuiScreen
 			mc.gameSettings.saveOptions();
 		} else
 		{
-			if(par1 == 13)
-			{
-				actionPerformed((GuiButton) buttonList.get(2));
-			} else
+			if(par2 != 28 && par2 != 156)
 			{
 				super.keyTyped(par1, par2);
+			} else
+			{
+				actionPerformed((GuiButton) buttonList.get(0));
 			}
+		}
+	}
+	
+	@Override protected void mouseClicked(int par1, int par2, int par3)
+	{
+		super.mouseClicked(par1, par2, par3);
+		if(func_130037_c(par1, par2) && field_96194_t.func_130124_d() != 0)
+		{
+			GuiScreenPendingInvitation var4 = new GuiScreenPendingInvitation(this);
+			mc.displayGuiScreen(var4);
 		}
 	}
 	
@@ -374,7 +485,7 @@ public class GuiScreenOnlineServers extends GuiScreen
 	{
 		super.updateScreen();
 		++field_104044_y;
-		if(field_96194_t.func_98251_a())
+		if(field_96194_t.func_130127_a())
 		{
 			List var1 = field_96194_t.func_98252_c();
 			Iterator var2 = var1.iterator();
@@ -397,75 +508,16 @@ public class GuiScreenOnlineServers extends GuiScreen
 					}
 				}
 			}
+			field_96199_x = field_96194_t.func_140056_e();
 			field_96192_v = var1;
 			field_96194_t.func_98250_b();
 		}
 		field_96198_p.enabled = field_96199_x > 0;
 	}
 	
-	static FontRenderer func_101000_n(GuiScreenOnlineServers p_101000_0_)
-	{
-		return p_101000_0_.fontRenderer;
-	}
-	
-	static void func_101002_a(GuiScreenOnlineServers p_101002_0_, McoServer p_101002_1_) throws IOException
-	{
-		p_101002_0_.func_96174_a(p_101002_1_);
-	}
-	
-	static Minecraft func_101004_o(GuiScreenOnlineServers p_101004_0_)
-	{
-		return p_101004_0_.mc;
-	}
-	
-	static FontRenderer func_101005_j(GuiScreenOnlineServers p_101005_0_)
-	{
-		return p_101005_0_.fontRenderer;
-	}
-	
-	static Object func_101007_h()
-	{
-		return field_96185_d;
-	}
-	
-	static void func_101009_c(GuiScreenOnlineServers p_101009_0_, int p_101009_1_, int p_101009_2_, int p_101009_3_, int p_101009_4_)
-	{
-		p_101009_0_.func_101001_e(p_101009_1_, p_101009_2_, p_101009_3_, p_101009_4_);
-	}
-	
-	static int func_101010_i()
-	{
-		return field_96187_c;
-	}
-	
-	static String func_101011_a(GuiScreenOnlineServers p_101011_0_, String p_101011_1_)
-	{
-		return p_101011_0_.field_96195_s = p_101011_1_;
-	}
-	
-	static void func_101012_b(GuiScreenOnlineServers p_101012_0_, int p_101012_1_, int p_101012_2_, int p_101012_3_, int p_101012_4_)
-	{
-		p_101012_0_.func_101008_c(p_101012_1_, p_101012_2_, p_101012_3_, p_101012_4_);
-	}
-	
-	static int func_101013_k()
-	{
-		return field_96187_c--;
-	}
-	
-	static int func_101014_j()
-	{
-		return field_96187_c++;
-	}
-	
-	static void func_104030_a(GuiScreenOnlineServers p_104030_0_, int p_104030_1_, int p_104030_2_, int p_104030_3_, int p_104030_4_, int p_104030_5_)
-	{
-		p_104030_0_.func_104039_b(p_104030_1_, p_104030_2_, p_104030_3_, p_104030_4_, p_104030_5_);
-	}
-	
 	static void func_104031_c(GuiScreenOnlineServers par0GuiScreenOnlineServers, int par1, int par2, int par3, int par4)
 	{
-		par0GuiScreenOnlineServers.func_101006_d(par1, par2, par3, par4);
+		par0GuiScreenOnlineServers.func_101008_c(par1, par2, par3, par4);
 	}
 	
 	static Minecraft func_104032_j(GuiScreenOnlineServers par0GuiScreenOnlineServers)
@@ -473,29 +525,134 @@ public class GuiScreenOnlineServers extends GuiScreen
 		return par0GuiScreenOnlineServers.mc;
 	}
 	
-	static FontRenderer func_104038_i(GuiScreenOnlineServers p_104038_0_)
+	static FontRenderer func_110402_q(GuiScreenOnlineServers par0GuiScreenOnlineServers)
 	{
-		return p_104038_0_.fontRenderer;
+		return par0GuiScreenOnlineServers.fontRenderer;
 	}
 	
-	static GuiButton func_96161_f(GuiScreenOnlineServers p_96161_0_)
+	static void func_140008_c(GuiScreenOnlineServers par0GuiScreenOnlineServers, long par1)
 	{
-		return p_96161_0_.field_96190_o;
+		par0GuiScreenOnlineServers.func_140032_e(par1);
 	}
 	
-	static Minecraft func_96177_a(GuiScreenOnlineServers p_96177_0_)
+	static FontRenderer func_140010_p(GuiScreenOnlineServers par0GuiScreenOnlineServers)
 	{
-		return p_96177_0_.mc;
+		return par0GuiScreenOnlineServers.fontRenderer;
 	}
 	
-	static int func_98072_d(GuiScreenOnlineServers p_98072_0_)
+	static McoServer func_140011_a(GuiScreenOnlineServers par0GuiScreenOnlineServers, long par1)
 	{
-		return p_98072_0_.field_96189_n;
+		return par0GuiScreenOnlineServers.func_140030_b(par1);
 	}
 	
-	static FontRenderer func_98074_m(GuiScreenOnlineServers p_98074_0_)
+	static List func_140013_c(GuiScreenOnlineServers par0GuiScreenOnlineServers)
 	{
-		return p_98074_0_.fontRenderer;
+		return par0GuiScreenOnlineServers.field_96192_v;
+	}
+	
+	static Minecraft func_140014_l(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		return par0GuiScreenOnlineServers.mc;
+	}
+	
+	static Minecraft func_140015_g(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		return par0GuiScreenOnlineServers.mc;
+	}
+	
+	static int func_140016_k()
+	{
+		return field_96187_c++;
+	}
+	
+	static void func_140017_d(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		par0GuiScreenOnlineServers.func_140012_t();
+	}
+	
+	static int func_140018_j()
+	{
+		return field_96187_c;
+	}
+	
+	static void func_140020_c(GuiScreenOnlineServers par0GuiScreenOnlineServers, int par1, int par2, int par3, int par4)
+	{
+		par0GuiScreenOnlineServers.func_101006_d(par1, par2, par3, par4);
+	}
+	
+	static int func_140021_r()
+	{
+		return field_96187_c--;
+	}
+	
+	static FontRenderer func_140023_k(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		return par0GuiScreenOnlineServers.fontRenderer;
+	}
+	
+	static void func_140024_a(GuiScreenOnlineServers par0GuiScreenOnlineServers, McoServer par1McoServer) throws IOException
+	{
+		par0GuiScreenOnlineServers.func_96174_a(par1McoServer);
+	}
+	
+	static int func_140027_d(GuiScreenOnlineServers par0GuiScreenOnlineServers, long par1)
+	{
+		return par0GuiScreenOnlineServers.func_140009_c(par1);
+	}
+	
+	static Object func_140029_i()
+	{
+		return field_96185_d;
+	}
+	
+	static void func_140031_a(GuiScreenOnlineServers par0GuiScreenOnlineServers, int par1, int par2, int par3, int par4, int par5)
+	{
+		par0GuiScreenOnlineServers.func_104039_b(par1, par2, par3, par4, par5);
+	}
+	
+	static GuiButton func_140033_i(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		return par0GuiScreenOnlineServers.field_96196_r;
+	}
+	
+	static void func_140035_b(GuiScreenOnlineServers par0GuiScreenOnlineServers, int par1, int par2, int par3, int par4)
+	{
+		par0GuiScreenOnlineServers.func_101001_e(par1, par2, par3, par4);
+	}
+	
+	static long func_140036_b(GuiScreenOnlineServers par0GuiScreenOnlineServers, long par1)
+	{
+		return par0GuiScreenOnlineServers.field_96189_n = par1;
+	}
+	
+	static Minecraft func_140037_f(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		return par0GuiScreenOnlineServers.mc;
+	}
+	
+	static GuiButton func_140038_h(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		return par0GuiScreenOnlineServers.field_96190_o;
+	}
+	
+	static FontRenderer func_140039_m(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		return par0GuiScreenOnlineServers.fontRenderer;
+	}
+	
+	static McoServerList func_140040_h()
+	{
+		return field_96194_t;
+	}
+	
+	static long func_140041_a(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		return par0GuiScreenOnlineServers.field_96189_n;
+	}
+	
+	static Minecraft func_142023_q(GuiScreenOnlineServers par0GuiScreenOnlineServers)
+	{
+		return par0GuiScreenOnlineServers.mc;
 	}
 	
 	static Minecraft func_98075_b(GuiScreenOnlineServers par0GuiScreenOnlineServers)
@@ -508,48 +665,8 @@ public class GuiScreenOnlineServers extends GuiScreen
 		return par0GuiScreenOnlineServers.mc;
 	}
 	
-	static void func_98078_c(GuiScreenOnlineServers p_98078_0_, int p_98078_1_)
-	{
-		p_98078_0_.func_96159_a(p_98078_1_);
-	}
-	
 	static FontRenderer func_98079_k(GuiScreenOnlineServers par0GuiScreenOnlineServers)
 	{
 		return par0GuiScreenOnlineServers.fontRenderer;
-	}
-	
-	static int func_98081_a(GuiScreenOnlineServers p_98081_0_, int p_98081_1_)
-	{
-		return p_98081_0_.field_96199_x = p_98081_1_;
-	}
-	
-	static FontRenderer func_98084_i(GuiScreenOnlineServers p_98084_0_)
-	{
-		return p_98084_0_.fontRenderer;
-	}
-	
-	static FontRenderer func_98087_l(GuiScreenOnlineServers p_98087_0_)
-	{
-		return p_98087_0_.fontRenderer;
-	}
-	
-	static int func_98089_b(GuiScreenOnlineServers p_98089_0_, int p_98089_1_)
-	{
-		return p_98089_0_.field_96189_n = p_98089_1_;
-	}
-	
-	static Minecraft func_98091_h(GuiScreenOnlineServers p_98091_0_)
-	{
-		return p_98091_0_.mc;
-	}
-	
-	static GuiButton func_98092_g(GuiScreenOnlineServers p_98092_0_)
-	{
-		return p_98092_0_.field_96196_r;
-	}
-	
-	static List func_98094_c(GuiScreenOnlineServers p_98094_0_)
-	{
-		return p_98094_0_.field_96192_v;
 	}
 }

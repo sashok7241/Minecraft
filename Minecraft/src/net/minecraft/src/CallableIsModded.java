@@ -9,9 +9,9 @@ class CallableIsModded implements Callable
 {
 	final IntegratedServer theIntegratedServer;
 	
-	CallableIsModded(IntegratedServer p_i3123_1_)
+	CallableIsModded(IntegratedServer par1IntegratedServer)
 	{
-		theIntegratedServer = p_i3123_1_;
+		theIntegratedServer = par1IntegratedServer;
 	}
 	
 	@Override public Object call()

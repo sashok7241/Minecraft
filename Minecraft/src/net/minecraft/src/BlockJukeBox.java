@@ -4,61 +4,61 @@ public class BlockJukeBox extends BlockContainer
 {
 	private Icon theIcon;
 	
-	protected BlockJukeBox(int p_i9084_1_)
+	protected BlockJukeBox(int par1)
 	{
-		super(p_i9084_1_, Material.wood);
+		super(par1, Material.wood);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
+	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
 	{
-		ejectRecord(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_);
-		super.breakBlock(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_, p_71852_6_);
+		ejectRecord(par1World, par2, par3, par4);
+		super.breakBlock(par1World, par2, par3, par4, par5, par6);
 	}
 	
-	@Override public TileEntity createNewTileEntity(World p_72274_1_)
+	@Override public TileEntity createNewTileEntity(World par1World)
 	{
 		return new TileEntityRecordPlayer();
 	}
 	
-	@Override public void dropBlockAsItemWithChance(World p_71914_1_, int p_71914_2_, int p_71914_3_, int p_71914_4_, int p_71914_5_, float p_71914_6_, int p_71914_7_)
+	@Override public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
 	{
-		if(!p_71914_1_.isRemote)
+		if(!par1World.isRemote)
 		{
-			super.dropBlockAsItemWithChance(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, p_71914_5_, p_71914_6_, 0);
+			super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, 0);
 		}
 	}
 	
-	public void ejectRecord(World p_72276_1_, int p_72276_2_, int p_72276_3_, int p_72276_4_)
+	public void ejectRecord(World par1World, int par2, int par3, int par4)
 	{
-		if(!p_72276_1_.isRemote)
+		if(!par1World.isRemote)
 		{
-			TileEntityRecordPlayer var5 = (TileEntityRecordPlayer) p_72276_1_.getBlockTileEntity(p_72276_2_, p_72276_3_, p_72276_4_);
+			TileEntityRecordPlayer var5 = (TileEntityRecordPlayer) par1World.getBlockTileEntity(par2, par3, par4);
 			if(var5 != null)
 			{
 				ItemStack var6 = var5.func_96097_a();
 				if(var6 != null)
 				{
-					p_72276_1_.playAuxSFX(1005, p_72276_2_, p_72276_3_, p_72276_4_, 0);
-					p_72276_1_.playRecord((String) null, p_72276_2_, p_72276_3_, p_72276_4_);
+					par1World.playAuxSFX(1005, par2, par3, par4, 0);
+					par1World.playRecord((String) null, par2, par3, par4);
 					var5.func_96098_a((ItemStack) null);
-					p_72276_1_.setBlockMetadataWithNotify(p_72276_2_, p_72276_3_, p_72276_4_, 0, 2);
+					par1World.setBlockMetadataWithNotify(par2, par3, par4, 0, 2);
 					float var7 = 0.7F;
-					double var8 = p_72276_1_.rand.nextFloat() * var7 + (1.0F - var7) * 0.5D;
-					double var10 = p_72276_1_.rand.nextFloat() * var7 + (1.0F - var7) * 0.2D + 0.6D;
-					double var12 = p_72276_1_.rand.nextFloat() * var7 + (1.0F - var7) * 0.5D;
+					double var8 = par1World.rand.nextFloat() * var7 + (1.0F - var7) * 0.5D;
+					double var10 = par1World.rand.nextFloat() * var7 + (1.0F - var7) * 0.2D + 0.6D;
+					double var12 = par1World.rand.nextFloat() * var7 + (1.0F - var7) * 0.5D;
 					ItemStack var14 = var6.copy();
-					EntityItem var15 = new EntityItem(p_72276_1_, p_72276_2_ + var8, p_72276_3_ + var10, p_72276_4_ + var12, var14);
+					EntityItem var15 = new EntityItem(par1World, par2 + var8, par3 + var10, par4 + var12, var14);
 					var15.delayBeforeCanPickup = 10;
-					p_72276_1_.spawnEntityInWorld(var15);
+					par1World.spawnEntityInWorld(var15);
 				}
 			}
 		}
 	}
 	
-	@Override public int getComparatorInputOverride(World p_94328_1_, int p_94328_2_, int p_94328_3_, int p_94328_4_, int p_94328_5_)
+	@Override public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
 	{
-		ItemStack var6 = ((TileEntityRecordPlayer) p_94328_1_.getBlockTileEntity(p_94328_2_, p_94328_3_, p_94328_4_)).func_96097_a();
+		ItemStack var6 = ((TileEntityRecordPlayer) par1World.getBlockTileEntity(par2, par3, par4)).func_96097_a();
 		return var6 == null ? 0 : var6.itemID + 1 - Item.record13.itemID;
 	}
 	
@@ -72,32 +72,32 @@ public class BlockJukeBox extends BlockContainer
 		return true;
 	}
 	
-	public void insertRecord(World p_85106_1_, int p_85106_2_, int p_85106_3_, int p_85106_4_, ItemStack p_85106_5_)
+	public void insertRecord(World par1World, int par2, int par3, int par4, ItemStack par5ItemStack)
 	{
-		if(!p_85106_1_.isRemote)
+		if(!par1World.isRemote)
 		{
-			TileEntityRecordPlayer var6 = (TileEntityRecordPlayer) p_85106_1_.getBlockTileEntity(p_85106_2_, p_85106_3_, p_85106_4_);
+			TileEntityRecordPlayer var6 = (TileEntityRecordPlayer) par1World.getBlockTileEntity(par2, par3, par4);
 			if(var6 != null)
 			{
-				var6.func_96098_a(p_85106_5_.copy());
-				p_85106_1_.setBlockMetadataWithNotify(p_85106_2_, p_85106_3_, p_85106_4_, 1, 2);
+				var6.func_96098_a(par5ItemStack.copy());
+				par1World.setBlockMetadataWithNotify(par2, par3, par4, 1, 2);
 			}
 		}
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
-		if(p_71903_1_.getBlockMetadata(p_71903_2_, p_71903_3_, p_71903_4_) == 0) return false;
+		if(par1World.getBlockMetadata(par2, par3, par4) == 0) return false;
 		else
 		{
-			ejectRecord(p_71903_1_, p_71903_2_, p_71903_3_, p_71903_4_);
+			ejectRecord(par1World, par2, par3, par4);
 			return true;
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("musicBlock");
-		theIcon = par1IconRegister.registerIcon("jukebox_top");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_top");
 	}
 }

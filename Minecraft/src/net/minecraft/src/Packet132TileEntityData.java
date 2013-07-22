@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet132TileEntityData extends Packet
@@ -17,14 +17,14 @@ public class Packet132TileEntityData extends Packet
 		isChunkDataPacket = true;
 	}
 	
-	public Packet132TileEntityData(int p_i3362_1_, int p_i3362_2_, int p_i3362_3_, int p_i3362_4_, NBTTagCompound p_i3362_5_)
+	public Packet132TileEntityData(int par1, int par2, int par3, int par4, NBTTagCompound par5NBTTagCompound)
 	{
 		isChunkDataPacket = true;
-		xPosition = p_i3362_1_;
-		yPosition = p_i3362_2_;
-		zPosition = p_i3362_3_;
-		actionType = p_i3362_4_;
-		customParam1 = p_i3362_5_;
+		xPosition = par1;
+		yPosition = par2;
+		zPosition = par3;
+		actionType = par4;
+		customParam1 = par5NBTTagCompound;
 	}
 	
 	@Override public int getPacketSize()
@@ -32,26 +32,26 @@ public class Packet132TileEntityData extends Packet
 		return 25;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleTileEntityData(this);
+		par1NetHandler.handleTileEntityData(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xPosition = p_73267_1_.readInt();
-		yPosition = p_73267_1_.readShort();
-		zPosition = p_73267_1_.readInt();
-		actionType = p_73267_1_.readByte();
-		customParam1 = readNBTTagCompound(p_73267_1_);
+		xPosition = par1DataInput.readInt();
+		yPosition = par1DataInput.readShort();
+		zPosition = par1DataInput.readInt();
+		actionType = par1DataInput.readByte();
+		customParam1 = readNBTTagCompound(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(xPosition);
-		p_73273_1_.writeShort(yPosition);
-		p_73273_1_.writeInt(zPosition);
-		p_73273_1_.writeByte((byte) actionType);
-		writeNBTTagCompound(customParam1, p_73273_1_);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeShort(yPosition);
+		par1DataOutput.writeInt(zPosition);
+		par1DataOutput.writeByte((byte) actionType);
+		writeNBTTagCompound(customParam1, par1DataOutput);
 	}
 }

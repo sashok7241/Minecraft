@@ -2,14 +2,14 @@ package net.minecraft.src;
 
 public class EntityMinecartChest extends EntityMinecartContainer
 {
-	public EntityMinecartChest(World p_i9001_1_)
+	public EntityMinecartChest(World par1World)
 	{
-		super(p_i9001_1_);
+		super(par1World);
 	}
 	
-	public EntityMinecartChest(World p_i9002_1_, double p_i9002_2_, double p_i9002_4_, double p_i9002_6_)
+	public EntityMinecartChest(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i9002_1_, p_i9002_2_, p_i9002_4_, p_i9002_6_);
+		super(par1World, par2, par4, par6);
 	}
 	
 	@Override public Block getDefaultDisplayTile()
@@ -32,9 +32,9 @@ public class EntityMinecartChest extends EntityMinecartContainer
 		return 27;
 	}
 	
-	@Override public void killMinecart(DamageSource p_94095_1_)
+	@Override public void killMinecart(DamageSource par1DamageSource)
 	{
-		super.killMinecart(p_94095_1_);
+		super.killMinecart(par1DamageSource);
 		dropItemWithOffset(Block.chest.blockID, 1, 0.0F);
 	}
 }

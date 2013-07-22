@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 import net.minecraft.client.Minecraft;
 
-public class EntityOtherPlayerMP extends EntityPlayer
+public class EntityOtherPlayerMP extends AbstractClientPlayer
 {
-	private boolean isItemInUse = false;
+	private boolean isItemInUse;
 	private int otherPlayerMPPosRotationIncrements;
 	private double otherPlayerMPX;
 	private double otherPlayerMPY;
@@ -12,27 +12,22 @@ public class EntityOtherPlayerMP extends EntityPlayer
 	private double otherPlayerMPYaw;
 	private double otherPlayerMPPitch;
 	
-	public EntityOtherPlayerMP(World p_i3117_1_, String p_i3117_2_)
+	public EntityOtherPlayerMP(World par1World, String par2Str)
 	{
-		super(p_i3117_1_);
-		username = p_i3117_2_;
+		super(par1World, par2Str);
 		yOffset = 0.0F;
 		stepHeight = 0.0F;
-		if(p_i3117_2_ != null && p_i3117_2_.length() > 0)
-		{
-			skinUrl = "http://skins.minecraft.net/MinecraftSkins/" + StringUtils.stripControlCodes(p_i3117_2_) + ".png";
-		}
 		noClip = true;
 		field_71082_cx = 0.25F;
 		renderDistanceWeight = 10.0D;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		return true;
 	}
 	
-	@Override public boolean canCommandSenderUseCommand(int p_70003_1_, String p_70003_2_)
+	@Override public boolean canCommandSenderUseCommand(int par1, String par2Str)
 	{
 		return false;
 	}
@@ -82,11 +77,11 @@ public class EntityOtherPlayerMP extends EntityPlayer
 		{
 			var9 = 0.1F;
 		}
-		if(!onGround || getHealth() <= 0)
+		if(!onGround || func_110143_aJ() <= 0.0F)
 		{
 			var9 = 0.0F;
 		}
-		if(onGround || getHealth() <= 0)
+		if(onGround || func_110143_aJ() <= 0.0F)
 		{
 			var2 = 0.0F;
 		}
@@ -125,19 +120,19 @@ public class EntityOtherPlayerMP extends EntityPlayer
 		yOffset = 0.0F;
 	}
 	
-	@Override public void sendChatToPlayer(String p_70006_1_)
+	@Override public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent)
 	{
-		Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(p_70006_1_);
+		Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(par1ChatMessageComponent.func_111068_a(true));
 	}
 	
-	@Override public void setCurrentItemOrArmor(int p_70062_1_, ItemStack p_70062_2_)
+	@Override public void setCurrentItemOrArmor(int par1, ItemStack par2ItemStack)
 	{
-		if(p_70062_1_ == 0)
+		if(par1 == 0)
 		{
-			inventory.mainInventory[inventory.currentItem] = p_70062_2_;
+			inventory.mainInventory[inventory.currentItem] = par2ItemStack;
 		} else
 		{
-			inventory.armorInventory[p_70062_1_ - 1] = p_70062_2_;
+			inventory.armorInventory[par1 - 1] = par2ItemStack;
 		}
 	}
 	
@@ -149,10 +144,5 @@ public class EntityOtherPlayerMP extends EntityPlayer
 		otherPlayerMPYaw = par7;
 		otherPlayerMPPitch = par8;
 		otherPlayerMPPosRotationIncrements = par9;
-	}
-	
-	@Override public void updateCloak()
-	{
-		cloakUrl = "http://skins.minecraft.net/MinecraftCloaks/" + StringUtils.stripControlCodes(username) + ".png";
 	}
 }

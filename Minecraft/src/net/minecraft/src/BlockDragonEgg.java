@@ -4,31 +4,31 @@ import java.util.Random;
 
 public class BlockDragonEgg extends Block
 {
-	public BlockDragonEgg(int p_i9053_1_)
+	public BlockDragonEgg(int par1)
 	{
-		super(p_i9053_1_, Material.dragonEgg);
+		super(par1, Material.dragonEgg);
 		setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 1.0F, 0.9375F);
 	}
 	
-	private void fallIfPossible(World p_72236_1_, int p_72236_2_, int p_72236_3_, int p_72236_4_)
+	private void fallIfPossible(World par1World, int par2, int par3, int par4)
 	{
-		if(BlockSand.canFallBelow(p_72236_1_, p_72236_2_, p_72236_3_ - 1, p_72236_4_) && p_72236_3_ >= 0)
+		if(BlockSand.canFallBelow(par1World, par2, par3 - 1, par4) && par3 >= 0)
 		{
 			byte var5 = 32;
-			if(!BlockSand.fallInstantly && p_72236_1_.checkChunksExist(p_72236_2_ - var5, p_72236_3_ - var5, p_72236_4_ - var5, p_72236_2_ + var5, p_72236_3_ + var5, p_72236_4_ + var5))
+			if(!BlockSand.fallInstantly && par1World.checkChunksExist(par2 - var5, par3 - var5, par4 - var5, par2 + var5, par3 + var5, par4 + var5))
 			{
-				EntityFallingSand var6 = new EntityFallingSand(p_72236_1_, p_72236_2_ + 0.5F, p_72236_3_ + 0.5F, p_72236_4_ + 0.5F, blockID);
-				p_72236_1_.spawnEntityInWorld(var6);
+				EntityFallingSand var6 = new EntityFallingSand(par1World, par2 + 0.5F, par3 + 0.5F, par4 + 0.5F, blockID);
+				par1World.spawnEntityInWorld(var6);
 			} else
 			{
-				p_72236_1_.setBlockToAir(p_72236_2_, p_72236_3_, p_72236_4_);
-				while(BlockSand.canFallBelow(p_72236_1_, p_72236_2_, p_72236_3_ - 1, p_72236_4_) && p_72236_3_ > 0)
+				par1World.setBlockToAir(par2, par3, par4);
+				while(BlockSand.canFallBelow(par1World, par2, par3 - 1, par4) && par3 > 0)
 				{
-					--p_72236_3_;
+					--par3;
 				}
-				if(p_72236_3_ > 0)
+				if(par3 > 0)
 				{
-					p_72236_1_.setBlock(p_72236_2_, p_72236_3_, p_72236_4_, blockID, 0, 2);
+					par1World.setBlock(par2, par3, par4, blockID, 0, 2);
 				}
 			}
 		}
@@ -49,25 +49,25 @@ public class BlockDragonEgg extends Block
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
-		teleportNearby(p_71903_1_, p_71903_2_, p_71903_3_, p_71903_4_);
+		teleportNearby(par1World, par2, par3, par4);
 		return true;
 	}
 	
-	@Override public void onBlockAdded(World p_71861_1_, int p_71861_2_, int p_71861_3_, int p_71861_4_)
+	@Override public void onBlockAdded(World par1World, int par2, int par3, int par4)
 	{
-		p_71861_1_.scheduleBlockUpdate(p_71861_2_, p_71861_3_, p_71861_4_, blockID, tickRate(p_71861_1_));
+		par1World.scheduleBlockUpdate(par2, par3, par4, blockID, tickRate(par1World));
 	}
 	
-	@Override public void onBlockClicked(World p_71921_1_, int p_71921_2_, int p_71921_3_, int p_71921_4_, EntityPlayer p_71921_5_)
+	@Override public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
 	{
-		teleportNearby(p_71921_1_, p_71921_2_, p_71921_3_, p_71921_4_);
+		teleportNearby(par1World, par2, par3, par4);
 	}
 	
-	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
+	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
-		p_71863_1_.scheduleBlockUpdate(p_71863_2_, p_71863_3_, p_71863_4_, blockID, tickRate(p_71863_1_));
+		par1World.scheduleBlockUpdate(par2, par3, par4, blockID, tickRate(par1World));
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -80,34 +80,34 @@ public class BlockDragonEgg extends Block
 		return true;
 	}
 	
-	private void teleportNearby(World p_72237_1_, int p_72237_2_, int p_72237_3_, int p_72237_4_)
+	private void teleportNearby(World par1World, int par2, int par3, int par4)
 	{
-		if(p_72237_1_.getBlockId(p_72237_2_, p_72237_3_, p_72237_4_) == blockID)
+		if(par1World.getBlockId(par2, par3, par4) == blockID)
 		{
 			for(int var5 = 0; var5 < 1000; ++var5)
 			{
-				int var6 = p_72237_2_ + p_72237_1_.rand.nextInt(16) - p_72237_1_.rand.nextInt(16);
-				int var7 = p_72237_3_ + p_72237_1_.rand.nextInt(8) - p_72237_1_.rand.nextInt(8);
-				int var8 = p_72237_4_ + p_72237_1_.rand.nextInt(16) - p_72237_1_.rand.nextInt(16);
-				if(p_72237_1_.getBlockId(var6, var7, var8) == 0)
+				int var6 = par2 + par1World.rand.nextInt(16) - par1World.rand.nextInt(16);
+				int var7 = par3 + par1World.rand.nextInt(8) - par1World.rand.nextInt(8);
+				int var8 = par4 + par1World.rand.nextInt(16) - par1World.rand.nextInt(16);
+				if(par1World.getBlockId(var6, var7, var8) == 0)
 				{
-					if(!p_72237_1_.isRemote)
+					if(!par1World.isRemote)
 					{
-						p_72237_1_.setBlock(var6, var7, var8, blockID, p_72237_1_.getBlockMetadata(p_72237_2_, p_72237_3_, p_72237_4_), 2);
-						p_72237_1_.setBlockToAir(p_72237_2_, p_72237_3_, p_72237_4_);
+						par1World.setBlock(var6, var7, var8, blockID, par1World.getBlockMetadata(par2, par3, par4), 2);
+						par1World.setBlockToAir(par2, par3, par4);
 					} else
 					{
 						short var9 = 128;
 						for(int var10 = 0; var10 < var9; ++var10)
 						{
-							double var11 = p_72237_1_.rand.nextDouble();
-							float var13 = (p_72237_1_.rand.nextFloat() - 0.5F) * 0.2F;
-							float var14 = (p_72237_1_.rand.nextFloat() - 0.5F) * 0.2F;
-							float var15 = (p_72237_1_.rand.nextFloat() - 0.5F) * 0.2F;
-							double var16 = var6 + (p_72237_2_ - var6) * var11 + (p_72237_1_.rand.nextDouble() - 0.5D) * 1.0D + 0.5D;
-							double var18 = var7 + (p_72237_3_ - var7) * var11 + p_72237_1_.rand.nextDouble() * 1.0D - 0.5D;
-							double var20 = var8 + (p_72237_4_ - var8) * var11 + (p_72237_1_.rand.nextDouble() - 0.5D) * 1.0D + 0.5D;
-							p_72237_1_.spawnParticle("portal", var16, var18, var20, var13, var14, var15);
+							double var11 = par1World.rand.nextDouble();
+							float var13 = (par1World.rand.nextFloat() - 0.5F) * 0.2F;
+							float var14 = (par1World.rand.nextFloat() - 0.5F) * 0.2F;
+							float var15 = (par1World.rand.nextFloat() - 0.5F) * 0.2F;
+							double var16 = var6 + (par2 - var6) * var11 + (par1World.rand.nextDouble() - 0.5D) * 1.0D + 0.5D;
+							double var18 = var7 + (par3 - var7) * var11 + par1World.rand.nextDouble() * 1.0D - 0.5D;
+							double var20 = var8 + (par4 - var8) * var11 + (par1World.rand.nextDouble() - 0.5D) * 1.0D + 0.5D;
+							par1World.spawnParticle("portal", var16, var18, var20, var13, var14, var15);
 						}
 					}
 					return;
@@ -116,13 +116,13 @@ public class BlockDragonEgg extends Block
 		}
 	}
 	
-	@Override public int tickRate(World p_71859_1_)
+	@Override public int tickRate(World par1World)
 	{
 		return 5;
 	}
 	
-	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
+	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		fallIfPossible(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_);
+		fallIfPossible(par1World, par2, par3, par4);
 	}
 }

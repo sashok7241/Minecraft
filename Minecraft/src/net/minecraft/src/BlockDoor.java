@@ -4,39 +4,31 @@ import java.util.Random;
 
 public class BlockDoor extends Block
 {
-	private static final String[] doorIconNames = new String[] { "doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper" };
-	private final int doorTypeForIcon;
-	private Icon[] iconArray;
+	private Icon[] field_111044_a;
+	private Icon[] field_111043_b;
 	
-	protected BlockDoor(int p_i3939_1_, Material p_i3939_2_)
+	protected BlockDoor(int par1, Material par2Material)
 	{
-		super(p_i3939_1_, p_i3939_2_);
-		if(p_i3939_2_ == Material.iron)
-		{
-			doorTypeForIcon = 2;
-		} else
-		{
-			doorTypeForIcon = 0;
-		}
+		super(par1, par2Material);
 		float var3 = 0.5F;
 		float var4 = 1.0F;
 		setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var4, 0.5F + var3);
 	}
 	
-	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
+	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
 	{
-		return p_71930_3_ >= 255 ? false : p_71930_1_.doesBlockHaveSolidTopSurface(p_71930_2_, p_71930_3_ - 1, p_71930_4_) && super.canPlaceBlockAt(p_71930_1_, p_71930_2_, p_71930_3_, p_71930_4_) && super.canPlaceBlockAt(p_71930_1_, p_71930_2_, p_71930_3_ + 1, p_71930_4_);
+		return par3 >= 255 ? false : par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4) && super.canPlaceBlockAt(par1World, par2, par3, par4) && super.canPlaceBlockAt(par1World, par2, par3 + 1, par4);
 	}
 	
-	@Override public MovingObjectPosition collisionRayTrace(World p_71878_1_, int p_71878_2_, int p_71878_3_, int p_71878_4_, Vec3 p_71878_5_, Vec3 p_71878_6_)
+	@Override public MovingObjectPosition collisionRayTrace(World par1World, int par2, int par3, int par4, Vec3 par5Vec3, Vec3 par6Vec3)
 	{
-		setBlockBoundsBasedOnState(p_71878_1_, p_71878_2_, p_71878_3_, p_71878_4_);
-		return super.collisionRayTrace(p_71878_1_, p_71878_2_, p_71878_3_, p_71878_4_, p_71878_5_, p_71878_6_);
+		setBlockBoundsBasedOnState(par1World, par2, par3, par4);
+		return super.collisionRayTrace(par1World, par2, par3, par4, par5Vec3, par6Vec3);
 	}
 	
-	@Override public boolean getBlocksMovement(IBlockAccess p_71918_1_, int p_71918_2_, int p_71918_3_, int p_71918_4_)
+	@Override public boolean getBlocksMovement(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		int var5 = getFullMetadata(p_71918_1_, p_71918_2_, p_71918_3_, p_71918_4_);
+		int var5 = getFullMetadata(par1IBlockAccess, par2, par3, par4);
 		return (var5 & 4) != 0;
 	}
 	
@@ -84,35 +76,35 @@ public class BlockDoor extends Block
 					var9 = !var9;
 				}
 			}
-			return iconArray[doorTypeForIcon + (var9 ? doorIconNames.length : 0) + (var10 ? 1 : 0)];
-		} else return iconArray[doorTypeForIcon];
+			return var10 ? field_111044_a[var9 ? 1 : 0] : field_111043_b[var9 ? 1 : 0];
+		} else return field_111043_b[0];
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
-		setBlockBoundsBasedOnState(p_71872_1_, p_71872_2_, p_71872_3_, p_71872_4_);
-		return super.getCollisionBoundingBoxFromPool(p_71872_1_, p_71872_2_, p_71872_3_, p_71872_4_);
+		setBlockBoundsBasedOnState(par1World, par2, par3, par4);
+		return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
 	}
 	
-	public int getDoorOrientation(IBlockAccess p_72235_1_, int p_72235_2_, int p_72235_3_, int p_72235_4_)
+	public int getDoorOrientation(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		return getFullMetadata(p_72235_1_, p_72235_2_, p_72235_3_, p_72235_4_) & 3;
+		return getFullMetadata(par1IBlockAccess, par2, par3, par4) & 3;
 	}
 	
-	public int getFullMetadata(IBlockAccess p_72234_1_, int p_72234_2_, int p_72234_3_, int p_72234_4_)
+	public int getFullMetadata(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		int var5 = p_72234_1_.getBlockMetadata(p_72234_2_, p_72234_3_, p_72234_4_);
+		int var5 = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
 		boolean var6 = (var5 & 8) != 0;
 		int var7;
 		int var8;
 		if(var6)
 		{
-			var7 = p_72234_1_.getBlockMetadata(p_72234_2_, p_72234_3_ - 1, p_72234_4_);
+			var7 = par1IBlockAccess.getBlockMetadata(par2, par3 - 1, par4);
 			var8 = var5;
 		} else
 		{
 			var7 = var5;
-			var8 = p_72234_1_.getBlockMetadata(p_72234_2_, p_72234_3_ + 1, p_72234_4_);
+			var8 = par1IBlockAccess.getBlockMetadata(par2, par3 + 1, par4);
 		}
 		boolean var9 = (var8 & 1) != 0;
 		return var7 & 7 | (var6 ? 8 : 0) | (var9 ? 16 : 0);
@@ -120,7 +112,7 @@ public class BlockDoor extends Block
 	
 	@Override public Icon getIcon(int par1, int par2)
 	{
-		return iconArray[doorTypeForIcon];
+		return field_111043_b[0];
 	}
 	
 	@Override public int getMobilityFlag()
@@ -139,9 +131,9 @@ public class BlockDoor extends Block
 		return super.getSelectedBoundingBoxFromPool(par1World, par2, par3, par4);
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
-		return (p_71885_1_ & 8) != 0 ? 0 : blockMaterial == Material.iron ? Item.doorIron.itemID : Item.doorWood.itemID;
+		return (par1 & 8) != 0 ? 0 : blockMaterial == Material.iron ? Item.doorIron.itemID : Item.doorWood.itemID;
 	}
 	
 	@Override public int idPicked(World par1World, int par2, int par3, int par4)
@@ -149,9 +141,9 @@ public class BlockDoor extends Block
 		return blockMaterial == Material.iron ? Item.doorIron.itemID : Item.doorWood.itemID;
 	}
 	
-	public boolean isDoorOpen(IBlockAccess p_72233_1_, int p_72233_2_, int p_72233_3_, int p_72233_4_)
+	public boolean isDoorOpen(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		return (getFullMetadata(p_72233_1_, p_72233_2_, p_72233_3_, p_72233_4_) & 4) != 0;
+		return (getFullMetadata(par1IBlockAccess, par2, par3, par4) & 4) != 0;
 	}
 	
 	@Override public boolean isOpaqueCube()
@@ -159,116 +151,116 @@ public class BlockDoor extends Block
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
 		if(blockMaterial == Material.iron) return true;
 		else
 		{
-			int var10 = getFullMetadata(p_71903_1_, p_71903_2_, p_71903_3_, p_71903_4_);
+			int var10 = getFullMetadata(par1World, par2, par3, par4);
 			int var11 = var10 & 7;
 			var11 ^= 4;
 			if((var10 & 8) == 0)
 			{
-				p_71903_1_.setBlockMetadataWithNotify(p_71903_2_, p_71903_3_, p_71903_4_, var11, 2);
-				p_71903_1_.markBlockRangeForRenderUpdate(p_71903_2_, p_71903_3_, p_71903_4_, p_71903_2_, p_71903_3_, p_71903_4_);
+				par1World.setBlockMetadataWithNotify(par2, par3, par4, var11, 2);
+				par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
 			} else
 			{
-				p_71903_1_.setBlockMetadataWithNotify(p_71903_2_, p_71903_3_ - 1, p_71903_4_, var11, 2);
-				p_71903_1_.markBlockRangeForRenderUpdate(p_71903_2_, p_71903_3_ - 1, p_71903_4_, p_71903_2_, p_71903_3_, p_71903_4_);
+				par1World.setBlockMetadataWithNotify(par2, par3 - 1, par4, var11, 2);
+				par1World.markBlockRangeForRenderUpdate(par2, par3 - 1, par4, par2, par3, par4);
 			}
-			p_71903_1_.playAuxSFXAtEntity(p_71903_5_, 1003, p_71903_2_, p_71903_3_, p_71903_4_, 0);
+			par1World.playAuxSFXAtEntity(par5EntityPlayer, 1003, par2, par3, par4, 0);
 			return true;
 		}
 	}
 	
-	@Override public void onBlockClicked(World p_71921_1_, int p_71921_2_, int p_71921_3_, int p_71921_4_, EntityPlayer p_71921_5_)
+	@Override public void onBlockClicked(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer)
 	{
 	}
 	
-	@Override public void onBlockHarvested(World p_71846_1_, int p_71846_2_, int p_71846_3_, int p_71846_4_, int p_71846_5_, EntityPlayer p_71846_6_)
+	@Override public void onBlockHarvested(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer)
 	{
-		if(p_71846_6_.capabilities.isCreativeMode && (p_71846_5_ & 8) != 0 && p_71846_1_.getBlockId(p_71846_2_, p_71846_3_ - 1, p_71846_4_) == blockID)
+		if(par6EntityPlayer.capabilities.isCreativeMode && (par5 & 8) != 0 && par1World.getBlockId(par2, par3 - 1, par4) == blockID)
 		{
-			p_71846_1_.setBlockToAir(p_71846_2_, p_71846_3_ - 1, p_71846_4_);
+			par1World.setBlockToAir(par2, par3 - 1, par4);
 		}
 	}
 	
-	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
+	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
-		int var6 = p_71863_1_.getBlockMetadata(p_71863_2_, p_71863_3_, p_71863_4_);
+		int var6 = par1World.getBlockMetadata(par2, par3, par4);
 		if((var6 & 8) == 0)
 		{
 			boolean var7 = false;
-			if(p_71863_1_.getBlockId(p_71863_2_, p_71863_3_ + 1, p_71863_4_) != blockID)
+			if(par1World.getBlockId(par2, par3 + 1, par4) != blockID)
 			{
-				p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
+				par1World.setBlockToAir(par2, par3, par4);
 				var7 = true;
 			}
-			if(!p_71863_1_.doesBlockHaveSolidTopSurface(p_71863_2_, p_71863_3_ - 1, p_71863_4_))
+			if(!par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4))
 			{
-				p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
+				par1World.setBlockToAir(par2, par3, par4);
 				var7 = true;
-				if(p_71863_1_.getBlockId(p_71863_2_, p_71863_3_ + 1, p_71863_4_) == blockID)
+				if(par1World.getBlockId(par2, par3 + 1, par4) == blockID)
 				{
-					p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_ + 1, p_71863_4_);
+					par1World.setBlockToAir(par2, par3 + 1, par4);
 				}
 			}
 			if(var7)
 			{
-				if(!p_71863_1_.isRemote)
+				if(!par1World.isRemote)
 				{
-					dropBlockAsItem(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, var6, 0);
+					dropBlockAsItem(par1World, par2, par3, par4, var6, 0);
 				}
 			} else
 			{
-				boolean var8 = p_71863_1_.isBlockIndirectlyGettingPowered(p_71863_2_, p_71863_3_, p_71863_4_) || p_71863_1_.isBlockIndirectlyGettingPowered(p_71863_2_, p_71863_3_ + 1, p_71863_4_);
-				if((var8 || p_71863_5_ > 0 && Block.blocksList[p_71863_5_].canProvidePower()) && p_71863_5_ != blockID)
+				boolean var8 = par1World.isBlockIndirectlyGettingPowered(par2, par3, par4) || par1World.isBlockIndirectlyGettingPowered(par2, par3 + 1, par4);
+				if((var8 || par5 > 0 && Block.blocksList[par5].canProvidePower()) && par5 != blockID)
 				{
-					onPoweredBlockChange(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, var8);
+					onPoweredBlockChange(par1World, par2, par3, par4, var8);
 				}
 			}
 		} else
 		{
-			if(p_71863_1_.getBlockId(p_71863_2_, p_71863_3_ - 1, p_71863_4_) != blockID)
+			if(par1World.getBlockId(par2, par3 - 1, par4) != blockID)
 			{
-				p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
+				par1World.setBlockToAir(par2, par3, par4);
 			}
-			if(p_71863_5_ > 0 && p_71863_5_ != blockID)
+			if(par5 > 0 && par5 != blockID)
 			{
-				onNeighborBlockChange(p_71863_1_, p_71863_2_, p_71863_3_ - 1, p_71863_4_, p_71863_5_);
+				onNeighborBlockChange(par1World, par2, par3 - 1, par4, par5);
 			}
 		}
 	}
 	
-	public void onPoweredBlockChange(World p_72231_1_, int p_72231_2_, int p_72231_3_, int p_72231_4_, boolean p_72231_5_)
+	public void onPoweredBlockChange(World par1World, int par2, int par3, int par4, boolean par5)
 	{
-		int var6 = getFullMetadata(p_72231_1_, p_72231_2_, p_72231_3_, p_72231_4_);
+		int var6 = getFullMetadata(par1World, par2, par3, par4);
 		boolean var7 = (var6 & 4) != 0;
-		if(var7 != p_72231_5_)
+		if(var7 != par5)
 		{
 			int var8 = var6 & 7;
 			var8 ^= 4;
 			if((var6 & 8) == 0)
 			{
-				p_72231_1_.setBlockMetadataWithNotify(p_72231_2_, p_72231_3_, p_72231_4_, var8, 2);
-				p_72231_1_.markBlockRangeForRenderUpdate(p_72231_2_, p_72231_3_, p_72231_4_, p_72231_2_, p_72231_3_, p_72231_4_);
+				par1World.setBlockMetadataWithNotify(par2, par3, par4, var8, 2);
+				par1World.markBlockRangeForRenderUpdate(par2, par3, par4, par2, par3, par4);
 			} else
 			{
-				p_72231_1_.setBlockMetadataWithNotify(p_72231_2_, p_72231_3_ - 1, p_72231_4_, var8, 2);
-				p_72231_1_.markBlockRangeForRenderUpdate(p_72231_2_, p_72231_3_ - 1, p_72231_4_, p_72231_2_, p_72231_3_, p_72231_4_);
+				par1World.setBlockMetadataWithNotify(par2, par3 - 1, par4, var8, 2);
+				par1World.markBlockRangeForRenderUpdate(par2, par3 - 1, par4, par2, par3, par4);
 			}
-			p_72231_1_.playAuxSFXAtEntity((EntityPlayer) null, 1003, p_72231_2_, p_72231_3_, p_72231_4_, 0);
+			par1World.playAuxSFXAtEntity((EntityPlayer) null, 1003, par2, par3, par4, 0);
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray = new Icon[doorIconNames.length * 2];
-		for(int var2 = 0; var2 < doorIconNames.length; ++var2)
-		{
-			iconArray[var2] = par1IconRegister.registerIcon(doorIconNames[var2]);
-			iconArray[var2 + doorIconNames.length] = new IconFlipped(iconArray[var2], true, false);
-		}
+		field_111044_a = new Icon[2];
+		field_111043_b = new Icon[2];
+		field_111044_a[0] = par1IconRegister.registerIcon(func_111023_E() + "_upper");
+		field_111043_b[0] = par1IconRegister.registerIcon(func_111023_E() + "_lower");
+		field_111044_a[1] = new IconFlipped(field_111044_a[0], true, false);
+		field_111043_b[1] = new IconFlipped(field_111043_b[0], true, false);
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -276,18 +268,18 @@ public class BlockDoor extends Block
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		setDoorRotation(getFullMetadata(p_71902_1_, p_71902_2_, p_71902_3_, p_71902_4_));
+		setDoorRotation(getFullMetadata(par1IBlockAccess, par2, par3, par4));
 	}
 	
-	private void setDoorRotation(int p_72232_1_)
+	private void setDoorRotation(int par1)
 	{
 		float var2 = 0.1875F;
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
-		int var3 = p_72232_1_ & 3;
-		boolean var4 = (p_72232_1_ & 4) != 0;
-		boolean var5 = (p_72232_1_ & 16) != 0;
+		int var3 = par1 & 3;
+		boolean var4 = (par1 & 4) != 0;
+		boolean var5 = (par1 & 16) != 0;
 		if(var3 == 0)
 		{
 			if(var4)

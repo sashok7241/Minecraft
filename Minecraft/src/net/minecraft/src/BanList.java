@@ -20,9 +20,9 @@ public class BanList
 	private final File fileName;
 	private boolean listActive = true;
 	
-	public BanList(File p_i3368_1_)
+	public BanList(File par1File)
 	{
-		fileName = p_i3368_1_;
+		fileName = par1File;
 	}
 	
 	public Map getBannedList()
@@ -31,13 +31,13 @@ public class BanList
 		return theBanList;
 	}
 	
-	public boolean isBanned(String p_73704_1_)
+	public boolean isBanned(String par1Str)
 	{
 		if(!isListActive()) return false;
 		else
 		{
 			removeExpiredBans();
-			return theBanList.containsKey(p_73704_1_);
+			return theBanList.containsKey(par1Str);
 		}
 	}
 	
@@ -79,15 +79,15 @@ public class BanList
 		}
 	}
 	
-	public void put(BanEntry p_73706_1_)
+	public void put(BanEntry par1BanEntry)
 	{
-		theBanList.putLower(p_73706_1_.getBannedUsername(), p_73706_1_);
+		theBanList.putLower(par1BanEntry.getBannedUsername(), par1BanEntry);
 		saveToFileWithHeader();
 	}
 	
-	public void remove(String p_73709_1_)
+	public void remove(String par1Str)
 	{
-		theBanList.remove(p_73709_1_);
+		theBanList.remove(par1Str);
 		saveToFileWithHeader();
 	}
 	
@@ -104,15 +104,15 @@ public class BanList
 		}
 	}
 	
-	public void saveToFile(boolean p_73703_1_)
+	public void saveToFile(boolean par1)
 	{
 		removeExpiredBans();
 		try
 		{
 			PrintWriter var2 = new PrintWriter(new FileWriter(fileName, false));
-			if(p_73703_1_)
+			if(par1)
 			{
-				var2.println("# Updated " + new SimpleDateFormat().format(new Date()) + " by Minecraft " + "1.5.2");
+				var2.println("# Updated " + new SimpleDateFormat().format(new Date()) + " by Minecraft " + "1.6.2");
 				var2.println("# victim name | ban date | banned by | banned until | reason");
 				var2.println();
 			}
@@ -134,8 +134,8 @@ public class BanList
 		saveToFile(true);
 	}
 	
-	public void setListActive(boolean p_73708_1_)
+	public void setListActive(boolean par1)
 	{
-		listActive = p_73708_1_;
+		listActive = par1;
 	}
 }

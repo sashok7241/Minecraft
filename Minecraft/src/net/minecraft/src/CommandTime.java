@@ -6,16 +6,16 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandTime extends CommandBase
 {
-	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
+	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		return p_71516_2_.length == 1 ? getListOfStringsMatchingLastWord(p_71516_2_, new String[] { "set", "add" }) : p_71516_2_.length == 2 && p_71516_2_[0].equals("set") ? getListOfStringsMatchingLastWord(p_71516_2_, new String[] { "day", "night" }) : null;
+		return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] { "set", "add" }) : par2ArrayOfStr.length == 2 && par2ArrayOfStr[0].equals("set") ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] { "day", "night" }) : null;
 	}
 	
-	protected void addTime(ICommandSender p_71553_1_, int p_71553_2_)
+	protected void addTime(ICommandSender par1ICommandSender, int par2)
 	{
 		for(WorldServer var4 : MinecraftServer.getServer().worldServers)
 		{
-			var4.setWorldTime(var4.getWorldTime() + p_71553_2_);
+			var4.setWorldTime(var4.getWorldTime() + par2);
 		}
 	}
 	
@@ -24,9 +24,9 @@ public class CommandTime extends CommandBase
 		return "time";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender p_71518_1_)
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return p_71518_1_.translateString("commands.time.usage", new Object[0]);
+		return "commands.time.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -34,43 +34,43 @@ public class CommandTime extends CommandBase
 		return 2;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		if(p_71515_2_.length > 1)
+		if(par2ArrayOfStr.length > 1)
 		{
 			int var3;
-			if(p_71515_2_[0].equals("set"))
+			if(par2ArrayOfStr[0].equals("set"))
 			{
-				if(p_71515_2_[1].equals("day"))
+				if(par2ArrayOfStr[1].equals("day"))
 				{
 					var3 = 0;
-				} else if(p_71515_2_[1].equals("night"))
+				} else if(par2ArrayOfStr[1].equals("night"))
 				{
 					var3 = 12500;
 				} else
 				{
-					var3 = parseIntWithMin(p_71515_1_, p_71515_2_[1], 0);
+					var3 = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[1], 0);
 				}
-				setTime(p_71515_1_, var3);
-				notifyAdmins(p_71515_1_, "commands.time.set", new Object[] { Integer.valueOf(var3) });
+				setTime(par1ICommandSender, var3);
+				notifyAdmins(par1ICommandSender, "commands.time.set", new Object[] { Integer.valueOf(var3) });
 				return;
 			}
-			if(p_71515_2_[0].equals("add"))
+			if(par2ArrayOfStr[0].equals("add"))
 			{
-				var3 = parseIntWithMin(p_71515_1_, p_71515_2_[1], 0);
-				addTime(p_71515_1_, var3);
-				notifyAdmins(p_71515_1_, "commands.time.added", new Object[] { Integer.valueOf(var3) });
+				var3 = parseIntWithMin(par1ICommandSender, par2ArrayOfStr[1], 0);
+				addTime(par1ICommandSender, var3);
+				notifyAdmins(par1ICommandSender, "commands.time.added", new Object[] { Integer.valueOf(var3) });
 				return;
 			}
 		}
 		throw new WrongUsageException("commands.time.usage", new Object[0]);
 	}
 	
-	protected void setTime(ICommandSender p_71552_1_, int p_71552_2_)
+	protected void setTime(ICommandSender par1ICommandSender, int par2)
 	{
 		for(WorldServer worldServer : MinecraftServer.getServer().worldServers)
 		{
-			worldServer.setWorldTime(p_71552_2_);
+			worldServer.setWorldTime(par2);
 		}
 	}
 }

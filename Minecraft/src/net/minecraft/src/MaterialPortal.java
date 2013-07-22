@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class MaterialPortal extends Material
 {
-	public MaterialPortal(MapColor p_i3884_1_)
+	public MaterialPortal(MapColor par1MapColor)
 	{
-		super(p_i3884_1_);
+		super(par1MapColor);
 	}
 	
 	@Override public boolean blocksMovement()

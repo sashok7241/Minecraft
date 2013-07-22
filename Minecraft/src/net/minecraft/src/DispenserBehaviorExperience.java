@@ -12,8 +12,8 @@ final class DispenserBehaviorExperience extends BehaviorProjectileDispense
 		return super.func_82500_b() * 1.25F;
 	}
 	
-	@Override protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+	@Override protected IProjectile getProjectileEntity(World par1World, IPosition par2IPosition)
 	{
-		return new EntityExpBottle(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+		return new EntityExpBottle(par1World, par2IPosition.getX(), par2IPosition.getY(), par2IPosition.getZ());
 	}
 }

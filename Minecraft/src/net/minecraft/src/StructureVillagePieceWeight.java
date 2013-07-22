@@ -7,11 +7,11 @@ public class StructureVillagePieceWeight
 	public int villagePiecesSpawned;
 	public int villagePiecesLimit;
 	
-	public StructureVillagePieceWeight(Class p_i3864_1_, int p_i3864_2_, int p_i3864_3_)
+	public StructureVillagePieceWeight(Class par1Class, int par2, int par3)
 	{
-		villagePieceClass = p_i3864_1_;
-		villagePieceWeight = p_i3864_2_;
-		villagePiecesLimit = p_i3864_3_;
+		villagePieceClass = par1Class;
+		villagePieceWeight = par2;
+		villagePiecesLimit = par3;
 	}
 	
 	public boolean canSpawnMoreVillagePieces()
@@ -19,7 +19,7 @@ public class StructureVillagePieceWeight
 		return villagePiecesLimit == 0 || villagePiecesSpawned < villagePiecesLimit;
 	}
 	
-	public boolean canSpawnMoreVillagePiecesOfType(int p_75085_1_)
+	public boolean canSpawnMoreVillagePiecesOfType(int par1)
 	{
 		return villagePiecesLimit == 0 || villagePiecesSpawned < villagePiecesLimit;
 	}

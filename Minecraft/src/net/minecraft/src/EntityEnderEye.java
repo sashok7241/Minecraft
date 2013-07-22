@@ -2,25 +2,24 @@ package net.minecraft.src;
 
 public class EntityEnderEye extends Entity
 {
-	public int field_70226_a = 0;
 	private double targetX;
 	private double targetY;
 	private double targetZ;
 	private int despawnTimer;
 	private boolean shatterOrDrop;
 	
-	public EntityEnderEye(World p_i3569_1_)
+	public EntityEnderEye(World par1World)
 	{
-		super(p_i3569_1_);
+		super(par1World);
 		setSize(0.25F, 0.25F);
 	}
 	
-	public EntityEnderEye(World p_i3570_1_, double p_i3570_2_, double p_i3570_4_, double p_i3570_6_)
+	public EntityEnderEye(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i3570_1_);
+		super(par1World);
 		despawnTimer = 0;
 		setSize(0.25F, 0.25F);
-		setPosition(p_i3570_2_, p_i3570_4_, p_i3570_6_);
+		setPosition(par2, par4, par6);
 		yOffset = 0.0F;
 	}
 	
@@ -33,7 +32,7 @@ public class EntityEnderEye extends Entity
 	{
 	}
 	
-	@Override public float getBrightness(float p_70013_1_)
+	@Override public float getBrightness(float par1)
 	{
 		return 1.0F;
 	}
@@ -55,10 +54,10 @@ public class EntityEnderEye extends Entity
 		return par1 < var3 * var3;
 	}
 	
-	public void moveTowards(double p_70220_1_, int p_70220_3_, double p_70220_4_)
+	public void moveTowards(double par1, int par3, double par4)
 	{
-		double var6 = p_70220_1_ - posX;
-		double var8 = p_70220_4_ - posZ;
+		double var6 = par1 - posX;
+		double var8 = par4 - posZ;
 		float var10 = MathHelper.sqrt_double(var6 * var6 + var8 * var8);
 		if(var10 > 12.0F)
 		{
@@ -67,9 +66,9 @@ public class EntityEnderEye extends Entity
 			targetY = posY + 8.0D;
 		} else
 		{
-			targetX = p_70220_1_;
-			targetY = p_70220_3_;
-			targetZ = p_70220_4_;
+			targetX = par1;
+			targetY = par3;
+			targetZ = par4;
 		}
 		despawnTimer = 0;
 		shatterOrDrop = rand.nextInt(5) > 0;
@@ -155,7 +154,7 @@ public class EntityEnderEye extends Entity
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
 	}
 	
@@ -172,7 +171,7 @@ public class EntityEnderEye extends Entity
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 	}
 }

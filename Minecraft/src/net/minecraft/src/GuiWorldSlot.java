@@ -6,10 +6,10 @@ class GuiWorldSlot extends GuiSlot
 {
 	final GuiSelectWorld parentWorldGui;
 	
-	public GuiWorldSlot(GuiSelectWorld p_i3062_1_)
+	public GuiWorldSlot(GuiSelectWorld par1GuiSelectWorld)
 	{
-		super(p_i3062_1_.mc, p_i3062_1_.width, p_i3062_1_.height, 32, p_i3062_1_.height - 64, 36);
-		parentWorldGui = p_i3062_1_;
+		super(par1GuiSelectWorld.mc, par1GuiSelectWorld.width, par1GuiSelectWorld.height, 32, par1GuiSelectWorld.height - 64, 36);
+		parentWorldGui = par1GuiSelectWorld;
 	}
 	
 	@Override protected void drawBackground()
@@ -37,11 +37,11 @@ class GuiWorldSlot extends GuiSlot
 			var9 = GuiSelectWorld.func_82314_j(parentWorldGui)[var6.getEnumGameType().getID()];
 			if(var6.isHardcoreModeEnabled())
 			{
-				var9 = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal("gameMode.hardcore") + EnumChatFormatting.RESET;
+				var9 = EnumChatFormatting.DARK_RED + I18n.func_135053_a("gameMode.hardcore") + EnumChatFormatting.RESET;
 			}
 			if(var6.getCheatsEnabled())
 			{
-				var9 = var9 + ", " + StatCollector.translateToLocal("selectWorld.cheats");
+				var9 = var9 + ", " + I18n.func_135053_a("selectWorld.cheats");
 			}
 		}
 		parentWorldGui.drawString(parentWorldGui.fontRenderer, var7, par2 + 2, par3 + 1, 16777215);

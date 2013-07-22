@@ -1,7 +1,8 @@
 package net.minecraft.src;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -18,19 +19,19 @@ public class Packet52MultiBlockChange extends Packet
 		isChunkDataPacket = true;
 	}
 	
-	public Packet52MultiBlockChange(int p_i3302_1_, int p_i3302_2_, short[] p_i3302_3_, int p_i3302_4_, World p_i3302_5_)
+	public Packet52MultiBlockChange(int par1, int par2, short[] par3ArrayOfShort, int par4, World par5World)
 	{
 		isChunkDataPacket = true;
-		xPosition = p_i3302_1_;
-		zPosition = p_i3302_2_;
-		size = p_i3302_4_;
-		int var6 = 4 * p_i3302_4_;
-		Chunk var7 = p_i3302_5_.getChunkFromChunkCoords(p_i3302_1_, p_i3302_2_);
+		xPosition = par1;
+		zPosition = par2;
+		size = par4;
+		int var6 = 4 * par4;
+		Chunk var7 = par5World.getChunkFromChunkCoords(par1, par2);
 		try
 		{
-			if(p_i3302_4_ >= 64)
+			if(par4 >= 64)
 			{
-				field_98193_m.logInfo("ChunkTilesUpdatePacket compress " + p_i3302_4_);
+				field_98193_m.logInfo("ChunkTilesUpdatePacket compress " + par4);
 				if(field_73449_e.length < var6)
 				{
 					field_73449_e = new byte[var6];
@@ -39,12 +40,12 @@ public class Packet52MultiBlockChange extends Packet
 			{
 				ByteArrayOutputStream var8 = new ByteArrayOutputStream(var6);
 				DataOutputStream var9 = new DataOutputStream(var8);
-				for(int var10 = 0; var10 < p_i3302_4_; ++var10)
+				for(int var10 = 0; var10 < par4; ++var10)
 				{
-					int var11 = p_i3302_3_[var10] >> 12 & 15;
-					int var12 = p_i3302_3_[var10] >> 8 & 15;
-					int var13 = p_i3302_3_[var10] & 255;
-					var9.writeShort(p_i3302_3_[var10]);
+					int var11 = par3ArrayOfShort[var10] >> 12 & 15;
+					int var12 = par3ArrayOfShort[var10] >> 8 & 15;
+					int var13 = par3ArrayOfShort[var10] & 255;
+					var9.writeShort(par3ArrayOfShort[var10]);
 					var9.writeShort((short) ((var7.getBlockID(var11, var13, var12) & 4095) << 4 | var7.getBlockMetadata(var11, var13, var12) & 15));
 				}
 				metadataArray = var8.toByteArray();
@@ -62,36 +63,36 @@ public class Packet52MultiBlockChange extends Packet
 		return 10 + size * 4;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleMultiBlockChange(this);
+		par1NetHandler.handleMultiBlockChange(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xPosition = p_73267_1_.readInt();
-		zPosition = p_73267_1_.readInt();
-		size = p_73267_1_.readShort() & 65535;
-		int var2 = p_73267_1_.readInt();
+		xPosition = par1DataInput.readInt();
+		zPosition = par1DataInput.readInt();
+		size = par1DataInput.readShort() & 65535;
+		int var2 = par1DataInput.readInt();
 		if(var2 > 0)
 		{
 			metadataArray = new byte[var2];
-			p_73267_1_.readFully(metadataArray);
+			par1DataInput.readFully(metadataArray);
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(xPosition);
-		p_73273_1_.writeInt(zPosition);
-		p_73273_1_.writeShort((short) size);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeInt(zPosition);
+		par1DataOutput.writeShort((short) size);
 		if(metadataArray != null)
 		{
-			p_73273_1_.writeInt(metadataArray.length);
-			p_73273_1_.write(metadataArray);
+			par1DataOutput.writeInt(metadataArray.length);
+			par1DataOutput.write(metadataArray);
 		} else
 		{
-			p_73273_1_.writeInt(0);
+			par1DataOutput.writeInt(0);
 		}
 	}
 }

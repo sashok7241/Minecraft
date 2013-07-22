@@ -7,24 +7,24 @@ public class BlockWoodSlab extends BlockHalfSlab
 {
 	public static final String[] woodType = new String[] { "oak", "spruce", "birch", "jungle" };
 	
-	public BlockWoodSlab(int p_i4022_1_, boolean p_i4022_2_)
+	public BlockWoodSlab(int par1, boolean par2)
 	{
-		super(p_i4022_1_, p_i4022_2_, Material.wood);
+		super(par1, par2, Material.wood);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	@Override protected ItemStack createStackedBlock(int p_71880_1_)
+	@Override protected ItemStack createStackedBlock(int par1)
 	{
-		return new ItemStack(Block.woodSingleSlab.blockID, 2, p_71880_1_ & 7);
+		return new ItemStack(Block.woodSingleSlab.blockID, 2, par1 & 7);
 	}
 	
-	@Override public String getFullSlabName(int p_72240_1_)
+	@Override public String getFullSlabName(int par1)
 	{
-		if(p_72240_1_ < 0 || p_72240_1_ >= woodType.length)
+		if(par1 < 0 || par1 >= woodType.length)
 		{
-			p_72240_1_ = 0;
+			par1 = 0;
 		}
-		return super.getUnlocalizedName() + "." + woodType[p_72240_1_];
+		return super.getUnlocalizedName() + "." + woodType[par1];
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -43,7 +43,7 @@ public class BlockWoodSlab extends BlockHalfSlab
 		}
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return Block.woodSingleSlab.blockID;
 	}

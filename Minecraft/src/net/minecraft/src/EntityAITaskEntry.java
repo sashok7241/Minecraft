@@ -6,10 +6,10 @@ class EntityAITaskEntry
 	public int priority;
 	final EntityAITasks tasks;
 	
-	public EntityAITaskEntry(EntityAITasks p_i3468_1_, int p_i3468_2_, EntityAIBase p_i3468_3_)
+	public EntityAITaskEntry(EntityAITasks par1EntityAITasks, int par2, EntityAIBase par3EntityAIBase)
 	{
-		tasks = p_i3468_1_;
-		priority = p_i3468_2_;
-		action = p_i3468_3_;
+		tasks = par1EntityAITasks;
+		priority = par2;
+		action = par3EntityAIBase;
 	}
 }

@@ -8,24 +8,24 @@ public class BlockStep extends BlockHalfSlab
 	public static final String[] blockStepTypes = new String[] { "stone", "sand", "wood", "cobble", "brick", "smoothStoneBrick", "netherBrick", "quartz" };
 	private Icon theIcon;
 	
-	public BlockStep(int p_i4000_1_, boolean p_i4000_2_)
+	public BlockStep(int par1, boolean par2)
 	{
-		super(p_i4000_1_, p_i4000_2_, Material.rock);
+		super(par1, par2, Material.rock);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	@Override protected ItemStack createStackedBlock(int p_71880_1_)
+	@Override protected ItemStack createStackedBlock(int par1)
 	{
-		return new ItemStack(Block.stoneSingleSlab.blockID, 2, p_71880_1_ & 7);
+		return new ItemStack(Block.stoneSingleSlab.blockID, 2, par1 & 7);
 	}
 	
-	@Override public String getFullSlabName(int p_72240_1_)
+	@Override public String getFullSlabName(int par1)
 	{
-		if(p_72240_1_ < 0 || p_72240_1_ >= blockStepTypes.length)
+		if(par1 < 0 || par1 >= blockStepTypes.length)
 		{
-			p_72240_1_ = 0;
+			par1 = 0;
 		}
-		return super.getUnlocalizedName() + "." + blockStepTypes[p_72240_1_];
+		return super.getUnlocalizedName() + "." + blockStepTypes[par1];
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -52,14 +52,14 @@ public class BlockStep extends BlockHalfSlab
 		}
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return Block.stoneSingleSlab.blockID;
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("stoneslab_top");
-		theIcon = par1IconRegister.registerIcon("stoneslab_side");
+		blockIcon = par1IconRegister.registerIcon("stone_slab_top");
+		theIcon = par1IconRegister.registerIcon("stone_slab_side");
 	}
 }

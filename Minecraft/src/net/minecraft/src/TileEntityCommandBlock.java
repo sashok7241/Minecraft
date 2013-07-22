@@ -4,18 +4,18 @@ import net.minecraft.server.MinecraftServer;
 
 public class TileEntityCommandBlock extends TileEntity implements ICommandSender
 {
-	private int succesCount = 0;
+	private int succesCount;
 	private String command = "";
 	private String commandSenderName = "@";
 	
-	@Override public boolean canCommandSenderUseCommand(int p_70003_1_, String p_70003_2_)
+	@Override public boolean canCommandSenderUseCommand(int par1, String par2Str)
 	{
-		return p_70003_1_ <= 2;
+		return par1 <= 2;
 	}
 	
-	public int executeCommandOnPowered(World p_82351_1_)
+	public int executeCommandOnPowered(World par1World)
 	{
-		if(p_82351_1_.isRemote) return 0;
+		if(par1World.isRemote) return 0;
 		else
 		{
 			MinecraftServer var2 = MinecraftServer.getServer();
@@ -27,9 +27,14 @@ public class TileEntityCommandBlock extends TileEntity implements ICommandSender
 		}
 	}
 	
-	public void func_96102_a(int p_96102_1_)
+	@Override public World func_130014_f_()
 	{
-		succesCount = p_96102_1_;
+		return getWorldObj();
+	}
+	
+	public void func_96102_a(int par1)
+	{
+		succesCount = par1;
 	}
 	
 	public int func_96103_d()
@@ -59,42 +64,37 @@ public class TileEntityCommandBlock extends TileEntity implements ICommandSender
 		return new ChunkCoordinates(xCoord, yCoord, zCoord);
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
+	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readFromNBT(p_70307_1_);
-		command = p_70307_1_.getString("Command");
-		succesCount = p_70307_1_.getInteger("SuccessCount");
-		if(p_70307_1_.hasKey("CustomName"))
+		super.readFromNBT(par1NBTTagCompound);
+		command = par1NBTTagCompound.getString("Command");
+		succesCount = par1NBTTagCompound.getInteger("SuccessCount");
+		if(par1NBTTagCompound.hasKey("CustomName"))
 		{
-			commandSenderName = p_70307_1_.getString("CustomName");
+			commandSenderName = par1NBTTagCompound.getString("CustomName");
 		}
 	}
 	
-	@Override public void sendChatToPlayer(String p_70006_1_)
+	@Override public void sendChatToPlayer(ChatMessageComponent par1ChatMessageComponent)
 	{
 	}
 	
-	public void setCommand(String p_82352_1_)
+	public void setCommand(String par1Str)
 	{
-		command = p_82352_1_;
+		command = par1Str;
 		onInventoryChanged();
 	}
 	
-	public void setCommandSenderName(String p_96104_1_)
+	public void setCommandSenderName(String par1Str)
 	{
-		commandSenderName = p_96104_1_;
+		commandSenderName = par1Str;
 	}
 	
-	@Override public String translateString(String p_70004_1_, Object ... p_70004_2_)
+	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		return p_70004_1_;
-	}
-	
-	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
-	{
-		super.writeToNBT(p_70310_1_);
-		p_70310_1_.setString("Command", command);
-		p_70310_1_.setInteger("SuccessCount", succesCount);
-		p_70310_1_.setString("CustomName", commandSenderName);
+		super.writeToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setString("Command", command);
+		par1NBTTagCompound.setInteger("SuccessCount", succesCount);
+		par1NBTTagCompound.setString("CustomName", commandSenderName);
 	}
 }

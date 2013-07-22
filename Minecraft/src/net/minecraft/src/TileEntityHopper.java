@@ -12,22 +12,22 @@ public class TileEntityHopper extends TileEntity implements Hopper
 	{
 	}
 	
-	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
+	@Override public ItemStack decrStackSize(int par1, int par2)
 	{
-		if(hopperItemStacks[p_70298_1_] != null)
+		if(hopperItemStacks[par1] != null)
 		{
 			ItemStack var3;
-			if(hopperItemStacks[p_70298_1_].stackSize <= p_70298_2_)
+			if(hopperItemStacks[par1].stackSize <= par2)
 			{
-				var3 = hopperItemStacks[p_70298_1_];
-				hopperItemStacks[p_70298_1_] = null;
+				var3 = hopperItemStacks[par1];
+				hopperItemStacks[par1] = null;
 				return var3;
 			} else
 			{
-				var3 = hopperItemStacks[p_70298_1_].splitStack(p_70298_2_);
-				if(hopperItemStacks[p_70298_1_].stackSize == 0)
+				var3 = hopperItemStacks[par1].splitStack(par2);
+				if(hopperItemStacks[par1].stackSize == 0)
 				{
-					hopperItemStacks[p_70298_1_] = null;
+					hopperItemStacks[par1] = null;
 				}
 				return var3;
 			}
@@ -40,7 +40,8 @@ public class TileEntityHopper extends TileEntity implements Hopper
 		{
 			if(!isCoolingDown() && BlockHopper.getIsBlockNotPoweredFromMetadata(getBlockMetadata()))
 			{
-				boolean var1 = insertItemToInventory() | suckItemsIntoHopper(this);
+				boolean var1 = insertItemToInventory();
+				var1 = suckItemsIntoHopper(this) || var1;
 				if(var1)
 				{
 					setTransferCooldown(8);
@@ -73,17 +74,17 @@ public class TileEntityHopper extends TileEntity implements Hopper
 		return hopperItemStacks.length;
 	}
 	
-	@Override public ItemStack getStackInSlot(int p_70301_1_)
+	@Override public ItemStack getStackInSlot(int par1)
 	{
-		return hopperItemStacks[p_70301_1_];
+		return hopperItemStacks[par1];
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
+	@Override public ItemStack getStackInSlotOnClosing(int par1)
 	{
-		if(hopperItemStacks[p_70304_1_] != null)
+		if(hopperItemStacks[par1] != null)
 		{
-			ItemStack var2 = hopperItemStacks[p_70304_1_];
-			hopperItemStacks[p_70304_1_] = null;
+			ItemStack var2 = hopperItemStacks[par1];
+			hopperItemStacks[par1] = null;
 			return var2;
 		} else return null;
 	}
@@ -137,14 +138,14 @@ public class TileEntityHopper extends TileEntity implements Hopper
 		return inventoryName != null && inventoryName.length() > 0;
 	}
 	
-	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
+	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
 	{
 		return true;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
+	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
 	{
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : p_70300_1_.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : par1EntityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
 	}
 	
 	@Override public void onInventoryChanged()
@@ -156,16 +157,16 @@ public class TileEntityHopper extends TileEntity implements Hopper
 	{
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
+	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readFromNBT(p_70307_1_);
-		NBTTagList var2 = p_70307_1_.getTagList("Items");
+		super.readFromNBT(par1NBTTagCompound);
+		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
 		hopperItemStacks = new ItemStack[getSizeInventory()];
-		if(p_70307_1_.hasKey("CustomName"))
+		if(par1NBTTagCompound.hasKey("CustomName"))
 		{
-			inventoryName = p_70307_1_.getString("CustomName");
+			inventoryName = par1NBTTagCompound.getString("CustomName");
 		}
-		transferCooldown = p_70307_1_.getInteger("TransferCooldown");
+		transferCooldown = par1NBTTagCompound.getInteger("TransferCooldown");
 		for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
 			NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
@@ -177,23 +178,23 @@ public class TileEntityHopper extends TileEntity implements Hopper
 		}
 	}
 	
-	public void setInventoryName(String p_96115_1_)
+	public void setInventoryName(String par1Str)
 	{
-		inventoryName = p_96115_1_;
+		inventoryName = par1Str;
 	}
 	
-	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
+	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
 	{
-		hopperItemStacks[p_70299_1_] = p_70299_2_;
-		if(p_70299_2_ != null && p_70299_2_.stackSize > getInventoryStackLimit())
+		hopperItemStacks[par1] = par2ItemStack;
+		if(par2ItemStack != null && par2ItemStack.stackSize > getInventoryStackLimit())
 		{
-			p_70299_2_.stackSize = getInventoryStackLimit();
+			par2ItemStack.stackSize = getInventoryStackLimit();
 		}
 	}
 	
-	public void setTransferCooldown(int p_98046_1_)
+	public void setTransferCooldown(int par1)
 	{
-		transferCooldown = p_98046_1_;
+		transferCooldown = par1;
 	}
 	
 	@Override public void updateEntity()
@@ -209,9 +210,9 @@ public class TileEntityHopper extends TileEntity implements Hopper
 		}
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
+	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeToNBT(p_70310_1_);
+		super.writeToNBT(par1NBTTagCompound);
 		NBTTagList var2 = new NBTTagList();
 		for(int var3 = 0; var3 < hopperItemStacks.length; ++var3)
 		{
@@ -223,167 +224,168 @@ public class TileEntityHopper extends TileEntity implements Hopper
 				var2.appendTag(var4);
 			}
 		}
-		p_70310_1_.setTag("Items", var2);
-		p_70310_1_.setInteger("TransferCooldown", transferCooldown);
+		par1NBTTagCompound.setTag("Items", var2);
+		par1NBTTagCompound.setInteger("TransferCooldown", transferCooldown);
 		if(isInvNameLocalized())
 		{
-			p_70310_1_.setString("CustomName", inventoryName);
+			par1NBTTagCompound.setString("CustomName", inventoryName);
 		}
 	}
 	
-	private static boolean areItemStacksEqualItem(ItemStack p_94114_1_, ItemStack p_94114_2_)
+	private static boolean areItemStacksEqualItem(ItemStack par0ItemStack, ItemStack par1ItemStack)
 	{
-		return p_94114_1_.itemID != p_94114_2_.itemID ? false : p_94114_1_.getItemDamage() != p_94114_2_.getItemDamage() ? false : p_94114_1_.stackSize > p_94114_1_.getMaxStackSize() ? false : ItemStack.areItemStackTagsEqual(p_94114_1_, p_94114_2_);
+		return par0ItemStack.itemID != par1ItemStack.itemID ? false : par0ItemStack.getItemDamage() != par1ItemStack.getItemDamage() ? false : par0ItemStack.stackSize > par0ItemStack.getMaxStackSize() ? false : ItemStack.areItemStackTagsEqual(par0ItemStack, par1ItemStack);
 	}
 	
-	private static boolean canExtractItemFromInventory(IInventory p_102013_0_, ItemStack p_102013_1_, int p_102013_2_, int p_102013_3_)
+	private static boolean canExtractItemFromInventory(IInventory par0IInventory, ItemStack par1ItemStack, int par2, int par3)
 	{
-		return !(p_102013_0_ instanceof ISidedInventory) || ((ISidedInventory) p_102013_0_).canExtractItem(p_102013_2_, p_102013_1_, p_102013_3_);
+		return !(par0IInventory instanceof ISidedInventory) || ((ISidedInventory) par0IInventory).canExtractItem(par2, par1ItemStack, par3);
 	}
 	
-	private static boolean canInsertItemToInventory(IInventory p_102015_0_, ItemStack p_102015_1_, int p_102015_2_, int p_102015_3_)
+	private static boolean canInsertItemToInventory(IInventory par0IInventory, ItemStack par1ItemStack, int par2, int par3)
 	{
-		return !p_102015_0_.isItemValidForSlot(p_102015_2_, p_102015_1_) ? false : !(p_102015_0_ instanceof ISidedInventory) || ((ISidedInventory) p_102015_0_).canInsertItem(p_102015_2_, p_102015_1_, p_102015_3_);
+		return !par0IInventory.isItemValidForSlot(par2, par1ItemStack) ? false : !(par0IInventory instanceof ISidedInventory) || ((ISidedInventory) par0IInventory).canInsertItem(par2, par1ItemStack, par3);
 	}
 	
-	private static boolean func_102012_a(Hopper p_102012_0_, IInventory p_102012_1_, int p_102012_2_, int p_102012_3_)
+	private static boolean func_102012_a(Hopper par0Hopper, IInventory par1IInventory, int par2, int par3)
 	{
-		ItemStack var4 = p_102012_1_.getStackInSlot(p_102012_2_);
-		if(var4 != null && canExtractItemFromInventory(p_102012_1_, var4, p_102012_2_, p_102012_3_))
+		ItemStack var4 = par1IInventory.getStackInSlot(par2);
+		if(var4 != null && canExtractItemFromInventory(par1IInventory, var4, par2, par3))
 		{
 			ItemStack var5 = var4.copy();
-			ItemStack var6 = insertStack(p_102012_0_, p_102012_1_.decrStackSize(p_102012_2_, 1), -1);
+			ItemStack var6 = insertStack(par0Hopper, par1IInventory.decrStackSize(par2, 1), -1);
 			if(var6 == null || var6.stackSize == 0)
 			{
-				p_102012_1_.onInventoryChanged();
+				par1IInventory.onInventoryChanged();
 				return true;
 			}
-			p_102012_1_.setInventorySlotContents(p_102012_2_, var5);
+			par1IInventory.setInventorySlotContents(par2, var5);
 		}
 		return false;
 	}
 	
-	private static ItemStack func_102014_c(IInventory p_102014_0_, ItemStack p_102014_1_, int p_102014_2_, int p_102014_3_)
+	private static ItemStack func_102014_c(IInventory par0IInventory, ItemStack par1ItemStack, int par2, int par3)
 	{
-		ItemStack var4 = p_102014_0_.getStackInSlot(p_102014_2_);
-		if(canInsertItemToInventory(p_102014_0_, p_102014_1_, p_102014_2_, p_102014_3_))
+		ItemStack var4 = par0IInventory.getStackInSlot(par2);
+		if(canInsertItemToInventory(par0IInventory, par1ItemStack, par2, par3))
 		{
 			boolean var5 = false;
 			if(var4 == null)
 			{
-				p_102014_0_.setInventorySlotContents(p_102014_2_, p_102014_1_);
-				p_102014_1_ = null;
+				par0IInventory.setInventorySlotContents(par2, par1ItemStack);
+				par1ItemStack = null;
 				var5 = true;
-			} else if(areItemStacksEqualItem(var4, p_102014_1_))
+			} else if(areItemStacksEqualItem(var4, par1ItemStack))
 			{
-				int var6 = p_102014_1_.getMaxStackSize() - var4.stackSize;
-				int var7 = Math.min(p_102014_1_.stackSize, var6);
-				p_102014_1_.stackSize -= var7;
+				int var6 = par1ItemStack.getMaxStackSize() - var4.stackSize;
+				int var7 = Math.min(par1ItemStack.stackSize, var6);
+				par1ItemStack.stackSize -= var7;
 				var4.stackSize += var7;
 				var5 = var7 > 0;
 			}
 			if(var5)
 			{
-				if(p_102014_0_ instanceof TileEntityHopper)
+				if(par0IInventory instanceof TileEntityHopper)
 				{
-					((TileEntityHopper) p_102014_0_).setTransferCooldown(8);
+					((TileEntityHopper) par0IInventory).setTransferCooldown(8);
+					par0IInventory.onInventoryChanged();
 				}
-				p_102014_0_.onInventoryChanged();
+				par0IInventory.onInventoryChanged();
 			}
 		}
-		return p_102014_1_;
+		return par1ItemStack;
 	}
 	
-	public static boolean func_96114_a(IInventory p_96114_0_, EntityItem p_96114_1_)
+	public static boolean func_96114_a(IInventory par0IInventory, EntityItem par1EntityItem)
 	{
 		boolean var2 = false;
-		if(p_96114_1_ == null) return false;
+		if(par1EntityItem == null) return false;
 		else
 		{
-			ItemStack var3 = p_96114_1_.getEntityItem().copy();
-			ItemStack var4 = insertStack(p_96114_0_, var3, -1);
+			ItemStack var3 = par1EntityItem.getEntityItem().copy();
+			ItemStack var4 = insertStack(par0IInventory, var3, -1);
 			if(var4 != null && var4.stackSize != 0)
 			{
-				p_96114_1_.setEntityItemStack(var4);
+				par1EntityItem.setEntityItemStack(var4);
 			} else
 			{
 				var2 = true;
-				p_96114_1_.setDead();
+				par1EntityItem.setDead();
 			}
 			return var2;
 		}
 	}
 	
-	public static EntityItem func_96119_a(World p_96119_0_, double p_96119_1_, double p_96119_3_, double p_96119_5_)
+	public static EntityItem func_96119_a(World par0World, double par1, double par3, double par5)
 	{
-		List var7 = p_96119_0_.selectEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getAABBPool().getAABB(p_96119_1_, p_96119_3_, p_96119_5_, p_96119_1_ + 1.0D, p_96119_3_ + 1.0D, p_96119_5_ + 1.0D), IEntitySelector.selectAnything);
+		List var7 = par0World.selectEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getAABBPool().getAABB(par1, par3, par5, par1 + 1.0D, par3 + 1.0D, par5 + 1.0D), IEntitySelector.selectAnything);
 		return var7.size() > 0 ? (EntityItem) var7.get(0) : null;
 	}
 	
-	public static IInventory getInventoryAboveHopper(Hopper p_96118_0_)
+	public static IInventory getInventoryAboveHopper(Hopper par0Hopper)
 	{
-		return getInventoryAtLocation(p_96118_0_.getWorldObj(), p_96118_0_.getXPos(), p_96118_0_.getYPos() + 1.0D, p_96118_0_.getZPos());
+		return getInventoryAtLocation(par0Hopper.getWorldObj(), par0Hopper.getXPos(), par0Hopper.getYPos() + 1.0D, par0Hopper.getZPos());
 	}
 	
-	public static IInventory getInventoryAtLocation(World p_96117_0_, double p_96117_1_, double p_96117_3_, double p_96117_5_)
+	public static IInventory getInventoryAtLocation(World par0World, double par1, double par3, double par5)
 	{
 		IInventory var7 = null;
-		int var8 = MathHelper.floor_double(p_96117_1_);
-		int var9 = MathHelper.floor_double(p_96117_3_);
-		int var10 = MathHelper.floor_double(p_96117_5_);
-		TileEntity var11 = p_96117_0_.getBlockTileEntity(var8, var9, var10);
+		int var8 = MathHelper.floor_double(par1);
+		int var9 = MathHelper.floor_double(par3);
+		int var10 = MathHelper.floor_double(par5);
+		TileEntity var11 = par0World.getBlockTileEntity(var8, var9, var10);
 		if(var11 != null && var11 instanceof IInventory)
 		{
 			var7 = (IInventory) var11;
 			if(var7 instanceof TileEntityChest)
 			{
-				int var12 = p_96117_0_.getBlockId(var8, var9, var10);
+				int var12 = par0World.getBlockId(var8, var9, var10);
 				Block var13 = Block.blocksList[var12];
 				if(var13 instanceof BlockChest)
 				{
-					var7 = ((BlockChest) var13).getInventory(p_96117_0_, var8, var9, var10);
+					var7 = ((BlockChest) var13).getInventory(par0World, var8, var9, var10);
 				}
 			}
 		}
 		if(var7 == null)
 		{
-			List var14 = p_96117_0_.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getAABBPool().getAABB(p_96117_1_, p_96117_3_, p_96117_5_, p_96117_1_ + 1.0D, p_96117_3_ + 1.0D, p_96117_5_ + 1.0D), IEntitySelector.selectInventories);
+			List var14 = par0World.getEntitiesWithinAABBExcludingEntity((Entity) null, AxisAlignedBB.getAABBPool().getAABB(par1, par3, par5, par1 + 1.0D, par3 + 1.0D, par5 + 1.0D), IEntitySelector.selectInventories);
 			if(var14 != null && var14.size() > 0)
 			{
-				var7 = (IInventory) var14.get(p_96117_0_.rand.nextInt(var14.size()));
+				var7 = (IInventory) var14.get(par0World.rand.nextInt(var14.size()));
 			}
 		}
 		return var7;
 	}
 	
-	public static ItemStack insertStack(IInventory p_94117_1_, ItemStack p_94117_2_, int p_94117_3_)
+	public static ItemStack insertStack(IInventory par0IInventory, ItemStack par1ItemStack, int par2)
 	{
-		if(p_94117_1_ instanceof ISidedInventory && p_94117_3_ > -1)
+		if(par0IInventory instanceof ISidedInventory && par2 > -1)
 		{
-			ISidedInventory var6 = (ISidedInventory) p_94117_1_;
-			int[] var7 = var6.getAccessibleSlotsFromSide(p_94117_3_);
-			for(int var5 = 0; var5 < var7.length && p_94117_2_ != null && p_94117_2_.stackSize > 0; ++var5)
+			ISidedInventory var6 = (ISidedInventory) par0IInventory;
+			int[] var7 = var6.getAccessibleSlotsFromSide(par2);
+			for(int var5 = 0; var5 < var7.length && par1ItemStack != null && par1ItemStack.stackSize > 0; ++var5)
 			{
-				p_94117_2_ = func_102014_c(p_94117_1_, p_94117_2_, var7[var5], p_94117_3_);
+				par1ItemStack = func_102014_c(par0IInventory, par1ItemStack, var7[var5], par2);
 			}
 		} else
 		{
-			int var3 = p_94117_1_.getSizeInventory();
-			for(int var4 = 0; var4 < var3 && p_94117_2_ != null && p_94117_2_.stackSize > 0; ++var4)
+			int var3 = par0IInventory.getSizeInventory();
+			for(int var4 = 0; var4 < var3 && par1ItemStack != null && par1ItemStack.stackSize > 0; ++var4)
 			{
-				p_94117_2_ = func_102014_c(p_94117_1_, p_94117_2_, var4, p_94117_3_);
+				par1ItemStack = func_102014_c(par0IInventory, par1ItemStack, var4, par2);
 			}
 		}
-		if(p_94117_2_ != null && p_94117_2_.stackSize == 0)
+		if(par1ItemStack != null && par1ItemStack.stackSize == 0)
 		{
-			p_94117_2_ = null;
+			par1ItemStack = null;
 		}
-		return p_94117_2_;
+		return par1ItemStack;
 	}
 	
-	public static boolean suckItemsIntoHopper(Hopper p_96116_0_)
+	public static boolean suckItemsIntoHopper(Hopper par0Hopper)
 	{
-		IInventory var1 = getInventoryAboveHopper(p_96116_0_);
+		IInventory var1 = getInventoryAboveHopper(par0Hopper);
 		if(var1 != null)
 		{
 			byte var2 = 0;
@@ -393,20 +395,20 @@ public class TileEntityHopper extends TileEntity implements Hopper
 				int[] var8 = var7.getAccessibleSlotsFromSide(var2);
 				for(int element : var8)
 				{
-					if(func_102012_a(p_96116_0_, var1, element, var2)) return true;
+					if(func_102012_a(par0Hopper, var1, element, var2)) return true;
 				}
 			} else
 			{
 				int var3 = var1.getSizeInventory();
 				for(int var4 = 0; var4 < var3; ++var4)
 				{
-					if(func_102012_a(p_96116_0_, var1, var4, var2)) return true;
+					if(func_102012_a(par0Hopper, var1, var4, var2)) return true;
 				}
 			}
 		} else
 		{
-			EntityItem var6 = func_96119_a(p_96116_0_.getWorldObj(), p_96116_0_.getXPos(), p_96116_0_.getYPos() + 1.0D, p_96116_0_.getZPos());
-			if(var6 != null) return func_96114_a(p_96116_0_, var6);
+			EntityItem var6 = func_96119_a(par0Hopper.getWorldObj(), par0Hopper.getXPos(), par0Hopper.getYPos() + 1.0D, par0Hopper.getZPos());
+			if(var6 != null) return func_96114_a(par0Hopper, var6);
 		}
 		return false;
 	}

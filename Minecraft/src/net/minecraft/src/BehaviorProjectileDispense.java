@@ -2,16 +2,16 @@ package net.minecraft.src;
 
 public abstract class BehaviorProjectileDispense extends BehaviorDefaultDispenseItem
 {
-	@Override public ItemStack dispenseStack(IBlockSource p_82487_1_, ItemStack p_82487_2_)
+	@Override public ItemStack dispenseStack(IBlockSource par1IBlockSource, ItemStack par2ItemStack)
 	{
-		World var3 = p_82487_1_.getWorld();
-		IPosition var4 = BlockDispenser.getIPositionFromBlockSource(p_82487_1_);
-		EnumFacing var5 = BlockDispenser.getFacing(p_82487_1_.getBlockMetadata());
+		World var3 = par1IBlockSource.getWorld();
+		IPosition var4 = BlockDispenser.getIPositionFromBlockSource(par1IBlockSource);
+		EnumFacing var5 = BlockDispenser.getFacing(par1IBlockSource.getBlockMetadata());
 		IProjectile var6 = getProjectileEntity(var3, var4);
 		var6.setThrowableHeading(var5.getFrontOffsetX(), var5.getFrontOffsetY() + 0.1F, var5.getFrontOffsetZ(), func_82500_b(), func_82498_a());
 		var3.spawnEntityInWorld((Entity) var6);
-		p_82487_2_.splitStack(1);
-		return p_82487_2_;
+		par2ItemStack.splitStack(1);
+		return par2ItemStack;
 	}
 	
 	protected float func_82498_a()
@@ -26,8 +26,8 @@ public abstract class BehaviorProjectileDispense extends BehaviorDefaultDispense
 	
 	protected abstract IProjectile getProjectileEntity(World var1, IPosition var2);
 	
-	@Override protected void playDispenseSound(IBlockSource p_82485_1_)
+	@Override protected void playDispenseSound(IBlockSource par1IBlockSource)
 	{
-		p_82485_1_.getWorld().playAuxSFX(1002, p_82485_1_.getXInt(), p_82485_1_.getYInt(), p_82485_1_.getZInt(), 0);
+		par1IBlockSource.getWorld().playAuxSFX(1002, par1IBlockSource.getXInt(), par1IBlockSource.getYInt(), par1IBlockSource.getZInt(), 0);
 	}
 }

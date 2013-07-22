@@ -15,9 +15,9 @@ public class AnvilConverterData
 	public final int x;
 	public final int z;
 	
-	public AnvilConverterData(int p_i3775_1_, int p_i3775_2_)
+	public AnvilConverterData(int par1, int par2)
 	{
-		x = p_i3775_1_;
-		z = p_i3775_2_;
+		x = par1;
+		z = par2;
 	}
 }

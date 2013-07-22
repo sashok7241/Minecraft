@@ -11,9 +11,9 @@ public class ComponentNetherBridgeStartPiece extends ComponentNetherBridgeCrossi
 	public List secondaryWeights;
 	public ArrayList field_74967_d = new ArrayList();
 	
-	public ComponentNetherBridgeStartPiece(Random p_i3831_1_, int p_i3831_2_, int p_i3831_3_)
+	public ComponentNetherBridgeStartPiece(Random par1Random, int par2, int par3)
 	{
-		super(p_i3831_1_, p_i3831_2_, p_i3831_3_);
+		super(par1Random, par2, par3);
 		StructureNetherBridgePieceWeight[] var4 = StructureNetherBridgePieces.getPrimaryComponents();
 		int var5 = var4.length;
 		int var6;

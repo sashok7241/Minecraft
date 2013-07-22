@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class BlockGlass extends BlockBreakable
 {
-	public BlockGlass(int p_i9057_1_, Material p_i9057_2_, boolean p_i9057_3_)
+	public BlockGlass(int par1, Material par2Material, boolean par3)
 	{
-		super(p_i9057_1_, "glass", p_i9057_2_, p_i9057_3_);
+		super(par1, "glass", par2Material, par3);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
@@ -25,7 +25,7 @@ public class BlockGlass extends BlockBreakable
 		return false;
 	}
 	
-	@Override public int quantityDropped(Random p_71925_1_)
+	@Override public int quantityDropped(Random par1Random)
 	{
 		return 0;
 	}

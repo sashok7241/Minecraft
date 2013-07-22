@@ -9,20 +9,25 @@ public class CommandServerPublishLocal extends CommandBase
 		return "publish";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.publish.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 4;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
 		String var3 = MinecraftServer.getServer().shareToLAN(EnumGameType.SURVIVAL, false);
 		if(var3 != null)
 		{
-			notifyAdmins(p_71515_1_, "commands.publish.started", new Object[] { var3 });
+			notifyAdmins(par1ICommandSender, "commands.publish.started", new Object[] { var3 });
 		} else
 		{
-			notifyAdmins(p_71515_1_, "commands.publish.failed", new Object[0]);
+			notifyAdmins(par1ICommandSender, "commands.publish.failed", new Object[0]);
 		}
 	}
 }

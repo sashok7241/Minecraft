@@ -7,15 +7,15 @@ public class BlockEnchantmentTable extends BlockContainer
 	private Icon field_94461_a;
 	private Icon field_94460_b;
 	
-	protected BlockEnchantmentTable(int p_i3941_1_)
+	protected BlockEnchantmentTable(int par1)
 	{
-		super(p_i3941_1_, Material.rock);
+		super(par1, Material.rock);
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.75F, 1.0F);
 		setLightOpacity(0);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public TileEntity createNewTileEntity(World p_72274_1_)
+	@Override public TileEntity createNewTileEntity(World par1World)
 	{
 		return new TileEntityEnchantmentTable();
 	}
@@ -30,23 +30,23 @@ public class BlockEnchantmentTable extends BlockContainer
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
-		if(p_71903_1_.isRemote) return true;
+		if(par1World.isRemote) return true;
 		else
 		{
-			TileEntityEnchantmentTable var10 = (TileEntityEnchantmentTable) p_71903_1_.getBlockTileEntity(p_71903_2_, p_71903_3_, p_71903_4_);
-			p_71903_5_.displayGUIEnchantment(p_71903_2_, p_71903_3_, p_71903_4_, var10.func_94135_b() ? var10.func_94133_a() : null);
+			TileEntityEnchantmentTable var10 = (TileEntityEnchantmentTable) par1World.getBlockTileEntity(par2, par3, par4);
+			par5EntityPlayer.displayGUIEnchantment(par2, par3, par4, var10.func_94135_b() ? var10.func_94133_a() : null);
 			return true;
 		}
 	}
 	
-	@Override public void onBlockPlacedBy(World p_71860_1_, int p_71860_2_, int p_71860_3_, int p_71860_4_, EntityLiving p_71860_5_, ItemStack p_71860_6_)
+	@Override public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
 	{
-		super.onBlockPlacedBy(p_71860_1_, p_71860_2_, p_71860_3_, p_71860_4_, p_71860_5_, p_71860_6_);
-		if(p_71860_6_.hasDisplayName())
+		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLivingBase, par6ItemStack);
+		if(par6ItemStack.hasDisplayName())
 		{
-			((TileEntityEnchantmentTable) p_71860_1_.getBlockTileEntity(p_71860_2_, p_71860_3_, p_71860_4_)).func_94134_a(p_71860_6_.getDisplayName());
+			((TileEntityEnchantmentTable) par1World.getBlockTileEntity(par2, par3, par4)).func_94134_a(par6ItemStack.getDisplayName());
 		}
 	}
 	
@@ -81,9 +81,9 @@ public class BlockEnchantmentTable extends BlockContainer
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("enchantment_side");
-		field_94461_a = par1IconRegister.registerIcon("enchantment_top");
-		field_94460_b = par1IconRegister.registerIcon("enchantment_bottom");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_" + "side");
+		field_94461_a = par1IconRegister.registerIcon(func_111023_E() + "_" + "top");
+		field_94460_b = par1IconRegister.registerIcon(func_111023_E() + "_" + "bottom");
 	}
 	
 	@Override public boolean renderAsNormalBlock()

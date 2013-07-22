@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ItemAppleGold extends ItemFood
 {
-	public ItemAppleGold(int p_i3655_1_, int p_i3655_2_, float p_i3655_3_, boolean p_i3655_4_)
+	public ItemAppleGold(int par1, int par2, float par3, boolean par4)
 	{
-		super(p_i3655_1_, p_i3655_2_, p_i3655_3_, p_i3655_4_);
+		super(par1, par2, par3, par4);
 		setHasSubtypes(true);
 	}
 	
@@ -26,19 +26,23 @@ public class ItemAppleGold extends ItemFood
 		return par1ItemStack.getItemDamage() > 0;
 	}
 	
-	@Override protected void onFoodEaten(ItemStack p_77849_1_, World p_77849_2_, EntityPlayer p_77849_3_)
+	@Override protected void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if(p_77849_1_.getItemDamage() > 0)
+		if(!par2World.isRemote)
 		{
-			if(!p_77849_2_.isRemote)
+			par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 2400, 0));
+		}
+		if(par1ItemStack.getItemDamage() > 0)
+		{
+			if(!par2World.isRemote)
 			{
-				p_77849_3_.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 3));
-				p_77849_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 6000, 0));
-				p_77849_3_.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 6000, 0));
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 4));
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.resistance.id, 6000, 0));
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 6000, 0));
 			}
 		} else
 		{
-			super.onFoodEaten(p_77849_1_, p_77849_2_, p_77849_3_);
+			super.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
 		}
 	}
 }

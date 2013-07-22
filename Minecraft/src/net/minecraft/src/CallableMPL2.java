@@ -6,9 +6,9 @@ class CallableMPL2 implements Callable
 {
 	final WorldClient theWorldClient;
 	
-	CallableMPL2(WorldClient p_i3097_1_)
+	CallableMPL2(WorldClient par1WorldClient)
 	{
-		theWorldClient = p_i3097_1_;
+		theWorldClient = par1WorldClient;
 	}
 	
 	@Override public Object call()

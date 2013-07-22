@@ -6,9 +6,9 @@ class CallableScreenName implements Callable
 {
 	final EntityRenderer entityRender;
 	
-	CallableScreenName(EntityRenderer p_i7006_1_)
+	CallableScreenName(EntityRenderer par1EntityRenderer)
 	{
-		entityRender = p_i7006_1_;
+		entityRender = par1EntityRenderer;
 	}
 	
 	@Override public Object call()

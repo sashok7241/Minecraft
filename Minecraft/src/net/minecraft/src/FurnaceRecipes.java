@@ -21,6 +21,7 @@ public class FurnaceRecipes
 		addSmelting(Item.fishRaw.itemID, new ItemStack(Item.fishCooked), 0.35F);
 		addSmelting(Block.cobblestone.blockID, new ItemStack(Block.stone), 0.1F);
 		addSmelting(Item.clay.itemID, new ItemStack(Item.brick), 0.3F);
+		addSmelting(Block.blockClay.blockID, new ItemStack(Block.field_111032_cD), 0.35F);
 		addSmelting(Block.cactus.blockID, new ItemStack(Item.dyePowder, 1, 2), 0.2F);
 		addSmelting(Block.wood.blockID, new ItemStack(Item.coal, 1, 1), 0.15F);
 		addSmelting(Block.oreEmerald.blockID, new ItemStack(Item.emerald), 1.0F);
@@ -32,15 +33,15 @@ public class FurnaceRecipes
 		addSmelting(Block.oreNetherQuartz.blockID, new ItemStack(Item.netherQuartz), 0.2F);
 	}
 	
-	public void addSmelting(int p_77600_1_, ItemStack p_77600_2_, float p_77600_3_)
+	public void addSmelting(int par1, ItemStack par2ItemStack, float par3)
 	{
-		smeltingList.put(Integer.valueOf(p_77600_1_), p_77600_2_);
-		experienceList.put(Integer.valueOf(p_77600_2_.itemID), Float.valueOf(p_77600_3_));
+		smeltingList.put(Integer.valueOf(par1), par2ItemStack);
+		experienceList.put(Integer.valueOf(par2ItemStack.itemID), Float.valueOf(par3));
 	}
 	
-	public float getExperience(int p_77601_1_)
+	public float getExperience(int par1)
 	{
-		return experienceList.containsKey(Integer.valueOf(p_77601_1_)) ? ((Float) experienceList.get(Integer.valueOf(p_77601_1_))).floatValue() : 0.0F;
+		return experienceList.containsKey(Integer.valueOf(par1)) ? ((Float) experienceList.get(Integer.valueOf(par1))).floatValue() : 0.0F;
 	}
 	
 	public Map getSmeltingList()
@@ -48,9 +49,9 @@ public class FurnaceRecipes
 		return smeltingList;
 	}
 	
-	public ItemStack getSmeltingResult(int p_77603_1_)
+	public ItemStack getSmeltingResult(int par1)
 	{
-		return (ItemStack) smeltingList.get(Integer.valueOf(p_77603_1_));
+		return (ItemStack) smeltingList.get(Integer.valueOf(par1));
 	}
 	
 	public static final FurnaceRecipes smelting()

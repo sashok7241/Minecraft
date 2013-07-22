@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
-public class EntityVillager extends EntityAgeable implements INpc, IMerchant
+public class EntityVillager extends EntityAgeable implements IMerchant, INpc
 {
 	private int randomTickDivider;
 	private boolean isMating;
@@ -23,42 +23,36 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 	private static final Map villagerStockList = new HashMap();
 	private static final Map blacksmithSellingList = new HashMap();
 	
-	public EntityVillager(World p_i3560_1_)
+	public EntityVillager(World par1World)
 	{
-		this(p_i3560_1_, 0);
+		this(par1World, 0);
 	}
 	
-	public EntityVillager(World p_i3561_1_, int p_i3561_2_)
+	public EntityVillager(World par1World, int par2)
 	{
-		super(p_i3561_1_);
-		randomTickDivider = 0;
-		isMating = false;
-		isPlaying = false;
-		villageObj = null;
-		setProfession(p_i3561_2_);
-		texture = "/mob/villager/villager.png";
-		moveSpeed = 0.5F;
+		super(par1World);
+		setProfession(par2);
 		setSize(0.6F, 1.8F);
 		getNavigator().setBreakDoors(true);
 		getNavigator().setAvoidsWater(true);
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.3F, 0.35F));
+		tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
 		tasks.addTask(1, new EntityAITradePlayer(this));
 		tasks.addTask(1, new EntityAILookAtTradePlayer(this));
 		tasks.addTask(2, new EntityAIMoveIndoors(this));
 		tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		tasks.addTask(5, new EntityAIMoveTwardsRestriction(this, 0.3F));
+		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
 		tasks.addTask(6, new EntityAIVillagerMate(this));
 		tasks.addTask(7, new EntityAIFollowGolem(this));
-		tasks.addTask(8, new EntityAIPlay(this, 0.32F));
+		tasks.addTask(8, new EntityAIPlay(this, 0.32D));
 		tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
 		tasks.addTask(9, new EntityAIWatchClosest2(this, EntityVillager.class, 5.0F, 0.02F));
-		tasks.addTask(9, new EntityAIWander(this, 0.3F));
+		tasks.addTask(9, new EntityAIWander(this, 0.6D));
 		tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
 	}
 	
-	private void addDefaultEquipmentAndRecipies(int p_70950_1_)
+	private void addDefaultEquipmentAndRecipies(int par1)
 	{
 		if(buyingList != null)
 		{
@@ -178,7 +172,7 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 		{
 			buyingList = new MerchantRecipeList();
 		}
-		for(int var9 = 0; var9 < p_70950_1_ && var9 < var2.size(); ++var9)
+		for(int var9 = 0; var9 < par1 && var9 < var2.size(); ++var9)
 		{
 			buyingList.addToListWithCheck((MerchantRecipe) var2.get(var9));
 		}
@@ -189,9 +183,9 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 		return false;
 	}
 	
-	@Override public EntityAgeable createChild(EntityAgeable p_90011_1_)
+	@Override public EntityAgeable createChild(EntityAgeable par1EntityAgeable)
 	{
-		return func_90012_b(p_90011_1_);
+		return func_90012_b(par1EntityAgeable);
 	}
 	
 	@Override protected void entityInit()
@@ -200,21 +194,54 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 		dataWatcher.addObject(16, Integer.valueOf(0));
 	}
 	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.5D);
+	}
+	
+	@Override public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingData)
+	{
+		par1EntityLivingData = super.func_110161_a(par1EntityLivingData);
+		setProfession(worldObj.rand.nextInt(5));
+		return par1EntityLivingData;
+	}
+	
+	@Override public boolean func_110164_bC()
+	{
+		return false;
+	}
+	
+	@Override public void func_110297_a_(ItemStack par1ItemStack)
+	{
+		if(!worldObj.isRemote && livingSoundTime > -getTalkInterval() + 20)
+		{
+			livingSoundTime = -getTalkInterval();
+			if(par1ItemStack != null)
+			{
+				playSound("mob.villager.yes", getSoundVolume(), getSoundPitch());
+			} else
+			{
+				playSound("mob.villager.no", getSoundVolume(), getSoundPitch());
+			}
+		}
+	}
+	
 	public void func_82187_q()
 	{
 		field_82190_bM = true;
 	}
 	
-	private float func_82188_j(float p_82188_1_)
+	private float func_82188_j(float par1)
 	{
-		float var2 = p_82188_1_ + field_82191_bN;
+		float var2 = par1 + field_82191_bN;
 		return var2 > 0.9F ? 0.9F - (var2 - 0.9F) : var2;
 	}
 	
-	public EntityVillager func_90012_b(EntityAgeable p_90012_1_)
+	public EntityVillager func_90012_b(EntityAgeable par1EntityAgeable)
 	{
 		EntityVillager var2 = new EntityVillager(worldObj);
-		var2.initCreature();
+		var2.func_110161_a((EntityLivingData) null);
 		return var2;
 	}
 	
@@ -236,22 +263,17 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 	
 	@Override protected String getDeathSound()
 	{
-		return "mob.villager.defaultdeath";
+		return "mob.villager.death";
 	}
 	
 	@Override protected String getHurtSound()
 	{
-		return "mob.villager.defaulthurt";
+		return "mob.villager.hit";
 	}
 	
 	@Override protected String getLivingSound()
 	{
-		return "mob.villager.default";
-	}
-	
-	@Override public int getMaxHealth()
-	{
-		return 20;
+		return isTrading() ? "mob.villager.haggle" : "mob.villager.idle";
 	}
 	
 	public int getProfession()
@@ -259,32 +281,13 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 		return dataWatcher.getWatchableObjectInt(16);
 	}
 	
-	@Override public MerchantRecipeList getRecipes(EntityPlayer p_70934_1_)
+	@Override public MerchantRecipeList getRecipes(EntityPlayer par1EntityPlayer)
 	{
 		if(buyingList == null)
 		{
 			addDefaultEquipmentAndRecipies(1);
 		}
 		return buyingList;
-	}
-	
-	@Override public String getTexture()
-	{
-		switch(getProfession())
-		{
-			case 0:
-				return "/mob/villager/farmer.png";
-			case 1:
-				return "/mob/villager/librarian.png";
-			case 2:
-				return "/mob/villager/priest.png";
-			case 3:
-				return "/mob/villager/smith.png";
-			case 4:
-				return "/mob/villager/butcher.png";
-			default:
-				return super.getTexture();
-		}
 	}
 	
 	@Override public void handleHealthUpdate(byte par1)
@@ -304,24 +307,19 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 		}
 	}
 	
-	@Override public void initCreature()
+	@Override public boolean interact(EntityPlayer par1EntityPlayer)
 	{
-		setProfession(worldObj.rand.nextInt(5));
-	}
-	
-	@Override public boolean interact(EntityPlayer p_70085_1_)
-	{
-		ItemStack var2 = p_70085_1_.inventory.getCurrentItem();
+		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
 		boolean var3 = var2 != null && var2.itemID == Item.monsterPlacer.itemID;
 		if(!var3 && isEntityAlive() && !isTrading() && !isChild())
 		{
 			if(!worldObj.isRemote)
 			{
-				setCustomer(p_70085_1_);
-				p_70085_1_.displayGUIMerchant(this, getCustomNameTag());
+				setCustomer(par1EntityPlayer);
+				par1EntityPlayer.displayGUIMerchant(this, getCustomNameTag());
 			}
 			return true;
-		} else return super.interact(p_70085_1_);
+		} else return super.interact(par1EntityPlayer);
 	}
 	
 	@Override public boolean isAIEnabled()
@@ -344,11 +342,11 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 		return buyingPlayer != null;
 	}
 	
-	@Override public void onDeath(DamageSource p_70645_1_)
+	@Override public void onDeath(DamageSource par1DamageSource)
 	{
 		if(villageObj != null)
 		{
-			Entity var2 = p_70645_1_.getEntity();
+			Entity var2 = par1DamageSource.getEntity();
 			if(var2 != null)
 			{
 				if(var2 instanceof EntityPlayer)
@@ -367,59 +365,59 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 				}
 			}
 		}
-		super.onDeath(p_70645_1_);
+		super.onDeath(par1DamageSource);
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		setProfession(p_70037_1_.getInteger("Profession"));
-		wealth = p_70037_1_.getInteger("Riches");
-		if(p_70037_1_.hasKey("Offers"))
+		super.readEntityFromNBT(par1NBTTagCompound);
+		setProfession(par1NBTTagCompound.getInteger("Profession"));
+		wealth = par1NBTTagCompound.getInteger("Riches");
+		if(par1NBTTagCompound.hasKey("Offers"))
 		{
-			NBTTagCompound var2 = p_70037_1_.getCompoundTag("Offers");
+			NBTTagCompound var2 = par1NBTTagCompound.getCompoundTag("Offers");
 			buyingList = new MerchantRecipeList(var2);
 		}
 	}
 	
-	@Override public void setCustomer(EntityPlayer p_70932_1_)
+	@Override public void setCustomer(EntityPlayer par1EntityPlayer)
 	{
-		buyingPlayer = p_70932_1_;
+		buyingPlayer = par1EntityPlayer;
 	}
 	
-	public void setMating(boolean p_70947_1_)
+	public void setMating(boolean par1)
 	{
-		isMating = p_70947_1_;
+		isMating = par1;
 	}
 	
-	public void setPlaying(boolean p_70939_1_)
+	public void setPlaying(boolean par1)
 	{
-		isPlaying = p_70939_1_;
+		isPlaying = par1;
 	}
 	
-	public void setProfession(int p_70938_1_)
+	public void setProfession(int par1)
 	{
-		dataWatcher.updateObject(16, Integer.valueOf(p_70938_1_));
+		dataWatcher.updateObject(16, Integer.valueOf(par1));
 	}
 	
 	@Override public void setRecipes(MerchantRecipeList par1MerchantRecipeList)
 	{
 	}
 	
-	@Override public void setRevengeTarget(EntityLiving p_70604_1_)
+	@Override public void setRevengeTarget(EntityLivingBase par1EntityLivingBase)
 	{
-		super.setRevengeTarget(p_70604_1_);
-		if(villageObj != null && p_70604_1_ != null)
+		super.setRevengeTarget(par1EntityLivingBase);
+		if(villageObj != null && par1EntityLivingBase != null)
 		{
-			villageObj.addOrRenewAgressor(p_70604_1_);
-			if(p_70604_1_ instanceof EntityPlayer)
+			villageObj.addOrRenewAgressor(par1EntityLivingBase);
+			if(par1EntityLivingBase instanceof EntityPlayer)
 			{
 				byte var2 = -1;
 				if(isChild())
 				{
 					var2 = -3;
 				}
-				villageObj.setReputationForPlayer(((EntityPlayer) p_70604_1_).getCommandSenderName(), var2);
+				villageObj.setReputationForPlayer(((EntityPlayer) par1EntityLivingBase).getCommandSenderName(), var2);
 				if(isEntityAlive())
 				{
 					worldObj.setEntityState(this, (byte) 13);
@@ -437,11 +435,11 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 			villageObj = worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), 32);
 			if(villageObj == null)
 			{
-				detachHome();
+				func_110177_bN();
 			} else
 			{
 				ChunkCoordinates var1 = villageObj.getCenter();
-				setHomeArea(var1.posX, var1.posY, var1.posZ, (int) (villageObj.getVillageRadius() * 0.6F));
+				func_110171_b(var1.posX, var1.posY, var1.posZ, (int) (villageObj.getVillageRadius() * 0.6F));
 				if(field_82190_bM)
 				{
 					field_82190_bM = false;
@@ -482,10 +480,12 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 		super.updateAITick();
 	}
 	
-	@Override public void useRecipe(MerchantRecipe p_70933_1_)
+	@Override public void useRecipe(MerchantRecipe par1MerchantRecipe)
 	{
-		p_70933_1_.incrementToolUses();
-		if(p_70933_1_.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
+		par1MerchantRecipe.incrementToolUses();
+		livingSoundTime = -getTalkInterval();
+		playSound("mob.villager.yes", getSoundVolume(), getSoundPitch());
+		if(par1MerchantRecipe.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
 		{
 			timeUntilReset = 40;
 			needsInitilization = true;
@@ -497,66 +497,66 @@ public class EntityVillager extends EntityAgeable implements INpc, IMerchant
 				lastBuyingPlayer = null;
 			}
 		}
-		if(p_70933_1_.getItemToBuy().itemID == Item.emerald.itemID)
+		if(par1MerchantRecipe.getItemToBuy().itemID == Item.emerald.itemID)
 		{
-			wealth += p_70933_1_.getItemToBuy().stackSize;
+			wealth += par1MerchantRecipe.getItemToBuy().stackSize;
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setInteger("Profession", getProfession());
-		p_70014_1_.setInteger("Riches", wealth);
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setInteger("Profession", getProfession());
+		par1NBTTagCompound.setInteger("Riches", wealth);
 		if(buyingList != null)
 		{
-			p_70014_1_.setCompoundTag("Offers", buyingList.getRecipiesAsTags());
+			par1NBTTagCompound.setCompoundTag("Offers", buyingList.getRecipiesAsTags());
 		}
 	}
 	
-	private static void addBlacksmithItem(MerchantRecipeList p_70949_0_, int p_70949_1_, Random p_70949_2_, float p_70949_3_)
+	private static void addBlacksmithItem(MerchantRecipeList par0MerchantRecipeList, int par1, Random par2Random, float par3)
 	{
-		if(p_70949_2_.nextFloat() < p_70949_3_)
+		if(par2Random.nextFloat() < par3)
 		{
-			int var4 = getRandomCountForBlacksmithItem(p_70949_1_, p_70949_2_);
+			int var4 = getRandomCountForBlacksmithItem(par1, par2Random);
 			ItemStack var5;
 			ItemStack var6;
 			if(var4 < 0)
 			{
 				var5 = new ItemStack(Item.emerald.itemID, 1, 0);
-				var6 = new ItemStack(p_70949_1_, -var4, 0);
+				var6 = new ItemStack(par1, -var4, 0);
 			} else
 			{
 				var5 = new ItemStack(Item.emerald.itemID, var4, 0);
-				var6 = new ItemStack(p_70949_1_, 1, 0);
+				var6 = new ItemStack(par1, 1, 0);
 			}
-			p_70949_0_.add(new MerchantRecipe(var5, var6));
+			par0MerchantRecipeList.add(new MerchantRecipe(var5, var6));
 		}
 	}
 	
-	private static void addMerchantItem(MerchantRecipeList p_70948_0_, int p_70948_1_, Random p_70948_2_, float p_70948_3_)
+	private static void addMerchantItem(MerchantRecipeList par0MerchantRecipeList, int par1, Random par2Random, float par3)
 	{
-		if(p_70948_2_.nextFloat() < p_70948_3_)
+		if(par2Random.nextFloat() < par3)
 		{
-			p_70948_0_.add(new MerchantRecipe(getRandomSizedStack(p_70948_1_, p_70948_2_), Item.emerald));
+			par0MerchantRecipeList.add(new MerchantRecipe(getRandomSizedStack(par1, par2Random), Item.emerald));
 		}
 	}
 	
-	private static int getRandomCountForBlacksmithItem(int p_70943_0_, Random p_70943_1_)
+	private static int getRandomCountForBlacksmithItem(int par0, Random par1Random)
 	{
-		Tuple var2 = (Tuple) blacksmithSellingList.get(Integer.valueOf(p_70943_0_));
-		return var2 == null ? 1 : ((Integer) var2.getFirst()).intValue() >= ((Integer) var2.getSecond()).intValue() ? ((Integer) var2.getFirst()).intValue() : ((Integer) var2.getFirst()).intValue() + p_70943_1_.nextInt(((Integer) var2.getSecond()).intValue() - ((Integer) var2.getFirst()).intValue());
+		Tuple var2 = (Tuple) blacksmithSellingList.get(Integer.valueOf(par0));
+		return var2 == null ? 1 : ((Integer) var2.getFirst()).intValue() >= ((Integer) var2.getSecond()).intValue() ? ((Integer) var2.getFirst()).intValue() : ((Integer) var2.getFirst()).intValue() + par1Random.nextInt(((Integer) var2.getSecond()).intValue() - ((Integer) var2.getFirst()).intValue());
 	}
 	
-	private static int getRandomCountForItem(int p_70944_0_, Random p_70944_1_)
+	private static int getRandomCountForItem(int par0, Random par1Random)
 	{
-		Tuple var2 = (Tuple) villagerStockList.get(Integer.valueOf(p_70944_0_));
-		return var2 == null ? 1 : ((Integer) var2.getFirst()).intValue() >= ((Integer) var2.getSecond()).intValue() ? ((Integer) var2.getFirst()).intValue() : ((Integer) var2.getFirst()).intValue() + p_70944_1_.nextInt(((Integer) var2.getSecond()).intValue() - ((Integer) var2.getFirst()).intValue());
+		Tuple var2 = (Tuple) villagerStockList.get(Integer.valueOf(par0));
+		return var2 == null ? 1 : ((Integer) var2.getFirst()).intValue() >= ((Integer) var2.getSecond()).intValue() ? ((Integer) var2.getFirst()).intValue() : ((Integer) var2.getFirst()).intValue() + par1Random.nextInt(((Integer) var2.getSecond()).intValue() - ((Integer) var2.getFirst()).intValue());
 	}
 	
-	private static ItemStack getRandomSizedStack(int p_70951_0_, Random p_70951_1_)
+	private static ItemStack getRandomSizedStack(int par0, Random par1Random)
 	{
-		return new ItemStack(p_70951_0_, getRandomCountForItem(p_70951_0_, p_70951_1_), 0);
+		return new ItemStack(par0, getRandomCountForItem(par0, par1Random), 0);
 	}
 	
 	static

@@ -24,33 +24,33 @@ public class WorldChunkManager
 		biomesToSpawnIn.add(BiomeGenBase.jungleHills);
 	}
 	
-	public WorldChunkManager(long p_i3751_1_, WorldType p_i3751_3_)
+	public WorldChunkManager(long par1, WorldType par3WorldType)
 	{
 		this();
-		GenLayer[] var4 = GenLayer.initializeAllBiomeGenerators(p_i3751_1_, p_i3751_3_);
+		GenLayer[] var4 = GenLayer.initializeAllBiomeGenerators(par1, par3WorldType);
 		genBiomes = var4[0];
 		biomeIndexLayer = var4[1];
 	}
 	
-	public WorldChunkManager(World p_i3752_1_)
+	public WorldChunkManager(World par1World)
 	{
-		this(p_i3752_1_.getSeed(), p_i3752_1_.getWorldInfo().getTerrainType());
+		this(par1World.getSeed(), par1World.getWorldInfo().getTerrainType());
 	}
 	
-	public boolean areBiomesViable(int p_76940_1_, int p_76940_2_, int p_76940_3_, List p_76940_4_)
+	public boolean areBiomesViable(int par1, int par2, int par3, List par4List)
 	{
 		IntCache.resetIntCache();
-		int var5 = p_76940_1_ - p_76940_3_ >> 2;
-		int var6 = p_76940_2_ - p_76940_3_ >> 2;
-		int var7 = p_76940_1_ + p_76940_3_ >> 2;
-		int var8 = p_76940_2_ + p_76940_3_ >> 2;
+		int var5 = par1 - par3 >> 2;
+		int var6 = par2 - par3 >> 2;
+		int var7 = par1 + par3 >> 2;
+		int var8 = par2 + par3 >> 2;
 		int var9 = var7 - var5 + 1;
 		int var10 = var8 - var6 + 1;
 		int[] var11 = genBiomes.getInts(var5, var6, var9, var10);
 		for(int var12 = 0; var12 < var9 * var10; ++var12)
 		{
 			BiomeGenBase var13 = BiomeGenBase.biomeList[var11[var12]];
-			if(!p_76940_4_.contains(var13)) return false;
+			if(!par4List.contains(var13)) return false;
 		}
 		return true;
 	}
@@ -60,13 +60,13 @@ public class WorldChunkManager
 		biomeCache.cleanupCache();
 	}
 	
-	public ChunkPosition findBiomePosition(int p_76941_1_, int p_76941_2_, int p_76941_3_, List p_76941_4_, Random p_76941_5_)
+	public ChunkPosition findBiomePosition(int par1, int par2, int par3, List par4List, Random par5Random)
 	{
 		IntCache.resetIntCache();
-		int var6 = p_76941_1_ - p_76941_3_ >> 2;
-		int var7 = p_76941_2_ - p_76941_3_ >> 2;
-		int var8 = p_76941_1_ + p_76941_3_ >> 2;
-		int var9 = p_76941_2_ + p_76941_3_ >> 2;
+		int var6 = par1 - par3 >> 2;
+		int var7 = par2 - par3 >> 2;
+		int var8 = par1 + par3 >> 2;
+		int var9 = par2 + par3 >> 2;
 		int var10 = var8 - var6 + 1;
 		int var11 = var9 - var7 + 1;
 		int[] var12 = genBiomes.getInts(var6, var7, var10, var11);
@@ -77,7 +77,7 @@ public class WorldChunkManager
 			int var16 = var6 + var15 % var10 << 2;
 			int var17 = var7 + var15 / var10 << 2;
 			BiomeGenBase var18 = BiomeGenBase.biomeList[var12[var15]];
-			if(p_76941_4_.contains(var18) && (var13 == null || p_76941_5_.nextInt(var14 + 1) == 0))
+			if(par4List.contains(var18) && (var13 == null || par5Random.nextInt(var14 + 1) == 0))
 			{
 				var13 = new ChunkPosition(var16, 0, var17);
 				++var14;
@@ -86,47 +86,47 @@ public class WorldChunkManager
 		return var13;
 	}
 	
-	public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] p_76931_1_, int p_76931_2_, int p_76931_3_, int p_76931_4_, int p_76931_5_, boolean p_76931_6_)
+	public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5, boolean par6)
 	{
 		IntCache.resetIntCache();
-		if(p_76931_1_ == null || p_76931_1_.length < p_76931_4_ * p_76931_5_)
+		if(par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < par4 * par5)
 		{
-			p_76931_1_ = new BiomeGenBase[p_76931_4_ * p_76931_5_];
+			par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
 		}
-		if(p_76931_6_ && p_76931_4_ == 16 && p_76931_5_ == 16 && (p_76931_2_ & 15) == 0 && (p_76931_3_ & 15) == 0)
+		if(par6 && par4 == 16 && par5 == 16 && (par2 & 15) == 0 && (par3 & 15) == 0)
 		{
-			BiomeGenBase[] var9 = biomeCache.getCachedBiomes(p_76931_2_, p_76931_3_);
-			System.arraycopy(var9, 0, p_76931_1_, 0, p_76931_4_ * p_76931_5_);
-			return p_76931_1_;
+			BiomeGenBase[] var9 = biomeCache.getCachedBiomes(par2, par3);
+			System.arraycopy(var9, 0, par1ArrayOfBiomeGenBase, 0, par4 * par5);
+			return par1ArrayOfBiomeGenBase;
 		} else
 		{
-			int[] var7 = biomeIndexLayer.getInts(p_76931_2_, p_76931_3_, p_76931_4_, p_76931_5_);
-			for(int var8 = 0; var8 < p_76931_4_ * p_76931_5_; ++var8)
+			int[] var7 = biomeIndexLayer.getInts(par2, par3, par4, par5);
+			for(int var8 = 0; var8 < par4 * par5; ++var8)
 			{
-				p_76931_1_[var8] = BiomeGenBase.biomeList[var7[var8]];
+				par1ArrayOfBiomeGenBase[var8] = BiomeGenBase.biomeList[var7[var8]];
 			}
-			return p_76931_1_;
+			return par1ArrayOfBiomeGenBase;
 		}
 	}
 	
-	public BiomeGenBase getBiomeGenAt(int p_76935_1_, int p_76935_2_)
+	public BiomeGenBase getBiomeGenAt(int par1, int par2)
 	{
-		return biomeCache.getBiomeGenAt(p_76935_1_, p_76935_2_);
+		return biomeCache.getBiomeGenAt(par1, par2);
 	}
 	
-	public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] p_76937_1_, int p_76937_2_, int p_76937_3_, int p_76937_4_, int p_76937_5_)
+	public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
 	{
 		IntCache.resetIntCache();
-		if(p_76937_1_ == null || p_76937_1_.length < p_76937_4_ * p_76937_5_)
+		if(par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < par4 * par5)
 		{
-			p_76937_1_ = new BiomeGenBase[p_76937_4_ * p_76937_5_];
+			par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
 		}
-		int[] var6 = genBiomes.getInts(p_76937_2_, p_76937_3_, p_76937_4_, p_76937_5_);
-		for(int var7 = 0; var7 < p_76937_4_ * p_76937_5_; ++var7)
+		int[] var6 = genBiomes.getInts(par2, par3, par4, par5);
+		for(int var7 = 0; var7 < par4 * par5; ++var7)
 		{
-			p_76937_1_[var7] = BiomeGenBase.biomeList[var6[var7]];
+			par1ArrayOfBiomeGenBase[var7] = BiomeGenBase.biomeList[var6[var7]];
 		}
-		return p_76937_1_;
+		return par1ArrayOfBiomeGenBase;
 	}
 	
 	public List getBiomesToSpawnIn()
@@ -134,24 +134,24 @@ public class WorldChunkManager
 		return biomesToSpawnIn;
 	}
 	
-	public float[] getRainfall(float[] p_76936_1_, int p_76936_2_, int p_76936_3_, int p_76936_4_, int p_76936_5_)
+	public float[] getRainfall(float[] par1ArrayOfFloat, int par2, int par3, int par4, int par5)
 	{
 		IntCache.resetIntCache();
-		if(p_76936_1_ == null || p_76936_1_.length < p_76936_4_ * p_76936_5_)
+		if(par1ArrayOfFloat == null || par1ArrayOfFloat.length < par4 * par5)
 		{
-			p_76936_1_ = new float[p_76936_4_ * p_76936_5_];
+			par1ArrayOfFloat = new float[par4 * par5];
 		}
-		int[] var6 = biomeIndexLayer.getInts(p_76936_2_, p_76936_3_, p_76936_4_, p_76936_5_);
-		for(int var7 = 0; var7 < p_76936_4_ * p_76936_5_; ++var7)
+		int[] var6 = biomeIndexLayer.getInts(par2, par3, par4, par5);
+		for(int var7 = 0; var7 < par4 * par5; ++var7)
 		{
 			float var8 = BiomeGenBase.biomeList[var6[var7]].getIntRainfall() / 65536.0F;
 			if(var8 > 1.0F)
 			{
 				var8 = 1.0F;
 			}
-			p_76936_1_[var7] = var8;
+			par1ArrayOfFloat[var7] = var8;
 		}
-		return p_76936_1_;
+		return par1ArrayOfFloat;
 	}
 	
 	public float getTemperatureAtHeight(float par1, int par2)
@@ -159,28 +159,28 @@ public class WorldChunkManager
 		return par1;
 	}
 	
-	public float[] getTemperatures(float[] p_76934_1_, int p_76934_2_, int p_76934_3_, int p_76934_4_, int p_76934_5_)
+	public float[] getTemperatures(float[] par1ArrayOfFloat, int par2, int par3, int par4, int par5)
 	{
 		IntCache.resetIntCache();
-		if(p_76934_1_ == null || p_76934_1_.length < p_76934_4_ * p_76934_5_)
+		if(par1ArrayOfFloat == null || par1ArrayOfFloat.length < par4 * par5)
 		{
-			p_76934_1_ = new float[p_76934_4_ * p_76934_5_];
+			par1ArrayOfFloat = new float[par4 * par5];
 		}
-		int[] var6 = biomeIndexLayer.getInts(p_76934_2_, p_76934_3_, p_76934_4_, p_76934_5_);
-		for(int var7 = 0; var7 < p_76934_4_ * p_76934_5_; ++var7)
+		int[] var6 = biomeIndexLayer.getInts(par2, par3, par4, par5);
+		for(int var7 = 0; var7 < par4 * par5; ++var7)
 		{
 			float var8 = BiomeGenBase.biomeList[var6[var7]].getIntTemperature() / 65536.0F;
 			if(var8 > 1.0F)
 			{
 				var8 = 1.0F;
 			}
-			p_76934_1_[var7] = var8;
+			par1ArrayOfFloat[var7] = var8;
 		}
-		return p_76934_1_;
+		return par1ArrayOfFloat;
 	}
 	
-	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] p_76933_1_, int p_76933_2_, int p_76933_3_, int p_76933_4_, int p_76933_5_)
+	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
 	{
-		return this.getBiomeGenAt(p_76933_1_, p_76933_2_, p_76933_3_, p_76933_4_, p_76933_5_, true);
+		return this.getBiomeGenAt(par1ArrayOfBiomeGenBase, par2, par3, par4, par5, true);
 	}
 }

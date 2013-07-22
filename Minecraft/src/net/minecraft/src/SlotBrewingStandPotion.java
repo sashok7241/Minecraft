@@ -4,10 +4,10 @@ class SlotBrewingStandPotion extends Slot
 {
 	private EntityPlayer player;
 	
-	public SlotBrewingStandPotion(EntityPlayer p_i3599_1_, IInventory p_i3599_2_, int p_i3599_3_, int p_i3599_4_, int p_i3599_5_)
+	public SlotBrewingStandPotion(EntityPlayer par1EntityPlayer, IInventory par2IInventory, int par3, int par4, int par5)
 	{
-		super(p_i3599_2_, p_i3599_3_, p_i3599_4_, p_i3599_5_);
-		player = p_i3599_1_;
+		super(par2IInventory, par3, par4, par5);
+		player = par1EntityPlayer;
 	}
 	
 	@Override public int getSlotStackLimit()
@@ -15,22 +15,22 @@ class SlotBrewingStandPotion extends Slot
 		return 1;
 	}
 	
-	@Override public boolean isItemValid(ItemStack p_75214_1_)
+	@Override public boolean isItemValid(ItemStack par1ItemStack)
 	{
-		return canHoldPotion(p_75214_1_);
+		return canHoldPotion(par1ItemStack);
 	}
 	
-	@Override public void onPickupFromSlot(EntityPlayer p_82870_1_, ItemStack p_82870_2_)
+	@Override public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
 	{
-		if(p_82870_2_.itemID == Item.potion.itemID && p_82870_2_.getItemDamage() > 0)
+		if(par2ItemStack.itemID == Item.potion.itemID && par2ItemStack.getItemDamage() > 0)
 		{
 			player.addStat(AchievementList.potion, 1);
 		}
-		super.onPickupFromSlot(p_82870_1_, p_82870_2_);
+		super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
 	}
 	
-	public static boolean canHoldPotion(ItemStack p_75243_0_)
+	public static boolean canHoldPotion(ItemStack par0ItemStack)
 	{
-		return p_75243_0_ != null && (p_75243_0_.itemID == Item.potion.itemID || p_75243_0_.itemID == Item.glassBottle.itemID);
+		return par0ItemStack != null && (par0ItemStack.itemID == Item.potion.itemID || par0ItemStack.itemID == Item.glassBottle.itemID);
 	}
 }

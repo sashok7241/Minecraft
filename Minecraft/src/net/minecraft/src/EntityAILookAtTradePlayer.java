@@ -4,10 +4,10 @@ public class EntityAILookAtTradePlayer extends EntityAIWatchClosest
 {
 	private final EntityVillager theMerchant;
 	
-	public EntityAILookAtTradePlayer(EntityVillager p_i3474_1_)
+	public EntityAILookAtTradePlayer(EntityVillager par1EntityVillager)
 	{
-		super(p_i3474_1_, EntityPlayer.class, 8.0F);
-		theMerchant = p_i3474_1_;
+		super(par1EntityVillager, EntityPlayer.class, 8.0F);
+		theMerchant = par1EntityVillager;
 	}
 	
 	@Override public boolean shouldExecute()

@@ -25,48 +25,36 @@ public class EntityFishHook extends Entity
 	private double velocityY;
 	private double velocityZ;
 	
-	public EntityFishHook(World p_i3574_1_)
+	public EntityFishHook(World par1World)
 	{
-		super(p_i3574_1_);
+		super(par1World);
 		xTile = -1;
 		yTile = -1;
 		zTile = -1;
-		inTile = 0;
-		inGround = false;
-		shake = 0;
-		ticksInAir = 0;
-		ticksCatchable = 0;
-		bobber = null;
 		setSize(0.25F, 0.25F);
 		ignoreFrustumCheck = true;
 	}
 	
-	public EntityFishHook(World p_i3575_1_, double p_i3575_2_, double p_i3575_4_, double p_i3575_6_, EntityPlayer p_i3575_8_)
+	public EntityFishHook(World par1World, double par2, double par4, double par6, EntityPlayer par8EntityPlayer)
 	{
-		this(p_i3575_1_);
-		setPosition(p_i3575_2_, p_i3575_4_, p_i3575_6_);
+		this(par1World);
+		setPosition(par2, par4, par6);
 		ignoreFrustumCheck = true;
-		angler = p_i3575_8_;
-		p_i3575_8_.fishEntity = this;
+		angler = par8EntityPlayer;
+		par8EntityPlayer.fishEntity = this;
 	}
 	
-	public EntityFishHook(World p_i3576_1_, EntityPlayer p_i3576_2_)
+	public EntityFishHook(World par1World, EntityPlayer par2EntityPlayer)
 	{
-		super(p_i3576_1_);
+		super(par1World);
 		xTile = -1;
 		yTile = -1;
 		zTile = -1;
-		inTile = 0;
-		inGround = false;
-		shake = 0;
-		ticksInAir = 0;
-		ticksCatchable = 0;
-		bobber = null;
 		ignoreFrustumCheck = true;
-		angler = p_i3576_2_;
+		angler = par2EntityPlayer;
 		angler.fishEntity = this;
 		setSize(0.25F, 0.25F);
-		setLocationAndAngles(p_i3576_2_.posX, p_i3576_2_.posY + 1.62D - p_i3576_2_.yOffset, p_i3576_2_.posZ, p_i3576_2_.rotationYaw, p_i3576_2_.rotationPitch);
+		setLocationAndAngles(par2EntityPlayer.posX, par2EntityPlayer.posY + 1.62D - par2EntityPlayer.yOffset, par2EntityPlayer.posZ, par2EntityPlayer.rotationYaw, par2EntityPlayer.rotationPitch);
 		posX -= MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
 		posY -= 0.10000000149011612D;
 		posZ -= MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
@@ -79,24 +67,24 @@ public class EntityFishHook extends Entity
 		calculateVelocity(motionX, motionY, motionZ, 1.5F, 1.0F);
 	}
 	
-	public void calculateVelocity(double p_70199_1_, double p_70199_3_, double p_70199_5_, float p_70199_7_, float p_70199_8_)
+	public void calculateVelocity(double par1, double par3, double par5, float par7, float par8)
 	{
-		float var9 = MathHelper.sqrt_double(p_70199_1_ * p_70199_1_ + p_70199_3_ * p_70199_3_ + p_70199_5_ * p_70199_5_);
-		p_70199_1_ /= var9;
-		p_70199_3_ /= var9;
-		p_70199_5_ /= var9;
-		p_70199_1_ += rand.nextGaussian() * 0.007499999832361937D * p_70199_8_;
-		p_70199_3_ += rand.nextGaussian() * 0.007499999832361937D * p_70199_8_;
-		p_70199_5_ += rand.nextGaussian() * 0.007499999832361937D * p_70199_8_;
-		p_70199_1_ *= p_70199_7_;
-		p_70199_3_ *= p_70199_7_;
-		p_70199_5_ *= p_70199_7_;
-		motionX = p_70199_1_;
-		motionY = p_70199_3_;
-		motionZ = p_70199_5_;
-		float var10 = MathHelper.sqrt_double(p_70199_1_ * p_70199_1_ + p_70199_5_ * p_70199_5_);
-		prevRotationYaw = rotationYaw = (float) (Math.atan2(p_70199_1_, p_70199_5_) * 180.0D / Math.PI);
-		prevRotationPitch = rotationPitch = (float) (Math.atan2(p_70199_3_, var10) * 180.0D / Math.PI);
+		float var9 = MathHelper.sqrt_double(par1 * par1 + par3 * par3 + par5 * par5);
+		par1 /= var9;
+		par3 /= var9;
+		par5 /= var9;
+		par1 += rand.nextGaussian() * 0.007499999832361937D * par8;
+		par3 += rand.nextGaussian() * 0.007499999832361937D * par8;
+		par5 += rand.nextGaussian() * 0.007499999832361937D * par8;
+		par1 *= par7;
+		par3 *= par7;
+		par5 *= par7;
+		motionX = par1;
+		motionY = par3;
+		motionZ = par5;
+		float var10 = MathHelper.sqrt_double(par1 * par1 + par5 * par5);
+		prevRotationYaw = rotationYaw = (float) (Math.atan2(par1, par5) * 180.0D / Math.PI);
+		prevRotationPitch = rotationPitch = (float) (Math.atan2(par3, var10) * 180.0D / Math.PI);
 		ticksInGround = 0;
 	}
 	
@@ -262,7 +250,7 @@ public class EntityFishHook extends Entity
 			{
 				if(var3.entityHit != null)
 				{
-					if(var3.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, angler), 0))
+					if(var3.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, angler), 0.0F))
 					{
 						bobber = var3.entityHit;
 					}
@@ -366,14 +354,14 @@ public class EntityFishHook extends Entity
 		}
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		xTile = p_70037_1_.getShort("xTile");
-		yTile = p_70037_1_.getShort("yTile");
-		zTile = p_70037_1_.getShort("zTile");
-		inTile = p_70037_1_.getByte("inTile") & 255;
-		shake = p_70037_1_.getByte("shake") & 255;
-		inGround = p_70037_1_.getByte("inGround") == 1;
+		xTile = par1NBTTagCompound.getShort("xTile");
+		yTile = par1NBTTagCompound.getShort("yTile");
+		zTile = par1NBTTagCompound.getShort("zTile");
+		inTile = par1NBTTagCompound.getByte("inTile") & 255;
+		shake = par1NBTTagCompound.getByte("shake") & 255;
+		inGround = par1NBTTagCompound.getByte("inGround") == 1;
 	}
 	
 	@Override public void setDead()
@@ -405,13 +393,13 @@ public class EntityFishHook extends Entity
 		velocityZ = motionZ = par5;
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		p_70014_1_.setShort("xTile", (short) xTile);
-		p_70014_1_.setShort("yTile", (short) yTile);
-		p_70014_1_.setShort("zTile", (short) zTile);
-		p_70014_1_.setByte("inTile", (byte) inTile);
-		p_70014_1_.setByte("shake", (byte) shake);
-		p_70014_1_.setByte("inGround", (byte) (inGround ? 1 : 0));
+		par1NBTTagCompound.setShort("xTile", (short) xTile);
+		par1NBTTagCompound.setShort("yTile", (short) yTile);
+		par1NBTTagCompound.setShort("zTile", (short) zTile);
+		par1NBTTagCompound.setByte("inTile", (byte) inTile);
+		par1NBTTagCompound.setByte("shake", (byte) shake);
+		par1NBTTagCompound.setByte("inGround", (byte) (inGround ? 1 : 0));
 	}
 }

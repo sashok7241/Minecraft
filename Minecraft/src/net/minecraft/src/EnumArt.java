@@ -10,12 +10,12 @@ public enum EnumArt
 	public final int offsetX;
 	public final int offsetY;
 	
-	private EnumArt(String p_i3446_3_, int p_i3446_4_, int p_i3446_5_, int p_i3446_6_, int p_i3446_7_)
+	private EnumArt(String par3Str, int par4, int par5, int par6, int par7)
 	{
-		title = p_i3446_3_;
-		sizeX = p_i3446_4_;
-		sizeY = p_i3446_5_;
-		offsetX = p_i3446_6_;
-		offsetY = p_i3446_7_;
+		title = par3Str;
+		sizeX = par4;
+		sizeY = par5;
+		offsetX = par6;
+		offsetY = par7;
 	}
 }

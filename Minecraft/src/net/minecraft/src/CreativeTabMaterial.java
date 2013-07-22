@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 final class CreativeTabMaterial extends CreativeTabs
 {
-	CreativeTabMaterial(int p_i3632_1_, String p_i3632_2_)
+	CreativeTabMaterial(int par1, String par2Str)
 	{
-		super(p_i3632_1_, p_i3632_2_);
+		super(par1, par2Str);
 	}
 	
 	@Override public int getTabIconItemIndex()

@@ -32,6 +32,7 @@ public class CraftingManager
 		addRecipe(new ItemStack(Block.netherFence, 6), new Object[] { "###", "###", '#', Block.netherBrick });
 		addRecipe(new ItemStack(Block.fenceGate, 1), new Object[] { "#W#", "#W#", '#', Item.stick, 'W', Block.planks });
 		addRecipe(new ItemStack(Block.jukebox, 1), new Object[] { "###", "#X#", "###", '#', Block.planks, 'X', Item.diamond });
+		addRecipe(new ItemStack(Item.field_111214_ch, 2), new Object[] { "~~ ", "~O ", "  ~", '~', Item.silk, 'O', Item.slimeBall });
 		addRecipe(new ItemStack(Block.music, 1), new Object[] { "###", "#X#", "###", '#', Block.planks, 'X', Item.redstone });
 		addRecipe(new ItemStack(Block.bookShelf, 1), new Object[] { "###", "XXX", "###", '#', Block.planks, 'X', Item.book });
 		addRecipe(new ItemStack(Block.blockSnow, 1), new Object[] { "##", "##", '#', Item.snowball });
@@ -100,9 +101,10 @@ public class CraftingManager
 		addRecipe(new ItemStack(Block.stairsNetherQuartz, 4), new Object[] { "#  ", "## ", "###", '#', Block.blockNetherQuartz });
 		addRecipe(new ItemStack(Item.painting, 1), new Object[] { "###", "#X#", "###", '#', Item.stick, 'X', Block.cloth });
 		addRecipe(new ItemStack(Item.itemFrame, 1), new Object[] { "###", "#X#", "###", '#', Item.stick, 'X', Item.leather });
-		addRecipe(new ItemStack(Item.appleGold, 1, 0), new Object[] { "###", "#X#", "###", '#', Item.goldNugget, 'X', Item.appleRed });
+		addRecipe(new ItemStack(Item.appleGold, 1, 0), new Object[] { "###", "#X#", "###", '#', Item.ingotGold, 'X', Item.appleRed });
 		addRecipe(new ItemStack(Item.appleGold, 1, 1), new Object[] { "###", "#X#", "###", '#', Block.blockGold, 'X', Item.appleRed });
 		addRecipe(new ItemStack(Item.goldenCarrot, 1, 0), new Object[] { "###", "#X#", "###", '#', Item.goldNugget, 'X', Item.carrot });
+		addRecipe(new ItemStack(Item.speckledMelon, 1), new Object[] { "###", "#X#", "###", '#', Item.goldNugget, 'X', Item.melon });
 		addRecipe(new ItemStack(Block.lever, 1), new Object[] { "X", "#", '#', Block.cobblestone, 'X', Item.stick });
 		addRecipe(new ItemStack(Block.tripWireSource, 2), new Object[] { "I", "S", "#", '#', Block.planks, 'S', Item.stick, 'I', Item.ingotIron });
 		addRecipe(new ItemStack(Block.torchRedstoneActive, 1), new Object[] { "X", "#", '#', Item.stick, 'X', Item.redstone });
@@ -130,18 +132,17 @@ public class CraftingManager
 		addRecipe(new ItemStack(Block.daylightSensor), new Object[] { "GGG", "QQQ", "WWW", 'G', Block.glass, 'Q', Item.netherQuartz, 'W', Block.woodSingleSlab });
 		addRecipe(new ItemStack(Block.hopperBlock), new Object[] { "I I", "ICI", " I ", 'I', Item.ingotIron, 'C', Block.chest });
 		Collections.sort(recipes, new RecipeSorter(this));
-		System.out.println(recipes.size() + " recipes");
 	}
 	
-	ShapedRecipes addRecipe(ItemStack p_92103_1_, Object ... p_92103_2_)
+	ShapedRecipes addRecipe(ItemStack par1ItemStack, Object ... par2ArrayOfObj)
 	{
 		String var3 = "";
 		int var4 = 0;
 		int var5 = 0;
 		int var6 = 0;
-		if(p_92103_2_[var4] instanceof String[])
+		if(par2ArrayOfObj[var4] instanceof String[])
 		{
-			String[] var7 = (String[]) p_92103_2_[var4++];
+			String[] var7 = (String[]) par2ArrayOfObj[var4++];
 			for(String var9 : var7)
 			{
 				++var6;
@@ -150,28 +151,28 @@ public class CraftingManager
 			}
 		} else
 		{
-			while(p_92103_2_[var4] instanceof String)
+			while(par2ArrayOfObj[var4] instanceof String)
 			{
-				String var11 = (String) p_92103_2_[var4++];
+				String var11 = (String) par2ArrayOfObj[var4++];
 				++var6;
 				var5 = var11.length();
 				var3 = var3 + var11;
 			}
 		}
 		HashMap var12;
-		for(var12 = new HashMap(); var4 < p_92103_2_.length; var4 += 2)
+		for(var12 = new HashMap(); var4 < par2ArrayOfObj.length; var4 += 2)
 		{
-			Character var13 = (Character) p_92103_2_[var4];
+			Character var13 = (Character) par2ArrayOfObj[var4];
 			ItemStack var14 = null;
-			if(p_92103_2_[var4 + 1] instanceof Item)
+			if(par2ArrayOfObj[var4 + 1] instanceof Item)
 			{
-				var14 = new ItemStack((Item) p_92103_2_[var4 + 1]);
-			} else if(p_92103_2_[var4 + 1] instanceof Block)
+				var14 = new ItemStack((Item) par2ArrayOfObj[var4 + 1]);
+			} else if(par2ArrayOfObj[var4 + 1] instanceof Block)
 			{
-				var14 = new ItemStack((Block) p_92103_2_[var4 + 1], 1, 32767);
-			} else if(p_92103_2_[var4 + 1] instanceof ItemStack)
+				var14 = new ItemStack((Block) par2ArrayOfObj[var4 + 1], 1, 32767);
+			} else if(par2ArrayOfObj[var4 + 1] instanceof ItemStack)
 			{
-				var14 = (ItemStack) p_92103_2_[var4 + 1];
+				var14 = (ItemStack) par2ArrayOfObj[var4 + 1];
 			}
 			var12.put(var13, var14);
 		}
@@ -187,16 +188,16 @@ public class CraftingManager
 				var15[var16] = null;
 			}
 		}
-		ShapedRecipes var17 = new ShapedRecipes(var5, var6, var15, p_92103_1_);
+		ShapedRecipes var17 = new ShapedRecipes(var5, var6, var15, par1ItemStack);
 		recipes.add(var17);
 		return var17;
 	}
 	
-	void addShapelessRecipe(ItemStack p_77596_1_, Object ... p_77596_2_)
+	void addShapelessRecipe(ItemStack par1ItemStack, Object ... par2ArrayOfObj)
 	{
 		ArrayList var3 = new ArrayList();
-		Object[] var4 = p_77596_2_;
-		int var5 = p_77596_2_.length;
+		Object[] var4 = par2ArrayOfObj;
+		int var5 = par2ArrayOfObj.length;
 		for(int var6 = 0; var6 < var5; ++var6)
 		{
 			Object var7 = var4[var6];
@@ -212,18 +213,18 @@ public class CraftingManager
 				var3.add(new ItemStack((Block) var7));
 			}
 		}
-		recipes.add(new ShapelessRecipes(p_77596_1_, var3));
+		recipes.add(new ShapelessRecipes(par1ItemStack, var3));
 	}
 	
-	public ItemStack findMatchingRecipe(InventoryCrafting p_82787_1_, World p_82787_2_)
+	public ItemStack findMatchingRecipe(InventoryCrafting par1InventoryCrafting, World par2World)
 	{
 		int var3 = 0;
 		ItemStack var4 = null;
 		ItemStack var5 = null;
 		int var6;
-		for(var6 = 0; var6 < p_82787_1_.getSizeInventory(); ++var6)
+		for(var6 = 0; var6 < par1InventoryCrafting.getSizeInventory(); ++var6)
 		{
-			ItemStack var7 = p_82787_1_.getStackInSlot(var6);
+			ItemStack var7 = par1InventoryCrafting.getStackInSlot(var6);
 			if(var7 != null)
 			{
 				if(var3 == 0)
@@ -254,7 +255,7 @@ public class CraftingManager
 			for(var6 = 0; var6 < recipes.size(); ++var6)
 			{
 				IRecipe var12 = (IRecipe) recipes.get(var6);
-				if(var12.matches(p_82787_1_, p_82787_2_)) return var12.getCraftingResult(p_82787_1_);
+				if(var12.matches(par1InventoryCrafting, par2World)) return var12.getCraftingResult(par1InventoryCrafting);
 			}
 			return null;
 		}

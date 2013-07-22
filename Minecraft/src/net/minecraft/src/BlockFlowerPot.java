@@ -4,33 +4,33 @@ import java.util.Random;
 
 public class BlockFlowerPot extends Block
 {
-	public BlockFlowerPot(int p_i5103_1_)
+	public BlockFlowerPot(int par1)
 	{
-		super(p_i5103_1_, Material.circuits);
+		super(par1, Material.circuits);
 		setBlockBoundsForItemRender();
 	}
 	
-	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
+	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
 	{
-		return super.canPlaceBlockAt(p_71930_1_, p_71930_2_, p_71930_3_, p_71930_4_) && p_71930_1_.doesBlockHaveSolidTopSurface(p_71930_2_, p_71930_3_ - 1, p_71930_4_);
+		return super.canPlaceBlockAt(par1World, par2, par3, par4) && par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4);
 	}
 	
-	@Override public void dropBlockAsItemWithChance(World p_71914_1_, int p_71914_2_, int p_71914_3_, int p_71914_4_, int p_71914_5_, float p_71914_6_, int p_71914_7_)
+	@Override public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
 	{
-		super.dropBlockAsItemWithChance(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, p_71914_5_, p_71914_6_, p_71914_7_);
-		if(p_71914_5_ > 0)
+		super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, par7);
+		if(par5 > 0)
 		{
-			ItemStack var8 = getPlantForMeta(p_71914_5_);
+			ItemStack var8 = getPlantForMeta(par5);
 			if(var8 != null)
 			{
-				dropBlockAsItem_do(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, var8);
+				dropBlockAsItem_do(par1World, par2, par3, par4, var8);
 			}
 		}
 	}
 	
-	@Override public int getDamageValue(World p_71873_1_, int p_71873_2_, int p_71873_3_, int p_71873_4_)
+	@Override public int getDamageValue(World par1World, int par2, int par3, int par4)
 	{
-		ItemStack var5 = getPlantForMeta(p_71873_1_.getBlockMetadata(p_71873_2_, p_71873_3_, p_71873_4_));
+		ItemStack var5 = getPlantForMeta(par1World.getBlockMetadata(par2, par3, par4));
 		return var5 == null ? Item.flowerPot.itemID : var5.getItemDamage();
 	}
 	
@@ -39,7 +39,7 @@ public class BlockFlowerPot extends Block
 		return 33;
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return Item.flowerPot.itemID;
 	}
@@ -60,32 +60,32 @@ public class BlockFlowerPot extends Block
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
-		ItemStack var10 = p_71903_5_.inventory.getCurrentItem();
+		ItemStack var10 = par5EntityPlayer.inventory.getCurrentItem();
 		if(var10 == null) return false;
-		else if(p_71903_1_.getBlockMetadata(p_71903_2_, p_71903_3_, p_71903_4_) != 0) return false;
+		else if(par1World.getBlockMetadata(par2, par3, par4) != 0) return false;
 		else
 		{
 			int var11 = getMetaForPlant(var10);
 			if(var11 > 0)
 			{
-				p_71903_1_.setBlockMetadataWithNotify(p_71903_2_, p_71903_3_, p_71903_4_, var11, 2);
-				if(!p_71903_5_.capabilities.isCreativeMode && --var10.stackSize <= 0)
+				par1World.setBlockMetadataWithNotify(par2, par3, par4, var11, 2);
+				if(!par5EntityPlayer.capabilities.isCreativeMode && --var10.stackSize <= 0)
 				{
-					p_71903_5_.inventory.setInventorySlotContents(p_71903_5_.inventory.currentItem, (ItemStack) null);
+					par5EntityPlayer.inventory.setInventorySlotContents(par5EntityPlayer.inventory.currentItem, (ItemStack) null);
 				}
 				return true;
 			} else return false;
 		}
 	}
 	
-	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
+	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
-		if(!p_71863_1_.doesBlockHaveSolidTopSurface(p_71863_2_, p_71863_3_ - 1, p_71863_4_))
+		if(!par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4))
 		{
-			dropBlockAsItem(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, p_71863_1_.getBlockMetadata(p_71863_2_, p_71863_3_, p_71863_4_), 0);
-			p_71863_1_.setBlockToAir(p_71863_2_, p_71863_3_, p_71863_4_);
+			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
+			par1World.setBlockToAir(par2, par3, par4);
 		}
 	}
 	
@@ -101,9 +101,9 @@ public class BlockFlowerPot extends Block
 		setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, var1, 0.5F + var2);
 	}
 	
-	public static int getMetaForPlant(ItemStack p_82530_0_)
+	public static int getMetaForPlant(ItemStack par0ItemStack)
 	{
-		int var1 = p_82530_0_.getItem().itemID;
+		int var1 = par0ItemStack.getItem().itemID;
 		if(var1 == Block.plantRed.blockID) return 1;
 		else if(var1 == Block.plantYellow.blockID) return 2;
 		else if(var1 == Block.cactus.blockID) return 9;
@@ -114,7 +114,7 @@ public class BlockFlowerPot extends Block
 		{
 			if(var1 == Block.sapling.blockID)
 			{
-				switch(p_82530_0_.getItemDamage())
+				switch(par0ItemStack.getItemDamage())
 				{
 					case 0:
 						return 3;
@@ -128,7 +128,7 @@ public class BlockFlowerPot extends Block
 			}
 			if(var1 == Block.tallGrass.blockID)
 			{
-				switch(p_82530_0_.getItemDamage())
+				switch(par0ItemStack.getItemDamage())
 				{
 					case 2:
 						return 11;
@@ -138,9 +138,9 @@ public class BlockFlowerPot extends Block
 		}
 	}
 	
-	public static ItemStack getPlantForMeta(int p_82531_0_)
+	public static ItemStack getPlantForMeta(int par0)
 	{
-		switch(p_82531_0_)
+		switch(par0)
 		{
 			case 1:
 				return new ItemStack(Block.plantRed);

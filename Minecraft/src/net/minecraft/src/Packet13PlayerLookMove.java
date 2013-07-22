@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet13PlayerLookMove extends Packet10Flying
@@ -12,15 +12,15 @@ public class Packet13PlayerLookMove extends Packet10Flying
 		moving = true;
 	}
 	
-	public Packet13PlayerLookMove(double p_i3333_1_, double p_i3333_3_, double p_i3333_5_, double p_i3333_7_, float p_i3333_9_, float p_i3333_10_, boolean p_i3333_11_)
+	public Packet13PlayerLookMove(double par1, double par3, double par5, double par7, float par9, float par10, boolean par11)
 	{
-		xPosition = p_i3333_1_;
-		yPosition = p_i3333_3_;
-		stance = p_i3333_5_;
-		zPosition = p_i3333_7_;
-		yaw = p_i3333_9_;
-		pitch = p_i3333_10_;
-		onGround = p_i3333_11_;
+		xPosition = par1;
+		yPosition = par3;
+		stance = par5;
+		zPosition = par7;
+		yaw = par9;
+		pitch = par10;
+		onGround = par11;
 		rotating = true;
 		moving = true;
 	}
@@ -30,25 +30,25 @@ public class Packet13PlayerLookMove extends Packet10Flying
 		return 41;
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xPosition = p_73267_1_.readDouble();
-		yPosition = p_73267_1_.readDouble();
-		stance = p_73267_1_.readDouble();
-		zPosition = p_73267_1_.readDouble();
-		yaw = p_73267_1_.readFloat();
-		pitch = p_73267_1_.readFloat();
-		super.readPacketData(p_73267_1_);
+		xPosition = par1DataInput.readDouble();
+		yPosition = par1DataInput.readDouble();
+		stance = par1DataInput.readDouble();
+		zPosition = par1DataInput.readDouble();
+		yaw = par1DataInput.readFloat();
+		pitch = par1DataInput.readFloat();
+		super.readPacketData(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeDouble(xPosition);
-		p_73273_1_.writeDouble(yPosition);
-		p_73273_1_.writeDouble(stance);
-		p_73273_1_.writeDouble(zPosition);
-		p_73273_1_.writeFloat(yaw);
-		p_73273_1_.writeFloat(pitch);
-		super.writePacketData(p_73273_1_);
+		par1DataOutput.writeDouble(xPosition);
+		par1DataOutput.writeDouble(yPosition);
+		par1DataOutput.writeDouble(stance);
+		par1DataOutput.writeDouble(zPosition);
+		par1DataOutput.writeFloat(yaw);
+		par1DataOutput.writeFloat(pitch);
+		super.writePacketData(par1DataOutput);
 	}
 }

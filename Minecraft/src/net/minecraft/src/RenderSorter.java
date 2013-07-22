@@ -4,16 +4,16 @@ import java.util.Comparator;
 
 public class RenderSorter implements Comparator
 {
-	private EntityLiving baseEntity;
+	private EntityLivingBase baseEntity;
 	
-	public RenderSorter(EntityLiving p_i3190_1_)
+	public RenderSorter(EntityLivingBase par1EntityLivingBase)
 	{
-		baseEntity = p_i3190_1_;
+		baseEntity = par1EntityLivingBase;
 	}
 	
-	@Override public int compare(Object p_compare_1_, Object p_compare_2_)
+	@Override public int compare(Object par1Obj, Object par2Obj)
 	{
-		return doCompare((WorldRenderer) p_compare_1_, (WorldRenderer) p_compare_2_);
+		return doCompare((WorldRenderer) par1Obj, (WorldRenderer) par2Obj);
 	}
 	
 	public int doCompare(WorldRenderer par1WorldRenderer, WorldRenderer par2WorldRenderer)

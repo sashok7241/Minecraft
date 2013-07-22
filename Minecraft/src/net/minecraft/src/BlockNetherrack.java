@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BlockNetherrack extends Block
 {
-	public BlockNetherrack(int p_i9063_1_)
+	public BlockNetherrack(int par1)
 	{
-		super(p_i9063_1_, Material.rock);
+		super(par1, Material.rock);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 }

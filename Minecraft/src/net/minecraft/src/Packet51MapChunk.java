@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
@@ -24,13 +24,13 @@ public class Packet51MapChunk extends Packet
 		isChunkDataPacket = true;
 	}
 	
-	public Packet51MapChunk(Chunk p_i3323_1_, boolean p_i3323_2_, int p_i3323_3_)
+	public Packet51MapChunk(Chunk par1Chunk, boolean par2, int par3)
 	{
 		isChunkDataPacket = true;
-		xCh = p_i3323_1_.xPosition;
-		zCh = p_i3323_1_.zPosition;
-		includeInitialize = p_i3323_2_;
-		Packet51MapChunkData var4 = getMapChunkData(p_i3323_1_, p_i3323_2_, p_i3323_3_);
+		xCh = par1Chunk.xPosition;
+		zCh = par1Chunk.zPosition;
+		includeInitialize = par2;
+		Packet51MapChunkData var4 = getMapChunkData(par1Chunk, par2, par3);
 		Deflater var5 = new Deflater(-1);
 		yChMax = var4.chunkHasAddSectionFlag;
 		yChMin = var4.chunkExistFlag;
@@ -57,24 +57,24 @@ public class Packet51MapChunk extends Packet
 		return 17 + tempLength;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleMapChunk(this);
+		par1NetHandler.handleMapChunk(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xCh = p_73267_1_.readInt();
-		zCh = p_73267_1_.readInt();
-		includeInitialize = p_73267_1_.readBoolean();
-		yChMin = p_73267_1_.readShort();
-		yChMax = p_73267_1_.readShort();
-		tempLength = p_73267_1_.readInt();
+		xCh = par1DataInput.readInt();
+		zCh = par1DataInput.readInt();
+		includeInitialize = par1DataInput.readBoolean();
+		yChMin = par1DataInput.readShort();
+		yChMax = par1DataInput.readShort();
+		tempLength = par1DataInput.readInt();
 		if(temp.length < tempLength)
 		{
 			temp = new byte[tempLength];
 		}
-		p_73267_1_.readFully(temp, 0, tempLength);
+		par1DataInput.readFully(temp, 0, tempLength);
 		int var2 = 0;
 		int var3;
 		for(var3 = 0; var3 < 16; ++var3)
@@ -101,32 +101,32 @@ public class Packet51MapChunk extends Packet
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(xCh);
-		p_73273_1_.writeInt(zCh);
-		p_73273_1_.writeBoolean(includeInitialize);
-		p_73273_1_.writeShort((short) (yChMin & 65535));
-		p_73273_1_.writeShort((short) (yChMax & 65535));
-		p_73273_1_.writeInt(tempLength);
-		p_73273_1_.write(chunkData, 0, tempLength);
+		par1DataOutput.writeInt(xCh);
+		par1DataOutput.writeInt(zCh);
+		par1DataOutput.writeBoolean(includeInitialize);
+		par1DataOutput.writeShort((short) (yChMin & 65535));
+		par1DataOutput.writeShort((short) (yChMax & 65535));
+		par1DataOutput.writeInt(tempLength);
+		par1DataOutput.write(chunkData, 0, tempLength);
 	}
 	
-	public static Packet51MapChunkData getMapChunkData(Chunk p_73594_0_, boolean p_73594_1_, int p_73594_2_)
+	public static Packet51MapChunkData getMapChunkData(Chunk par0Chunk, boolean par1, int par2)
 	{
 		int var3 = 0;
-		ExtendedBlockStorage[] var4 = p_73594_0_.getBlockStorageArray();
+		ExtendedBlockStorage[] var4 = par0Chunk.getBlockStorageArray();
 		int var5 = 0;
 		Packet51MapChunkData var6 = new Packet51MapChunkData();
 		byte[] var7 = temp;
-		if(p_73594_1_)
+		if(par1)
 		{
-			p_73594_0_.sendUpdates = true;
+			par0Chunk.sendUpdates = true;
 		}
 		int var8;
 		for(var8 = 0; var8 < var4.length; ++var8)
 		{
-			if(var4[var8] != null && (!p_73594_1_ || !var4[var8].isEmpty()) && (p_73594_2_ & 1 << var8) != 0)
+			if(var4[var8] != null && (!par1 || !var4[var8].isEmpty()) && (par2 & 1 << var8) != 0)
 			{
 				var6.chunkExistFlag |= 1 << var8;
 				if(var4[var8].getBlockMSBArray() != null)
@@ -138,7 +138,7 @@ public class Packet51MapChunk extends Packet
 		}
 		for(var8 = 0; var8 < var4.length; ++var8)
 		{
-			if(var4[var8] != null && (!p_73594_1_ || !var4[var8].isEmpty()) && (p_73594_2_ & 1 << var8) != 0)
+			if(var4[var8] != null && (!par1 || !var4[var8].isEmpty()) && (par2 & 1 << var8) != 0)
 			{
 				byte[] var9 = var4[var8].getBlockLSBArray();
 				System.arraycopy(var9, 0, var7, var3, var9.length);
@@ -148,7 +148,7 @@ public class Packet51MapChunk extends Packet
 		NibbleArray var10;
 		for(var8 = 0; var8 < var4.length; ++var8)
 		{
-			if(var4[var8] != null && (!p_73594_1_ || !var4[var8].isEmpty()) && (p_73594_2_ & 1 << var8) != 0)
+			if(var4[var8] != null && (!par1 || !var4[var8].isEmpty()) && (par2 & 1 << var8) != 0)
 			{
 				var10 = var4[var8].getMetadataArray();
 				System.arraycopy(var10.data, 0, var7, var3, var10.data.length);
@@ -157,18 +157,18 @@ public class Packet51MapChunk extends Packet
 		}
 		for(var8 = 0; var8 < var4.length; ++var8)
 		{
-			if(var4[var8] != null && (!p_73594_1_ || !var4[var8].isEmpty()) && (p_73594_2_ & 1 << var8) != 0)
+			if(var4[var8] != null && (!par1 || !var4[var8].isEmpty()) && (par2 & 1 << var8) != 0)
 			{
 				var10 = var4[var8].getBlocklightArray();
 				System.arraycopy(var10.data, 0, var7, var3, var10.data.length);
 				var3 += var10.data.length;
 			}
 		}
-		if(!p_73594_0_.worldObj.provider.hasNoSky)
+		if(!par0Chunk.worldObj.provider.hasNoSky)
 		{
 			for(var8 = 0; var8 < var4.length; ++var8)
 			{
-				if(var4[var8] != null && (!p_73594_1_ || !var4[var8].isEmpty()) && (p_73594_2_ & 1 << var8) != 0)
+				if(var4[var8] != null && (!par1 || !var4[var8].isEmpty()) && (par2 & 1 << var8) != 0)
 				{
 					var10 = var4[var8].getSkylightArray();
 					System.arraycopy(var10.data, 0, var7, var3, var10.data.length);
@@ -180,7 +180,7 @@ public class Packet51MapChunk extends Packet
 		{
 			for(var8 = 0; var8 < var4.length; ++var8)
 			{
-				if(var4[var8] != null && (!p_73594_1_ || !var4[var8].isEmpty()) && var4[var8].getBlockMSBArray() != null && (p_73594_2_ & 1 << var8) != 0)
+				if(var4[var8] != null && (!par1 || !var4[var8].isEmpty()) && var4[var8].getBlockMSBArray() != null && (par2 & 1 << var8) != 0)
 				{
 					var10 = var4[var8].getBlockMSBArray();
 					System.arraycopy(var10.data, 0, var7, var3, var10.data.length);
@@ -188,9 +188,9 @@ public class Packet51MapChunk extends Packet
 				}
 			}
 		}
-		if(p_73594_1_)
+		if(par1)
 		{
-			byte[] var11 = p_73594_0_.getBiomeArray();
+			byte[] var11 = par0Chunk.getBiomeArray();
 			System.arraycopy(var11, 0, var7, var3, var11.length);
 			var3 += var11.length;
 		}

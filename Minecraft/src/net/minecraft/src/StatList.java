@@ -31,8 +31,8 @@ public class StatList
 	public static StatBase distanceByPigStat = new StatBasic(2008, "stat.pigOneCm", StatBase.distanceStatType).initIndependentStat().registerStat();
 	public static StatBase jumpStat = new StatBasic(2010, "stat.jump").initIndependentStat().registerStat();
 	public static StatBase dropStat = new StatBasic(2011, "stat.drop").initIndependentStat().registerStat();
-	public static StatBase damageDealtStat = new StatBasic(2020, "stat.damageDealt").registerStat();
-	public static StatBase damageTakenStat = new StatBasic(2021, "stat.damageTaken").registerStat();
+	public static StatBase damageDealtStat = new StatBasic(2020, "stat.damageDealt", StatBase.field_111202_k).registerStat();
+	public static StatBase damageTakenStat = new StatBasic(2021, "stat.damageTaken", StatBase.field_111202_k).registerStat();
 	public static StatBase deathsStat = new StatBasic(2022, "stat.deaths").registerStat();
 	public static StatBase mobKillsStat = new StatBasic(2023, "stat.mobKills").registerStat();
 	public static StatBase playerKillsStat = new StatBasic(2024, "stat.playerKills").registerStat();
@@ -57,22 +57,22 @@ public class StatList
 		initCraftableStats();
 	}
 	
-	private static StatBase[] initBreakStats(StatBase[] p_75926_0_, String p_75926_1_, int p_75926_2_, int p_75926_3_, int p_75926_4_)
+	private static StatBase[] initBreakStats(StatBase[] par0ArrayOfStatBase, String par1Str, int par2, int par3, int par4)
 	{
-		if(p_75926_0_ == null)
+		if(par0ArrayOfStatBase == null)
 		{
-			p_75926_0_ = new StatBase[32000];
+			par0ArrayOfStatBase = new StatBase[32000];
 		}
-		for(int var5 = p_75926_3_; var5 < p_75926_4_; ++var5)
+		for(int var5 = par3; var5 < par4; ++var5)
 		{
 			if(Item.itemsList[var5] != null && Item.itemsList[var5].isDamageable())
 			{
-				String var6 = StatCollector.translateToLocalFormatted(p_75926_1_, new Object[] { Item.itemsList[var5].getStatName() });
-				p_75926_0_[var5] = new StatCrafting(p_75926_2_ + var5, var6, var5).registerStat();
+				String var6 = StatCollector.translateToLocalFormatted(par1Str, new Object[] { Item.itemsList[var5].getStatName() });
+				par0ArrayOfStatBase[var5] = new StatCrafting(par2 + var5, var6, var5).registerStat();
 			}
 		}
-		replaceAllSimilarBlocks(p_75926_0_);
-		return p_75926_0_;
+		replaceAllSimilarBlocks(par0ArrayOfStatBase);
+		return par0ArrayOfStatBase;
 	}
 	
 	public static void initCraftableStats()
@@ -110,15 +110,15 @@ public class StatList
 		}
 	}
 	
-	private static StatBase[] initMinableStats(String p_75921_0_, int p_75921_1_)
+	private static StatBase[] initMinableStats(String par0Str, int par1)
 	{
 		StatBase[] var2 = new StatBase[256];
 		for(int var3 = 0; var3 < 256; ++var3)
 		{
 			if(Block.blocksList[var3] != null && Block.blocksList[var3].getEnableStats())
 			{
-				String var4 = StatCollector.translateToLocalFormatted(p_75921_0_, new Object[] { Block.blocksList[var3].getLocalizedName() });
-				var2[var3] = new StatCrafting(p_75921_1_ + var3, var4, var3).registerStat();
+				String var4 = StatCollector.translateToLocalFormatted(par0Str, new Object[] { Block.blocksList[var3].getLocalizedName() });
+				var2[var3] = new StatCrafting(par1 + var3, var4, var3).registerStat();
 				objectMineStats.add(var2[var3]);
 			}
 		}
@@ -134,66 +134,64 @@ public class StatList
 		initCraftableStats();
 	}
 	
-	private static StatBase[] initUsableStats(StatBase[] p_75920_0_, String p_75920_1_, int p_75920_2_, int p_75920_3_, int p_75920_4_)
+	private static StatBase[] initUsableStats(StatBase[] par0ArrayOfStatBase, String par1Str, int par2, int par3, int par4)
 	{
-		if(p_75920_0_ == null)
+		if(par0ArrayOfStatBase == null)
 		{
-			p_75920_0_ = new StatBase[32000];
+			par0ArrayOfStatBase = new StatBase[32000];
 		}
-		for(int var5 = p_75920_3_; var5 < p_75920_4_; ++var5)
+		for(int var5 = par3; var5 < par4; ++var5)
 		{
 			if(Item.itemsList[var5] != null)
 			{
-				String var6 = StatCollector.translateToLocalFormatted(p_75920_1_, new Object[] { Item.itemsList[var5].getStatName() });
-				p_75920_0_[var5] = new StatCrafting(p_75920_2_ + var5, var6, var5).registerStat();
+				String var6 = StatCollector.translateToLocalFormatted(par1Str, new Object[] { Item.itemsList[var5].getStatName() });
+				par0ArrayOfStatBase[var5] = new StatCrafting(par2 + var5, var6, var5).registerStat();
 				if(var5 >= 256)
 				{
-					itemStats.add(p_75920_0_[var5]);
+					itemStats.add(par0ArrayOfStatBase[var5]);
 				}
 			}
 		}
-		replaceAllSimilarBlocks(p_75920_0_);
-		return p_75920_0_;
+		replaceAllSimilarBlocks(par0ArrayOfStatBase);
+		return par0ArrayOfStatBase;
 	}
 	
 	public static void nopInit()
 	{
 	}
 	
-	private static void replaceAllSimilarBlocks(StatBase[] p_75924_0_)
+	private static void replaceAllSimilarBlocks(StatBase[] par0ArrayOfStatBase)
 	{
-		replaceSimilarBlocks(p_75924_0_, Block.waterStill.blockID, Block.waterMoving.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.lavaStill.blockID, Block.lavaStill.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.pumpkinLantern.blockID, Block.pumpkin.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.furnaceBurning.blockID, Block.furnaceIdle.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.oreRedstoneGlowing.blockID, Block.oreRedstone.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.redstoneRepeaterActive.blockID, Block.redstoneRepeaterIdle.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.torchRedstoneActive.blockID, Block.torchRedstoneIdle.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.mushroomRed.blockID, Block.mushroomBrown.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.stoneDoubleSlab.blockID, Block.stoneSingleSlab.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.woodDoubleSlab.blockID, Block.woodSingleSlab.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.grass.blockID, Block.dirt.blockID);
-		replaceSimilarBlocks(p_75924_0_, Block.tilledField.blockID, Block.dirt.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.waterStill.blockID, Block.waterMoving.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.lavaStill.blockID, Block.lavaStill.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.pumpkinLantern.blockID, Block.pumpkin.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.furnaceBurning.blockID, Block.furnaceIdle.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.oreRedstoneGlowing.blockID, Block.oreRedstone.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.redstoneRepeaterActive.blockID, Block.redstoneRepeaterIdle.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.torchRedstoneActive.blockID, Block.torchRedstoneIdle.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.mushroomRed.blockID, Block.mushroomBrown.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.stoneDoubleSlab.blockID, Block.stoneSingleSlab.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.woodDoubleSlab.blockID, Block.woodSingleSlab.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.grass.blockID, Block.dirt.blockID);
+		replaceSimilarBlocks(par0ArrayOfStatBase, Block.tilledField.blockID, Block.dirt.blockID);
 	}
 	
-	private static void replaceSimilarBlocks(StatBase[] p_75927_0_, int p_75927_1_, int p_75927_2_)
+	private static void replaceSimilarBlocks(StatBase[] par0ArrayOfStatBase, int par1, int par2)
 	{
-		if(p_75927_0_[p_75927_1_] != null && p_75927_0_[p_75927_2_] == null)
+		if(par0ArrayOfStatBase[par1] != null && par0ArrayOfStatBase[par2] == null)
 		{
-			p_75927_0_[p_75927_2_] = p_75927_0_[p_75927_1_];
+			par0ArrayOfStatBase[par2] = par0ArrayOfStatBase[par1];
 		} else
 		{
-			allStats.remove(p_75927_0_[p_75927_1_]);
-			objectMineStats.remove(p_75927_0_[p_75927_1_]);
-			generalStats.remove(p_75927_0_[p_75927_1_]);
-			p_75927_0_[p_75927_1_] = p_75927_0_[p_75927_2_];
+			allStats.remove(par0ArrayOfStatBase[par1]);
+			objectMineStats.remove(par0ArrayOfStatBase[par1]);
+			generalStats.remove(par0ArrayOfStatBase[par1]);
+			par0ArrayOfStatBase[par1] = par0ArrayOfStatBase[par2];
 		}
 	}
 	
 	static
 	{
 		AchievementList.init();
-		blockStatsInitialized = false;
-		itemStatsInitialized = false;
 	}
 }

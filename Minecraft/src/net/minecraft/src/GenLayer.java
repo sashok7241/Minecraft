@@ -7,38 +7,38 @@ public abstract class GenLayer
 	private long chunkSeed;
 	private long baseSeed;
 	
-	public GenLayer(long p_i3891_1_)
+	public GenLayer(long par1)
 	{
-		baseSeed = p_i3891_1_;
+		baseSeed = par1;
 		baseSeed *= baseSeed * 6364136223846793005L + 1442695040888963407L;
-		baseSeed += p_i3891_1_;
+		baseSeed += par1;
 		baseSeed *= baseSeed * 6364136223846793005L + 1442695040888963407L;
-		baseSeed += p_i3891_1_;
+		baseSeed += par1;
 		baseSeed *= baseSeed * 6364136223846793005L + 1442695040888963407L;
-		baseSeed += p_i3891_1_;
+		baseSeed += par1;
 	}
 	
 	public abstract int[] getInts(int var1, int var2, int var3, int var4);
 	
-	public void initChunkSeed(long p_75903_1_, long p_75903_3_)
+	public void initChunkSeed(long par1, long par3)
 	{
 		chunkSeed = worldGenSeed;
 		chunkSeed *= chunkSeed * 6364136223846793005L + 1442695040888963407L;
-		chunkSeed += p_75903_1_;
+		chunkSeed += par1;
 		chunkSeed *= chunkSeed * 6364136223846793005L + 1442695040888963407L;
-		chunkSeed += p_75903_3_;
+		chunkSeed += par3;
 		chunkSeed *= chunkSeed * 6364136223846793005L + 1442695040888963407L;
-		chunkSeed += p_75903_1_;
+		chunkSeed += par1;
 		chunkSeed *= chunkSeed * 6364136223846793005L + 1442695040888963407L;
-		chunkSeed += p_75903_3_;
+		chunkSeed += par3;
 	}
 	
-	public void initWorldGenSeed(long p_75905_1_)
+	public void initWorldGenSeed(long par1)
 	{
-		worldGenSeed = p_75905_1_;
+		worldGenSeed = par1;
 		if(parent != null)
 		{
-			parent.initWorldGenSeed(p_75905_1_);
+			parent.initWorldGenSeed(par1);
 		}
 		worldGenSeed *= worldGenSeed * 6364136223846793005L + 1442695040888963407L;
 		worldGenSeed += baseSeed;
@@ -48,19 +48,19 @@ public abstract class GenLayer
 		worldGenSeed += baseSeed;
 	}
 	
-	protected int nextInt(int p_75902_1_)
+	protected int nextInt(int par1)
 	{
-		int var2 = (int) ((chunkSeed >> 24) % p_75902_1_);
+		int var2 = (int) ((chunkSeed >> 24) % par1);
 		if(var2 < 0)
 		{
-			var2 += p_75902_1_;
+			var2 += par1;
 		}
 		chunkSeed *= chunkSeed * 6364136223846793005L + 1442695040888963407L;
 		chunkSeed += worldGenSeed;
 		return var2;
 	}
 	
-	public static GenLayer[] initializeAllBiomeGenerators(long p_75901_0_, WorldType p_75901_2_)
+	public static GenLayer[] initializeAllBiomeGenerators(long par0, WorldType par2WorldType)
 	{
 		GenLayerIsland var3 = new GenLayerIsland(1L);
 		GenLayerFuzzyZoom var9 = new GenLayerFuzzyZoom(2000L, var3);
@@ -74,7 +74,7 @@ public abstract class GenLayer
 		var10 = new GenLayerAddIsland(4L, var11);
 		GenLayerAddMushroomIsland var16 = new GenLayerAddMushroomIsland(5L, var10);
 		byte var4 = 4;
-		if(p_75901_2_ == WorldType.LARGE_BIOMES)
+		if(par2WorldType == WorldType.LARGE_BIOMES)
 		{
 			var4 = 6;
 		}
@@ -84,7 +84,7 @@ public abstract class GenLayer
 		GenLayerRiver var14 = new GenLayerRiver(1L, var5);
 		GenLayerSmooth var15 = new GenLayerSmooth(1000L, var14);
 		GenLayer var6 = GenLayerZoom.magnify(1000L, var16, 0);
-		GenLayerBiome var17 = new GenLayerBiome(200L, var6, p_75901_2_);
+		GenLayerBiome var17 = new GenLayerBiome(200L, var6, par2WorldType);
 		var6 = GenLayerZoom.magnify(1000L, var17, 2);
 		Object var18 = new GenLayerHills(1000L, var6);
 		for(int var7 = 0; var7 < var4; ++var7)
@@ -106,8 +106,8 @@ public abstract class GenLayer
 		GenLayerSmooth var19 = new GenLayerSmooth(1000L, (GenLayer) var18);
 		GenLayerRiverMix var20 = new GenLayerRiverMix(100L, var19, var15);
 		GenLayerVoronoiZoom var8 = new GenLayerVoronoiZoom(10L, var20);
-		var20.initWorldGenSeed(p_75901_0_);
-		var8.initWorldGenSeed(p_75901_0_);
+		var20.initWorldGenSeed(par0);
+		var8.initWorldGenSeed(par0);
 		return new GenLayer[] { var20, var8, var20 };
 	}
 }

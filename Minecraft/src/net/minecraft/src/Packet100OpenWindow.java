@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet100OpenWindow extends Packet
@@ -11,45 +11,60 @@ public class Packet100OpenWindow extends Packet
 	public String windowTitle;
 	public int slotsCount;
 	public boolean useProvidedWindowTitle;
+	public int field_111008_f;
 	
 	public Packet100OpenWindow()
 	{
 	}
 	
-	public Packet100OpenWindow(int p_i9017_1_, int p_i9017_2_, String p_i9017_3_, int p_i9017_4_, boolean p_i9017_5_)
+	public Packet100OpenWindow(int par1, int par2, String par3Str, int par4, boolean par5)
 	{
-		windowId = p_i9017_1_;
-		inventoryType = p_i9017_2_;
-		windowTitle = p_i9017_3_;
-		slotsCount = p_i9017_4_;
-		useProvidedWindowTitle = p_i9017_5_;
+		windowId = par1;
+		inventoryType = par2;
+		windowTitle = par3Str;
+		slotsCount = par4;
+		useProvidedWindowTitle = par5;
+	}
+	
+	public Packet100OpenWindow(int par1, int par2, String par3Str, int par4, boolean par5, int par6)
+	{
+		this(par1, par2, par3Str, par4, par5);
+		field_111008_f = par6;
 	}
 	
 	@Override public int getPacketSize()
 	{
-		return 4 + windowTitle.length();
+		return inventoryType == 11 ? 8 + windowTitle.length() : 4 + windowTitle.length();
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleOpenWindow(this);
+		par1NetHandler.handleOpenWindow(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		windowId = p_73267_1_.readByte() & 255;
-		inventoryType = p_73267_1_.readByte() & 255;
-		windowTitle = readString(p_73267_1_, 32);
-		slotsCount = p_73267_1_.readByte() & 255;
-		useProvidedWindowTitle = p_73267_1_.readBoolean();
+		windowId = par1DataInput.readByte() & 255;
+		inventoryType = par1DataInput.readByte() & 255;
+		windowTitle = readString(par1DataInput, 32);
+		slotsCount = par1DataInput.readByte() & 255;
+		useProvidedWindowTitle = par1DataInput.readBoolean();
+		if(inventoryType == 11)
+		{
+			field_111008_f = par1DataInput.readInt();
+		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeByte(windowId & 255);
-		p_73273_1_.writeByte(inventoryType & 255);
-		writeString(windowTitle, p_73273_1_);
-		p_73273_1_.writeByte(slotsCount & 255);
-		p_73273_1_.writeBoolean(useProvidedWindowTitle);
+		par1DataOutput.writeByte(windowId & 255);
+		par1DataOutput.writeByte(inventoryType & 255);
+		writeString(windowTitle, par1DataOutput);
+		par1DataOutput.writeByte(slotsCount & 255);
+		par1DataOutput.writeBoolean(useProvidedWindowTitle);
+		if(inventoryType == 11)
+		{
+			par1DataOutput.writeInt(field_111008_f);
+		}
 	}
 }

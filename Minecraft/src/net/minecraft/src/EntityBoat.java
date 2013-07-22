@@ -16,9 +16,9 @@ public class EntityBoat extends Entity
 	private double velocityY;
 	private double velocityZ;
 	
-	public EntityBoat(World p_i3534_1_)
+	public EntityBoat(World par1World)
 	{
-		super(p_i3534_1_);
+		super(par1World);
 		field_70279_a = true;
 		speedMultiplier = 0.07D;
 		preventEntitySpawning = true;
@@ -26,29 +26,29 @@ public class EntityBoat extends Entity
 		yOffset = height / 2.0F;
 	}
 	
-	public EntityBoat(World p_i3535_1_, double p_i3535_2_, double p_i3535_4_, double p_i3535_6_)
+	public EntityBoat(World par1World, double par2, double par4, double par6)
 	{
-		this(p_i3535_1_);
-		setPosition(p_i3535_2_, p_i3535_4_ + yOffset, p_i3535_6_);
+		this(par1World);
+		setPosition(par2, par4 + yOffset, par6);
 		motionX = 0.0D;
 		motionY = 0.0D;
 		motionZ = 0.0D;
-		prevPosX = p_i3535_2_;
-		prevPosY = p_i3535_4_;
-		prevPosZ = p_i3535_6_;
+		prevPosX = par2;
+		prevPosY = par4;
+		prevPosZ = par6;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
 		else if(!worldObj.isRemote && !isDead)
 		{
 			setForwardDirection(-getForwardDirection());
 			setTimeSinceHit(10);
-			setDamageTaken(getDamageTaken() + p_70097_2_ * 10);
+			setDamageTaken(getDamageTaken() + par2 * 10.0F);
 			setBeenAttacked();
-			boolean var3 = p_70097_1_.getEntity() instanceof EntityPlayer && ((EntityPlayer) p_70097_1_.getEntity()).capabilities.isCreativeMode;
-			if(var3 || getDamageTaken() > 40)
+			boolean var3 = par1DamageSource.getEntity() instanceof EntityPlayer && ((EntityPlayer) par1DamageSource.getEntity()).capabilities.isCreativeMode;
+			if(var3 || getDamageTaken() > 40.0F)
 			{
 				if(riddenByEntity != null)
 				{
@@ -83,7 +83,20 @@ public class EntityBoat extends Entity
 	{
 		dataWatcher.addObject(17, new Integer(0));
 		dataWatcher.addObject(18, new Integer(1));
-		dataWatcher.addObject(19, new Integer(0));
+		dataWatcher.addObject(19, new Float(0.0F));
+	}
+	
+	@Override public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+	{
+		if(riddenByEntity != null && riddenByEntity instanceof EntityPlayer && riddenByEntity != par1EntityPlayer) return true;
+		else
+		{
+			if(!worldObj.isRemote)
+			{
+				par1EntityPlayer.mountEntity(this);
+			}
+			return true;
+		}
 	}
 	
 	public void func_70270_d(boolean par1)
@@ -96,14 +109,14 @@ public class EntityBoat extends Entity
 		return boundingBox;
 	}
 	
-	@Override public AxisAlignedBB getCollisionBox(Entity p_70114_1_)
+	@Override public AxisAlignedBB getCollisionBox(Entity par1Entity)
 	{
-		return p_70114_1_.boundingBox;
+		return par1Entity.boundingBox;
 	}
 	
-	public int getDamageTaken()
+	public float getDamageTaken()
 	{
-		return dataWatcher.getWatchableObjectInt(19);
+		return dataWatcher.func_111145_d(19);
 	}
 	
 	public int getForwardDirection()
@@ -126,19 +139,6 @@ public class EntityBoat extends Entity
 		return dataWatcher.getWatchableObjectInt(17);
 	}
 	
-	@Override public boolean interact(EntityPlayer p_70085_1_)
-	{
-		if(riddenByEntity != null && riddenByEntity instanceof EntityPlayer && riddenByEntity != p_70085_1_) return true;
-		else
-		{
-			if(!worldObj.isRemote)
-			{
-				p_70085_1_.mountEntity(this);
-			}
-			return true;
-		}
-	}
-	
 	@Override public void onUpdate()
 	{
 		super.onUpdate();
@@ -146,9 +146,9 @@ public class EntityBoat extends Entity
 		{
 			setTimeSinceHit(getTimeSinceHit() - 1);
 		}
-		if(getDamageTaken() > 0)
+		if(getDamageTaken() > 0.0F)
 		{
-			setDamageTaken(getDamageTaken() - 1);
+			setDamageTaken(getDamageTaken() - 1.0F);
 		}
 		prevPosX = posX;
 		prevPosY = posY;
@@ -236,10 +236,16 @@ public class EntityBoat extends Entity
 				}
 				motionY += 0.007000000216066837D;
 			}
-			if(riddenByEntity != null)
+			if(riddenByEntity != null && riddenByEntity instanceof EntityLivingBase)
 			{
-				motionX += riddenByEntity.motionX * speedMultiplier;
-				motionZ += riddenByEntity.motionZ * speedMultiplier;
+				var6 = ((EntityLivingBase) riddenByEntity).moveForward;
+				if(var6 > 0.0D)
+				{
+					var8 = -Math.sin(riddenByEntity.rotationYaw * (float) Math.PI / 180.0F);
+					var25 = Math.cos(riddenByEntity.rotationYaw * (float) Math.PI / 180.0F);
+					motionX += var8 * speedMultiplier * 0.05000000074505806D;
+					motionZ += var25 * speedMultiplier * 0.05000000074505806D;
+				}
 			}
 			var6 = Math.sqrt(motionX * motionX + motionZ * motionZ);
 			if(var6 > 0.35D)
@@ -355,21 +361,21 @@ public class EntityBoat extends Entity
 	{
 		setForwardDirection(-getForwardDirection());
 		setTimeSinceHit(10);
-		setDamageTaken(getDamageTaken() * 11);
+		setDamageTaken(getDamageTaken() * 11.0F);
 	}
 	
-	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
 	}
 	
-	public void setDamageTaken(int p_70266_1_)
+	public void setDamageTaken(float par1)
 	{
-		dataWatcher.updateObject(19, Integer.valueOf(p_70266_1_));
+		dataWatcher.updateObject(19, Float.valueOf(par1));
 	}
 	
-	public void setForwardDirection(int p_70269_1_)
+	public void setForwardDirection(int par1)
 	{
-		dataWatcher.updateObject(18, Integer.valueOf(p_70269_1_));
+		dataWatcher.updateObject(18, Integer.valueOf(par1));
 	}
 	
 	@Override public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9)
@@ -396,9 +402,9 @@ public class EntityBoat extends Entity
 		motionZ = velocityZ;
 	}
 	
-	public void setTimeSinceHit(int p_70265_1_)
+	public void setTimeSinceHit(int par1)
 	{
-		dataWatcher.updateObject(17, Integer.valueOf(p_70265_1_));
+		dataWatcher.updateObject(17, Integer.valueOf(par1));
 	}
 	
 	@Override public void setVelocity(double par1, double par3, double par5)
@@ -418,7 +424,7 @@ public class EntityBoat extends Entity
 		}
 	}
 	
-	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 	}
 }

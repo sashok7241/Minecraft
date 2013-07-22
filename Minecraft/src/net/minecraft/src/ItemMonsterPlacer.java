@@ -7,9 +7,9 @@ public class ItemMonsterPlacer extends Item
 {
 	private Icon theIcon;
 	
-	public ItemMonsterPlacer(int p_i3671_1_)
+	public ItemMonsterPlacer(int par1)
 	{
-		super(p_i3671_1_);
+		super(par1);
 		setHasSubtypes(true);
 		setCreativeTab(CreativeTabs.tabMisc);
 	}
@@ -25,10 +25,10 @@ public class ItemMonsterPlacer extends Item
 		return par2 > 0 ? theIcon : super.getIconFromDamageForRenderPass(par1, par2);
 	}
 	
-	@Override public String getItemDisplayName(ItemStack p_77628_1_)
+	@Override public String getItemDisplayName(ItemStack par1ItemStack)
 	{
 		String var2 = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-		String var3 = EntityList.getStringFromID(p_77628_1_.getItemDamage());
+		String var3 = EntityList.getStringFromID(par1ItemStack.getItemDamage());
 		if(var3 != null)
 		{
 			var2 = var2 + " " + StatCollector.translateToLocal("entity." + var3 + ".name");
@@ -46,30 +46,67 @@ public class ItemMonsterPlacer extends Item
 		}
 	}
 	
-	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if(p_77648_3_.isRemote) return true;
+		if(par2World.isRemote) return par1ItemStack;
 		else
 		{
-			int var11 = p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_);
-			p_77648_4_ += Facing.offsetsXForSide[p_77648_7_];
-			p_77648_5_ += Facing.offsetsYForSide[p_77648_7_];
-			p_77648_6_ += Facing.offsetsZForSide[p_77648_7_];
+			MovingObjectPosition var4 = getMovingObjectPositionFromPlayer(par2World, par3EntityPlayer, true);
+			if(var4 == null) return par1ItemStack;
+			else
+			{
+				if(var4.typeOfHit == EnumMovingObjectType.TILE)
+				{
+					int var5 = var4.blockX;
+					int var6 = var4.blockY;
+					int var7 = var4.blockZ;
+					if(!par2World.canMineBlock(par3EntityPlayer, var5, var6, var7)) return par1ItemStack;
+					if(!par3EntityPlayer.canPlayerEdit(var5, var6, var7, var4.sideHit, par1ItemStack)) return par1ItemStack;
+					if(par2World.getBlockMaterial(var5, var6, var7) == Material.water)
+					{
+						Entity var8 = spawnCreature(par2World, par1ItemStack.getItemDamage(), var5, var6, var7);
+						if(var8 != null)
+						{
+							if(var8 instanceof EntityLivingBase && par1ItemStack.hasDisplayName())
+							{
+								((EntityLiving) var8).func_94058_c(par1ItemStack.getDisplayName());
+							}
+							if(!par3EntityPlayer.capabilities.isCreativeMode)
+							{
+								--par1ItemStack.stackSize;
+							}
+						}
+					}
+				}
+				return par1ItemStack;
+			}
+		}
+	}
+	
+	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	{
+		if(par3World.isRemote) return true;
+		else
+		{
+			int var11 = par3World.getBlockId(par4, par5, par6);
+			par4 += Facing.offsetsXForSide[par7];
+			par5 += Facing.offsetsYForSide[par7];
+			par6 += Facing.offsetsZForSide[par7];
 			double var12 = 0.0D;
-			if(p_77648_7_ == 1 && Block.blocksList[var11] != null && Block.blocksList[var11].getRenderType() == 11)
+			if(par7 == 1 && Block.blocksList[var11] != null && Block.blocksList[var11].getRenderType() == 11)
 			{
 				var12 = 0.5D;
 			}
-			Entity var14 = spawnCreature(p_77648_3_, p_77648_1_.getItemDamage(), p_77648_4_ + 0.5D, p_77648_5_ + var12, p_77648_6_ + 0.5D);
+			Entity var14 = spawnCreature(par3World, par1ItemStack.getItemDamage(), par4 + 0.5D, par5 + var12, par6 + 0.5D);
 			if(var14 != null)
 			{
-				if(var14 instanceof EntityLiving && p_77648_1_.hasDisplayName())
+				if(var14 instanceof EntityLivingBase && par1ItemStack.hasDisplayName())
 				{
-					((EntityLiving) var14).func_94058_c(p_77648_1_.getDisplayName());
+					((EntityLiving) var14).func_94058_c(par1ItemStack.getDisplayName());
 				}
-				if(!p_77648_2_.capabilities.isCreativeMode)
+				if(!par2EntityPlayer.capabilities.isCreativeMode)
 				{
-					--p_77648_1_.stackSize;
+					--par1ItemStack.stackSize;
 				}
 			}
 			return true;
@@ -79,7 +116,7 @@ public class ItemMonsterPlacer extends Item
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		super.registerIcons(par1IconRegister);
-		theIcon = par1IconRegister.registerIcon("monsterPlacer_overlay");
+		theIcon = par1IconRegister.registerIcon(func_111208_A() + "_overlay");
 	}
 	
 	@Override public boolean requiresMultipleRenderPasses()
@@ -87,23 +124,23 @@ public class ItemMonsterPlacer extends Item
 		return true;
 	}
 	
-	public static Entity spawnCreature(World p_77840_0_, int p_77840_1_, double p_77840_2_, double p_77840_4_, double p_77840_6_)
+	public static Entity spawnCreature(World par0World, int par1, double par2, double par4, double par6)
 	{
-		if(!EntityList.entityEggs.containsKey(Integer.valueOf(p_77840_1_))) return null;
+		if(!EntityList.entityEggs.containsKey(Integer.valueOf(par1))) return null;
 		else
 		{
 			Entity var8 = null;
 			for(int var9 = 0; var9 < 1; ++var9)
 			{
-				var8 = EntityList.createEntityByID(p_77840_1_, p_77840_0_);
-				if(var8 != null && var8 instanceof EntityLiving)
+				var8 = EntityList.createEntityByID(par1, par0World);
+				if(var8 != null && var8 instanceof EntityLivingBase)
 				{
 					EntityLiving var10 = (EntityLiving) var8;
-					var8.setLocationAndAngles(p_77840_2_, p_77840_4_, p_77840_6_, MathHelper.wrapAngleTo180_float(p_77840_0_.rand.nextFloat() * 360.0F), 0.0F);
+					var8.setLocationAndAngles(par2, par4, par6, MathHelper.wrapAngleTo180_float(par0World.rand.nextFloat() * 360.0F), 0.0F);
 					var10.rotationYawHead = var10.rotationYaw;
 					var10.renderYawOffset = var10.rotationYaw;
-					var10.initCreature();
-					p_77840_0_.spawnEntityInWorld(var8);
+					var10.func_110161_a((EntityLivingData) null);
+					par0World.spawnEntityInWorld(var8);
 					var10.playLivingSound();
 				}
 			}

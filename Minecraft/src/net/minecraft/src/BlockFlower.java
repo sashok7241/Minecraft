@@ -4,45 +4,45 @@ import java.util.Random;
 
 public class BlockFlower extends Block
 {
-	protected BlockFlower(int p_i9041_1_)
+	protected BlockFlower(int par1)
 	{
-		this(p_i9041_1_, Material.plants);
+		this(par1, Material.plants);
 	}
 	
-	protected BlockFlower(int p_i9040_1_, Material p_i9040_2_)
+	protected BlockFlower(int par1, Material par2Material)
 	{
-		super(p_i9040_1_, p_i9040_2_);
+		super(par1, par2Material);
 		setTickRandomly(true);
 		float var3 = 0.2F;
 		setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, var3 * 3.0F, 0.5F + var3);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public boolean canBlockStay(World p_71854_1_, int p_71854_2_, int p_71854_3_, int p_71854_4_)
+	@Override public boolean canBlockStay(World par1World, int par2, int par3, int par4)
 	{
-		return (p_71854_1_.getFullBlockLightValue(p_71854_2_, p_71854_3_, p_71854_4_) >= 8 || p_71854_1_.canBlockSeeTheSky(p_71854_2_, p_71854_3_, p_71854_4_)) && canThisPlantGrowOnThisBlockID(p_71854_1_.getBlockId(p_71854_2_, p_71854_3_ - 1, p_71854_4_));
+		return (par1World.getFullBlockLightValue(par2, par3, par4) >= 8 || par1World.canBlockSeeTheSky(par2, par3, par4)) && canThisPlantGrowOnThisBlockID(par1World.getBlockId(par2, par3 - 1, par4));
 	}
 	
-	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
+	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
 	{
-		return super.canPlaceBlockAt(p_71930_1_, p_71930_2_, p_71930_3_, p_71930_4_) && canThisPlantGrowOnThisBlockID(p_71930_1_.getBlockId(p_71930_2_, p_71930_3_ - 1, p_71930_4_));
+		return super.canPlaceBlockAt(par1World, par2, par3, par4) && canThisPlantGrowOnThisBlockID(par1World.getBlockId(par2, par3 - 1, par4));
 	}
 	
-	protected boolean canThisPlantGrowOnThisBlockID(int p_72263_1_)
+	protected boolean canThisPlantGrowOnThisBlockID(int par1)
 	{
-		return p_72263_1_ == Block.grass.blockID || p_72263_1_ == Block.dirt.blockID || p_72263_1_ == Block.tilledField.blockID;
+		return par1 == Block.grass.blockID || par1 == Block.dirt.blockID || par1 == Block.tilledField.blockID;
 	}
 	
-	protected final void checkFlowerChange(World p_72262_1_, int p_72262_2_, int p_72262_3_, int p_72262_4_)
+	protected final void checkFlowerChange(World par1World, int par2, int par3, int par4)
 	{
-		if(!canBlockStay(p_72262_1_, p_72262_2_, p_72262_3_, p_72262_4_))
+		if(!canBlockStay(par1World, par2, par3, par4))
 		{
-			dropBlockAsItem(p_72262_1_, p_72262_2_, p_72262_3_, p_72262_4_, p_72262_1_.getBlockMetadata(p_72262_2_, p_72262_3_, p_72262_4_), 0);
-			p_72262_1_.setBlockToAir(p_72262_2_, p_72262_3_, p_72262_4_);
+			dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
+			par1World.setBlock(par2, par3, par4, 0, 0, 2);
 		}
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
 		return null;
 	}
@@ -57,10 +57,10 @@ public class BlockFlower extends Block
 		return false;
 	}
 	
-	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
+	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
-		super.onNeighborBlockChange(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_, p_71863_5_);
-		checkFlowerChange(p_71863_1_, p_71863_2_, p_71863_3_, p_71863_4_);
+		super.onNeighborBlockChange(par1World, par2, par3, par4, par5);
+		checkFlowerChange(par1World, par2, par3, par4);
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -68,8 +68,8 @@ public class BlockFlower extends Block
 		return false;
 	}
 	
-	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
+	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		checkFlowerChange(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_);
+		checkFlowerChange(par1World, par2, par3, par4);
 	}
 }

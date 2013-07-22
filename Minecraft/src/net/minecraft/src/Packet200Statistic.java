@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet200Statistic extends Packet
@@ -13,10 +13,10 @@ public class Packet200Statistic extends Packet
 	{
 	}
 	
-	public Packet200Statistic(int p_i3298_1_, int p_i3298_2_)
+	public Packet200Statistic(int par1, int par2)
 	{
-		statisticId = p_i3298_1_;
-		amount = p_i3298_2_;
+		statisticId = par1;
+		amount = par2;
 	}
 	
 	@Override public boolean canProcessAsync()
@@ -29,20 +29,20 @@ public class Packet200Statistic extends Packet
 		return 6;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleStatistic(this);
+		par1NetHandler.handleStatistic(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		statisticId = p_73267_1_.readInt();
-		amount = p_73267_1_.readByte();
+		statisticId = par1DataInput.readInt();
+		amount = par1DataInput.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(statisticId);
-		p_73273_1_.writeByte(amount);
+		par1DataOutput.writeInt(statisticId);
+		par1DataOutput.writeInt(amount);
 	}
 }

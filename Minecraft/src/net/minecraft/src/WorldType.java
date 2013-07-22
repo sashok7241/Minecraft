@@ -13,18 +13,18 @@ public class WorldType
 	private boolean canBeCreated;
 	private boolean isWorldTypeVersioned;
 	
-	private WorldType(int p_i3737_1_, String p_i3737_2_)
+	private WorldType(int par1, String par2Str)
 	{
-		this(p_i3737_1_, p_i3737_2_, 0);
+		this(par1, par2Str, 0);
 	}
 	
-	private WorldType(int p_i3738_1_, String p_i3738_2_, int p_i3738_3_)
+	private WorldType(int par1, String par2Str, int par3)
 	{
-		worldType = p_i3738_2_;
-		generatorVersion = p_i3738_3_;
+		worldType = par2Str;
+		generatorVersion = par3;
 		canBeCreated = true;
-		worldTypeId = p_i3738_1_;
-		worldTypes[p_i3738_1_] = this;
+		worldTypeId = par1;
+		worldTypes[par1] = this;
 	}
 	
 	public boolean getCanBeCreated()
@@ -42,9 +42,9 @@ public class WorldType
 		return "generator." + worldType;
 	}
 	
-	public WorldType getWorldTypeForGeneratorVersion(int p_77132_1_)
+	public WorldType getWorldTypeForGeneratorVersion(int par1)
 	{
-		return this == DEFAULT && p_77132_1_ == 0 ? DEFAULT_1_1 : this;
+		return this == DEFAULT && par1 == 0 ? DEFAULT_1_1 : this;
 	}
 	
 	public int getWorldTypeID()
@@ -62,9 +62,9 @@ public class WorldType
 		return isWorldTypeVersioned;
 	}
 	
-	private WorldType setCanBeCreated(boolean p_77124_1_)
+	private WorldType setCanBeCreated(boolean par1)
 	{
-		canBeCreated = p_77124_1_;
+		canBeCreated = par1;
 		return this;
 	}
 	
@@ -74,11 +74,11 @@ public class WorldType
 		return this;
 	}
 	
-	public static WorldType parseWorldType(String p_77130_0_)
+	public static WorldType parseWorldType(String par0Str)
 	{
 		for(WorldType worldType2 : worldTypes)
 		{
-			if(worldType2 != null && worldType2.worldType.equalsIgnoreCase(p_77130_0_)) return worldType2;
+			if(worldType2 != null && worldType2.worldType.equalsIgnoreCase(par0Str)) return worldType2;
 		}
 		return null;
 	}

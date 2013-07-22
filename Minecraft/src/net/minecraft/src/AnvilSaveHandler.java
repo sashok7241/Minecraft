@@ -4,9 +4,9 @@ import java.io.File;
 
 public class AnvilSaveHandler extends SaveHandler
 {
-	public AnvilSaveHandler(File p_i3908_1_, String p_i3908_2_, boolean p_i3908_3_)
+	public AnvilSaveHandler(File par1File, String par2Str, boolean par3)
 	{
-		super(p_i3908_1_, p_i3908_2_, p_i3908_3_);
+		super(par1File, par2Str, par3);
 	}
 	
 	@Override public void flush()
@@ -21,16 +21,16 @@ public class AnvilSaveHandler extends SaveHandler
 		RegionFileCache.clearRegionFileReferences();
 	}
 	
-	@Override public IChunkLoader getChunkLoader(WorldProvider p_75763_1_)
+	@Override public IChunkLoader getChunkLoader(WorldProvider par1WorldProvider)
 	{
 		File var2 = getWorldDirectory();
 		File var3;
-		if(p_75763_1_ instanceof WorldProviderHell)
+		if(par1WorldProvider instanceof WorldProviderHell)
 		{
 			var3 = new File(var2, "DIM-1");
 			var3.mkdirs();
 			return new AnvilChunkLoader(var3);
-		} else if(p_75763_1_ instanceof WorldProviderEnd)
+		} else if(par1WorldProvider instanceof WorldProviderEnd)
 		{
 			var3 = new File(var2, "DIM1");
 			var3.mkdirs();
@@ -38,9 +38,9 @@ public class AnvilSaveHandler extends SaveHandler
 		} else return new AnvilChunkLoader(var2);
 	}
 	
-	@Override public void saveWorldInfoWithPlayer(WorldInfo p_75755_1_, NBTTagCompound p_75755_2_)
+	@Override public void saveWorldInfoWithPlayer(WorldInfo par1WorldInfo, NBTTagCompound par2NBTTagCompound)
 	{
-		p_75755_1_.setSaveVersion(19133);
-		super.saveWorldInfoWithPlayer(p_75755_1_, p_75755_2_);
+		par1WorldInfo.setSaveVersion(19133);
+		super.saveWorldInfoWithPlayer(par1WorldInfo, par2NBTTagCompound);
 	}
 }

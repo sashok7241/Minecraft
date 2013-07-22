@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 public class ModelWitch extends ModelVillager
 {
-	public boolean field_82900_g = false;
+	public boolean field_82900_g;
 	private ModelRenderer field_82901_h = new ModelRenderer(this).setTextureSize(64, 128);
 	private ModelRenderer witchHat;
 	
-	public ModelWitch(float p_i5019_1_)
+	public ModelWitch(float par1)
 	{
-		super(p_i5019_1_, 0.0F, 64, 128);
+		super(par1, 0.0F, 64, 128);
 		field_82901_h.setRotationPoint(0.0F, -2.0F, 0.0F);
 		field_82901_h.setTextureOffset(0, 0).addBox(0.0F, 3.0F, -6.75F, 1, 1, 1, -0.25F);
 		villagerNose.addChild(field_82901_h);
@@ -34,11 +34,6 @@ public class ModelWitch extends ModelVillager
 		var4.rotateAngleX = -0.20943952F;
 		var4.rotateAngleZ = 0.10471976F;
 		var3.addChild(var4);
-	}
-	
-	public int func_82899_a()
-	{
-		return 0;
 	}
 	
 	@Override public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)

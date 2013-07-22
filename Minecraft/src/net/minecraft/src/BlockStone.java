@@ -4,13 +4,13 @@ import java.util.Random;
 
 public class BlockStone extends Block
 {
-	public BlockStone(int p_i9092_1_)
+	public BlockStone(int par1)
 	{
-		super(p_i9092_1_, Material.rock);
+		super(par1, Material.rock);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return Block.cobblestone.blockID;
 	}

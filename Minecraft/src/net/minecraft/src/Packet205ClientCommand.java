@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet205ClientCommand extends Packet
@@ -12,9 +12,9 @@ public class Packet205ClientCommand extends Packet
 	{
 	}
 	
-	public Packet205ClientCommand(int p_i3303_1_)
+	public Packet205ClientCommand(int par1)
 	{
-		forceRespawn = p_i3303_1_;
+		forceRespawn = par1;
 	}
 	
 	@Override public int getPacketSize()
@@ -22,18 +22,18 @@ public class Packet205ClientCommand extends Packet
 		return 1;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleClientCommand(this);
+		par1NetHandler.handleClientCommand(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		forceRespawn = p_73267_1_.readByte();
+		forceRespawn = par1DataInput.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeByte(forceRespawn & 255);
+		par1DataOutput.writeByte(forceRespawn & 255);
 	}
 }

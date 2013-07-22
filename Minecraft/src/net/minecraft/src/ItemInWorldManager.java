@@ -18,34 +18,34 @@ public class ItemInWorldManager
 	private int field_73093_n;
 	private int durabilityRemainingOnBlock;
 	
-	public ItemInWorldManager(World p_i3397_1_)
+	public ItemInWorldManager(World par1World)
 	{
 		gameType = EnumGameType.NOT_SET;
 		durabilityRemainingOnBlock = -1;
-		theWorld = p_i3397_1_;
+		theWorld = par1World;
 	}
 	
-	public boolean activateBlockOrUseItem(EntityPlayer p_73078_1_, World p_73078_2_, ItemStack p_73078_3_, int p_73078_4_, int p_73078_5_, int p_73078_6_, int p_73078_7_, float p_73078_8_, float p_73078_9_, float p_73078_10_)
+	public boolean activateBlockOrUseItem(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
 		int var11;
-		if(!p_73078_1_.isSneaking() || p_73078_1_.getHeldItem() == null)
+		if(!par1EntityPlayer.isSneaking() || par1EntityPlayer.getHeldItem() == null)
 		{
-			var11 = p_73078_2_.getBlockId(p_73078_4_, p_73078_5_, p_73078_6_);
-			if(var11 > 0 && Block.blocksList[var11].onBlockActivated(p_73078_2_, p_73078_4_, p_73078_5_, p_73078_6_, p_73078_1_, p_73078_7_, p_73078_8_, p_73078_9_, p_73078_10_)) return true;
+			var11 = par2World.getBlockId(par4, par5, par6);
+			if(var11 > 0 && Block.blocksList[var11].onBlockActivated(par2World, par4, par5, par6, par1EntityPlayer, par7, par8, par9, par10)) return true;
 		}
-		if(p_73078_3_ == null) return false;
+		if(par3ItemStack == null) return false;
 		else if(isCreative())
 		{
-			var11 = p_73078_3_.getItemDamage();
-			int var12 = p_73078_3_.stackSize;
-			boolean var13 = p_73078_3_.tryPlaceItemIntoWorld(p_73078_1_, p_73078_2_, p_73078_4_, p_73078_5_, p_73078_6_, p_73078_7_, p_73078_8_, p_73078_9_, p_73078_10_);
-			p_73078_3_.setItemDamage(var11);
-			p_73078_3_.stackSize = var12;
+			var11 = par3ItemStack.getItemDamage();
+			int var12 = par3ItemStack.stackSize;
+			boolean var13 = par3ItemStack.tryPlaceItemIntoWorld(par1EntityPlayer, par2World, par4, par5, par6, par7, par8, par9, par10);
+			par3ItemStack.setItemDamage(var11);
+			par3ItemStack.stackSize = var12;
 			return var13;
-		} else return p_73078_3_.tryPlaceItemIntoWorld(p_73078_1_, p_73078_2_, p_73078_4_, p_73078_5_, p_73078_6_, p_73078_7_, p_73078_8_, p_73078_9_, p_73078_10_);
+		} else return par3ItemStack.tryPlaceItemIntoWorld(par1EntityPlayer, par2World, par4, par5, par6, par7, par8, par9, par10);
 	}
 	
-	public void cancelDestroyingBlock(int p_73073_1_, int p_73073_2_, int p_73073_3_)
+	public void cancelDestroyingBlock(int par1, int par2, int par3)
 	{
 		isDestroyingBlock = false;
 		theWorld.destroyBlockInWorldPartially(thisPlayerMP.entityId, partiallyDestroyedBlockX, partiallyDestroyedBlockY, partiallyDestroyedBlockZ, -1);
@@ -56,11 +56,11 @@ public class ItemInWorldManager
 		return gameType;
 	}
 	
-	public void initializeGameType(EnumGameType p_73077_1_)
+	public void initializeGameType(EnumGameType par1EnumGameType)
 	{
 		if(gameType == EnumGameType.NOT_SET)
 		{
-			gameType = p_73077_1_;
+			gameType = par1EnumGameType;
 		}
 		setGameType(gameType);
 	}
@@ -70,91 +70,92 @@ public class ItemInWorldManager
 		return gameType.isCreative();
 	}
 	
-	public void onBlockClicked(int p_73074_1_, int p_73074_2_, int p_73074_3_, int p_73074_4_)
+	public void onBlockClicked(int par1, int par2, int par3, int par4)
 	{
-		if(!gameType.isAdventure() || thisPlayerMP.isCurrentToolAdventureModeExempt(p_73074_1_, p_73074_2_, p_73074_3_))
+		if(!gameType.isAdventure() || thisPlayerMP.isCurrentToolAdventureModeExempt(par1, par2, par3))
 		{
 			if(isCreative())
 			{
-				if(!theWorld.extinguishFire((EntityPlayer) null, p_73074_1_, p_73074_2_, p_73074_3_, p_73074_4_))
+				if(!theWorld.extinguishFire((EntityPlayer) null, par1, par2, par3, par4))
 				{
-					tryHarvestBlock(p_73074_1_, p_73074_2_, p_73074_3_);
+					tryHarvestBlock(par1, par2, par3);
 				}
 			} else
 			{
-				theWorld.extinguishFire((EntityPlayer) null, p_73074_1_, p_73074_2_, p_73074_3_, p_73074_4_);
+				theWorld.extinguishFire((EntityPlayer) null, par1, par2, par3, par4);
 				initialDamage = curblockDamage;
 				float var5 = 1.0F;
-				int var6 = theWorld.getBlockId(p_73074_1_, p_73074_2_, p_73074_3_);
+				int var6 = theWorld.getBlockId(par1, par2, par3);
 				if(var6 > 0)
 				{
-					Block.blocksList[var6].onBlockClicked(theWorld, p_73074_1_, p_73074_2_, p_73074_3_, thisPlayerMP);
-					var5 = Block.blocksList[var6].getPlayerRelativeBlockHardness(thisPlayerMP, thisPlayerMP.worldObj, p_73074_1_, p_73074_2_, p_73074_3_);
+					Block.blocksList[var6].onBlockClicked(theWorld, par1, par2, par3, thisPlayerMP);
+					var5 = Block.blocksList[var6].getPlayerRelativeBlockHardness(thisPlayerMP, thisPlayerMP.worldObj, par1, par2, par3);
 				}
 				if(var6 > 0 && var5 >= 1.0F)
 				{
-					tryHarvestBlock(p_73074_1_, p_73074_2_, p_73074_3_);
+					tryHarvestBlock(par1, par2, par3);
 				} else
 				{
 					isDestroyingBlock = true;
-					partiallyDestroyedBlockX = p_73074_1_;
-					partiallyDestroyedBlockY = p_73074_2_;
-					partiallyDestroyedBlockZ = p_73074_3_;
+					partiallyDestroyedBlockX = par1;
+					partiallyDestroyedBlockY = par2;
+					partiallyDestroyedBlockZ = par3;
 					int var7 = (int) (var5 * 10.0F);
-					theWorld.destroyBlockInWorldPartially(thisPlayerMP.entityId, p_73074_1_, p_73074_2_, p_73074_3_, var7);
+					theWorld.destroyBlockInWorldPartially(thisPlayerMP.entityId, par1, par2, par3, var7);
 					durabilityRemainingOnBlock = var7;
 				}
 			}
 		}
 	}
 	
-	private boolean removeBlock(int p_73079_1_, int p_73079_2_, int p_73079_3_)
+	private boolean removeBlock(int par1, int par2, int par3)
 	{
-		Block var4 = Block.blocksList[theWorld.getBlockId(p_73079_1_, p_73079_2_, p_73079_3_)];
-		int var5 = theWorld.getBlockMetadata(p_73079_1_, p_73079_2_, p_73079_3_);
+		Block var4 = Block.blocksList[theWorld.getBlockId(par1, par2, par3)];
+		int var5 = theWorld.getBlockMetadata(par1, par2, par3);
 		if(var4 != null)
 		{
-			var4.onBlockHarvested(theWorld, p_73079_1_, p_73079_2_, p_73079_3_, var5, thisPlayerMP);
+			var4.onBlockHarvested(theWorld, par1, par2, par3, var5, thisPlayerMP);
 		}
-		boolean var6 = theWorld.setBlockToAir(p_73079_1_, p_73079_2_, p_73079_3_);
+		boolean var6 = theWorld.setBlockToAir(par1, par2, par3);
 		if(var4 != null && var6)
 		{
-			var4.onBlockDestroyedByPlayer(theWorld, p_73079_1_, p_73079_2_, p_73079_3_, var5);
+			var4.onBlockDestroyedByPlayer(theWorld, par1, par2, par3, var5);
 		}
 		return var6;
 	}
 	
-	public void setGameType(EnumGameType p_73076_1_)
+	public void setGameType(EnumGameType par1EnumGameType)
 	{
-		gameType = p_73076_1_;
-		p_73076_1_.configurePlayerCapabilities(thisPlayerMP.capabilities);
+		gameType = par1EnumGameType;
+		par1EnumGameType.configurePlayerCapabilities(thisPlayerMP.capabilities);
 		thisPlayerMP.sendPlayerAbilities();
 	}
 	
-	public void setWorld(WorldServer p_73080_1_)
+	public void setWorld(WorldServer par1WorldServer)
 	{
-		theWorld = p_73080_1_;
+		theWorld = par1WorldServer;
 	}
 	
-	public boolean tryHarvestBlock(int p_73084_1_, int p_73084_2_, int p_73084_3_)
+	public boolean tryHarvestBlock(int par1, int par2, int par3)
 	{
-		if(gameType.isAdventure() && !thisPlayerMP.isCurrentToolAdventureModeExempt(p_73084_1_, p_73084_2_, p_73084_3_)) return false;
+		if(gameType.isAdventure() && !thisPlayerMP.isCurrentToolAdventureModeExempt(par1, par2, par3)) return false;
+		else if(gameType.isCreative() && thisPlayerMP.getHeldItem() != null && thisPlayerMP.getHeldItem().getItem() instanceof ItemSword) return false;
 		else
 		{
-			int var4 = theWorld.getBlockId(p_73084_1_, p_73084_2_, p_73084_3_);
-			int var5 = theWorld.getBlockMetadata(p_73084_1_, p_73084_2_, p_73084_3_);
-			theWorld.playAuxSFXAtEntity(thisPlayerMP, 2001, p_73084_1_, p_73084_2_, p_73084_3_, var4 + (theWorld.getBlockMetadata(p_73084_1_, p_73084_2_, p_73084_3_) << 12));
-			boolean var6 = removeBlock(p_73084_1_, p_73084_2_, p_73084_3_);
+			int var4 = theWorld.getBlockId(par1, par2, par3);
+			int var5 = theWorld.getBlockMetadata(par1, par2, par3);
+			theWorld.playAuxSFXAtEntity(thisPlayerMP, 2001, par1, par2, par3, var4 + (theWorld.getBlockMetadata(par1, par2, par3) << 12));
+			boolean var6 = removeBlock(par1, par2, par3);
 			if(isCreative())
 			{
-				thisPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(p_73084_1_, p_73084_2_, p_73084_3_, theWorld));
+				thisPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(par1, par2, par3, theWorld));
 			} else
 			{
 				ItemStack var7 = thisPlayerMP.getCurrentEquippedItem();
 				boolean var8 = thisPlayerMP.canHarvestBlock(Block.blocksList[var4]);
 				if(var7 != null)
 				{
-					var7.onBlockDestroyed(theWorld, var4, p_73084_1_, p_73084_2_, p_73084_3_, thisPlayerMP);
+					var7.onBlockDestroyed(theWorld, var4, par1, par2, par3, thisPlayerMP);
 					if(var7.stackSize == 0)
 					{
 						thisPlayerMP.destroyCurrentEquippedItem();
@@ -162,22 +163,22 @@ public class ItemInWorldManager
 				}
 				if(var6 && var8)
 				{
-					Block.blocksList[var4].harvestBlock(theWorld, thisPlayerMP, p_73084_1_, p_73084_2_, p_73084_3_, var5);
+					Block.blocksList[var4].harvestBlock(theWorld, thisPlayerMP, par1, par2, par3, var5);
 				}
 			}
 			return var6;
 		}
 	}
 	
-	public boolean tryUseItem(EntityPlayer p_73085_1_, World p_73085_2_, ItemStack p_73085_3_)
+	public boolean tryUseItem(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack)
 	{
-		int var4 = p_73085_3_.stackSize;
-		int var5 = p_73085_3_.getItemDamage();
-		ItemStack var6 = p_73085_3_.useItemRightClick(p_73085_2_, p_73085_1_);
-		if(var6 == p_73085_3_ && (var6 == null || var6.stackSize == var4 && var6.getMaxItemUseDuration() <= 0 && var6.getItemDamage() == var5)) return false;
+		int var4 = par3ItemStack.stackSize;
+		int var5 = par3ItemStack.getItemDamage();
+		ItemStack var6 = par3ItemStack.useItemRightClick(par2World, par1EntityPlayer);
+		if(var6 == par3ItemStack && (var6 == null || var6.stackSize == var4 && var6.getMaxItemUseDuration() <= 0 && var6.getItemDamage() == var5)) return false;
 		else
 		{
-			p_73085_1_.inventory.mainInventory[p_73085_1_.inventory.currentItem] = var6;
+			par1EntityPlayer.inventory.mainInventory[par1EntityPlayer.inventory.currentItem] = var6;
 			if(isCreative())
 			{
 				var6.stackSize = var4;
@@ -188,38 +189,38 @@ public class ItemInWorldManager
 			}
 			if(var6.stackSize == 0)
 			{
-				p_73085_1_.inventory.mainInventory[p_73085_1_.inventory.currentItem] = null;
+				par1EntityPlayer.inventory.mainInventory[par1EntityPlayer.inventory.currentItem] = null;
 			}
-			if(!p_73085_1_.isUsingItem())
+			if(!par1EntityPlayer.isUsingItem())
 			{
-				((EntityPlayerMP) p_73085_1_).sendContainerToPlayer(p_73085_1_.inventoryContainer);
+				((EntityPlayerMP) par1EntityPlayer).sendContainerToPlayer(par1EntityPlayer.inventoryContainer);
 			}
 			return true;
 		}
 	}
 	
-	public void uncheckedTryHarvestBlock(int p_73082_1_, int p_73082_2_, int p_73082_3_)
+	public void uncheckedTryHarvestBlock(int par1, int par2, int par3)
 	{
-		if(p_73082_1_ == partiallyDestroyedBlockX && p_73082_2_ == partiallyDestroyedBlockY && p_73082_3_ == partiallyDestroyedBlockZ)
+		if(par1 == partiallyDestroyedBlockX && par2 == partiallyDestroyedBlockY && par3 == partiallyDestroyedBlockZ)
 		{
 			int var4 = curblockDamage - initialDamage;
-			int var5 = theWorld.getBlockId(p_73082_1_, p_73082_2_, p_73082_3_);
+			int var5 = theWorld.getBlockId(par1, par2, par3);
 			if(var5 != 0)
 			{
 				Block var6 = Block.blocksList[var5];
-				float var7 = var6.getPlayerRelativeBlockHardness(thisPlayerMP, thisPlayerMP.worldObj, p_73082_1_, p_73082_2_, p_73082_3_) * (var4 + 1);
+				float var7 = var6.getPlayerRelativeBlockHardness(thisPlayerMP, thisPlayerMP.worldObj, par1, par2, par3) * (var4 + 1);
 				if(var7 >= 0.7F)
 				{
 					isDestroyingBlock = false;
-					theWorld.destroyBlockInWorldPartially(thisPlayerMP.entityId, p_73082_1_, p_73082_2_, p_73082_3_, -1);
-					tryHarvestBlock(p_73082_1_, p_73082_2_, p_73082_3_);
+					theWorld.destroyBlockInWorldPartially(thisPlayerMP.entityId, par1, par2, par3, -1);
+					tryHarvestBlock(par1, par2, par3);
 				} else if(!receivedFinishDiggingPacket)
 				{
 					isDestroyingBlock = false;
 					receivedFinishDiggingPacket = true;
-					posX = p_73082_1_;
-					posY = p_73082_2_;
-					posZ = p_73082_3_;
+					posX = par1;
+					posY = par2;
+					posZ = par3;
 					field_73093_n = initialDamage;
 				}
 			}

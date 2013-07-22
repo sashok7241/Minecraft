@@ -4,10 +4,10 @@ public class ItemBlockWithMetadata extends ItemBlock
 {
 	private Block theBlock;
 	
-	public ItemBlockWithMetadata(int p_i10057_1_, Block p_i10057_2_)
+	public ItemBlockWithMetadata(int par1, Block par2Block)
 	{
-		super(p_i10057_1_);
-		theBlock = p_i10057_2_;
+		super(par1);
+		theBlock = par2Block;
 		setMaxDamage(0);
 		setHasSubtypes(true);
 	}
@@ -17,8 +17,8 @@ public class ItemBlockWithMetadata extends ItemBlock
 		return theBlock.getIcon(2, par1);
 	}
 	
-	@Override public int getMetadata(int p_77647_1_)
+	@Override public int getMetadata(int par1)
 	{
-		return p_77647_1_;
+		return par1;
 	}
 }

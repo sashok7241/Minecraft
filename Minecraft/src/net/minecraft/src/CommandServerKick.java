@@ -6,9 +6,9 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandServerKick extends CommandBase
 {
-	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
+	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		return p_71516_2_.length >= 1 ? getListOfStringsMatchingLastWord(p_71516_2_, MinecraftServer.getServer().getAllUsernames()) : null;
+		return par2ArrayOfStr.length >= 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getAllUsernames()) : null;
 	}
 	
 	@Override public String getCommandName()
@@ -16,9 +16,9 @@ public class CommandServerKick extends CommandBase
 		return "kick";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender p_71518_1_)
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return p_71518_1_.translateString("commands.kick.usage", new Object[0]);
+		return "commands.kick.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -26,28 +26,28 @@ public class CommandServerKick extends CommandBase
 		return 3;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		if(p_71515_2_.length > 0 && p_71515_2_[0].length() > 1)
+		if(par2ArrayOfStr.length > 0 && par2ArrayOfStr[0].length() > 1)
 		{
-			EntityPlayerMP var3 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(p_71515_2_[0]);
+			EntityPlayerMP var3 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par2ArrayOfStr[0]);
 			String var4 = "Kicked by an operator.";
 			boolean var5 = false;
 			if(var3 == null) throw new PlayerNotFoundException();
 			else
 			{
-				if(p_71515_2_.length >= 2)
+				if(par2ArrayOfStr.length >= 2)
 				{
-					var4 = func_82360_a(p_71515_1_, p_71515_2_, 1);
+					var4 = func_82360_a(par1ICommandSender, par2ArrayOfStr, 1);
 					var5 = true;
 				}
 				var3.playerNetServerHandler.kickPlayerFromServer(var4);
 				if(var5)
 				{
-					notifyAdmins(p_71515_1_, "commands.kick.success.reason", new Object[] { var3.getEntityName(), var4 });
+					notifyAdmins(par1ICommandSender, "commands.kick.success.reason", new Object[] { var3.getEntityName(), var4 });
 				} else
 				{
-					notifyAdmins(p_71515_1_, "commands.kick.success", new Object[] { var3.getEntityName() });
+					notifyAdmins(par1ICommandSender, "commands.kick.success", new Object[] { var3.getEntityName() });
 				}
 			}
 		} else throw new WrongUsageException("commands.kick.usage", new Object[0]);

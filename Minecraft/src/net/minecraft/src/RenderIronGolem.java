@@ -3,7 +3,8 @@ package net.minecraft.src;
 
 public class RenderIronGolem extends RenderLiving
 {
-	private ModelIronGolem ironGolemModel;
+	private static final ResourceLocation field_110899_a = new ResourceLocation("textures/entity/iron_golem.png");
+	private final ModelIronGolem ironGolemModel;
 	
 	public RenderIronGolem()
 	{
@@ -26,7 +27,17 @@ public class RenderIronGolem extends RenderLiving
 		doRenderIronGolem((EntityIronGolem) par1EntityLiving, par2, par4, par6, par8, par9);
 	}
 	
-	@Override protected void renderEquippedItems(EntityLiving par1EntityLivingBase, float par2)
+	@Override protected ResourceLocation func_110775_a(Entity par1Entity)
+	{
+		return func_110898_a((EntityIronGolem) par1Entity);
+	}
+	
+	protected ResourceLocation func_110898_a(EntityIronGolem par1EntityIronGolem)
+	{
+		return field_110899_a;
+	}
+	
+	@Override protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
 	{
 		renderIronGolemEquippedItems((EntityIronGolem) par1EntityLivingBase, par2);
 	}
@@ -49,14 +60,19 @@ public class RenderIronGolem extends RenderLiving
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, var5 / 1.0F, var6 / 1.0F);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			loadTexture("/terrain.png");
+			func_110776_a(TextureMap.field_110575_b);
 			renderBlocks.renderBlockAsItem(Block.plantRed, 0, 1.0F);
 			GL11.glPopMatrix();
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		}
 	}
 	
-	@Override protected void rotateCorpse(EntityLiving par1EntityLivingBase, float par2, float par3, float par4)
+	@Override public void renderPlayer(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9)
+	{
+		doRenderIronGolem((EntityIronGolem) par1EntityLivingBase, par2, par4, par6, par8, par9);
+	}
+	
+	@Override protected void rotateCorpse(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
 		rotateIronGolemCorpse((EntityIronGolem) par1EntityLivingBase, par2, par3, par4);
 	}

@@ -4,10 +4,10 @@ class GuiSlotStatsGeneral extends GuiSlot
 {
 	final GuiStats statsGui;
 	
-	public GuiSlotStatsGeneral(GuiStats p_i3076_1_)
+	public GuiSlotStatsGeneral(GuiStats par1GuiStats)
 	{
-		super(GuiStats.getMinecraft(p_i3076_1_), p_i3076_1_.width, p_i3076_1_.height, 32, p_i3076_1_.height - 64, 10);
-		statsGui = p_i3076_1_;
+		super(GuiStats.getMinecraft(par1GuiStats), par1GuiStats.width, par1GuiStats.height, 32, par1GuiStats.height - 64, 10);
+		statsGui = par1GuiStats;
 		setShowSelectionBox(false);
 	}
 	
@@ -19,7 +19,7 @@ class GuiSlotStatsGeneral extends GuiSlot
 	@Override protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
 	{
 		StatBase var6 = (StatBase) StatList.generalStats.get(par1);
-		statsGui.drawString(GuiStats.getFontRenderer1(statsGui), StatCollector.translateToLocal(var6.getName()), par2 + 2, par3 + 1, par1 % 2 == 0 ? 16777215 : 9474192);
+		statsGui.drawString(GuiStats.getFontRenderer1(statsGui), I18n.func_135053_a(var6.getName()), par2 + 2, par3 + 1, par1 % 2 == 0 ? 16777215 : 9474192);
 		String var7 = var6.func_75968_a(GuiStats.getStatsFileWriter(statsGui).writeStat(var6));
 		statsGui.drawString(GuiStats.getFontRenderer2(statsGui), var7, par2 + 2 + 213 - GuiStats.getFontRenderer3(statsGui).getStringWidth(var7), par3 + 1, par1 % 2 == 0 ? 16777215 : 9474192);
 	}

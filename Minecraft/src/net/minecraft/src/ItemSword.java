@@ -1,38 +1,41 @@
 package net.minecraft.src;
 
+
 public class ItemSword extends Item
 {
-	private int weaponDamage;
+	private float weaponDamage;
 	private final EnumToolMaterial toolMaterial;
 	
-	public ItemSword(int p_i3695_1_, EnumToolMaterial p_i3695_2_)
+	public ItemSword(int par1, EnumToolMaterial par2EnumToolMaterial)
 	{
-		super(p_i3695_1_);
-		toolMaterial = p_i3695_2_;
+		super(par1);
+		toolMaterial = par2EnumToolMaterial;
 		maxStackSize = 1;
-		setMaxDamage(p_i3695_2_.getMaxUses());
+		setMaxDamage(par2EnumToolMaterial.getMaxUses());
 		setCreativeTab(CreativeTabs.tabCombat);
-		weaponDamage = 4 + p_i3695_2_.getDamageVsEntity();
+		weaponDamage = 4.0F + par2EnumToolMaterial.getDamageVsEntity();
 	}
 	
-	@Override public boolean canHarvestBlock(Block p_77641_1_)
+	@Override public boolean canHarvestBlock(Block par1Block)
 	{
-		return p_77641_1_.blockID == Block.web.blockID;
+		return par1Block.blockID == Block.web.blockID;
 	}
 	
-	public int func_82803_g()
+	@Override public Multimap func_111205_h()
+	{
+		Multimap var1 = super.func_111205_h();
+		var1.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", weaponDamage, 0));
+		return var1;
+	}
+	
+	public float func_82803_g()
 	{
 		return toolMaterial.getDamageVsEntity();
 	}
 	
-	@Override public int getDamageVsEntity(Entity p_77649_1_)
+	@Override public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
 	{
-		return weaponDamage;
-	}
-	
-	@Override public boolean getIsRepairable(ItemStack p_82789_1_, ItemStack p_82789_2_)
-	{
-		return toolMaterial.getToolCraftingMaterial() == p_82789_2_.itemID ? true : super.getIsRepairable(p_82789_1_, p_82789_2_);
+		return toolMaterial.getToolCraftingMaterial() == par2ItemStack.itemID ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
 	}
 	
 	@Override public int getItemEnchantability()
@@ -40,22 +43,22 @@ public class ItemSword extends Item
 		return toolMaterial.getEnchantability();
 	}
 	
-	@Override public EnumAction getItemUseAction(ItemStack p_77661_1_)
+	@Override public EnumAction getItemUseAction(ItemStack par1ItemStack)
 	{
 		return EnumAction.block;
 	}
 	
-	@Override public int getMaxItemUseDuration(ItemStack p_77626_1_)
+	@Override public int getMaxItemUseDuration(ItemStack par1ItemStack)
 	{
 		return 72000;
 	}
 	
-	@Override public float getStrVsBlock(ItemStack p_77638_1_, Block p_77638_2_)
+	@Override public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block)
 	{
-		if(p_77638_2_.blockID == Block.web.blockID) return 15.0F;
+		if(par2Block.blockID == Block.web.blockID) return 15.0F;
 		else
 		{
-			Material var3 = p_77638_2_.blockMaterial;
+			Material var3 = par2Block.blockMaterial;
 			return var3 != Material.plants && var3 != Material.vine && var3 != Material.coral && var3 != Material.leaves && var3 != Material.pumpkin ? 1.0F : 1.5F;
 		}
 	}
@@ -65,9 +68,9 @@ public class ItemSword extends Item
 		return toolMaterial.toString();
 	}
 	
-	@Override public boolean hitEntity(ItemStack p_77644_1_, EntityLiving p_77644_2_, EntityLiving p_77644_3_)
+	@Override public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
 	{
-		p_77644_1_.damageItem(1, p_77644_3_);
+		par1ItemStack.damageItem(1, par3EntityLivingBase);
 		return true;
 	}
 	
@@ -76,18 +79,18 @@ public class ItemSword extends Item
 		return true;
 	}
 	
-	@Override public boolean onBlockDestroyed(ItemStack p_77660_1_, World p_77660_2_, int p_77660_3_, int p_77660_4_, int p_77660_5_, int p_77660_6_, EntityLiving p_77660_7_)
+	@Override public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase)
 	{
-		if(Block.blocksList[p_77660_3_].getBlockHardness(p_77660_2_, p_77660_4_, p_77660_5_, p_77660_6_) != 0.0D)
+		if(Block.blocksList[par3].getBlockHardness(par2World, par4, par5, par6) != 0.0D)
 		{
-			p_77660_1_.damageItem(2, p_77660_7_);
+			par1ItemStack.damageItem(2, par7EntityLivingBase);
 		}
 		return true;
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		p_77659_3_.setItemInUse(p_77659_1_, getMaxItemUseDuration(p_77659_1_));
-		return p_77659_1_;
+		par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
+		return par1ItemStack;
 	}
 }

@@ -4,14 +4,14 @@ class GuiBeaconButtonCancel extends GuiBeaconButton
 {
 	final GuiBeacon beaconGui;
 	
-	public GuiBeaconButtonCancel(GuiBeacon p_i5010_1_, int p_i5010_2_, int p_i5010_3_, int p_i5010_4_)
+	public GuiBeaconButtonCancel(GuiBeacon par1GuiBeacon, int par2, int par3, int par4)
 	{
-		super(p_i5010_2_, p_i5010_3_, p_i5010_4_, "/gui/beacon.png", 112, 220);
-		beaconGui = p_i5010_1_;
+		super(par2, par3, par4, GuiBeacon.func_110427_g(), 112, 220);
+		beaconGui = par1GuiBeacon;
 	}
 	
 	@Override public void func_82251_b(int par1, int par2)
 	{
-		beaconGui.drawCreativeTabHoveringText(StatCollector.translateToLocal("gui.cancel"), par1, par2);
+		beaconGui.drawCreativeTabHoveringText(I18n.func_135053_a("gui.cancel"), par1, par2);
 	}
 }

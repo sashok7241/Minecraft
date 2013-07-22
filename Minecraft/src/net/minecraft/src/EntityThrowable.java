@@ -7,35 +7,35 @@ public abstract class EntityThrowable extends Entity implements IProjectile
 	private int xTile = -1;
 	private int yTile = -1;
 	private int zTile = -1;
-	private int inTile = 0;
-	protected boolean inGround = false;
-	public int throwableShake = 0;
-	private EntityLiving thrower;
-	private String throwerName = null;
+	private int inTile;
+	protected boolean inGround;
+	public int throwableShake;
+	private EntityLivingBase thrower;
+	private String throwerName;
 	private int ticksInGround;
-	private int ticksInAir = 0;
+	private int ticksInAir;
 	
-	public EntityThrowable(World p_i3583_1_)
+	public EntityThrowable(World par1World)
 	{
-		super(p_i3583_1_);
+		super(par1World);
 		setSize(0.25F, 0.25F);
 	}
 	
-	public EntityThrowable(World p_i3585_1_, double p_i3585_2_, double p_i3585_4_, double p_i3585_6_)
+	public EntityThrowable(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i3585_1_);
+		super(par1World);
 		ticksInGround = 0;
 		setSize(0.25F, 0.25F);
-		setPosition(p_i3585_2_, p_i3585_4_, p_i3585_6_);
+		setPosition(par2, par4, par6);
 		yOffset = 0.0F;
 	}
 	
-	public EntityThrowable(World p_i3584_1_, EntityLiving p_i3584_2_)
+	public EntityThrowable(World par1World, EntityLivingBase par2EntityLivingBase)
 	{
-		super(p_i3584_1_);
-		thrower = p_i3584_2_;
+		super(par1World);
+		thrower = par2EntityLivingBase;
 		setSize(0.25F, 0.25F);
-		setLocationAndAngles(p_i3584_2_.posX, p_i3584_2_.posY + p_i3584_2_.getEyeHeight(), p_i3584_2_.posZ, p_i3584_2_.rotationYaw, p_i3584_2_.rotationPitch);
+		setLocationAndAngles(par2EntityLivingBase.posX, par2EntityLivingBase.posY + par2EntityLivingBase.getEyeHeight(), par2EntityLivingBase.posZ, par2EntityLivingBase.rotationYaw, par2EntityLivingBase.rotationPitch);
 		posX -= MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
 		posY -= 0.10000000149011612D;
 		posZ -= MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
@@ -72,7 +72,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
 		return 0.0F;
 	}
 	
-	public EntityLiving getThrower()
+	public EntityLivingBase getThrower()
 	{
 		if(thrower == null && throwerName != null && throwerName.length() > 0)
 		{
@@ -136,7 +136,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
 			Entity var4 = null;
 			List var5 = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 			double var6 = 0.0D;
-			EntityLiving var8 = getThrower();
+			EntityLivingBase var8 = getThrower();
 			for(int var9 = 0; var9 < var5.size(); ++var9)
 			{
 				Entity var10 = (Entity) var5.get(var9);
@@ -212,39 +212,39 @@ public abstract class EntityThrowable extends Entity implements IProjectile
 		setPosition(posX, posY, posZ);
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		xTile = p_70037_1_.getShort("xTile");
-		yTile = p_70037_1_.getShort("yTile");
-		zTile = p_70037_1_.getShort("zTile");
-		inTile = p_70037_1_.getByte("inTile") & 255;
-		throwableShake = p_70037_1_.getByte("shake") & 255;
-		inGround = p_70037_1_.getByte("inGround") == 1;
-		throwerName = p_70037_1_.getString("ownerName");
+		xTile = par1NBTTagCompound.getShort("xTile");
+		yTile = par1NBTTagCompound.getShort("yTile");
+		zTile = par1NBTTagCompound.getShort("zTile");
+		inTile = par1NBTTagCompound.getByte("inTile") & 255;
+		throwableShake = par1NBTTagCompound.getByte("shake") & 255;
+		inGround = par1NBTTagCompound.getByte("inGround") == 1;
+		throwerName = par1NBTTagCompound.getString("ownerName");
 		if(throwerName != null && throwerName.length() == 0)
 		{
 			throwerName = null;
 		}
 	}
 	
-	@Override public void setThrowableHeading(double p_70186_1_, double p_70186_3_, double p_70186_5_, float p_70186_7_, float p_70186_8_)
+	@Override public void setThrowableHeading(double par1, double par3, double par5, float par7, float par8)
 	{
-		float var9 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_3_ * p_70186_3_ + p_70186_5_ * p_70186_5_);
-		p_70186_1_ /= var9;
-		p_70186_3_ /= var9;
-		p_70186_5_ /= var9;
-		p_70186_1_ += rand.nextGaussian() * 0.007499999832361937D * p_70186_8_;
-		p_70186_3_ += rand.nextGaussian() * 0.007499999832361937D * p_70186_8_;
-		p_70186_5_ += rand.nextGaussian() * 0.007499999832361937D * p_70186_8_;
-		p_70186_1_ *= p_70186_7_;
-		p_70186_3_ *= p_70186_7_;
-		p_70186_5_ *= p_70186_7_;
-		motionX = p_70186_1_;
-		motionY = p_70186_3_;
-		motionZ = p_70186_5_;
-		float var10 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_5_ * p_70186_5_);
-		prevRotationYaw = rotationYaw = (float) (Math.atan2(p_70186_1_, p_70186_5_) * 180.0D / Math.PI);
-		prevRotationPitch = rotationPitch = (float) (Math.atan2(p_70186_3_, var10) * 180.0D / Math.PI);
+		float var9 = MathHelper.sqrt_double(par1 * par1 + par3 * par3 + par5 * par5);
+		par1 /= var9;
+		par3 /= var9;
+		par5 /= var9;
+		par1 += rand.nextGaussian() * 0.007499999832361937D * par8;
+		par3 += rand.nextGaussian() * 0.007499999832361937D * par8;
+		par5 += rand.nextGaussian() * 0.007499999832361937D * par8;
+		par1 *= par7;
+		par3 *= par7;
+		par5 *= par7;
+		motionX = par1;
+		motionY = par3;
+		motionZ = par5;
+		float var10 = MathHelper.sqrt_double(par1 * par1 + par5 * par5);
+		prevRotationYaw = rotationYaw = (float) (Math.atan2(par1, par5) * 180.0D / Math.PI);
+		prevRotationPitch = rotationPitch = (float) (Math.atan2(par3, var10) * 180.0D / Math.PI);
 		ticksInGround = 0;
 	}
 	
@@ -261,18 +261,18 @@ public abstract class EntityThrowable extends Entity implements IProjectile
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		p_70014_1_.setShort("xTile", (short) xTile);
-		p_70014_1_.setShort("yTile", (short) yTile);
-		p_70014_1_.setShort("zTile", (short) zTile);
-		p_70014_1_.setByte("inTile", (byte) inTile);
-		p_70014_1_.setByte("shake", (byte) throwableShake);
-		p_70014_1_.setByte("inGround", (byte) (inGround ? 1 : 0));
+		par1NBTTagCompound.setShort("xTile", (short) xTile);
+		par1NBTTagCompound.setShort("yTile", (short) yTile);
+		par1NBTTagCompound.setShort("zTile", (short) zTile);
+		par1NBTTagCompound.setByte("inTile", (byte) inTile);
+		par1NBTTagCompound.setByte("shake", (byte) throwableShake);
+		par1NBTTagCompound.setByte("inGround", (byte) (inGround ? 1 : 0));
 		if((throwerName == null || throwerName.length() == 0) && thrower != null && thrower instanceof EntityPlayer)
 		{
 			throwerName = thrower.getEntityName();
 		}
-		p_70014_1_.setString("ownerName", throwerName == null ? "" : throwerName);
+		par1NBTTagCompound.setString("ownerName", throwerName == null ? "" : throwerName);
 	}
 }

@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet32EntityLook extends Packet30Entity
@@ -11,11 +11,11 @@ public class Packet32EntityLook extends Packet30Entity
 		rotating = true;
 	}
 	
-	public Packet32EntityLook(int p_i3330_1_, byte p_i3330_2_, byte p_i3330_3_)
+	public Packet32EntityLook(int par1, byte par2, byte par3)
 	{
-		super(p_i3330_1_);
-		yaw = p_i3330_2_;
-		pitch = p_i3330_3_;
+		super(par1);
+		yaw = par2;
+		pitch = par3;
 		rotating = true;
 	}
 	
@@ -24,17 +24,17 @@ public class Packet32EntityLook extends Packet30Entity
 		return 6;
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		super.readPacketData(p_73267_1_);
-		yaw = p_73267_1_.readByte();
-		pitch = p_73267_1_.readByte();
+		super.readPacketData(par1DataInput);
+		yaw = par1DataInput.readByte();
+		pitch = par1DataInput.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		super.writePacketData(p_73273_1_);
-		p_73273_1_.writeByte(yaw);
-		p_73273_1_.writeByte(pitch);
+		super.writePacketData(par1DataOutput);
+		par1DataOutput.writeByte(yaw);
+		par1DataOutput.writeByte(pitch);
 	}
 }

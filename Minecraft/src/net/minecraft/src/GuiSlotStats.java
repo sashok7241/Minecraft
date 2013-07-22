@@ -13,13 +13,12 @@ abstract class GuiSlotStats extends GuiSlot
 	protected int field_77265_k;
 	final GuiStats statsGui;
 	
-	protected GuiSlotStats(GuiStats p_i3071_1_)
+	protected GuiSlotStats(GuiStats par1GuiStats)
 	{
-		super(GuiStats.getMinecraft1(p_i3071_1_), p_i3071_1_.width, p_i3071_1_.height, 32, p_i3071_1_.height - 64, 20);
-		statsGui = p_i3071_1_;
+		super(GuiStats.getMinecraft1(par1GuiStats), par1GuiStats.width, par1GuiStats.height, 32, par1GuiStats.height - 64, 20);
+		statsGui = par1GuiStats;
 		field_77262_g = -1;
 		field_77264_j = -1;
-		field_77265_k = 0;
 		setShowSelectionBox(false);
 		func_77223_a(true, 20);
 	}
@@ -58,7 +57,7 @@ abstract class GuiSlotStats extends GuiSlot
 					if(par1 < var4 + 215 - 18 || par1 > var4 + 215) return;
 					var9 = func_77258_c(2);
 				}
-				var9 = ("" + StringTranslate.getInstance().translateKey(var9)).trim();
+				var9 = ("" + I18n.func_135053_a(var9)).trim();
 				if(var9.length() > 0)
 				{
 					int var6 = par1 + 12;
@@ -149,7 +148,7 @@ abstract class GuiSlotStats extends GuiSlot
 		if(par1StatCrafting != null)
 		{
 			Item var4 = Item.itemsList[par1StatCrafting.getItemID()];
-			String var5 = ("" + StringTranslate.getInstance().translateNamedKey(var4.getUnlocalizedName())).trim();
+			String var5 = ("" + I18n.func_135053_a(var4.getUnlocalizedName() + ".name")).trim();
 			if(var5.length() > 0)
 			{
 				int var6 = par2 + 12;

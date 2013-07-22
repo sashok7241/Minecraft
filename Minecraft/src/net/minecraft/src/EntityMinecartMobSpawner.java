@@ -4,14 +4,14 @@ public class EntityMinecartMobSpawner extends EntityMinecart
 {
 	private final MobSpawnerBaseLogic mobSpawnerLogic = new EntityMinecartMobSpawnerLogic(this);
 	
-	public EntityMinecartMobSpawner(World p_i11039_1_)
+	public EntityMinecartMobSpawner(World par1World)
 	{
-		super(p_i11039_1_);
+		super(par1World);
 	}
 	
-	public EntityMinecartMobSpawner(World p_i11040_1_, double p_i11040_2_, double p_i11040_4_, double p_i11040_6_)
+	public EntityMinecartMobSpawner(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i11040_1_, p_i11040_2_, p_i11040_4_, p_i11040_6_);
+		super(par1World, par2, par4, par6);
 	}
 	
 	public MobSpawnerBaseLogic func_98039_d()
@@ -40,15 +40,15 @@ public class EntityMinecartMobSpawner extends EntityMinecart
 		mobSpawnerLogic.updateSpawner();
 	}
 	
-	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		mobSpawnerLogic.readFromNBT(p_70037_1_);
+		super.readEntityFromNBT(par1NBTTagCompound);
+		mobSpawnerLogic.readFromNBT(par1NBTTagCompound);
 	}
 	
-	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		mobSpawnerLogic.writeToNBT(p_70014_1_);
+		super.writeEntityToNBT(par1NBTTagCompound);
+		mobSpawnerLogic.writeToNBT(par1NBTTagCompound);
 	}
 }

@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.server.MinecraftServer;
+
 public class RConThreadQuery extends RConThreadBase
 {
 	private long lastAuthCheckTime;
@@ -23,9 +25,9 @@ public class RConThreadQuery extends RConThreadBase
 	private int maxPlayers;
 	private String serverMotd;
 	private String worldName;
-	private DatagramSocket querySocket = null;
+	private DatagramSocket querySocket;
 	private byte[] buffer = new byte[1460];
-	private DatagramPacket incomingPacket = null;
+	private DatagramPacket incomingPacket;
 	private Map field_72644_p;
 	private String queryHostname;
 	private String serverHostname;
@@ -34,15 +36,15 @@ public class RConThreadQuery extends RConThreadBase
 	private RConOutputStream output;
 	private long lastQueryResponseTime;
 	
-	public RConThreadQuery(IServer p_i3406_1_)
+	public RConThreadQuery(IServer par1IServer)
 	{
-		super(p_i3406_1_);
-		queryPort = p_i3406_1_.getIntProperty("query.port", 0);
-		serverHostname = p_i3406_1_.getHostname();
-		serverPort = p_i3406_1_.getPort();
-		serverMotd = p_i3406_1_.getServerMOTD();
-		maxPlayers = p_i3406_1_.getMaxPlayers();
-		worldName = p_i3406_1_.getFolderName();
+		super(par1IServer);
+		queryPort = par1IServer.getIntProperty("query.port", 0);
+		serverHostname = par1IServer.getHostname();
+		serverPort = par1IServer.getPort();
+		serverMotd = par1IServer.getServerMOTD();
+		maxPlayers = par1IServer.getMaxPlayers();
+		worldName = par1IServer.getFolderName();
 		lastQueryResponseTime = 0L;
 		queryHostname = "0.0.0.0";
 		if(0 != serverHostname.length() && !queryHostname.equals(serverHostname))
@@ -57,16 +59,16 @@ public class RConThreadQuery extends RConThreadBase
 				queryHostname = var2.getHostAddress();
 			} catch(UnknownHostException var3)
 			{
-				logWarning("Unable to determine local host IP, please set server-ip in \'" + p_i3406_1_.getSettingsFilename() + "\' : " + var3.getMessage());
+				logWarning("Unable to determine local host IP, please set server-ip in \'" + par1IServer.getSettingsFilename() + "\' : " + var3.getMessage());
 			}
 		}
 		if(0 == queryPort)
 		{
 			queryPort = serverPort;
 			logInfo("Setting default query port to " + queryPort);
-			p_i3406_1_.setProperty("query.port", Integer.valueOf(queryPort));
-			p_i3406_1_.setProperty("debug", Boolean.valueOf(false));
-			p_i3406_1_.saveProperties();
+			par1IServer.setProperty("query.port", Integer.valueOf(queryPort));
+			par1IServer.setProperty("debug", Boolean.valueOf(false));
+			par1IServer.saveProperties();
 		}
 		field_72644_p = new HashMap();
 		output = new RConOutputStream(1460);
@@ -78,7 +80,7 @@ public class RConThreadQuery extends RConThreadBase
 	{
 		if(running)
 		{
-			long var1 = System.currentTimeMillis();
+			long var1 = MinecraftServer.func_130071_aq();
 			if(var1 >= lastAuthCheckTime + 30000L)
 			{
 				lastAuthCheckTime = var1;
@@ -95,13 +97,13 @@ public class RConThreadQuery extends RConThreadBase
 		}
 	}
 	
-	private byte[] createQueryResponse(DatagramPacket p_72624_1_) throws IOException
+	private byte[] createQueryResponse(DatagramPacket par1DatagramPacket) throws IOException
 	{
-		long var2 = System.currentTimeMillis();
+		long var2 = MinecraftServer.func_130071_aq();
 		if(var2 < lastQueryResponseTime + 5000L)
 		{
 			byte[] var7 = output.toByteArray();
-			byte[] var8 = getRequestID(p_72624_1_.getSocketAddress());
+			byte[] var8 = getRequestID(par1DatagramPacket.getSocketAddress());
 			var7[1] = var8[0];
 			var7[2] = var8[1];
 			var7[3] = var8[2];
@@ -112,7 +114,7 @@ public class RConThreadQuery extends RConThreadBase
 			lastQueryResponseTime = var2;
 			output.reset();
 			output.writeInt(0);
-			output.writeByteArray(getRequestID(p_72624_1_.getSocketAddress()));
+			output.writeByteArray(getRequestID(par1DatagramPacket.getSocketAddress()));
 			output.writeString("splitnum");
 			output.writeInt(128);
 			output.writeInt(0);
@@ -151,9 +153,9 @@ public class RConThreadQuery extends RConThreadBase
 		}
 	}
 	
-	private byte[] getRequestID(SocketAddress p_72625_1_)
+	private byte[] getRequestID(SocketAddress par1SocketAddress)
 	{
-		return ((RConThreadQueryAuth) queryClients.get(p_72625_1_)).getRequestId();
+		return ((RConThreadQueryAuth) queryClients.get(par1SocketAddress)).getRequestId();
 	}
 	
 	private boolean initQuerySystem()
@@ -177,11 +179,11 @@ public class RConThreadQuery extends RConThreadBase
 		return false;
 	}
 	
-	private boolean parseIncomingPacket(DatagramPacket p_72621_1_) throws IOException
+	private boolean parseIncomingPacket(DatagramPacket par1DatagramPacket) throws IOException
 	{
-		byte[] var2 = p_72621_1_.getData();
-		int var3 = p_72621_1_.getLength();
-		SocketAddress var4 = p_72621_1_.getSocketAddress();
+		byte[] var2 = par1DatagramPacket.getData();
+		int var3 = par1DatagramPacket.getLength();
+		SocketAddress var4 = par1DatagramPacket.getSocketAddress();
 		logDebug("Packet len " + var3 + " [" + var4 + "]");
 		if(3 <= var3 && -2 == var2[0] && -3 == var2[1])
 		{
@@ -189,19 +191,19 @@ public class RConThreadQuery extends RConThreadBase
 			switch(var2[2])
 			{
 				case 0:
-					if(!verifyClientAuth(p_72621_1_).booleanValue())
+					if(!verifyClientAuth(par1DatagramPacket).booleanValue())
 					{
 						logDebug("Invalid challenge [" + var4 + "]");
 						return false;
 					} else if(15 == var3)
 					{
-						sendResponsePacket(createQueryResponse(p_72621_1_), p_72621_1_);
+						sendResponsePacket(createQueryResponse(par1DatagramPacket), par1DatagramPacket);
 						logDebug("Rules [" + var4 + "]");
 					} else
 					{
 						RConOutputStream var5 = new RConOutputStream(1460);
 						var5.writeInt(0);
-						var5.writeByteArray(getRequestID(p_72621_1_.getSocketAddress()));
+						var5.writeByteArray(getRequestID(par1DatagramPacket.getSocketAddress()));
 						var5.writeString(serverMotd);
 						var5.writeString("SMP");
 						var5.writeString(worldName);
@@ -209,11 +211,11 @@ public class RConThreadQuery extends RConThreadBase
 						var5.writeString(Integer.toString(maxPlayers));
 						var5.writeShort((short) serverPort);
 						var5.writeString(queryHostname);
-						sendResponsePacket(var5.toByteArray(), p_72621_1_);
+						sendResponsePacket(var5.toByteArray(), par1DatagramPacket);
 						logDebug("Status [" + var4 + "]");
 					}
 				case 9:
-					sendAuthChallenge(p_72621_1_);
+					sendAuthChallenge(par1DatagramPacket);
 					logDebug("Challenge [" + var4 + "]");
 					return true;
 				default:
@@ -229,7 +231,7 @@ public class RConThreadQuery extends RConThreadBase
 	@Override public void run()
 	{
 		logInfo("Query running on " + serverHostname + ":" + queryPort);
-		lastAuthCheckTime = System.currentTimeMillis();
+		lastAuthCheckTime = MinecraftServer.func_130071_aq();
 		incomingPacket = new DatagramPacket(buffer, buffer.length);
 		try
 		{
@@ -257,16 +259,16 @@ public class RConThreadQuery extends RConThreadBase
 		}
 	}
 	
-	private void sendAuthChallenge(DatagramPacket p_72622_1_) throws IOException
+	private void sendAuthChallenge(DatagramPacket par1DatagramPacket) throws IOException
 	{
-		RConThreadQueryAuth var2 = new RConThreadQueryAuth(this, p_72622_1_);
-		queryClients.put(p_72622_1_.getSocketAddress(), var2);
-		sendResponsePacket(var2.getChallengeValue(), p_72622_1_);
+		RConThreadQueryAuth var2 = new RConThreadQueryAuth(this, par1DatagramPacket);
+		queryClients.put(par1DatagramPacket.getSocketAddress(), var2);
+		sendResponsePacket(var2.getChallengeValue(), par1DatagramPacket);
 	}
 	
-	private void sendResponsePacket(byte[] p_72620_1_, DatagramPacket p_72620_2_) throws IOException
+	private void sendResponsePacket(byte[] par1ArrayOfByte, DatagramPacket par2DatagramPacket) throws IOException
 	{
-		querySocket.send(new DatagramPacket(p_72620_1_, p_72620_1_.length, p_72620_2_.getSocketAddress()));
+		querySocket.send(new DatagramPacket(par1ArrayOfByte, par1ArrayOfByte.length, par2DatagramPacket.getSocketAddress()));
 	}
 	
 	@Override public void startThread()
@@ -286,11 +288,11 @@ public class RConThreadQuery extends RConThreadBase
 		}
 	}
 	
-	private void stopWithException(Exception p_72623_1_)
+	private void stopWithException(Exception par1Exception)
 	{
 		if(running)
 		{
-			logWarning("Unexpected exception, buggy JRE? (" + p_72623_1_.toString() + ")");
+			logWarning("Unexpected exception, buggy JRE? (" + par1Exception.toString() + ")");
 			if(!initQuerySystem())
 			{
 				logSevere("Failed to recover from buggy JRE, shutting down!");
@@ -299,14 +301,14 @@ public class RConThreadQuery extends RConThreadBase
 		}
 	}
 	
-	private Boolean verifyClientAuth(DatagramPacket p_72627_1_)
+	private Boolean verifyClientAuth(DatagramPacket par1DatagramPacket)
 	{
-		SocketAddress var2 = p_72627_1_.getSocketAddress();
+		SocketAddress var2 = par1DatagramPacket.getSocketAddress();
 		if(!queryClients.containsKey(var2)) return Boolean.valueOf(false);
 		else
 		{
-			byte[] var3 = p_72627_1_.getData();
-			return ((RConThreadQueryAuth) queryClients.get(var2)).getRandomChallenge() != RConUtils.getBytesAsBEint(var3, 7, p_72627_1_.getLength()) ? Boolean.valueOf(false) : Boolean.valueOf(true);
+			byte[] var3 = par1DatagramPacket.getData();
+			return ((RConThreadQueryAuth) queryClients.get(var2)).getRandomChallenge() != RConUtils.getBytesAsBEint(var3, 7, par1DatagramPacket.getLength()) ? Boolean.valueOf(false) : Boolean.valueOf(true);
 		}
 	}
 }

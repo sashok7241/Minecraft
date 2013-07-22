@@ -4,26 +4,26 @@ public class EntitySnowShovelFX extends EntityFX
 {
 	float snowDigParticleScale;
 	
-	public EntitySnowShovelFX(World p_i3160_1_, double p_i3160_2_, double p_i3160_4_, double p_i3160_6_, double p_i3160_8_, double p_i3160_10_, double p_i3160_12_)
+	public EntitySnowShovelFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		this(p_i3160_1_, p_i3160_2_, p_i3160_4_, p_i3160_6_, p_i3160_8_, p_i3160_10_, p_i3160_12_, 1.0F);
+		this(par1World, par2, par4, par6, par8, par10, par12, 1.0F);
 	}
 	
-	public EntitySnowShovelFX(World p_i3161_1_, double p_i3161_2_, double p_i3161_4_, double p_i3161_6_, double p_i3161_8_, double p_i3161_10_, double p_i3161_12_, float p_i3161_14_)
+	public EntitySnowShovelFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, float par14)
 	{
-		super(p_i3161_1_, p_i3161_2_, p_i3161_4_, p_i3161_6_, p_i3161_8_, p_i3161_10_, p_i3161_12_);
+		super(par1World, par2, par4, par6, par8, par10, par12);
 		motionX *= 0.10000000149011612D;
 		motionY *= 0.10000000149011612D;
 		motionZ *= 0.10000000149011612D;
-		motionX += p_i3161_8_;
-		motionY += p_i3161_10_;
-		motionZ += p_i3161_12_;
+		motionX += par8;
+		motionY += par10;
+		motionZ += par12;
 		particleRed = particleGreen = particleBlue = 1.0F - (float) (Math.random() * 0.30000001192092896D);
 		particleScale *= 0.75F;
-		particleScale *= p_i3161_14_;
+		particleScale *= par14;
 		snowDigParticleScale = particleScale;
 		particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
-		particleMaxAge = (int) (particleMaxAge * p_i3161_14_);
+		particleMaxAge = (int) (particleMaxAge * par14);
 		noClip = false;
 	}
 	

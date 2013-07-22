@@ -1,22 +1,14 @@
 package net.minecraft.src;
 
-import java.util.List;
-
 final class CreativeTabMisc extends CreativeTabs
 {
-	CreativeTabMisc(int p_i3637_1_, String p_i3637_2_)
+	CreativeTabMisc(int par1, String par2Str)
 	{
-		super(p_i3637_1_, p_i3637_2_);
-	}
-	
-	@Override public void displayAllReleventItems(List par1List)
-	{
-		super.displayAllReleventItems(par1List);
-		addEnchantmentBooksToList(par1List, new EnumEnchantmentType[] { EnumEnchantmentType.all });
+		super(par1, par2Str);
 	}
 	
 	@Override public int getTabIconItemIndex()
 	{
-		return Item.bucketLava.itemID;
+		return Item.compass.itemID;
 	}
 }

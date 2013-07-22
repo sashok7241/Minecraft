@@ -13,22 +13,22 @@ public class GuiTextField extends Gui
 	private int cursorCounter;
 	private boolean enableBackgroundDrawing = true;
 	private boolean canLoseFocus = true;
-	private boolean isFocused = false;
+	private boolean isFocused;
 	private boolean isEnabled = true;
-	private int lineScrollOffset = 0;
-	private int cursorPosition = 0;
-	private int selectionEnd = 0;
+	private int lineScrollOffset;
+	private int cursorPosition;
+	private int selectionEnd;
 	private int enabledColor = 14737632;
 	private int disabledColor = 7368816;
 	private boolean visible = true;
 	
-	public GuiTextField(FontRenderer p_i3050_1_, int p_i3050_2_, int p_i3050_3_, int p_i3050_4_, int p_i3050_5_)
+	public GuiTextField(FontRenderer par1FontRenderer, int par2, int par3, int par4, int par5)
 	{
-		fontRenderer = p_i3050_1_;
-		xPos = p_i3050_2_;
-		yPos = p_i3050_3_;
-		width = p_i3050_4_;
-		height = p_i3050_5_;
+		fontRenderer = par1FontRenderer;
+		xPos = par2;
+		yPos = par3;
+		width = par4;
+		height = par5;
 	}
 	
 	public void deleteFromCursor(int par1)

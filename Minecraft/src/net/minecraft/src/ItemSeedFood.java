@@ -5,23 +5,23 @@ public class ItemSeedFood extends ItemFood
 	private int cropId;
 	private int soilId;
 	
-	public ItemSeedFood(int p_i5086_1_, int p_i5086_2_, float p_i5086_3_, int p_i5086_4_, int p_i5086_5_)
+	public ItemSeedFood(int par1, int par2, float par3, int par4, int par5)
 	{
-		super(p_i5086_1_, p_i5086_2_, p_i5086_3_, false);
-		cropId = p_i5086_4_;
-		soilId = p_i5086_5_;
+		super(par1, par2, par3, false);
+		cropId = par4;
+		soilId = par5;
 	}
 	
-	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
-		if(p_77648_7_ != 1) return false;
-		else if(p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_1_) && p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_ + 1, p_77648_6_, p_77648_7_, p_77648_1_))
+		if(par7 != 1) return false;
+		else if(par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
 		{
-			int var11 = p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_);
-			if(var11 == soilId && p_77648_3_.isAirBlock(p_77648_4_, p_77648_5_ + 1, p_77648_6_))
+			int var11 = par3World.getBlockId(par4, par5, par6);
+			if(var11 == soilId && par3World.isAirBlock(par4, par5 + 1, par6))
 			{
-				p_77648_3_.setBlock(p_77648_4_, p_77648_5_ + 1, p_77648_6_, cropId);
-				--p_77648_1_.stackSize;
+				par3World.setBlock(par4, par5 + 1, par6, cropId);
+				--par1ItemStack.stackSize;
 				return true;
 			} else return false;
 		} else return false;

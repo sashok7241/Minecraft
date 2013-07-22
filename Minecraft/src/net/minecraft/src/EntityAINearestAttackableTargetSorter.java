@@ -4,24 +4,22 @@ import java.util.Comparator;
 
 public class EntityAINearestAttackableTargetSorter implements Comparator
 {
-	private Entity theEntity;
-	final EntityAINearestAttackableTarget parent;
+	private final Entity theEntity;
 	
-	public EntityAINearestAttackableTargetSorter(EntityAINearestAttackableTarget p_i3499_1_, Entity p_i3499_2_)
+	public EntityAINearestAttackableTargetSorter(Entity par1Entity)
 	{
-		parent = p_i3499_1_;
-		theEntity = p_i3499_2_;
+		theEntity = par1Entity;
 	}
 	
-	@Override public int compare(Object p_compare_1_, Object p_compare_2_)
+	@Override public int compare(Object par1Obj, Object par2Obj)
 	{
-		return compareDistanceSq((Entity) p_compare_1_, (Entity) p_compare_2_);
+		return compareDistanceSq((Entity) par1Obj, (Entity) par2Obj);
 	}
 	
-	public int compareDistanceSq(Entity p_75458_1_, Entity p_75458_2_)
+	public int compareDistanceSq(Entity par1Entity, Entity par2Entity)
 	{
-		double var3 = theEntity.getDistanceSqToEntity(p_75458_1_);
-		double var5 = theEntity.getDistanceSqToEntity(p_75458_2_);
+		double var3 = theEntity.getDistanceSqToEntity(par1Entity);
+		double var5 = theEntity.getDistanceSqToEntity(par2Entity);
 		return var3 < var5 ? -1 : var3 > var5 ? 1 : 0;
 	}
 }

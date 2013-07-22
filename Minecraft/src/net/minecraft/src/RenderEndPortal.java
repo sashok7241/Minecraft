@@ -7,6 +7,9 @@ import net.minecraft.client.Minecraft;
 
 public class RenderEndPortal extends TileEntitySpecialRenderer
 {
+	private static final ResourceLocation field_110645_c = new ResourceLocation("textures/environment/end_sky.png");
+	private static final ResourceLocation field_110643_d = new ResourceLocation("textures/entity/end_portal.png");
+	private static final Random field_110644_e = new Random(31100L);
 	FloatBuffer field_76908_a = GLAllocation.createDirectFloatBuffer(16);
 	
 	private FloatBuffer func_76907_a(float par1, float par2, float par3, float par4)
@@ -23,36 +26,36 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
 		float var10 = (float) tileEntityRenderer.playerY;
 		float var11 = (float) tileEntityRenderer.playerZ;
 		GL11.glDisable(GL11.GL_LIGHTING);
-		Random var12 = new Random(31100L);
-		float var13 = 0.75F;
-		for(int var14 = 0; var14 < 16; ++var14)
+		field_110644_e.setSeed(31100L);
+		float var12 = 0.75F;
+		for(int var13 = 0; var13 < 16; ++var13)
 		{
 			GL11.glPushMatrix();
-			float var15 = 16 - var14;
-			float var16 = 0.0625F;
-			float var17 = 1.0F / (var15 + 1.0F);
-			if(var14 == 0)
+			float var14 = 16 - var13;
+			float var15 = 0.0625F;
+			float var16 = 1.0F / (var14 + 1.0F);
+			if(var13 == 0)
 			{
-				bindTextureByName("/misc/tunnel.png");
-				var17 = 0.1F;
-				var15 = 65.0F;
-				var16 = 0.125F;
+				func_110628_a(field_110645_c);
+				var16 = 0.1F;
+				var14 = 65.0F;
+				var15 = 0.125F;
 				GL11.glEnable(GL11.GL_BLEND);
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			}
-			if(var14 == 1)
+			if(var13 == 1)
 			{
-				bindTextureByName("/misc/particlefield.png");
+				func_110628_a(field_110643_d);
 				GL11.glEnable(GL11.GL_BLEND);
 				GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
-				var16 = 0.5F;
+				var15 = 0.5F;
 			}
-			float var18 = (float) -(par4 + var13);
-			float var19 = var18 + ActiveRenderInfo.objectY;
-			float var20 = var18 + var15 + ActiveRenderInfo.objectY;
-			float var21 = var19 / var20;
-			var21 += (float) (par4 + var13);
-			GL11.glTranslatef(var9, var21, var11);
+			float var17 = (float) -(par4 + var12);
+			float var18 = var17 + ActiveRenderInfo.objectY;
+			float var19 = var17 + var14 + ActiveRenderInfo.objectY;
+			float var20 = var18 / var19;
+			var20 += (float) (par4 + var12);
+			GL11.glTranslatef(var9, var20, var11);
 			GL11.glTexGeni(GL11.GL_S, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
 			GL11.glTexGeni(GL11.GL_T, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
 			GL11.glTexGeni(GL11.GL_R, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
@@ -70,30 +73,30 @@ public class RenderEndPortal extends TileEntitySpecialRenderer
 			GL11.glPushMatrix();
 			GL11.glLoadIdentity();
 			GL11.glTranslatef(0.0F, Minecraft.getSystemTime() % 700000L / 700000.0F, 0.0F);
-			GL11.glScalef(var16, var16, var16);
+			GL11.glScalef(var15, var15, var15);
 			GL11.glTranslatef(0.5F, 0.5F, 0.0F);
-			GL11.glRotatef((var14 * var14 * 4321 + var14 * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
+			GL11.glRotatef((var13 * var13 * 4321 + var13 * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
 			GL11.glTranslatef(-0.5F, -0.5F, 0.0F);
 			GL11.glTranslatef(-var9, -var11, -var10);
-			var19 = var18 + ActiveRenderInfo.objectY;
-			GL11.glTranslatef(ActiveRenderInfo.objectX * var15 / var19, ActiveRenderInfo.objectZ * var15 / var19, -var10);
-			Tessellator var24 = Tessellator.instance;
-			var24.startDrawingQuads();
-			var21 = var12.nextFloat() * 0.5F + 0.1F;
-			float var22 = var12.nextFloat() * 0.5F + 0.4F;
-			float var23 = var12.nextFloat() * 0.5F + 0.5F;
-			if(var14 == 0)
+			var18 = var17 + ActiveRenderInfo.objectY;
+			GL11.glTranslatef(ActiveRenderInfo.objectX * var14 / var18, ActiveRenderInfo.objectZ * var14 / var18, -var10);
+			Tessellator var23 = Tessellator.instance;
+			var23.startDrawingQuads();
+			var20 = field_110644_e.nextFloat() * 0.5F + 0.1F;
+			float var21 = field_110644_e.nextFloat() * 0.5F + 0.4F;
+			float var22 = field_110644_e.nextFloat() * 0.5F + 0.5F;
+			if(var13 == 0)
 			{
-				var23 = 1.0F;
 				var22 = 1.0F;
 				var21 = 1.0F;
+				var20 = 1.0F;
 			}
-			var24.setColorRGBA_F(var21 * var17, var22 * var17, var23 * var17, 1.0F);
-			var24.addVertex(par2, par4 + var13, par6);
-			var24.addVertex(par2, par4 + var13, par6 + 1.0D);
-			var24.addVertex(par2 + 1.0D, par4 + var13, par6 + 1.0D);
-			var24.addVertex(par2 + 1.0D, par4 + var13, par6);
-			var24.draw();
+			var23.setColorRGBA_F(var20 * var16, var21 * var16, var22 * var16, 1.0F);
+			var23.addVertex(par2, par4 + var12, par6);
+			var23.addVertex(par2, par4 + var12, par6 + 1.0D);
+			var23.addVertex(par2 + 1.0D, par4 + var12, par6 + 1.0D);
+			var23.addVertex(par2 + 1.0D, par4 + var12, par6);
+			var23.draw();
 			GL11.glPopMatrix();
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		}

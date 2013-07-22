@@ -12,18 +12,18 @@ public class EntityTracker
 	private IntHashMap trackedEntityIDs = new IntHashMap();
 	private int entityViewDistance;
 	
-	public EntityTracker(WorldServer p_i3389_1_)
+	public EntityTracker(WorldServer par1WorldServer)
 	{
-		theWorld = p_i3389_1_;
-		entityViewDistance = p_i3389_1_.getMinecraftServer().getConfigurationManager().getEntityViewDistance();
+		theWorld = par1WorldServer;
+		entityViewDistance = par1WorldServer.getMinecraftServer().getConfigurationManager().getEntityViewDistance();
 	}
 	
-	public void addEntityToTracker(Entity p_72786_1_)
+	public void addEntityToTracker(Entity par1Entity)
 	{
-		if(p_72786_1_ instanceof EntityPlayerMP)
+		if(par1Entity instanceof EntityPlayerMP)
 		{
-			this.addEntityToTracker(p_72786_1_, 512, 2);
-			EntityPlayerMP var2 = (EntityPlayerMP) p_72786_1_;
+			this.addEntityToTracker(par1Entity, 512, 2);
+			EntityPlayerMP var2 = (EntityPlayerMP) par1Entity;
 			Iterator var3 = trackedEntities.iterator();
 			while(var3.hasNext())
 			{
@@ -33,111 +33,108 @@ public class EntityTracker
 					var4.tryStartWachingThis(var2);
 				}
 			}
-		} else if(p_72786_1_ instanceof EntityFishHook)
+		} else if(par1Entity instanceof EntityFishHook)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 5, true);
-		} else if(p_72786_1_ instanceof EntityArrow)
+			this.addEntityToTracker(par1Entity, 64, 5, true);
+		} else if(par1Entity instanceof EntityArrow)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 20, false);
-		} else if(p_72786_1_ instanceof EntitySmallFireball)
+			this.addEntityToTracker(par1Entity, 64, 20, false);
+		} else if(par1Entity instanceof EntitySmallFireball)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 10, false);
-		} else if(p_72786_1_ instanceof EntityFireball)
+			this.addEntityToTracker(par1Entity, 64, 10, false);
+		} else if(par1Entity instanceof EntityFireball)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 10, false);
-		} else if(p_72786_1_ instanceof EntitySnowball)
+			this.addEntityToTracker(par1Entity, 64, 10, false);
+		} else if(par1Entity instanceof EntitySnowball)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 10, true);
-		} else if(p_72786_1_ instanceof EntityEnderPearl)
+			this.addEntityToTracker(par1Entity, 64, 10, true);
+		} else if(par1Entity instanceof EntityEnderPearl)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 10, true);
-		} else if(p_72786_1_ instanceof EntityEnderEye)
+			this.addEntityToTracker(par1Entity, 64, 10, true);
+		} else if(par1Entity instanceof EntityEnderEye)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 4, true);
-		} else if(p_72786_1_ instanceof EntityEgg)
+			this.addEntityToTracker(par1Entity, 64, 4, true);
+		} else if(par1Entity instanceof EntityEgg)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 10, true);
-		} else if(p_72786_1_ instanceof EntityPotion)
+			this.addEntityToTracker(par1Entity, 64, 10, true);
+		} else if(par1Entity instanceof EntityPotion)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 10, true);
-		} else if(p_72786_1_ instanceof EntityExpBottle)
+			this.addEntityToTracker(par1Entity, 64, 10, true);
+		} else if(par1Entity instanceof EntityExpBottle)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 10, true);
-		} else if(p_72786_1_ instanceof EntityFireworkRocket)
+			this.addEntityToTracker(par1Entity, 64, 10, true);
+		} else if(par1Entity instanceof EntityFireworkRocket)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 10, true);
-		} else if(p_72786_1_ instanceof EntityItem)
+			this.addEntityToTracker(par1Entity, 64, 10, true);
+		} else if(par1Entity instanceof EntityItem)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 20, true);
-		} else if(p_72786_1_ instanceof EntityMinecart)
+			this.addEntityToTracker(par1Entity, 64, 20, true);
+		} else if(par1Entity instanceof EntityMinecart)
 		{
-			this.addEntityToTracker(p_72786_1_, 80, 3, true);
-		} else if(p_72786_1_ instanceof EntityBoat)
+			this.addEntityToTracker(par1Entity, 80, 3, true);
+		} else if(par1Entity instanceof EntityBoat)
 		{
-			this.addEntityToTracker(p_72786_1_, 80, 3, true);
-		} else if(p_72786_1_ instanceof EntitySquid)
+			this.addEntityToTracker(par1Entity, 80, 3, true);
+		} else if(par1Entity instanceof EntitySquid)
 		{
-			this.addEntityToTracker(p_72786_1_, 64, 3, true);
-		} else if(p_72786_1_ instanceof EntityWither)
+			this.addEntityToTracker(par1Entity, 64, 3, true);
+		} else if(par1Entity instanceof EntityWither)
 		{
-			this.addEntityToTracker(p_72786_1_, 80, 3, false);
-		} else if(p_72786_1_ instanceof EntityBat)
+			this.addEntityToTracker(par1Entity, 80, 3, false);
+		} else if(par1Entity instanceof EntityBat)
 		{
-			this.addEntityToTracker(p_72786_1_, 80, 3, false);
-		} else if(p_72786_1_ instanceof IAnimals)
+			this.addEntityToTracker(par1Entity, 80, 3, false);
+		} else if(par1Entity instanceof IAnimals)
 		{
-			this.addEntityToTracker(p_72786_1_, 80, 3, true);
-		} else if(p_72786_1_ instanceof EntityDragon)
+			this.addEntityToTracker(par1Entity, 80, 3, true);
+		} else if(par1Entity instanceof EntityDragon)
 		{
-			this.addEntityToTracker(p_72786_1_, 160, 3, true);
-		} else if(p_72786_1_ instanceof EntityTNTPrimed)
+			this.addEntityToTracker(par1Entity, 160, 3, true);
+		} else if(par1Entity instanceof EntityTNTPrimed)
 		{
-			this.addEntityToTracker(p_72786_1_, 160, 10, true);
-		} else if(p_72786_1_ instanceof EntityFallingSand)
+			this.addEntityToTracker(par1Entity, 160, 10, true);
+		} else if(par1Entity instanceof EntityFallingSand)
 		{
-			this.addEntityToTracker(p_72786_1_, 160, 20, true);
-		} else if(p_72786_1_ instanceof EntityPainting)
+			this.addEntityToTracker(par1Entity, 160, 20, true);
+		} else if(par1Entity instanceof EntityHanging)
 		{
-			this.addEntityToTracker(p_72786_1_, 160, Integer.MAX_VALUE, false);
-		} else if(p_72786_1_ instanceof EntityXPOrb)
+			this.addEntityToTracker(par1Entity, 160, Integer.MAX_VALUE, false);
+		} else if(par1Entity instanceof EntityXPOrb)
 		{
-			this.addEntityToTracker(p_72786_1_, 160, 20, true);
-		} else if(p_72786_1_ instanceof EntityEnderCrystal)
+			this.addEntityToTracker(par1Entity, 160, 20, true);
+		} else if(par1Entity instanceof EntityEnderCrystal)
 		{
-			this.addEntityToTracker(p_72786_1_, 256, Integer.MAX_VALUE, false);
-		} else if(p_72786_1_ instanceof EntityItemFrame)
-		{
-			this.addEntityToTracker(p_72786_1_, 160, Integer.MAX_VALUE, false);
+			this.addEntityToTracker(par1Entity, 256, Integer.MAX_VALUE, false);
 		}
 	}
 	
-	public void addEntityToTracker(Entity p_72791_1_, int p_72791_2_, int p_72791_3_)
+	public void addEntityToTracker(Entity par1Entity, int par2, int par3)
 	{
-		this.addEntityToTracker(p_72791_1_, p_72791_2_, p_72791_3_, false);
+		this.addEntityToTracker(par1Entity, par2, par3, false);
 	}
 	
-	public void addEntityToTracker(Entity p_72785_1_, int p_72785_2_, int p_72785_3_, boolean p_72785_4_)
+	public void addEntityToTracker(Entity par1Entity, int par2, int par3, boolean par4)
 	{
-		if(p_72785_2_ > entityViewDistance)
+		if(par2 > entityViewDistance)
 		{
-			p_72785_2_ = entityViewDistance;
+			par2 = entityViewDistance;
 		}
 		try
 		{
-			if(trackedEntityIDs.containsItem(p_72785_1_.entityId)) throw new IllegalStateException("Entity is already tracked!");
-			EntityTrackerEntry var5 = new EntityTrackerEntry(p_72785_1_, p_72785_2_, p_72785_3_, p_72785_4_);
+			if(trackedEntityIDs.containsItem(par1Entity.entityId)) throw new IllegalStateException("Entity is already tracked!");
+			EntityTrackerEntry var5 = new EntityTrackerEntry(par1Entity, par2, par3, par4);
 			trackedEntities.add(var5);
-			trackedEntityIDs.addKey(p_72785_1_.entityId, var5);
+			trackedEntityIDs.addKey(par1Entity.entityId, var5);
 			var5.sendEventsToPlayers(theWorld.playerEntities);
 		} catch(Throwable var11)
 		{
 			CrashReport var6 = CrashReport.makeCrashReport(var11, "Adding entity to track");
 			CrashReportCategory var7 = var6.makeCategory("Entity To Track");
-			var7.addCrashSection("Tracking range", p_72785_2_ + " blocks");
-			var7.addCrashSectionCallable("Update interval", new CallableEntityTracker(this, p_72785_3_));
-			p_72785_1_.func_85029_a(var7);
+			var7.addCrashSection("Tracking range", par2 + " blocks");
+			var7.addCrashSectionCallable("Update interval", new CallableEntityTracker(this, par3));
+			par1Entity.func_85029_a(var7);
 			CrashReportCategory var8 = var6.makeCategory("Entity That Is Already Tracked");
-			((EntityTrackerEntry) trackedEntityIDs.lookup(p_72785_1_.entityId)).myEntity.func_85029_a(var8);
+			((EntityTrackerEntry) trackedEntityIDs.lookup(par1Entity.entityId)).myEntity.func_85029_a(var8);
 			try
 			{
 				throw new ReportedException(var6);
@@ -149,24 +146,24 @@ public class EntityTracker
 		}
 	}
 	
-	public void func_85172_a(EntityPlayerMP p_85172_1_, Chunk p_85172_2_)
+	public void func_85172_a(EntityPlayerMP par1EntityPlayerMP, Chunk par2Chunk)
 	{
 		Iterator var3 = trackedEntities.iterator();
 		while(var3.hasNext())
 		{
 			EntityTrackerEntry var4 = (EntityTrackerEntry) var3.next();
-			if(var4.myEntity != p_85172_1_ && var4.myEntity.chunkCoordX == p_85172_2_.xPosition && var4.myEntity.chunkCoordZ == p_85172_2_.zPosition)
+			if(var4.myEntity != par1EntityPlayerMP && var4.myEntity.chunkCoordX == par2Chunk.xPosition && var4.myEntity.chunkCoordZ == par2Chunk.zPosition)
 			{
-				var4.tryStartWachingThis(p_85172_1_);
+				var4.tryStartWachingThis(par1EntityPlayerMP);
 			}
 		}
 	}
 	
-	public void removeEntityFromAllTrackingPlayers(Entity p_72790_1_)
+	public void removeEntityFromAllTrackingPlayers(Entity par1Entity)
 	{
-		if(p_72790_1_ instanceof EntityPlayerMP)
+		if(par1Entity instanceof EntityPlayerMP)
 		{
-			EntityPlayerMP var2 = (EntityPlayerMP) p_72790_1_;
+			EntityPlayerMP var2 = (EntityPlayerMP) par1Entity;
 			Iterator var3 = trackedEntities.iterator();
 			while(var3.hasNext())
 			{
@@ -174,7 +171,7 @@ public class EntityTracker
 				var4.removeFromWatchingList(var2);
 			}
 		}
-		EntityTrackerEntry var5 = (EntityTrackerEntry) trackedEntityIDs.removeObject(p_72790_1_.entityId);
+		EntityTrackerEntry var5 = (EntityTrackerEntry) trackedEntityIDs.removeObject(par1Entity.entityId);
 		if(var5 != null)
 		{
 			trackedEntities.remove(var5);
@@ -182,31 +179,31 @@ public class EntityTracker
 		}
 	}
 	
-	public void removePlayerFromTrackers(EntityPlayerMP p_72787_1_)
+	public void removePlayerFromTrackers(EntityPlayerMP par1EntityPlayerMP)
 	{
 		Iterator var2 = trackedEntities.iterator();
 		while(var2.hasNext())
 		{
 			EntityTrackerEntry var3 = (EntityTrackerEntry) var2.next();
-			var3.removePlayerFromTracker(p_72787_1_);
+			var3.removePlayerFromTracker(par1EntityPlayerMP);
 		}
 	}
 	
-	public void sendPacketToAllAssociatedPlayers(Entity p_72789_1_, Packet p_72789_2_)
+	public void sendPacketToAllAssociatedPlayers(Entity par1Entity, Packet par2Packet)
 	{
-		EntityTrackerEntry var3 = (EntityTrackerEntry) trackedEntityIDs.lookup(p_72789_1_.entityId);
+		EntityTrackerEntry var3 = (EntityTrackerEntry) trackedEntityIDs.lookup(par1Entity.entityId);
 		if(var3 != null)
 		{
-			var3.sendPacketToAllAssociatedPlayers(p_72789_2_);
+			var3.sendPacketToAllAssociatedPlayers(par2Packet);
 		}
 	}
 	
-	public void sendPacketToAllPlayersTrackingEntity(Entity p_72784_1_, Packet p_72784_2_)
+	public void sendPacketToAllPlayersTrackingEntity(Entity par1Entity, Packet par2Packet)
 	{
-		EntityTrackerEntry var3 = (EntityTrackerEntry) trackedEntityIDs.lookup(p_72784_1_.entityId);
+		EntityTrackerEntry var3 = (EntityTrackerEntry) trackedEntityIDs.lookup(par1Entity.entityId);
 		if(var3 != null)
 		{
-			var3.sendPacketToAllTrackingPlayers(p_72784_2_);
+			var3.sendPacketToAllTrackingPlayers(par2Packet);
 		}
 	}
 	

@@ -2,12 +2,12 @@ package net.minecraft.src;
 
 public class ItemMapBase extends Item
 {
-	protected ItemMapBase(int p_i3629_1_)
+	protected ItemMapBase(int par1)
 	{
-		super(p_i3629_1_);
+		super(par1);
 	}
 	
-	public Packet createMapDataPacket(ItemStack p_77871_1_, World p_77871_2_, EntityPlayer p_77871_3_)
+	public Packet createMapDataPacket(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
 		return null;
 	}

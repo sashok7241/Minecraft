@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class ItemExpBottle extends Item
 {
-	public ItemExpBottle(int p_i3649_1_)
+	public ItemExpBottle(int par1)
 	{
-		super(p_i3649_1_);
+		super(par1);
 		setCreativeTab(CreativeTabs.tabMisc);
 	}
 	
@@ -13,17 +13,17 @@ public class ItemExpBottle extends Item
 		return true;
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if(!p_77659_3_.capabilities.isCreativeMode)
+		if(!par3EntityPlayer.capabilities.isCreativeMode)
 		{
-			--p_77659_1_.stackSize;
+			--par1ItemStack.stackSize;
 		}
-		p_77659_2_.playSoundAtEntity(p_77659_3_, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-		if(!p_77659_2_.isRemote)
+		par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		if(!par2World.isRemote)
 		{
-			p_77659_2_.spawnEntityInWorld(new EntityExpBottle(p_77659_2_, p_77659_3_));
+			par2World.spawnEntityInWorld(new EntityExpBottle(par2World, par3EntityPlayer));
 		}
-		return p_77659_1_;
+		return par1ItemStack;
 	}
 }

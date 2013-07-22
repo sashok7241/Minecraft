@@ -7,9 +7,9 @@ class PlayerUsageSnooperThread extends TimerTask
 {
 	final PlayerUsageSnooper snooper;
 	
-	PlayerUsageSnooperThread(PlayerUsageSnooper p_i3427_1_)
+	PlayerUsageSnooperThread(PlayerUsageSnooper par1PlayerUsageSnooper)
 	{
-		snooper = p_i3427_1_;
+		snooper = par1PlayerUsageSnooper;
 	}
 	
 	@Override public void run()

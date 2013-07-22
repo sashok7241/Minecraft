@@ -18,13 +18,13 @@ import java.util.zip.GZIPOutputStream;
 
 public class CompressedStreamTools
 {
-	public static byte[] compress(NBTTagCompound p_74798_0_) throws IOException
+	public static byte[] compress(NBTTagCompound par0NBTTagCompound) throws IOException
 	{
 		ByteArrayOutputStream var1 = new ByteArrayOutputStream();
 		DataOutputStream var2 = new DataOutputStream(new GZIPOutputStream(var1));
 		try
 		{
-			write(p_74798_0_, var2);
+			write(par0NBTTagCompound, var2);
 		} finally
 		{
 			var2.close();
@@ -32,9 +32,9 @@ public class CompressedStreamTools
 		return var1.toByteArray();
 	}
 	
-	public static NBTTagCompound decompress(byte[] p_74792_0_) throws IOException
+	public static NBTTagCompound decompress(byte[] par0ArrayOfByte) throws IOException
 	{
-		DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(p_74792_0_))));
+		DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(par0ArrayOfByte))));
 		NBTTagCompound var2;
 		try
 		{
@@ -46,9 +46,9 @@ public class CompressedStreamTools
 		return var2;
 	}
 	
-	public static NBTTagCompound read(DataInput p_74794_0_) throws IOException
+	public static NBTTagCompound read(DataInput par0DataInput) throws IOException
 	{
-		NBTBase var1 = NBTBase.readNamedTag(p_74794_0_);
+		NBTBase var1 = NBTBase.readNamedTag(par0DataInput);
 		if(var1 instanceof NBTTagCompound) return (NBTTagCompound) var1;
 		else throw new IOException("Root tag must be a named compound tag");
 	}
@@ -71,9 +71,9 @@ public class CompressedStreamTools
 		}
 	}
 	
-	public static NBTTagCompound readCompressed(InputStream p_74796_0_) throws IOException
+	public static NBTTagCompound readCompressed(InputStream par0InputStream) throws IOException
 	{
-		DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(p_74796_0_)));
+		DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(par0InputStream)));
 		NBTTagCompound var2;
 		try
 		{
@@ -104,9 +104,9 @@ public class CompressedStreamTools
 		}
 	}
 	
-	public static void write(NBTTagCompound p_74800_0_, DataOutput p_74800_1_) throws IOException
+	public static void write(NBTTagCompound par0NBTTagCompound, DataOutput par1DataOutput) throws IOException
 	{
-		NBTBase.writeNamedTag(p_74800_0_, p_74800_1_);
+		NBTBase.writeNamedTag(par0NBTTagCompound, par1DataOutput);
 	}
 	
 	public static void write(NBTTagCompound par0NBTTagCompound, File par1File) throws IOException
@@ -121,12 +121,12 @@ public class CompressedStreamTools
 		}
 	}
 	
-	public static void writeCompressed(NBTTagCompound p_74799_0_, OutputStream p_74799_1_) throws IOException
+	public static void writeCompressed(NBTTagCompound par0NBTTagCompound, OutputStream par1OutputStream) throws IOException
 	{
-		DataOutputStream var2 = new DataOutputStream(new GZIPOutputStream(p_74799_1_));
+		DataOutputStream var2 = new DataOutputStream(new GZIPOutputStream(par1OutputStream));
 		try
 		{
-			write(p_74799_0_, var2);
+			write(par0NBTTagCompound, var2);
 		} finally
 		{
 			var2.close();

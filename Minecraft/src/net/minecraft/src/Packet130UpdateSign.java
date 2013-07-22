@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet130UpdateSign extends Packet
@@ -16,13 +16,13 @@ public class Packet130UpdateSign extends Packet
 		isChunkDataPacket = true;
 	}
 	
-	public Packet130UpdateSign(int p_i3357_1_, int p_i3357_2_, int p_i3357_3_, String[] p_i3357_4_)
+	public Packet130UpdateSign(int par1, int par2, int par3, String[] par4ArrayOfStr)
 	{
 		isChunkDataPacket = true;
-		xPosition = p_i3357_1_;
-		yPosition = p_i3357_2_;
-		zPosition = p_i3357_3_;
-		signLines = new String[] { p_i3357_4_[0], p_i3357_4_[1], p_i3357_4_[2], p_i3357_4_[3] };
+		xPosition = par1;
+		yPosition = par2;
+		zPosition = par3;
+		signLines = new String[] { par4ArrayOfStr[0], par4ArrayOfStr[1], par4ArrayOfStr[2], par4ArrayOfStr[3] };
 	}
 	
 	@Override public int getPacketSize()
@@ -35,31 +35,31 @@ public class Packet130UpdateSign extends Packet
 		return var1;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleUpdateSign(this);
+		par1NetHandler.handleUpdateSign(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		xPosition = p_73267_1_.readInt();
-		yPosition = p_73267_1_.readShort();
-		zPosition = p_73267_1_.readInt();
+		xPosition = par1DataInput.readInt();
+		yPosition = par1DataInput.readShort();
+		zPosition = par1DataInput.readInt();
 		signLines = new String[4];
 		for(int var2 = 0; var2 < 4; ++var2)
 		{
-			signLines[var2] = readString(p_73267_1_, 15);
+			signLines[var2] = readString(par1DataInput, 15);
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(xPosition);
-		p_73273_1_.writeShort(yPosition);
-		p_73273_1_.writeInt(zPosition);
+		par1DataOutput.writeInt(xPosition);
+		par1DataOutput.writeShort(yPosition);
+		par1DataOutput.writeInt(zPosition);
 		for(int var2 = 0; var2 < 4; ++var2)
 		{
-			writeString(signLines[var2], p_73273_1_);
+			writeString(signLines[var2], par1DataOutput);
 		}
 	}
 }

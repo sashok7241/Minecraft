@@ -11,21 +11,21 @@ public class CommandServerBanIp extends CommandBase
 {
 	public static final Pattern IPv4Pattern = Pattern.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 	
-	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
+	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		return p_71516_2_.length == 1 ? getListOfStringsMatchingLastWord(p_71516_2_, MinecraftServer.getServer().getAllUsernames()) : null;
+		return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getAllUsernames()) : null;
 	}
 	
-	protected void banIP(ICommandSender p_71544_1_, String p_71544_2_, String p_71544_3_)
+	protected void banIP(ICommandSender par1ICommandSender, String par2Str, String par3Str)
 	{
-		BanEntry var4 = new BanEntry(p_71544_2_);
-		var4.setBannedBy(p_71544_1_.getCommandSenderName());
-		if(p_71544_3_ != null)
+		BanEntry var4 = new BanEntry(par2Str);
+		var4.setBannedBy(par1ICommandSender.getCommandSenderName());
+		if(par3Str != null)
 		{
-			var4.setBanReason(p_71544_3_);
+			var4.setBanReason(par3Str);
 		}
 		MinecraftServer.getServer().getConfigurationManager().getBannedIPs().put(var4);
-		List var5 = MinecraftServer.getServer().getConfigurationManager().getPlayerList(p_71544_2_);
+		List var5 = MinecraftServer.getServer().getConfigurationManager().getPlayerList(par2Str);
 		String[] var6 = new String[var5.size()];
 		int var7 = 0;
 		EntityPlayerMP var9;
@@ -36,16 +36,16 @@ public class CommandServerBanIp extends CommandBase
 		}
 		if(var5.isEmpty())
 		{
-			notifyAdmins(p_71544_1_, "commands.banip.success", new Object[] { p_71544_2_ });
+			notifyAdmins(par1ICommandSender, "commands.banip.success", new Object[] { par2Str });
 		} else
 		{
-			notifyAdmins(p_71544_1_, "commands.banip.success.players", new Object[] { p_71544_2_, joinNiceString(var6) });
+			notifyAdmins(par1ICommandSender, "commands.banip.success.players", new Object[] { par2Str, joinNiceString(var6) });
 		}
 	}
 	
-	@Override public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_)
+	@Override public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
 	{
-		return MinecraftServer.getServer().getConfigurationManager().getBannedIPs().isListActive() && super.canCommandSenderUseCommand(p_71519_1_);
+		return MinecraftServer.getServer().getConfigurationManager().getBannedIPs().isListActive() && super.canCommandSenderUseCommand(par1ICommandSender);
 	}
 	
 	@Override public String getCommandName()
@@ -53,9 +53,9 @@ public class CommandServerBanIp extends CommandBase
 		return "ban-ip";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender p_71518_1_)
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return p_71518_1_.translateString("commands.banip.usage", new Object[0]);
+		return "commands.banip.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -63,24 +63,24 @@ public class CommandServerBanIp extends CommandBase
 		return 3;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		if(p_71515_2_.length >= 1 && p_71515_2_[0].length() > 1)
+		if(par2ArrayOfStr.length >= 1 && par2ArrayOfStr[0].length() > 1)
 		{
-			Matcher var3 = IPv4Pattern.matcher(p_71515_2_[0]);
+			Matcher var3 = IPv4Pattern.matcher(par2ArrayOfStr[0]);
 			String var4 = null;
-			if(p_71515_2_.length >= 2)
+			if(par2ArrayOfStr.length >= 2)
 			{
-				var4 = func_82360_a(p_71515_1_, p_71515_2_, 1);
+				var4 = func_82360_a(par1ICommandSender, par2ArrayOfStr, 1);
 			}
 			if(var3.matches())
 			{
-				banIP(p_71515_1_, p_71515_2_[0], var4);
+				banIP(par1ICommandSender, par2ArrayOfStr[0], var4);
 			} else
 			{
-				EntityPlayerMP var5 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(p_71515_2_[0]);
+				EntityPlayerMP var5 = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(par2ArrayOfStr[0]);
 				if(var5 == null) throw new PlayerNotFoundException("commands.banip.invalid", new Object[0]);
-				banIP(p_71515_1_, var5.getPlayerIP(), var4);
+				banIP(par1ICommandSender, var5.getPlayerIP(), var4);
 			}
 		} else throw new WrongUsageException("commands.banip.usage", new Object[0]);
 	}

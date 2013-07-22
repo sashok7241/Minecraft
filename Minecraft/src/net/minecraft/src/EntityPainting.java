@@ -6,14 +6,14 @@ public class EntityPainting extends EntityHanging
 {
 	public EnumArt art;
 	
-	public EntityPainting(World p_i3447_1_)
+	public EntityPainting(World par1World)
 	{
-		super(p_i3447_1_);
+		super(par1World);
 	}
 	
-	public EntityPainting(World p_i3448_1_, int p_i3448_2_, int p_i3448_3_, int p_i3448_4_, int p_i3448_5_)
+	public EntityPainting(World par1World, int par2, int par3, int par4, int par5)
 	{
-		super(p_i3448_1_, p_i3448_2_, p_i3448_3_, p_i3448_4_, p_i3448_5_);
+		super(par1World, par2, par3, par4, par5);
 		ArrayList var6 = new ArrayList();
 		EnumArt[] var7 = EnumArt.values();
 		int var8 = var7.length;
@@ -21,7 +21,7 @@ public class EntityPainting extends EntityHanging
 		{
 			EnumArt var10 = var7[var9];
 			art = var10;
-			setDirection(p_i3448_5_);
+			setDirection(par5);
 			if(onValidSurface())
 			{
 				var6.add(var10);
@@ -31,28 +31,33 @@ public class EntityPainting extends EntityHanging
 		{
 			art = (EnumArt) var6.get(rand.nextInt(var6.size()));
 		}
-		setDirection(p_i3448_5_);
+		setDirection(par5);
 	}
 	
-	public EntityPainting(World p_i3449_1_, int p_i3449_2_, int p_i3449_3_, int p_i3449_4_, int p_i3449_5_, String p_i3449_6_)
+	public EntityPainting(World par1World, int par2, int par3, int par4, int par5, String par6Str)
 	{
-		this(p_i3449_1_, p_i3449_2_, p_i3449_3_, p_i3449_4_, p_i3449_5_);
+		this(par1World, par2, par3, par4, par5);
 		EnumArt[] var7 = EnumArt.values();
 		int var8 = var7.length;
 		for(int var9 = 0; var9 < var8; ++var9)
 		{
 			EnumArt var10 = var7[var9];
-			if(var10.title.equals(p_i3449_6_))
+			if(var10.title.equals(par6Str))
 			{
 				art = var10;
 				break;
 			}
 		}
-		setDirection(p_i3449_5_);
+		setDirection(par5);
 	}
 	
-	@Override public void dropItemStack()
+	@Override public void func_110128_b(Entity par1Entity)
 	{
+		if(par1Entity instanceof EntityPlayer)
+		{
+			EntityPlayer var2 = (EntityPlayer) par1Entity;
+			if(var2.capabilities.isCreativeMode) return;
+		}
 		entityDropItem(new ItemStack(Item.painting), 0.0F);
 	}
 	
@@ -66,9 +71,9 @@ public class EntityPainting extends EntityHanging
 		return art.sizeY;
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		String var2 = p_70037_1_.getString("Motive");
+		String var2 = par1NBTTagCompound.getString("Motive");
 		EnumArt[] var3 = EnumArt.values();
 		int var4 = var3.length;
 		for(int var5 = 0; var5 < var4; ++var5)
@@ -83,12 +88,12 @@ public class EntityPainting extends EntityHanging
 		{
 			art = EnumArt.Kebab;
 		}
-		super.readEntityFromNBT(p_70037_1_);
+		super.readEntityFromNBT(par1NBTTagCompound);
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		p_70014_1_.setString("Motive", art.title);
-		super.writeEntityToNBT(p_70014_1_);
+		par1NBTTagCompound.setString("Motive", art.title);
+		super.writeEntityToNBT(par1NBTTagCompound);
 	}
 }

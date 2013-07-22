@@ -7,15 +7,15 @@ class SorterStatsItem implements Comparator
 	final GuiStats statsGUI;
 	final GuiSlotStatsItem slotStatsItemGUI;
 	
-	SorterStatsItem(GuiSlotStatsItem p_i3073_1_, GuiStats p_i3073_2_)
+	SorterStatsItem(GuiSlotStatsItem par1GuiSlotStatsItem, GuiStats par2GuiStats)
 	{
-		slotStatsItemGUI = p_i3073_1_;
-		statsGUI = p_i3073_2_;
+		slotStatsItemGUI = par1GuiSlotStatsItem;
+		statsGUI = par2GuiStats;
 	}
 	
-	@Override public int compare(Object p_compare_1_, Object p_compare_2_)
+	@Override public int compare(Object par1Obj, Object par2Obj)
 	{
-		return func_78337_a((StatCrafting) p_compare_1_, (StatCrafting) p_compare_2_);
+		return func_78337_a((StatCrafting) par1Obj, (StatCrafting) par2Obj);
 	}
 	
 	public int func_78337_a(StatCrafting par1StatCrafting, StatCrafting par2StatCrafting)

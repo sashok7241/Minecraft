@@ -4,19 +4,18 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class EntityPlayer extends EntityLiving implements ICommandSender
+public abstract class EntityPlayer extends EntityLivingBase implements ICommandSender
 {
 	public InventoryPlayer inventory = new InventoryPlayer(this);
 	private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();
 	public Container inventoryContainer;
 	public Container openContainer;
 	protected FoodStats foodStats = new FoodStats();
-	protected int flyToggleTimer = 0;
-	public byte field_71098_bD = 0;
+	protected int flyToggleTimer;
 	public float prevCameraYaw;
 	public float cameraYaw;
-	public String username;
-	public int xpCooldown = 0;
+	protected final String username;
+	public int xpCooldown;
 	public double field_71091_bM;
 	public double field_71096_bN;
 	public double field_71097_bO;
@@ -40,64 +39,63 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 	private int itemInUseCount;
 	protected float speedOnGround = 0.1F;
 	protected float speedInAir = 0.02F;
-	private int field_82249_h = 0;
-	public EntityFishHook fishEntity = null;
+	private int field_82249_h;
+	public EntityFishHook fishEntity;
 	
-	public EntityPlayer(World p_i3564_1_)
+	public EntityPlayer(World par1World, String par2Str)
 	{
-		super(p_i3564_1_);
-		inventoryContainer = new ContainerPlayer(inventory, !p_i3564_1_.isRemote, this);
+		super(par1World);
+		username = par2Str;
+		inventoryContainer = new ContainerPlayer(inventory, !par1World.isRemote, this);
 		openContainer = inventoryContainer;
 		yOffset = 1.62F;
-		ChunkCoordinates var2 = p_i3564_1_.getSpawnPoint();
-		setLocationAndAngles(var2.posX + 0.5D, var2.posY + 1, var2.posZ + 0.5D, 0.0F, 0.0F);
-		entityType = "humanoid";
+		ChunkCoordinates var3 = par1World.getSpawnPoint();
+		setLocationAndAngles(var3.posX + 0.5D, var3.posY + 1, var3.posZ + 0.5D, 0.0F, 0.0F);
 		field_70741_aB = 180.0F;
 		fireResistance = 20;
-		texture = "/mob/char.png";
 	}
 	
-	public void addChatMessage(String p_71035_1_)
+	public void addChatMessage(String par1Str)
 	{
 	}
 	
-	public void addExhaustion(float p_71020_1_)
+	public void addExhaustion(float par1)
 	{
 		if(!capabilities.disableDamage)
 		{
 			if(!worldObj.isRemote)
 			{
-				foodStats.addExhaustion(p_71020_1_);
+				foodStats.addExhaustion(par1);
 			}
 		}
 	}
 	
-	public void addExperience(int p_71023_1_)
+	public void addExperience(int par1)
 	{
-		addScore(p_71023_1_);
+		addScore(par1);
 		int var2 = Integer.MAX_VALUE - experienceTotal;
-		if(p_71023_1_ > var2)
+		if(par1 > var2)
 		{
-			p_71023_1_ = var2;
+			par1 = var2;
 		}
-		experience += (float) p_71023_1_ / (float) xpBarCap();
-		for(experienceTotal += p_71023_1_; experience >= 1.0F; experience /= xpBarCap())
+		experience += (float) par1 / (float) xpBarCap();
+		for(experienceTotal += par1; experience >= 1.0F; experience /= xpBarCap())
 		{
 			experience = (experience - 1.0F) * xpBarCap();
 			addExperienceLevel(1);
 		}
 	}
 	
-	public void addExperienceLevel(int p_82242_1_)
+	public void addExperienceLevel(int par1)
 	{
-		experienceLevel += p_82242_1_;
+		experienceLevel += par1;
 		if(experienceLevel < 0)
 		{
 			experienceLevel = 0;
 			experience = 0.0F;
 			experienceTotal = 0;
 		}
-		if(p_82242_1_ > 0 && experienceLevel % 5 == 0 && field_82249_h < ticksExisted - 100.0F)
+		if(par1 > 0 && experienceLevel % 5 == 0 && field_82249_h < ticksExisted - 100.0F)
 		{
 			float var2 = experienceLevel > 30 ? 1.0F : experienceLevel / 30.0F;
 			worldObj.playSoundAtEntity(this, "random.levelup", var2 * 0.75F, 1.0F);
@@ -105,11 +103,11 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	private void addMountedMovementStat(double p_71015_1_, double p_71015_3_, double p_71015_5_)
+	private void addMountedMovementStat(double par1, double par3, double par5)
 	{
 		if(ridingEntity != null)
 		{
-			int var7 = Math.round(MathHelper.sqrt_double(p_71015_1_ * p_71015_1_ + p_71015_3_ * p_71015_3_ + p_71015_5_ * p_71015_5_) * 100.0F);
+			int var7 = Math.round(MathHelper.sqrt_double(par1 * par1 + par3 * par3 + par5 * par5) * 100.0F);
 			if(var7 > 0)
 			{
 				if(ridingEntity instanceof EntityMinecart)
@@ -133,14 +131,14 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	public void addMovementStat(double p_71000_1_, double p_71000_3_, double p_71000_5_)
+	public void addMovementStat(double par1, double par3, double par5)
 	{
 		if(ridingEntity == null)
 		{
 			int var7;
 			if(isInsideOfMaterial(Material.water))
 			{
-				var7 = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_3_ * p_71000_3_ + p_71000_5_ * p_71000_5_) * 100.0F);
+				var7 = Math.round(MathHelper.sqrt_double(par1 * par1 + par3 * par3 + par5 * par5) * 100.0F);
 				if(var7 > 0)
 				{
 					addStat(StatList.distanceDoveStat, var7);
@@ -148,7 +146,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 				}
 			} else if(isInWater())
 			{
-				var7 = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
+				var7 = Math.round(MathHelper.sqrt_double(par1 * par1 + par5 * par5) * 100.0F);
 				if(var7 > 0)
 				{
 					addStat(StatList.distanceSwumStat, var7);
@@ -156,13 +154,13 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 				}
 			} else if(isOnLadder())
 			{
-				if(p_71000_3_ > 0.0D)
+				if(par3 > 0.0D)
 				{
-					addStat(StatList.distanceClimbedStat, (int) Math.round(p_71000_3_ * 100.0D));
+					addStat(StatList.distanceClimbedStat, (int) Math.round(par3 * 100.0D));
 				}
 			} else if(onGround)
 			{
-				var7 = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
+				var7 = Math.round(MathHelper.sqrt_double(par1 * par1 + par5 * par5) * 100.0F);
 				if(var7 > 0)
 				{
 					addStat(StatList.distanceWalkedStat, var7);
@@ -176,7 +174,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 				}
 			} else
 			{
-				var7 = Math.round(MathHelper.sqrt_double(p_71000_1_ * p_71000_1_ + p_71000_5_ * p_71000_5_) * 100.0F);
+				var7 = Math.round(MathHelper.sqrt_double(par1 * par1 + par5 * par5) * 100.0F);
 				if(var7 > 25)
 				{
 					addStat(StatList.distanceFlownStat, var7);
@@ -185,25 +183,21 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	@Override protected void addRandomArmor()
-	{
-	}
-	
-	public void addScore(int p_85039_1_)
+	public void addScore(int par1)
 	{
 		int var2 = getScore();
-		dataWatcher.updateObject(18, Integer.valueOf(var2 + p_85039_1_));
+		dataWatcher.updateObject(18, Integer.valueOf(var2 + par1));
 	}
 	
-	public void addStat(StatBase p_71064_1_, int p_71064_2_)
+	public void addStat(StatBase par1StatBase, int par2)
 	{
 	}
 	
-	@Override public void addToPlayerScore(Entity p_70084_1_, int p_70084_2_)
+	@Override public void addToPlayerScore(Entity par1Entity, int par2)
 	{
-		addScore(p_70084_2_);
+		addScore(par2);
 		Collection var3 = getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.field_96640_e);
-		if(p_70084_1_ instanceof EntityPlayer)
+		if(par1Entity instanceof EntityPlayer)
 		{
 			addStat(StatList.playerKillsStat, 1);
 			var3.addAll(getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.field_96639_d));
@@ -220,180 +214,138 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	protected void alertWolves(EntityLiving p_71022_1_, boolean p_71022_2_)
-	{
-		if(!(p_71022_1_ instanceof EntityCreeper) && !(p_71022_1_ instanceof EntityGhast))
-		{
-			if(p_71022_1_ instanceof EntityWolf)
-			{
-				EntityWolf var3 = (EntityWolf) p_71022_1_;
-				if(var3.isTamed() && username.equals(var3.getOwnerName())) return;
-			}
-			if(!(p_71022_1_ instanceof EntityPlayer) || func_96122_a((EntityPlayer) p_71022_1_))
-			{
-				List var6 = worldObj.getEntitiesWithinAABB(EntityWolf.class, AxisAlignedBB.getAABBPool().getAABB(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(16.0D, 4.0D, 16.0D));
-				Iterator var4 = var6.iterator();
-				while(var4.hasNext())
-				{
-					EntityWolf var5 = (EntityWolf) var4.next();
-					if(var5.isTamed() && var5.getEntityToAttack() == null && username.equals(var5.getOwnerName()) && (!p_71022_2_ || !var5.isSitting()))
-					{
-						var5.setSitting(false);
-						var5.setTarget(p_71022_1_);
-					}
-				}
-			}
-		}
-	}
-	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
-		else if(capabilities.disableDamage && !p_70097_1_.canHarmInCreative()) return false;
+		else if(capabilities.disableDamage && !par1DamageSource.canHarmInCreative()) return false;
 		else
 		{
 			entityAge = 0;
-			if(getHealth() <= 0) return false;
+			if(func_110143_aJ() <= 0.0F) return false;
 			else
 			{
 				if(isPlayerSleeping() && !worldObj.isRemote)
 				{
 					wakeUpPlayer(true, true, false);
 				}
-				if(p_70097_1_.isDifficultyScaled())
+				if(par1DamageSource.isDifficultyScaled())
 				{
 					if(worldObj.difficultySetting == 0)
 					{
-						p_70097_2_ = 0;
+						par2 = 0.0F;
 					}
 					if(worldObj.difficultySetting == 1)
 					{
-						p_70097_2_ = p_70097_2_ / 2 + 1;
+						par2 = par2 / 2.0F + 1.0F;
 					}
 					if(worldObj.difficultySetting == 3)
 					{
-						p_70097_2_ = p_70097_2_ * 3 / 2;
+						par2 = par2 * 3.0F / 2.0F;
 					}
 				}
-				if(p_70097_2_ == 0) return false;
+				if(par2 == 0.0F) return false;
 				else
 				{
-					Entity var3 = p_70097_1_.getEntity();
+					Entity var3 = par1DamageSource.getEntity();
 					if(var3 instanceof EntityArrow && ((EntityArrow) var3).shootingEntity != null)
 					{
 						var3 = ((EntityArrow) var3).shootingEntity;
 					}
-					if(var3 instanceof EntityLiving)
-					{
-						alertWolves((EntityLiving) var3, false);
-					}
-					addStat(StatList.damageTakenStat, p_70097_2_);
-					return super.attackEntityFrom(p_70097_1_, p_70097_2_);
+					addStat(StatList.damageTakenStat, Math.round(par2 * 10.0F));
+					return super.attackEntityFrom(par1DamageSource, par2);
 				}
 			}
 		}
 	}
 	
-	public void attackTargetEntityWithCurrentItem(Entity p_71059_1_)
+	public void attackTargetEntityWithCurrentItem(Entity par1Entity)
 	{
-		if(p_71059_1_.canAttackWithItem())
+		if(par1Entity.canAttackWithItem())
 		{
-			if(!p_71059_1_.func_85031_j(this))
+			if(!par1Entity.func_85031_j(this))
 			{
-				int var2 = inventory.getDamageVsEntity(p_71059_1_);
-				if(this.isPotionActive(Potion.damageBoost))
-				{
-					var2 += 3 << getActivePotionEffect(Potion.damageBoost).getAmplifier();
-				}
-				if(this.isPotionActive(Potion.weakness))
-				{
-					var2 -= 2 << getActivePotionEffect(Potion.weakness).getAmplifier();
-				}
+				float var2 = (float) func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e();
 				int var3 = 0;
-				int var4 = 0;
-				if(p_71059_1_ instanceof EntityLiving)
+				float var4 = 0.0F;
+				if(par1Entity instanceof EntityLivingBase)
 				{
-					var4 = EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLiving) p_71059_1_);
-					var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLiving) p_71059_1_);
+					var4 = EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase) par1Entity);
+					var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) par1Entity);
 				}
 				if(isSprinting())
 				{
 					++var3;
 				}
-				if(var2 > 0 || var4 > 0)
+				if(var2 > 0.0F || var4 > 0.0F)
 				{
-					boolean var5 = fallDistance > 0.0F && !onGround && !isOnLadder() && !isInWater() && !this.isPotionActive(Potion.blindness) && ridingEntity == null && p_71059_1_ instanceof EntityLiving;
-					if(var5 && var2 > 0)
+					boolean var5 = fallDistance > 0.0F && !onGround && !isOnLadder() && !isInWater() && !this.isPotionActive(Potion.blindness) && ridingEntity == null && par1Entity instanceof EntityLivingBase;
+					if(var5 && var2 > 0.0F)
 					{
-						var2 += rand.nextInt(var2 / 2 + 2);
+						var2 *= 1.5F;
 					}
 					var2 += var4;
 					boolean var6 = false;
 					int var7 = EnchantmentHelper.getFireAspectModifier(this);
-					if(p_71059_1_ instanceof EntityLiving && var7 > 0 && !p_71059_1_.isBurning())
+					if(par1Entity instanceof EntityLivingBase && var7 > 0 && !par1Entity.isBurning())
 					{
 						var6 = true;
-						p_71059_1_.setFire(1);
+						par1Entity.setFire(1);
 					}
-					boolean var8 = p_71059_1_.attackEntityFrom(DamageSource.causePlayerDamage(this), var2);
+					boolean var8 = par1Entity.attackEntityFrom(DamageSource.causePlayerDamage(this), var2);
 					if(var8)
 					{
 						if(var3 > 0)
 						{
-							p_71059_1_.addVelocity(-MathHelper.sin(rotationYaw * (float) Math.PI / 180.0F) * var3 * 0.5F, 0.1D, MathHelper.cos(rotationYaw * (float) Math.PI / 180.0F) * var3 * 0.5F);
+							par1Entity.addVelocity(-MathHelper.sin(rotationYaw * (float) Math.PI / 180.0F) * var3 * 0.5F, 0.1D, MathHelper.cos(rotationYaw * (float) Math.PI / 180.0F) * var3 * 0.5F);
 							motionX *= 0.6D;
 							motionZ *= 0.6D;
 							setSprinting(false);
 						}
 						if(var5)
 						{
-							onCriticalHit(p_71059_1_);
+							onCriticalHit(par1Entity);
 						}
-						if(var4 > 0)
+						if(var4 > 0.0F)
 						{
-							onEnchantmentCritical(p_71059_1_);
+							onEnchantmentCritical(par1Entity);
 						}
-						if(var2 >= 18)
+						if(var2 >= 18.0F)
 						{
 							triggerAchievement(AchievementList.overkill);
 						}
-						setLastAttackingEntity(p_71059_1_);
-						if(p_71059_1_ instanceof EntityLiving)
+						func_130011_c(par1Entity);
+						if(par1Entity instanceof EntityLivingBase)
 						{
-							EnchantmentThorns.func_92096_a(this, (EntityLiving) p_71059_1_, rand);
+							EnchantmentThorns.func_92096_a(this, (EntityLivingBase) par1Entity, rand);
 						}
 					}
 					ItemStack var9 = getCurrentEquippedItem();
-					Object var10 = p_71059_1_;
-					if(p_71059_1_ instanceof EntityDragonPart)
+					Object var10 = par1Entity;
+					if(par1Entity instanceof EntityDragonPart)
 					{
-						IEntityMultiPart var11 = ((EntityDragonPart) p_71059_1_).entityDragonObj;
-						if(var11 != null && var11 instanceof EntityLiving)
+						IEntityMultiPart var11 = ((EntityDragonPart) par1Entity).entityDragonObj;
+						if(var11 != null && var11 instanceof EntityLivingBase)
 						{
 							var10 = var11;
 						}
 					}
-					if(var9 != null && var10 instanceof EntityLiving)
+					if(var9 != null && var10 instanceof EntityLivingBase)
 					{
-						var9.hitEntity((EntityLiving) var10, this);
+						var9.hitEntity((EntityLivingBase) var10, this);
 						if(var9.stackSize <= 0)
 						{
 							destroyCurrentEquippedItem();
 						}
 					}
-					if(p_71059_1_ instanceof EntityLiving)
+					if(par1Entity instanceof EntityLivingBase)
 					{
-						if(p_71059_1_.isEntityAlive())
-						{
-							alertWolves((EntityLiving) p_71059_1_, true);
-						}
-						addStat(StatList.damageDealtStat, var2);
+						addStat(StatList.damageDealtStat, Math.round(var2 * 10.0F));
 						if(var7 > 0 && var8)
 						{
-							p_71059_1_.setFire(var7 * 4);
+							par1Entity.setFire(var7 * 4);
 						} else if(var6)
 						{
-							p_71059_1_.extinguish();
+							par1Entity.extinguish();
 						}
 					}
 					addExhaustion(0.3F);
@@ -402,24 +354,19 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	public boolean canEat(boolean p_71043_1_)
+	public boolean canEat(boolean par1)
 	{
-		return (p_71043_1_ || foodStats.needFood()) && !capabilities.disableDamage;
+		return (par1 || foodStats.needFood()) && !capabilities.disableDamage;
 	}
 	
-	public boolean canHarvestBlock(Block p_71062_1_)
+	public boolean canHarvestBlock(Block par1Block)
 	{
-		return inventory.canHarvestBlock(p_71062_1_);
+		return inventory.canHarvestBlock(par1Block);
 	}
 	
-	@Override public boolean canPickUpLoot()
+	public boolean canPlayerEdit(int par1, int par2, int par3, int par4, ItemStack par5ItemStack)
 	{
-		return false;
-	}
-	
-	public boolean canPlayerEdit(int p_82247_1_, int p_82247_2_, int p_82247_3_, int p_82247_4_, ItemStack p_82247_5_)
-	{
-		return capabilities.allowEdit ? true : p_82247_5_ != null ? p_82247_5_.canEditBlocks() : false;
+		return capabilities.allowEdit ? true : par5ItemStack != null ? par5ItemStack.canEditBlocks() : false;
 	}
 	
 	@Override protected boolean canTriggerWalking()
@@ -437,27 +384,27 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	public void clonePlayer(EntityPlayer p_71049_1_, boolean p_71049_2_)
+	public void clonePlayer(EntityPlayer par1EntityPlayer, boolean par2)
 	{
-		if(p_71049_2_)
+		if(par2)
 		{
-			inventory.copyInventory(p_71049_1_.inventory);
-			health = p_71049_1_.health;
-			foodStats = p_71049_1_.foodStats;
-			experienceLevel = p_71049_1_.experienceLevel;
-			experienceTotal = p_71049_1_.experienceTotal;
-			experience = p_71049_1_.experience;
-			setScore(p_71049_1_.getScore());
-			teleportDirection = p_71049_1_.teleportDirection;
+			inventory.copyInventory(par1EntityPlayer.inventory);
+			setEntityHealth(par1EntityPlayer.func_110143_aJ());
+			foodStats = par1EntityPlayer.foodStats;
+			experienceLevel = par1EntityPlayer.experienceLevel;
+			experienceTotal = par1EntityPlayer.experienceTotal;
+			experience = par1EntityPlayer.experience;
+			setScore(par1EntityPlayer.getScore());
+			teleportDirection = par1EntityPlayer.teleportDirection;
 		} else if(worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
 		{
-			inventory.copyInventory(p_71049_1_.inventory);
-			experienceLevel = p_71049_1_.experienceLevel;
-			experienceTotal = p_71049_1_.experienceTotal;
-			experience = p_71049_1_.experience;
-			setScore(p_71049_1_.getScore());
+			inventory.copyInventory(par1EntityPlayer.inventory);
+			experienceLevel = par1EntityPlayer.experienceLevel;
+			experienceTotal = par1EntityPlayer.experienceTotal;
+			experience = par1EntityPlayer.experience;
+			setScore(par1EntityPlayer.getScore());
 		}
-		theInventoryEnderChest = p_71049_1_.theInventoryEnderChest;
+		theInventoryEnderChest = par1EntityPlayer.theInventoryEnderChest;
 	}
 	
 	protected void closeScreen()
@@ -465,30 +412,36 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		openContainer = inventoryContainer;
 	}
 	
-	private void collideWithPlayer(Entity p_71044_1_)
+	private void collideWithPlayer(Entity par1Entity)
 	{
-		p_71044_1_.onCollideWithPlayer(this);
+		par1Entity.onCollideWithPlayer(this);
 	}
 	
-	@Override protected void damageArmor(int p_70675_1_)
+	@Override protected void damageArmor(float par1)
 	{
-		inventory.damageArmor(p_70675_1_);
+		inventory.damageArmor(par1);
 	}
 	
-	@Override protected void damageEntity(DamageSource p_70665_1_, int p_70665_2_)
+	@Override protected void damageEntity(DamageSource par1DamageSource, float par2)
 	{
 		if(!isEntityInvulnerable())
 		{
-			if(!p_70665_1_.isUnblockable() && isBlocking())
+			if(!par1DamageSource.isUnblockable() && isBlocking() && par2 > 0.0F)
 			{
-				p_70665_2_ = 1 + p_70665_2_ >> 1;
+				par2 = (1.0F + par2) * 0.5F;
 			}
-			p_70665_2_ = applyArmorCalculations(p_70665_1_, p_70665_2_);
-			p_70665_2_ = applyPotionDamageCalculations(p_70665_1_, p_70665_2_);
-			addExhaustion(p_70665_1_.getHungerDamage());
-			int var3 = getHealth();
-			setEntityHealth(getHealth() - p_70665_2_);
-			_combatTracker.func_94547_a(p_70665_1_, var3, p_70665_2_);
+			par2 = applyArmorCalculations(par1DamageSource, par2);
+			par2 = applyPotionDamageCalculations(par1DamageSource, par2);
+			float var3 = par2;
+			par2 = Math.max(par2 - func_110139_bj(), 0.0F);
+			func_110149_m(func_110139_bj() - (var3 - par2));
+			if(par2 != 0.0F)
+			{
+				addExhaustion(par1DamageSource.getHungerDamage());
+				float var4 = func_110143_aJ();
+				setEntityHealth(func_110143_aJ() - par2);
+				func_110142_aN().func_94547_a(par1DamageSource, var4, par2);
+			}
 		}
 	}
 	
@@ -497,78 +450,79 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		inventory.setInventorySlotContents(inventory.currentItem, (ItemStack) null);
 	}
 	
-	public void displayGUIAnvil(int p_82244_1_, int p_82244_2_, int p_82244_3_)
+	public void displayGUIAnvil(int par1, int par2, int par3)
 	{
 	}
 	
-	public void displayGUIBeacon(TileEntityBeacon p_82240_1_)
+	public void displayGUIBeacon(TileEntityBeacon par1TileEntityBeacon)
 	{
 	}
 	
-	public void displayGUIBook(ItemStack p_71048_1_)
+	public void displayGUIBook(ItemStack par1ItemStack)
 	{
 	}
 	
-	public void displayGUIBrewingStand(TileEntityBrewingStand p_71017_1_)
+	public void displayGUIBrewingStand(TileEntityBrewingStand par1TileEntityBrewingStand)
 	{
 	}
 	
-	public void displayGUIChest(IInventory p_71007_1_)
+	public void displayGUIChest(IInventory par1IInventory)
 	{
 	}
 	
-	public void displayGUIDispenser(TileEntityDispenser p_71006_1_)
+	public void displayGUIDispenser(TileEntityDispenser par1TileEntityDispenser)
 	{
 	}
 	
-	public void displayGUIEditSign(TileEntity p_71014_1_)
+	public void displayGUIEditSign(TileEntity par1TileEntity)
 	{
 	}
 	
-	public void displayGUIEnchantment(int p_71002_1_, int p_71002_2_, int p_71002_3_, String p_71002_4_)
+	public void displayGUIEnchantment(int par1, int par2, int par3, String par4Str)
 	{
 	}
 	
-	public void displayGUIFurnace(TileEntityFurnace p_71042_1_)
+	public void displayGUIFurnace(TileEntityFurnace par1TileEntityFurnace)
 	{
 	}
 	
-	public void displayGUIHopper(TileEntityHopper p_94064_1_)
+	public void displayGUIHopper(TileEntityHopper par1TileEntityHopper)
 	{
 	}
 	
-	public void displayGUIHopperMinecart(EntityMinecartHopper p_96125_1_)
+	public void displayGUIHopperMinecart(EntityMinecartHopper par1EntityMinecartHopper)
 	{
 	}
 	
-	public void displayGUIMerchant(IMerchant p_71030_1_, String p_71030_2_)
+	public void displayGUIMerchant(IMerchant par1IMerchant, String par2Str)
 	{
 	}
 	
-	public void displayGUIWorkbench(int p_71058_1_, int p_71058_2_, int p_71058_3_)
+	public void displayGUIWorkbench(int par1, int par2, int par3)
 	{
 	}
 	
-	public EntityItem dropOneItem(boolean p_71040_1_)
+	public EntityItem dropOneItem(boolean par1)
 	{
-		return dropPlayerItemWithRandomChoice(inventory.decrStackSize(inventory.currentItem, p_71040_1_ && inventory.getCurrentItem() != null ? inventory.getCurrentItem().stackSize : 1), false);
+		return dropPlayerItemWithRandomChoice(inventory.decrStackSize(inventory.currentItem, par1 && inventory.getCurrentItem() != null ? inventory.getCurrentItem().stackSize : 1), false);
 	}
 	
-	public EntityItem dropPlayerItem(ItemStack p_71021_1_)
+	public EntityItem dropPlayerItem(ItemStack par1ItemStack)
 	{
-		return dropPlayerItemWithRandomChoice(p_71021_1_, false);
+		return dropPlayerItemWithRandomChoice(par1ItemStack, false);
 	}
 	
-	public EntityItem dropPlayerItemWithRandomChoice(ItemStack p_71019_1_, boolean p_71019_2_)
+	public EntityItem dropPlayerItemWithRandomChoice(ItemStack par1ItemStack, boolean par2)
 	{
-		if(p_71019_1_ == null) return null;
+		if(par1ItemStack == null) return null;
+		else if(par1ItemStack.stackSize == 0) return null;
 		else
 		{
-			EntityItem var3 = new EntityItem(worldObj, posX, posY - 0.30000001192092896D + getEyeHeight(), posZ, p_71019_1_);
+			EntityItem var3 = new EntityItem(worldObj, posX, posY - 0.30000001192092896D + getEyeHeight(), posZ, par1ItemStack);
 			var3.delayBeforeCanPickup = 40;
 			float var4 = 0.1F;
 			float var5;
-			if(p_71019_2_)
+			if(par2)
 			{
 				var5 = rand.nextFloat() * 0.5F;
 				float var6 = rand.nextFloat() * (float) Math.PI * 2.0F;
@@ -594,35 +548,60 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	@Override protected void enchantEquipment()
-	{
-	}
-	
 	@Override protected void entityInit()
 	{
 		super.entityInit();
 		dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		dataWatcher.addObject(17, Byte.valueOf((byte) 0));
+		dataWatcher.addObject(17, Float.valueOf(0.0F));
 		dataWatcher.addObject(18, Integer.valueOf(0));
 	}
 	
-	@Override protected void fall(float p_70069_1_)
+	@Override protected void fall(float par1)
 	{
 		if(!capabilities.allowFlying)
 		{
-			if(p_70069_1_ >= 2.0F)
+			if(par1 >= 2.0F)
 			{
-				addStat(StatList.distanceFallenStat, (int) Math.round(p_70069_1_ * 100.0D));
+				addStat(StatList.distanceFallenStat, (int) Math.round(par1 * 100.0D));
 			}
-			super.fall(p_70069_1_);
+			super.fall(par1);
 		}
 	}
 	
-	private void func_71013_b(int p_71013_1_)
+	@Override public float func_110139_bj()
+	{
+		return getDataWatcher().func_111145_d(17);
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110140_aT().func_111150_b(SharedMonsterAttributes.field_111264_e).func_111128_a(1.0D);
+	}
+	
+	@Override public void func_110149_m(float par1)
+	{
+		if(par1 < 0.0F)
+		{
+			par1 = 0.0F;
+		}
+		getDataWatcher().updateObject(17, Float.valueOf(par1));
+	}
+	
+	public void func_110298_a(EntityHorse par1EntityHorse, IInventory par2IInventory)
+	{
+	}
+	
+	@Override public World func_130014_f_()
+	{
+		return worldObj;
+	}
+	
+	private void func_71013_b(int par1)
 	{
 		field_71079_bU = 0.0F;
 		field_71089_bV = 0.0F;
-		switch(p_71013_1_)
+		switch(par1)
 		{
 			case 0:
 				field_71089_bV = -1.8F;
@@ -636,11 +615,6 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 			case 3:
 				field_71079_bU = -1.8F;
 		}
-	}
-	
-	public boolean func_71066_bF()
-	{
-		return false;
 	}
 	
 	public float func_82243_bO()
@@ -659,21 +633,16 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		return (float) var1 / (float) inventory.armorInventory.length;
 	}
 	
-	@Override public boolean func_94062_bN()
-	{
-		return super.func_94062_bN();
-	}
-	
 	@Override public boolean func_96092_aw()
 	{
 		return !capabilities.isFlying;
 	}
 	
-	public boolean func_96122_a(EntityPlayer p_96122_1_)
+	public boolean func_96122_a(EntityPlayer par1EntityPlayer)
 	{
-		ScorePlayerTeam var2 = getTeam();
-		ScorePlayerTeam var3 = p_96122_1_.getTeam();
-		return var2 != var3 ? true : var2 != null ? var2.func_96665_g() : true;
+		Team var2 = getTeam();
+		Team var3 = par1EntityPlayer.getTeam();
+		return var2 == null ? true : !var2.func_142054_a(var3) ? true : var2.func_96665_g();
 	}
 	
 	@Override public boolean func_98034_c(EntityPlayer par1EntityPlayer)
@@ -681,9 +650,14 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		if(!isInvisible()) return false;
 		else
 		{
-			ScorePlayerTeam var2 = getTeam();
+			Team var2 = getTeam();
 			return var2 == null || par1EntityPlayer == null || par1EntityPlayer.getTeam() != var2 || !var2.func_98297_h();
 		}
+	}
+	
+	@Override public float getAIMoveSpeed()
+	{
+		return (float) func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e();
 	}
 	
 	@Override public boolean getAlwaysRenderNameTagForRender()
@@ -722,9 +696,9 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		return username;
 	}
 	
-	@Override public ItemStack getCurrentArmor(int p_82169_1_)
+	public ItemStack getCurrentArmor(int par1)
 	{
-		return inventory.armorItemInSlot(p_82169_1_);
+		return inventory.armorItemInSlot(par1);
 	}
 	
 	public ItemStack getCurrentEquippedItem()
@@ -732,14 +706,14 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		return inventory.getCurrentItem();
 	}
 	
-	@Override public ItemStack getCurrentItemOrArmor(int p_71124_1_)
+	@Override public ItemStack getCurrentItemOrArmor(int par1)
 	{
-		return p_71124_1_ == 0 ? inventory.getCurrentItem() : inventory.armorInventory[p_71124_1_ - 1];
+		return par1 == 0 ? inventory.getCurrentItem() : inventory.armorInventory[par1 - 1];
 	}
 	
-	public float getCurrentPlayerStrVsBlock(Block p_71055_1_, boolean p_71055_2_)
+	public float getCurrentPlayerStrVsBlock(Block par1Block, boolean par2)
 	{
-		float var3 = inventory.getStrVsBlock(p_71055_1_);
+		float var3 = inventory.getStrVsBlock(par1Block);
 		if(var3 > 1.0F)
 		{
 			int var4 = EnchantmentHelper.getEfficiencyModifier(this);
@@ -747,7 +721,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 			if(var4 > 0 && var5 != null)
 			{
 				float var6 = var4 * var4 + 1;
-				if(!var5.canHarvestBlock(p_71055_1_) && var3 <= 1.0F)
+				if(!var5.canHarvestBlock(par1Block) && var3 <= 1.0F)
 				{
 					var3 += var6 * 0.08F;
 				} else
@@ -780,7 +754,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		return username;
 	}
 	
-	@Override protected int getExperiencePoints(EntityPlayer p_70693_1_)
+	@Override protected int getExperiencePoints(EntityPlayer par1EntityPlayer)
 	{
 		if(worldObj.getGameRules().getGameRuleBooleanValue("keepInventory")) return 0;
 		else
@@ -860,11 +834,6 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		return inventory.armorInventory;
 	}
 	
-	@Override public int getMaxHealth()
-	{
-		return 20;
-	}
-	
 	@Override public int getMaxInPortalTime()
 	{
 		return capabilities.disableDamage ? 0 : 80;
@@ -885,7 +854,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		return sleepTimer;
 	}
 	
-	public ScorePlayerTeam getTeam()
+	@Override public Team getTeam()
 	{
 		return getWorldScoreboard().getPlayersTeam(username);
 	}
@@ -898,11 +867,6 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 	@Override public String getTranslatedEntityName()
 	{
 		return ScorePlayerTeam.formatPlayerName(getTeam(), username);
-	}
-	
-	public StringTranslate getTranslator()
-	{
-		return StringTranslate.getInstance();
 	}
 	
 	public Scoreboard getWorldScoreboard()
@@ -926,19 +890,19 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	public boolean interactWith(Entity p_70998_1_)
+	public boolean interactWith(Entity par1Entity)
 	{
-		if(p_70998_1_.interact(this)) return true;
-		else
+		ItemStack var2 = getCurrentEquippedItem();
+		ItemStack var3 = var2 != null ? var2.copy() : null;
+		if(!par1Entity.func_130002_c(this))
 		{
-			ItemStack var2 = getCurrentEquippedItem();
-			if(var2 != null && p_70998_1_ instanceof EntityLiving)
+			if(var2 != null && par1Entity instanceof EntityLivingBase)
 			{
 				if(capabilities.isCreativeMode)
 				{
-					var2 = var2.copy();
+					var2 = var3;
 				}
-				if(var2.interactWith((EntityLiving) p_70998_1_))
+				if(var2.func_111282_a(this, (EntityLivingBase) par1Entity))
 				{
 					if(var2.stackSize <= 0 && !capabilities.isCreativeMode)
 					{
@@ -948,20 +912,33 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 				}
 			}
 			return false;
+		} else
+		{
+			if(var2 != null && var2 == getCurrentEquippedItem())
+			{
+				if(var2.stackSize <= 0 && !capabilities.isCreativeMode)
+				{
+					destroyCurrentEquippedItem();
+				} else if(var2.stackSize < var3.stackSize && capabilities.isCreativeMode)
+				{
+					var2.stackSize = var3.stackSize;
+				}
+			}
+			return true;
 		}
 	}
 	
-	@Override public boolean isBlocking()
+	public boolean isBlocking()
 	{
 		return isUsingItem() && Item.itemsList[itemInUse.itemID].getItemUseAction(itemInUse) == EnumAction.block;
 	}
 	
-	public boolean isCurrentToolAdventureModeExempt(int p_82246_1_, int p_82246_2_, int p_82246_3_)
+	public boolean isCurrentToolAdventureModeExempt(int par1, int par2, int par3)
 	{
 		if(capabilities.allowEdit) return true;
 		else
 		{
-			int var4 = worldObj.getBlockId(p_82246_1_, p_82246_2_, p_82246_3_);
+			int var4 = worldObj.getBlockId(par1, par2, par3);
 			if(var4 > 0)
 			{
 				Block var5 = Block.blocksList[var4];
@@ -988,7 +965,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 	
 	@Override protected boolean isMovementBlocked()
 	{
-		return getHealth() <= 0 || isPlayerSleeping();
+		return func_110143_aJ() <= 0.0F || isPlayerSleeping();
 	}
 	
 	@Override protected boolean isPlayer()
@@ -1016,9 +993,9 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		return itemInUse != null;
 	}
 	
-	protected void joinEntityItemWithWorld(EntityItem p_71012_1_)
+	protected void joinEntityItemWithWorld(EntityItem par1EntityItem)
 	{
-		worldObj.spawnEntityInWorld(p_71012_1_);
+		worldObj.spawnEntityInWorld(par1EntityItem);
 	}
 	
 	@Override protected void jump()
@@ -1034,11 +1011,14 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	@Override public void mountEntity(Entity p_70078_1_)
+	@Override public void mountEntity(Entity par1Entity)
 	{
-		if(ridingEntity == p_70078_1_)
+		if(ridingEntity != null && par1Entity == null)
 		{
-			unmountEntity(p_70078_1_);
+			if(!worldObj.isRemote)
+			{
+				func_110145_l(ridingEntity);
+			}
 			if(ridingEntity != null)
 			{
 				ridingEntity.riddenByEntity = null;
@@ -1046,11 +1026,11 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 			ridingEntity = null;
 		} else
 		{
-			super.mountEntity(p_70078_1_);
+			super.mountEntity(par1Entity);
 		}
 	}
 	
-	@Override public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_)
+	@Override public void moveEntityWithHeading(float par1, float par2)
 	{
 		double var3 = posX;
 		double var5 = posY;
@@ -1060,23 +1040,23 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 			double var9 = motionY;
 			float var11 = jumpMovementFactor;
 			jumpMovementFactor = capabilities.getFlySpeed();
-			super.moveEntityWithHeading(p_70612_1_, p_70612_2_);
+			super.moveEntityWithHeading(par1, par2);
 			motionY = var9 * 0.6D;
 			jumpMovementFactor = var11;
 		} else
 		{
-			super.moveEntityWithHeading(p_70612_1_, p_70612_2_);
+			super.moveEntityWithHeading(par1, par2);
 		}
 		addMovementStat(posX - var3, posY - var5, posZ - var7);
 	}
 	
-	public void onCriticalHit(Entity p_71009_1_)
+	public void onCriticalHit(Entity par1Entity)
 	{
 	}
 	
-	@Override public void onDeath(DamageSource p_70645_1_)
+	@Override public void onDeath(DamageSource par1DamageSource)
 	{
-		super.onDeath(p_70645_1_);
+		super.onDeath(par1DamageSource);
 		setSize(0.2F, 0.2F);
 		setPosition(posX, posY, posZ);
 		motionY = 0.10000000149011612D;
@@ -1088,7 +1068,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		{
 			inventory.dropAllItems();
 		}
-		if(p_70645_1_ != null)
+		if(par1DamageSource != null)
 		{
 			motionX = -MathHelper.cos((attackedAtYaw + rotationYaw) * (float) Math.PI / 180.0F) * 0.1F;
 			motionZ = -MathHelper.sin((attackedAtYaw + rotationYaw) * (float) Math.PI / 180.0F) * 0.1F;
@@ -1100,7 +1080,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		addStat(StatList.deathsStat, 1);
 	}
 	
-	public void onEnchantmentCritical(Entity p_71047_1_)
+	public void onEnchantmentCritical(Entity par1Entity)
 	{
 	}
 	
@@ -1123,9 +1103,9 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	@Override public void onKillEntity(EntityLiving p_70074_1_)
+	@Override public void onKillEntity(EntityLivingBase par1EntityLivingBase)
 	{
-		if(p_70074_1_ instanceof IMob)
+		if(par1EntityLivingBase instanceof IMob)
 		{
 			triggerAchievement(AchievementList.killEnemy);
 		}
@@ -1137,47 +1117,59 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		{
 			--flyToggleTimer;
 		}
-		if(worldObj.difficultySetting == 0 && getHealth() < getMaxHealth() && ticksExisted % 20 * 12 == 0)
+		if(worldObj.difficultySetting == 0 && func_110143_aJ() < func_110138_aP() && worldObj.getGameRules().getGameRuleBooleanValue("naturalRegeneration") && ticksExisted % 20 * 12 == 0)
 		{
-			heal(1);
+			heal(1.0F);
 		}
 		inventory.decrementAnimations();
 		prevCameraYaw = cameraYaw;
 		super.onLivingUpdate();
-		landMovementFactor = capabilities.getWalkSpeed();
+		AttributeInstance var1 = func_110148_a(SharedMonsterAttributes.field_111263_d);
+		if(!worldObj.isRemote)
+		{
+			var1.func_111128_a(capabilities.getWalkSpeed());
+		}
 		jumpMovementFactor = speedInAir;
 		if(isSprinting())
 		{
-			landMovementFactor = (float) (landMovementFactor + capabilities.getWalkSpeed() * 0.3D);
 			jumpMovementFactor = (float) (jumpMovementFactor + speedInAir * 0.3D);
 		}
-		float var1 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-		float var2 = (float) Math.atan(-motionY * 0.20000000298023224D) * 15.0F;
-		if(var1 > 0.1F)
+		setAIMoveSpeed((float) var1.func_111126_e());
+		float var2 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+		float var3 = (float) Math.atan(-motionY * 0.20000000298023224D) * 15.0F;
+		if(var2 > 0.1F)
 		{
-			var1 = 0.1F;
+			var2 = 0.1F;
 		}
-		if(!onGround || getHealth() <= 0)
-		{
-			var1 = 0.0F;
-		}
-		if(onGround || getHealth() <= 0)
+		if(!onGround || func_110143_aJ() <= 0.0F)
 		{
 			var2 = 0.0F;
 		}
-		cameraYaw += (var1 - cameraYaw) * 0.4F;
-		cameraPitch += (var2 - cameraPitch) * 0.8F;
-		if(getHealth() > 0)
+		if(onGround || func_110143_aJ() <= 0.0F)
 		{
-			List var3 = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(1.0D, 0.5D, 1.0D));
-			if(var3 != null)
+			var3 = 0.0F;
+		}
+		cameraYaw += (var2 - cameraYaw) * 0.4F;
+		cameraPitch += (var3 - cameraPitch) * 0.8F;
+		if(func_110143_aJ() > 0.0F)
+		{
+			AxisAlignedBB var4 = null;
+			if(ridingEntity != null && !ridingEntity.isDead)
 			{
-				for(int var4 = 0; var4 < var3.size(); ++var4)
+				var4 = boundingBox.func_111270_a(ridingEntity.boundingBox).expand(1.0D, 0.0D, 1.0D);
+			} else
+			{
+				var4 = boundingBox.expand(1.0D, 0.5D, 1.0D);
+			}
+			List var5 = worldObj.getEntitiesWithinAABBExcludingEntity(this, var4);
+			if(var5 != null)
+			{
+				for(int var6 = 0; var6 < var5.size(); ++var6)
 				{
-					Entity var5 = (Entity) var3.get(var4);
-					if(!var5.isDead)
+					Entity var7 = (Entity) var5.get(var6);
+					if(!var7.isDead)
 					{
-						collideWithPlayer(var5);
+						collideWithPlayer(var7);
 					}
 				}
 			}
@@ -1288,9 +1280,9 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	@Override public void playSound(String p_85030_1_, float p_85030_2_, float p_85030_3_)
+	@Override public void playSound(String par1Str, float par2, float par3)
 	{
-		worldObj.playSoundToNearExcept(this, p_85030_1_, p_85030_2_, p_85030_3_);
+		worldObj.playSoundToNearExcept(this, par1Str, par2, par3);
 	}
 	
 	@Override public void preparePlayerToSpawn()
@@ -1298,37 +1290,37 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		yOffset = 1.62F;
 		setSize(0.6F, 1.8F);
 		super.preparePlayerToSpawn();
-		setEntityHealth(getMaxHealth());
+		setEntityHealth(func_110138_aP());
 		deathTime = 0;
 	}
 	
-	@Override public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		NBTTagList var2 = p_70037_1_.getTagList("Inventory");
+		super.readEntityFromNBT(par1NBTTagCompound);
+		NBTTagList var2 = par1NBTTagCompound.getTagList("Inventory");
 		inventory.readFromNBT(var2);
-		inventory.currentItem = p_70037_1_.getInteger("SelectedItemSlot");
-		sleeping = p_70037_1_.getBoolean("Sleeping");
-		sleepTimer = p_70037_1_.getShort("SleepTimer");
-		experience = p_70037_1_.getFloat("XpP");
-		experienceLevel = p_70037_1_.getInteger("XpLevel");
-		experienceTotal = p_70037_1_.getInteger("XpTotal");
-		setScore(p_70037_1_.getInteger("Score"));
+		inventory.currentItem = par1NBTTagCompound.getInteger("SelectedItemSlot");
+		sleeping = par1NBTTagCompound.getBoolean("Sleeping");
+		sleepTimer = par1NBTTagCompound.getShort("SleepTimer");
+		experience = par1NBTTagCompound.getFloat("XpP");
+		experienceLevel = par1NBTTagCompound.getInteger("XpLevel");
+		experienceTotal = par1NBTTagCompound.getInteger("XpTotal");
+		setScore(par1NBTTagCompound.getInteger("Score"));
 		if(sleeping)
 		{
 			playerLocation = new ChunkCoordinates(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ));
 			wakeUpPlayer(true, true, false);
 		}
-		if(p_70037_1_.hasKey("SpawnX") && p_70037_1_.hasKey("SpawnY") && p_70037_1_.hasKey("SpawnZ"))
+		if(par1NBTTagCompound.hasKey("SpawnX") && par1NBTTagCompound.hasKey("SpawnY") && par1NBTTagCompound.hasKey("SpawnZ"))
 		{
-			spawnChunk = new ChunkCoordinates(p_70037_1_.getInteger("SpawnX"), p_70037_1_.getInteger("SpawnY"), p_70037_1_.getInteger("SpawnZ"));
-			spawnForced = p_70037_1_.getBoolean("SpawnForced");
+			spawnChunk = new ChunkCoordinates(par1NBTTagCompound.getInteger("SpawnX"), par1NBTTagCompound.getInteger("SpawnY"), par1NBTTagCompound.getInteger("SpawnZ"));
+			spawnForced = par1NBTTagCompound.getBoolean("SpawnForced");
 		}
-		foodStats.readNBT(p_70037_1_);
-		capabilities.readCapabilitiesFromNBT(p_70037_1_);
-		if(p_70037_1_.hasKey("EnderItems"))
+		foodStats.readNBT(par1NBTTagCompound);
+		capabilities.readCapabilitiesFromNBT(par1NBTTagCompound);
+		if(par1NBTTagCompound.hasKey("EnderItems"))
 		{
-			NBTTagList var3 = p_70037_1_.getTagList("EnderItems");
+			NBTTagList var3 = par1NBTTagCompound.getTagList("EnderItems");
 			theInventoryEnderChest.loadInventoryFromNBT(var3);
 		}
 	}
@@ -1346,9 +1338,9 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 	{
 	}
 	
-	@Override public void setCurrentItemOrArmor(int p_70062_1_, ItemStack p_70062_2_)
+	@Override public void setCurrentItemOrArmor(int par1, ItemStack par2ItemStack)
 	{
-		inventory.armorInventory[p_70062_1_] = p_70062_2_;
+		inventory.armorInventory[par1] = par2ItemStack;
 	}
 	
 	@Override public void setDead()
@@ -1361,19 +1353,19 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	public void setGameType(EnumGameType p_71033_1_)
+	public void setGameType(EnumGameType par1EnumGameType)
 	{
 	}
 	
-	protected void setHideCape(int p_82239_1_, boolean p_82239_2_)
+	protected void setHideCape(int par1, boolean par2)
 	{
 		byte var3 = dataWatcher.getWatchableObjectByte(16);
-		if(p_82239_2_)
+		if(par2)
 		{
-			dataWatcher.updateObject(16, Byte.valueOf((byte) (var3 | 1 << p_82239_1_)));
+			dataWatcher.updateObject(16, Byte.valueOf((byte) (var3 | 1 << par1)));
 		} else
 		{
-			dataWatcher.updateObject(16, Byte.valueOf((byte) (var3 & ~(1 << p_82239_1_))));
+			dataWatcher.updateObject(16, Byte.valueOf((byte) (var3 & ~(1 << par1))));
 		}
 	}
 	
@@ -1385,12 +1377,12 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	public void setItemInUse(ItemStack p_71008_1_, int p_71008_2_)
+	public void setItemInUse(ItemStack par1ItemStack, int par2)
 	{
-		if(p_71008_1_ != itemInUse)
+		if(par1ItemStack != itemInUse)
 		{
-			itemInUse = p_71008_1_;
-			itemInUseCount = p_71008_2_;
+			itemInUse = par1ItemStack;
+			itemInUseCount = par2;
 			if(!worldObj.isRemote)
 			{
 				setEating(true);
@@ -1398,17 +1390,17 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		}
 	}
 	
-	public void setScore(int p_85040_1_)
+	public void setScore(int par1)
 	{
-		dataWatcher.updateObject(18, Integer.valueOf(p_85040_1_));
+		dataWatcher.updateObject(18, Integer.valueOf(par1));
 	}
 	
-	public void setSpawnChunk(ChunkCoordinates p_71063_1_, boolean p_71063_2_)
+	public void setSpawnChunk(ChunkCoordinates par1ChunkCoordinates, boolean par2)
 	{
-		if(p_71063_1_ != null)
+		if(par1ChunkCoordinates != null)
 		{
-			spawnChunk = new ChunkCoordinates(p_71063_1_);
-			spawnForced = p_71063_2_;
+			spawnChunk = new ChunkCoordinates(par1ChunkCoordinates);
+			spawnForced = par2;
 		} else
 		{
 			spawnChunk = null;
@@ -1418,27 +1410,31 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 	
 	public boolean shouldHeal()
 	{
-		return getHealth() > 0 && getHealth() < getMaxHealth();
+		return func_110143_aJ() > 0.0F && func_110143_aJ() < func_110138_aP();
 	}
 	
-	public EnumStatus sleepInBedAt(int p_71018_1_, int p_71018_2_, int p_71018_3_)
+	public EnumStatus sleepInBedAt(int par1, int par2, int par3)
 	{
 		if(!worldObj.isRemote)
 		{
 			if(isPlayerSleeping() || !isEntityAlive()) return EnumStatus.OTHER_PROBLEM;
 			if(!worldObj.provider.isSurfaceWorld()) return EnumStatus.NOT_POSSIBLE_HERE;
 			if(worldObj.isDaytime()) return EnumStatus.NOT_POSSIBLE_NOW;
-			if(Math.abs(posX - p_71018_1_) > 3.0D || Math.abs(posY - p_71018_2_) > 2.0D || Math.abs(posZ - p_71018_3_) > 3.0D) return EnumStatus.TOO_FAR_AWAY;
+			if(Math.abs(posX - par1) > 3.0D || Math.abs(posY - par2) > 2.0D || Math.abs(posZ - par3) > 3.0D) return EnumStatus.TOO_FAR_AWAY;
 			double var4 = 8.0D;
 			double var6 = 5.0D;
-			List var8 = worldObj.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getAABBPool().getAABB(p_71018_1_ - var4, p_71018_2_ - var6, p_71018_3_ - var4, p_71018_1_ + var4, p_71018_2_ + var6, p_71018_3_ + var4));
+			List var8 = worldObj.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getAABBPool().getAABB(par1 - var4, par2 - var6, par3 - var4, par1 + var4, par2 + var6, par3 + var4));
 			if(!var8.isEmpty()) return EnumStatus.NOT_SAFE;
+		}
+		if(isRiding())
+		{
+			mountEntity((Entity) null);
 		}
 		setSize(0.2F, 0.2F);
 		yOffset = 0.2F;
-		if(worldObj.blockExists(p_71018_1_, p_71018_2_, p_71018_3_))
+		if(worldObj.blockExists(par1, par2, par3))
 		{
-			int var9 = worldObj.getBlockMetadata(p_71018_1_, p_71018_2_, p_71018_3_);
+			int var9 = worldObj.getBlockMetadata(par1, par2, par3);
 			int var5 = BlockDirectional.getDirection(var9);
 			float var10 = 0.5F;
 			float var7 = 0.5F;
@@ -1457,14 +1453,14 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 					var10 = 0.9F;
 			}
 			func_71013_b(var5);
-			setPosition(p_71018_1_ + var10, p_71018_2_ + 0.9375F, p_71018_3_ + var7);
+			setPosition(par1 + var10, par2 + 0.9375F, par3 + var7);
 		} else
 		{
-			setPosition(p_71018_1_ + 0.5F, p_71018_2_ + 0.9375F, p_71018_3_ + 0.5F);
+			setPosition(par1 + 0.5F, par2 + 0.9375F, par3 + 0.5F);
 		}
 		sleeping = true;
 		sleepTimer = 0;
-		playerLocation = new ChunkCoordinates(p_71018_1_, p_71018_2_, p_71018_3_);
+		playerLocation = new ChunkCoordinates(par1, par2, par3);
 		motionX = motionZ = motionY = 0.0D;
 		if(!worldObj.isRemote)
 		{
@@ -1482,30 +1478,26 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		clearItemInUse();
 	}
 	
-	@Override public String translateString(String p_70004_1_, Object ... p_70004_2_)
+	public void triggerAchievement(StatBase par1StatBase)
 	{
-		return getTranslator().translateKeyFormat(p_70004_1_, p_70004_2_);
-	}
-	
-	public void triggerAchievement(StatBase p_71029_1_)
-	{
-		addStat(p_71029_1_, 1);
+		addStat(par1StatBase, 1);
 	}
 	
 	@Override protected void updateEntityActionState()
 	{
+		super.updateEntityActionState();
 		updateArmSwingProgress();
 	}
 	
-	protected void updateItemUse(ItemStack p_71010_1_, int p_71010_2_)
+	protected void updateItemUse(ItemStack par1ItemStack, int par2)
 	{
-		if(p_71010_1_.getItemUseAction() == EnumAction.drink)
+		if(par1ItemStack.getItemUseAction() == EnumAction.drink)
 		{
 			playSound("random.drink", 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
 		}
-		if(p_71010_1_.getItemUseAction() == EnumAction.eat)
+		if(par1ItemStack.getItemUseAction() == EnumAction.eat)
 		{
-			for(int var3 = 0; var3 < p_71010_2_; ++var3)
+			for(int var3 = 0; var3 < par2; ++var3)
 			{
 				Vec3 var4 = worldObj.getWorldVec3Pool().getVecFromPool((rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
 				var4.rotateAroundX(-rotationPitch * (float) Math.PI / 180.0F);
@@ -1514,7 +1506,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 				var5.rotateAroundX(-rotationPitch * (float) Math.PI / 180.0F);
 				var5.rotateAroundY(-rotationYaw * (float) Math.PI / 180.0F);
 				var5 = var5.addVector(posX, posY + getEyeHeight(), posZ);
-				worldObj.spawnParticle("iconcrack_" + p_71010_1_.getItem().itemID, var5.xCoord, var5.yCoord, var5.zCoord, var4.xCoord, var4.yCoord + 0.05D, var4.zCoord);
+				worldObj.spawnParticle("iconcrack_" + par1ItemStack.getItem().itemID, var5.xCoord, var5.yCoord, var5.zCoord, var4.xCoord, var4.yCoord + 0.05D, var4.zCoord);
 			}
 			playSound("random.eat", 0.5F + 0.5F * rand.nextInt(2), (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 		}
@@ -1522,24 +1514,31 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 	
 	@Override public void updateRidden()
 	{
-		double var1 = posX;
-		double var3 = posY;
-		double var5 = posZ;
-		float var7 = rotationYaw;
-		float var8 = rotationPitch;
-		super.updateRidden();
-		prevCameraYaw = cameraYaw;
-		cameraYaw = 0.0F;
-		addMountedMovementStat(posX - var1, posY - var3, posZ - var5);
-		if(ridingEntity instanceof EntityPig)
+		if(!worldObj.isRemote && isSneaking())
 		{
-			rotationPitch = var8;
-			rotationYaw = var7;
-			renderYawOffset = ((EntityPig) ridingEntity).renderYawOffset;
+			mountEntity((Entity) null);
+			setSneaking(false);
+		} else
+		{
+			double var1 = posX;
+			double var3 = posY;
+			double var5 = posZ;
+			float var7 = rotationYaw;
+			float var8 = rotationPitch;
+			super.updateRidden();
+			prevCameraYaw = cameraYaw;
+			cameraYaw = 0.0F;
+			addMountedMovementStat(posX - var1, posY - var3, posZ - var5);
+			if(ridingEntity instanceof EntityPig)
+			{
+				rotationPitch = var8;
+				rotationYaw = var7;
+				renderYawOffset = ((EntityPig) ridingEntity).renderYawOffset;
+			}
 		}
 	}
 	
-	public void wakeUpPlayer(boolean p_70999_1_, boolean p_70999_2_, boolean p_70999_3_)
+	public void wakeUpPlayer(boolean par1, boolean par2, boolean par3)
 	{
 		setSize(0.6F, 1.8F);
 		resetHeight();
@@ -1556,44 +1555,44 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 			setPosition(var5.posX + 0.5F, var5.posY + yOffset + 0.1F, var5.posZ + 0.5F);
 		}
 		sleeping = false;
-		if(!worldObj.isRemote && p_70999_2_)
+		if(!worldObj.isRemote && par2)
 		{
 			worldObj.updateAllPlayersSleepingFlag();
 		}
-		if(p_70999_1_)
+		if(par1)
 		{
 			sleepTimer = 0;
 		} else
 		{
 			sleepTimer = 100;
 		}
-		if(p_70999_3_)
+		if(par3)
 		{
 			setSpawnChunk(playerLocation, false);
 		}
 	}
 	
-	@Override public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setTag("Inventory", inventory.writeToNBT(new NBTTagList()));
-		p_70014_1_.setInteger("SelectedItemSlot", inventory.currentItem);
-		p_70014_1_.setBoolean("Sleeping", sleeping);
-		p_70014_1_.setShort("SleepTimer", (short) sleepTimer);
-		p_70014_1_.setFloat("XpP", experience);
-		p_70014_1_.setInteger("XpLevel", experienceLevel);
-		p_70014_1_.setInteger("XpTotal", experienceTotal);
-		p_70014_1_.setInteger("Score", getScore());
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setTag("Inventory", inventory.writeToNBT(new NBTTagList()));
+		par1NBTTagCompound.setInteger("SelectedItemSlot", inventory.currentItem);
+		par1NBTTagCompound.setBoolean("Sleeping", sleeping);
+		par1NBTTagCompound.setShort("SleepTimer", (short) sleepTimer);
+		par1NBTTagCompound.setFloat("XpP", experience);
+		par1NBTTagCompound.setInteger("XpLevel", experienceLevel);
+		par1NBTTagCompound.setInteger("XpTotal", experienceTotal);
+		par1NBTTagCompound.setInteger("Score", getScore());
 		if(spawnChunk != null)
 		{
-			p_70014_1_.setInteger("SpawnX", spawnChunk.posX);
-			p_70014_1_.setInteger("SpawnY", spawnChunk.posY);
-			p_70014_1_.setInteger("SpawnZ", spawnChunk.posZ);
-			p_70014_1_.setBoolean("SpawnForced", spawnForced);
+			par1NBTTagCompound.setInteger("SpawnX", spawnChunk.posX);
+			par1NBTTagCompound.setInteger("SpawnY", spawnChunk.posY);
+			par1NBTTagCompound.setInteger("SpawnZ", spawnChunk.posZ);
+			par1NBTTagCompound.setBoolean("SpawnForced", spawnForced);
 		}
-		foodStats.writeNBT(p_70014_1_);
-		capabilities.writeCapabilitiesToNBT(p_70014_1_);
-		p_70014_1_.setTag("EnderItems", theInventoryEnderChest.saveInventoryToNBT());
+		foodStats.writeNBT(par1NBTTagCompound);
+		capabilities.writeCapabilitiesToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setTag("EnderItems", theInventoryEnderChest.saveInventoryToNBT());
 	}
 	
 	public int xpBarCap()
@@ -1601,24 +1600,24 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 		return experienceLevel >= 30 ? 62 + (experienceLevel - 30) * 7 : experienceLevel >= 15 ? 17 + (experienceLevel - 15) * 3 : 17;
 	}
 	
-	public static ChunkCoordinates verifyRespawnCoordinates(World p_71056_0_, ChunkCoordinates p_71056_1_, boolean p_71056_2_)
+	public static ChunkCoordinates verifyRespawnCoordinates(World par0World, ChunkCoordinates par1ChunkCoordinates, boolean par2)
 	{
-		IChunkProvider var3 = p_71056_0_.getChunkProvider();
-		var3.loadChunk(p_71056_1_.posX - 3 >> 4, p_71056_1_.posZ - 3 >> 4);
-		var3.loadChunk(p_71056_1_.posX + 3 >> 4, p_71056_1_.posZ - 3 >> 4);
-		var3.loadChunk(p_71056_1_.posX - 3 >> 4, p_71056_1_.posZ + 3 >> 4);
-		var3.loadChunk(p_71056_1_.posX + 3 >> 4, p_71056_1_.posZ + 3 >> 4);
-		if(p_71056_0_.getBlockId(p_71056_1_.posX, p_71056_1_.posY, p_71056_1_.posZ) == Block.bed.blockID)
+		IChunkProvider var3 = par0World.getChunkProvider();
+		var3.loadChunk(par1ChunkCoordinates.posX - 3 >> 4, par1ChunkCoordinates.posZ - 3 >> 4);
+		var3.loadChunk(par1ChunkCoordinates.posX + 3 >> 4, par1ChunkCoordinates.posZ - 3 >> 4);
+		var3.loadChunk(par1ChunkCoordinates.posX - 3 >> 4, par1ChunkCoordinates.posZ + 3 >> 4);
+		var3.loadChunk(par1ChunkCoordinates.posX + 3 >> 4, par1ChunkCoordinates.posZ + 3 >> 4);
+		if(par0World.getBlockId(par1ChunkCoordinates.posX, par1ChunkCoordinates.posY, par1ChunkCoordinates.posZ) == Block.bed.blockID)
 		{
-			ChunkCoordinates var8 = BlockBed.getNearestEmptyChunkCoordinates(p_71056_0_, p_71056_1_.posX, p_71056_1_.posY, p_71056_1_.posZ, 0);
+			ChunkCoordinates var8 = BlockBed.getNearestEmptyChunkCoordinates(par0World, par1ChunkCoordinates.posX, par1ChunkCoordinates.posY, par1ChunkCoordinates.posZ, 0);
 			return var8;
 		} else
 		{
-			Material var4 = p_71056_0_.getBlockMaterial(p_71056_1_.posX, p_71056_1_.posY, p_71056_1_.posZ);
-			Material var5 = p_71056_0_.getBlockMaterial(p_71056_1_.posX, p_71056_1_.posY + 1, p_71056_1_.posZ);
+			Material var4 = par0World.getBlockMaterial(par1ChunkCoordinates.posX, par1ChunkCoordinates.posY, par1ChunkCoordinates.posZ);
+			Material var5 = par0World.getBlockMaterial(par1ChunkCoordinates.posX, par1ChunkCoordinates.posY + 1, par1ChunkCoordinates.posZ);
 			boolean var6 = !var4.isSolid() && !var4.isLiquid();
 			boolean var7 = !var5.isSolid() && !var5.isLiquid();
-			return p_71056_2_ && var6 && var7 ? p_71056_1_ : null;
+			return par2 && var6 && var7 ? par1ChunkCoordinates : null;
 		}
 	}
 }

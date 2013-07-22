@@ -4,88 +4,88 @@ import java.util.Random;
 
 public class BlockPistonMoving extends BlockContainer
 {
-	public BlockPistonMoving(int p_i4027_1_)
+	public BlockPistonMoving(int par1)
 	{
-		super(p_i4027_1_, Material.piston);
+		super(par1, Material.piston);
 		setHardness(-1.0F);
 	}
 	
-	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
+	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
 	{
-		TileEntity var7 = p_71852_1_.getBlockTileEntity(p_71852_2_, p_71852_3_, p_71852_4_);
+		TileEntity var7 = par1World.getBlockTileEntity(par2, par3, par4);
 		if(var7 instanceof TileEntityPiston)
 		{
 			((TileEntityPiston) var7).clearPistonTileEntity();
 		} else
 		{
-			super.breakBlock(p_71852_1_, p_71852_2_, p_71852_3_, p_71852_4_, p_71852_5_, p_71852_6_);
+			super.breakBlock(par1World, par2, par3, par4, par5, par6);
 		}
 	}
 	
-	@Override public boolean canPlaceBlockAt(World p_71930_1_, int p_71930_2_, int p_71930_3_, int p_71930_4_)
+	@Override public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
 	{
 		return false;
 	}
 	
-	@Override public boolean canPlaceBlockOnSide(World p_71850_1_, int p_71850_2_, int p_71850_3_, int p_71850_4_, int p_71850_5_)
+	@Override public boolean canPlaceBlockOnSide(World par1World, int par2, int par3, int par4, int par5)
 	{
 		return false;
 	}
 	
-	@Override public TileEntity createNewTileEntity(World p_72274_1_)
+	@Override public TileEntity createNewTileEntity(World par1World)
 	{
 		return null;
 	}
 	
-	@Override public void dropBlockAsItemWithChance(World p_71914_1_, int p_71914_2_, int p_71914_3_, int p_71914_4_, int p_71914_5_, float p_71914_6_, int p_71914_7_)
+	@Override public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
 	{
-		if(!p_71914_1_.isRemote)
+		if(!par1World.isRemote)
 		{
-			TileEntityPiston var8 = getTileEntityAtLocation(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_);
+			TileEntityPiston var8 = getTileEntityAtLocation(par1World, par2, par3, par4);
 			if(var8 != null)
 			{
-				Block.blocksList[var8.getStoredBlockID()].dropBlockAsItem(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, var8.getBlockMetadata(), 0);
+				Block.blocksList[var8.getStoredBlockID()].dropBlockAsItem(par1World, par2, par3, par4, var8.getBlockMetadata(), 0);
 			}
 		}
 	}
 	
-	public AxisAlignedBB getAxisAlignedBB(World p_72296_1_, int p_72296_2_, int p_72296_3_, int p_72296_4_, int p_72296_5_, float p_72296_6_, int p_72296_7_)
+	public AxisAlignedBB getAxisAlignedBB(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
 	{
-		if(p_72296_5_ != 0 && p_72296_5_ != blockID)
+		if(par5 != 0 && par5 != blockID)
 		{
-			AxisAlignedBB var8 = Block.blocksList[p_72296_5_].getCollisionBoundingBoxFromPool(p_72296_1_, p_72296_2_, p_72296_3_, p_72296_4_);
+			AxisAlignedBB var8 = Block.blocksList[par5].getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
 			if(var8 == null) return null;
 			else
 			{
-				if(Facing.offsetsXForSide[p_72296_7_] < 0)
+				if(Facing.offsetsXForSide[par7] < 0)
 				{
-					var8.minX -= Facing.offsetsXForSide[p_72296_7_] * p_72296_6_;
+					var8.minX -= Facing.offsetsXForSide[par7] * par6;
 				} else
 				{
-					var8.maxX -= Facing.offsetsXForSide[p_72296_7_] * p_72296_6_;
+					var8.maxX -= Facing.offsetsXForSide[par7] * par6;
 				}
-				if(Facing.offsetsYForSide[p_72296_7_] < 0)
+				if(Facing.offsetsYForSide[par7] < 0)
 				{
-					var8.minY -= Facing.offsetsYForSide[p_72296_7_] * p_72296_6_;
+					var8.minY -= Facing.offsetsYForSide[par7] * par6;
 				} else
 				{
-					var8.maxY -= Facing.offsetsYForSide[p_72296_7_] * p_72296_6_;
+					var8.maxY -= Facing.offsetsYForSide[par7] * par6;
 				}
-				if(Facing.offsetsZForSide[p_72296_7_] < 0)
+				if(Facing.offsetsZForSide[par7] < 0)
 				{
-					var8.minZ -= Facing.offsetsZForSide[p_72296_7_] * p_72296_6_;
+					var8.minZ -= Facing.offsetsZForSide[par7] * par6;
 				} else
 				{
-					var8.maxZ -= Facing.offsetsZForSide[p_72296_7_] * p_72296_6_;
+					var8.maxZ -= Facing.offsetsZForSide[par7] * par6;
 				}
 				return var8;
 			}
 		} else return null;
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
-		TileEntityPiston var5 = getTileEntityAtLocation(p_71872_1_, p_71872_2_, p_71872_3_, p_71872_4_);
+		TileEntityPiston var5 = getTileEntityAtLocation(par1World, par2, par3, par4);
 		if(var5 == null) return null;
 		else
 		{
@@ -94,7 +94,7 @@ public class BlockPistonMoving extends BlockContainer
 			{
 				var6 = 1.0F - var6;
 			}
-			return getAxisAlignedBB(p_71872_1_, p_71872_2_, p_71872_3_, p_71872_4_, var5.getStoredBlockID(), var6, var5.getPistonOrientation());
+			return getAxisAlignedBB(par1World, par2, par3, par4, var5.getStoredBlockID(), var6, var5.getPistonOrientation());
 		}
 	}
 	
@@ -103,13 +103,13 @@ public class BlockPistonMoving extends BlockContainer
 		return -1;
 	}
 	
-	private TileEntityPiston getTileEntityAtLocation(IBlockAccess p_72295_1_, int p_72295_2_, int p_72295_3_, int p_72295_4_)
+	private TileEntityPiston getTileEntityAtLocation(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		TileEntity var5 = p_72295_1_.getBlockTileEntity(p_72295_2_, p_72295_3_, p_72295_4_);
+		TileEntity var5 = par1IBlockAccess.getBlockTileEntity(par2, par3, par4);
 		return var5 instanceof TileEntityPiston ? (TileEntityPiston) var5 : null;
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return 0;
 	}
@@ -124,30 +124,30 @@ public class BlockPistonMoving extends BlockContainer
 		return false;
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
-		if(!p_71903_1_.isRemote && p_71903_1_.getBlockTileEntity(p_71903_2_, p_71903_3_, p_71903_4_) == null)
+		if(!par1World.isRemote && par1World.getBlockTileEntity(par2, par3, par4) == null)
 		{
-			p_71903_1_.setBlockToAir(p_71903_2_, p_71903_3_, p_71903_4_);
+			par1World.setBlockToAir(par2, par3, par4);
 			return true;
 		} else return false;
 	}
 	
-	@Override public void onBlockAdded(World p_71861_1_, int p_71861_2_, int p_71861_3_, int p_71861_4_)
+	@Override public void onBlockAdded(World par1World, int par2, int par3, int par4)
 	{
 	}
 	
-	@Override public void onNeighborBlockChange(World p_71863_1_, int p_71863_2_, int p_71863_3_, int p_71863_4_, int p_71863_5_)
+	@Override public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
 	{
-		if(!p_71863_1_.isRemote && p_71863_1_.getBlockTileEntity(p_71863_2_, p_71863_3_, p_71863_4_) == null)
+		if(!par1World.isRemote)
 		{
-			;
+			par1World.getBlockTileEntity(par2, par3, par4);
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("piston_top");
+		blockIcon = par1IconRegister.registerIcon("piston_top_normal");
 	}
 	
 	@Override public boolean renderAsNormalBlock()
@@ -155,14 +155,14 @@ public class BlockPistonMoving extends BlockContainer
 		return false;
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		TileEntityPiston var5 = getTileEntityAtLocation(p_71902_1_, p_71902_2_, p_71902_3_, p_71902_4_);
+		TileEntityPiston var5 = getTileEntityAtLocation(par1IBlockAccess, par2, par3, par4);
 		if(var5 != null)
 		{
 			Block var6 = Block.blocksList[var5.getStoredBlockID()];
 			if(var6 == null || var6 == this) return;
-			var6.setBlockBoundsBasedOnState(p_71902_1_, p_71902_2_, p_71902_3_, p_71902_4_);
+			var6.setBlockBoundsBasedOnState(par1IBlockAccess, par2, par3, par4);
 			float var7 = var5.getProgress(0.0F);
 			if(var5.isExtending())
 			{
@@ -178,8 +178,8 @@ public class BlockPistonMoving extends BlockContainer
 		}
 	}
 	
-	public static TileEntity getTileEntity(int p_72297_0_, int p_72297_1_, int p_72297_2_, boolean p_72297_3_, boolean p_72297_4_)
+	public static TileEntity getTileEntity(int par0, int par1, int par2, boolean par3, boolean par4)
 	{
-		return new TileEntityPiston(p_72297_0_, p_72297_1_, p_72297_2_, p_72297_3_, p_72297_4_);
+		return new TileEntityPiston(par0, par1, par2, par3, par4);
 	}
 }

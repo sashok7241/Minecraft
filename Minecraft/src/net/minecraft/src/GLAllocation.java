@@ -63,11 +63,4 @@ public class GLAllocation
 		field_74531_a.put(Integer.valueOf(var1), Integer.valueOf(par0));
 		return var1;
 	}
-	
-	public static synchronized int generateTextureNames()
-	{
-		int var0 = GL11.glGenTextures();
-		field_74530_b.add(Integer.valueOf(var0));
-		return var0;
-	}
 }

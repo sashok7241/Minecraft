@@ -4,20 +4,20 @@ import java.util.Random;
 
 public class EnchantmentDurability extends Enchantment
 {
-	protected EnchantmentDurability(int p_i3707_1_, int p_i3707_2_)
+	protected EnchantmentDurability(int par1, int par2)
 	{
-		super(p_i3707_1_, p_i3707_2_, EnumEnchantmentType.digger);
+		super(par1, par2, EnumEnchantmentType.digger);
 		setName("durability");
 	}
 	
-	@Override public boolean canApply(ItemStack p_92089_1_)
+	@Override public boolean canApply(ItemStack par1ItemStack)
 	{
-		return p_92089_1_.isItemStackDamageable() ? true : super.canApply(p_92089_1_);
+		return par1ItemStack.isItemStackDamageable() ? true : super.canApply(par1ItemStack);
 	}
 	
-	@Override public int getMaxEnchantability(int p_77317_1_)
+	@Override public int getMaxEnchantability(int par1)
 	{
-		return super.getMinEnchantability(p_77317_1_) + 50;
+		return super.getMinEnchantability(par1) + 50;
 	}
 	
 	@Override public int getMaxLevel()
@@ -25,13 +25,13 @@ public class EnchantmentDurability extends Enchantment
 		return 3;
 	}
 	
-	@Override public int getMinEnchantability(int p_77321_1_)
+	@Override public int getMinEnchantability(int par1)
 	{
-		return 5 + (p_77321_1_ - 1) * 8;
+		return 5 + (par1 - 1) * 8;
 	}
 	
-	public static boolean negateDamage(ItemStack p_92097_0_, int p_92097_1_, Random p_92097_2_)
+	public static boolean negateDamage(ItemStack par0ItemStack, int par1, Random par2Random)
 	{
-		return p_92097_0_.getItem() instanceof ItemArmor && p_92097_2_.nextFloat() < 0.6F ? false : p_92097_2_.nextInt(p_92097_1_ + 1) > 0;
+		return par0ItemStack.getItem() instanceof ItemArmor && par2Random.nextFloat() < 0.6F ? false : par2Random.nextInt(par1 + 1) > 0;
 	}
 }

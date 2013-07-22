@@ -7,11 +7,11 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandServerOp extends CommandBase
 {
-	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
+	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		if(p_71516_2_.length == 1)
+		if(par2ArrayOfStr.length == 1)
 		{
-			String var3 = p_71516_2_[p_71516_2_.length - 1];
+			String var3 = par2ArrayOfStr[par2ArrayOfStr.length - 1];
 			ArrayList var4 = new ArrayList();
 			String[] var5 = MinecraftServer.getServer().getAllUsernames();
 			int var6 = var5.length;
@@ -32,9 +32,9 @@ public class CommandServerOp extends CommandBase
 		return "op";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender p_71518_1_)
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return p_71518_1_.translateString("commands.op.usage", new Object[0]);
+		return "commands.op.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -42,12 +42,12 @@ public class CommandServerOp extends CommandBase
 		return 3;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		if(p_71515_2_.length == 1 && p_71515_2_[0].length() > 0)
+		if(par2ArrayOfStr.length == 1 && par2ArrayOfStr[0].length() > 0)
 		{
-			MinecraftServer.getServer().getConfigurationManager().addOp(p_71515_2_[0]);
-			notifyAdmins(p_71515_1_, "commands.op.success", new Object[] { p_71515_2_[0] });
+			MinecraftServer.getServer().getConfigurationManager().addOp(par2ArrayOfStr[0]);
+			notifyAdmins(par1ICommandSender, "commands.op.success", new Object[] { par2ArrayOfStr[0] });
 		} else throw new WrongUsageException("commands.op.usage", new Object[0]);
 	}
 }

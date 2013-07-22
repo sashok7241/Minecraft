@@ -5,9 +5,9 @@ public class ServerCommand
 	public final String command;
 	public final ICommandSender sender;
 	
-	public ServerCommand(String p_i3369_1_, ICommandSender p_i3369_2_)
+	public ServerCommand(String par1Str, ICommandSender par2ICommandSender)
 	{
-		command = p_i3369_1_;
-		sender = p_i3369_2_;
+		command = par1Str;
+		sender = par2ICommandSender;
 	}
 }

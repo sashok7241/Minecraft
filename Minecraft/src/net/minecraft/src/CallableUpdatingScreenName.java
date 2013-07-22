@@ -4,13 +4,13 @@ import java.util.concurrent.Callable;
 
 import net.minecraft.client.Minecraft;
 
-public class CallableUpdatingScreenName implements Callable
+class CallableUpdatingScreenName implements Callable
 {
 	final Minecraft theMinecraft;
 	
-	public CallableUpdatingScreenName(Minecraft p_i7002_1_)
+	CallableUpdatingScreenName(Minecraft par1Minecraft)
 	{
-		theMinecraft = p_i7002_1_;
+		theMinecraft = par1Minecraft;
 	}
 	
 	@Override public Object call()

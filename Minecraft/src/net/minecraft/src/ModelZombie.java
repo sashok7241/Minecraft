@@ -7,14 +7,14 @@ public class ModelZombie extends ModelBiped
 		this(0.0F, false);
 	}
 	
-	public ModelZombie(float p_i5018_1_, boolean p_i5018_2_)
+	public ModelZombie(float par1, boolean par2)
 	{
-		super(p_i5018_1_, 0.0F, 64, p_i5018_2_ ? 32 : 64);
+		super(par1, 0.0F, 64, par2 ? 32 : 64);
 	}
 	
-	protected ModelZombie(float p_i5017_1_, float p_i5017_2_, int p_i5017_3_, int p_i5017_4_)
+	protected ModelZombie(float par1, float par2, int par3, int par4)
 	{
-		super(p_i5017_1_, p_i5017_2_, p_i5017_3_, p_i5017_4_);
+		super(par1, par2, par3, par4);
 	}
 	
 	@Override public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)

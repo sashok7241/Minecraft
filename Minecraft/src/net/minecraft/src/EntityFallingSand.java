@@ -15,45 +15,37 @@ public class EntityFallingSand extends Entity
 	private float fallHurtAmount;
 	public NBTTagCompound fallingBlockTileEntityData;
 	
-	public EntityFallingSand(World p_i3536_1_)
+	public EntityFallingSand(World par1World)
 	{
-		super(p_i3536_1_);
-		fallTime = 0;
+		super(par1World);
 		shouldDropItem = true;
-		isBreakingAnvil = false;
-		isAnvil = false;
 		fallHurtMax = 40;
 		fallHurtAmount = 2.0F;
-		fallingBlockTileEntityData = null;
 	}
 	
-	public EntityFallingSand(World p_i3537_1_, double p_i3537_2_, double p_i3537_4_, double p_i3537_6_, int p_i3537_8_)
+	public EntityFallingSand(World par1World, double par2, double par4, double par6, int par8)
 	{
-		this(p_i3537_1_, p_i3537_2_, p_i3537_4_, p_i3537_6_, p_i3537_8_, 0);
+		this(par1World, par2, par4, par6, par8, 0);
 	}
 	
-	public EntityFallingSand(World p_i3538_1_, double p_i3538_2_, double p_i3538_4_, double p_i3538_6_, int p_i3538_8_, int p_i3538_9_)
+	public EntityFallingSand(World par1World, double par2, double par4, double par6, int par8, int par9)
 	{
-		super(p_i3538_1_);
-		fallTime = 0;
+		super(par1World);
 		shouldDropItem = true;
-		isBreakingAnvil = false;
-		isAnvil = false;
 		fallHurtMax = 40;
 		fallHurtAmount = 2.0F;
-		fallingBlockTileEntityData = null;
-		blockID = p_i3538_8_;
-		metadata = p_i3538_9_;
+		blockID = par8;
+		metadata = par9;
 		preventEntitySpawning = true;
 		setSize(0.98F, 0.98F);
 		yOffset = height / 2.0F;
-		setPosition(p_i3538_2_, p_i3538_4_, p_i3538_6_);
+		setPosition(par2, par4, par6);
 		motionX = 0.0D;
 		motionY = 0.0D;
 		motionZ = 0.0D;
-		prevPosX = p_i3538_2_;
-		prevPosY = p_i3538_4_;
-		prevPosZ = p_i3538_6_;
+		prevPosX = par2;
+		prevPosY = par4;
+		prevPosZ = par6;
 	}
 	
 	@Override public boolean canBeCollidedWith()
@@ -75,11 +67,11 @@ public class EntityFallingSand extends Entity
 	{
 	}
 	
-	@Override protected void fall(float p_70069_1_)
+	@Override protected void fall(float par1)
 	{
 		if(isAnvil)
 		{
-			int var2 = MathHelper.ceiling_float_int(p_70069_1_ - 1.0F);
+			int var2 = MathHelper.ceiling_float_int(par1 - 1.0F);
 			if(var2 > 0)
 			{
 				ArrayList var3 = new ArrayList(worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox));
@@ -107,11 +99,11 @@ public class EntityFallingSand extends Entity
 		}
 	}
 	
-	@Override public void func_85029_a(CrashReportCategory p_85029_1_)
+	@Override public void func_85029_a(CrashReportCategory par1CrashReportCategory)
 	{
-		super.func_85029_a(p_85029_1_);
-		p_85029_1_.addCrashSection("Immitating block ID", Integer.valueOf(blockID));
-		p_85029_1_.addCrashSection("Immitating block data", Integer.valueOf(metadata));
+		super.func_85029_a(par1CrashReportCategory);
+		par1CrashReportCategory.addCrashSection("Immitating block ID", Integer.valueOf(blockID));
+		par1CrashReportCategory.addCrashSection("Immitating block data", Integer.valueOf(metadata));
 	}
 	
 	@Override public float getShadowSize()
@@ -205,33 +197,33 @@ public class EntityFallingSand extends Entity
 		}
 	}
 	
-	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		if(p_70037_1_.hasKey("TileID"))
+		if(par1NBTTagCompound.hasKey("TileID"))
 		{
-			blockID = p_70037_1_.getInteger("TileID");
+			blockID = par1NBTTagCompound.getInteger("TileID");
 		} else
 		{
-			blockID = p_70037_1_.getByte("Tile") & 255;
+			blockID = par1NBTTagCompound.getByte("Tile") & 255;
 		}
-		metadata = p_70037_1_.getByte("Data") & 255;
-		fallTime = p_70037_1_.getByte("Time") & 255;
-		if(p_70037_1_.hasKey("HurtEntities"))
+		metadata = par1NBTTagCompound.getByte("Data") & 255;
+		fallTime = par1NBTTagCompound.getByte("Time") & 255;
+		if(par1NBTTagCompound.hasKey("HurtEntities"))
 		{
-			isAnvil = p_70037_1_.getBoolean("HurtEntities");
-			fallHurtAmount = p_70037_1_.getFloat("FallHurtAmount");
-			fallHurtMax = p_70037_1_.getInteger("FallHurtMax");
+			isAnvil = par1NBTTagCompound.getBoolean("HurtEntities");
+			fallHurtAmount = par1NBTTagCompound.getFloat("FallHurtAmount");
+			fallHurtMax = par1NBTTagCompound.getInteger("FallHurtMax");
 		} else if(blockID == Block.anvil.blockID)
 		{
 			isAnvil = true;
 		}
-		if(p_70037_1_.hasKey("DropItem"))
+		if(par1NBTTagCompound.hasKey("DropItem"))
 		{
-			shouldDropItem = p_70037_1_.getBoolean("DropItem");
+			shouldDropItem = par1NBTTagCompound.getBoolean("DropItem");
 		}
-		if(p_70037_1_.hasKey("TileEntityData"))
+		if(par1NBTTagCompound.hasKey("TileEntityData"))
 		{
-			fallingBlockTileEntityData = p_70037_1_.getCompoundTag("TileEntityData");
+			fallingBlockTileEntityData = par1NBTTagCompound.getCompoundTag("TileEntityData");
 		}
 		if(blockID == 0)
 		{
@@ -239,24 +231,24 @@ public class EntityFallingSand extends Entity
 		}
 	}
 	
-	public void setIsAnvil(boolean p_82154_1_)
+	public void setIsAnvil(boolean par1)
 	{
-		isAnvil = p_82154_1_;
+		isAnvil = par1;
 	}
 	
-	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		p_70014_1_.setByte("Tile", (byte) blockID);
-		p_70014_1_.setInteger("TileID", blockID);
-		p_70014_1_.setByte("Data", (byte) metadata);
-		p_70014_1_.setByte("Time", (byte) fallTime);
-		p_70014_1_.setBoolean("DropItem", shouldDropItem);
-		p_70014_1_.setBoolean("HurtEntities", isAnvil);
-		p_70014_1_.setFloat("FallHurtAmount", fallHurtAmount);
-		p_70014_1_.setInteger("FallHurtMax", fallHurtMax);
+		par1NBTTagCompound.setByte("Tile", (byte) blockID);
+		par1NBTTagCompound.setInteger("TileID", blockID);
+		par1NBTTagCompound.setByte("Data", (byte) metadata);
+		par1NBTTagCompound.setByte("Time", (byte) fallTime);
+		par1NBTTagCompound.setBoolean("DropItem", shouldDropItem);
+		par1NBTTagCompound.setBoolean("HurtEntities", isAnvil);
+		par1NBTTagCompound.setFloat("FallHurtAmount", fallHurtAmount);
+		par1NBTTagCompound.setInteger("FallHurtMax", fallHurtMax);
 		if(fallingBlockTileEntityData != null)
 		{
-			p_70014_1_.setCompoundTag("TileEntityData", fallingBlockTileEntityData);
+			par1NBTTagCompound.setCompoundTag("TileEntityData", fallingBlockTileEntityData);
 		}
 	}
 }

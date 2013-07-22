@@ -5,17 +5,17 @@ public class EntityPickupFX extends EntityFX
 {
 	private Entity entityToPickUp;
 	private Entity entityPickingUp;
-	private int age = 0;
-	private int maxAge = 0;
+	private int age;
+	private int maxAge;
 	private float yOffs;
 	
-	public EntityPickupFX(World p_i3176_1_, Entity p_i3176_2_, Entity p_i3176_3_, float p_i3176_4_)
+	public EntityPickupFX(World par1World, Entity par2Entity, Entity par3Entity, float par4)
 	{
-		super(p_i3176_1_, p_i3176_2_.posX, p_i3176_2_.posY, p_i3176_2_.posZ, p_i3176_2_.motionX, p_i3176_2_.motionY, p_i3176_2_.motionZ);
-		entityToPickUp = p_i3176_2_;
-		entityPickingUp = p_i3176_3_;
+		super(par1World, par2Entity.posX, par2Entity.posY, par2Entity.posZ, par2Entity.motionX, par2Entity.motionY, par2Entity.motionZ);
+		entityToPickUp = par2Entity;
+		entityPickingUp = par3Entity;
 		maxAge = 3;
-		yOffs = p_i3176_4_;
+		yOffs = par4;
 	}
 	
 	@Override public int getFXLayer()

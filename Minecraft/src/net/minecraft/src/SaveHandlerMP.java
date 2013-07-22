@@ -12,12 +12,12 @@ public class SaveHandlerMP implements ISaveHandler
 	{
 	}
 	
-	@Override public IChunkLoader getChunkLoader(WorldProvider p_75763_1_)
+	@Override public IChunkLoader getChunkLoader(WorldProvider par1WorldProvider)
 	{
 		return null;
 	}
 	
-	@Override public File getMapFileFromName(String p_75758_1_)
+	@Override public File getMapFileFromName(String par1Str)
 	{
 		return null;
 	}
@@ -37,11 +37,11 @@ public class SaveHandlerMP implements ISaveHandler
 		return null;
 	}
 	
-	@Override public void saveWorldInfo(WorldInfo p_75761_1_)
+	@Override public void saveWorldInfo(WorldInfo par1WorldInfo)
 	{
 	}
 	
-	@Override public void saveWorldInfoWithPlayer(WorldInfo p_75755_1_, NBTTagCompound p_75755_2_)
+	@Override public void saveWorldInfoWithPlayer(WorldInfo par1WorldInfo, NBTTagCompound par2NBTTagCompound)
 	{
 	}
 }

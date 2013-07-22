@@ -4,26 +4,26 @@ public class EntityCritFX extends EntityFX
 {
 	float field_70561_a;
 	
-	public EntityCritFX(World p_i3182_1_, double p_i3182_2_, double p_i3182_4_, double p_i3182_6_, double p_i3182_8_, double p_i3182_10_, double p_i3182_12_)
+	public EntityCritFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		this(p_i3182_1_, p_i3182_2_, p_i3182_4_, p_i3182_6_, p_i3182_8_, p_i3182_10_, p_i3182_12_, 1.0F);
+		this(par1World, par2, par4, par6, par8, par10, par12, 1.0F);
 	}
 	
-	public EntityCritFX(World p_i3183_1_, double p_i3183_2_, double p_i3183_4_, double p_i3183_6_, double p_i3183_8_, double p_i3183_10_, double p_i3183_12_, float p_i3183_14_)
+	public EntityCritFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, float par14)
 	{
-		super(p_i3183_1_, p_i3183_2_, p_i3183_4_, p_i3183_6_, 0.0D, 0.0D, 0.0D);
+		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
 		motionX *= 0.10000000149011612D;
 		motionY *= 0.10000000149011612D;
 		motionZ *= 0.10000000149011612D;
-		motionX += p_i3183_8_ * 0.4D;
-		motionY += p_i3183_10_ * 0.4D;
-		motionZ += p_i3183_12_ * 0.4D;
+		motionX += par8 * 0.4D;
+		motionY += par10 * 0.4D;
+		motionZ += par12 * 0.4D;
 		particleRed = particleGreen = particleBlue = (float) (Math.random() * 0.30000001192092896D + 0.6000000238418579D);
 		particleScale *= 0.75F;
-		particleScale *= p_i3183_14_;
+		particleScale *= par14;
 		field_70561_a = particleScale;
 		particleMaxAge = (int) (6.0D / (Math.random() * 0.8D + 0.6D));
-		particleMaxAge = (int) (particleMaxAge * p_i3183_14_);
+		particleMaxAge = (int) (particleMaxAge * par14);
 		noClip = false;
 		setParticleTextureIndex(65);
 		onUpdate();

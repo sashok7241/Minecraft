@@ -10,13 +10,13 @@ public enum EnumFacing
 	private final int frontOffsetZ;
 	private static final EnumFacing[] faceList = new EnumFacing[6];
 	
-	private EnumFacing(int p_i5027_3_, int p_i5027_4_, int p_i5027_5_, int p_i5027_6_, int p_i5027_7_)
+	private EnumFacing(int par3, int par4, int par5, int par6, int par7)
 	{
-		order_a = p_i5027_3_;
-		order_b = p_i5027_4_;
-		frontOffsetX = p_i5027_5_;
-		frontOffsetY = p_i5027_6_;
-		frontOffsetZ = p_i5027_7_;
+		order_a = par3;
+		order_b = par4;
+		frontOffsetX = par5;
+		frontOffsetY = par6;
+		frontOffsetZ = par7;
 	}
 	
 	public int getFrontOffsetX()
@@ -34,9 +34,9 @@ public enum EnumFacing
 		return frontOffsetZ;
 	}
 	
-	public static EnumFacing getFront(int p_82600_0_)
+	public static EnumFacing getFront(int par0)
 	{
-		return faceList[p_82600_0_ % faceList.length];
+		return faceList[par0 % faceList.length];
 	}
 	
 	static

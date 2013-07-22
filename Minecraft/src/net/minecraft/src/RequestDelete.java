@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class RequestDelete extends Request
 {
-	public RequestDelete(String p_i10031_1_, int p_i10031_2_, int p_i10031_3_)
+	public RequestDelete(String par1Str, int par2, int par3)
 	{
-		super(p_i10031_1_, p_i10031_2_, p_i10031_3_);
+		super(par1Str, par2, par3);
 	}
 	
 	@Override public Request func_96359_e()

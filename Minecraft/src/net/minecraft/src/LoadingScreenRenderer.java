@@ -8,17 +8,17 @@ public class LoadingScreenRenderer implements IProgressUpdate
 	private Minecraft mc;
 	private String currentlyDisplayedText = "";
 	private long field_73723_d = Minecraft.getSystemTime();
-	private boolean field_73724_e = false;
+	private boolean field_73724_e;
 	
-	public LoadingScreenRenderer(Minecraft p_i3004_1_)
+	public LoadingScreenRenderer(Minecraft par1Minecraft)
 	{
-		mc = p_i3004_1_;
+		mc = par1Minecraft;
 	}
 	
-	@Override public void displayProgressMessage(String p_73720_1_)
+	@Override public void displayProgressMessage(String par1Str)
 	{
 		field_73724_e = true;
-		func_73722_d(p_73720_1_);
+		func_73722_d(par1Str);
 	}
 	
 	public void func_73722_d(String par1Str)
@@ -40,11 +40,7 @@ public class LoadingScreenRenderer implements IProgressUpdate
 		}
 	}
 	
-	@Override public void onNoMoreProgress()
-	{
-	}
-	
-	@Override public void resetProgresAndWorkingMessage(String p_73719_1_)
+	@Override public void resetProgresAndWorkingMessage(String par1Str)
 	{
 		if(!mc.running)
 		{
@@ -52,19 +48,19 @@ public class LoadingScreenRenderer implements IProgressUpdate
 		} else
 		{
 			field_73723_d = 0L;
-			field_73727_a = p_73719_1_;
+			field_73727_a = par1Str;
 			setLoadingProgress(-1);
 			field_73723_d = 0L;
 		}
 	}
 	
-	@Override public void resetProgressAndMessage(String par1Str)
+	public void resetProgressAndMessage(String par1Str)
 	{
 		field_73724_e = false;
 		func_73722_d(par1Str);
 	}
 	
-	@Override public void setLoadingProgress(int p_73718_1_)
+	@Override public void setLoadingProgress(int par1)
 	{
 		if(!mc.running)
 		{
@@ -87,7 +83,7 @@ public class LoadingScreenRenderer implements IProgressUpdate
 				GL11.glTranslatef(0.0F, 0.0F, -200.0F);
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 				Tessellator var7 = Tessellator.instance;
-				mc.renderEngine.bindTexture("/gui/background.png");
+				mc.func_110434_K().func_110577_a(Gui.field_110325_k);
 				float var8 = 32.0F;
 				var7.startDrawingQuads();
 				var7.setColorOpaque_I(4210752);
@@ -96,7 +92,7 @@ public class LoadingScreenRenderer implements IProgressUpdate
 				var7.addVertexWithUV(var5, 0.0D, 0.0D, var5 / var8, 0.0D);
 				var7.addVertexWithUV(0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 				var7.draw();
-				if(p_73718_1_ >= 0)
+				if(par1 >= 0)
 				{
 					byte var9 = 100;
 					byte var10 = 2;
@@ -112,8 +108,8 @@ public class LoadingScreenRenderer implements IProgressUpdate
 					var7.setColorOpaque_I(8454016);
 					var7.addVertex(var11, var12, 0.0D);
 					var7.addVertex(var11, var12 + var10, 0.0D);
-					var7.addVertex(var11 + p_73718_1_, var12 + var10, 0.0D);
-					var7.addVertex(var11 + p_73718_1_, var12, 0.0D);
+					var7.addVertex(var11 + par1, var12 + var10, 0.0D);
+					var7.addVertex(var11 + par1, var12, 0.0D);
 					var7.draw();
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
 				}

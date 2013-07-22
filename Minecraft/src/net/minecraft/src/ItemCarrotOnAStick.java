@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class ItemCarrotOnAStick extends Item
 {
-	public ItemCarrotOnAStick(int p_i5082_1_)
+	public ItemCarrotOnAStick(int par1)
 	{
-		super(p_i5082_1_);
+		super(par1);
 		setCreativeTab(CreativeTabs.tabTransport);
 		setMaxStackSize(1);
 		setMaxDamage(25);
@@ -15,24 +15,24 @@ public class ItemCarrotOnAStick extends Item
 		return true;
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if(p_77659_3_.isRiding() && p_77659_3_.ridingEntity instanceof EntityPig)
+		if(par3EntityPlayer.isRiding() && par3EntityPlayer.ridingEntity instanceof EntityPig)
 		{
-			EntityPig var4 = (EntityPig) p_77659_3_.ridingEntity;
-			if(var4.getAIControlledByPlayer().isControlledByPlayer() && p_77659_1_.getMaxDamage() - p_77659_1_.getItemDamage() >= 7)
+			EntityPig var4 = (EntityPig) par3EntityPlayer.ridingEntity;
+			if(var4.getAIControlledByPlayer().isControlledByPlayer() && par1ItemStack.getMaxDamage() - par1ItemStack.getItemDamage() >= 7)
 			{
 				var4.getAIControlledByPlayer().boostSpeed();
-				p_77659_1_.damageItem(7, p_77659_3_);
-				if(p_77659_1_.stackSize == 0)
+				par1ItemStack.damageItem(7, par3EntityPlayer);
+				if(par1ItemStack.stackSize == 0)
 				{
 					ItemStack var5 = new ItemStack(Item.fishingRod);
-					var5.setTagCompound(p_77659_1_.stackTagCompound);
+					var5.setTagCompound(par1ItemStack.stackTagCompound);
 					return var5;
 				}
 			}
 		}
-		return p_77659_1_;
+		return par1ItemStack;
 	}
 	
 	@Override public boolean shouldRotateAroundWhenRendering()

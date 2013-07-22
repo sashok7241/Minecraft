@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet206SetObjective extends Packet
@@ -14,11 +14,11 @@ public class Packet206SetObjective extends Packet
 	{
 	}
 	
-	public Packet206SetObjective(ScoreObjective p_i10003_1_, int p_i10003_2_)
+	public Packet206SetObjective(ScoreObjective par1ScoreObjective, int par2)
 	{
-		objectiveName = p_i10003_1_.getName();
-		objectiveDisplayName = p_i10003_1_.getDisplayName();
-		change = p_i10003_2_;
+		objectiveName = par1ScoreObjective.getName();
+		objectiveDisplayName = par1ScoreObjective.getDisplayName();
+		change = par2;
 	}
 	
 	@Override public int getPacketSize()
@@ -26,22 +26,22 @@ public class Packet206SetObjective extends Packet
 		return 2 + objectiveName.length() + 2 + objectiveDisplayName.length() + 1;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleSetObjective(this);
+		par1NetHandler.handleSetObjective(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		objectiveName = readString(p_73267_1_, 16);
-		objectiveDisplayName = readString(p_73267_1_, 32);
-		change = p_73267_1_.readByte();
+		objectiveName = readString(par1DataInput, 16);
+		objectiveDisplayName = readString(par1DataInput, 32);
+		change = par1DataInput.readByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(objectiveName, p_73273_1_);
-		writeString(objectiveDisplayName, p_73273_1_);
-		p_73273_1_.writeByte(change);
+		writeString(objectiveName, par1DataOutput);
+		writeString(objectiveDisplayName, par1DataOutput);
+		par1DataOutput.writeByte(change);
 	}
 }

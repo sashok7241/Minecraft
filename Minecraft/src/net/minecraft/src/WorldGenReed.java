@@ -4,21 +4,21 @@ import java.util.Random;
 
 public class WorldGenReed extends WorldGenerator
 {
-	@Override public boolean generate(World p_76484_1_, Random p_76484_2_, int p_76484_3_, int p_76484_4_, int p_76484_5_)
+	@Override public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
 	{
 		for(int var6 = 0; var6 < 20; ++var6)
 		{
-			int var7 = p_76484_3_ + p_76484_2_.nextInt(4) - p_76484_2_.nextInt(4);
-			int var8 = p_76484_4_;
-			int var9 = p_76484_5_ + p_76484_2_.nextInt(4) - p_76484_2_.nextInt(4);
-			if(p_76484_1_.isAirBlock(var7, p_76484_4_, var9) && (p_76484_1_.getBlockMaterial(var7 - 1, p_76484_4_ - 1, var9) == Material.water || p_76484_1_.getBlockMaterial(var7 + 1, p_76484_4_ - 1, var9) == Material.water || p_76484_1_.getBlockMaterial(var7, p_76484_4_ - 1, var9 - 1) == Material.water || p_76484_1_.getBlockMaterial(var7, p_76484_4_ - 1, var9 + 1) == Material.water))
+			int var7 = par3 + par2Random.nextInt(4) - par2Random.nextInt(4);
+			int var8 = par4;
+			int var9 = par5 + par2Random.nextInt(4) - par2Random.nextInt(4);
+			if(par1World.isAirBlock(var7, par4, var9) && (par1World.getBlockMaterial(var7 - 1, par4 - 1, var9) == Material.water || par1World.getBlockMaterial(var7 + 1, par4 - 1, var9) == Material.water || par1World.getBlockMaterial(var7, par4 - 1, var9 - 1) == Material.water || par1World.getBlockMaterial(var7, par4 - 1, var9 + 1) == Material.water))
 			{
-				int var10 = 2 + p_76484_2_.nextInt(p_76484_2_.nextInt(3) + 1);
+				int var10 = 2 + par2Random.nextInt(par2Random.nextInt(3) + 1);
 				for(int var11 = 0; var11 < var10; ++var11)
 				{
-					if(Block.reed.canBlockStay(p_76484_1_, var7, var8 + var11, var9))
+					if(Block.reed.canBlockStay(par1World, var7, var8 + var11, var9))
 					{
-						p_76484_1_.setBlock(var7, var8 + var11, var9, Block.reed.blockID, 0, 2);
+						par1World.setBlock(var7, var8 + var11, var9, Block.reed.blockID, 0, 2);
 					}
 				}
 			}

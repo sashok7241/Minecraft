@@ -4,9 +4,9 @@ public class EntityLavaFX extends EntityFX
 {
 	private float lavaParticleScale;
 	
-	public EntityLavaFX(World p_i3169_1_, double p_i3169_2_, double p_i3169_4_, double p_i3169_6_)
+	public EntityLavaFX(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i3169_1_, p_i3169_2_, p_i3169_4_, p_i3169_6_, 0.0D, 0.0D, 0.0D);
+		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
 		motionX *= 0.800000011920929D;
 		motionY *= 0.800000011920929D;
 		motionZ *= 0.800000011920929D;
@@ -19,7 +19,7 @@ public class EntityLavaFX extends EntityFX
 		setParticleTextureIndex(49);
 	}
 	
-	@Override public float getBrightness(float p_70013_1_)
+	@Override public float getBrightness(float par1)
 	{
 		return 1.0F;
 	}

@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Explosion
 {
-	public boolean isFlaming = false;
+	public boolean isFlaming;
 	public boolean isSmoking = true;
 	private int field_77289_h = 16;
 	private Random explosionRNG = new Random();
@@ -23,14 +23,14 @@ public class Explosion
 	public List affectedBlockPositions = new ArrayList();
 	private Map field_77288_k = new HashMap();
 	
-	public Explosion(World p_i3727_1_, Entity p_i3727_2_, double p_i3727_3_, double p_i3727_5_, double p_i3727_7_, float p_i3727_9_)
+	public Explosion(World par1World, Entity par2Entity, double par3, double par5, double par7, float par9)
 	{
-		worldObj = p_i3727_1_;
-		exploder = p_i3727_2_;
-		explosionSize = p_i3727_9_;
-		explosionX = p_i3727_3_;
-		explosionY = p_i3727_5_;
-		explosionZ = p_i3727_7_;
+		worldObj = par1World;
+		exploder = par2Entity;
+		explosionSize = par9;
+		explosionX = par3;
+		explosionY = par5;
+		explosionZ = par7;
 	}
 	
 	public void doExplosionA()
@@ -128,7 +128,7 @@ public class Explosion
 		explosionSize = var1;
 	}
 	
-	public void doExplosionB(boolean p_77279_1_)
+	public void doExplosionB(boolean par1)
 	{
 		worldObj.playSoundEffect(explosionX, explosionY, explosionZ, "random.explode", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 		if(explosionSize >= 2.0F && isSmoking)
@@ -154,7 +154,7 @@ public class Explosion
 				var5 = var3.y;
 				var6 = var3.z;
 				var7 = worldObj.getBlockId(var4, var5, var6);
-				if(p_77279_1_)
+				if(par1)
 				{
 					double var8 = var4 + worldObj.rand.nextFloat();
 					double var10 = var5 + worldObj.rand.nextFloat();
@@ -210,8 +210,8 @@ public class Explosion
 		return field_77288_k;
 	}
 	
-	public EntityLiving func_94613_c()
+	public EntityLivingBase func_94613_c()
 	{
-		return exploder == null ? null : exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed) exploder).getTntPlacedBy() : exploder instanceof EntityLiving ? (EntityLiving) exploder : null;
+		return exploder == null ? null : exploder instanceof EntityTNTPrimed ? ((EntityTNTPrimed) exploder).getTntPlacedBy() : exploder instanceof EntityLivingBase ? (EntityLivingBase) exploder : null;
 	}
 }

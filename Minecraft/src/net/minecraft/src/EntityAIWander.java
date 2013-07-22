@@ -6,12 +6,12 @@ public class EntityAIWander extends EntityAIBase
 	private double xPosition;
 	private double yPosition;
 	private double zPosition;
-	private float speed;
+	private double speed;
 	
-	public EntityAIWander(EntityCreature p_i3489_1_, float p_i3489_2_)
+	public EntityAIWander(EntityCreature par1EntityCreature, double par2)
 	{
-		entity = p_i3489_1_;
-		speed = p_i3489_2_;
+		entity = par1EntityCreature;
+		speed = par2;
 		setMutexBits(1);
 	}
 	

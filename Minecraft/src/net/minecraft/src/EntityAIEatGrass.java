@@ -4,12 +4,12 @@ public class EntityAIEatGrass extends EntityAIBase
 {
 	private EntityLiving theEntity;
 	private World theWorld;
-	int eatGrassTick = 0;
+	int eatGrassTick;
 	
-	public EntityAIEatGrass(EntityLiving p_i3463_1_)
+	public EntityAIEatGrass(EntityLiving par1EntityLiving)
 	{
-		theEntity = p_i3463_1_;
-		theWorld = p_i3463_1_.worldObj;
+		theEntity = par1EntityLiving;
+		theWorld = par1EntityLiving.worldObj;
 		setMutexBits(7);
 	}
 	

@@ -9,13 +9,13 @@ public enum EnumCreatureType
 	private final boolean isPeacefulCreature;
 	private final boolean isAnimal;
 	
-	private EnumCreatureType(Class p_i5057_3_, int p_i5057_4_, Material p_i5057_5_, boolean p_i5057_6_, boolean p_i5057_7_)
+	private EnumCreatureType(Class par3Class, int par4, Material par5Material, boolean par6, boolean par7)
 	{
-		creatureClass = p_i5057_3_;
-		maxNumberOfCreature = p_i5057_4_;
-		creatureMaterial = p_i5057_5_;
-		isPeacefulCreature = p_i5057_6_;
-		isAnimal = p_i5057_7_;
+		creatureClass = par3Class;
+		maxNumberOfCreature = par4;
+		creatureMaterial = par5Material;
+		isPeacefulCreature = par6;
+		isAnimal = par7;
 	}
 	
 	public boolean getAnimal()

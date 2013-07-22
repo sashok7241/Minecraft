@@ -10,10 +10,10 @@ class ThreadPollServers extends Thread
 	final ServerData pollServersServerData;
 	final GuiSlotServer serverSlotContainer;
 	
-	ThreadPollServers(GuiSlotServer p_i3040_1_, ServerData p_i3040_2_)
+	ThreadPollServers(GuiSlotServer par1GuiSlotServer, ServerData par2ServerData)
 	{
-		serverSlotContainer = p_i3040_1_;
-		pollServersServerData = p_i3040_2_;
+		serverSlotContainer = par1GuiSlotServer;
+		pollServersServerData = par2ServerData;
 	}
 	
 	@Override public void run()

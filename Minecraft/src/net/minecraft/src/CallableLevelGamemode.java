@@ -6,9 +6,9 @@ class CallableLevelGamemode implements Callable
 {
 	final WorldInfo worldInfoInstance;
 	
-	CallableLevelGamemode(WorldInfo p_i6828_1_)
+	CallableLevelGamemode(WorldInfo par1WorldInfo)
 	{
-		worldInfoInstance = p_i6828_1_;
+		worldInfoInstance = par1WorldInfo;
 	}
 	
 	@Override public Object call()

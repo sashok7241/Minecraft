@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet131MapData extends Packet
@@ -15,12 +15,12 @@ public class Packet131MapData extends Packet
 		isChunkDataPacket = true;
 	}
 	
-	public Packet131MapData(short p_i3306_1_, short p_i3306_2_, byte[] p_i3306_3_)
+	public Packet131MapData(short par1, short par2, byte[] par3ArrayOfByte)
 	{
 		isChunkDataPacket = true;
-		itemID = p_i3306_1_;
-		uniqueID = p_i3306_2_;
-		itemData = p_i3306_3_;
+		itemID = par1;
+		uniqueID = par2;
+		itemData = par3ArrayOfByte;
 	}
 	
 	@Override public int getPacketSize()
@@ -28,24 +28,24 @@ public class Packet131MapData extends Packet
 		return 4 + itemData.length;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleMapData(this);
+		par1NetHandler.handleMapData(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		itemID = p_73267_1_.readShort();
-		uniqueID = p_73267_1_.readShort();
-		itemData = new byte[p_73267_1_.readUnsignedShort()];
-		p_73267_1_.readFully(itemData);
+		itemID = par1DataInput.readShort();
+		uniqueID = par1DataInput.readShort();
+		itemData = new byte[par1DataInput.readUnsignedShort()];
+		par1DataInput.readFully(itemData);
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeShort(itemID);
-		p_73273_1_.writeShort(uniqueID);
-		p_73273_1_.writeShort(itemData.length);
-		p_73273_1_.write(itemData);
+		par1DataOutput.writeShort(itemID);
+		par1DataOutput.writeShort(uniqueID);
+		par1DataOutput.writeShort(itemData.length);
+		par1DataOutput.write(itemData);
 	}
 }

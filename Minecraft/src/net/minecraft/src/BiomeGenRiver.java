@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BiomeGenRiver extends BiomeGenBase
 {
-	public BiomeGenRiver(int p_i3763_1_)
+	public BiomeGenRiver(int par1)
 	{
-		super(p_i3763_1_);
+		super(par1);
 		spawnableCreatureList.clear();
 	}
 }

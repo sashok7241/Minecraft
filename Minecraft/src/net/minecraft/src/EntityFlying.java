@@ -2,12 +2,12 @@ package net.minecraft.src;
 
 public abstract class EntityFlying extends EntityLiving
 {
-	public EntityFlying(World p_i3442_1_)
+	public EntityFlying(World par1World)
 	{
-		super(p_i3442_1_);
+		super(par1World);
 	}
 	
-	@Override protected void fall(float p_70069_1_)
+	@Override protected void fall(float par1)
 	{
 	}
 	
@@ -16,18 +16,18 @@ public abstract class EntityFlying extends EntityLiving
 		return false;
 	}
 	
-	@Override public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_)
+	@Override public void moveEntityWithHeading(float par1, float par2)
 	{
 		if(isInWater())
 		{
-			moveFlying(p_70612_1_, p_70612_2_, 0.02F);
+			moveFlying(par1, par2, 0.02F);
 			moveEntity(motionX, motionY, motionZ);
 			motionX *= 0.800000011920929D;
 			motionY *= 0.800000011920929D;
 			motionZ *= 0.800000011920929D;
 		} else if(handleLavaMovement())
 		{
-			moveFlying(p_70612_1_, p_70612_2_, 0.02F);
+			moveFlying(par1, par2, 0.02F);
 			moveEntity(motionX, motionY, motionZ);
 			motionX *= 0.5D;
 			motionY *= 0.5D;
@@ -45,7 +45,7 @@ public abstract class EntityFlying extends EntityLiving
 				}
 			}
 			float var8 = 0.16277136F / (var3 * var3 * var3);
-			moveFlying(p_70612_1_, p_70612_2_, onGround ? 0.1F * var8 : 0.02F);
+			moveFlying(par1, par2, onGround ? 0.1F * var8 : 0.02F);
 			var3 = 0.91F;
 			if(onGround)
 			{
@@ -73,7 +73,7 @@ public abstract class EntityFlying extends EntityLiving
 		limbSwing += limbYaw;
 	}
 	
-	@Override protected void updateFallState(double p_70064_1_, boolean p_70064_3_)
+	@Override protected void updateFallState(double par1, boolean par3)
 	{
 	}
 }

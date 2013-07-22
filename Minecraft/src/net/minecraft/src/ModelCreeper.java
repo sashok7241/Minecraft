@@ -15,29 +15,29 @@ public class ModelCreeper extends ModelBase
 		this(0.0F);
 	}
 	
-	public ModelCreeper(float p_i3133_1_)
+	public ModelCreeper(float par1)
 	{
 		byte var2 = 4;
 		head = new ModelRenderer(this, 0, 0);
-		head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, p_i3133_1_);
+		head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, par1);
 		head.setRotationPoint(0.0F, var2, 0.0F);
 		field_78133_b = new ModelRenderer(this, 32, 0);
-		field_78133_b.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, p_i3133_1_ + 0.5F);
+		field_78133_b.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, par1 + 0.5F);
 		field_78133_b.setRotationPoint(0.0F, var2, 0.0F);
 		body = new ModelRenderer(this, 16, 16);
-		body.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, p_i3133_1_);
+		body.addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, par1);
 		body.setRotationPoint(0.0F, var2, 0.0F);
 		leg1 = new ModelRenderer(this, 0, 16);
-		leg1.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, p_i3133_1_);
+		leg1.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, par1);
 		leg1.setRotationPoint(-2.0F, 12 + var2, 4.0F);
 		leg2 = new ModelRenderer(this, 0, 16);
-		leg2.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, p_i3133_1_);
+		leg2.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, par1);
 		leg2.setRotationPoint(2.0F, 12 + var2, 4.0F);
 		leg3 = new ModelRenderer(this, 0, 16);
-		leg3.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, p_i3133_1_);
+		leg3.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, par1);
 		leg3.setRotationPoint(-2.0F, 12 + var2, -4.0F);
 		leg4 = new ModelRenderer(this, 0, 16);
-		leg4.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, p_i3133_1_);
+		leg4.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, par1);
 		leg4.setRotationPoint(2.0F, 12 + var2, -4.0F);
 	}
 	

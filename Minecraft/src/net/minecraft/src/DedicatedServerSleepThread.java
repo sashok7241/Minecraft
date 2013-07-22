@@ -4,9 +4,9 @@ class DedicatedServerSleepThread extends Thread
 {
 	final DedicatedServer theDecitatedServer;
 	
-	DedicatedServerSleepThread(DedicatedServer p_i3379_1_)
+	DedicatedServerSleepThread(DedicatedServer par1DedicatedServer)
 	{
-		theDecitatedServer = p_i3379_1_;
+		theDecitatedServer = par1DedicatedServer;
 		setDaemon(true);
 		start();
 	}

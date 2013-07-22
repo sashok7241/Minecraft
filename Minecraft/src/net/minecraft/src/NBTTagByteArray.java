@@ -9,15 +9,15 @@ public class NBTTagByteArray extends NBTBase
 {
 	public byte[] byteArray;
 	
-	public NBTTagByteArray(String p_i3261_1_)
+	public NBTTagByteArray(String par1Str)
 	{
-		super(p_i3261_1_);
+		super(par1Str);
 	}
 	
-	public NBTTagByteArray(String p_i3262_1_, byte[] p_i3262_2_)
+	public NBTTagByteArray(String par1Str, byte[] par2ArrayOfByte)
 	{
-		super(p_i3262_1_);
-		byteArray = p_i3262_2_;
+		super(par1Str);
+		byteArray = par2ArrayOfByte;
 	}
 	
 	@Override public NBTBase copy()
@@ -27,9 +27,9 @@ public class NBTTagByteArray extends NBTBase
 		return new NBTTagByteArray(getName(), var1);
 	}
 	
-	@Override public boolean equals(Object p_equals_1_)
+	@Override public boolean equals(Object par1Obj)
 	{
-		return super.equals(p_equals_1_) ? Arrays.equals(byteArray, ((NBTTagByteArray) p_equals_1_).byteArray) : false;
+		return super.equals(par1Obj) ? Arrays.equals(byteArray, ((NBTTagByteArray) par1Obj).byteArray) : false;
 	}
 	
 	@Override public byte getId()
@@ -42,11 +42,11 @@ public class NBTTagByteArray extends NBTBase
 		return super.hashCode() ^ Arrays.hashCode(byteArray);
 	}
 	
-	@Override void load(DataInput p_74735_1_) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
-		int var2 = p_74735_1_.readInt();
-		byteArray = new byte[var2];
-		p_74735_1_.readFully(byteArray);
+		int var3 = par1DataInput.readInt();
+		byteArray = new byte[var3];
+		par1DataInput.readFully(byteArray);
 	}
 	
 	@Override public String toString()
@@ -54,9 +54,9 @@ public class NBTTagByteArray extends NBTBase
 		return "[" + byteArray.length + " bytes]";
 	}
 	
-	@Override void write(DataOutput p_74734_1_) throws IOException
+	@Override void write(DataOutput par1DataOutput) throws IOException
 	{
-		p_74734_1_.writeInt(byteArray.length);
-		p_74734_1_.write(byteArray);
+		par1DataOutput.writeInt(byteArray.length);
+		par1DataOutput.write(byteArray);
 	}
 }

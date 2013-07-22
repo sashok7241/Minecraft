@@ -6,27 +6,27 @@ public enum EnumGameType
 	int id;
 	String name;
 	
-	private EnumGameType(int p_i3734_3_, String p_i3734_4_)
+	private EnumGameType(int par3, String par4Str)
 	{
-		id = p_i3734_3_;
-		name = p_i3734_4_;
+		id = par3;
+		name = par4Str;
 	}
 	
-	public void configurePlayerCapabilities(PlayerCapabilities p_77147_1_)
+	public void configurePlayerCapabilities(PlayerCapabilities par1PlayerCapabilities)
 	{
 		if(this == CREATIVE)
 		{
-			p_77147_1_.allowFlying = true;
-			p_77147_1_.isCreativeMode = true;
-			p_77147_1_.disableDamage = true;
+			par1PlayerCapabilities.allowFlying = true;
+			par1PlayerCapabilities.isCreativeMode = true;
+			par1PlayerCapabilities.disableDamage = true;
 		} else
 		{
-			p_77147_1_.allowFlying = false;
-			p_77147_1_.isCreativeMode = false;
-			p_77147_1_.disableDamage = false;
-			p_77147_1_.isFlying = false;
+			par1PlayerCapabilities.allowFlying = false;
+			par1PlayerCapabilities.isCreativeMode = false;
+			par1PlayerCapabilities.disableDamage = false;
+			par1PlayerCapabilities.isFlying = false;
 		}
-		p_77147_1_.allowEdit = !isAdventure();
+		par1PlayerCapabilities.allowEdit = !isAdventure();
 	}
 	
 	public int getID()
@@ -54,14 +54,14 @@ public enum EnumGameType
 		return this == SURVIVAL || this == ADVENTURE;
 	}
 	
-	public static EnumGameType getByID(int p_77146_0_)
+	public static EnumGameType getByID(int par0)
 	{
 		EnumGameType[] var1 = values();
 		int var2 = var1.length;
 		for(int var3 = 0; var3 < var2; ++var3)
 		{
 			EnumGameType var4 = var1[var3];
-			if(var4.id == p_77146_0_) return var4;
+			if(var4.id == par0) return var4;
 		}
 		return SURVIVAL;
 	}

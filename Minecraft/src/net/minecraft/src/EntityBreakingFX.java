@@ -2,21 +2,26 @@ package net.minecraft.src;
 
 public class EntityBreakingFX extends EntityFX
 {
-	public EntityBreakingFX(World p_i9004_1_, double p_i9004_2_, double p_i9004_4_, double p_i9004_6_, double p_i9004_8_, double p_i9004_10_, double p_i9004_12_, Item p_i9004_14_, RenderEngine p_i9004_15_)
+	public EntityBreakingFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12, Item par14Item, int par15)
 	{
-		this(p_i9004_1_, p_i9004_2_, p_i9004_4_, p_i9004_6_, p_i9004_14_, p_i9004_15_);
+		this(par1World, par2, par4, par6, par14Item, par15);
 		motionX *= 0.10000000149011612D;
 		motionY *= 0.10000000149011612D;
 		motionZ *= 0.10000000149011612D;
-		motionX += p_i9004_8_;
-		motionY += p_i9004_10_;
-		motionZ += p_i9004_12_;
+		motionX += par8;
+		motionY += par10;
+		motionZ += par12;
 	}
 	
-	public EntityBreakingFX(World p_i9003_1_, double p_i9003_2_, double p_i9003_4_, double p_i9003_6_, Item p_i9003_8_, RenderEngine p_i9003_9_)
+	public EntityBreakingFX(World par1World, double par2, double par4, double par6, Item par8Item)
 	{
-		super(p_i9003_1_, p_i9003_2_, p_i9003_4_, p_i9003_6_, 0.0D, 0.0D, 0.0D);
-		setParticleIcon(p_i9003_9_, p_i9003_8_.getIconFromDamage(0));
+		this(par1World, par2, par4, par6, par8Item, 0);
+	}
+	
+	public EntityBreakingFX(World par1World, double par2, double par4, double par6, Item par8Item, int par9)
+	{
+		super(par1World, par2, par4, par6, 0.0D, 0.0D, 0.0D);
+		func_110125_a(par8Item.getIconFromDamage(par9));
 		particleRed = particleGreen = particleBlue = 1.0F;
 		particleGravity = Block.blockSnow.blockParticleGravity;
 		particleScale /= 2.0F;

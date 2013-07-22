@@ -5,9 +5,9 @@ class AnvilChunkLoaderPending
 	public final ChunkCoordIntPair chunkCoordinate;
 	public final NBTTagCompound nbtTags;
 	
-	public AnvilChunkLoaderPending(ChunkCoordIntPair p_i3778_1_, NBTTagCompound p_i3778_2_)
+	public AnvilChunkLoaderPending(ChunkCoordIntPair par1ChunkCoordIntPair, NBTTagCompound par2NBTTagCompound)
 	{
-		chunkCoordinate = p_i3778_1_;
-		nbtTags = p_i3778_2_;
+		chunkCoordinate = par1ChunkCoordIntPair;
+		nbtTags = par2NBTTagCompound;
 	}
 }

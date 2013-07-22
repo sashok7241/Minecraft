@@ -4,14 +4,14 @@ public class EntityAITargetNonTamed extends EntityAINearestAttackableTarget
 {
 	private EntityTameable theTameable;
 	
-	public EntityAITargetNonTamed(EntityTameable p_i3502_1_, Class p_i3502_2_, float p_i3502_3_, int p_i3502_4_, boolean p_i3502_5_)
+	public EntityAITargetNonTamed(EntityTameable par1EntityTameable, Class par2Class, int par3, boolean par4)
 	{
-		super(p_i3502_1_, p_i3502_2_, p_i3502_3_, p_i3502_4_, p_i3502_5_);
-		theTameable = p_i3502_1_;
+		super(par1EntityTameable, par2Class, par3, par4);
+		theTameable = par1EntityTameable;
 	}
 	
 	@Override public boolean shouldExecute()
 	{
-		return theTameable.isTamed() ? false : super.shouldExecute();
+		return !theTameable.isTamed() && super.shouldExecute();
 	}
 }

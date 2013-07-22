@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class RecipesArmorDyes implements IRecipe
 {
-	@Override public ItemStack getCraftingResult(InventoryCrafting p_77572_1_)
+	@Override public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
 	{
 		ItemStack var2 = null;
 		int[] var3 = new int[3];
@@ -16,9 +16,9 @@ public class RecipesArmorDyes implements IRecipe
 		float var10;
 		float var11;
 		int var17;
-		for(var7 = 0; var7 < p_77572_1_.getSizeInventory(); ++var7)
+		for(var7 = 0; var7 < par1InventoryCrafting.getSizeInventory(); ++var7)
 		{
-			ItemStack var8 = p_77572_1_.getStackInSlot(var7);
+			ItemStack var8 = par1InventoryCrafting.getStackInSlot(var7);
 			if(var8 != null)
 			{
 				if(var8.getItem() instanceof ItemArmor)
@@ -42,7 +42,7 @@ public class RecipesArmorDyes implements IRecipe
 				} else
 				{
 					if(var8.itemID != Item.dyePowder.itemID) return null;
-					float[] var14 = EntitySheep.fleeceColorTable[BlockCloth.getBlockFromDye(var8.getItemDamage())];
+					float[] var14 = EntitySheep.fleeceColorTable[BlockColored.getBlockFromDye(var8.getItemDamage())];
 					int var16 = (int) (var14[0] * 255.0F);
 					int var15 = (int) (var14[1] * 255.0F);
 					var17 = (int) (var14[2] * 255.0F);
@@ -82,13 +82,13 @@ public class RecipesArmorDyes implements IRecipe
 		return 10;
 	}
 	
-	@Override public boolean matches(InventoryCrafting p_77569_1_, World p_77569_2_)
+	@Override public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
 	{
 		ItemStack var3 = null;
 		ArrayList var4 = new ArrayList();
-		for(int var5 = 0; var5 < p_77569_1_.getSizeInventory(); ++var5)
+		for(int var5 = 0; var5 < par1InventoryCrafting.getSizeInventory(); ++var5)
 		{
-			ItemStack var6 = p_77569_1_.getStackInSlot(var5);
+			ItemStack var6 = par1InventoryCrafting.getStackInSlot(var5);
 			if(var6 != null)
 			{
 				if(var6.getItem() instanceof ItemArmor)

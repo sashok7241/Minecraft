@@ -8,10 +8,10 @@ public class LanServer
 	private String lanServerIpPort;
 	private long timeLastSeen;
 	
-	public LanServer(String p_i3119_1_, String p_i3119_2_)
+	public LanServer(String par1Str, String par2Str)
 	{
-		lanServerMotd = p_i3119_1_;
-		lanServerIpPort = p_i3119_2_;
+		lanServerMotd = par1Str;
+		lanServerIpPort = par2Str;
 		timeLastSeen = Minecraft.getSystemTime();
 	}
 	

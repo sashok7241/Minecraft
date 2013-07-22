@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet5PlayerInventory extends Packet
@@ -14,16 +14,16 @@ public class Packet5PlayerInventory extends Packet
 	{
 	}
 	
-	public Packet5PlayerInventory(int p_i3350_1_, int p_i3350_2_, ItemStack p_i3350_3_)
+	public Packet5PlayerInventory(int par1, int par2, ItemStack par3ItemStack)
 	{
-		entityID = p_i3350_1_;
-		slot = p_i3350_2_;
-		itemSlot = p_i3350_3_ == null ? null : p_i3350_3_.copy();
+		entityID = par1;
+		slot = par2;
+		itemSlot = par3ItemStack == null ? null : par3ItemStack.copy();
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
+	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
 	{
-		Packet5PlayerInventory var2 = (Packet5PlayerInventory) p_73268_1_;
+		Packet5PlayerInventory var2 = (Packet5PlayerInventory) par1Packet;
 		return var2.entityID == entityID && var2.slot == slot;
 	}
 	
@@ -42,22 +42,22 @@ public class Packet5PlayerInventory extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handlePlayerInventory(this);
+		par1NetHandler.handlePlayerInventory(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityID = p_73267_1_.readInt();
-		slot = p_73267_1_.readShort();
-		itemSlot = readItemStack(p_73267_1_);
+		entityID = par1DataInput.readInt();
+		slot = par1DataInput.readShort();
+		itemSlot = readItemStack(par1DataInput);
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(entityID);
-		p_73273_1_.writeShort(slot);
-		writeItemStack(itemSlot, p_73273_1_);
+		par1DataOutput.writeInt(entityID);
+		par1DataOutput.writeShort(slot);
+		writeItemStack(itemSlot, par1DataOutput);
 	}
 }

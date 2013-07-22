@@ -1,37 +1,46 @@
 package net.minecraft.src;
 
+import java.io.UnsupportedEncodingException;
+
 public class RConUtils
 {
 	public static char[] hexDigits = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 	
-	public static String getByteAsHexString(byte p_72663_0_)
+	public static String getByteAsHexString(byte par0)
 	{
-		return "" + hexDigits[(p_72663_0_ & 240) >>> 4] + hexDigits[p_72663_0_ & 15];
+		return "" + hexDigits[(par0 & 240) >>> 4] + hexDigits[par0 & 15];
 	}
 	
-	public static int getBytesAsBEint(byte[] p_72664_0_, int p_72664_1_, int p_72664_2_)
+	public static int getBytesAsBEint(byte[] par0ArrayOfByte, int par1, int par2)
 	{
-		return 0 > p_72664_2_ - p_72664_1_ - 4 ? 0 : p_72664_0_[p_72664_1_] << 24 | (p_72664_0_[p_72664_1_ + 1] & 255) << 16 | (p_72664_0_[p_72664_1_ + 2] & 255) << 8 | p_72664_0_[p_72664_1_ + 3] & 255;
+		return 0 > par2 - par1 - 4 ? 0 : par0ArrayOfByte[par1] << 24 | (par0ArrayOfByte[par1 + 1] & 255) << 16 | (par0ArrayOfByte[par1 + 2] & 255) << 8 | par0ArrayOfByte[par1 + 3] & 255;
 	}
 	
-	public static int getBytesAsLEInt(byte[] p_72665_0_, int p_72665_1_, int p_72665_2_)
+	public static int getBytesAsLEInt(byte[] par0ArrayOfByte, int par1, int par2)
 	{
-		return 0 > p_72665_2_ - p_72665_1_ - 4 ? 0 : p_72665_0_[p_72665_1_ + 3] << 24 | (p_72665_0_[p_72665_1_ + 2] & 255) << 16 | (p_72665_0_[p_72665_1_ + 1] & 255) << 8 | p_72665_0_[p_72665_1_] & 255;
+		return 0 > par2 - par1 - 4 ? 0 : par0ArrayOfByte[par1 + 3] << 24 | (par0ArrayOfByte[par1 + 2] & 255) << 16 | (par0ArrayOfByte[par1 + 1] & 255) << 8 | par0ArrayOfByte[par1] & 255;
 	}
 	
-	public static String getBytesAsString(byte[] p_72661_0_, int p_72661_1_, int p_72661_2_)
+	public static String getBytesAsString(byte[] par0ArrayOfByte, int par1, int par2)
 	{
-		int var3 = p_72661_2_ - 1;
+		int var3 = par2 - 1;
 		int var4;
-		for(var4 = p_72661_1_ > var3 ? var3 : p_72661_1_; 0 != p_72661_0_[var4] && var4 < var3; ++var4)
+		for(var4 = par1 > var3 ? var3 : par1; 0 != par0ArrayOfByte[var4] && var4 < var3; ++var4)
 		{
 			;
 		}
-		return new String(p_72661_0_, p_72661_1_, var4 - p_72661_1_);
+		try
+		{
+			return new String(par0ArrayOfByte, par1, var4 - par1, "UTF-8");
+		} catch(UnsupportedEncodingException var6)
+		{
+			var6.printStackTrace();
+			return null;
+		}
 	}
 	
-	public static int getRemainingBytesAsLEInt(byte[] p_72662_0_, int p_72662_1_)
+	public static int getRemainingBytesAsLEInt(byte[] par0ArrayOfByte, int par1)
 	{
-		return getBytesAsLEInt(p_72662_0_, p_72662_1_, p_72662_0_.length);
+		return getBytesAsLEInt(par0ArrayOfByte, par1, par0ArrayOfByte.length);
 	}
 }

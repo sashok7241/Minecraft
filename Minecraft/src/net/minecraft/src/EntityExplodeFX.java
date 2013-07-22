@@ -2,12 +2,12 @@ package net.minecraft.src;
 
 public class EntityExplodeFX extends EntityFX
 {
-	public EntityExplodeFX(World p_i3180_1_, double p_i3180_2_, double p_i3180_4_, double p_i3180_6_, double p_i3180_8_, double p_i3180_10_, double p_i3180_12_)
+	public EntityExplodeFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		super(p_i3180_1_, p_i3180_2_, p_i3180_4_, p_i3180_6_, p_i3180_8_, p_i3180_10_, p_i3180_12_);
-		motionX = p_i3180_8_ + (float) (Math.random() * 2.0D - 1.0D) * 0.05F;
-		motionY = p_i3180_10_ + (float) (Math.random() * 2.0D - 1.0D) * 0.05F;
-		motionZ = p_i3180_12_ + (float) (Math.random() * 2.0D - 1.0D) * 0.05F;
+		super(par1World, par2, par4, par6, par8, par10, par12);
+		motionX = par8 + (float) (Math.random() * 2.0D - 1.0D) * 0.05F;
+		motionY = par10 + (float) (Math.random() * 2.0D - 1.0D) * 0.05F;
+		motionZ = par12 + (float) (Math.random() * 2.0D - 1.0D) * 0.05F;
 		particleRed = particleGreen = particleBlue = rand.nextFloat() * 0.3F + 0.7F;
 		particleScale = rand.nextFloat() * rand.nextFloat() * 6.0F + 1.0F;
 		particleMaxAge = (int) (16.0D / (rand.nextFloat() * 0.8D + 0.2D)) + 2;

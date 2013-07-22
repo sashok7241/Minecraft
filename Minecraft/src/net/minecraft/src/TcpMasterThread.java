@@ -4,9 +4,9 @@ class TcpMasterThread extends Thread
 {
 	final TcpConnection theTcpConnection;
 	
-	TcpMasterThread(TcpConnection p_i3285_1_)
+	TcpMasterThread(TcpConnection par1TcpConnection)
 	{
-		theTcpConnection = p_i3285_1_;
+		theTcpConnection = par1TcpConnection;
 	}
 	
 	@Override @SuppressWarnings("deprecation") public void run()

@@ -6,20 +6,19 @@ import java.util.Random;
 public class BlockSapling extends BlockFlower
 {
 	public static final String[] WOOD_TYPES = new String[] { "oak", "spruce", "birch", "jungle" };
-	private static final String[] field_94370_b = new String[] { "sapling", "sapling_spruce", "sapling_birch", "sapling_jungle" };
 	private Icon[] saplingIcon;
 	
-	protected BlockSapling(int p_i9089_1_)
+	protected BlockSapling(int par1)
 	{
-		super(p_i9089_1_);
+		super(par1);
 		float var2 = 0.4F;
 		setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, var2 * 2.0F, 0.5F + var2);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public int damageDropped(int p_71899_1_)
+	@Override public int damageDropped(int par1)
 	{
-		return p_71899_1_ & 3;
+		return par1 & 3;
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -36,9 +35,9 @@ public class BlockSapling extends BlockFlower
 		par3List.add(new ItemStack(par1, 1, 3));
 	}
 	
-	public void growTree(World p_72269_1_, int p_72269_2_, int p_72269_3_, int p_72269_4_, Random p_72269_5_)
+	public void growTree(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		int var6 = p_72269_1_.getBlockMetadata(p_72269_2_, p_72269_3_, p_72269_4_) & 3;
+		int var6 = par1World.getBlockMetadata(par2, par3, par4) & 3;
 		Object var7 = null;
 		int var8 = 0;
 		int var9 = 0;
@@ -55,9 +54,9 @@ public class BlockSapling extends BlockFlower
 			{
 				for(var9 = 0; var9 >= -1; --var9)
 				{
-					if(isSameSapling(p_72269_1_, p_72269_2_ + var8, p_72269_3_, p_72269_4_ + var9, 3) && isSameSapling(p_72269_1_, p_72269_2_ + var8 + 1, p_72269_3_, p_72269_4_ + var9, 3) && isSameSapling(p_72269_1_, p_72269_2_ + var8, p_72269_3_, p_72269_4_ + var9 + 1, 3) && isSameSapling(p_72269_1_, p_72269_2_ + var8 + 1, p_72269_3_, p_72269_4_ + var9 + 1, 3))
+					if(isSameSapling(par1World, par2 + var8, par3, par4 + var9, 3) && isSameSapling(par1World, par2 + var8 + 1, par3, par4 + var9, 3) && isSameSapling(par1World, par2 + var8, par3, par4 + var9 + 1, 3) && isSameSapling(par1World, par2 + var8 + 1, par3, par4 + var9 + 1, 3))
 					{
-						var7 = new WorldGenHugeTrees(true, 10 + p_72269_5_.nextInt(20), 3, 3);
+						var7 = new WorldGenHugeTrees(true, 10 + par5Random.nextInt(20), 3, 3);
 						var10 = true;
 						break;
 					}
@@ -71,75 +70,75 @@ public class BlockSapling extends BlockFlower
 			{
 				var9 = 0;
 				var8 = 0;
-				var7 = new WorldGenTrees(true, 4 + p_72269_5_.nextInt(7), 3, 3, false);
+				var7 = new WorldGenTrees(true, 4 + par5Random.nextInt(7), 3, 3, false);
 			}
 		} else
 		{
 			var7 = new WorldGenTrees(true);
-			if(p_72269_5_.nextInt(10) == 0)
+			if(par5Random.nextInt(10) == 0)
 			{
 				var7 = new WorldGenBigTree(true);
 			}
 		}
 		if(var10)
 		{
-			p_72269_1_.setBlock(p_72269_2_ + var8, p_72269_3_, p_72269_4_ + var9, 0, 0, 4);
-			p_72269_1_.setBlock(p_72269_2_ + var8 + 1, p_72269_3_, p_72269_4_ + var9, 0, 0, 4);
-			p_72269_1_.setBlock(p_72269_2_ + var8, p_72269_3_, p_72269_4_ + var9 + 1, 0, 0, 4);
-			p_72269_1_.setBlock(p_72269_2_ + var8 + 1, p_72269_3_, p_72269_4_ + var9 + 1, 0, 0, 4);
+			par1World.setBlock(par2 + var8, par3, par4 + var9, 0, 0, 4);
+			par1World.setBlock(par2 + var8 + 1, par3, par4 + var9, 0, 0, 4);
+			par1World.setBlock(par2 + var8, par3, par4 + var9 + 1, 0, 0, 4);
+			par1World.setBlock(par2 + var8 + 1, par3, par4 + var9 + 1, 0, 0, 4);
 		} else
 		{
-			p_72269_1_.setBlock(p_72269_2_, p_72269_3_, p_72269_4_, 0, 0, 4);
+			par1World.setBlock(par2, par3, par4, 0, 0, 4);
 		}
-		if(!((WorldGenerator) var7).generate(p_72269_1_, p_72269_5_, p_72269_2_ + var8, p_72269_3_, p_72269_4_ + var9))
+		if(!((WorldGenerator) var7).generate(par1World, par5Random, par2 + var8, par3, par4 + var9))
 		{
 			if(var10)
 			{
-				p_72269_1_.setBlock(p_72269_2_ + var8, p_72269_3_, p_72269_4_ + var9, blockID, var6, 4);
-				p_72269_1_.setBlock(p_72269_2_ + var8 + 1, p_72269_3_, p_72269_4_ + var9, blockID, var6, 4);
-				p_72269_1_.setBlock(p_72269_2_ + var8, p_72269_3_, p_72269_4_ + var9 + 1, blockID, var6, 4);
-				p_72269_1_.setBlock(p_72269_2_ + var8 + 1, p_72269_3_, p_72269_4_ + var9 + 1, blockID, var6, 4);
+				par1World.setBlock(par2 + var8, par3, par4 + var9, blockID, var6, 4);
+				par1World.setBlock(par2 + var8 + 1, par3, par4 + var9, blockID, var6, 4);
+				par1World.setBlock(par2 + var8, par3, par4 + var9 + 1, blockID, var6, 4);
+				par1World.setBlock(par2 + var8 + 1, par3, par4 + var9 + 1, blockID, var6, 4);
 			} else
 			{
-				p_72269_1_.setBlock(p_72269_2_, p_72269_3_, p_72269_4_, blockID, var6, 4);
+				par1World.setBlock(par2, par3, par4, blockID, var6, 4);
 			}
 		}
 	}
 	
-	public boolean isSameSapling(World p_72268_1_, int p_72268_2_, int p_72268_3_, int p_72268_4_, int p_72268_5_)
+	public boolean isSameSapling(World par1World, int par2, int par3, int par4, int par5)
 	{
-		return p_72268_1_.getBlockId(p_72268_2_, p_72268_3_, p_72268_4_) == blockID && (p_72268_1_.getBlockMetadata(p_72268_2_, p_72268_3_, p_72268_4_) & 3) == p_72268_5_;
+		return par1World.getBlockId(par2, par3, par4) == blockID && (par1World.getBlockMetadata(par2, par3, par4) & 3) == par5;
 	}
 	
-	public void markOrGrowMarked(World p_96477_1_, int p_96477_2_, int p_96477_3_, int p_96477_4_, Random p_96477_5_)
+	public void markOrGrowMarked(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		int var6 = p_96477_1_.getBlockMetadata(p_96477_2_, p_96477_3_, p_96477_4_);
+		int var6 = par1World.getBlockMetadata(par2, par3, par4);
 		if((var6 & 8) == 0)
 		{
-			p_96477_1_.setBlockMetadataWithNotify(p_96477_2_, p_96477_3_, p_96477_4_, var6 | 8, 4);
+			par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 | 8, 4);
 		} else
 		{
-			growTree(p_96477_1_, p_96477_2_, p_96477_3_, p_96477_4_, p_96477_5_);
+			growTree(par1World, par2, par3, par4, par5Random);
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		saplingIcon = new Icon[field_94370_b.length];
+		saplingIcon = new Icon[WOOD_TYPES.length];
 		for(int var2 = 0; var2 < saplingIcon.length; ++var2)
 		{
-			saplingIcon[var2] = par1IconRegister.registerIcon(field_94370_b[var2]);
+			saplingIcon[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + WOOD_TYPES[var2]);
 		}
 	}
 	
-	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
+	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		if(!p_71847_1_.isRemote)
+		if(!par1World.isRemote)
 		{
-			super.updateTick(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_, p_71847_5_);
-			if(p_71847_1_.getBlockLightValue(p_71847_2_, p_71847_3_ + 1, p_71847_4_) >= 9 && p_71847_5_.nextInt(7) == 0)
+			super.updateTick(par1World, par2, par3, par4, par5Random);
+			if(par1World.getBlockLightValue(par2, par3 + 1, par4) >= 9 && par5Random.nextInt(7) == 0)
 			{
-				markOrGrowMarked(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_, p_71847_5_);
+				markOrGrowMarked(par1World, par2, par3, par4, par5Random);
 			}
 		}
 	}

@@ -4,19 +4,19 @@ public class BlockPotato extends BlockCrops
 {
 	private Icon[] iconArray;
 	
-	public BlockPotato(int p_i5105_1_)
+	public BlockPotato(int par1)
 	{
-		super(p_i5105_1_);
+		super(par1);
 	}
 	
-	@Override public void dropBlockAsItemWithChance(World p_71914_1_, int p_71914_2_, int p_71914_3_, int p_71914_4_, int p_71914_5_, float p_71914_6_, int p_71914_7_)
+	@Override public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
 	{
-		super.dropBlockAsItemWithChance(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, p_71914_5_, p_71914_6_, p_71914_7_);
-		if(!p_71914_1_.isRemote)
+		super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, par7);
+		if(!par1World.isRemote)
 		{
-			if(p_71914_5_ >= 7 && p_71914_1_.rand.nextInt(50) == 0)
+			if(par5 >= 7 && par1World.rand.nextInt(50) == 0)
 			{
-				dropBlockAsItem_do(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, new ItemStack(Item.poisonousPotato));
+				dropBlockAsItem_do(par1World, par2, par3, par4, new ItemStack(Item.poisonousPotato));
 			}
 		}
 	}
@@ -48,7 +48,7 @@ public class BlockPotato extends BlockCrops
 		iconArray = new Icon[4];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon("potatoes_" + var2);
+			iconArray[var2] = par1IconRegister.registerIcon(func_111023_E() + "_stage_" + var2);
 		}
 	}
 }

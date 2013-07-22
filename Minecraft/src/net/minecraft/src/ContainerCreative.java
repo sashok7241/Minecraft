@@ -7,9 +7,9 @@ class ContainerCreative extends Container
 {
 	public List itemList = new ArrayList();
 	
-	public ContainerCreative(EntityPlayer p_i3082_1_)
+	public ContainerCreative(EntityPlayer par1EntityPlayer)
 	{
-		InventoryPlayer var2 = p_i3082_1_.inventory;
+		InventoryPlayer var2 = par1EntityPlayer.inventory;
 		int var3;
 		for(var3 = 0; var3 < 5; ++var3)
 		{
@@ -25,19 +25,19 @@ class ContainerCreative extends Container
 		scrollTo(0.0F);
 	}
 	
-	@Override public boolean canDragIntoSlot(Slot p_94531_1_)
+	@Override public boolean canDragIntoSlot(Slot par1Slot)
 	{
-		return p_94531_1_.inventory instanceof InventoryPlayer || p_94531_1_.yDisplayPosition > 90 && p_94531_1_.xDisplayPosition <= 162;
+		return par1Slot.inventory instanceof InventoryPlayer || par1Slot.yDisplayPosition > 90 && par1Slot.xDisplayPosition <= 162;
 	}
 	
-	@Override public boolean canInteractWith(EntityPlayer p_75145_1_)
+	@Override public boolean canInteractWith(EntityPlayer par1EntityPlayer)
 	{
 		return true;
 	}
 	
-	@Override public boolean func_94530_a(ItemStack p_94530_1_, Slot p_94530_2_)
+	@Override public boolean func_94530_a(ItemStack par1ItemStack, Slot par2Slot)
 	{
-		return p_94530_2_.yDisplayPosition > 90;
+		return par2Slot.yDisplayPosition > 90;
 	}
 	
 	public boolean hasMoreThan1PageOfItemsInList()
@@ -45,7 +45,7 @@ class ContainerCreative extends Container
 		return itemList.size() > 45;
 	}
 	
-	@Override protected void retrySlotClick(int p_75133_1_, int p_75133_2_, boolean p_75133_3_, EntityPlayer p_75133_4_)
+	@Override protected void retrySlotClick(int par1, int par2, boolean par3, EntityPlayer par4EntityPlayer)
 	{
 	}
 	
@@ -73,11 +73,11 @@ class ContainerCreative extends Container
 		}
 	}
 	
-	@Override public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
+	@Override public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
 	{
-		if(p_82846_2_ >= inventorySlots.size() - 9 && p_82846_2_ < inventorySlots.size())
+		if(par2 >= inventorySlots.size() - 9 && par2 < inventorySlots.size())
 		{
-			Slot var3 = (Slot) inventorySlots.get(p_82846_2_);
+			Slot var3 = (Slot) inventorySlots.get(par2);
 			if(var3 != null && var3.getHasStack())
 			{
 				var3.putStack((ItemStack) null);

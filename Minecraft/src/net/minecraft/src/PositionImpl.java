@@ -6,11 +6,11 @@ public class PositionImpl implements IPosition
 	protected final double y;
 	protected final double z;
 	
-	public PositionImpl(double p_i5028_1_, double p_i5028_3_, double p_i5028_5_)
+	public PositionImpl(double par1, double par3, double par5)
 	{
-		x = p_i5028_1_;
-		y = p_i5028_3_;
-		z = p_i5028_5_;
+		x = par1;
+		y = par3;
+		z = par5;
 	}
 	
 	@Override public double getX()

@@ -6,10 +6,10 @@ class GuiButtonNextPage extends GuiButton
 {
 	private final boolean nextPage;
 	
-	public GuiButtonNextPage(int p_i3087_1_, int p_i3087_2_, int p_i3087_3_, boolean p_i3087_4_)
+	public GuiButtonNextPage(int par1, int par2, int par3, boolean par4)
 	{
-		super(p_i3087_1_, p_i3087_2_, p_i3087_3_, 23, 13, "");
-		nextPage = p_i3087_4_;
+		super(par1, par2, par3, 23, 13, "");
+		nextPage = par4;
 	}
 	
 	@Override public void drawButton(Minecraft par1Minecraft, int par2, int par3)
@@ -18,7 +18,7 @@ class GuiButtonNextPage extends GuiButton
 		{
 			boolean var4 = par2 >= xPosition && par3 >= yPosition && par2 < xPosition + width && par3 < yPosition + height;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			par1Minecraft.renderEngine.bindTexture("/gui/book.png");
+			par1Minecraft.func_110434_K().func_110577_a(GuiScreenBook.func_110404_g());
 			int var5 = 0;
 			int var6 = 192;
 			if(var4)

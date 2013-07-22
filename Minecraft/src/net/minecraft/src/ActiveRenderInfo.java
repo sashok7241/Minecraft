@@ -5,9 +5,9 @@ import java.nio.IntBuffer;
 
 public class ActiveRenderInfo
 {
-	public static float objectX = 0.0F;
-	public static float objectY = 0.0F;
-	public static float objectZ = 0.0F;
+	public static float objectX;
+	public static float objectY;
+	public static float objectZ;
 	private static IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
 	private static FloatBuffer modelview = GLAllocation.createDirectFloatBuffer(16);
 	private static FloatBuffer projection = GLAllocation.createDirectFloatBuffer(16);
@@ -18,7 +18,7 @@ public class ActiveRenderInfo
 	public static float rotationYZ;
 	public static float rotationXY;
 	
-	public static int getBlockIdAtEntityViewpoint(World par0World, EntityLiving par1EntityLivingBase, float par2)
+	public static int getBlockIdAtEntityViewpoint(World par0World, EntityLivingBase par1EntityLivingBase, float par2)
 	{
 		Vec3 var3 = projectViewFromEntity(par1EntityLivingBase, par2);
 		ChunkPosition var4 = new ChunkPosition(var3);
@@ -35,7 +35,7 @@ public class ActiveRenderInfo
 		return var5;
 	}
 	
-	public static Vec3 projectViewFromEntity(EntityLiving par0EntityLivingBase, double par1)
+	public static Vec3 projectViewFromEntity(EntityLivingBase par0EntityLivingBase, double par1)
 	{
 		double var3 = par0EntityLivingBase.prevPosX + (par0EntityLivingBase.posX - par0EntityLivingBase.prevPosX) * par1;
 		double var5 = par0EntityLivingBase.prevPosY + (par0EntityLivingBase.posY - par0EntityLivingBase.prevPosY) * par1 + par0EntityLivingBase.getEyeHeight();

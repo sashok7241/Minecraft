@@ -4,8 +4,8 @@ public class MinecraftException extends Exception
 {
 	private static final long serialVersionUID = 1L;
 	
-	public MinecraftException(String p_i3733_1_)
+	public MinecraftException(String par1Str)
 	{
-		super(p_i3733_1_);
+		super(par1Str);
 	}
 }

@@ -8,15 +8,15 @@ public class NBTTagByte extends NBTBase
 {
 	public byte data;
 	
-	public NBTTagByte(String p_i3263_1_)
+	public NBTTagByte(String par1Str)
 	{
-		super(p_i3263_1_);
+		super(par1Str);
 	}
 	
-	public NBTTagByte(String p_i3264_1_, byte p_i3264_2_)
+	public NBTTagByte(String par1Str, byte par2)
 	{
-		super(p_i3264_1_);
-		data = p_i3264_2_;
+		super(par1Str);
+		data = par2;
 	}
 	
 	@Override public NBTBase copy()
@@ -24,11 +24,11 @@ public class NBTTagByte extends NBTBase
 		return new NBTTagByte(getName(), data);
 	}
 	
-	@Override public boolean equals(Object p_equals_1_)
+	@Override public boolean equals(Object par1Obj)
 	{
-		if(super.equals(p_equals_1_))
+		if(super.equals(par1Obj))
 		{
-			NBTTagByte var2 = (NBTTagByte) p_equals_1_;
+			NBTTagByte var2 = (NBTTagByte) par1Obj;
 			return data == var2.data;
 		} else return false;
 	}
@@ -43,9 +43,9 @@ public class NBTTagByte extends NBTBase
 		return super.hashCode() ^ data;
 	}
 	
-	@Override void load(DataInput p_74735_1_) throws IOException
+	@Override void load(DataInput par1DataInput, int par2) throws IOException
 	{
-		data = p_74735_1_.readByte();
+		data = par1DataInput.readByte();
 	}
 	
 	@Override public String toString()
@@ -53,8 +53,8 @@ public class NBTTagByte extends NBTBase
 		return "" + data;
 	}
 	
-	@Override void write(DataOutput p_74734_1_) throws IOException
+	@Override void write(DataOutput par1DataOutput) throws IOException
 	{
-		p_74734_1_.writeByte(data);
+		par1DataOutput.writeByte(data);
 	}
 }

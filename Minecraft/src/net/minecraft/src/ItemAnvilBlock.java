@@ -2,13 +2,13 @@ package net.minecraft.src;
 
 public class ItemAnvilBlock extends ItemMultiTextureTile
 {
-	public ItemAnvilBlock(Block p_i5081_1_)
+	public ItemAnvilBlock(Block par1Block)
 	{
-		super(p_i5081_1_.blockID - 256, p_i5081_1_, BlockAnvil.statuses);
+		super(par1Block.blockID - 256, par1Block, BlockAnvil.statuses);
 	}
 	
-	@Override public int getMetadata(int p_77647_1_)
+	@Override public int getMetadata(int par1)
 	{
-		return p_77647_1_ << 2;
+		return par1 << 2;
 	}
 }

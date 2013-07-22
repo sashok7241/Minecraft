@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 final class MaterialWeb extends Material
 {
-	MaterialWeb(MapColor p_i3881_1_)
+	MaterialWeb(MapColor par1MapColor)
 	{
-		super(p_i3881_1_);
+		super(par1MapColor);
 	}
 	
 	@Override public boolean blocksMovement()

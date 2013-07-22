@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 
 public class GuiScreenBook extends GuiScreen
 {
+	private static final ResourceLocation field_110405_a = new ResourceLocation("textures/gui/book.png");
 	private final EntityPlayer editingPlayer;
 	private final ItemStack itemstackBook;
 	private final boolean bookIsUnsigned;
@@ -24,14 +25,14 @@ public class GuiScreenBook extends GuiScreen
 	private GuiButton buttonFinalize;
 	private GuiButton buttonCancel;
 	
-	public GuiScreenBook(EntityPlayer p_i3085_1_, ItemStack p_i3085_2_, boolean p_i3085_3_)
+	public GuiScreenBook(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack, boolean par3)
 	{
-		editingPlayer = p_i3085_1_;
-		itemstackBook = p_i3085_2_;
-		bookIsUnsigned = p_i3085_3_;
-		if(p_i3085_2_.hasTagCompound())
+		editingPlayer = par1EntityPlayer;
+		itemstackBook = par2ItemStack;
+		bookIsUnsigned = par3;
+		if(par2ItemStack.hasTagCompound())
 		{
-			NBTTagCompound var4 = p_i3085_2_.getTagCompound();
+			NBTTagCompound var4 = par2ItemStack.getTagCompound();
 			bookPages = var4.getTagList("pages");
 			if(bookPages != null)
 			{
@@ -43,7 +44,7 @@ public class GuiScreenBook extends GuiScreen
 				}
 			}
 		}
-		if(bookPages == null && p_i3085_3_)
+		if(bookPages == null && par3)
 		{
 			bookPages = new NBTTagList("pages");
 			bookPages.appendTag(new NBTTagString("1", ""));
@@ -106,7 +107,7 @@ public class GuiScreenBook extends GuiScreen
 	@Override public void drawScreen(int par1, int par2, float par3)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/gui/book.png");
+		mc.func_110434_K().func_110577_a(field_110405_a);
 		int var4 = (width - bookImageWidth) / 2;
 		byte var5 = 2;
 		drawTexturedModalRect(var4, var5, 0, 0, bookImageWidth, bookImageHeight);
@@ -126,19 +127,19 @@ public class GuiScreenBook extends GuiScreen
 					var6 = var6 + "" + EnumChatFormatting.GRAY + "_";
 				}
 			}
-			var7 = StatCollector.translateToLocal("book.editTitle");
+			var7 = I18n.func_135053_a("book.editTitle");
 			var8 = fontRenderer.getStringWidth(var7);
 			fontRenderer.drawString(var7, var4 + 36 + (116 - var8) / 2, var5 + 16 + 16, 0);
 			int var9 = fontRenderer.getStringWidth(var6);
 			fontRenderer.drawString(var6, var4 + 36 + (116 - var9) / 2, var5 + 48, 0);
-			String var10 = String.format(StatCollector.translateToLocal("book.byAuthor"), new Object[] { editingPlayer.username });
+			String var10 = String.format(I18n.func_135053_a("book.byAuthor"), new Object[] { editingPlayer.getCommandSenderName() });
 			int var11 = fontRenderer.getStringWidth(var10);
 			fontRenderer.drawString(EnumChatFormatting.DARK_GRAY + var10, var4 + 36 + (116 - var11) / 2, var5 + 48 + 10, 0);
-			String var12 = StatCollector.translateToLocal("book.finalizeWarning");
+			String var12 = I18n.func_135053_a("book.finalizeWarning");
 			fontRenderer.drawSplitString(var12, var4 + 36, var5 + 80, 116, 0);
 		} else
 		{
-			var6 = String.format(StatCollector.translateToLocal("book.pageIndicator"), new Object[] { Integer.valueOf(currPage + 1), Integer.valueOf(bookTotalPages) });
+			var6 = String.format(I18n.func_135053_a("book.pageIndicator"), new Object[] { Integer.valueOf(currPage + 1), Integer.valueOf(bookTotalPages) });
 			var7 = "";
 			if(bookPages != null && currPage >= 0 && currPage < bookPages.tagCount())
 			{
@@ -200,14 +201,15 @@ public class GuiScreenBook extends GuiScreen
 		switch(par2)
 		{
 			case 14:
-				if(bookTitle.length() > 0)
+				if(!bookTitle.isEmpty())
 				{
 					bookTitle = bookTitle.substring(0, bookTitle.length() - 1);
 					updateButtons();
 				}
 				return;
 			case 28:
-				if(bookTitle.length() > 0)
+			case 156:
+				if(!bookTitle.isEmpty())
 				{
 					sendBookToServer(true);
 					mc.displayGuiScreen((GuiScreen) null);
@@ -229,13 +231,13 @@ public class GuiScreenBook extends GuiScreen
 		Keyboard.enableRepeatEvents(true);
 		if(bookIsUnsigned)
 		{
-			buttonList.add(buttonSign = new GuiButton(3, width / 2 - 100, 4 + bookImageHeight, 98, 20, StatCollector.translateToLocal("book.signButton")));
-			buttonList.add(buttonDone = new GuiButton(0, width / 2 + 2, 4 + bookImageHeight, 98, 20, StatCollector.translateToLocal("gui.done")));
-			buttonList.add(buttonFinalize = new GuiButton(5, width / 2 - 100, 4 + bookImageHeight, 98, 20, StatCollector.translateToLocal("book.finalizeButton")));
-			buttonList.add(buttonCancel = new GuiButton(4, width / 2 + 2, 4 + bookImageHeight, 98, 20, StatCollector.translateToLocal("gui.cancel")));
+			buttonList.add(buttonSign = new GuiButton(3, width / 2 - 100, 4 + bookImageHeight, 98, 20, I18n.func_135053_a("book.signButton")));
+			buttonList.add(buttonDone = new GuiButton(0, width / 2 + 2, 4 + bookImageHeight, 98, 20, I18n.func_135053_a("gui.done")));
+			buttonList.add(buttonFinalize = new GuiButton(5, width / 2 - 100, 4 + bookImageHeight, 98, 20, I18n.func_135053_a("book.finalizeButton")));
+			buttonList.add(buttonCancel = new GuiButton(4, width / 2 + 2, 4 + bookImageHeight, 98, 20, I18n.func_135053_a("gui.cancel")));
 		} else
 		{
-			buttonList.add(buttonDone = new GuiButton(0, width / 2 - 100, 4 + bookImageHeight, 200, 20, StatCollector.translateToLocal("gui.done")));
+			buttonList.add(buttonDone = new GuiButton(0, width / 2 - 100, 4 + bookImageHeight, 200, 20, I18n.func_135053_a("gui.done")));
 		}
 		int var1 = (width - bookImageWidth) / 2;
 		byte var2 = 2;
@@ -277,6 +279,7 @@ public class GuiScreenBook extends GuiScreen
 						}
 						return;
 					case 28:
+					case 156:
 						func_74160_b("\n");
 						return;
 					default:
@@ -320,7 +323,7 @@ public class GuiScreenBook extends GuiScreen
 				if(par1)
 				{
 					var8 = "MC|BSign";
-					itemstackBook.setTagInfo("author", new NBTTagString("author", editingPlayer.username));
+					itemstackBook.setTagInfo("author", new NBTTagString("author", editingPlayer.getCommandSenderName()));
 					itemstackBook.setTagInfo("title", new NBTTagString("title", bookTitle.trim()));
 					itemstackBook.itemID = Item.writtenBook.itemID;
 				}
@@ -356,5 +359,10 @@ public class GuiScreenBook extends GuiScreen
 	{
 		super.updateScreen();
 		++updateCount;
+	}
+	
+	static ResourceLocation func_110404_g()
+	{
+		return field_110405_a;
 	}
 }

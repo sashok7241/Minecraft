@@ -4,20 +4,20 @@ import java.util.Random;
 
 public class EnchantmentThorns extends Enchantment
 {
-	public EnchantmentThorns(int p_i8015_1_, int p_i8015_2_)
+	public EnchantmentThorns(int par1, int par2)
 	{
-		super(p_i8015_1_, p_i8015_2_, EnumEnchantmentType.armor_torso);
+		super(par1, par2, EnumEnchantmentType.armor_torso);
 		setName("thorns");
 	}
 	
-	@Override public boolean canApply(ItemStack p_92089_1_)
+	@Override public boolean canApply(ItemStack par1ItemStack)
 	{
-		return p_92089_1_.getItem() instanceof ItemArmor ? true : super.canApply(p_92089_1_);
+		return par1ItemStack.getItem() instanceof ItemArmor ? true : super.canApply(par1ItemStack);
 	}
 	
-	@Override public int getMaxEnchantability(int p_77317_1_)
+	@Override public int getMaxEnchantability(int par1)
 	{
-		return super.getMinEnchantability(p_77317_1_) + 50;
+		return super.getMinEnchantability(par1) + 50;
 	}
 	
 	@Override public int getMaxLevel()
@@ -25,36 +25,36 @@ public class EnchantmentThorns extends Enchantment
 		return 3;
 	}
 	
-	@Override public int getMinEnchantability(int p_77321_1_)
+	@Override public int getMinEnchantability(int par1)
 	{
-		return 10 + 20 * (p_77321_1_ - 1);
+		return 10 + 20 * (par1 - 1);
 	}
 	
-	public static boolean func_92094_a(int p_92094_0_, Random p_92094_1_)
+	public static boolean func_92094_a(int par0, Random par1Random)
 	{
-		return p_92094_0_ <= 0 ? false : p_92094_1_.nextFloat() < 0.15F * p_92094_0_;
+		return par0 <= 0 ? false : par1Random.nextFloat() < 0.15F * par0;
 	}
 	
-	public static int func_92095_b(int p_92095_0_, Random p_92095_1_)
+	public static int func_92095_b(int par0, Random par1Random)
 	{
-		return p_92095_0_ > 10 ? p_92095_0_ - 10 : 1 + p_92095_1_.nextInt(4);
+		return par0 > 10 ? par0 - 10 : 1 + par1Random.nextInt(4);
 	}
 	
-	public static void func_92096_a(Entity p_92096_0_, EntityLiving p_92096_1_, Random p_92096_2_)
+	public static void func_92096_a(Entity par0Entity, EntityLivingBase par1EntityLivingBase, Random par2Random)
 	{
-		int var3 = EnchantmentHelper.func_92098_i(p_92096_1_);
-		ItemStack var4 = EnchantmentHelper.func_92099_a(Enchantment.thorns, p_92096_1_);
-		if(func_92094_a(var3, p_92096_2_))
+		int var3 = EnchantmentHelper.func_92098_i(par1EntityLivingBase);
+		ItemStack var4 = EnchantmentHelper.func_92099_a(Enchantment.thorns, par1EntityLivingBase);
+		if(func_92094_a(var3, par2Random))
 		{
-			p_92096_0_.attackEntityFrom(DamageSource.causeThornsDamage(p_92096_1_), func_92095_b(var3, p_92096_2_));
-			p_92096_0_.playSound("damage.thorns", 0.5F, 1.0F);
+			par0Entity.attackEntityFrom(DamageSource.causeThornsDamage(par1EntityLivingBase), func_92095_b(var3, par2Random));
+			par0Entity.playSound("damage.thorns", 0.5F, 1.0F);
 			if(var4 != null)
 			{
-				var4.damageItem(3, p_92096_1_);
+				var4.damageItem(3, par1EntityLivingBase);
 			}
 		} else if(var4 != null)
 		{
-			var4.damageItem(1, p_92096_1_);
+			var4.damageItem(1, par1EntityLivingBase);
 		}
 	}
 }

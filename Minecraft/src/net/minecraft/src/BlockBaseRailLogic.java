@@ -13,16 +13,16 @@ public class BlockBaseRailLogic
 	private List railChunkPosition;
 	final BlockRailBase theRail;
 	
-	public BlockBaseRailLogic(BlockRailBase p_i9010_1_, World p_i9010_2_, int p_i9010_3_, int p_i9010_4_, int p_i9010_5_)
+	public BlockBaseRailLogic(BlockRailBase par1BlockRailBase, World par2World, int par3, int par4, int par5)
 	{
-		theRail = p_i9010_1_;
+		theRail = par1BlockRailBase;
 		railChunkPosition = new ArrayList();
-		logicWorld = p_i9010_2_;
-		railX = p_i9010_3_;
-		railY = p_i9010_4_;
-		railZ = p_i9010_5_;
-		int var6 = p_i9010_2_.getBlockId(p_i9010_3_, p_i9010_4_, p_i9010_5_);
-		int var7 = p_i9010_2_.getBlockMetadata(p_i9010_3_, p_i9010_4_, p_i9010_5_);
+		logicWorld = par2World;
+		railX = par3;
+		railY = par4;
+		railZ = par5;
+		int var6 = par2World.getBlockId(par3, par4, par5);
+		int var7 = par2World.getBlockMetadata(par3, par4, par5);
 		if(((BlockRailBase) Block.blocksList[var6]).isPowered)
 		{
 			isStraightRail = true;
@@ -34,9 +34,9 @@ public class BlockBaseRailLogic
 		setBasicRail(var7);
 	}
 	
-	private boolean canConnectFrom(int p_94503_1_, int p_94503_2_, int p_94503_3_)
+	private boolean canConnectFrom(int par1, int par2, int par3)
 	{
-		BlockBaseRailLogic var4 = getRailLogic(new ChunkPosition(p_94503_1_, p_94503_2_, p_94503_3_));
+		BlockBaseRailLogic var4 = getRailLogic(new ChunkPosition(par1, par2, par3));
 		if(var4 == null) return false;
 		else
 		{
@@ -45,14 +45,14 @@ public class BlockBaseRailLogic
 		}
 	}
 	
-	private boolean canConnectTo(BlockBaseRailLogic p_94507_1_)
+	private boolean canConnectTo(BlockBaseRailLogic par1BlockBaseRailLogic)
 	{
-		return isRailChunkPositionCorrect(p_94507_1_) ? true : railChunkPosition.size() == 2 ? false : railChunkPosition.isEmpty() ? true : true;
+		return isRailChunkPositionCorrect(par1BlockBaseRailLogic) ? true : railChunkPosition.size() == 2 ? false : railChunkPosition.isEmpty() ? true : true;
 	}
 	
-	private void connectToNeighbor(BlockBaseRailLogic p_94506_1_)
+	private void connectToNeighbor(BlockBaseRailLogic par1BlockBaseRailLogic)
 	{
-		railChunkPosition.add(new ChunkPosition(p_94506_1_.railX, p_94506_1_.railY, p_94506_1_.railZ));
+		railChunkPosition.add(new ChunkPosition(par1BlockBaseRailLogic.railX, par1BlockBaseRailLogic.railY, par1BlockBaseRailLogic.railZ));
 		boolean var2 = isPartOfTrack(railX, railY, railZ - 1);
 		boolean var3 = isPartOfTrack(railX, railY, railZ + 1);
 		boolean var4 = isPartOfTrack(railX - 1, railY, railZ);
@@ -119,7 +119,7 @@ public class BlockBaseRailLogic
 		logicWorld.setBlockMetadataWithNotify(railX, railY, railZ, var7, 3);
 	}
 	
-	public void func_94511_a(boolean p_94511_1_, boolean p_94511_2_)
+	public void func_94511_a(boolean par1, boolean par2)
 	{
 		boolean var3 = canConnectFrom(railX, railY, railZ - 1);
 		boolean var4 = canConnectFrom(railX, railY, railZ + 1);
@@ -165,7 +165,7 @@ public class BlockBaseRailLogic
 			}
 			if(!isStraightRail)
 			{
-				if(p_94511_1_)
+				if(par1)
 				{
 					if(var4 && var6)
 					{
@@ -236,7 +236,7 @@ public class BlockBaseRailLogic
 		{
 			var8 = logicWorld.getBlockMetadata(railX, railY, railZ) & 8 | var7;
 		}
-		if(p_94511_2_ || logicWorld.getBlockMetadata(railX, railY, railZ) != var8)
+		if(par2 || logicWorld.getBlockMetadata(railX, railY, railZ) != var8)
 		{
 			logicWorld.setBlockMetadataWithNotify(railX, railY, railZ, var8, 3);
 			for(int var9 = 0; var9 < railChunkPosition.size(); ++var9)
@@ -276,32 +276,32 @@ public class BlockBaseRailLogic
 		return var1;
 	}
 	
-	private BlockBaseRailLogic getRailLogic(ChunkPosition p_94501_1_)
+	private BlockBaseRailLogic getRailLogic(ChunkPosition par1ChunkPosition)
 	{
-		return BlockRailBase.isRailBlockAt(logicWorld, p_94501_1_.x, p_94501_1_.y, p_94501_1_.z) ? new BlockBaseRailLogic(theRail, logicWorld, p_94501_1_.x, p_94501_1_.y, p_94501_1_.z) : BlockRailBase.isRailBlockAt(logicWorld, p_94501_1_.x, p_94501_1_.y + 1, p_94501_1_.z) ? new BlockBaseRailLogic(theRail, logicWorld, p_94501_1_.x, p_94501_1_.y + 1, p_94501_1_.z) : BlockRailBase.isRailBlockAt(logicWorld, p_94501_1_.x, p_94501_1_.y - 1, p_94501_1_.z) ? new BlockBaseRailLogic(theRail, logicWorld, p_94501_1_.x, p_94501_1_.y - 1, p_94501_1_.z) : null;
+		return BlockRailBase.isRailBlockAt(logicWorld, par1ChunkPosition.x, par1ChunkPosition.y, par1ChunkPosition.z) ? new BlockBaseRailLogic(theRail, logicWorld, par1ChunkPosition.x, par1ChunkPosition.y, par1ChunkPosition.z) : BlockRailBase.isRailBlockAt(logicWorld, par1ChunkPosition.x, par1ChunkPosition.y + 1, par1ChunkPosition.z) ? new BlockBaseRailLogic(theRail, logicWorld, par1ChunkPosition.x, par1ChunkPosition.y + 1, par1ChunkPosition.z) : BlockRailBase.isRailBlockAt(logicWorld, par1ChunkPosition.x, par1ChunkPosition.y - 1, par1ChunkPosition.z) ? new BlockBaseRailLogic(theRail, logicWorld, par1ChunkPosition.x, par1ChunkPosition.y - 1, par1ChunkPosition.z) : null;
 	}
 	
-	private boolean isMinecartTrack(int p_94502_1_, int p_94502_2_, int p_94502_3_)
+	private boolean isMinecartTrack(int par1, int par2, int par3)
 	{
-		return BlockRailBase.isRailBlockAt(logicWorld, p_94502_1_, p_94502_2_, p_94502_3_) ? true : BlockRailBase.isRailBlockAt(logicWorld, p_94502_1_, p_94502_2_ + 1, p_94502_3_) ? true : BlockRailBase.isRailBlockAt(logicWorld, p_94502_1_, p_94502_2_ - 1, p_94502_3_);
+		return BlockRailBase.isRailBlockAt(logicWorld, par1, par2, par3) ? true : BlockRailBase.isRailBlockAt(logicWorld, par1, par2 + 1, par3) ? true : BlockRailBase.isRailBlockAt(logicWorld, par1, par2 - 1, par3);
 	}
 	
-	private boolean isPartOfTrack(int p_94510_1_, int p_94510_2_, int p_94510_3_)
+	private boolean isPartOfTrack(int par1, int par2, int par3)
 	{
 		for(int var4 = 0; var4 < railChunkPosition.size(); ++var4)
 		{
 			ChunkPosition var5 = (ChunkPosition) railChunkPosition.get(var4);
-			if(var5.x == p_94510_1_ && var5.z == p_94510_3_) return true;
+			if(var5.x == par1 && var5.z == par3) return true;
 		}
 		return false;
 	}
 	
-	private boolean isRailChunkPositionCorrect(BlockBaseRailLogic p_94508_1_)
+	private boolean isRailChunkPositionCorrect(BlockBaseRailLogic par1BlockBaseRailLogic)
 	{
 		for(int var2 = 0; var2 < railChunkPosition.size(); ++var2)
 		{
 			ChunkPosition var3 = (ChunkPosition) railChunkPosition.get(var2);
-			if(var3.x == p_94508_1_.railX && var3.z == p_94508_1_.railZ) return true;
+			if(var3.x == par1BlockBaseRailLogic.railX && var3.z == par1BlockBaseRailLogic.railZ) return true;
 		}
 		return false;
 	}
@@ -321,46 +321,46 @@ public class BlockBaseRailLogic
 		}
 	}
 	
-	private void setBasicRail(int p_94504_1_)
+	private void setBasicRail(int par1)
 	{
 		railChunkPosition.clear();
-		if(p_94504_1_ == 0)
+		if(par1 == 0)
 		{
 			railChunkPosition.add(new ChunkPosition(railX, railY, railZ - 1));
 			railChunkPosition.add(new ChunkPosition(railX, railY, railZ + 1));
-		} else if(p_94504_1_ == 1)
+		} else if(par1 == 1)
 		{
 			railChunkPosition.add(new ChunkPosition(railX - 1, railY, railZ));
 			railChunkPosition.add(new ChunkPosition(railX + 1, railY, railZ));
-		} else if(p_94504_1_ == 2)
+		} else if(par1 == 2)
 		{
 			railChunkPosition.add(new ChunkPosition(railX - 1, railY, railZ));
 			railChunkPosition.add(new ChunkPosition(railX + 1, railY + 1, railZ));
-		} else if(p_94504_1_ == 3)
+		} else if(par1 == 3)
 		{
 			railChunkPosition.add(new ChunkPosition(railX - 1, railY + 1, railZ));
 			railChunkPosition.add(new ChunkPosition(railX + 1, railY, railZ));
-		} else if(p_94504_1_ == 4)
+		} else if(par1 == 4)
 		{
 			railChunkPosition.add(new ChunkPosition(railX, railY + 1, railZ - 1));
 			railChunkPosition.add(new ChunkPosition(railX, railY, railZ + 1));
-		} else if(p_94504_1_ == 5)
+		} else if(par1 == 5)
 		{
 			railChunkPosition.add(new ChunkPosition(railX, railY, railZ - 1));
 			railChunkPosition.add(new ChunkPosition(railX, railY + 1, railZ + 1));
-		} else if(p_94504_1_ == 6)
+		} else if(par1 == 6)
 		{
 			railChunkPosition.add(new ChunkPosition(railX + 1, railY, railZ));
 			railChunkPosition.add(new ChunkPosition(railX, railY, railZ + 1));
-		} else if(p_94504_1_ == 7)
+		} else if(par1 == 7)
 		{
 			railChunkPosition.add(new ChunkPosition(railX - 1, railY, railZ));
 			railChunkPosition.add(new ChunkPosition(railX, railY, railZ + 1));
-		} else if(p_94504_1_ == 8)
+		} else if(par1 == 8)
 		{
 			railChunkPosition.add(new ChunkPosition(railX - 1, railY, railZ));
 			railChunkPosition.add(new ChunkPosition(railX, railY, railZ - 1));
-		} else if(p_94504_1_ == 9)
+		} else if(par1 == 9)
 		{
 			railChunkPosition.add(new ChunkPosition(railX + 1, railY, railZ));
 			railChunkPosition.add(new ChunkPosition(railX, railY, railZ - 1));

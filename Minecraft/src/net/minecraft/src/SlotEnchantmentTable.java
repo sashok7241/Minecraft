@@ -4,10 +4,10 @@ class SlotEnchantmentTable extends InventoryBasic
 {
 	final ContainerEnchantment container;
 	
-	SlotEnchantmentTable(ContainerEnchantment p_i9031_1_, String p_i9031_2_, boolean p_i9031_3_, int p_i9031_4_)
+	SlotEnchantmentTable(ContainerEnchantment par1ContainerEnchantment, String par2Str, boolean par3, int par4)
 	{
-		super(p_i9031_2_, p_i9031_3_, p_i9031_4_);
-		container = p_i9031_1_;
+		super(par2Str, par3, par4);
+		container = par1ContainerEnchantment;
 	}
 	
 	@Override public int getInventoryStackLimit()
@@ -15,7 +15,7 @@ class SlotEnchantmentTable extends InventoryBasic
 		return 1;
 	}
 	
-	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
+	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
 	{
 		return true;
 	}

@@ -6,9 +6,9 @@ public class ItemFireworkCharge extends Item
 {
 	private Icon theIcon;
 	
-	public ItemFireworkCharge(int p_i8012_1_)
+	public ItemFireworkCharge(int par1)
 	{
-		super(p_i8012_1_);
+		super(par1);
 	}
 	
 	@Override public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
@@ -65,7 +65,7 @@ public class ItemFireworkCharge extends Item
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
 		super.registerIcons(par1IconRegister);
-		theIcon = par1IconRegister.registerIcon("fireworksCharge_overlay");
+		theIcon = par1IconRegister.registerIcon(func_111208_A() + "_overlay");
 	}
 	
 	@Override public boolean requiresMultipleRenderPasses()

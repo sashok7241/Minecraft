@@ -7,10 +7,10 @@ class CallableItemName implements Callable
 	final ItemStack theItemStack;
 	final InventoryPlayer playerInventory;
 	
-	CallableItemName(InventoryPlayer p_i10055_1_, ItemStack p_i10055_2_)
+	CallableItemName(InventoryPlayer par1InventoryPlayer, ItemStack par2ItemStack)
 	{
-		playerInventory = p_i10055_1_;
-		theItemStack = p_i10055_2_;
+		playerInventory = par1InventoryPlayer;
+		theItemStack = par2ItemStack;
 	}
 	
 	@Override public Object call()

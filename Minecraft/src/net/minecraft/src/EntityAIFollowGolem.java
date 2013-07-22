@@ -8,11 +8,11 @@ public class EntityAIFollowGolem extends EntityAIBase
 	private EntityVillager theVillager;
 	private EntityIronGolem theGolem;
 	private int takeGolemRoseTick;
-	private boolean tookGolemRose = false;
+	private boolean tookGolemRose;
 	
-	public EntityAIFollowGolem(EntityVillager p_i3494_1_)
+	public EntityAIFollowGolem(EntityVillager par1EntityVillager)
 	{
-		theVillager = p_i3494_1_;
+		theVillager = par1EntityVillager;
 		setMutexBits(3);
 	}
 	
@@ -64,7 +64,7 @@ public class EntityAIFollowGolem extends EntityAIBase
 		theVillager.getLookHelper().setLookPositionWithEntity(theGolem, 30.0F, 30.0F);
 		if(theGolem.getHoldRoseTick() == takeGolemRoseTick)
 		{
-			theVillager.getNavigator().tryMoveToEntityLiving(theGolem, 0.15F);
+			theVillager.getNavigator().tryMoveToEntityLiving(theGolem, 0.5D);
 			tookGolemRose = true;
 		}
 		if(tookGolemRose && theVillager.getDistanceSqToEntity(theGolem) < 4.0D)

@@ -9,15 +9,20 @@ public class CommandServerSaveAll extends CommandBase
 		return "save-all";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.save.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 4;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
 		MinecraftServer var3 = MinecraftServer.getServer();
-		p_71515_1_.sendChatToPlayer(p_71515_1_.translateString("commands.save.start", new Object[0]));
+		par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e("commands.save.start"));
 		if(var3.getConfigurationManager() != null)
 		{
 			var3.getConfigurationManager().saveAllPlayerData();
@@ -38,9 +43,9 @@ public class CommandServerSaveAll extends CommandBase
 					var5.canNotSave = var6;
 				}
 			}
-			if(p_71515_2_.length > 0 && "flush".equals(p_71515_2_[0]))
+			if(par2ArrayOfStr.length > 0 && "flush".equals(par2ArrayOfStr[0]))
 			{
-				p_71515_1_.sendChatToPlayer(p_71515_1_.translateString("commands.save.flushStart", new Object[0]));
+				par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e("commands.save.flushStart"));
 				for(var4 = 0; var4 < var3.worldServers.length; ++var4)
 				{
 					if(var3.worldServers[var4] != null)
@@ -52,13 +57,13 @@ public class CommandServerSaveAll extends CommandBase
 						var5.canNotSave = var6;
 					}
 				}
-				p_71515_1_.sendChatToPlayer(p_71515_1_.translateString("commands.save.flushEnd", new Object[0]));
+				par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e("commands.save.flushEnd"));
 			}
 		} catch(MinecraftException var7)
 		{
-			notifyAdmins(p_71515_1_, "commands.save.failed", new Object[] { var7.getMessage() });
+			notifyAdmins(par1ICommandSender, "commands.save.failed", new Object[] { var7.getMessage() });
 			return;
 		}
-		notifyAdmins(p_71515_1_, "commands.save.success", new Object[0]);
+		notifyAdmins(par1ICommandSender, "commands.save.success", new Object[0]);
 	}
 }

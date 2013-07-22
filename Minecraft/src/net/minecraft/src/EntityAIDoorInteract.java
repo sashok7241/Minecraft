@@ -11,9 +11,9 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
 	float entityPositionX;
 	float entityPositionZ;
 	
-	public EntityAIDoorInteract(EntityLiving p_i3462_1_)
+	public EntityAIDoorInteract(EntityLiving par1EntityLiving)
 	{
-		theEntity = p_i3462_1_;
+		theEntity = par1EntityLiving;
 	}
 	
 	@Override public boolean continueExecuting()
@@ -21,9 +21,9 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
 		return !hasStoppedDoorInteraction;
 	}
 	
-	private BlockDoor findUsableDoor(int p_75349_1_, int p_75349_2_, int p_75349_3_)
+	private BlockDoor findUsableDoor(int par1, int par2, int par3)
 	{
-		int var4 = theEntity.worldObj.getBlockId(p_75349_1_, p_75349_2_, p_75349_3_);
+		int var4 = theEntity.worldObj.getBlockId(par1, par2, par3);
 		return var4 != Block.doorWood.blockID ? null : (BlockDoor) Block.blocksList[var4];
 	}
 	

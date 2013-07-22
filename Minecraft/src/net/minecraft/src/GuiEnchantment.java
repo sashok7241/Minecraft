@@ -4,7 +4,9 @@ import java.util.Random;
 
 public class GuiEnchantment extends GuiContainer
 {
-	private static ModelBook bookModel = new ModelBook();
+	private static final ResourceLocation field_110425_B = new ResourceLocation("textures/gui/container/enchanting_table.png");
+	private static final ResourceLocation field_110426_C = new ResourceLocation("textures/entity/enchanting_table_book.png");
+	private static final ModelBook bookModel = new ModelBook();
 	private Random rand = new Random();
 	private ContainerEnchantment containerEnchantment;
 	public int field_74214_o;
@@ -17,17 +19,17 @@ public class GuiEnchantment extends GuiContainer
 	ItemStack theItemStack;
 	private String field_94079_C;
 	
-	public GuiEnchantment(InventoryPlayer p_i9000_1_, World p_i9000_2_, int p_i9000_3_, int p_i9000_4_, int p_i9000_5_, String p_i9000_6_)
+	public GuiEnchantment(InventoryPlayer par1InventoryPlayer, World par2World, int par3, int par4, int par5, String par6Str)
 	{
-		super(new ContainerEnchantment(p_i9000_1_, p_i9000_2_, p_i9000_3_, p_i9000_4_, p_i9000_5_));
+		super(new ContainerEnchantment(par1InventoryPlayer, par2World, par3, par4, par5));
 		containerEnchantment = (ContainerEnchantment) inventorySlots;
-		field_94079_C = p_i9000_6_;
+		field_94079_C = par6Str;
 	}
 	
 	@Override protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/gui/enchant.png");
+		mc.func_110434_K().func_110577_a(field_110425_B);
 		int var4 = (width - xSize) / 2;
 		int var5 = (height - ySize) / 2;
 		drawTexturedModalRect(var4, var5, 0, 0, xSize, ySize);
@@ -38,7 +40,7 @@ public class GuiEnchantment extends GuiContainer
 		ScaledResolution var6 = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
 		GL11.glViewport((var6.getScaledWidth() - 320) / 2 * var6.getScaleFactor(), (var6.getScaledHeight() - 240) / 2 * var6.getScaleFactor(), 320 * var6.getScaleFactor(), 240 * var6.getScaleFactor());
 		GL11.glTranslatef(-0.34F, 0.23F, 0.0F);
-		GLU.gluPerspective(90.0F, 1.3333334F, 9.0F, 80.0F);
+		Project.gluPerspective(90.0F, 1.3333334F, 9.0F, 80.0F);
 		float var7 = 1.0F;
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
@@ -48,7 +50,7 @@ public class GuiEnchantment extends GuiContainer
 		float var8 = 5.0F;
 		GL11.glScalef(var8, var8, var8);
 		GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-		mc.renderEngine.bindTexture("/item/book.png");
+		mc.func_110434_K().func_110577_a(field_110426_C);
 		GL11.glRotatef(20.0F, 1.0F, 0.0F, 0.0F);
 		float var9 = field_74208_u + (field_74209_t - field_74208_u) * par1;
 		GL11.glTranslatef((1.0F - var9) * 0.2F, (1.0F - var9) * 0.1F, (1.0F - var9) * 0.25F);
@@ -85,13 +87,12 @@ public class GuiEnchantment extends GuiContainer
 		GL11.glPopMatrix();
 		RenderHelper.disableStandardItemLighting();
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/gui/enchant.png");
 		EnchantmentNameParts.instance.setRandSeed(containerEnchantment.nameSeed);
 		for(int var12 = 0; var12 < 3; ++var12)
 		{
 			String var13 = EnchantmentNameParts.instance.generateRandomEnchantName();
 			zLevel = 0.0F;
-			mc.renderEngine.bindTexture("/gui/enchant.png");
+			mc.func_110434_K().func_110577_a(field_110425_B);
 			int var14 = containerEnchantment.enchantLevels[var12];
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			if(var14 == 0)
@@ -132,8 +133,8 @@ public class GuiEnchantment extends GuiContainer
 	
 	@Override protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
-		fontRenderer.drawString(field_94079_C == null ? StatCollector.translateToLocal("container.enchant") : field_94079_C, 12, 5, 4210752);
-		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+		fontRenderer.drawString(field_94079_C == null ? I18n.func_135053_a("container.enchant") : field_94079_C, 12, 5, 4210752);
+		fontRenderer.drawString(I18n.func_135053_a("container.inventory"), 8, ySize - 96 + 2, 4210752);
 	}
 	
 	public void func_74205_h()

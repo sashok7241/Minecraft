@@ -13,22 +13,22 @@ public class MemoryConnection implements INetworkManager
 	private final ILogAgent field_98214_c;
 	private MemoryConnection pairedConnection;
 	private NetHandler myNetHandler;
-	private boolean shuttingDown = false;
+	private boolean shuttingDown;
 	private String shutdownReason = "";
 	private Object[] field_74439_g;
-	private boolean gamePaused = false;
+	private boolean gamePaused;
 	
-	public MemoryConnection(ILogAgent p_i11025_1_, NetHandler p_i11025_2_)
+	public MemoryConnection(ILogAgent par1ILogAgent, NetHandler par2NetHandler)
 	{
-		myNetHandler = p_i11025_2_;
-		field_98214_c = p_i11025_1_;
+		myNetHandler = par2NetHandler;
+		field_98214_c = par1ILogAgent;
 	}
 	
-	@Override public void addToSendQueue(Packet p_74429_1_)
+	@Override public void addToSendQueue(Packet par1Packet)
 	{
 		if(!shuttingDown)
 		{
-			pairedConnection.processOrCachePacket(p_74429_1_);
+			pairedConnection.processOrCachePacket(par1Packet);
 		}
 	}
 	
@@ -58,11 +58,11 @@ public class MemoryConnection implements INetworkManager
 		return gamePaused;
 	}
 	
-	@Override public void networkShutdown(String p_74424_1_, Object ... p_74424_2_)
+	@Override public void networkShutdown(String par1Str, Object ... par2ArrayOfObj)
 	{
 		shuttingDown = true;
-		shutdownReason = p_74424_1_;
-		field_74439_g = p_74424_2_;
+		shutdownReason = par1Str;
+		field_74439_g = par2ArrayOfObj;
 	}
 	
 	@Override public int packetSize()
@@ -76,14 +76,14 @@ public class MemoryConnection implements INetworkManager
 		par1MemoryConnection.pairedConnection = this;
 	}
 	
-	public void processOrCachePacket(Packet p_74436_1_)
+	public void processOrCachePacket(Packet par1Packet)
 	{
-		if(p_74436_1_.canProcessAsync() && myNetHandler.canProcessPacketsAsync())
+		if(par1Packet.canProcessAsync() && myNetHandler.canProcessPacketsAsync())
 		{
-			p_74436_1_.processPacket(myNetHandler);
+			par1Packet.processPacket(myNetHandler);
 		} else
 		{
-			readPacketCache.add(p_74436_1_);
+			readPacketCache.add(par1Packet);
 		}
 	}
 	
@@ -115,9 +115,9 @@ public class MemoryConnection implements INetworkManager
 		gamePaused = par1;
 	}
 	
-	@Override public void setNetHandler(NetHandler p_74425_1_)
+	@Override public void setNetHandler(NetHandler par1NetHandler)
 	{
-		myNetHandler = p_74425_1_;
+		myNetHandler = par1NetHandler;
 	}
 	
 	@Override public void wakeThreads()

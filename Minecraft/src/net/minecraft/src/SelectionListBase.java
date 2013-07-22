@@ -16,16 +16,16 @@ public abstract class SelectionListBase
 	private float field_96625_j;
 	private float field_96626_k;
 	private int field_96623_l = -1;
-	private long field_96624_m = 0L;
+	private long field_96624_m;
 	
-	public SelectionListBase(Minecraft p_i10012_1_, int p_i10012_2_, int p_i10012_3_, int p_i10012_4_, int p_i10012_5_, int p_i10012_6_)
+	public SelectionListBase(Minecraft par1Minecraft, int par2, int par3, int par4, int par5, int par6)
 	{
-		field_96622_a = p_i10012_1_;
-		field_96616_f = p_i10012_3_;
-		field_96627_h = p_i10012_3_ + p_i10012_5_;
-		field_96620_b = p_i10012_6_;
-		field_96619_e = p_i10012_2_;
-		field_96617_g = p_i10012_2_ + p_i10012_4_;
+		field_96622_a = par1Minecraft;
+		field_96616_f = par3;
+		field_96627_h = par3 + par5;
+		field_96620_b = par6;
+		field_96619_e = par2;
+		field_96617_g = par2 + par4;
 	}
 	
 	protected int func_96606_e()
@@ -141,7 +141,7 @@ public abstract class SelectionListBase
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_FOG);
 		Tessellator var18 = Tessellator.instance;
-		field_96622_a.renderEngine.bindTexture("/gui/background.png");
+		field_96622_a.func_110434_K().func_110577_a(Gui.field_110325_k);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		float var17 = 32.0F;
 		var18.startDrawingQuads();

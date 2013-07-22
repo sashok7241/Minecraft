@@ -4,13 +4,13 @@ import java.util.concurrent.Callable;
 
 import net.minecraft.client.Minecraft;
 
-public class CallableTexturePack implements Callable
+class CallableTexturePack implements Callable
 {
 	final Minecraft theMinecraft;
 	
-	public CallableTexturePack(Minecraft p_i3012_1_)
+	CallableTexturePack(Minecraft par1Minecraft)
 	{
-		theMinecraft = p_i3012_1_;
+		theMinecraft = par1Minecraft;
 	}
 	
 	@Override public Object call()

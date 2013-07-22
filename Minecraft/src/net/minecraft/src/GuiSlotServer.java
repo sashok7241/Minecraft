@@ -6,10 +6,10 @@ class GuiSlotServer extends GuiSlot
 {
 	final GuiMultiplayer parentGui;
 	
-	public GuiSlotServer(GuiMultiplayer p_i3051_1_)
+	public GuiSlotServer(GuiMultiplayer par1GuiMultiplayer)
 	{
-		super(p_i3051_1_.mc, p_i3051_1_.width, p_i3051_1_.height, 32, p_i3051_1_.height - 64, 36);
-		parentGui = p_i3051_1_;
+		super(par1GuiMultiplayer.mc, par1GuiMultiplayer.width, par1GuiMultiplayer.height, 32, par1GuiMultiplayer.height - 64, 36);
+		parentGui = par1GuiMultiplayer;
 	}
 	
 	@Override protected void drawBackground()
@@ -38,7 +38,7 @@ class GuiSlotServer extends GuiSlot
 			int var3 = GuiMultiplayer.getSelectedServer(parentGui);
 			GuiMultiplayer.getAndSetSelectedServer(parentGui, par1);
 			ServerData var4 = GuiMultiplayer.getInternetServerList(parentGui).countServers() > par1 ? GuiMultiplayer.getInternetServerList(parentGui).getServerData(par1) : null;
-			boolean var5 = GuiMultiplayer.getSelectedServer(parentGui) >= 0 && GuiMultiplayer.getSelectedServer(parentGui) < getSize() && (var4 == null || var4.field_82821_f == 61);
+			boolean var5 = GuiMultiplayer.getSelectedServer(parentGui) >= 0 && GuiMultiplayer.getSelectedServer(parentGui) < getSize() && (var4 == null || var4.field_82821_f == 74);
 			boolean var6 = GuiMultiplayer.getSelectedServer(parentGui) < GuiMultiplayer.getInternetServerList(parentGui).countServers();
 			GuiMultiplayer.getButtonSelect(parentGui).enabled = var5;
 			GuiMultiplayer.getButtonEdit(parentGui).enabled = var6;
@@ -68,8 +68,8 @@ class GuiSlotServer extends GuiSlot
 				new ThreadPollServers(this, var6).start();
 			}
 		}
-		boolean var7 = var6.field_82821_f > 61;
-		boolean var8 = var6.field_82821_f < 61;
+		boolean var7 = var6.field_82821_f > 74;
+		boolean var8 = var6.field_82821_f < 74;
 		boolean var9 = var7 || var8;
 		parentGui.drawString(parentGui.fontRenderer, var6.serverName, par2 + 2, par3 + 1, 16777215);
 		parentGui.drawString(parentGui.fontRenderer, var6.serverMOTD, par2 + 2, par3 + 12, 8421504);
@@ -84,10 +84,10 @@ class GuiSlotServer extends GuiSlot
 			parentGui.drawString(parentGui.fontRenderer, var6.serverIP, par2 + 2, par3 + 12 + 11, 3158064);
 		} else
 		{
-			parentGui.drawString(parentGui.fontRenderer, StatCollector.translateToLocal("selectServer.hiddenAddress"), par2 + 2, par3 + 12 + 11, 3158064);
+			parentGui.drawString(parentGui.fontRenderer, I18n.func_135053_a("selectServer.hiddenAddress"), par2 + 2, par3 + 12 + 11, 3158064);
 		}
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		parentGui.mc.renderEngine.bindTexture("/gui/icons.png");
+		parentGui.mc.func_110434_K().func_110577_a(Gui.field_110324_m);
 		byte var16 = 0;
 		boolean var11 = false;
 		String var12 = "";
@@ -145,11 +145,11 @@ class GuiSlotServer extends GuiSlot
 	private void func_77248_b(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
 	{
 		LanServer var6 = (LanServer) GuiMultiplayer.getListOfLanServers(parentGui).get(par1 - GuiMultiplayer.getInternetServerList(parentGui).countServers());
-		parentGui.drawString(parentGui.fontRenderer, StatCollector.translateToLocal("lanServer.title"), par2 + 2, par3 + 1, 16777215);
+		parentGui.drawString(parentGui.fontRenderer, I18n.func_135053_a("lanServer.title"), par2 + 2, par3 + 1, 16777215);
 		parentGui.drawString(parentGui.fontRenderer, var6.getServerMotd(), par2 + 2, par3 + 12, 8421504);
 		if(parentGui.mc.gameSettings.hideServerAddress)
 		{
-			parentGui.drawString(parentGui.fontRenderer, StatCollector.translateToLocal("selectServer.hiddenAddress"), par2 + 2, par3 + 12 + 11, 3158064);
+			parentGui.drawString(parentGui.fontRenderer, I18n.func_135053_a("selectServer.hiddenAddress"), par2 + 2, par3 + 12 + 11, 3158064);
 		} else
 		{
 			parentGui.drawString(parentGui.fontRenderer, var6.getServerIpPort(), par2 + 2, par3 + 12 + 11, 3158064);
@@ -158,7 +158,7 @@ class GuiSlotServer extends GuiSlot
 	
 	private void func_77249_c(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
 	{
-		parentGui.drawCenteredString(parentGui.fontRenderer, StatCollector.translateToLocal("lanServer.scanning"), parentGui.width / 2, par3 + 1, 16777215);
+		parentGui.drawCenteredString(parentGui.fontRenderer, I18n.func_135053_a("lanServer.scanning"), parentGui.width / 2, par3 + 1, 16777215);
 		String var6;
 		switch(GuiMultiplayer.getTicksOpened(parentGui) / 3 % 4)
 		{

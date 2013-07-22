@@ -8,29 +8,29 @@ abstract class ComponentVillage extends StructureComponent
 	private int villagersSpawned;
 	protected ComponentVillageStartPiece startPiece;
 	
-	protected ComponentVillage(ComponentVillageStartPiece p_i3873_1_, int p_i3873_2_)
+	protected ComponentVillage(ComponentVillageStartPiece par1ComponentVillageStartPiece, int par2)
 	{
-		super(p_i3873_2_);
-		startPiece = p_i3873_1_;
+		super(par2);
+		startPiece = par1ComponentVillageStartPiece;
 	}
 	
-	@Override protected void fillCurrentPositionBlocksDownwards(World p_74870_1_, int p_74870_2_, int p_74870_3_, int p_74870_4_, int p_74870_5_, int p_74870_6_, StructureBoundingBox p_74870_7_)
+	@Override protected void fillCurrentPositionBlocksDownwards(World par1World, int par2, int par3, int par4, int par5, int par6, StructureBoundingBox par7StructureBoundingBox)
 	{
-		int var8 = getBiomeSpecificBlock(p_74870_2_, p_74870_3_);
-		int var9 = getBiomeSpecificBlockMetadata(p_74870_2_, p_74870_3_);
-		super.fillCurrentPositionBlocksDownwards(p_74870_1_, var8, var9, p_74870_4_, p_74870_5_, p_74870_6_, p_74870_7_);
+		int var8 = getBiomeSpecificBlock(par2, par3);
+		int var9 = getBiomeSpecificBlockMetadata(par2, par3);
+		super.fillCurrentPositionBlocksDownwards(par1World, var8, var9, par4, par5, par6, par7StructureBoundingBox);
 	}
 	
-	@Override protected void fillWithBlocks(World p_74884_1_, StructureBoundingBox p_74884_2_, int p_74884_3_, int p_74884_4_, int p_74884_5_, int p_74884_6_, int p_74884_7_, int p_74884_8_, int p_74884_9_, int p_74884_10_, boolean p_74884_11_)
+	@Override protected void fillWithBlocks(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4, int par5, int par6, int par7, int par8, int par9, int par10, boolean par11)
 	{
-		int var12 = getBiomeSpecificBlock(p_74884_9_, 0);
-		int var13 = getBiomeSpecificBlockMetadata(p_74884_9_, 0);
-		int var14 = getBiomeSpecificBlock(p_74884_10_, 0);
-		int var15 = getBiomeSpecificBlockMetadata(p_74884_10_, 0);
-		super.fillWithMetadataBlocks(p_74884_1_, p_74884_2_, p_74884_3_, p_74884_4_, p_74884_5_, p_74884_6_, p_74884_7_, p_74884_8_, var12, var13, var14, var15, p_74884_11_);
+		int var12 = getBiomeSpecificBlock(par9, 0);
+		int var13 = getBiomeSpecificBlockMetadata(par9, 0);
+		int var14 = getBiomeSpecificBlock(par10, 0);
+		int var15 = getBiomeSpecificBlockMetadata(par10, 0);
+		super.fillWithMetadataBlocks(par1World, par2StructureBoundingBox, par3, par4, par5, par6, par7, par8, var12, var13, var14, var15, par11);
 	}
 	
-	protected int getAverageGroundLevel(World p_74889_1_, StructureBoundingBox p_74889_2_)
+	protected int getAverageGroundLevel(World par1World, StructureBoundingBox par2StructureBoundingBox)
 	{
 		int var3 = 0;
 		int var4 = 0;
@@ -38,9 +38,9 @@ abstract class ComponentVillage extends StructureComponent
 		{
 			for(int var6 = boundingBox.minX; var6 <= boundingBox.maxX; ++var6)
 			{
-				if(p_74889_2_.isVecInside(var6, 64, var5))
+				if(par2StructureBoundingBox.isVecInside(var6, 64, var5))
 				{
-					var3 += Math.max(p_74889_1_.getTopSolidOrLiquidBlock(var6, var5), p_74889_1_.provider.getAverageGroundLevel());
+					var3 += Math.max(par1World.getTopSolidOrLiquidBlock(var6, var5), par1World.provider.getAverageGroundLevel());
 					++var4;
 				}
 			}
@@ -49,100 +49,100 @@ abstract class ComponentVillage extends StructureComponent
 		else return var3 / var4;
 	}
 	
-	protected int getBiomeSpecificBlock(int p_74890_1_, int p_74890_2_)
+	protected int getBiomeSpecificBlock(int par1, int par2)
 	{
 		if(startPiece.inDesert)
 		{
-			if(p_74890_1_ == Block.wood.blockID) return Block.sandStone.blockID;
-			if(p_74890_1_ == Block.cobblestone.blockID) return Block.sandStone.blockID;
-			if(p_74890_1_ == Block.planks.blockID) return Block.sandStone.blockID;
-			if(p_74890_1_ == Block.stairsWoodOak.blockID) return Block.stairsSandStone.blockID;
-			if(p_74890_1_ == Block.stairsCobblestone.blockID) return Block.stairsSandStone.blockID;
-			if(p_74890_1_ == Block.gravel.blockID) return Block.sandStone.blockID;
+			if(par1 == Block.wood.blockID) return Block.sandStone.blockID;
+			if(par1 == Block.cobblestone.blockID) return Block.sandStone.blockID;
+			if(par1 == Block.planks.blockID) return Block.sandStone.blockID;
+			if(par1 == Block.stairsWoodOak.blockID) return Block.stairsSandStone.blockID;
+			if(par1 == Block.stairsCobblestone.blockID) return Block.stairsSandStone.blockID;
+			if(par1 == Block.gravel.blockID) return Block.sandStone.blockID;
 		}
-		return p_74890_1_;
+		return par1;
 	}
 	
-	protected int getBiomeSpecificBlockMetadata(int p_74892_1_, int p_74892_2_)
+	protected int getBiomeSpecificBlockMetadata(int par1, int par2)
 	{
 		if(startPiece.inDesert)
 		{
-			if(p_74892_1_ == Block.wood.blockID) return 0;
-			if(p_74892_1_ == Block.cobblestone.blockID) return 0;
-			if(p_74892_1_ == Block.planks.blockID) return 2;
+			if(par1 == Block.wood.blockID) return 0;
+			if(par1 == Block.cobblestone.blockID) return 0;
+			if(par1 == Block.planks.blockID) return 2;
 		}
-		return p_74892_2_;
+		return par2;
 	}
 	
-	protected StructureComponent getNextComponentNN(ComponentVillageStartPiece p_74891_1_, List p_74891_2_, Random p_74891_3_, int p_74891_4_, int p_74891_5_)
+	protected StructureComponent getNextComponentNN(ComponentVillageStartPiece par1ComponentVillageStartPiece, List par2List, Random par3Random, int par4, int par5)
 	{
 		switch(coordBaseMode)
 		{
 			case 0:
-				return StructureVillagePieces.getNextStructureComponent(p_74891_1_, p_74891_2_, p_74891_3_, boundingBox.minX - 1, boundingBox.minY + p_74891_4_, boundingBox.minZ + p_74891_5_, 1, getComponentType());
+				return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, boundingBox.minX - 1, boundingBox.minY + par4, boundingBox.minZ + par5, 1, getComponentType());
 			case 1:
-				return StructureVillagePieces.getNextStructureComponent(p_74891_1_, p_74891_2_, p_74891_3_, boundingBox.minX + p_74891_5_, boundingBox.minY + p_74891_4_, boundingBox.minZ - 1, 2, getComponentType());
+				return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, boundingBox.minX + par5, boundingBox.minY + par4, boundingBox.minZ - 1, 2, getComponentType());
 			case 2:
-				return StructureVillagePieces.getNextStructureComponent(p_74891_1_, p_74891_2_, p_74891_3_, boundingBox.minX - 1, boundingBox.minY + p_74891_4_, boundingBox.minZ + p_74891_5_, 1, getComponentType());
+				return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, boundingBox.minX - 1, boundingBox.minY + par4, boundingBox.minZ + par5, 1, getComponentType());
 			case 3:
-				return StructureVillagePieces.getNextStructureComponent(p_74891_1_, p_74891_2_, p_74891_3_, boundingBox.minX + p_74891_5_, boundingBox.minY + p_74891_4_, boundingBox.minZ - 1, 2, getComponentType());
+				return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, boundingBox.minX + par5, boundingBox.minY + par4, boundingBox.minZ - 1, 2, getComponentType());
 			default:
 				return null;
 		}
 	}
 	
-	protected StructureComponent getNextComponentPP(ComponentVillageStartPiece p_74894_1_, List p_74894_2_, Random p_74894_3_, int p_74894_4_, int p_74894_5_)
+	protected StructureComponent getNextComponentPP(ComponentVillageStartPiece par1ComponentVillageStartPiece, List par2List, Random par3Random, int par4, int par5)
 	{
 		switch(coordBaseMode)
 		{
 			case 0:
-				return StructureVillagePieces.getNextStructureComponent(p_74894_1_, p_74894_2_, p_74894_3_, boundingBox.maxX + 1, boundingBox.minY + p_74894_4_, boundingBox.minZ + p_74894_5_, 3, getComponentType());
+				return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, boundingBox.maxX + 1, boundingBox.minY + par4, boundingBox.minZ + par5, 3, getComponentType());
 			case 1:
-				return StructureVillagePieces.getNextStructureComponent(p_74894_1_, p_74894_2_, p_74894_3_, boundingBox.minX + p_74894_5_, boundingBox.minY + p_74894_4_, boundingBox.maxZ + 1, 0, getComponentType());
+				return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, boundingBox.minX + par5, boundingBox.minY + par4, boundingBox.maxZ + 1, 0, getComponentType());
 			case 2:
-				return StructureVillagePieces.getNextStructureComponent(p_74894_1_, p_74894_2_, p_74894_3_, boundingBox.maxX + 1, boundingBox.minY + p_74894_4_, boundingBox.minZ + p_74894_5_, 3, getComponentType());
+				return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, boundingBox.maxX + 1, boundingBox.minY + par4, boundingBox.minZ + par5, 3, getComponentType());
 			case 3:
-				return StructureVillagePieces.getNextStructureComponent(p_74894_1_, p_74894_2_, p_74894_3_, boundingBox.minX + p_74894_5_, boundingBox.minY + p_74894_4_, boundingBox.maxZ + 1, 0, getComponentType());
+				return StructureVillagePieces.getNextStructureComponent(par1ComponentVillageStartPiece, par2List, par3Random, boundingBox.minX + par5, boundingBox.minY + par4, boundingBox.maxZ + 1, 0, getComponentType());
 			default:
 				return null;
 		}
 	}
 	
-	protected int getVillagerType(int p_74888_1_)
+	protected int getVillagerType(int par1)
 	{
 		return 0;
 	}
 	
-	@Override protected void placeBlockAtCurrentPosition(World p_74864_1_, int p_74864_2_, int p_74864_3_, int p_74864_4_, int p_74864_5_, int p_74864_6_, StructureBoundingBox p_74864_7_)
+	@Override protected void placeBlockAtCurrentPosition(World par1World, int par2, int par3, int par4, int par5, int par6, StructureBoundingBox par7StructureBoundingBox)
 	{
-		int var8 = getBiomeSpecificBlock(p_74864_2_, p_74864_3_);
-		int var9 = getBiomeSpecificBlockMetadata(p_74864_2_, p_74864_3_);
-		super.placeBlockAtCurrentPosition(p_74864_1_, var8, var9, p_74864_4_, p_74864_5_, p_74864_6_, p_74864_7_);
+		int var8 = getBiomeSpecificBlock(par2, par3);
+		int var9 = getBiomeSpecificBlockMetadata(par2, par3);
+		super.placeBlockAtCurrentPosition(par1World, var8, var9, par4, par5, par6, par7StructureBoundingBox);
 	}
 	
-	protected void spawnVillagers(World p_74893_1_, StructureBoundingBox p_74893_2_, int p_74893_3_, int p_74893_4_, int p_74893_5_, int p_74893_6_)
+	protected void spawnVillagers(World par1World, StructureBoundingBox par2StructureBoundingBox, int par3, int par4, int par5, int par6)
 	{
-		if(villagersSpawned < p_74893_6_)
+		if(villagersSpawned < par6)
 		{
-			for(int var7 = villagersSpawned; var7 < p_74893_6_; ++var7)
+			for(int var7 = villagersSpawned; var7 < par6; ++var7)
 			{
-				int var8 = getXWithOffset(p_74893_3_ + var7, p_74893_5_);
-				int var9 = getYWithOffset(p_74893_4_);
-				int var10 = getZWithOffset(p_74893_3_ + var7, p_74893_5_);
-				if(!p_74893_2_.isVecInside(var8, var9, var10))
+				int var8 = getXWithOffset(par3 + var7, par5);
+				int var9 = getYWithOffset(par4);
+				int var10 = getZWithOffset(par3 + var7, par5);
+				if(!par2StructureBoundingBox.isVecInside(var8, var9, var10))
 				{
 					break;
 				}
 				++villagersSpawned;
-				EntityVillager var11 = new EntityVillager(p_74893_1_, getVillagerType(var7));
+				EntityVillager var11 = new EntityVillager(par1World, getVillagerType(var7));
 				var11.setLocationAndAngles(var8 + 0.5D, var9, var10 + 0.5D, 0.0F, 0.0F);
-				p_74893_1_.spawnEntityInWorld(var11);
+				par1World.spawnEntityInWorld(var11);
 			}
 		}
 	}
 	
-	protected static boolean canVillageGoDeeper(StructureBoundingBox p_74895_0_)
+	protected static boolean canVillageGoDeeper(StructureBoundingBox par0StructureBoundingBox)
 	{
-		return p_74895_0_ != null && p_74895_0_.minY > 10;
+		return par0StructureBoundingBox != null && par0StructureBoundingBox.minY > 10;
 	}
 }

@@ -5,33 +5,33 @@ public class SlotFurnace extends Slot
 	private EntityPlayer thePlayer;
 	private int field_75228_b;
 	
-	public SlotFurnace(EntityPlayer p_i3608_1_, IInventory p_i3608_2_, int p_i3608_3_, int p_i3608_4_, int p_i3608_5_)
+	public SlotFurnace(EntityPlayer par1EntityPlayer, IInventory par2IInventory, int par3, int par4, int par5)
 	{
-		super(p_i3608_2_, p_i3608_3_, p_i3608_4_, p_i3608_5_);
-		thePlayer = p_i3608_1_;
+		super(par2IInventory, par3, par4, par5);
+		thePlayer = par1EntityPlayer;
 	}
 	
-	@Override public ItemStack decrStackSize(int p_75209_1_)
+	@Override public ItemStack decrStackSize(int par1)
 	{
 		if(getHasStack())
 		{
-			field_75228_b += Math.min(p_75209_1_, getStack().stackSize);
+			field_75228_b += Math.min(par1, getStack().stackSize);
 		}
-		return super.decrStackSize(p_75209_1_);
+		return super.decrStackSize(par1);
 	}
 	
-	@Override public boolean isItemValid(ItemStack p_75214_1_)
+	@Override public boolean isItemValid(ItemStack par1ItemStack)
 	{
 		return false;
 	}
 	
-	@Override protected void onCrafting(ItemStack p_75208_1_)
+	@Override protected void onCrafting(ItemStack par1ItemStack)
 	{
-		p_75208_1_.onCrafting(thePlayer.worldObj, thePlayer, field_75228_b);
+		par1ItemStack.onCrafting(thePlayer.worldObj, thePlayer, field_75228_b);
 		if(!thePlayer.worldObj.isRemote)
 		{
 			int var2 = field_75228_b;
-			float var3 = FurnaceRecipes.smelting().getExperience(p_75208_1_.itemID);
+			float var3 = FurnaceRecipes.smelting().getExperience(par1ItemStack.itemID);
 			int var4;
 			if(var3 == 0.0F)
 			{
@@ -53,25 +53,25 @@ public class SlotFurnace extends Slot
 			}
 		}
 		field_75228_b = 0;
-		if(p_75208_1_.itemID == Item.ingotIron.itemID)
+		if(par1ItemStack.itemID == Item.ingotIron.itemID)
 		{
 			thePlayer.addStat(AchievementList.acquireIron, 1);
 		}
-		if(p_75208_1_.itemID == Item.fishCooked.itemID)
+		if(par1ItemStack.itemID == Item.fishCooked.itemID)
 		{
 			thePlayer.addStat(AchievementList.cookFish, 1);
 		}
 	}
 	
-	@Override protected void onCrafting(ItemStack p_75210_1_, int p_75210_2_)
+	@Override protected void onCrafting(ItemStack par1ItemStack, int par2)
 	{
-		field_75228_b += p_75210_2_;
-		this.onCrafting(p_75210_1_);
+		field_75228_b += par2;
+		this.onCrafting(par1ItemStack);
 	}
 	
-	@Override public void onPickupFromSlot(EntityPlayer p_82870_1_, ItemStack p_82870_2_)
+	@Override public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack)
 	{
-		this.onCrafting(p_82870_2_);
-		super.onPickupFromSlot(p_82870_1_, p_82870_2_);
+		this.onCrafting(par2ItemStack);
+		super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
 	}
 }

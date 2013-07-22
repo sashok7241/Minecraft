@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet4UpdateTime extends Packet
@@ -13,10 +13,18 @@ public class Packet4UpdateTime extends Packet
 	{
 	}
 	
-	public Packet4UpdateTime(long p_i5035_1_, long p_i5035_3_)
+	public Packet4UpdateTime(long par1, long par3, boolean par5)
 	{
-		worldAge = p_i5035_1_;
-		time = p_i5035_3_;
+		worldAge = par1;
+		time = par3;
+		if(!par5)
+		{
+			time = -time;
+			if(time == 0L)
+			{
+				time = -1L;
+			}
+		}
 	}
 	
 	@Override public boolean canProcessAsync()
@@ -24,7 +32,7 @@ public class Packet4UpdateTime extends Packet
 		return true;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
+	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
 	{
 		return true;
 	}
@@ -39,20 +47,20 @@ public class Packet4UpdateTime extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleUpdateTime(this);
+		par1NetHandler.handleUpdateTime(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		worldAge = p_73267_1_.readLong();
-		time = p_73267_1_.readLong();
+		worldAge = par1DataInput.readLong();
+		time = par1DataInput.readLong();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeLong(worldAge);
-		p_73273_1_.writeLong(time);
+		par1DataOutput.writeLong(worldAge);
+		par1DataOutput.writeLong(time);
 	}
 }

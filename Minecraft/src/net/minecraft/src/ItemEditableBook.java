@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ItemEditableBook extends Item
 {
-	public ItemEditableBook(int p_i3698_1_)
+	public ItemEditableBook(int par1)
 	{
-		super(p_i3698_1_);
+		super(par1);
 		setMaxStackSize(1);
 	}
 	
@@ -23,15 +23,15 @@ public class ItemEditableBook extends Item
 		}
 	}
 	
-	@Override public String getItemDisplayName(ItemStack p_77628_1_)
+	@Override public String getItemDisplayName(ItemStack par1ItemStack)
 	{
-		if(p_77628_1_.hasTagCompound())
+		if(par1ItemStack.hasTagCompound())
 		{
-			NBTTagCompound var2 = p_77628_1_.getTagCompound();
+			NBTTagCompound var2 = par1ItemStack.getTagCompound();
 			NBTTagString var3 = (NBTTagString) var2.getTag("title");
 			if(var3 != null) return var3.toString();
 		}
-		return super.getItemDisplayName(p_77628_1_);
+		return super.getItemDisplayName(par1ItemStack);
 	}
 	
 	@Override public boolean getShareTag()
@@ -44,20 +44,20 @@ public class ItemEditableBook extends Item
 		return true;
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		p_77659_3_.displayGUIBook(p_77659_1_);
-		return p_77659_1_;
+		par3EntityPlayer.displayGUIBook(par1ItemStack);
+		return par1ItemStack;
 	}
 	
-	public static boolean validBookTagContents(NBTTagCompound p_77828_0_)
+	public static boolean validBookTagContents(NBTTagCompound par0NBTTagCompound)
 	{
-		if(!ItemWritableBook.validBookTagPages(p_77828_0_)) return false;
-		else if(!p_77828_0_.hasKey("title")) return false;
+		if(!ItemWritableBook.validBookTagPages(par0NBTTagCompound)) return false;
+		else if(!par0NBTTagCompound.hasKey("title")) return false;
 		else
 		{
-			String var1 = p_77828_0_.getString("title");
-			return var1 != null && var1.length() <= 16 ? p_77828_0_.hasKey("author") : false;
+			String var1 = par0NBTTagCompound.getString("title");
+			return var1 != null && var1.length() <= 16 ? par0NBTTagCompound.hasKey("author") : false;
 		}
 	}
 }

@@ -19,26 +19,26 @@ public class InventoryEnderChest extends InventoryBasic
 		associatedChest = null;
 	}
 	
-	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
+	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
 	{
 		return true;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
+	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
 	{
-		return associatedChest != null && !associatedChest.isUseableByPlayer(p_70300_1_) ? false : super.isUseableByPlayer(p_70300_1_);
+		return associatedChest != null && !associatedChest.isUseableByPlayer(par1EntityPlayer) ? false : super.isUseableByPlayer(par1EntityPlayer);
 	}
 	
-	public void loadInventoryFromNBT(NBTTagList p_70486_1_)
+	public void loadInventoryFromNBT(NBTTagList par1NBTTagList)
 	{
 		int var2;
 		for(var2 = 0; var2 < getSizeInventory(); ++var2)
 		{
 			setInventorySlotContents(var2, (ItemStack) null);
 		}
-		for(var2 = 0; var2 < p_70486_1_.tagCount(); ++var2)
+		for(var2 = 0; var2 < par1NBTTagList.tagCount(); ++var2)
 		{
-			NBTTagCompound var3 = (NBTTagCompound) p_70486_1_.tagAt(var2);
+			NBTTagCompound var3 = (NBTTagCompound) par1NBTTagList.tagAt(var2);
 			int var4 = var3.getByte("Slot") & 255;
 			if(var4 >= 0 && var4 < getSizeInventory())
 			{
@@ -73,8 +73,8 @@ public class InventoryEnderChest extends InventoryBasic
 		return var1;
 	}
 	
-	public void setAssociatedChest(TileEntityEnderChest p_70485_1_)
+	public void setAssociatedChest(TileEntityEnderChest par1TileEntityEnderChest)
 	{
-		associatedChest = p_70485_1_;
+		associatedChest = par1TileEntityEnderChest;
 	}
 }

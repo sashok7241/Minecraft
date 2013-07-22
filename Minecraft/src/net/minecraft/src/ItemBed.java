@@ -2,21 +2,21 @@ package net.minecraft.src;
 
 public class ItemBed extends Item
 {
-	public ItemBed(int p_i3620_1_)
+	public ItemBed(int par1)
 	{
-		super(p_i3620_1_);
+		super(par1);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
-		if(p_77648_3_.isRemote) return true;
-		else if(p_77648_7_ != 1) return false;
+		if(par3World.isRemote) return true;
+		else if(par7 != 1) return false;
 		else
 		{
-			++p_77648_5_;
+			++par5;
 			BlockBed var11 = (BlockBed) Block.bed;
-			int var12 = MathHelper.floor_double(p_77648_2_.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+			int var12 = MathHelper.floor_double(par2EntityPlayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 			byte var13 = 0;
 			byte var14 = 0;
 			if(var12 == 0)
@@ -35,16 +35,16 @@ public class ItemBed extends Item
 			{
 				var13 = 1;
 			}
-			if(p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_1_) && p_77648_2_.canPlayerEdit(p_77648_4_ + var13, p_77648_5_, p_77648_6_ + var14, p_77648_7_, p_77648_1_))
+			if(par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4 + var13, par5, par6 + var14, par7, par1ItemStack))
 			{
-				if(p_77648_3_.isAirBlock(p_77648_4_, p_77648_5_, p_77648_6_) && p_77648_3_.isAirBlock(p_77648_4_ + var13, p_77648_5_, p_77648_6_ + var14) && p_77648_3_.doesBlockHaveSolidTopSurface(p_77648_4_, p_77648_5_ - 1, p_77648_6_) && p_77648_3_.doesBlockHaveSolidTopSurface(p_77648_4_ + var13, p_77648_5_ - 1, p_77648_6_ + var14))
+				if(par3World.isAirBlock(par4, par5, par6) && par3World.isAirBlock(par4 + var13, par5, par6 + var14) && par3World.doesBlockHaveSolidTopSurface(par4, par5 - 1, par6) && par3World.doesBlockHaveSolidTopSurface(par4 + var13, par5 - 1, par6 + var14))
 				{
-					p_77648_3_.setBlock(p_77648_4_, p_77648_5_, p_77648_6_, var11.blockID, var12, 3);
-					if(p_77648_3_.getBlockId(p_77648_4_, p_77648_5_, p_77648_6_) == var11.blockID)
+					par3World.setBlock(par4, par5, par6, var11.blockID, var12, 3);
+					if(par3World.getBlockId(par4, par5, par6) == var11.blockID)
 					{
-						p_77648_3_.setBlock(p_77648_4_ + var13, p_77648_5_, p_77648_6_ + var14, var11.blockID, var12 + 8, 3);
+						par3World.setBlock(par4 + var13, par5, par6 + var14, var11.blockID, var12 + 8, 3);
 					}
-					--p_77648_1_.stackSize;
+					--par1ItemStack.stackSize;
 					return true;
 				} else return false;
 			} else return false;

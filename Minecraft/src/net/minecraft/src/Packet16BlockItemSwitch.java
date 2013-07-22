@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet16BlockItemSwitch extends Packet
@@ -12,12 +12,12 @@ public class Packet16BlockItemSwitch extends Packet
 	{
 	}
 	
-	public Packet16BlockItemSwitch(int p_i3345_1_)
+	public Packet16BlockItemSwitch(int par1)
 	{
-		id = p_i3345_1_;
+		id = par1;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
+	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
 	{
 		return true;
 	}
@@ -32,18 +32,18 @@ public class Packet16BlockItemSwitch extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleBlockItemSwitch(this);
+		par1NetHandler.handleBlockItemSwitch(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		id = p_73267_1_.readShort();
+		id = par1DataInput.readShort();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeShort(id);
+		par1DataOutput.writeShort(id);
 	}
 }

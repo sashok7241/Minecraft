@@ -2,10 +2,10 @@ package net.minecraft.src;
 
 public class PlayerCapabilities
 {
-	public boolean disableDamage = false;
-	public boolean isFlying = false;
-	public boolean allowFlying = false;
-	public boolean isCreativeMode = false;
+	public boolean disableDamage;
+	public boolean isFlying;
+	public boolean allowFlying;
+	public boolean isCreativeMode;
 	public boolean allowEdit = true;
 	private float flySpeed = 0.05F;
 	private float walkSpeed = 0.1F;
@@ -20,11 +20,11 @@ public class PlayerCapabilities
 		return walkSpeed;
 	}
 	
-	public void readCapabilitiesFromNBT(NBTTagCompound p_75095_1_)
+	public void readCapabilitiesFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		if(p_75095_1_.hasKey("abilities"))
+		if(par1NBTTagCompound.hasKey("abilities"))
 		{
-			NBTTagCompound var2 = p_75095_1_.getCompoundTag("abilities");
+			NBTTagCompound var2 = par1NBTTagCompound.getCompoundTag("abilities");
 			disableDamage = var2.getBoolean("invulnerable");
 			isFlying = var2.getBoolean("flying");
 			allowFlying = var2.getBoolean("mayfly");
@@ -51,7 +51,7 @@ public class PlayerCapabilities
 		walkSpeed = par1;
 	}
 	
-	public void writeCapabilitiesToNBT(NBTTagCompound p_75091_1_)
+	public void writeCapabilitiesToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		NBTTagCompound var2 = new NBTTagCompound();
 		var2.setBoolean("invulnerable", disableDamage);
@@ -61,6 +61,6 @@ public class PlayerCapabilities
 		var2.setBoolean("mayBuild", allowEdit);
 		var2.setFloat("flySpeed", flySpeed);
 		var2.setFloat("walkSpeed", walkSpeed);
-		p_75091_1_.setTag("abilities", var2);
+		par1NBTTagCompound.setTag("abilities", var2);
 	}
 }

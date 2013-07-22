@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public abstract class EntityWaterMob extends EntityCreature implements IAnimals
 {
-	public EntityWaterMob(World p_i3525_1_)
+	public EntityWaterMob(World par1World)
 	{
-		super(p_i3525_1_);
+		super(par1World);
 	}
 	
 	@Override public boolean canBreatheUnderwater()
@@ -22,7 +22,7 @@ public abstract class EntityWaterMob extends EntityCreature implements IAnimals
 		return worldObj.checkNoEntityCollision(boundingBox);
 	}
 	
-	@Override protected int getExperiencePoints(EntityPlayer p_70693_1_)
+	@Override protected int getExperiencePoints(EntityPlayer par1EntityPlayer)
 	{
 		return 1 + worldObj.rand.nextInt(3);
 	}
@@ -36,14 +36,14 @@ public abstract class EntityWaterMob extends EntityCreature implements IAnimals
 	{
 		int var1 = getAir();
 		super.onEntityUpdate();
-		if(isEntityAlive() && !isInsideOfMaterial(Material.water))
+		if(isEntityAlive() && !isInWater())
 		{
 			--var1;
 			setAir(var1);
 			if(getAir() == -20)
 			{
 				setAir(0);
-				attackEntityFrom(DamageSource.drown, 2);
+				attackEntityFrom(DamageSource.drown, 2.0F);
 			}
 		} else
 		{

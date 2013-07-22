@@ -5,9 +5,9 @@ public class ReportedException extends RuntimeException
 	private static final long serialVersionUID = 1L;
 	private final CrashReport theReportedExceptionCrashReport;
 	
-	public ReportedException(CrashReport p_i3253_1_)
+	public ReportedException(CrashReport par1CrashReport)
 	{
-		theReportedExceptionCrashReport = p_i3253_1_;
+		theReportedExceptionCrashReport = par1CrashReport;
 	}
 	
 	@Override public Throwable getCause()

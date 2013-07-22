@@ -12,9 +12,9 @@ public class MapGenMineshaft extends MapGenStructure
 	{
 	}
 	
-	public MapGenMineshaft(Map p_i5093_1_)
+	public MapGenMineshaft(Map par1Map)
 	{
-		Iterator var2 = p_i5093_1_.entrySet().iterator();
+		Iterator var2 = par1Map.entrySet().iterator();
 		while(var2.hasNext())
 		{
 			Entry var3 = (Entry) var2.next();
@@ -25,13 +25,13 @@ public class MapGenMineshaft extends MapGenStructure
 		}
 	}
 	
-	@Override protected boolean canSpawnStructureAtCoords(int p_75047_1_, int p_75047_2_)
+	@Override protected boolean canSpawnStructureAtCoords(int par1, int par2)
 	{
-		return rand.nextDouble() < field_82673_e && rand.nextInt(80) < Math.max(Math.abs(p_75047_1_), Math.abs(p_75047_2_));
+		return rand.nextDouble() < field_82673_e && rand.nextInt(80) < Math.max(Math.abs(par1), Math.abs(par2));
 	}
 	
-	@Override protected StructureStart getStructureStart(int p_75049_1_, int p_75049_2_)
+	@Override protected StructureStart getStructureStart(int par1, int par2)
 	{
-		return new StructureMineshaftStart(worldObj, rand, p_75049_1_, p_75049_2_);
+		return new StructureMineshaftStart(worldObj, rand, par1, par2);
 	}
 }

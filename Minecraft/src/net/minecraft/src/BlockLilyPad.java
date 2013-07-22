@@ -4,31 +4,31 @@ import java.util.List;
 
 public class BlockLilyPad extends BlockFlower
 {
-	protected BlockLilyPad(int p_i9099_1_)
+	protected BlockLilyPad(int par1)
 	{
-		super(p_i9099_1_);
+		super(par1);
 		float var2 = 0.5F;
 		float var3 = 0.015625F;
 		setBlockBounds(0.5F - var2, 0.0F, 0.5F - var2, 0.5F + var2, var3, 0.5F + var2);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public void addCollisionBoxesToList(World p_71871_1_, int p_71871_2_, int p_71871_3_, int p_71871_4_, AxisAlignedBB p_71871_5_, List p_71871_6_, Entity p_71871_7_)
+	@Override public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)
 	{
-		if(p_71871_7_ == null || !(p_71871_7_ instanceof EntityBoat))
+		if(par7Entity == null || !(par7Entity instanceof EntityBoat))
 		{
-			super.addCollisionBoxesToList(p_71871_1_, p_71871_2_, p_71871_3_, p_71871_4_, p_71871_5_, p_71871_6_, p_71871_7_);
+			super.addCollisionBoxesToList(par1World, par2, par3, par4, par5AxisAlignedBB, par6List, par7Entity);
 		}
 	}
 	
-	@Override public boolean canBlockStay(World p_71854_1_, int p_71854_2_, int p_71854_3_, int p_71854_4_)
+	@Override public boolean canBlockStay(World par1World, int par2, int par3, int par4)
 	{
-		return p_71854_3_ >= 0 && p_71854_3_ < 256 ? p_71854_1_.getBlockMaterial(p_71854_2_, p_71854_3_ - 1, p_71854_4_) == Material.water && p_71854_1_.getBlockMetadata(p_71854_2_, p_71854_3_ - 1, p_71854_4_) == 0 : false;
+		return par3 >= 0 && par3 < 256 ? par1World.getBlockMaterial(par2, par3 - 1, par4) == Material.water && par1World.getBlockMetadata(par2, par3 - 1, par4) == 0 : false;
 	}
 	
-	@Override protected boolean canThisPlantGrowOnThisBlockID(int p_72263_1_)
+	@Override protected boolean canThisPlantGrowOnThisBlockID(int par1)
 	{
-		return p_72263_1_ == Block.waterStill.blockID;
+		return par1 == Block.waterStill.blockID;
 	}
 	
 	@Override public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
@@ -41,9 +41,9 @@ public class BlockLilyPad extends BlockFlower
 		return 2129968;
 	}
 	
-	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_71872_1_, int p_71872_2_, int p_71872_3_, int p_71872_4_)
+	@Override public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
 	{
-		return AxisAlignedBB.getAABBPool().getAABB(p_71872_2_ + minX, p_71872_3_ + minY, p_71872_4_ + minZ, p_71872_2_ + maxX, p_71872_3_ + maxY, p_71872_4_ + maxZ);
+		return AxisAlignedBB.getAABBPool().getAABB(par2 + minX, par3 + minY, par4 + minZ, par2 + maxX, par3 + maxY, par4 + maxZ);
 	}
 	
 	@Override public int getRenderColor(int par1)

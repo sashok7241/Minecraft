@@ -8,11 +8,11 @@ public class EntityAIBeg extends EntityAIBase
 	private float minPlayerDistance;
 	private int field_75384_e;
 	
-	public EntityAIBeg(EntityWolf p_i3459_1_, float p_i3459_2_)
+	public EntityAIBeg(EntityWolf par1EntityWolf, float par2)
 	{
-		theWolf = p_i3459_1_;
-		worldObject = p_i3459_1_.worldObj;
-		minPlayerDistance = p_i3459_2_;
+		theWolf = par1EntityWolf;
+		worldObject = par1EntityWolf.worldObj;
+		minPlayerDistance = par2;
 		setMutexBits(2);
 	}
 	
@@ -21,9 +21,9 @@ public class EntityAIBeg extends EntityAIBase
 		return !thePlayer.isEntityAlive() ? false : theWolf.getDistanceSqToEntity(thePlayer) > minPlayerDistance * minPlayerDistance ? false : field_75384_e > 0 && hasPlayerGotBoneInHand(thePlayer);
 	}
 	
-	private boolean hasPlayerGotBoneInHand(EntityPlayer p_75382_1_)
+	private boolean hasPlayerGotBoneInHand(EntityPlayer par1EntityPlayer)
 	{
-		ItemStack var2 = p_75382_1_.inventory.getCurrentItem();
+		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
 		return var2 == null ? false : !theWolf.isTamed() && var2.itemID == Item.bone.itemID ? true : theWolf.isBreedingItem(var2);
 	}
 	

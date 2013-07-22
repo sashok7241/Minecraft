@@ -2,66 +2,58 @@ package net.minecraft.src;
 
 public abstract class EntityMob extends EntityCreature implements IMob
 {
-	public EntityMob(World p_i3552_1_)
+	public EntityMob(World par1World)
 	{
-		super(p_i3552_1_);
+		super(par1World);
 		experienceValue = 5;
 	}
 	
-	@Override protected void attackEntity(Entity p_70785_1_, float p_70785_2_)
+	@Override protected void attackEntity(Entity par1Entity, float par2)
 	{
-		if(attackTime <= 0 && p_70785_2_ < 2.0F && p_70785_1_.boundingBox.maxY > boundingBox.minY && p_70785_1_.boundingBox.minY < boundingBox.maxY)
+		if(attackTime <= 0 && par2 < 2.0F && par1Entity.boundingBox.maxY > boundingBox.minY && par1Entity.boundingBox.minY < boundingBox.maxY)
 		{
 			attackTime = 20;
-			attackEntityAsMob(p_70785_1_);
+			attackEntityAsMob(par1Entity);
 		}
 	}
 	
-	@Override public boolean attackEntityAsMob(Entity p_70652_1_)
+	@Override public boolean attackEntityAsMob(Entity par1Entity)
 	{
-		int var2 = getAttackStrength(p_70652_1_);
-		if(this.isPotionActive(Potion.damageBoost))
-		{
-			var2 += 3 << getActivePotionEffect(Potion.damageBoost).getAmplifier();
-		}
-		if(this.isPotionActive(Potion.weakness))
-		{
-			var2 -= 2 << getActivePotionEffect(Potion.weakness).getAmplifier();
-		}
+		float var2 = (float) func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e();
 		int var3 = 0;
-		if(p_70652_1_ instanceof EntityLiving)
+		if(par1Entity instanceof EntityLivingBase)
 		{
-			var2 += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLiving) p_70652_1_);
-			var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLiving) p_70652_1_);
+			var2 += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase) par1Entity);
+			var3 += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) par1Entity);
 		}
-		boolean var4 = p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), var2);
+		boolean var4 = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), var2);
 		if(var4)
 		{
 			if(var3 > 0)
 			{
-				p_70652_1_.addVelocity(-MathHelper.sin(rotationYaw * (float) Math.PI / 180.0F) * var3 * 0.5F, 0.1D, MathHelper.cos(rotationYaw * (float) Math.PI / 180.0F) * var3 * 0.5F);
+				par1Entity.addVelocity(-MathHelper.sin(rotationYaw * (float) Math.PI / 180.0F) * var3 * 0.5F, 0.1D, MathHelper.cos(rotationYaw * (float) Math.PI / 180.0F) * var3 * 0.5F);
 				motionX *= 0.6D;
 				motionZ *= 0.6D;
 			}
 			int var5 = EnchantmentHelper.getFireAspectModifier(this);
 			if(var5 > 0)
 			{
-				p_70652_1_.setFire(var5 * 4);
+				par1Entity.setFire(var5 * 4);
 			}
-			if(p_70652_1_ instanceof EntityLiving)
+			if(par1Entity instanceof EntityLivingBase)
 			{
-				EnchantmentThorns.func_92096_a(this, (EntityLiving) p_70652_1_, rand);
+				EnchantmentThorns.func_92096_a(this, (EntityLivingBase) par1Entity, rand);
 			}
 		}
 		return var4;
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		if(isEntityInvulnerable()) return false;
-		else if(super.attackEntityFrom(p_70097_1_, p_70097_2_))
+		else if(super.attackEntityFrom(par1DamageSource, par2))
 		{
-			Entity var3 = p_70097_1_.getEntity();
+			Entity var3 = par1DamageSource.getEntity();
 			if(riddenByEntity != var3 && ridingEntity != var3)
 			{
 				if(var3 != this)
@@ -79,19 +71,20 @@ public abstract class EntityMob extends EntityCreature implements IMob
 		return var1 != null && canEntityBeSeen(var1) ? var1 : null;
 	}
 	
-	public int getAttackStrength(Entity p_82193_1_)
+	@Override protected void func_110147_ax()
 	{
-		return 2;
+		super.func_110147_ax();
+		func_110140_aT().func_111150_b(SharedMonsterAttributes.field_111264_e);
 	}
 	
-	@Override public float getBlockPathWeight(int p_70783_1_, int p_70783_2_, int p_70783_3_)
+	@Override public float getBlockPathWeight(int par1, int par2, int par3)
 	{
-		return 0.5F - worldObj.getLightBrightness(p_70783_1_, p_70783_2_, p_70783_3_);
+		return 0.5F - worldObj.getLightBrightness(par1, par2, par3);
 	}
 	
 	@Override public boolean getCanSpawnHere()
 	{
-		return isValidLightLevel() && super.getCanSpawnHere();
+		return worldObj.difficultySetting > 0 && isValidLightLevel() && super.getCanSpawnHere();
 	}
 	
 	protected boolean isValidLightLevel()

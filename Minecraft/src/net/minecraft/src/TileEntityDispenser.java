@@ -8,13 +8,13 @@ public class TileEntityDispenser extends TileEntity implements IInventory
 	private Random dispenserRandom = new Random();
 	protected String customName;
 	
-	public int addItem(ItemStack p_70360_1_)
+	public int addItem(ItemStack par1ItemStack)
 	{
 		for(int var2 = 0; var2 < dispenserContents.length; ++var2)
 		{
 			if(dispenserContents[var2] == null || dispenserContents[var2].itemID == 0)
 			{
-				setInventorySlotContents(var2, p_70360_1_);
+				setInventorySlotContents(var2, par1ItemStack);
 				return var2;
 			}
 		}
@@ -25,23 +25,23 @@ public class TileEntityDispenser extends TileEntity implements IInventory
 	{
 	}
 	
-	@Override public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
+	@Override public ItemStack decrStackSize(int par1, int par2)
 	{
-		if(dispenserContents[p_70298_1_] != null)
+		if(dispenserContents[par1] != null)
 		{
 			ItemStack var3;
-			if(dispenserContents[p_70298_1_].stackSize <= p_70298_2_)
+			if(dispenserContents[par1].stackSize <= par2)
 			{
-				var3 = dispenserContents[p_70298_1_];
-				dispenserContents[p_70298_1_] = null;
+				var3 = dispenserContents[par1];
+				dispenserContents[par1] = null;
 				onInventoryChanged();
 				return var3;
 			} else
 			{
-				var3 = dispenserContents[p_70298_1_].splitStack(p_70298_2_);
-				if(dispenserContents[p_70298_1_].stackSize == 0)
+				var3 = dispenserContents[par1].splitStack(par2);
+				if(dispenserContents[par1].stackSize == 0)
 				{
-					dispenserContents[p_70298_1_] = null;
+					dispenserContents[par1] = null;
 				}
 				onInventoryChanged();
 				return var3;
@@ -78,17 +78,17 @@ public class TileEntityDispenser extends TileEntity implements IInventory
 		return 9;
 	}
 	
-	@Override public ItemStack getStackInSlot(int p_70301_1_)
+	@Override public ItemStack getStackInSlot(int par1)
 	{
-		return dispenserContents[p_70301_1_];
+		return dispenserContents[par1];
 	}
 	
-	@Override public ItemStack getStackInSlotOnClosing(int p_70304_1_)
+	@Override public ItemStack getStackInSlotOnClosing(int par1)
 	{
-		if(dispenserContents[p_70304_1_] != null)
+		if(dispenserContents[par1] != null)
 		{
-			ItemStack var2 = dispenserContents[p_70304_1_];
-			dispenserContents[p_70304_1_] = null;
+			ItemStack var2 = dispenserContents[par1];
+			dispenserContents[par1] = null;
 			return var2;
 		} else return null;
 	}
@@ -98,24 +98,24 @@ public class TileEntityDispenser extends TileEntity implements IInventory
 		return customName != null;
 	}
 	
-	@Override public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_)
+	@Override public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
 	{
 		return true;
 	}
 	
-	@Override public boolean isUseableByPlayer(EntityPlayer p_70300_1_)
+	@Override public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
 	{
-		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : p_70300_1_.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this ? false : par1EntityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
 	}
 	
 	@Override public void openChest()
 	{
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
+	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readFromNBT(p_70307_1_);
-		NBTTagList var2 = p_70307_1_.getTagList("Items");
+		super.readFromNBT(par1NBTTagCompound);
+		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
 		dispenserContents = new ItemStack[getSizeInventory()];
 		for(int var3 = 0; var3 < var2.tagCount(); ++var3)
 		{
@@ -126,30 +126,30 @@ public class TileEntityDispenser extends TileEntity implements IInventory
 				dispenserContents[var5] = ItemStack.loadItemStackFromNBT(var4);
 			}
 		}
-		if(p_70307_1_.hasKey("CustomName"))
+		if(par1NBTTagCompound.hasKey("CustomName"))
 		{
-			customName = p_70307_1_.getString("CustomName");
+			customName = par1NBTTagCompound.getString("CustomName");
 		}
 	}
 	
-	public void setCustomName(String p_94049_1_)
+	public void setCustomName(String par1Str)
 	{
-		customName = p_94049_1_;
+		customName = par1Str;
 	}
 	
-	@Override public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
+	@Override public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
 	{
-		dispenserContents[p_70299_1_] = p_70299_2_;
-		if(p_70299_2_ != null && p_70299_2_.stackSize > getInventoryStackLimit())
+		dispenserContents[par1] = par2ItemStack;
+		if(par2ItemStack != null && par2ItemStack.stackSize > getInventoryStackLimit())
 		{
-			p_70299_2_.stackSize = getInventoryStackLimit();
+			par2ItemStack.stackSize = getInventoryStackLimit();
 		}
 		onInventoryChanged();
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
+	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeToNBT(p_70310_1_);
+		super.writeToNBT(par1NBTTagCompound);
 		NBTTagList var2 = new NBTTagList();
 		for(int var3 = 0; var3 < dispenserContents.length; ++var3)
 		{
@@ -161,10 +161,10 @@ public class TileEntityDispenser extends TileEntity implements IInventory
 				var2.appendTag(var4);
 			}
 		}
-		p_70310_1_.setTag("Items", var2);
+		par1NBTTagCompound.setTag("Items", var2);
 		if(isInvNameLocalized())
 		{
-			p_70310_1_.setString("CustomName", customName);
+			par1NBTTagCompound.setString("CustomName", customName);
 		}
 	}
 }

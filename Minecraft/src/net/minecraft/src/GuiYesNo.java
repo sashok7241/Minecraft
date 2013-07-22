@@ -9,25 +9,24 @@ public class GuiYesNo extends GuiScreen
 	protected String buttonText2;
 	protected int worldNumber;
 	
-	public GuiYesNo(GuiScreen p_i3047_1_, String p_i3047_2_, String p_i3047_3_, int p_i3047_4_)
+	public GuiYesNo(GuiScreen par1GuiScreen, String par2Str, String par3Str, int par4)
 	{
-		parentScreen = p_i3047_1_;
-		message1 = p_i3047_2_;
-		message2 = p_i3047_3_;
-		worldNumber = p_i3047_4_;
-		StringTranslate var5 = StringTranslate.getInstance();
-		buttonText1 = var5.translateKey("gui.yes");
-		buttonText2 = var5.translateKey("gui.no");
+		parentScreen = par1GuiScreen;
+		message1 = par2Str;
+		message2 = par3Str;
+		worldNumber = par4;
+		buttonText1 = I18n.func_135053_a("gui.yes");
+		buttonText2 = I18n.func_135053_a("gui.no");
 	}
 	
-	public GuiYesNo(GuiScreen p_i3048_1_, String p_i3048_2_, String p_i3048_3_, String p_i3048_4_, String p_i3048_5_, int p_i3048_6_)
+	public GuiYesNo(GuiScreen par1GuiScreen, String par2Str, String par3Str, String par4Str, String par5Str, int par6)
 	{
-		parentScreen = p_i3048_1_;
-		message1 = p_i3048_2_;
-		message2 = p_i3048_3_;
-		buttonText1 = p_i3048_4_;
-		buttonText2 = p_i3048_5_;
-		worldNumber = p_i3048_6_;
+		parentScreen = par1GuiScreen;
+		message1 = par2Str;
+		message2 = par3Str;
+		buttonText1 = par4Str;
+		buttonText2 = par5Str;
+		worldNumber = par6;
 	}
 	
 	@Override protected void actionPerformed(GuiButton par1GuiButton)

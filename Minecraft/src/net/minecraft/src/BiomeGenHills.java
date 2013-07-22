@@ -6,36 +6,36 @@ public class BiomeGenHills extends BiomeGenBase
 {
 	private WorldGenerator theWorldGenerator;
 	
-	protected BiomeGenHills(int p_i3754_1_)
+	protected BiomeGenHills(int par1)
 	{
-		super(p_i3754_1_);
+		super(par1);
 		theWorldGenerator = new WorldGenMinable(Block.silverfish.blockID, 8);
 	}
 	
-	@Override public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
+	@Override public void decorate(World par1World, Random par2Random, int par3, int par4)
 	{
-		super.decorate(p_76728_1_, p_76728_2_, p_76728_3_, p_76728_4_);
-		int var5 = 3 + p_76728_2_.nextInt(6);
+		super.decorate(par1World, par2Random, par3, par4);
+		int var5 = 3 + par2Random.nextInt(6);
 		int var6;
 		int var7;
 		int var8;
 		for(var6 = 0; var6 < var5; ++var6)
 		{
-			var7 = p_76728_3_ + p_76728_2_.nextInt(16);
-			var8 = p_76728_2_.nextInt(28) + 4;
-			int var9 = p_76728_4_ + p_76728_2_.nextInt(16);
-			int var10 = p_76728_1_.getBlockId(var7, var8, var9);
+			var7 = par3 + par2Random.nextInt(16);
+			var8 = par2Random.nextInt(28) + 4;
+			int var9 = par4 + par2Random.nextInt(16);
+			int var10 = par1World.getBlockId(var7, var8, var9);
 			if(var10 == Block.stone.blockID)
 			{
-				p_76728_1_.setBlock(var7, var8, var9, Block.oreEmerald.blockID, 0, 2);
+				par1World.setBlock(var7, var8, var9, Block.oreEmerald.blockID, 0, 2);
 			}
 		}
 		for(var5 = 0; var5 < 7; ++var5)
 		{
-			var6 = p_76728_3_ + p_76728_2_.nextInt(16);
-			var7 = p_76728_2_.nextInt(64);
-			var8 = p_76728_4_ + p_76728_2_.nextInt(16);
-			theWorldGenerator.generate(p_76728_1_, p_76728_2_, var6, var7, var8);
+			var6 = par3 + par2Random.nextInt(16);
+			var7 = par2Random.nextInt(64);
+			var8 = par4 + par2Random.nextInt(16);
+			theWorldGenerator.generate(par1World, par2Random, var6, var7, var8);
 		}
 	}
 }

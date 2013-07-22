@@ -7,20 +7,20 @@ class LongHashMapEntry
 	LongHashMapEntry nextEntry;
 	final int hash;
 	
-	LongHashMapEntry(int p_i3420_1_, long p_i3420_2_, Object p_i3420_4_, LongHashMapEntry p_i3420_5_)
+	LongHashMapEntry(int par1, long par2, Object par4Obj, LongHashMapEntry par5LongHashMapEntry)
 	{
-		value = p_i3420_4_;
-		nextEntry = p_i3420_5_;
-		key = p_i3420_2_;
-		hash = p_i3420_1_;
+		value = par4Obj;
+		nextEntry = par5LongHashMapEntry;
+		key = par2;
+		hash = par1;
 	}
 	
-	@Override public final boolean equals(Object p_equals_1_)
+	@Override public final boolean equals(Object par1Obj)
 	{
-		if(!(p_equals_1_ instanceof LongHashMapEntry)) return false;
+		if(!(par1Obj instanceof LongHashMapEntry)) return false;
 		else
 		{
-			LongHashMapEntry var2 = (LongHashMapEntry) p_equals_1_;
+			LongHashMapEntry var2 = (LongHashMapEntry) par1Obj;
 			Long var3 = Long.valueOf(getKey());
 			Long var4 = Long.valueOf(var2.getKey());
 			if(var3 == var4 || var3 != null && var3.equals(var4))

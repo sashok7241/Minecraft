@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet55BlockDestroy extends Packet
@@ -16,18 +16,18 @@ public class Packet55BlockDestroy extends Packet
 	{
 	}
 	
-	public Packet55BlockDestroy(int p_i3361_1_, int p_i3361_2_, int p_i3361_3_, int p_i3361_4_, int p_i3361_5_)
+	public Packet55BlockDestroy(int par1, int par2, int par3, int par4, int par5)
 	{
-		entityId = p_i3361_1_;
-		posX = p_i3361_2_;
-		posY = p_i3361_3_;
-		posZ = p_i3361_4_;
-		destroyedStage = p_i3361_5_;
+		entityId = par1;
+		posX = par2;
+		posY = par3;
+		posZ = par4;
+		destroyedStage = par5;
 	}
 	
-	@Override public boolean containsSameEntityIDAs(Packet p_73268_1_)
+	@Override public boolean containsSameEntityIDAs(Packet par1Packet)
 	{
-		Packet55BlockDestroy var2 = (Packet55BlockDestroy) p_73268_1_;
+		Packet55BlockDestroy var2 = (Packet55BlockDestroy) par1Packet;
 		return var2.entityId == entityId;
 	}
 	
@@ -66,26 +66,26 @@ public class Packet55BlockDestroy extends Packet
 		return true;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleBlockDestroy(this);
+		par1NetHandler.handleBlockDestroy(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		entityId = p_73267_1_.readInt();
-		posX = p_73267_1_.readInt();
-		posY = p_73267_1_.readInt();
-		posZ = p_73267_1_.readInt();
-		destroyedStage = p_73267_1_.read();
+		entityId = par1DataInput.readInt();
+		posX = par1DataInput.readInt();
+		posY = par1DataInput.readInt();
+		posZ = par1DataInput.readInt();
+		destroyedStage = par1DataInput.readUnsignedByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(entityId);
-		p_73273_1_.writeInt(posX);
-		p_73273_1_.writeInt(posY);
-		p_73273_1_.writeInt(posZ);
-		p_73273_1_.write(destroyedStage);
+		par1DataOutput.writeInt(entityId);
+		par1DataOutput.writeInt(posX);
+		par1DataOutput.writeInt(posY);
+		par1DataOutput.writeInt(posZ);
+		par1DataOutput.write(destroyedStage);
 	}
 }

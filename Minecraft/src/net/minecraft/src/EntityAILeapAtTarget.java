@@ -3,13 +3,13 @@ package net.minecraft.src;
 public class EntityAILeapAtTarget extends EntityAIBase
 {
 	EntityLiving leaper;
-	EntityLiving leapTarget;
+	EntityLivingBase leapTarget;
 	float leapMotionY;
 	
-	public EntityAILeapAtTarget(EntityLiving p_i3471_1_, float p_i3471_2_)
+	public EntityAILeapAtTarget(EntityLiving par1EntityLiving, float par2)
 	{
-		leaper = p_i3471_1_;
-		leapMotionY = p_i3471_2_;
+		leaper = par1EntityLiving;
+		leapMotionY = par2;
 		setMutexBits(5);
 	}
 	

@@ -6,9 +6,9 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandClearInventory extends CommandBase
 {
-	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
+	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		return p_71516_2_.length == 1 ? getListOfStringsMatchingLastWord(p_71516_2_, getAllOnlineUsernames()) : null;
+		return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, getAllOnlineUsernames()) : null;
 	}
 	
 	protected String[] getAllOnlineUsernames()
@@ -21,9 +21,9 @@ public class CommandClearInventory extends CommandBase
 		return "clear";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender p_71518_1_)
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return p_71518_1_.translateString("commands.clear.usage", new Object[0]);
+		return "commands.clear.usage";
 	}
 	
 	@Override public int getRequiredPermissionLevel()
@@ -31,22 +31,26 @@ public class CommandClearInventory extends CommandBase
 		return 2;
 	}
 	
-	@Override public boolean isUsernameIndex(String[] p_82358_1_, int p_82358_2_)
+	@Override public boolean isUsernameIndex(String[] par1ArrayOfStr, int par2)
 	{
-		return p_82358_2_ == 0;
+		return par2 == 0;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		EntityPlayerMP var3 = p_71515_2_.length == 0 ? getCommandSenderAsPlayer(p_71515_1_) : func_82359_c(p_71515_1_, p_71515_2_[0]);
-		int var4 = p_71515_2_.length >= 2 ? parseIntWithMin(p_71515_1_, p_71515_2_[1], 1) : -1;
-		int var5 = p_71515_2_.length >= 3 ? parseIntWithMin(p_71515_1_, p_71515_2_[2], 0) : -1;
+		EntityPlayerMP var3 = par2ArrayOfStr.length == 0 ? getCommandSenderAsPlayer(par1ICommandSender) : func_82359_c(par1ICommandSender, par2ArrayOfStr[0]);
+		int var4 = par2ArrayOfStr.length >= 2 ? parseIntWithMin(par1ICommandSender, par2ArrayOfStr[1], 1) : -1;
+		int var5 = par2ArrayOfStr.length >= 3 ? parseIntWithMin(par1ICommandSender, par2ArrayOfStr[2], 0) : -1;
 		int var6 = var3.inventory.clearInventory(var4, var5);
 		var3.inventoryContainer.detectAndSendChanges();
+		if(!var3.capabilities.isCreativeMode)
+		{
+			var3.updateHeldItem();
+		}
 		if(var6 == 0) throw new CommandException("commands.clear.failure", new Object[] { var3.getEntityName() });
 		else
 		{
-			notifyAdmins(p_71515_1_, "commands.clear.success", new Object[] { var3.getEntityName(), Integer.valueOf(var6) });
+			notifyAdmins(par1ICommandSender, "commands.clear.success", new Object[] { var3.getEntityName(), Integer.valueOf(var6) });
 		}
 	}
 }

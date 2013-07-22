@@ -1,12 +1,11 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet3Chat extends Packet
 {
-	public static int maxChatLength = 119;
 	public String message;
 	private boolean isServer;
 	
@@ -15,25 +14,30 @@ public class Packet3Chat extends Packet
 		isServer = true;
 	}
 	
-	public Packet3Chat(String p_i3300_1_)
+	public Packet3Chat(ChatMessageComponent par1ChatMessageComponent)
 	{
-		this(p_i3300_1_, true);
+		this(par1ChatMessageComponent.func_111062_i());
 	}
 	
-	public Packet3Chat(String p_i3301_1_, boolean p_i3301_2_)
+	public Packet3Chat(ChatMessageComponent par1ChatMessageComponent, boolean par2)
+	{
+		this(par1ChatMessageComponent.func_111062_i(), par2);
+	}
+	
+	public Packet3Chat(String par1Str)
+	{
+		this(par1Str, true);
+	}
+	
+	public Packet3Chat(String par1Str, boolean par2)
 	{
 		isServer = true;
-		if(p_i3301_1_.length() > maxChatLength)
+		if(par1Str.length() > 32767)
 		{
-			p_i3301_1_ = p_i3301_1_.substring(0, maxChatLength);
+			par1Str = par1Str.substring(0, 32767);
 		}
-		message = p_i3301_1_;
-		isServer = p_i3301_2_;
-	}
-	
-	@Override public boolean canProcessAsync()
-	{
-		return !message.startsWith("/");
+		message = par1Str;
+		isServer = par2;
 	}
 	
 	public boolean getIsServer()
@@ -46,18 +50,18 @@ public class Packet3Chat extends Packet
 		return 2 + message.length() * 2;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleChat(this);
+		par1NetHandler.handleChat(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		message = readString(p_73267_1_, maxChatLength);
+		message = readString(par1DataInput, 32767);
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(message, p_73273_1_);
+		writeString(message, par1DataOutput);
 	}
 }

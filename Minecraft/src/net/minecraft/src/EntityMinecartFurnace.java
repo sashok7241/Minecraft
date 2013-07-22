@@ -2,18 +2,18 @@ package net.minecraft.src;
 
 public class EntityMinecartFurnace extends EntityMinecart
 {
-	private int fuel = 0;
+	private int fuel;
 	public double pushX;
 	public double pushZ;
 	
-	public EntityMinecartFurnace(World p_i9003_1_)
+	public EntityMinecartFurnace(World par1World)
 	{
-		super(p_i9003_1_);
+		super(par1World);
 	}
 	
-	public EntityMinecartFurnace(World p_i9004_1_, double p_i9004_2_, double p_i9004_4_, double p_i9004_6_)
+	public EntityMinecartFurnace(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i9004_1_, p_i9004_2_, p_i9004_4_, p_i9004_6_);
+		super(par1World, par2, par4, par6);
 	}
 	
 	@Override protected void applyDrag()
@@ -45,6 +45,22 @@ public class EntityMinecartFurnace extends EntityMinecart
 		dataWatcher.addObject(16, new Byte((byte) 0));
 	}
 	
+	@Override public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+	{
+		ItemStack var2 = par1EntityPlayer.inventory.getCurrentItem();
+		if(var2 != null && var2.itemID == Item.coal.itemID)
+		{
+			if(!par1EntityPlayer.capabilities.isCreativeMode && --var2.stackSize == 0)
+			{
+				par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack) null);
+			}
+			fuel += 3600;
+		}
+		pushX = posX - par1EntityPlayer.posX;
+		pushZ = posZ - par1EntityPlayer.posZ;
+		return true;
+	}
+	
 	@Override public Block getDefaultDisplayTile()
 	{
 		return Block.furnaceBurning;
@@ -60,31 +76,15 @@ public class EntityMinecartFurnace extends EntityMinecart
 		return 2;
 	}
 	
-	@Override public boolean interact(EntityPlayer p_70085_1_)
-	{
-		ItemStack var2 = p_70085_1_.inventory.getCurrentItem();
-		if(var2 != null && var2.itemID == Item.coal.itemID)
-		{
-			if(--var2.stackSize == 0)
-			{
-				p_70085_1_.inventory.setInventorySlotContents(p_70085_1_.inventory.currentItem, (ItemStack) null);
-			}
-			fuel += 3600;
-		}
-		pushX = posX - p_70085_1_.posX;
-		pushZ = posZ - p_70085_1_.posZ;
-		return true;
-	}
-	
 	protected boolean isMinecartPowered()
 	{
 		return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
 	}
 	
-	@Override public void killMinecart(DamageSource p_94095_1_)
+	@Override public void killMinecart(DamageSource par1DamageSource)
 	{
-		super.killMinecart(p_94095_1_);
-		if(!p_94095_1_.isExplosion())
+		super.killMinecart(par1DamageSource);
+		if(!par1DamageSource.isExplosion())
 		{
 			entityDropItem(new ItemStack(Block.furnaceIdle, 1), 0.0F);
 		}
@@ -108,17 +108,17 @@ public class EntityMinecartFurnace extends EntityMinecart
 		}
 	}
 	
-	@Override protected void readEntityFromNBT(NBTTagCompound p_70037_1_)
+	@Override protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readEntityFromNBT(p_70037_1_);
-		pushX = p_70037_1_.getDouble("PushX");
-		pushZ = p_70037_1_.getDouble("PushZ");
-		fuel = p_70037_1_.getShort("Fuel");
+		super.readEntityFromNBT(par1NBTTagCompound);
+		pushX = par1NBTTagCompound.getDouble("PushX");
+		pushZ = par1NBTTagCompound.getDouble("PushZ");
+		fuel = par1NBTTagCompound.getShort("Fuel");
 	}
 	
-	protected void setMinecartPowered(boolean p_94107_1_)
+	protected void setMinecartPowered(boolean par1)
 	{
-		if(p_94107_1_)
+		if(par1)
 		{
 			dataWatcher.updateObject(16, Byte.valueOf((byte) (dataWatcher.getWatchableObjectByte(16) | 1)));
 		} else
@@ -127,9 +127,9 @@ public class EntityMinecartFurnace extends EntityMinecart
 		}
 	}
 	
-	@Override protected void updateOnTrack(int p_94091_1_, int p_94091_2_, int p_94091_3_, double p_94091_4_, double p_94091_6_, int p_94091_8_, int p_94091_9_)
+	@Override protected void updateOnTrack(int par1, int par2, int par3, double par4, double par6, int par8, int par9)
 	{
-		super.updateOnTrack(p_94091_1_, p_94091_2_, p_94091_3_, p_94091_4_, p_94091_6_, p_94091_8_, p_94091_9_);
+		super.updateOnTrack(par1, par2, par3, par4, par6, par8, par9);
 		double var10 = pushX * pushX + pushZ * pushZ;
 		if(var10 > 1.0E-4D && motionX * motionX + motionZ * motionZ > 0.001D)
 		{
@@ -148,11 +148,11 @@ public class EntityMinecartFurnace extends EntityMinecart
 		}
 	}
 	
-	@Override protected void writeEntityToNBT(NBTTagCompound p_70014_1_)
+	@Override protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setDouble("PushX", pushX);
-		p_70014_1_.setDouble("PushZ", pushZ);
-		p_70014_1_.setShort("Fuel", (short) fuel);
+		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setDouble("PushX", pushX);
+		par1NBTTagCompound.setDouble("PushZ", pushZ);
+		par1NBTTagCompound.setShort("Fuel", (short) fuel);
 	}
 }

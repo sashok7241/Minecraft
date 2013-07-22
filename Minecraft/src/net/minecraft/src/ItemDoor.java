@@ -4,20 +4,20 @@ public class ItemDoor extends Item
 {
 	private Material doorMaterial;
 	
-	public ItemDoor(int p_i3644_1_, Material p_i3644_2_)
+	public ItemDoor(int par1, Material par2Material)
 	{
-		super(p_i3644_1_);
-		doorMaterial = p_i3644_2_;
+		super(par1);
+		doorMaterial = par2Material;
 		maxStackSize = 1;
 		setCreativeTab(CreativeTabs.tabRedstone);
 	}
 	
-	@Override public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+	@Override public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
-		if(p_77648_7_ != 1) return false;
+		if(par7 != 1) return false;
 		else
 		{
-			++p_77648_5_;
+			++par5;
 			Block var11;
 			if(doorMaterial == Material.wood)
 			{
@@ -26,44 +26,44 @@ public class ItemDoor extends Item
 			{
 				var11 = Block.doorIron;
 			}
-			if(p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_1_) && p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_ + 1, p_77648_6_, p_77648_7_, p_77648_1_))
+			if(par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
 			{
-				if(!var11.canPlaceBlockAt(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_)) return false;
+				if(!var11.canPlaceBlockAt(par3World, par4, par5, par6)) return false;
 				else
 				{
-					int var12 = MathHelper.floor_double((p_77648_2_.rotationYaw + 180.0F) * 4.0F / 360.0F - 0.5D) & 3;
-					placeDoorBlock(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, var12, var11);
-					--p_77648_1_.stackSize;
+					int var12 = MathHelper.floor_double((par2EntityPlayer.rotationYaw + 180.0F) * 4.0F / 360.0F - 0.5D) & 3;
+					placeDoorBlock(par3World, par4, par5, par6, var12, var11);
+					--par1ItemStack.stackSize;
 					return true;
 				}
 			} else return false;
 		}
 	}
 	
-	public static void placeDoorBlock(World p_77869_0_, int p_77869_1_, int p_77869_2_, int p_77869_3_, int p_77869_4_, Block p_77869_5_)
+	public static void placeDoorBlock(World par0World, int par1, int par2, int par3, int par4, Block par5Block)
 	{
 		byte var6 = 0;
 		byte var7 = 0;
-		if(p_77869_4_ == 0)
+		if(par4 == 0)
 		{
 			var7 = 1;
 		}
-		if(p_77869_4_ == 1)
+		if(par4 == 1)
 		{
 			var6 = -1;
 		}
-		if(p_77869_4_ == 2)
+		if(par4 == 2)
 		{
 			var7 = -1;
 		}
-		if(p_77869_4_ == 3)
+		if(par4 == 3)
 		{
 			var6 = 1;
 		}
-		int var8 = (p_77869_0_.isBlockNormalCube(p_77869_1_ - var6, p_77869_2_, p_77869_3_ - var7) ? 1 : 0) + (p_77869_0_.isBlockNormalCube(p_77869_1_ - var6, p_77869_2_ + 1, p_77869_3_ - var7) ? 1 : 0);
-		int var9 = (p_77869_0_.isBlockNormalCube(p_77869_1_ + var6, p_77869_2_, p_77869_3_ + var7) ? 1 : 0) + (p_77869_0_.isBlockNormalCube(p_77869_1_ + var6, p_77869_2_ + 1, p_77869_3_ + var7) ? 1 : 0);
-		boolean var10 = p_77869_0_.getBlockId(p_77869_1_ - var6, p_77869_2_, p_77869_3_ - var7) == p_77869_5_.blockID || p_77869_0_.getBlockId(p_77869_1_ - var6, p_77869_2_ + 1, p_77869_3_ - var7) == p_77869_5_.blockID;
-		boolean var11 = p_77869_0_.getBlockId(p_77869_1_ + var6, p_77869_2_, p_77869_3_ + var7) == p_77869_5_.blockID || p_77869_0_.getBlockId(p_77869_1_ + var6, p_77869_2_ + 1, p_77869_3_ + var7) == p_77869_5_.blockID;
+		int var8 = (par0World.isBlockNormalCube(par1 - var6, par2, par3 - var7) ? 1 : 0) + (par0World.isBlockNormalCube(par1 - var6, par2 + 1, par3 - var7) ? 1 : 0);
+		int var9 = (par0World.isBlockNormalCube(par1 + var6, par2, par3 + var7) ? 1 : 0) + (par0World.isBlockNormalCube(par1 + var6, par2 + 1, par3 + var7) ? 1 : 0);
+		boolean var10 = par0World.getBlockId(par1 - var6, par2, par3 - var7) == par5Block.blockID || par0World.getBlockId(par1 - var6, par2 + 1, par3 - var7) == par5Block.blockID;
+		boolean var11 = par0World.getBlockId(par1 + var6, par2, par3 + var7) == par5Block.blockID || par0World.getBlockId(par1 + var6, par2 + 1, par3 + var7) == par5Block.blockID;
 		boolean var12 = false;
 		if(var10 && !var11)
 		{
@@ -72,9 +72,9 @@ public class ItemDoor extends Item
 		{
 			var12 = true;
 		}
-		p_77869_0_.setBlock(p_77869_1_, p_77869_2_, p_77869_3_, p_77869_5_.blockID, p_77869_4_, 2);
-		p_77869_0_.setBlock(p_77869_1_, p_77869_2_ + 1, p_77869_3_, p_77869_5_.blockID, 8 | (var12 ? 1 : 0), 2);
-		p_77869_0_.notifyBlocksOfNeighborChange(p_77869_1_, p_77869_2_, p_77869_3_, p_77869_5_.blockID);
-		p_77869_0_.notifyBlocksOfNeighborChange(p_77869_1_, p_77869_2_ + 1, p_77869_3_, p_77869_5_.blockID);
+		par0World.setBlock(par1, par2, par3, par5Block.blockID, par4, 2);
+		par0World.setBlock(par1, par2 + 1, par3, par5Block.blockID, 8 | (var12 ? 1 : 0), 2);
+		par0World.notifyBlocksOfNeighborChange(par1, par2, par3, par5Block.blockID);
+		par0World.notifyBlocksOfNeighborChange(par1, par2 + 1, par3, par5Block.blockID);
 	}
 }

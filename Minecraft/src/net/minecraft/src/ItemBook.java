@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class ItemBook extends Item
 {
-	public ItemBook(int p_i8010_1_)
+	public ItemBook(int par1)
 	{
-		super(p_i8010_1_);
+		super(par1);
 	}
 	
 	@Override public int getItemEnchantability()
@@ -12,8 +12,8 @@ public class ItemBook extends Item
 		return 1;
 	}
 	
-	@Override public boolean isItemTool(ItemStack p_77616_1_)
+	@Override public boolean isItemTool(ItemStack par1ItemStack)
 	{
-		return p_77616_1_.stackSize == 1;
+		return par1ItemStack.stackSize == 1;
 	}
 }

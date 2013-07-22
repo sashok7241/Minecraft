@@ -9,7 +9,7 @@ public final class BossStatus
 	
 	public static void func_82824_a(IBossDisplayData par0IBossDisplayData, boolean par1)
 	{
-		healthScale = (float) par0IBossDisplayData.getBossHealth() / (float) par0IBossDisplayData.getMaxHealth();
+		healthScale = par0IBossDisplayData.func_110143_aJ() / par0IBossDisplayData.func_110138_aP();
 		statusBarLength = 100;
 		bossName = par0IBossDisplayData.getEntityName();
 		field_82825_d = par1;

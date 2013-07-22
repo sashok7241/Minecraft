@@ -5,9 +5,9 @@ public class BlockWorkbench extends Block
 	private Icon workbenchIconTop;
 	private Icon workbenchIconFront;
 	
-	protected BlockWorkbench(int p_i4024_1_)
+	protected BlockWorkbench(int par1)
 	{
-		super(p_i4024_1_, Material.wood);
+		super(par1, Material.wood);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
@@ -16,20 +16,20 @@ public class BlockWorkbench extends Block
 		return par1 == 1 ? workbenchIconTop : par1 == 0 ? Block.planks.getBlockTextureFromSide(par1) : par1 != 2 && par1 != 4 ? blockIcon : workbenchIconFront;
 	}
 	
-	@Override public boolean onBlockActivated(World p_71903_1_, int p_71903_2_, int p_71903_3_, int p_71903_4_, EntityPlayer p_71903_5_, int p_71903_6_, float p_71903_7_, float p_71903_8_, float p_71903_9_)
+	@Override public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
 	{
-		if(p_71903_1_.isRemote) return true;
+		if(par1World.isRemote) return true;
 		else
 		{
-			p_71903_5_.displayGUIWorkbench(p_71903_2_, p_71903_3_, p_71903_4_);
+			par5EntityPlayer.displayGUIWorkbench(par2, par3, par4);
 			return true;
 		}
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("workbench_side");
-		workbenchIconTop = par1IconRegister.registerIcon("workbench_top");
-		workbenchIconFront = par1IconRegister.registerIcon("workbench_front");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_side");
+		workbenchIconTop = par1IconRegister.registerIcon(func_111023_E() + "_top");
+		workbenchIconFront = par1IconRegister.registerIcon(func_111023_E() + "_front");
 	}
 }

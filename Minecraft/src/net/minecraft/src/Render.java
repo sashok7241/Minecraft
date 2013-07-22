@@ -3,10 +3,10 @@ package net.minecraft.src;
 
 public abstract class Render
 {
+	private static final ResourceLocation field_110778_a = new ResourceLocation("textures/misc/shadow.png");
 	protected RenderManager renderManager;
-	private ModelBase modelBase = new ModelBiped();
 	protected RenderBlocks renderBlocks = new RenderBlocks();
-	protected float shadowSize = 0.0F;
+	protected float shadowSize;
 	protected float shadowOpaque = 1.0F;
 	
 	public abstract void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9);
@@ -28,6 +28,18 @@ public abstract class Render
 		}
 	}
 	
+	protected abstract ResourceLocation func_110775_a(Entity var1);
+	
+	protected void func_110776_a(ResourceLocation par1ResourceLocation)
+	{
+		renderManager.renderEngine.func_110577_a(par1ResourceLocation);
+	}
+	
+	protected void func_110777_b(Entity par1Entity)
+	{
+		func_110776_a(func_110775_a(par1Entity));
+	}
+	
 	public FontRenderer getFontRendererFromRenderManager()
 	{
 		return renderManager.getFontRenderer();
@@ -36,23 +48,6 @@ public abstract class Render
 	private World getWorldFromRenderManager()
 	{
 		return renderManager.worldObj;
-	}
-	
-	protected boolean loadDownloadableImageTexture(String p_76984_1_, String p_76984_2_)
-	{
-		RenderEngine var3 = renderManager.renderEngine;
-		int var4 = var3.getTextureForDownloadableImage(p_76984_1_, p_76984_2_);
-		if(var4 >= 0)
-		{
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, var4);
-			var3.resetBoundTexture();
-			return true;
-		} else return false;
-	}
-	
-	protected void loadTexture(String p_76985_1_)
-	{
-		renderManager.renderEngine.bindTexture(p_76985_1_);
 	}
 	
 	private void renderEntityOnFire(Entity par1Entity, double par2, double par4, double par6, float par8)
@@ -64,7 +59,6 @@ public abstract class Render
 		GL11.glTranslatef((float) par2, (float) par4, (float) par6);
 		float var11 = par1Entity.width * 1.4F;
 		GL11.glScalef(var11, var11, var11);
-		loadTexture("/terrain.png");
 		Tessellator var12 = Tessellator.instance;
 		float var13 = 0.5F;
 		float var14 = 0.0F;
@@ -78,14 +72,8 @@ public abstract class Render
 		var12.startDrawingQuads();
 		while(var15 > 0.0F)
 		{
-			Icon var19;
-			if(var18 % 2 == 0)
-			{
-				var19 = var9;
-			} else
-			{
-				var19 = var10;
-			}
+			Icon var19 = var18 % 2 == 0 ? var9 : var10;
+			func_110776_a(TextureMap.field_110575_b);
 			float var20 = var19.getMinU();
 			float var21 = var19.getMinV();
 			float var22 = var19.getMaxU();
@@ -115,7 +103,7 @@ public abstract class Render
 	{
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		renderManager.renderEngine.bindTexture("%clamp%/misc/shadow.png");
+		renderManager.renderEngine.func_110577_a(field_110778_a);
 		World var10 = getWorldFromRenderManager();
 		GL11.glDepthMask(false);
 		float var11 = shadowSize;

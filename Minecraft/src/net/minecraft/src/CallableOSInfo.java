@@ -6,9 +6,9 @@ class CallableOSInfo implements Callable
 {
 	final CrashReport theCrashReport;
 	
-	CallableOSInfo(CrashReport p_i3245_1_)
+	CallableOSInfo(CrashReport par1CrashReport)
 	{
-		theCrashReport = p_i3245_1_;
+		theCrashReport = par1CrashReport;
 	}
 	
 	@Override public Object call()

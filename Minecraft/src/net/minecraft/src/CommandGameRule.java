@@ -6,9 +6,9 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandGameRule extends CommandBase
 {
-	@Override public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_)
+	@Override public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		return p_71516_2_.length == 1 ? getListOfStringsMatchingLastWord(p_71516_2_, getGameRules().getRules()) : p_71516_2_.length == 2 ? getListOfStringsMatchingLastWord(p_71516_2_, new String[] { "true", "false" }) : null;
+		return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, getGameRules().getRules()) : par2ArrayOfStr.length == 2 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, new String[] { "true", "false" }) : null;
 	}
 	
 	@Override public String getCommandName()
@@ -16,9 +16,9 @@ public class CommandGameRule extends CommandBase
 		return "gamerule";
 	}
 	
-	@Override public String getCommandUsage(ICommandSender p_71518_1_)
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
 	{
-		return p_71518_1_.translateString("commands.gamerule.usage", new Object[0]);
+		return "commands.gamerule.usage";
 	}
 	
 	private GameRules getGameRules()
@@ -31,38 +31,38 @@ public class CommandGameRule extends CommandBase
 		return 2;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
 		String var6;
-		if(p_71515_2_.length == 2)
+		if(par2ArrayOfStr.length == 2)
 		{
-			var6 = p_71515_2_[0];
-			String var7 = p_71515_2_[1];
+			var6 = par2ArrayOfStr[0];
+			String var7 = par2ArrayOfStr[1];
 			GameRules var8 = getGameRules();
 			if(var8.hasRule(var6))
 			{
 				var8.setOrCreateGameRule(var6, var7);
-				notifyAdmins(p_71515_1_, "commands.gamerule.success", new Object[0]);
+				notifyAdmins(par1ICommandSender, "commands.gamerule.success", new Object[0]);
 			} else
 			{
-				notifyAdmins(p_71515_1_, "commands.gamerule.norule", new Object[] { var6 });
+				notifyAdmins(par1ICommandSender, "commands.gamerule.norule", new Object[] { var6 });
 			}
-		} else if(p_71515_2_.length == 1)
+		} else if(par2ArrayOfStr.length == 1)
 		{
-			var6 = p_71515_2_[0];
+			var6 = par2ArrayOfStr[0];
 			GameRules var4 = getGameRules();
 			if(var4.hasRule(var6))
 			{
 				String var5 = var4.getGameRuleStringValue(var6);
-				p_71515_1_.sendChatToPlayer(var6 + " = " + var5);
+				par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111066_d(var6).func_111079_a(" = ").func_111079_a(var5));
 			} else
 			{
-				notifyAdmins(p_71515_1_, "commands.gamerule.norule", new Object[] { var6 });
+				notifyAdmins(par1ICommandSender, "commands.gamerule.norule", new Object[] { var6 });
 			}
-		} else if(p_71515_2_.length == 0)
+		} else if(par2ArrayOfStr.length == 0)
 		{
 			GameRules var3 = getGameRules();
-			p_71515_1_.sendChatToPlayer(joinNiceString(var3.getRules()));
+			par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111066_d(joinNiceString(var3.getRules())));
 		} else throw new WrongUsageException("commands.gamerule.usage", new Object[0]);
 	}
 }

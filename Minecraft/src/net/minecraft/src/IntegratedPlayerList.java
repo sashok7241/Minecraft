@@ -6,17 +6,17 @@ import net.minecraft.server.MinecraftServer;
 
 public class IntegratedPlayerList extends ServerConfigurationManager
 {
-	private NBTTagCompound hostPlayerData = null;
+	private NBTTagCompound hostPlayerData;
 	
-	public IntegratedPlayerList(IntegratedServer p_i3125_1_)
+	public IntegratedPlayerList(IntegratedServer par1IntegratedServer)
 	{
-		super(p_i3125_1_);
+		super(par1IntegratedServer);
 		viewDistance = 10;
 	}
 	
-	@Override public String allowUserToConnect(SocketAddress p_72399_1_, String p_72399_2_)
+	@Override public String allowUserToConnect(SocketAddress par1SocketAddress, String par2Str)
 	{
-		return p_72399_2_.equalsIgnoreCase(getIntegratedServer().getServerOwner()) ? "That name is already taken." : super.allowUserToConnect(p_72399_1_, p_72399_2_);
+		return par2Str.equalsIgnoreCase(getIntegratedServer().getServerOwner()) ? "That name is already taken." : super.allowUserToConnect(par1SocketAddress, par2Str);
 	}
 	
 	@Override public NBTTagCompound getHostPlayerData()
@@ -34,13 +34,13 @@ public class IntegratedPlayerList extends ServerConfigurationManager
 		return getIntegratedServer();
 	}
 	
-	@Override protected void writePlayerData(EntityPlayerMP p_72391_1_)
+	@Override protected void writePlayerData(EntityPlayerMP par1EntityPlayerMP)
 	{
-		if(p_72391_1_.getCommandSenderName().equals(getIntegratedServer().getServerOwner()))
+		if(par1EntityPlayerMP.getCommandSenderName().equals(getIntegratedServer().getServerOwner()))
 		{
 			hostPlayerData = new NBTTagCompound();
-			p_72391_1_.writeToNBT(hostPlayerData);
+			par1EntityPlayerMP.writeToNBT(hostPlayerData);
 		}
-		super.writePlayerData(p_72391_1_);
+		super.writePlayerData(par1EntityPlayerMP);
 	}
 }

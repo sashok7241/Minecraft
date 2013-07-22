@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet208SetDisplayObjective extends Packet
@@ -13,15 +13,15 @@ public class Packet208SetDisplayObjective extends Packet
 	{
 	}
 	
-	public Packet208SetDisplayObjective(int p_i10002_1_, ScoreObjective p_i10002_2_)
+	public Packet208SetDisplayObjective(int par1, ScoreObjective par2ScoreObjective)
 	{
-		scoreboardPosition = p_i10002_1_;
-		if(p_i10002_2_ == null)
+		scoreboardPosition = par1;
+		if(par2ScoreObjective == null)
 		{
 			scoreName = "";
 		} else
 		{
-			scoreName = p_i10002_2_.getName();
+			scoreName = par2ScoreObjective.getName();
 		}
 	}
 	
@@ -30,20 +30,20 @@ public class Packet208SetDisplayObjective extends Packet
 		return 3 + scoreName.length();
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleSetDisplayObjective(this);
+		par1NetHandler.handleSetDisplayObjective(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		scoreboardPosition = p_73267_1_.readByte();
-		scoreName = readString(p_73267_1_, 16);
+		scoreboardPosition = par1DataInput.readByte();
+		scoreName = readString(par1DataInput, 16);
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeByte(scoreboardPosition);
-		writeString(scoreName, p_73273_1_);
+		par1DataOutput.writeByte(scoreboardPosition);
+		writeString(scoreName, par1DataOutput);
 	}
 }

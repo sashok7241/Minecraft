@@ -3,7 +3,10 @@ package net.minecraft.src;
 
 public class Gui
 {
-	protected float zLevel = 0.0F;
+	public static final ResourceLocation field_110325_k = new ResourceLocation("textures/gui/options_background.png");
+	public static final ResourceLocation field_110323_l = new ResourceLocation("textures/gui/container/stats_icons.png");
+	public static final ResourceLocation field_110324_m = new ResourceLocation("textures/gui/icons.png");
+	protected float zLevel;
 	
 	public void drawCenteredString(FontRenderer par1FontRenderer, String par2Str, int par3, int par4, int par5)
 	{

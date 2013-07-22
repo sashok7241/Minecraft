@@ -4,16 +4,16 @@ import java.util.Random;
 
 public class BiomeGenTaiga extends BiomeGenBase
 {
-	public BiomeGenTaiga(int p_i3765_1_)
+	public BiomeGenTaiga(int par1)
 	{
-		super(p_i3765_1_);
+		super(par1);
 		spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 8, 4, 4));
 		theBiomeDecorator.treesPerChunk = 10;
 		theBiomeDecorator.grassPerChunk = 1;
 	}
 	
-	@Override public WorldGenerator getRandomWorldGenForTrees(Random p_76740_1_)
+	@Override public WorldGenerator getRandomWorldGenForTrees(Random par1Random)
 	{
-		return p_76740_1_.nextInt(3) == 0 ? new WorldGenTaiga1() : new WorldGenTaiga2(false);
+		return par1Random.nextInt(3) == 0 ? new WorldGenTaiga1() : new WorldGenTaiga2(false);
 	}
 }

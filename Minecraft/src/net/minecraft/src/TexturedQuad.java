@@ -6,23 +6,21 @@ public class TexturedQuad
 	public int nVertices;
 	private boolean invertNormal;
 	
-	public TexturedQuad(PositionTextureVertex[] p_i3136_1_)
+	public TexturedQuad(PositionTextureVertex[] par1ArrayOfPositionTextureVertex)
 	{
-		nVertices = 0;
-		invertNormal = false;
-		vertexPositions = p_i3136_1_;
-		nVertices = p_i3136_1_.length;
+		vertexPositions = par1ArrayOfPositionTextureVertex;
+		nVertices = par1ArrayOfPositionTextureVertex.length;
 	}
 	
-	public TexturedQuad(PositionTextureVertex[] p_i3137_1_, int p_i3137_2_, int p_i3137_3_, int p_i3137_4_, int p_i3137_5_, float p_i3137_6_, float p_i3137_7_)
+	public TexturedQuad(PositionTextureVertex[] par1ArrayOfPositionTextureVertex, int par2, int par3, int par4, int par5, float par6, float par7)
 	{
-		this(p_i3137_1_);
-		float var8 = 0.0F / p_i3137_6_;
-		float var9 = 0.0F / p_i3137_7_;
-		p_i3137_1_[0] = p_i3137_1_[0].setTexturePosition(p_i3137_4_ / p_i3137_6_ - var8, p_i3137_3_ / p_i3137_7_ + var9);
-		p_i3137_1_[1] = p_i3137_1_[1].setTexturePosition(p_i3137_2_ / p_i3137_6_ + var8, p_i3137_3_ / p_i3137_7_ + var9);
-		p_i3137_1_[2] = p_i3137_1_[2].setTexturePosition(p_i3137_2_ / p_i3137_6_ + var8, p_i3137_5_ / p_i3137_7_ - var9);
-		p_i3137_1_[3] = p_i3137_1_[3].setTexturePosition(p_i3137_4_ / p_i3137_6_ - var8, p_i3137_5_ / p_i3137_7_ - var9);
+		this(par1ArrayOfPositionTextureVertex);
+		float var8 = 0.0F / par6;
+		float var9 = 0.0F / par7;
+		par1ArrayOfPositionTextureVertex[0] = par1ArrayOfPositionTextureVertex[0].setTexturePosition(par4 / par6 - var8, par3 / par7 + var9);
+		par1ArrayOfPositionTextureVertex[1] = par1ArrayOfPositionTextureVertex[1].setTexturePosition(par2 / par6 + var8, par3 / par7 + var9);
+		par1ArrayOfPositionTextureVertex[2] = par1ArrayOfPositionTextureVertex[2].setTexturePosition(par2 / par6 + var8, par5 / par7 - var9);
+		par1ArrayOfPositionTextureVertex[3] = par1ArrayOfPositionTextureVertex[3].setTexturePosition(par4 / par6 - var8, par5 / par7 - var9);
 	}
 	
 	public void draw(Tessellator par1Tessellator, float par2)

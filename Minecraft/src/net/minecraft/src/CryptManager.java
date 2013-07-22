@@ -3,7 +3,6 @@ package net.minecraft.src;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactory;
@@ -29,13 +28,11 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class CryptManager
 {
-	public static final Charset charSet = Charset.forName("ISO_8859_1");
-	
-	private static byte[] cipherOperation(int p_75885_0_, Key p_75885_1_, byte[] p_75885_2_)
+	private static byte[] cipherOperation(int par0, Key par1Key, byte[] par2ArrayOfByte)
 	{
 		try
 		{
-			return createTheCipherInstance(p_75885_0_, p_75885_1_.getAlgorithm(), p_75885_1_).doFinal(p_75885_2_);
+			return createTheCipherInstance(par0, par1Key.getAlgorithm(), par1Key).doFinal(par2ArrayOfByte);
 		} catch(IllegalBlockSizeException var4)
 		{
 			var4.printStackTrace();
@@ -47,10 +44,10 @@ public class CryptManager
 		return null;
 	}
 	
-	private static BufferedBlockCipher createBufferedBlockCipher(boolean p_75892_0_, Key p_75892_1_)
+	private static BufferedBlockCipher createBufferedBlockCipher(boolean par0, Key par1Key)
 	{
 		BufferedBlockCipher var2 = new BufferedBlockCipher(new CFBBlockCipher(new AESFastEngine(), 8));
-		var2.init(p_75892_0_, new ParametersWithIV(new KeyParameter(p_75892_1_.getEncoded()), p_75892_1_.getEncoded(), 0, 16));
+		var2.init(par0, new ParametersWithIV(new KeyParameter(par1Key.getEncoded()), par1Key.getEncoded(), 0, 16));
 		return var2;
 	}
 	
@@ -76,12 +73,12 @@ public class CryptManager
 		return new SecretKeySpec(var0.generateKey(), "AES");
 	}
 	
-	private static Cipher createTheCipherInstance(int p_75886_0_, String p_75886_1_, Key p_75886_2_)
+	private static Cipher createTheCipherInstance(int par0, String par1Str, Key par2Key)
 	{
 		try
 		{
-			Cipher var3 = Cipher.getInstance(p_75886_1_);
-			var3.init(p_75886_0_, p_75886_2_);
+			Cipher var3 = Cipher.getInstance(par1Str);
+			var3.init(par0, par2Key);
 			return var3;
 		} catch(InvalidKeyException var4)
 		{
@@ -97,11 +94,11 @@ public class CryptManager
 		return null;
 	}
 	
-	public static PublicKey decodePublicKey(byte[] p_75896_0_)
+	public static PublicKey decodePublicKey(byte[] par0ArrayOfByte)
 	{
 		try
 		{
-			X509EncodedKeySpec var1 = new X509EncodedKeySpec(p_75896_0_);
+			X509EncodedKeySpec var1 = new X509EncodedKeySpec(par0ArrayOfByte);
 			KeyFactory var2 = KeyFactory.getInstance("RSA");
 			return var2.generatePublic(var1);
 		} catch(NoSuchAlgorithmException var3)
@@ -115,28 +112,28 @@ public class CryptManager
 		return null;
 	}
 	
-	public static byte[] decryptData(Key p_75889_0_, byte[] p_75889_1_)
+	public static byte[] decryptData(Key par0Key, byte[] par1ArrayOfByte)
 	{
-		return cipherOperation(2, p_75889_0_, p_75889_1_);
+		return cipherOperation(2, par0Key, par1ArrayOfByte);
 	}
 	
-	public static InputStream decryptInputStream(SecretKey p_75888_0_, InputStream p_75888_1_)
+	public static InputStream decryptInputStream(SecretKey par0SecretKey, InputStream par1InputStream)
 	{
-		return new CipherInputStream(p_75888_1_, createBufferedBlockCipher(false, p_75888_0_));
+		return new CipherInputStream(par1InputStream, createBufferedBlockCipher(false, par0SecretKey));
 	}
 	
-	public static SecretKey decryptSharedKey(PrivateKey p_75887_0_, byte[] p_75887_1_)
+	public static SecretKey decryptSharedKey(PrivateKey par0PrivateKey, byte[] par1ArrayOfByte)
 	{
-		return new SecretKeySpec(decryptData(p_75887_0_, p_75887_1_), "AES");
+		return new SecretKeySpec(decryptData(par0PrivateKey, par1ArrayOfByte), "AES");
 	}
 	
-	private static byte[] digestOperation(String p_75893_0_, byte[] ... p_75893_1_)
+	private static byte[] digestOperation(String par0Str, byte[] ... par1ArrayOfByte)
 	{
 		try
 		{
-			MessageDigest var2 = MessageDigest.getInstance(p_75893_0_);
-			byte[][] var3 = p_75893_1_;
-			int var4 = p_75893_1_.length;
+			MessageDigest var2 = MessageDigest.getInstance(par0Str);
+			byte[][] var3 = par1ArrayOfByte;
+			int var4 = par1ArrayOfByte.length;
 			for(int var5 = 0; var5 < var4; ++var5)
 			{
 				byte[] var6 = var3[var5];
@@ -155,16 +152,16 @@ public class CryptManager
 		return cipherOperation(1, par0Key, par1ArrayOfByte);
 	}
 	
-	public static OutputStream encryptOuputStream(SecretKey p_75897_0_, OutputStream p_75897_1_)
+	public static OutputStream encryptOuputStream(SecretKey par0SecretKey, OutputStream par1OutputStream)
 	{
-		return new CipherOutputStream(p_75897_1_, createBufferedBlockCipher(true, p_75897_0_));
+		return new CipherOutputStream(par1OutputStream, createBufferedBlockCipher(true, par0SecretKey));
 	}
 	
-	public static byte[] getServerIdHash(String p_75895_0_, PublicKey p_75895_1_, SecretKey p_75895_2_)
+	public static byte[] getServerIdHash(String par0Str, PublicKey par1PublicKey, SecretKey par2SecretKey)
 	{
 		try
 		{
-			return digestOperation("SHA-1", new byte[][] { p_75895_0_.getBytes("ISO_8859_1"), p_75895_2_.getEncoded(), p_75895_1_.getEncoded() });
+			return digestOperation("SHA-1", new byte[][] { par0Str.getBytes("ISO_8859_1"), par2SecretKey.getEncoded(), par1PublicKey.getEncoded() });
 		} catch(UnsupportedEncodingException var4)
 		{
 			var4.printStackTrace();

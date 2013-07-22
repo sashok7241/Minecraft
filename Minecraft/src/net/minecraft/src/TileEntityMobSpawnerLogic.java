@@ -4,14 +4,14 @@ class TileEntityMobSpawnerLogic extends MobSpawnerBaseLogic
 {
 	final TileEntityMobSpawner mobSpawnerEntity;
 	
-	TileEntityMobSpawnerLogic(TileEntityMobSpawner p_i11046_1_)
+	TileEntityMobSpawnerLogic(TileEntityMobSpawner par1TileEntityMobSpawner)
 	{
-		mobSpawnerEntity = p_i11046_1_;
+		mobSpawnerEntity = par1TileEntityMobSpawner;
 	}
 	
-	@Override public void func_98267_a(int p_98267_1_)
+	@Override public void func_98267_a(int par1)
 	{
-		mobSpawnerEntity.worldObj.addBlockEvent(mobSpawnerEntity.xCoord, mobSpawnerEntity.yCoord, mobSpawnerEntity.zCoord, Block.mobSpawner.blockID, p_98267_1_, 0);
+		mobSpawnerEntity.worldObj.addBlockEvent(mobSpawnerEntity.xCoord, mobSpawnerEntity.yCoord, mobSpawnerEntity.zCoord, Block.mobSpawner.blockID, par1, 0);
 	}
 	
 	@Override public World getSpawnerWorld()
@@ -34,9 +34,9 @@ class TileEntityMobSpawnerLogic extends MobSpawnerBaseLogic
 		return mobSpawnerEntity.zCoord;
 	}
 	
-	@Override public void setRandomMinecart(WeightedRandomMinecart p_98277_1_)
+	@Override public void setRandomMinecart(WeightedRandomMinecart par1WeightedRandomMinecart)
 	{
-		super.setRandomMinecart(p_98277_1_);
+		super.setRandomMinecart(par1WeightedRandomMinecart);
 		if(getSpawnerWorld() != null)
 		{
 			getSpawnerWorld().markBlockForUpdate(mobSpawnerEntity.xCoord, mobSpawnerEntity.yCoord, mobSpawnerEntity.zCoord);

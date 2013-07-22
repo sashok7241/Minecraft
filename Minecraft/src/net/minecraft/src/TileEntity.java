@@ -17,12 +17,12 @@ public class TileEntity
 	public int blockMetadata = -1;
 	public Block blockType;
 	
-	public void func_85027_a(CrashReportCategory p_85027_1_)
+	public void func_85027_a(CrashReportCategory par1CrashReportCategory)
 	{
-		p_85027_1_.addCrashSectionCallable("Name", new CallableTileEntityName(this));
-		CrashReportCategory.func_85068_a(p_85027_1_, xCoord, yCoord, zCoord, getBlockType().blockID, getBlockMetadata());
-		p_85027_1_.addCrashSectionCallable("Actual block type", new CallableTileEntityID(this));
-		p_85027_1_.addCrashSectionCallable("Actual block data value", new CallableTileEntityData(this));
+		par1CrashReportCategory.addCrashSectionCallable("Name", new CallableTileEntityName(this));
+		CrashReportCategory.func_85068_a(par1CrashReportCategory, xCoord, yCoord, zCoord, getBlockType().blockID, getBlockMetadata());
+		par1CrashReportCategory.addCrashSectionCallable("Actual block type", new CallableTileEntityID(this));
+		par1CrashReportCategory.addCrashSectionCallable("Actual block data value", new CallableTileEntityData(this));
 	}
 	
 	public int getBlockMetadata()
@@ -94,21 +94,21 @@ public class TileEntity
 		}
 	}
 	
-	public void readFromNBT(NBTTagCompound p_70307_1_)
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		xCoord = p_70307_1_.getInteger("x");
-		yCoord = p_70307_1_.getInteger("y");
-		zCoord = p_70307_1_.getInteger("z");
+		xCoord = par1NBTTagCompound.getInteger("x");
+		yCoord = par1NBTTagCompound.getInteger("y");
+		zCoord = par1NBTTagCompound.getInteger("z");
 	}
 	
-	public boolean receiveClientEvent(int p_70315_1_, int p_70315_2_)
+	public boolean receiveClientEvent(int par1, int par2)
 	{
 		return false;
 	}
 	
-	public void setWorldObj(World p_70308_1_)
+	public void setWorldObj(World par1World)
 	{
-		worldObj = p_70308_1_;
+		worldObj = par1World;
 	}
 	
 	public void updateContainingBlockInfo()
@@ -126,35 +126,35 @@ public class TileEntity
 		tileEntityInvalid = false;
 	}
 	
-	public void writeToNBT(NBTTagCompound p_70310_1_)
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
 		String var2 = (String) classToNameMap.get(this.getClass());
 		if(var2 == null) throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
 		else
 		{
-			p_70310_1_.setString("id", var2);
-			p_70310_1_.setInteger("x", xCoord);
-			p_70310_1_.setInteger("y", yCoord);
-			p_70310_1_.setInteger("z", zCoord);
+			par1NBTTagCompound.setString("id", var2);
+			par1NBTTagCompound.setInteger("x", xCoord);
+			par1NBTTagCompound.setInteger("y", yCoord);
+			par1NBTTagCompound.setInteger("z", zCoord);
 		}
 	}
 	
-	private static void addMapping(Class p_70306_0_, String p_70306_1_)
+	private static void addMapping(Class par0Class, String par1Str)
 	{
-		if(nameToClassMap.containsKey(p_70306_1_)) throw new IllegalArgumentException("Duplicate id: " + p_70306_1_);
+		if(nameToClassMap.containsKey(par1Str)) throw new IllegalArgumentException("Duplicate id: " + par1Str);
 		else
 		{
-			nameToClassMap.put(p_70306_1_, p_70306_0_);
-			classToNameMap.put(p_70306_0_, p_70306_1_);
+			nameToClassMap.put(par1Str, par0Class);
+			classToNameMap.put(par0Class, par1Str);
 		}
 	}
 	
-	public static TileEntity createAndLoadEntity(NBTTagCompound p_70317_0_)
+	public static TileEntity createAndLoadEntity(NBTTagCompound par0NBTTagCompound)
 	{
 		TileEntity var1 = null;
 		try
 		{
-			Class var2 = (Class) nameToClassMap.get(p_70317_0_.getString("id"));
+			Class var2 = (Class) nameToClassMap.get(par0NBTTagCompound.getString("id"));
 			if(var2 != null)
 			{
 				var1 = (TileEntity) var2.newInstance();
@@ -165,10 +165,10 @@ public class TileEntity
 		}
 		if(var1 != null)
 		{
-			var1.readFromNBT(p_70317_0_);
+			var1.readFromNBT(par0NBTTagCompound);
 		} else
 		{
-			MinecraftServer.getServer().getLogAgent().logWarning("Skipping TileEntity with id " + p_70317_0_.getString("id"));
+			MinecraftServer.getServer().getLogAgent().logWarning("Skipping TileEntity with id " + par0NBTTagCompound.getString("id"));
 		}
 		return var1;
 	}

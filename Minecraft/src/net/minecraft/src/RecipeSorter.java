@@ -6,18 +6,18 @@ class RecipeSorter implements Comparator
 {
 	final CraftingManager craftingManager;
 	
-	RecipeSorter(CraftingManager p_i3699_1_)
+	RecipeSorter(CraftingManager par1CraftingManager)
 	{
-		craftingManager = p_i3699_1_;
+		craftingManager = par1CraftingManager;
 	}
 	
-	@Override public int compare(Object p_compare_1_, Object p_compare_2_)
+	@Override public int compare(Object par1Obj, Object par2Obj)
 	{
-		return compareRecipes((IRecipe) p_compare_1_, (IRecipe) p_compare_2_);
+		return compareRecipes((IRecipe) par1Obj, (IRecipe) par2Obj);
 	}
 	
-	public int compareRecipes(IRecipe p_77581_1_, IRecipe p_77581_2_)
+	public int compareRecipes(IRecipe par1IRecipe, IRecipe par2IRecipe)
 	{
-		return p_77581_1_ instanceof ShapelessRecipes && p_77581_2_ instanceof ShapedRecipes ? 1 : p_77581_2_ instanceof ShapelessRecipes && p_77581_1_ instanceof ShapedRecipes ? -1 : p_77581_2_.getRecipeSize() < p_77581_1_.getRecipeSize() ? -1 : p_77581_2_.getRecipeSize() > p_77581_1_.getRecipeSize() ? 1 : 0;
+		return par1IRecipe instanceof ShapelessRecipes && par2IRecipe instanceof ShapedRecipes ? 1 : par2IRecipe instanceof ShapelessRecipes && par1IRecipe instanceof ShapedRecipes ? -1 : par2IRecipe.getRecipeSize() < par1IRecipe.getRecipeSize() ? -1 : par2IRecipe.getRecipeSize() > par1IRecipe.getRecipeSize() ? 1 : 0;
 	}
 }

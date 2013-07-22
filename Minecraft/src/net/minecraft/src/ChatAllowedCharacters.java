@@ -8,10 +8,10 @@ public class ChatAllowedCharacters
 	public static final String allowedCharacters = getAllowedCharacters();
 	public static final char[] allowedCharactersArray = new char[] { '/', '\n', '\r', '\t', '\u0000', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':' };
 	
-	public static String filerAllowedCharacters(String p_71565_0_)
+	public static String filerAllowedCharacters(String par0Str)
 	{
 		StringBuilder var1 = new StringBuilder();
-		char[] var2 = p_71565_0_.toCharArray();
+		char[] var2 = par0Str.toCharArray();
 		int var3 = var2.length;
 		for(int var4 = 0; var4 < var3; ++var4)
 		{
@@ -46,8 +46,8 @@ public class ChatAllowedCharacters
 		return var0;
 	}
 	
-	public static final boolean isAllowedCharacter(char p_71566_0_)
+	public static final boolean isAllowedCharacter(char par0)
 	{
-		return p_71566_0_ != 167 && (allowedCharacters.indexOf(p_71566_0_) >= 0 || p_71566_0_ > 32);
+		return par0 != 167 && (allowedCharacters.indexOf(par0) >= 0 || par0 > 32);
 	}
 }

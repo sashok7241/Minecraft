@@ -2,33 +2,33 @@ package net.minecraft.src;
 
 public class ItemEmptyMap extends ItemMapBase
 {
-	protected ItemEmptyMap(int p_i5083_1_)
+	protected ItemEmptyMap(int par1)
 	{
-		super(p_i5083_1_);
+		super(par1);
 		setCreativeTab(CreativeTabs.tabMisc);
 	}
 	
-	@Override public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		ItemStack var4 = new ItemStack(Item.map, 1, p_77659_2_.getUniqueDataId("map"));
+		ItemStack var4 = new ItemStack(Item.map, 1, par2World.getUniqueDataId("map"));
 		String var5 = "map_" + var4.getItemDamage();
 		MapData var6 = new MapData(var5);
-		p_77659_2_.setItemData(var5, var6);
+		par2World.setItemData(var5, var6);
 		var6.scale = 0;
 		int var7 = 128 * (1 << var6.scale);
-		var6.xCenter = (int) (Math.round(p_77659_3_.posX / var7) * var7);
-		var6.zCenter = (int) (Math.round(p_77659_3_.posZ / var7) * var7);
-		var6.dimension = (byte) p_77659_2_.provider.dimensionId;
+		var6.xCenter = (int) (Math.round(par3EntityPlayer.posX / var7) * var7);
+		var6.zCenter = (int) (Math.round(par3EntityPlayer.posZ / var7) * var7);
+		var6.dimension = (byte) par2World.provider.dimensionId;
 		var6.markDirty();
-		--p_77659_1_.stackSize;
-		if(p_77659_1_.stackSize <= 0) return var4;
+		--par1ItemStack.stackSize;
+		if(par1ItemStack.stackSize <= 0) return var4;
 		else
 		{
-			if(!p_77659_3_.inventory.addItemStackToInventory(var4.copy()))
+			if(!par3EntityPlayer.inventory.addItemStackToInventory(var4.copy()))
 			{
-				p_77659_3_.dropPlayerItem(var4);
+				par3EntityPlayer.dropPlayerItem(var4);
 			}
-			return p_77659_1_;
+			return par1ItemStack;
 		}
 	}
 }

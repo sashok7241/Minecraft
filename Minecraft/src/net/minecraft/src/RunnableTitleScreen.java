@@ -1,40 +1,51 @@
 package net.minecraft.src;
 
-import java.net.URL;
+import java.io.IOException;
 
-class RunnableTitleScreen implements Runnable
+class RunnableTitleScreen extends Thread
 {
 	final GuiMainMenu field_104058_d;
 	
-	RunnableTitleScreen(GuiMainMenu p_i23005_1_)
+	RunnableTitleScreen(GuiMainMenu par1GuiMainMenu)
 	{
-		field_104058_d = p_i23005_1_;
+		field_104058_d = par1GuiMainMenu;
 	}
 	
 	@Override public void run()
 	{
-		try
+		McoClient var1 = new McoClient(GuiMainMenu.func_110348_a(field_104058_d).func_110432_I());
+		boolean var2 = false;
+		for(int var3 = 0; var3 < 3; ++var3)
 		{
-			String var1 = HttpUtil.func_104145_a(new URL("http://assets.minecraft.net/1_6_has_been_released.flag"));
-			if(var1 != null && var1.length() > 0)
+			try
 			{
-				var1 = var1.trim();
-				synchronized(GuiMainMenu.func_104004_a(field_104058_d))
+				Boolean var4 = var1.func_96375_b();
+				if(var4.booleanValue())
 				{
-					GuiMainMenu.func_104005_a(field_104058_d, EnumChatFormatting.BOLD + "Notice!" + EnumChatFormatting.RESET + " Minecraft 1.6 is available for manual download.");
-					GuiMainMenu.func_104013_b(field_104058_d, var1);
-					GuiMainMenu.func_104006_a(field_104058_d, GuiMainMenu.func_104022_c(field_104058_d).getStringWidth(GuiMainMenu.func_104023_b(field_104058_d)));
-					GuiMainMenu.func_104014_b(field_104058_d, GuiMainMenu.func_104007_d(field_104058_d).getStringWidth(GuiMainMenu.field_96138_a));
-					int var3 = Math.max(GuiMainMenu.func_104016_e(field_104058_d), GuiMainMenu.func_104015_f(field_104058_d));
-					GuiMainMenu.func_104008_c(field_104058_d, (field_104058_d.width - var3) / 2);
-					GuiMainMenu.func_104009_d(field_104058_d, ((GuiButton) GuiMainMenu.func_104019_g(field_104058_d).get(0)).yPosition - 24);
-					GuiMainMenu.func_104011_e(field_104058_d, GuiMainMenu.func_104018_h(field_104058_d) + var3);
-					GuiMainMenu.func_104012_f(field_104058_d, GuiMainMenu.func_104020_i(field_104058_d) + 24);
+					GuiMainMenu.func_130021_b(field_104058_d);
 				}
+				GuiMainMenu.func_110349_a(var4.booleanValue());
+			} catch(ExceptionRetryCall var6)
+			{
+				var2 = true;
+			} catch(ExceptionMcoService var7)
+			{
+				GuiMainMenu.func_130018_c(field_104058_d).getLogAgent().logSevere(var7.toString());
+			} catch(IOException var8)
+			{
+				GuiMainMenu.func_130019_d(field_104058_d).getLogAgent().logWarning("Realms: could not parse response");
 			}
-		} catch(Throwable var6)
-		{
-			var6.printStackTrace();
+			if(!var2)
+			{
+				break;
+			}
+			try
+			{
+				Thread.sleep(10000L);
+			} catch(InterruptedException var5)
+			{
+				Thread.currentThread().interrupt();
+			}
 		}
 	}
 }

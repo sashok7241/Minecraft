@@ -2,26 +2,26 @@ package net.minecraft.src;
 
 public class EntityEgg extends EntityThrowable
 {
-	public EntityEgg(World p_i3586_1_)
+	public EntityEgg(World par1World)
 	{
-		super(p_i3586_1_);
+		super(par1World);
 	}
 	
-	public EntityEgg(World p_i3588_1_, double p_i3588_2_, double p_i3588_4_, double p_i3588_6_)
+	public EntityEgg(World par1World, double par2, double par4, double par6)
 	{
-		super(p_i3588_1_, p_i3588_2_, p_i3588_4_, p_i3588_6_);
+		super(par1World, par2, par4, par6);
 	}
 	
-	public EntityEgg(World p_i3587_1_, EntityLiving p_i3587_2_)
+	public EntityEgg(World par1World, EntityLivingBase par2EntityLivingBase)
 	{
-		super(p_i3587_1_, p_i3587_2_);
+		super(par1World, par2EntityLivingBase);
 	}
 	
-	@Override protected void onImpact(MovingObjectPosition p_70184_1_)
+	@Override protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
 	{
-		if(p_70184_1_.entityHit != null)
+		if(par1MovingObjectPosition.entityHit != null)
 		{
-			p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0);
+			par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0.0F);
 		}
 		if(!worldObj.isRemote && rand.nextInt(8) == 0)
 		{

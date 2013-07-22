@@ -9,7 +9,7 @@ import java.util.Random;
 public abstract class ModelBase
 {
 	public float onGround;
-	public boolean isRiding = false;
+	public boolean isRiding;
 	public List boxList = new ArrayList();
 	public boolean isChild = true;
 	private Map modelTextureMap = new HashMap();
@@ -30,7 +30,7 @@ public abstract class ModelBase
 	{
 	}
 	
-	public void setLivingAnimations(EntityLiving par1EntityLivingBase, float par2, float par3, float par4)
+	public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
 	}
 	

@@ -11,13 +11,13 @@ public class ExtendedBlockStorage
 	private NibbleArray blocklightArray;
 	private NibbleArray skylightArray;
 	
-	public ExtendedBlockStorage(int p_i8016_1_, boolean p_i8016_2_)
+	public ExtendedBlockStorage(int par1, boolean par2)
 	{
-		yBase = p_i8016_1_;
+		yBase = par1;
 		blockLSBArray = new byte[4096];
 		blockMetadataArray = new NibbleArray(blockLSBArray.length, 4);
 		blocklightArray = new NibbleArray(blockLSBArray.length, 4);
-		if(p_i8016_2_)
+		if(par2)
 		{
 			skylightArray = new NibbleArray(blockLSBArray.length, 4);
 		}
@@ -49,25 +49,25 @@ public class ExtendedBlockStorage
 		return blockMSBArray;
 	}
 	
-	public int getExtBlockID(int p_76656_1_, int p_76656_2_, int p_76656_3_)
+	public int getExtBlockID(int par1, int par2, int par3)
 	{
-		int var4 = blockLSBArray[p_76656_2_ << 8 | p_76656_3_ << 4 | p_76656_1_] & 255;
-		return blockMSBArray != null ? blockMSBArray.get(p_76656_1_, p_76656_2_, p_76656_3_) << 8 | var4 : var4;
+		int var4 = blockLSBArray[par2 << 8 | par3 << 4 | par1] & 255;
+		return blockMSBArray != null ? blockMSBArray.get(par1, par2, par3) << 8 | var4 : var4;
 	}
 	
-	public int getExtBlocklightValue(int p_76674_1_, int p_76674_2_, int p_76674_3_)
+	public int getExtBlocklightValue(int par1, int par2, int par3)
 	{
-		return blocklightArray.get(p_76674_1_, p_76674_2_, p_76674_3_);
+		return blocklightArray.get(par1, par2, par3);
 	}
 	
-	public int getExtBlockMetadata(int p_76665_1_, int p_76665_2_, int p_76665_3_)
+	public int getExtBlockMetadata(int par1, int par2, int par3)
 	{
-		return blockMetadataArray.get(p_76665_1_, p_76665_2_, p_76665_3_);
+		return blockMetadataArray.get(par1, par2, par3);
 	}
 	
-	public int getExtSkylightValue(int p_76670_1_, int p_76670_2_, int p_76670_3_)
+	public int getExtSkylightValue(int par1, int par2, int par3)
 	{
-		return skylightArray.get(p_76670_1_, p_76670_2_, p_76670_3_);
+		return skylightArray.get(par1, par2, par3);
 	}
 	
 	public NibbleArray getMetadataArray()
@@ -129,85 +129,85 @@ public class ExtendedBlockStorage
 		}
 	}
 	
-	public void setBlocklightArray(NibbleArray p_76659_1_)
+	public void setBlocklightArray(NibbleArray par1NibbleArray)
 	{
-		blocklightArray = p_76659_1_;
+		blocklightArray = par1NibbleArray;
 	}
 	
-	public void setBlockLSBArray(byte[] p_76664_1_)
+	public void setBlockLSBArray(byte[] par1ArrayOfByte)
 	{
-		blockLSBArray = p_76664_1_;
+		blockLSBArray = par1ArrayOfByte;
 	}
 	
-	public void setBlockMetadataArray(NibbleArray p_76668_1_)
+	public void setBlockMetadataArray(NibbleArray par1NibbleArray)
 	{
-		blockMetadataArray = p_76668_1_;
+		blockMetadataArray = par1NibbleArray;
 	}
 	
-	public void setBlockMSBArray(NibbleArray p_76673_1_)
+	public void setBlockMSBArray(NibbleArray par1NibbleArray)
 	{
-		blockMSBArray = p_76673_1_;
+		blockMSBArray = par1NibbleArray;
 	}
 	
-	public void setExtBlockID(int p_76655_1_, int p_76655_2_, int p_76655_3_, int p_76655_4_)
+	public void setExtBlockID(int par1, int par2, int par3, int par4)
 	{
-		int var5 = blockLSBArray[p_76655_2_ << 8 | p_76655_3_ << 4 | p_76655_1_] & 255;
+		int var5 = blockLSBArray[par2 << 8 | par3 << 4 | par1] & 255;
 		if(blockMSBArray != null)
 		{
-			var5 |= blockMSBArray.get(p_76655_1_, p_76655_2_, p_76655_3_) << 8;
+			var5 |= blockMSBArray.get(par1, par2, par3) << 8;
 		}
-		if(var5 == 0 && p_76655_4_ != 0)
+		if(var5 == 0 && par4 != 0)
 		{
 			++blockRefCount;
-			if(Block.blocksList[p_76655_4_] != null && Block.blocksList[p_76655_4_].getTickRandomly())
+			if(Block.blocksList[par4] != null && Block.blocksList[par4].getTickRandomly())
 			{
 				++tickRefCount;
 			}
-		} else if(var5 != 0 && p_76655_4_ == 0)
+		} else if(var5 != 0 && par4 == 0)
 		{
 			--blockRefCount;
 			if(Block.blocksList[var5] != null && Block.blocksList[var5].getTickRandomly())
 			{
 				--tickRefCount;
 			}
-		} else if(Block.blocksList[var5] != null && Block.blocksList[var5].getTickRandomly() && (Block.blocksList[p_76655_4_] == null || !Block.blocksList[p_76655_4_].getTickRandomly()))
+		} else if(Block.blocksList[var5] != null && Block.blocksList[var5].getTickRandomly() && (Block.blocksList[par4] == null || !Block.blocksList[par4].getTickRandomly()))
 		{
 			--tickRefCount;
-		} else if((Block.blocksList[var5] == null || !Block.blocksList[var5].getTickRandomly()) && Block.blocksList[p_76655_4_] != null && Block.blocksList[p_76655_4_].getTickRandomly())
+		} else if((Block.blocksList[var5] == null || !Block.blocksList[var5].getTickRandomly()) && Block.blocksList[par4] != null && Block.blocksList[par4].getTickRandomly())
 		{
 			++tickRefCount;
 		}
-		blockLSBArray[p_76655_2_ << 8 | p_76655_3_ << 4 | p_76655_1_] = (byte) (p_76655_4_ & 255);
-		if(p_76655_4_ > 255)
+		blockLSBArray[par2 << 8 | par3 << 4 | par1] = (byte) (par4 & 255);
+		if(par4 > 255)
 		{
 			if(blockMSBArray == null)
 			{
 				blockMSBArray = new NibbleArray(blockLSBArray.length, 4);
 			}
-			blockMSBArray.set(p_76655_1_, p_76655_2_, p_76655_3_, (p_76655_4_ & 3840) >> 8);
+			blockMSBArray.set(par1, par2, par3, (par4 & 3840) >> 8);
 		} else if(blockMSBArray != null)
 		{
-			blockMSBArray.set(p_76655_1_, p_76655_2_, p_76655_3_, 0);
+			blockMSBArray.set(par1, par2, par3, 0);
 		}
 	}
 	
-	public void setExtBlocklightValue(int p_76677_1_, int p_76677_2_, int p_76677_3_, int p_76677_4_)
+	public void setExtBlocklightValue(int par1, int par2, int par3, int par4)
 	{
-		blocklightArray.set(p_76677_1_, p_76677_2_, p_76677_3_, p_76677_4_);
+		blocklightArray.set(par1, par2, par3, par4);
 	}
 	
-	public void setExtBlockMetadata(int p_76654_1_, int p_76654_2_, int p_76654_3_, int p_76654_4_)
+	public void setExtBlockMetadata(int par1, int par2, int par3, int par4)
 	{
-		blockMetadataArray.set(p_76654_1_, p_76654_2_, p_76654_3_, p_76654_4_);
+		blockMetadataArray.set(par1, par2, par3, par4);
 	}
 	
-	public void setExtSkylightValue(int p_76657_1_, int p_76657_2_, int p_76657_3_, int p_76657_4_)
+	public void setExtSkylightValue(int par1, int par2, int par3, int par4)
 	{
-		skylightArray.set(p_76657_1_, p_76657_2_, p_76657_3_, p_76657_4_);
+		skylightArray.set(par1, par2, par3, par4);
 	}
 	
-	public void setSkylightArray(NibbleArray p_76666_1_)
+	public void setSkylightArray(NibbleArray par1NibbleArray)
 	{
-		skylightArray = p_76666_1_;
+		skylightArray = par1NibbleArray;
 	}
 }

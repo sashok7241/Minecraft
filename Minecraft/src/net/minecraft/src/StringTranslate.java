@@ -1,187 +1,81 @@
 package net.minecraft.src;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Enumeration;
+import java.io.InputStream;
 import java.util.IllegalFormatException;
-import java.util.Properties;
-import java.util.TreeMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class StringTranslate
 {
-	private static StringTranslate instance = new StringTranslate("en_US");
-	private Properties translateTable = new Properties();
-	private TreeMap languageList;
-	private TreeMap field_94521_d = new TreeMap();
-	private String currentLanguage;
-	private boolean isUnicode;
+	private static final Pattern field_111053_a = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
+	private static final Splitter field_135065_b = Splitter.on('=').limit(2);
+	private static StringTranslate instance = new StringTranslate();
+	private Map languageList = Maps.newHashMap();
 	
-	public StringTranslate(String p_i3260_1_)
+	public StringTranslate()
 	{
-		loadLanguageList();
-		setLanguage(p_i3260_1_, false);
-	}
-	
-	public synchronized boolean containsTranslateKey(String p_94520_1_)
-	{
-		return translateTable.containsKey(p_94520_1_);
-	}
-	
-	public synchronized void func_94519_a(String p_94519_1_, File p_94519_2_)
-	{
-		int var3 = p_94519_1_.indexOf(46);
-		if(var3 > 0)
-		{
-			p_94519_1_ = p_94519_1_.substring(0, var3);
-		}
-		field_94521_d.put(p_94519_1_, p_94519_2_);
-		if(p_94519_1_.contains(currentLanguage))
-		{
-			setLanguage(currentLanguage, true);
-		}
-	}
-	
-	public String getCurrentLanguage()
-	{
-		return currentLanguage;
-	}
-	
-	public TreeMap getLanguageList()
-	{
-		return languageList;
-	}
-	
-	public boolean isUnicode()
-	{
-		return isUnicode;
-	}
-	
-	private void loadLanguage(Properties p_74812_1_, String p_74812_2_) throws IOException
-	{
-		BufferedReader var3 = null;
-		if(field_94521_d.containsKey(p_74812_2_))
-		{
-			var3 = new BufferedReader(new FileReader((File) field_94521_d.get(p_74812_2_)));
-		} else
-		{
-			var3 = new BufferedReader(new InputStreamReader(StringTranslate.class.getResourceAsStream("/lang/" + p_74812_2_ + ".lang"), "UTF-8"));
-		}
-		for(String var4 = var3.readLine(); var4 != null; var4 = var3.readLine())
-		{
-			var4 = var4.trim();
-			if(!var4.startsWith("#"))
-			{
-				String[] var5 = var4.split("=");
-				if(var5 != null && var5.length == 2)
-				{
-					p_74812_1_.setProperty(var5[0], var5[1]);
-				}
-			}
-		}
-	}
-	
-	private void loadLanguageList()
-	{
-		TreeMap var1 = new TreeMap();
 		try
 		{
-			BufferedReader var2 = new BufferedReader(new InputStreamReader(StringTranslate.class.getResourceAsStream("/lang/languages.txt"), "UTF-8"));
-			for(String var3 = var2.readLine(); var3 != null; var3 = var2.readLine())
+			InputStream var1 = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang");
+			Iterator var2 = IOUtils.readLines(var1, Charsets.UTF_8).iterator();
+			while(var2.hasNext())
 			{
-				String[] var4 = var3.trim().split("=");
-				if(var4 != null && var4.length == 2)
+				String var3 = (String) var2.next();
+				if(!var3.isEmpty() && var3.charAt(0) != 35)
 				{
-					var1.put(var4[0], var4[1]);
-				}
-			}
-		} catch(IOException var5)
-		{
-			var5.printStackTrace();
-			return;
-		}
-		languageList = var1;
-		languageList.put("en_US", "English (US)");
-	}
-	
-	public synchronized void setLanguage(String p_74810_1_, boolean p_74810_2_)
-	{
-		if(p_74810_2_ || !p_74810_1_.equals(currentLanguage))
-		{
-			Properties var3 = new Properties();
-			try
-			{
-				loadLanguage(var3, "en_US");
-			} catch(IOException var9)
-			{
-				;
-			}
-			isUnicode = false;
-			if(!"en_US".equals(p_74810_1_))
-			{
-				try
-				{
-					loadLanguage(var3, p_74810_1_);
-					Enumeration var4 = var3.propertyNames();
-					while(var4.hasMoreElements() && !isUnicode)
+					String[] var4 = (String[]) Iterables.toArray(field_135065_b.split(var3), String.class);
+					if(var4 != null && var4.length == 2)
 					{
-						Object var5 = var4.nextElement();
-						Object var6 = var3.get(var5);
-						if(var6 != null)
-						{
-							String var7 = var6.toString();
-							for(int var8 = 0; var8 < var7.length(); ++var8)
-							{
-								if(var7.charAt(var8) >= 256)
-								{
-									isUnicode = true;
-									break;
-								}
-							}
-						}
+						String var5 = var4[0];
+						String var6 = field_111053_a.matcher(var4[1]).replaceAll("%$1s");
+						languageList.put(var5, var6);
 					}
-				} catch(IOException var10)
-				{
-					var10.printStackTrace();
-					return;
 				}
 			}
-			currentLanguage = p_74810_1_;
-			translateTable = var3;
+		} catch(IOException var7)
+		{
+			;
 		}
 	}
 	
-	public synchronized String translateKey(String p_74805_1_)
+	public synchronized boolean containsTranslateKey(String par1Str)
 	{
-		return translateTable.getProperty(p_74805_1_, p_74805_1_);
+		return languageList.containsKey(par1Str);
 	}
 	
-	public synchronized String translateKeyFormat(String p_74803_1_, Object ... p_74803_2_)
+	private String func_135064_c(String par1Str)
 	{
-		String var3 = translateTable.getProperty(p_74803_1_, p_74803_1_);
+		String var2 = (String) languageList.get(par1Str);
+		return var2 == null ? par1Str : var2;
+	}
+	
+	public synchronized String translateKey(String par1Str)
+	{
+		return func_135064_c(par1Str);
+	}
+	
+	public synchronized String translateKeyFormat(String par1Str, Object ... par2ArrayOfObj)
+	{
+		String var3 = func_135064_c(par1Str);
 		try
 		{
-			return String.format(var3, p_74803_2_);
+			return String.format(var3, par2ArrayOfObj);
 		} catch(IllegalFormatException var5)
 		{
 			return "Format error: " + var3;
 		}
 	}
 	
-	public synchronized String translateNamedKey(String p_74809_1_)
+	public static synchronized void func_135063_a(Map par0Map)
 	{
-		return translateTable.getProperty(p_74809_1_ + ".name", "");
+		instance.languageList.clear();
+		instance.languageList.putAll(par0Map);
 	}
 	
-	public static StringTranslate getInstance()
+	static StringTranslate getInstance()
 	{
 		return instance;
-	}
-	
-	public static boolean isBidirectional(String p_74802_0_)
-	{
-		return "ar_SA".equals(p_74802_0_) || "he_IL".equals(p_74802_0_);
 	}
 }

@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BlockOreStorage extends Block
 {
-	public BlockOreStorage(int p_i9071_1_)
+	public BlockOreStorage(int par1)
 	{
-		super(p_i9071_1_, Material.iron);
+		super(par1, Material.iron);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 }

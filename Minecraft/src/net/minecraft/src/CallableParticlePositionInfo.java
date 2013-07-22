@@ -9,12 +9,12 @@ class CallableParticlePositionInfo implements Callable
 	final double field_85100_c;
 	final RenderGlobal globalRenderer;
 	
-	CallableParticlePositionInfo(RenderGlobal p_i6801_1_, double p_i6801_2_, double p_i6801_4_, double p_i6801_6_)
+	CallableParticlePositionInfo(RenderGlobal par1RenderGlobal, double par2, double par4, double par6)
 	{
-		globalRenderer = p_i6801_1_;
-		field_85101_a = p_i6801_2_;
-		field_85099_b = p_i6801_4_;
-		field_85100_c = p_i6801_6_;
+		globalRenderer = par1RenderGlobal;
+		field_85101_a = par2;
+		field_85099_b = par4;
+		field_85100_c = par6;
 	}
 	
 	@Override public Object call()

@@ -6,9 +6,9 @@ class CallableStructureType implements Callable
 {
 	final MapGenStructure theMapStructureGenerator;
 	
-	CallableStructureType(MapGenStructure p_i6819_1_)
+	CallableStructureType(MapGenStructure par1MapGenStructure)
 	{
-		theMapStructureGenerator = p_i6819_1_;
+		theMapStructureGenerator = par1MapGenStructure;
 	}
 	
 	@Override public Object call()

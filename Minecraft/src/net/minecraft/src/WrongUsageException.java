@@ -4,8 +4,8 @@ public class WrongUsageException extends SyntaxErrorException
 {
 	private static final long serialVersionUID = 1L;
 	
-	public WrongUsageException(String p_i3259_1_, Object ... p_i3259_2_)
+	public WrongUsageException(String par1Str, Object ... par2ArrayOfObj)
 	{
-		super(p_i3259_1_, p_i3259_2_);
+		super(par1Str, par2ArrayOfObj);
 	}
 }

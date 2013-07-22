@@ -10,9 +10,9 @@ class CallableJVMFlags implements Callable
 {
 	final CrashReport theCrashReport;
 	
-	CallableJVMFlags(CrashReport p_i3249_1_)
+	CallableJVMFlags(CrashReport par1CrashReport)
 	{
-		theCrashReport = p_i3249_1_;
+		theCrashReport = par1CrashReport;
 	}
 	
 	@Override public Object call()

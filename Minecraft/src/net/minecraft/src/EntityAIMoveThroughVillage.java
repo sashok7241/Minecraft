@@ -7,17 +7,17 @@ import java.util.List;
 public class EntityAIMoveThroughVillage extends EntityAIBase
 {
 	private EntityCreature theEntity;
-	private float movementSpeed;
+	private double movementSpeed;
 	private PathEntity entityPathNavigate;
 	private VillageDoorInfo doorInfo;
 	private boolean isNocturnal;
 	private List doorList = new ArrayList();
 	
-	public EntityAIMoveThroughVillage(EntityCreature p_i3479_1_, float p_i3479_2_, boolean p_i3479_3_)
+	public EntityAIMoveThroughVillage(EntityCreature par1EntityCreature, double par2, boolean par4)
 	{
-		theEntity = p_i3479_1_;
-		movementSpeed = p_i3479_2_;
-		isNocturnal = p_i3479_3_;
+		theEntity = par1EntityCreature;
+		movementSpeed = par2;
+		isNocturnal = par4;
 		setMutexBits(1);
 	}
 	
@@ -31,11 +31,11 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
 		}
 	}
 	
-	private VillageDoorInfo func_75412_a(Village p_75412_1_)
+	private VillageDoorInfo func_75412_a(Village par1Village)
 	{
 		VillageDoorInfo var2 = null;
 		int var3 = Integer.MAX_VALUE;
-		List var4 = p_75412_1_.getVillageDoorInfoList();
+		List var4 = par1Village.getVillageDoorInfoList();
 		Iterator var5 = var4.iterator();
 		while(var5.hasNext())
 		{
@@ -50,7 +50,7 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
 		return var2;
 	}
 	
-	private boolean func_75413_a(VillageDoorInfo p_75413_1_)
+	private boolean func_75413_a(VillageDoorInfo par1VillageDoorInfo)
 	{
 		Iterator var2 = doorList.iterator();
 		VillageDoorInfo var3;
@@ -58,7 +58,7 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
 		{
 			if(!var2.hasNext()) return false;
 			var3 = (VillageDoorInfo) var2.next();
-		} while(p_75413_1_.posX != var3.posX || p_75413_1_.posY != var3.posY || p_75413_1_.posZ != var3.posZ);
+		} while(par1VillageDoorInfo.posX != var3.posX || par1VillageDoorInfo.posY != var3.posY || par1VillageDoorInfo.posZ != var3.posZ);
 		return true;
 	}
 	

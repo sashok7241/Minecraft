@@ -9,11 +9,11 @@ class ThreadConnectToServer extends Thread
 	final int port;
 	final GuiConnecting connectingGui;
 	
-	ThreadConnectToServer(GuiConnecting p_i3110_1_, String p_i3110_2_, int p_i3110_3_)
+	ThreadConnectToServer(GuiConnecting par1GuiConnecting, String par2Str, int par3)
 	{
-		connectingGui = p_i3110_1_;
-		ip = p_i3110_2_;
-		port = p_i3110_3_;
+		connectingGui = par1GuiConnecting;
+		ip = par2Str;
+		port = par3;
 	}
 	
 	@Override public void run()
@@ -22,7 +22,7 @@ class ThreadConnectToServer extends Thread
 		{
 			GuiConnecting.setNetClientHandler(connectingGui, new NetClientHandler(GuiConnecting.func_74256_a(connectingGui), ip, port));
 			if(GuiConnecting.isCancelled(connectingGui)) return;
-			GuiConnecting.getNetClientHandler(connectingGui).addToSendQueue(new Packet2ClientProtocol(61, GuiConnecting.func_74254_c(connectingGui).session.username, ip, port));
+			GuiConnecting.getNetClientHandler(connectingGui).addToSendQueue(new Packet2ClientProtocol(74, GuiConnecting.func_74254_c(connectingGui).func_110432_I().func_111285_a(), ip, port));
 		} catch(UnknownHostException var2)
 		{
 			if(GuiConnecting.isCancelled(connectingGui)) return;

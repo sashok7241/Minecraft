@@ -16,19 +16,19 @@ public class DamageSource
 	public static DamageSource wither = new DamageSource("wither").setDamageBypassesArmor();
 	public static DamageSource anvil = new DamageSource("anvil");
 	public static DamageSource fallingBlock = new DamageSource("fallingBlock");
-	private boolean isUnblockable = false;
-	private boolean isDamageAllowedInCreativeMode = false;
+	private boolean isUnblockable;
+	private boolean isDamageAllowedInCreativeMode;
 	private float hungerDamage = 0.3F;
 	private boolean fireDamage;
 	private boolean projectile;
 	private boolean difficultyScaled;
-	private boolean magicDamage = false;
-	private boolean explosion = false;
+	private boolean magicDamage;
+	private boolean explosion;
 	public String damageType;
 	
-	protected DamageSource(String p_i3429_1_)
+	protected DamageSource(String par1Str)
 	{
-		damageType = p_i3429_1_;
+		damageType = par1Str;
 	}
 	
 	public boolean canHarmInCreative()
@@ -41,12 +41,12 @@ public class DamageSource
 		return damageType;
 	}
 	
-	public String getDeathMessage(EntityLiving p_76360_1_)
+	public ChatMessageComponent getDeathMessage(EntityLivingBase par1EntityLivingBase)
 	{
-		EntityLiving var2 = p_76360_1_.func_94060_bK();
+		EntityLivingBase var2 = par1EntityLivingBase.func_94060_bK();
 		String var3 = "death.attack." + damageType;
 		String var4 = var3 + ".player";
-		return var2 != null && StatCollector.func_94522_b(var4) ? StatCollector.translateToLocalFormatted(var4, new Object[] { p_76360_1_.getTranslatedEntityName(), var2.getTranslatedEntityName() }) : StatCollector.translateToLocalFormatted(var3, new Object[] { p_76360_1_.getTranslatedEntityName() });
+		return var2 != null && StatCollector.func_94522_b(var4) ? ChatMessageComponent.func_111082_b(var4, new Object[] { par1EntityLivingBase.getTranslatedEntityName(), var2.getTranslatedEntityName() }) : ChatMessageComponent.func_111082_b(var3, new Object[] { par1EntityLivingBase.getTranslatedEntityName() });
 	}
 	
 	public Entity getEntity()
@@ -137,43 +137,43 @@ public class DamageSource
 		return this;
 	}
 	
-	public static DamageSource causeArrowDamage(EntityArrow p_76353_0_, Entity p_76353_1_)
+	public static DamageSource causeArrowDamage(EntityArrow par0EntityArrow, Entity par1Entity)
 	{
-		return new EntityDamageSourceIndirect("arrow", p_76353_0_, p_76353_1_).setProjectile();
+		return new EntityDamageSourceIndirect("arrow", par0EntityArrow, par1Entity).setProjectile();
 	}
 	
-	public static DamageSource causeFireballDamage(EntityFireball p_76362_0_, Entity p_76362_1_)
+	public static DamageSource causeFireballDamage(EntityFireball par0EntityFireball, Entity par1Entity)
 	{
-		return p_76362_1_ == null ? new EntityDamageSourceIndirect("onFire", p_76362_0_, p_76362_0_).setFireDamage().setProjectile() : new EntityDamageSourceIndirect("fireball", p_76362_0_, p_76362_1_).setFireDamage().setProjectile();
+		return par1Entity == null ? new EntityDamageSourceIndirect("onFire", par0EntityFireball, par0EntityFireball).setFireDamage().setProjectile() : new EntityDamageSourceIndirect("fireball", par0EntityFireball, par1Entity).setFireDamage().setProjectile();
 	}
 	
-	public static DamageSource causeIndirectMagicDamage(Entity p_76354_0_, Entity p_76354_1_)
+	public static DamageSource causeIndirectMagicDamage(Entity par0Entity, Entity par1Entity)
 	{
-		return new EntityDamageSourceIndirect("indirectMagic", p_76354_0_, p_76354_1_).setDamageBypassesArmor().setMagicDamage();
+		return new EntityDamageSourceIndirect("indirectMagic", par0Entity, par1Entity).setDamageBypassesArmor().setMagicDamage();
 	}
 	
-	public static DamageSource causeMobDamage(EntityLiving p_76358_0_)
+	public static DamageSource causeMobDamage(EntityLivingBase par0EntityLivingBase)
 	{
-		return new EntityDamageSource("mob", p_76358_0_);
+		return new EntityDamageSource("mob", par0EntityLivingBase);
 	}
 	
-	public static DamageSource causePlayerDamage(EntityPlayer p_76365_0_)
+	public static DamageSource causePlayerDamage(EntityPlayer par0EntityPlayer)
 	{
-		return new EntityDamageSource("player", p_76365_0_);
+		return new EntityDamageSource("player", par0EntityPlayer);
 	}
 	
-	public static DamageSource causeThornsDamage(Entity p_92087_0_)
+	public static DamageSource causeThornsDamage(Entity par0Entity)
 	{
-		return new EntityDamageSource("thorns", p_92087_0_).setMagicDamage();
+		return new EntityDamageSource("thorns", par0Entity).setMagicDamage();
 	}
 	
-	public static DamageSource causeThrownDamage(Entity p_76356_0_, Entity p_76356_1_)
+	public static DamageSource causeThrownDamage(Entity par0Entity, Entity par1Entity)
 	{
-		return new EntityDamageSourceIndirect("thrown", p_76356_0_, p_76356_1_).setProjectile();
+		return new EntityDamageSourceIndirect("thrown", par0Entity, par1Entity).setProjectile();
 	}
 	
-	public static DamageSource setExplosionSource(Explosion p_94539_0_)
+	public static DamageSource setExplosionSource(Explosion par0Explosion)
 	{
-		return p_94539_0_ != null && p_94539_0_.func_94613_c() != null ? new EntityDamageSource("explosion.player", p_94539_0_.func_94613_c()).setDifficultyScaled().setExplosion() : new DamageSource("explosion").setDifficultyScaled().setExplosion();
+		return par0Explosion != null && par0Explosion.func_94613_c() != null ? new EntityDamageSource("explosion.player", par0Explosion.func_94613_c()).setDifficultyScaled().setExplosion() : new DamageSource("explosion").setDifficultyScaled().setExplosion();
 	}
 }

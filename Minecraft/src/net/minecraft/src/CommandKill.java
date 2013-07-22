@@ -7,15 +7,20 @@ public class CommandKill extends CommandBase
 		return "kill";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.kill.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 0;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		EntityPlayerMP var3 = getCommandSenderAsPlayer(p_71515_1_);
-		var3.attackEntityFrom(DamageSource.outOfWorld, 1000);
-		p_71515_1_.sendChatToPlayer("Ouch. That looks like it hurt.");
+		EntityPlayerMP var3 = getCommandSenderAsPlayer(par1ICommandSender);
+		var3.attackEntityFrom(DamageSource.outOfWorld, Float.MAX_VALUE);
+		par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111077_e("commands.kill.success"));
 	}
 }

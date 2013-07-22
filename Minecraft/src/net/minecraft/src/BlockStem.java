@@ -7,19 +7,19 @@ public class BlockStem extends BlockFlower
 	private final Block fruitType;
 	private Icon theIcon;
 	
-	protected BlockStem(int p_i3998_1_, Block p_i3998_2_)
+	protected BlockStem(int par1, Block par2Block)
 	{
-		super(p_i3998_1_);
-		fruitType = p_i3998_2_;
+		super(par1);
+		fruitType = par2Block;
 		setTickRandomly(true);
 		float var3 = 0.125F;
 		setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, 0.25F, 0.5F + var3);
 		setCreativeTab((CreativeTabs) null);
 	}
 	
-	@Override protected boolean canThisPlantGrowOnThisBlockID(int p_72263_1_)
+	@Override protected boolean canThisPlantGrowOnThisBlockID(int par1)
 	{
-		return p_72263_1_ == Block.tilledField.blockID;
+		return par1 == Block.tilledField.blockID;
 	}
 	
 	@Override public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
@@ -27,10 +27,10 @@ public class BlockStem extends BlockFlower
 		return getRenderColor(par1IBlockAccess.getBlockMetadata(par2, par3, par4));
 	}
 	
-	@Override public void dropBlockAsItemWithChance(World p_71914_1_, int p_71914_2_, int p_71914_3_, int p_71914_4_, int p_71914_5_, float p_71914_6_, int p_71914_7_)
+	@Override public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
 	{
-		super.dropBlockAsItemWithChance(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, p_71914_5_, p_71914_6_, p_71914_7_);
-		if(!p_71914_1_.isRemote)
+		super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, par7);
+		if(!par1World.isRemote)
 		{
 			Item var8 = null;
 			if(fruitType == Block.pumpkin)
@@ -43,22 +43,22 @@ public class BlockStem extends BlockFlower
 			}
 			for(int var9 = 0; var9 < 3; ++var9)
 			{
-				if(p_71914_1_.rand.nextInt(15) <= p_71914_5_)
+				if(par1World.rand.nextInt(15) <= par5)
 				{
-					dropBlockAsItem_do(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, new ItemStack(var8));
+					dropBlockAsItem_do(par1World, par2, par3, par4, new ItemStack(var8));
 				}
 			}
 		}
 	}
 	
-	public void fertilizeStem(World p_72264_1_, int p_72264_2_, int p_72264_3_, int p_72264_4_)
+	public void fertilizeStem(World par1World, int par2, int par3, int par4)
 	{
-		int var5 = p_72264_1_.getBlockMetadata(p_72264_2_, p_72264_3_, p_72264_4_) + MathHelper.getRandomIntegerInRange(p_72264_1_.rand, 2, 5);
+		int var5 = par1World.getBlockMetadata(par2, par3, par4) + MathHelper.getRandomIntegerInRange(par1World.rand, 2, 5);
 		if(var5 > 7)
 		{
 			var5 = 7;
 		}
-		p_72264_1_.setBlockMetadataWithNotify(p_72264_2_, p_72264_3_, p_72264_4_, var5, 2);
+		par1World.setBlockMetadataWithNotify(par2, par3, par4, var5, 2);
 	}
 	
 	public Icon func_94368_p()
@@ -66,35 +66,35 @@ public class BlockStem extends BlockFlower
 		return theIcon;
 	}
 	
-	private float getGrowthModifier(World p_72266_1_, int p_72266_2_, int p_72266_3_, int p_72266_4_)
+	private float getGrowthModifier(World par1World, int par2, int par3, int par4)
 	{
 		float var5 = 1.0F;
-		int var6 = p_72266_1_.getBlockId(p_72266_2_, p_72266_3_, p_72266_4_ - 1);
-		int var7 = p_72266_1_.getBlockId(p_72266_2_, p_72266_3_, p_72266_4_ + 1);
-		int var8 = p_72266_1_.getBlockId(p_72266_2_ - 1, p_72266_3_, p_72266_4_);
-		int var9 = p_72266_1_.getBlockId(p_72266_2_ + 1, p_72266_3_, p_72266_4_);
-		int var10 = p_72266_1_.getBlockId(p_72266_2_ - 1, p_72266_3_, p_72266_4_ - 1);
-		int var11 = p_72266_1_.getBlockId(p_72266_2_ + 1, p_72266_3_, p_72266_4_ - 1);
-		int var12 = p_72266_1_.getBlockId(p_72266_2_ + 1, p_72266_3_, p_72266_4_ + 1);
-		int var13 = p_72266_1_.getBlockId(p_72266_2_ - 1, p_72266_3_, p_72266_4_ + 1);
+		int var6 = par1World.getBlockId(par2, par3, par4 - 1);
+		int var7 = par1World.getBlockId(par2, par3, par4 + 1);
+		int var8 = par1World.getBlockId(par2 - 1, par3, par4);
+		int var9 = par1World.getBlockId(par2 + 1, par3, par4);
+		int var10 = par1World.getBlockId(par2 - 1, par3, par4 - 1);
+		int var11 = par1World.getBlockId(par2 + 1, par3, par4 - 1);
+		int var12 = par1World.getBlockId(par2 + 1, par3, par4 + 1);
+		int var13 = par1World.getBlockId(par2 - 1, par3, par4 + 1);
 		boolean var14 = var8 == blockID || var9 == blockID;
 		boolean var15 = var6 == blockID || var7 == blockID;
 		boolean var16 = var10 == blockID || var11 == blockID || var12 == blockID || var13 == blockID;
-		for(int var17 = p_72266_2_ - 1; var17 <= p_72266_2_ + 1; ++var17)
+		for(int var17 = par2 - 1; var17 <= par2 + 1; ++var17)
 		{
-			for(int var18 = p_72266_4_ - 1; var18 <= p_72266_4_ + 1; ++var18)
+			for(int var18 = par4 - 1; var18 <= par4 + 1; ++var18)
 			{
-				int var19 = p_72266_1_.getBlockId(var17, p_72266_3_ - 1, var18);
+				int var19 = par1World.getBlockId(var17, par3 - 1, var18);
 				float var20 = 0.0F;
 				if(var19 == Block.tilledField.blockID)
 				{
 					var20 = 1.0F;
-					if(p_72266_1_.getBlockMetadata(var17, p_72266_3_ - 1, var18) > 0)
+					if(par1World.getBlockMetadata(var17, par3 - 1, var18) > 0)
 					{
 						var20 = 3.0F;
 					}
 				}
-				if(var17 != p_72266_2_ || var18 != p_72266_4_)
+				if(var17 != par2 || var18 != par4)
 				{
 					var20 /= 4.0F;
 				}
@@ -127,7 +127,7 @@ public class BlockStem extends BlockFlower
 		return var5 < 7 ? -1 : par1IBlockAccess.getBlockId(par2 - 1, par3, par4) == fruitType.blockID ? 0 : par1IBlockAccess.getBlockId(par2 + 1, par3, par4) == fruitType.blockID ? 1 : par1IBlockAccess.getBlockId(par2, par3, par4 - 1) == fruitType.blockID ? 2 : par1IBlockAccess.getBlockId(par2, par3, par4 + 1) == fruitType.blockID ? 3 : -1;
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return -1;
 	}
@@ -137,20 +137,20 @@ public class BlockStem extends BlockFlower
 		return fruitType == Block.pumpkin ? Item.pumpkinSeeds.itemID : fruitType == Block.melon ? Item.melonSeeds.itemID : 0;
 	}
 	
-	@Override public int quantityDropped(Random p_71925_1_)
+	@Override public int quantityDropped(Random par1Random)
 	{
 		return 1;
 	}
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		blockIcon = par1IconRegister.registerIcon("stem_straight");
-		theIcon = par1IconRegister.registerIcon("stem_bent");
+		blockIcon = par1IconRegister.registerIcon(func_111023_E() + "_disconnected");
+		theIcon = par1IconRegister.registerIcon(func_111023_E() + "_connected");
 	}
 	
-	@Override public void setBlockBoundsBasedOnState(IBlockAccess p_71902_1_, int p_71902_2_, int p_71902_3_, int p_71902_4_)
+	@Override public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
 	{
-		maxY = (p_71902_1_.getBlockMetadata(p_71902_2_, p_71902_3_, p_71902_4_) * 2 + 2) / 16.0F;
+		maxY = (par1IBlockAccess.getBlockMetadata(par2, par3, par4) * 2 + 2) / 16.0F;
 		float var5 = 0.125F;
 		setBlockBounds(0.5F - var5, 0.0F, 0.5F - var5, 0.5F + var5, (float) maxY, 0.5F + var5);
 	}
@@ -161,31 +161,31 @@ public class BlockStem extends BlockFlower
 		setBlockBounds(0.5F - var1, 0.0F, 0.5F - var1, 0.5F + var1, 0.25F, 0.5F + var1);
 	}
 	
-	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
+	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		super.updateTick(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_, p_71847_5_);
-		if(p_71847_1_.getBlockLightValue(p_71847_2_, p_71847_3_ + 1, p_71847_4_) >= 9)
+		super.updateTick(par1World, par2, par3, par4, par5Random);
+		if(par1World.getBlockLightValue(par2, par3 + 1, par4) >= 9)
 		{
-			float var6 = getGrowthModifier(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_);
-			if(p_71847_5_.nextInt((int) (25.0F / var6) + 1) == 0)
+			float var6 = getGrowthModifier(par1World, par2, par3, par4);
+			if(par5Random.nextInt((int) (25.0F / var6) + 1) == 0)
 			{
-				int var7 = p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_);
+				int var7 = par1World.getBlockMetadata(par2, par3, par4);
 				if(var7 < 7)
 				{
 					++var7;
-					p_71847_1_.setBlockMetadataWithNotify(p_71847_2_, p_71847_3_, p_71847_4_, var7, 2);
+					par1World.setBlockMetadataWithNotify(par2, par3, par4, var7, 2);
 				} else
 				{
-					if(p_71847_1_.getBlockId(p_71847_2_ - 1, p_71847_3_, p_71847_4_) == fruitType.blockID) return;
-					if(p_71847_1_.getBlockId(p_71847_2_ + 1, p_71847_3_, p_71847_4_) == fruitType.blockID) return;
-					if(p_71847_1_.getBlockId(p_71847_2_, p_71847_3_, p_71847_4_ - 1) == fruitType.blockID) return;
-					if(p_71847_1_.getBlockId(p_71847_2_, p_71847_3_, p_71847_4_ + 1) == fruitType.blockID) return;
-					int var8 = p_71847_5_.nextInt(4);
-					int var9 = p_71847_2_;
-					int var10 = p_71847_4_;
+					if(par1World.getBlockId(par2 - 1, par3, par4) == fruitType.blockID) return;
+					if(par1World.getBlockId(par2 + 1, par3, par4) == fruitType.blockID) return;
+					if(par1World.getBlockId(par2, par3, par4 - 1) == fruitType.blockID) return;
+					if(par1World.getBlockId(par2, par3, par4 + 1) == fruitType.blockID) return;
+					int var8 = par5Random.nextInt(4);
+					int var9 = par2;
+					int var10 = par4;
 					if(var8 == 0)
 					{
-						var9 = p_71847_2_ - 1;
+						var9 = par2 - 1;
 					}
 					if(var8 == 1)
 					{
@@ -193,16 +193,16 @@ public class BlockStem extends BlockFlower
 					}
 					if(var8 == 2)
 					{
-						var10 = p_71847_4_ - 1;
+						var10 = par4 - 1;
 					}
 					if(var8 == 3)
 					{
 						++var10;
 					}
-					int var11 = p_71847_1_.getBlockId(var9, p_71847_3_ - 1, var10);
-					if(p_71847_1_.getBlockId(var9, p_71847_3_, var10) == 0 && (var11 == Block.tilledField.blockID || var11 == Block.dirt.blockID || var11 == Block.grass.blockID))
+					int var11 = par1World.getBlockId(var9, par3 - 1, var10);
+					if(par1World.getBlockId(var9, par3, var10) == 0 && (var11 == Block.tilledField.blockID || var11 == Block.dirt.blockID || var11 == Block.grass.blockID))
 					{
-						p_71847_1_.setBlock(var9, p_71847_3_, var10, fruitType.blockID);
+						par1World.setBlock(var9, par3, var10, fruitType.blockID);
 					}
 				}
 			}

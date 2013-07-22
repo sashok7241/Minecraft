@@ -6,23 +6,23 @@ import java.util.Random;
 public class BlockLeaves extends BlockLeavesBase
 {
 	public static final String[] LEAF_TYPES = new String[] { "oak", "spruce", "birch", "jungle" };
-	public static final String[][] field_94396_b = new String[][] { { "leaves", "leaves_spruce", "leaves", "leaves_jungle" }, { "leaves_opaque", "leaves_spruce_opaque", "leaves_opaque", "leaves_jungle_opaque" } };
+	public static final String[][] field_94396_b = new String[][] { { "leaves_oak", "leaves_spruce", "leaves_birch", "leaves_jungle" }, { "leaves_oak_opaque", "leaves_spruce_opaque", "leaves_birch_opaque", "leaves_jungle_opaque" } };
 	private int field_94394_cP;
 	private Icon[][] iconArray = new Icon[2][];
 	int[] adjacentTreeBlocks;
 	
-	protected BlockLeaves(int p_i9068_1_)
+	protected BlockLeaves(int par1)
 	{
-		super(p_i9068_1_, Material.leaves, false);
+		super(par1, Material.leaves, false);
 		setTickRandomly(true);
 		setCreativeTab(CreativeTabs.tabDecorations);
 	}
 	
-	@Override public void breakBlock(World p_71852_1_, int p_71852_2_, int p_71852_3_, int p_71852_4_, int p_71852_5_, int p_71852_6_)
+	@Override public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
 	{
 		byte var7 = 1;
 		int var8 = var7 + 1;
-		if(p_71852_1_.checkChunksExist(p_71852_2_ - var8, p_71852_3_ - var8, p_71852_4_ - var8, p_71852_2_ + var8, p_71852_3_ + var8, p_71852_4_ + var8))
+		if(par1World.checkChunksExist(par2 - var8, par3 - var8, par4 - var8, par2 + var8, par3 + var8, par4 + var8))
 		{
 			for(int var9 = -var7; var9 <= var7; ++var9)
 			{
@@ -30,11 +30,11 @@ public class BlockLeaves extends BlockLeavesBase
 				{
 					for(int var11 = -var7; var11 <= var7; ++var11)
 					{
-						int var12 = p_71852_1_.getBlockId(p_71852_2_ + var9, p_71852_3_ + var10, p_71852_4_ + var11);
+						int var12 = par1World.getBlockId(par2 + var9, par3 + var10, par4 + var11);
 						if(var12 == Block.leaves.blockID)
 						{
-							int var13 = p_71852_1_.getBlockMetadata(p_71852_2_ + var9, p_71852_3_ + var10, p_71852_4_ + var11);
-							p_71852_1_.setBlockMetadataWithNotify(p_71852_2_ + var9, p_71852_3_ + var10, p_71852_4_ + var11, var13 | 8, 4);
+							int var13 = par1World.getBlockMetadata(par2 + var9, par3 + var10, par4 + var11);
+							par1World.setBlockMetadataWithNotify(par2 + var9, par3 + var10, par4 + var11, var13 | 8, 4);
 						}
 					}
 				}
@@ -66,50 +66,50 @@ public class BlockLeaves extends BlockLeavesBase
 		}
 	}
 	
-	@Override protected ItemStack createStackedBlock(int p_71880_1_)
+	@Override protected ItemStack createStackedBlock(int par1)
 	{
-		return new ItemStack(blockID, 1, p_71880_1_ & 3);
+		return new ItemStack(blockID, 1, par1 & 3);
 	}
 	
-	@Override public int damageDropped(int p_71899_1_)
+	@Override public int damageDropped(int par1)
 	{
-		return p_71899_1_ & 3;
+		return par1 & 3;
 	}
 	
-	@Override public void dropBlockAsItemWithChance(World p_71914_1_, int p_71914_2_, int p_71914_3_, int p_71914_4_, int p_71914_5_, float p_71914_6_, int p_71914_7_)
+	@Override public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
 	{
-		if(!p_71914_1_.isRemote)
+		if(!par1World.isRemote)
 		{
 			int var8 = 20;
-			if((p_71914_5_ & 3) == 3)
+			if((par5 & 3) == 3)
 			{
 				var8 = 40;
 			}
-			if(p_71914_7_ > 0)
+			if(par7 > 0)
 			{
-				var8 -= 2 << p_71914_7_;
+				var8 -= 2 << par7;
 				if(var8 < 10)
 				{
 					var8 = 10;
 				}
 			}
-			if(p_71914_1_.rand.nextInt(var8) == 0)
+			if(par1World.rand.nextInt(var8) == 0)
 			{
-				int var9 = idDropped(p_71914_5_, p_71914_1_.rand, p_71914_7_);
-				dropBlockAsItem_do(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, new ItemStack(var9, 1, damageDropped(p_71914_5_)));
+				int var9 = idDropped(par5, par1World.rand, par7);
+				dropBlockAsItem_do(par1World, par2, par3, par4, new ItemStack(var9, 1, damageDropped(par5)));
 			}
 			var8 = 200;
-			if(p_71914_7_ > 0)
+			if(par7 > 0)
 			{
-				var8 -= 10 << p_71914_7_;
+				var8 -= 10 << par7;
 				if(var8 < 40)
 				{
 					var8 = 40;
 				}
 			}
-			if((p_71914_5_ & 3) == 0 && p_71914_1_.rand.nextInt(var8) == 0)
+			if((par5 & 3) == 0 && par1World.rand.nextInt(var8) == 0)
 			{
-				dropBlockAsItem_do(p_71914_1_, p_71914_2_, p_71914_3_, p_71914_4_, new ItemStack(Item.appleRed, 1, 0));
+				dropBlockAsItem_do(par1World, par2, par3, par4, new ItemStack(Item.appleRed, 1, 0));
 			}
 		}
 	}
@@ -123,7 +123,7 @@ public class BlockLeaves extends BlockLeavesBase
 	
 	@Override public Icon getIcon(int par1, int par2)
 	{
-		return (par2 & 3) == 1 ? iconArray[field_94394_cP][1] : (par2 & 3) == 3 ? iconArray[field_94394_cP][3] : iconArray[field_94394_cP][0];
+		return (par2 & 3) == 1 ? iconArray[field_94394_cP][1] : (par2 & 3) == 3 ? iconArray[field_94394_cP][3] : (par2 & 3) == 2 ? iconArray[field_94394_cP][2] : iconArray[field_94394_cP][0];
 	}
 	
 	@Override public int getRenderColor(int par1)
@@ -139,19 +139,19 @@ public class BlockLeaves extends BlockLeavesBase
 		par3List.add(new ItemStack(par1, 1, 3));
 	}
 	
-	@Override public void harvestBlock(World p_71893_1_, EntityPlayer p_71893_2_, int p_71893_3_, int p_71893_4_, int p_71893_5_, int p_71893_6_)
+	@Override public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6)
 	{
-		if(!p_71893_1_.isRemote && p_71893_2_.getCurrentEquippedItem() != null && p_71893_2_.getCurrentEquippedItem().itemID == Item.shears.itemID)
+		if(!par1World.isRemote && par2EntityPlayer.getCurrentEquippedItem() != null && par2EntityPlayer.getCurrentEquippedItem().itemID == Item.shears.itemID)
 		{
-			p_71893_2_.addStat(StatList.mineBlockStatArray[blockID], 1);
-			dropBlockAsItem_do(p_71893_1_, p_71893_3_, p_71893_4_, p_71893_5_, new ItemStack(Block.leaves.blockID, 1, p_71893_6_ & 3));
+			par2EntityPlayer.addStat(StatList.mineBlockStatArray[blockID], 1);
+			dropBlockAsItem_do(par1World, par3, par4, par5, new ItemStack(Block.leaves.blockID, 1, par6 & 3));
 		} else
 		{
-			super.harvestBlock(p_71893_1_, p_71893_2_, p_71893_3_, p_71893_4_, p_71893_5_, p_71893_6_);
+			super.harvestBlock(par1World, par2EntityPlayer, par3, par4, par5, par6);
 		}
 	}
 	
-	@Override public int idDropped(int p_71885_1_, Random p_71885_2_, int p_71885_3_)
+	@Override public int idDropped(int par1, Random par2Random, int par3)
 	{
 		return Block.sapling.blockID;
 	}
@@ -161,9 +161,9 @@ public class BlockLeaves extends BlockLeavesBase
 		return !graphicsLevel;
 	}
 	
-	@Override public int quantityDropped(Random p_71925_1_)
+	@Override public int quantityDropped(Random par1Random)
 	{
-		return p_71925_1_.nextInt(20) == 0 ? 1 : 0;
+		return par1Random.nextInt(20) == 0 ? 1 : 0;
 	}
 	
 	@Override public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
@@ -189,10 +189,10 @@ public class BlockLeaves extends BlockLeavesBase
 		}
 	}
 	
-	private void removeLeaves(World p_72132_1_, int p_72132_2_, int p_72132_3_, int p_72132_4_)
+	private void removeLeaves(World par1World, int par2, int par3, int par4)
 	{
-		dropBlockAsItem(p_72132_1_, p_72132_2_, p_72132_3_, p_72132_4_, p_72132_1_.getBlockMetadata(p_72132_2_, p_72132_3_, p_72132_4_), 0);
-		p_72132_1_.setBlockToAir(p_72132_2_, p_72132_3_, p_72132_4_);
+		dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
+		par1World.setBlockToAir(par2, par3, par4);
 	}
 	
 	public void setGraphicsLevel(boolean par1)
@@ -201,11 +201,11 @@ public class BlockLeaves extends BlockLeavesBase
 		field_94394_cP = par1 ? 0 : 1;
 	}
 	
-	@Override public void updateTick(World p_71847_1_, int p_71847_2_, int p_71847_3_, int p_71847_4_, Random p_71847_5_)
+	@Override public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		if(!p_71847_1_.isRemote)
+		if(!par1World.isRemote)
 		{
-			int var6 = p_71847_1_.getBlockMetadata(p_71847_2_, p_71847_3_, p_71847_4_);
+			int var6 = par1World.getBlockMetadata(par2, par3, par4);
 			if((var6 & 8) != 0 && (var6 & 4) == 0)
 			{
 				byte var7 = 4;
@@ -218,7 +218,7 @@ public class BlockLeaves extends BlockLeavesBase
 					adjacentTreeBlocks = new int[var9 * var9 * var9];
 				}
 				int var12;
-				if(p_71847_1_.checkChunksExist(p_71847_2_ - var8, p_71847_3_ - var8, p_71847_4_ - var8, p_71847_2_ + var8, p_71847_3_ + var8, p_71847_4_ + var8))
+				if(par1World.checkChunksExist(par2 - var8, par3 - var8, par4 - var8, par2 + var8, par3 + var8, par4 + var8))
 				{
 					int var13;
 					int var14;
@@ -229,7 +229,7 @@ public class BlockLeaves extends BlockLeavesBase
 						{
 							for(var14 = -var7; var14 <= var7; ++var14)
 							{
-								var15 = p_71847_1_.getBlockId(p_71847_2_ + var12, p_71847_3_ + var13, p_71847_4_ + var14);
+								var15 = par1World.getBlockId(par2 + var12, par3 + var13, par4 + var14);
 								if(var15 == Block.wood.blockID)
 								{
 									adjacentTreeBlocks[(var12 + var11) * var10 + (var13 + var11) * var9 + var14 + var11] = 0;
@@ -286,10 +286,10 @@ public class BlockLeaves extends BlockLeavesBase
 				var12 = adjacentTreeBlocks[var11 * var10 + var11 * var9 + var11];
 				if(var12 >= 0)
 				{
-					p_71847_1_.setBlockMetadataWithNotify(p_71847_2_, p_71847_3_, p_71847_4_, var6 & -9, 4);
+					par1World.setBlockMetadataWithNotify(par2, par3, par4, var6 & -9, 4);
 				} else
 				{
-					removeLeaves(p_71847_1_, p_71847_2_, p_71847_3_, p_71847_4_);
+					removeLeaves(par1World, par2, par3, par4);
 				}
 			}
 		}

@@ -11,30 +11,31 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 	private double oldPosZ;
 	private float oldRotationYaw;
 	private float oldRotationPitch;
-	private boolean wasOnGround = false;
-	private boolean shouldStopSneaking = false;
-	private boolean wasSneaking = false;
-	private int field_71168_co = 0;
-	private boolean hasSetHealth = false;
+	private boolean wasOnGround;
+	private boolean shouldStopSneaking;
+	private boolean wasSneaking;
+	private int field_71168_co;
+	private boolean hasSetHealth;
+	private String field_142022_ce;
 	
-	public EntityClientPlayerMP(Minecraft p_i3101_1_, World p_i3101_2_, Session p_i3101_3_, NetClientHandler p_i3101_4_)
+	public EntityClientPlayerMP(Minecraft par1Minecraft, World par2World, Session par3Session, NetClientHandler par4NetClientHandler)
 	{
-		super(p_i3101_1_, p_i3101_2_, p_i3101_3_, 0);
-		sendQueue = p_i3101_4_;
+		super(par1Minecraft, par2World, par3Session, 0);
+		sendQueue = par4NetClientHandler;
 	}
 	
-	@Override public void addStat(StatBase p_71064_1_, int p_71064_2_)
+	@Override public void addStat(StatBase par1StatBase, int par2)
 	{
-		if(p_71064_1_ != null)
+		if(par1StatBase != null)
 		{
-			if(p_71064_1_.isIndependent)
+			if(par1StatBase.isIndependent)
 			{
-				super.addStat(p_71064_1_, p_71064_2_);
+				super.addStat(par1StatBase, par2);
 			}
 		}
 	}
 	
-	@Override public boolean attackEntityFrom(DamageSource p_70097_1_, int p_70097_2_)
+	@Override public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
 	{
 		return false;
 	}
@@ -45,24 +46,39 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		func_92015_f();
 	}
 	
-	@Override protected void damageEntity(DamageSource p_70665_1_, int p_70665_2_)
+	@Override protected void damageEntity(DamageSource par1DamageSource, float par2)
 	{
 		if(!isEntityInvulnerable())
 		{
-			setEntityHealth(getHealth() - p_70665_2_);
+			setEntityHealth(func_110143_aJ() - par2);
 		}
 	}
 	
-	@Override public EntityItem dropOneItem(boolean p_71040_1_)
+	@Override public EntityItem dropOneItem(boolean par1)
 	{
-		int var2 = p_71040_1_ ? 3 : 4;
+		int var2 = par1 ? 3 : 4;
 		sendQueue.addToSendQueue(new Packet14BlockDig(var2, 0, 0, 0, 0));
 		return null;
 	}
 	
-	@Override public boolean func_71066_bF()
+	@Override protected void func_110318_g()
 	{
-		return true;
+		sendQueue.addToSendQueue(new Packet19EntityAction(this, 6, (int) (func_110319_bJ() * 100.0F)));
+	}
+	
+	public void func_110322_i()
+	{
+		sendQueue.addToSendQueue(new Packet19EntityAction(this, 7));
+	}
+	
+	public void func_142020_c(String par1Str)
+	{
+		field_142022_ce = par1Str;
+	}
+	
+	public String func_142021_k()
+	{
+		return field_142022_ce;
 	}
 	
 	public void func_92015_f()
@@ -71,7 +87,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		super.closeScreen();
 	}
 	
-	@Override public void heal(int p_70691_1_)
+	@Override public void heal(float par1)
 	{
 	}
 	
@@ -86,7 +102,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		}
 	}
 	
-	@Override protected void joinEntityItemWithWorld(EntityItem p_71012_1_)
+	@Override protected void joinEntityItemWithWorld(EntityItem par1EntityItem)
 	{
 	}
 	
@@ -95,7 +111,14 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		if(worldObj.blockExists(MathHelper.floor_double(posX), 0, MathHelper.floor_double(posZ)))
 		{
 			super.onUpdate();
-			sendMotionUpdates();
+			if(isRiding())
+			{
+				sendQueue.addToSendQueue(new Packet12PlayerLook(rotationYaw, rotationPitch, onGround));
+				sendQueue.addToSendQueue(new Packet27PlayerInput(moveStrafing, moveForward, movementInput.jump, movementInput.sneak));
+			} else
+			{
+				sendMotionUpdates();
+			}
 		}
 	}
 	
@@ -181,7 +204,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
 		sendQueue.addToSendQueue(new Packet202PlayerAbilities(capabilities));
 	}
 	
-	@Override public void setHealth(int par1)
+	@Override public void setHealth(float par1)
 	{
 		if(hasSetHealth)
 		{

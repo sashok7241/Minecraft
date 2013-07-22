@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet62LevelSound extends Packet
@@ -17,14 +17,14 @@ public class Packet62LevelSound extends Packet
 	{
 	}
 	
-	public Packet62LevelSound(String p_i3326_1_, double p_i3326_2_, double p_i3326_4_, double p_i3326_6_, float p_i3326_8_, float p_i3326_9_)
+	public Packet62LevelSound(String par1Str, double par2, double par4, double par6, float par8, float par9)
 	{
-		soundName = p_i3326_1_;
-		effectX = (int) (p_i3326_2_ * 8.0D);
-		effectY = (int) (p_i3326_4_ * 8.0D);
-		effectZ = (int) (p_i3326_6_ * 8.0D);
-		volume = p_i3326_8_;
-		pitch = (int) (p_i3326_9_ * 63.0F);
+		soundName = par1Str;
+		effectX = (int) (par2 * 8.0D);
+		effectY = (int) (par4 * 8.0D);
+		effectZ = (int) (par6 * 8.0D);
+		volume = par8;
+		pitch = (int) (par9 * 63.0F);
 		if(pitch < 0)
 		{
 			pitch = 0;
@@ -70,28 +70,28 @@ public class Packet62LevelSound extends Packet
 		return volume;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleLevelSound(this);
+		par1NetHandler.handleLevelSound(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		soundName = readString(p_73267_1_, 32);
-		effectX = p_73267_1_.readInt();
-		effectY = p_73267_1_.readInt();
-		effectZ = p_73267_1_.readInt();
-		volume = p_73267_1_.readFloat();
-		pitch = p_73267_1_.readUnsignedByte();
+		soundName = readString(par1DataInput, 256);
+		effectX = par1DataInput.readInt();
+		effectY = par1DataInput.readInt();
+		effectZ = par1DataInput.readInt();
+		volume = par1DataInput.readFloat();
+		pitch = par1DataInput.readUnsignedByte();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(soundName, p_73273_1_);
-		p_73273_1_.writeInt(effectX);
-		p_73273_1_.writeInt(effectY);
-		p_73273_1_.writeInt(effectZ);
-		p_73273_1_.writeFloat(volume);
-		p_73273_1_.writeByte(pitch);
+		writeString(soundName, par1DataOutput);
+		par1DataOutput.writeInt(effectX);
+		par1DataOutput.writeInt(effectY);
+		par1DataOutput.writeInt(effectZ);
+		par1DataOutput.writeFloat(volume);
+		par1DataOutput.writeByte(pitch);
 	}
 }

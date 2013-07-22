@@ -6,18 +6,19 @@ import java.util.Random;
 
 public class EffectRenderer
 {
+	private static final ResourceLocation field_110737_b = new ResourceLocation("textures/particle/particles.png");
 	protected World worldObj;
 	private List[] fxLayers = new List[4];
-	private RenderEngine renderer;
+	private TextureManager renderer;
 	private Random rand = new Random();
 	
-	public EffectRenderer(World p_i3170_1_, RenderEngine p_i3170_2_)
+	public EffectRenderer(World par1World, TextureManager par2TextureManager)
 	{
-		if(p_i3170_1_ != null)
+		if(par1World != null)
 		{
-			worldObj = p_i3170_1_;
+			worldObj = par1World;
 		}
-		renderer = p_i3170_2_;
+		renderer = par2TextureManager;
 		for(int var3 = 0; var3 < 4; ++var3)
 		{
 			fxLayers[var3] = new ArrayList();
@@ -39,8 +40,7 @@ public class EffectRenderer
 						double var11 = par1 + (var8 + 0.5D) / var7;
 						double var13 = par2 + (var9 + 0.5D) / var7;
 						double var15 = par3 + (var10 + 0.5D) / var7;
-						int var17 = rand.nextInt(6);
-						addEffect(new EntityDiggingFX(worldObj, var11, var13, var15, var11 - par1 - 0.5D, var13 - par2 - 0.5D, var15 - par3 - 0.5D, var6, var17, par5, renderer).applyColourMultiplier(par1, par2, par3));
+						addEffect(new EntityDiggingFX(worldObj, var11, var13, var15, var11 - par1 - 0.5D, var13 - par2 - 0.5D, var15 - par3 - 0.5D, var6, par5).applyColourMultiplier(par1, par2, par3));
 					}
 				}
 			}
@@ -81,7 +81,7 @@ public class EffectRenderer
 			{
 				var8 = par1 + var6.getBlockBoundsMaxX() + var7;
 			}
-			addEffect(new EntityDiggingFX(worldObj, var8, var10, var12, 0.0D, 0.0D, 0.0D, var6, par4, worldObj.getBlockMetadata(par1, par2, par3), renderer).applyColourMultiplier(par1, par2, par3).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
+			addEffect(new EntityDiggingFX(worldObj, var8, var10, var12, 0.0D, 0.0D, 0.0D, var6, worldObj.getBlockMetadata(par1, par2, par3)).applyColourMultiplier(par1, par2, par3).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
 		}
 	}
 	
@@ -111,20 +111,22 @@ public class EffectRenderer
 	
 	public void renderLitParticles(Entity par1Entity, float par2)
 	{
+		float var3 = 0.017453292F;
 		float var4 = MathHelper.cos(par1Entity.rotationYaw * 0.017453292F);
 		float var5 = MathHelper.sin(par1Entity.rotationYaw * 0.017453292F);
 		float var6 = -var5 * MathHelper.sin(par1Entity.rotationPitch * 0.017453292F);
 		float var7 = var4 * MathHelper.sin(par1Entity.rotationPitch * 0.017453292F);
 		float var8 = MathHelper.cos(par1Entity.rotationPitch * 0.017453292F);
 		byte var9 = 3;
-		if(!fxLayers[var9].isEmpty())
+		List var10 = fxLayers[var9];
+		if(!var10.isEmpty())
 		{
-			Tessellator var10 = Tessellator.instance;
-			for(int var11 = 0; var11 < fxLayers[var9].size(); ++var11)
+			Tessellator var11 = Tessellator.instance;
+			for(int var12 = 0; var12 < var10.size(); ++var12)
 			{
-				EntityFX var12 = (EntityFX) fxLayers[var9].get(var11);
-				var10.setBrightness(var12.getBrightnessForRender(par2));
-				var12.renderParticle(var10, par2, var4, var8, var5, var6, var7);
+				EntityFX var13 = (EntityFX) var10.get(var12);
+				var11.setBrightness(var13.getBrightnessForRender(par2));
+				var13.renderParticle(var11, par2, var4, var8, var5, var6, var7);
 			}
 		}
 	}
@@ -147,20 +149,20 @@ public class EffectRenderer
 				{
 					case 0:
 					default:
-						renderer.bindTexture("/particles.png");
+						renderer.func_110577_a(field_110737_b);
 						break;
 					case 1:
-						renderer.bindTexture("/terrain.png");
+						renderer.func_110577_a(TextureMap.field_110575_b);
 						break;
 					case 2:
-						renderer.bindTexture("/gui/items.png");
+						renderer.func_110577_a(TextureMap.field_110576_c);
 				}
-				Tessellator var9 = Tessellator.instance;
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				GL11.glDepthMask(false);
 				GL11.glEnable(GL11.GL_BLEND);
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 				GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
+				Tessellator var9 = Tessellator.instance;
 				var9.startDrawingQuads();
 				for(int var10 = 0; var10 < fxLayers[var8].size(); ++var10)
 				{

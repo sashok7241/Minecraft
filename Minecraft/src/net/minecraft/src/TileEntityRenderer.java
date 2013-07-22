@@ -12,9 +12,9 @@ public class TileEntityRenderer
 	public static double staticPlayerX;
 	public static double staticPlayerY;
 	public static double staticPlayerZ;
-	public RenderEngine renderEngine;
+	public TextureManager renderEngine;
 	public World worldObj;
-	public EntityLiving entityLivingPlayer;
+	public EntityLivingBase entityLivingPlayer;
 	public float playerYaw;
 	public float playerPitch;
 	public double playerX;
@@ -40,7 +40,7 @@ public class TileEntityRenderer
 		}
 	}
 	
-	public void cacheActiveRenderInfo(World par1World, RenderEngine par2TextureManager, FontRenderer par3FontRenderer, EntityLiving par4EntityLivingBase, float par5)
+	public void cacheActiveRenderInfo(World par1World, TextureManager par2TextureManager, FontRenderer par3FontRenderer, EntityLivingBase par4EntityLivingBase, float par5)
 	{
 		if(worldObj != par1World)
 		{

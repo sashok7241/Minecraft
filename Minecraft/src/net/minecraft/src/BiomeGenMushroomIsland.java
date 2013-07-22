@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BiomeGenMushroomIsland extends BiomeGenBase
 {
-	public BiomeGenMushroomIsland(int p_i3760_1_)
+	public BiomeGenMushroomIsland(int par1)
 	{
-		super(p_i3760_1_);
+		super(par1);
 		theBiomeDecorator.treesPerChunk = -100;
 		theBiomeDecorator.flowersPerChunk = -100;
 		theBiomeDecorator.grassPerChunk = -100;

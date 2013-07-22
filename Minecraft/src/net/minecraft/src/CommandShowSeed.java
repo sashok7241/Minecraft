@@ -4,9 +4,9 @@ import net.minecraft.server.MinecraftServer;
 
 public class CommandShowSeed extends CommandBase
 {
-	@Override public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_)
+	@Override public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
 	{
-		return MinecraftServer.getServer().isSinglePlayer() || super.canCommandSenderUseCommand(p_71519_1_);
+		return MinecraftServer.getServer().isSinglePlayer() || super.canCommandSenderUseCommand(par1ICommandSender);
 	}
 	
 	@Override public String getCommandName()
@@ -14,14 +14,19 @@ public class CommandShowSeed extends CommandBase
 		return "seed";
 	}
 	
+	@Override public String getCommandUsage(ICommandSender par1ICommandSender)
+	{
+		return "commands.seed.usage";
+	}
+	
 	@Override public int getRequiredPermissionLevel()
 	{
 		return 2;
 	}
 	
-	@Override public void processCommand(ICommandSender p_71515_1_, String[] p_71515_2_)
+	@Override public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
 	{
-		Object var3 = p_71515_1_ instanceof EntityPlayer ? ((EntityPlayer) p_71515_1_).worldObj : MinecraftServer.getServer().worldServerForDimension(0);
-		p_71515_1_.sendChatToPlayer("Seed: " + ((World) var3).getSeed());
+		Object var3 = par1ICommandSender instanceof EntityPlayer ? ((EntityPlayer) par1ICommandSender).worldObj : MinecraftServer.getServer().worldServerForDimension(0);
+		par1ICommandSender.sendChatToPlayer(ChatMessageComponent.func_111082_b("commands.seed.success", new Object[] { Long.valueOf(((World) var3).getSeed()) }));
 	}
 }

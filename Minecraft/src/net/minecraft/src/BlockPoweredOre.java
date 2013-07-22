@@ -2,9 +2,9 @@ package net.minecraft.src;
 
 public class BlockPoweredOre extends BlockOreStorage
 {
-	public BlockPoweredOre(int p_i9013_1_)
+	public BlockPoweredOre(int par1)
 	{
-		super(p_i9013_1_);
+		super(par1);
 		setCreativeTab(CreativeTabs.tabRedstone);
 	}
 	
@@ -13,7 +13,7 @@ public class BlockPoweredOre extends BlockOreStorage
 		return true;
 	}
 	
-	@Override public int isProvidingWeakPower(IBlockAccess p_71865_1_, int p_71865_2_, int p_71865_3_, int p_71865_4_, int p_71865_5_)
+	@Override public int isProvidingWeakPower(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
 	{
 		return 15;
 	}

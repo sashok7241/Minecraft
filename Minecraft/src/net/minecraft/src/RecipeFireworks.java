@@ -6,7 +6,7 @@ public class RecipeFireworks implements IRecipe
 {
 	private ItemStack field_92102_a;
 	
-	@Override public ItemStack getCraftingResult(InventoryCrafting p_77572_1_)
+	@Override public ItemStack getCraftingResult(InventoryCrafting par1InventoryCrafting)
 	{
 		return field_92102_a.copy();
 	}
@@ -21,7 +21,7 @@ public class RecipeFireworks implements IRecipe
 		return 10;
 	}
 	
-	@Override public boolean matches(InventoryCrafting p_77569_1_, World p_77569_2_)
+	@Override public boolean matches(InventoryCrafting par1InventoryCrafting, World par2World)
 	{
 		field_92102_a = null;
 		int var3 = 0;
@@ -30,9 +30,9 @@ public class RecipeFireworks implements IRecipe
 		int var6 = 0;
 		int var7 = 0;
 		int var8 = 0;
-		for(int var9 = 0; var9 < p_77569_1_.getSizeInventory(); ++var9)
+		for(int var9 = 0; var9 < par1InventoryCrafting.getSizeInventory(); ++var9)
 		{
-			ItemStack var10 = p_77569_1_.getStackInSlot(var9);
+			ItemStack var10 = par1InventoryCrafting.getStackInSlot(var9);
 			if(var10 != null)
 			{
 				if(var10.itemID == Item.gunpowder.itemID)
@@ -82,9 +82,9 @@ public class RecipeFireworks implements IRecipe
 					var15 = new NBTTagCompound();
 					var18 = new NBTTagCompound("Fireworks");
 					NBTTagList var25 = new NBTTagList("Explosions");
-					for(int var22 = 0; var22 < p_77569_1_.getSizeInventory(); ++var22)
+					for(int var22 = 0; var22 < par1InventoryCrafting.getSizeInventory(); ++var22)
 					{
-						ItemStack var26 = p_77569_1_.getStackInSlot(var22);
+						ItemStack var26 = par1InventoryCrafting.getStackInSlot(var22);
 						if(var26 != null && var26.itemID == Item.fireworkCharge.itemID && var26.hasTagCompound() && var26.getTagCompound().hasKey("Explosion"))
 						{
 							var25.appendTag(var26.getTagCompound().getCompoundTag("Explosion"));
@@ -103,9 +103,9 @@ public class RecipeFireworks implements IRecipe
 				var18 = new NBTTagCompound("Explosion");
 				byte var21 = 0;
 				ArrayList var12 = new ArrayList();
-				for(int var13 = 0; var13 < p_77569_1_.getSizeInventory(); ++var13)
+				for(int var13 = 0; var13 < par1InventoryCrafting.getSizeInventory(); ++var13)
 				{
-					ItemStack var14 = p_77569_1_.getStackInSlot(var13);
+					ItemStack var14 = par1InventoryCrafting.getStackInSlot(var13);
 					if(var14 != null)
 					{
 						if(var14.itemID == Item.dyePowder.itemID)
@@ -145,9 +145,9 @@ public class RecipeFireworks implements IRecipe
 			} else if(var4 == 0 && var3 == 0 && var6 == 1 && var5 > 0 && var5 == var7)
 			{
 				ArrayList var16 = new ArrayList();
-				for(int var20 = 0; var20 < p_77569_1_.getSizeInventory(); ++var20)
+				for(int var20 = 0; var20 < par1InventoryCrafting.getSizeInventory(); ++var20)
 				{
-					ItemStack var11 = p_77569_1_.getStackInSlot(var20);
+					ItemStack var11 = par1InventoryCrafting.getStackInSlot(var20);
 					if(var11 != null)
 					{
 						if(var11.itemID == Item.dyePowder.itemID)

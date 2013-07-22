@@ -2,18 +2,18 @@ package net.minecraft.src;
 
 public class EntitySuspendFX extends EntityFX
 {
-	public EntitySuspendFX(World p_i3167_1_, double p_i3167_2_, double p_i3167_4_, double p_i3167_6_, double p_i3167_8_, double p_i3167_10_, double p_i3167_12_)
+	public EntitySuspendFX(World par1World, double par2, double par4, double par6, double par8, double par10, double par12)
 	{
-		super(p_i3167_1_, p_i3167_2_, p_i3167_4_ - 0.125D, p_i3167_6_, p_i3167_8_, p_i3167_10_, p_i3167_12_);
+		super(par1World, par2, par4 - 0.125D, par6, par8, par10, par12);
 		particleRed = 0.4F;
 		particleGreen = 0.4F;
 		particleBlue = 0.7F;
 		setParticleTextureIndex(0);
 		setSize(0.01F, 0.01F);
 		particleScale *= rand.nextFloat() * 0.6F + 0.2F;
-		motionX = p_i3167_8_ * 0.0D;
-		motionY = p_i3167_10_ * 0.0D;
-		motionZ = p_i3167_12_ * 0.0D;
+		motionX = par8 * 0.0D;
+		motionY = par10 * 0.0D;
+		motionZ = par12 * 0.0D;
 		particleMaxAge = (int) (16.0D / (Math.random() * 0.8D + 0.2D));
 	}
 	

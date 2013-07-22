@@ -10,21 +10,21 @@ public class PacketCount
 	private static final Map sizeCountForID = new HashMap();
 	private static final Object lock = new Object();
 	
-	public static void countPacket(int p_76118_0_, long p_76118_1_)
+	public static void countPacket(int par0, long par1)
 	{
 		if(allowCounting)
 		{
 			Object var3 = lock;
 			synchronized(lock)
 			{
-				if(packetCountForID.containsKey(Integer.valueOf(p_76118_0_)))
+				if(packetCountForID.containsKey(Integer.valueOf(par0)))
 				{
-					packetCountForID.put(Integer.valueOf(p_76118_0_), Long.valueOf(((Long) packetCountForID.get(Integer.valueOf(p_76118_0_))).longValue() + 1L));
-					sizeCountForID.put(Integer.valueOf(p_76118_0_), Long.valueOf(((Long) sizeCountForID.get(Integer.valueOf(p_76118_0_))).longValue() + p_76118_1_));
+					packetCountForID.put(Integer.valueOf(par0), Long.valueOf(((Long) packetCountForID.get(Integer.valueOf(par0))).longValue() + 1L));
+					sizeCountForID.put(Integer.valueOf(par0), Long.valueOf(((Long) sizeCountForID.get(Integer.valueOf(par0))).longValue() + par1));
 				} else
 				{
-					packetCountForID.put(Integer.valueOf(p_76118_0_), Long.valueOf(1L));
-					sizeCountForID.put(Integer.valueOf(p_76118_0_), Long.valueOf(p_76118_1_));
+					packetCountForID.put(Integer.valueOf(par0), Long.valueOf(1L));
+					sizeCountForID.put(Integer.valueOf(par0), Long.valueOf(par1));
 				}
 			}
 		}

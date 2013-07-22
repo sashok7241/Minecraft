@@ -2,23 +2,23 @@ package net.minecraft.src;
 
 public class GenLayerRiver extends GenLayer
 {
-	public GenLayerRiver(long p_i3894_1_, GenLayer p_i3894_3_)
+	public GenLayerRiver(long par1, GenLayer par3GenLayer)
 	{
-		super(p_i3894_1_);
-		super.parent = p_i3894_3_;
+		super(par1);
+		super.parent = par3GenLayer;
 	}
 	
-	@Override public int[] getInts(int p_75904_1_, int p_75904_2_, int p_75904_3_, int p_75904_4_)
+	@Override public int[] getInts(int par1, int par2, int par3, int par4)
 	{
-		int var5 = p_75904_1_ - 1;
-		int var6 = p_75904_2_ - 1;
-		int var7 = p_75904_3_ + 2;
-		int var8 = p_75904_4_ + 2;
+		int var5 = par1 - 1;
+		int var6 = par2 - 1;
+		int var7 = par3 + 2;
+		int var8 = par4 + 2;
 		int[] var9 = parent.getInts(var5, var6, var7, var8);
-		int[] var10 = IntCache.getIntCache(p_75904_3_ * p_75904_4_);
-		for(int var11 = 0; var11 < p_75904_4_; ++var11)
+		int[] var10 = IntCache.getIntCache(par3 * par4);
+		for(int var11 = 0; var11 < par4; ++var11)
 		{
-			for(int var12 = 0; var12 < p_75904_3_; ++var12)
+			for(int var12 = 0; var12 < par3; ++var12)
 			{
 				int var13 = var9[var12 + 0 + (var11 + 1) * var7];
 				int var14 = var9[var12 + 2 + (var11 + 1) * var7];
@@ -27,10 +27,10 @@ public class GenLayerRiver extends GenLayer
 				int var17 = var9[var12 + 1 + (var11 + 1) * var7];
 				if(var17 != 0 && var13 != 0 && var14 != 0 && var15 != 0 && var16 != 0 && var17 == var13 && var17 == var15 && var17 == var14 && var17 == var16)
 				{
-					var10[var12 + var11 * p_75904_3_] = -1;
+					var10[var12 + var11 * par3] = -1;
 				} else
 				{
-					var10[var12 + var11 * p_75904_3_] = BiomeGenBase.river.biomeID;
+					var10[var12 + var11 * par3] = BiomeGenBase.river.biomeID;
 				}
 			}
 		}

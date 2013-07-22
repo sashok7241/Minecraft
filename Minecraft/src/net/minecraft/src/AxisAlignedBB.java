@@ -10,17 +10,17 @@ public class AxisAlignedBB
 	public double maxY;
 	public double maxZ;
 	
-	protected AxisAlignedBB(double p_i4029_1_, double p_i4029_3_, double p_i4029_5_, double p_i4029_7_, double p_i4029_9_, double p_i4029_11_)
+	protected AxisAlignedBB(double par1, double par3, double par5, double par7, double par9, double par11)
 	{
-		minX = p_i4029_1_;
-		minY = p_i4029_3_;
-		minZ = p_i4029_5_;
-		maxX = p_i4029_7_;
-		maxY = p_i4029_9_;
-		maxZ = p_i4029_11_;
+		minX = par1;
+		minY = par3;
+		minZ = par5;
+		maxX = par7;
+		maxY = par9;
+		maxZ = par11;
 	}
 	
-	public AxisAlignedBB addCoord(double p_72321_1_, double p_72321_3_, double p_72321_5_)
+	public AxisAlignedBB addCoord(double par1, double par3, double par5)
 	{
 		double var7 = minX;
 		double var9 = minY;
@@ -28,41 +28,41 @@ public class AxisAlignedBB
 		double var13 = maxX;
 		double var15 = maxY;
 		double var17 = maxZ;
-		if(p_72321_1_ < 0.0D)
+		if(par1 < 0.0D)
 		{
-			var7 += p_72321_1_;
+			var7 += par1;
 		}
-		if(p_72321_1_ > 0.0D)
+		if(par1 > 0.0D)
 		{
-			var13 += p_72321_1_;
+			var13 += par1;
 		}
-		if(p_72321_3_ < 0.0D)
+		if(par3 < 0.0D)
 		{
-			var9 += p_72321_3_;
+			var9 += par3;
 		}
-		if(p_72321_3_ > 0.0D)
+		if(par3 > 0.0D)
 		{
-			var15 += p_72321_3_;
+			var15 += par3;
 		}
-		if(p_72321_5_ < 0.0D)
+		if(par5 < 0.0D)
 		{
-			var11 += p_72321_5_;
+			var11 += par5;
 		}
-		if(p_72321_5_ > 0.0D)
+		if(par5 > 0.0D)
 		{
-			var17 += p_72321_5_;
+			var17 += par5;
 		}
 		return getAABBPool().getAABB(var7, var9, var11, var13, var15, var17);
 	}
 	
-	public MovingObjectPosition calculateIntercept(Vec3 p_72327_1_, Vec3 p_72327_2_)
+	public MovingObjectPosition calculateIntercept(Vec3 par1Vec3, Vec3 par2Vec3)
 	{
-		Vec3 var3 = p_72327_1_.getIntermediateWithXValue(p_72327_2_, minX);
-		Vec3 var4 = p_72327_1_.getIntermediateWithXValue(p_72327_2_, maxX);
-		Vec3 var5 = p_72327_1_.getIntermediateWithYValue(p_72327_2_, minY);
-		Vec3 var6 = p_72327_1_.getIntermediateWithYValue(p_72327_2_, maxY);
-		Vec3 var7 = p_72327_1_.getIntermediateWithZValue(p_72327_2_, minZ);
-		Vec3 var8 = p_72327_1_.getIntermediateWithZValue(p_72327_2_, maxZ);
+		Vec3 var3 = par1Vec3.getIntermediateWithXValue(par2Vec3, minX);
+		Vec3 var4 = par1Vec3.getIntermediateWithXValue(par2Vec3, maxX);
+		Vec3 var5 = par1Vec3.getIntermediateWithYValue(par2Vec3, minY);
+		Vec3 var6 = par1Vec3.getIntermediateWithYValue(par2Vec3, maxY);
+		Vec3 var7 = par1Vec3.getIntermediateWithZValue(par2Vec3, minZ);
+		Vec3 var8 = par1Vec3.getIntermediateWithZValue(par2Vec3, maxZ);
 		if(!isVecInYZ(var3))
 		{
 			var3 = null;
@@ -88,27 +88,27 @@ public class AxisAlignedBB
 			var8 = null;
 		}
 		Vec3 var9 = null;
-		if(var3 != null && (var9 == null || p_72327_1_.squareDistanceTo(var3) < p_72327_1_.squareDistanceTo(var9)))
+		if(var3 != null && (var9 == null || par1Vec3.squareDistanceTo(var3) < par1Vec3.squareDistanceTo(var9)))
 		{
 			var9 = var3;
 		}
-		if(var4 != null && (var9 == null || p_72327_1_.squareDistanceTo(var4) < p_72327_1_.squareDistanceTo(var9)))
+		if(var4 != null && (var9 == null || par1Vec3.squareDistanceTo(var4) < par1Vec3.squareDistanceTo(var9)))
 		{
 			var9 = var4;
 		}
-		if(var5 != null && (var9 == null || p_72327_1_.squareDistanceTo(var5) < p_72327_1_.squareDistanceTo(var9)))
+		if(var5 != null && (var9 == null || par1Vec3.squareDistanceTo(var5) < par1Vec3.squareDistanceTo(var9)))
 		{
 			var9 = var5;
 		}
-		if(var6 != null && (var9 == null || p_72327_1_.squareDistanceTo(var6) < p_72327_1_.squareDistanceTo(var9)))
+		if(var6 != null && (var9 == null || par1Vec3.squareDistanceTo(var6) < par1Vec3.squareDistanceTo(var9)))
 		{
 			var9 = var6;
 		}
-		if(var7 != null && (var9 == null || p_72327_1_.squareDistanceTo(var7) < p_72327_1_.squareDistanceTo(var9)))
+		if(var7 != null && (var9 == null || par1Vec3.squareDistanceTo(var7) < par1Vec3.squareDistanceTo(var9)))
 		{
 			var9 = var7;
 		}
-		if(var8 != null && (var9 == null || p_72327_1_.squareDistanceTo(var8) < p_72327_1_.squareDistanceTo(var9)))
+		if(var8 != null && (var9 == null || par1Vec3.squareDistanceTo(var8) < par1Vec3.squareDistanceTo(var9)))
 		{
 			var9 = var8;
 		}
@@ -144,98 +144,98 @@ public class AxisAlignedBB
 		}
 	}
 	
-	public double calculateXOffset(AxisAlignedBB p_72316_1_, double p_72316_2_)
+	public double calculateXOffset(AxisAlignedBB par1AxisAlignedBB, double par2)
 	{
-		if(p_72316_1_.maxY > minY && p_72316_1_.minY < maxY)
+		if(par1AxisAlignedBB.maxY > minY && par1AxisAlignedBB.minY < maxY)
 		{
-			if(p_72316_1_.maxZ > minZ && p_72316_1_.minZ < maxZ)
+			if(par1AxisAlignedBB.maxZ > minZ && par1AxisAlignedBB.minZ < maxZ)
 			{
 				double var4;
-				if(p_72316_2_ > 0.0D && p_72316_1_.maxX <= minX)
+				if(par2 > 0.0D && par1AxisAlignedBB.maxX <= minX)
 				{
-					var4 = minX - p_72316_1_.maxX;
-					if(var4 < p_72316_2_)
+					var4 = minX - par1AxisAlignedBB.maxX;
+					if(var4 < par2)
 					{
-						p_72316_2_ = var4;
+						par2 = var4;
 					}
 				}
-				if(p_72316_2_ < 0.0D && p_72316_1_.minX >= maxX)
+				if(par2 < 0.0D && par1AxisAlignedBB.minX >= maxX)
 				{
-					var4 = maxX - p_72316_1_.minX;
-					if(var4 > p_72316_2_)
+					var4 = maxX - par1AxisAlignedBB.minX;
+					if(var4 > par2)
 					{
-						p_72316_2_ = var4;
+						par2 = var4;
 					}
 				}
-				return p_72316_2_;
-			} else return p_72316_2_;
-		} else return p_72316_2_;
+				return par2;
+			} else return par2;
+		} else return par2;
 	}
 	
-	public double calculateYOffset(AxisAlignedBB p_72323_1_, double p_72323_2_)
+	public double calculateYOffset(AxisAlignedBB par1AxisAlignedBB, double par2)
 	{
-		if(p_72323_1_.maxX > minX && p_72323_1_.minX < maxX)
+		if(par1AxisAlignedBB.maxX > minX && par1AxisAlignedBB.minX < maxX)
 		{
-			if(p_72323_1_.maxZ > minZ && p_72323_1_.minZ < maxZ)
+			if(par1AxisAlignedBB.maxZ > minZ && par1AxisAlignedBB.minZ < maxZ)
 			{
 				double var4;
-				if(p_72323_2_ > 0.0D && p_72323_1_.maxY <= minY)
+				if(par2 > 0.0D && par1AxisAlignedBB.maxY <= minY)
 				{
-					var4 = minY - p_72323_1_.maxY;
-					if(var4 < p_72323_2_)
+					var4 = minY - par1AxisAlignedBB.maxY;
+					if(var4 < par2)
 					{
-						p_72323_2_ = var4;
+						par2 = var4;
 					}
 				}
-				if(p_72323_2_ < 0.0D && p_72323_1_.minY >= maxY)
+				if(par2 < 0.0D && par1AxisAlignedBB.minY >= maxY)
 				{
-					var4 = maxY - p_72323_1_.minY;
-					if(var4 > p_72323_2_)
+					var4 = maxY - par1AxisAlignedBB.minY;
+					if(var4 > par2)
 					{
-						p_72323_2_ = var4;
+						par2 = var4;
 					}
 				}
-				return p_72323_2_;
-			} else return p_72323_2_;
-		} else return p_72323_2_;
+				return par2;
+			} else return par2;
+		} else return par2;
 	}
 	
-	public double calculateZOffset(AxisAlignedBB p_72322_1_, double p_72322_2_)
+	public double calculateZOffset(AxisAlignedBB par1AxisAlignedBB, double par2)
 	{
-		if(p_72322_1_.maxX > minX && p_72322_1_.minX < maxX)
+		if(par1AxisAlignedBB.maxX > minX && par1AxisAlignedBB.minX < maxX)
 		{
-			if(p_72322_1_.maxY > minY && p_72322_1_.minY < maxY)
+			if(par1AxisAlignedBB.maxY > minY && par1AxisAlignedBB.minY < maxY)
 			{
 				double var4;
-				if(p_72322_2_ > 0.0D && p_72322_1_.maxZ <= minZ)
+				if(par2 > 0.0D && par1AxisAlignedBB.maxZ <= minZ)
 				{
-					var4 = minZ - p_72322_1_.maxZ;
-					if(var4 < p_72322_2_)
+					var4 = minZ - par1AxisAlignedBB.maxZ;
+					if(var4 < par2)
 					{
-						p_72322_2_ = var4;
+						par2 = var4;
 					}
 				}
-				if(p_72322_2_ < 0.0D && p_72322_1_.minZ >= maxZ)
+				if(par2 < 0.0D && par1AxisAlignedBB.minZ >= maxZ)
 				{
-					var4 = maxZ - p_72322_1_.minZ;
-					if(var4 > p_72322_2_)
+					var4 = maxZ - par1AxisAlignedBB.minZ;
+					if(var4 > par2)
 					{
-						p_72322_2_ = var4;
+						par2 = var4;
 					}
 				}
-				return p_72322_2_;
-			} else return p_72322_2_;
-		} else return p_72322_2_;
+				return par2;
+			} else return par2;
+		} else return par2;
 	}
 	
-	public AxisAlignedBB contract(double p_72331_1_, double p_72331_3_, double p_72331_5_)
+	public AxisAlignedBB contract(double par1, double par3, double par5)
 	{
-		double var7 = minX + p_72331_1_;
-		double var9 = minY + p_72331_3_;
-		double var11 = minZ + p_72331_5_;
-		double var13 = maxX - p_72331_1_;
-		double var15 = maxY - p_72331_3_;
-		double var17 = maxZ - p_72331_5_;
+		double var7 = minX + par1;
+		double var9 = minY + par3;
+		double var11 = minZ + par5;
+		double var13 = maxX - par1;
+		double var15 = maxY - par3;
+		double var17 = maxZ - par5;
 		return getAABBPool().getAABB(var7, var9, var11, var13, var15, var17);
 	}
 	
@@ -244,15 +244,26 @@ public class AxisAlignedBB
 		return getAABBPool().getAABB(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 	
-	public AxisAlignedBB expand(double p_72314_1_, double p_72314_3_, double p_72314_5_)
+	public AxisAlignedBB expand(double par1, double par3, double par5)
 	{
-		double var7 = minX - p_72314_1_;
-		double var9 = minY - p_72314_3_;
-		double var11 = minZ - p_72314_5_;
-		double var13 = maxX + p_72314_1_;
-		double var15 = maxY + p_72314_3_;
-		double var17 = maxZ + p_72314_5_;
+		double var7 = minX - par1;
+		double var9 = minY - par3;
+		double var11 = minZ - par5;
+		double var13 = maxX + par1;
+		double var15 = maxY + par3;
+		double var17 = maxZ + par5;
 		return getAABBPool().getAABB(var7, var9, var11, var13, var15, var17);
+	}
+	
+	public AxisAlignedBB func_111270_a(AxisAlignedBB par1AxisAlignedBB)
+	{
+		double var2 = Math.min(minX, par1AxisAlignedBB.minX);
+		double var4 = Math.min(minY, par1AxisAlignedBB.minY);
+		double var6 = Math.min(minZ, par1AxisAlignedBB.minZ);
+		double var8 = Math.max(maxX, par1AxisAlignedBB.maxX);
+		double var10 = Math.max(maxY, par1AxisAlignedBB.maxY);
+		double var12 = Math.max(maxZ, par1AxisAlignedBB.maxZ);
+		return getAABBPool().getAABB(var2, var4, var6, var8, var10, var12);
 	}
 	
 	public double getAverageEdgeLength()
@@ -263,65 +274,65 @@ public class AxisAlignedBB
 		return (var1 + var3 + var5) / 3.0D;
 	}
 	
-	public AxisAlignedBB getOffsetBoundingBox(double p_72325_1_, double p_72325_3_, double p_72325_5_)
+	public AxisAlignedBB getOffsetBoundingBox(double par1, double par3, double par5)
 	{
-		return getAABBPool().getAABB(minX + p_72325_1_, minY + p_72325_3_, minZ + p_72325_5_, maxX + p_72325_1_, maxY + p_72325_3_, maxZ + p_72325_5_);
+		return getAABBPool().getAABB(minX + par1, minY + par3, minZ + par5, maxX + par1, maxY + par3, maxZ + par5);
 	}
 	
-	public boolean intersectsWith(AxisAlignedBB p_72326_1_)
+	public boolean intersectsWith(AxisAlignedBB par1AxisAlignedBB)
 	{
-		return p_72326_1_.maxX > minX && p_72326_1_.minX < maxX ? p_72326_1_.maxY > minY && p_72326_1_.minY < maxY ? p_72326_1_.maxZ > minZ && p_72326_1_.minZ < maxZ : false : false;
+		return par1AxisAlignedBB.maxX > minX && par1AxisAlignedBB.minX < maxX ? par1AxisAlignedBB.maxY > minY && par1AxisAlignedBB.minY < maxY ? par1AxisAlignedBB.maxZ > minZ && par1AxisAlignedBB.minZ < maxZ : false : false;
 	}
 	
-	public boolean isVecInside(Vec3 p_72318_1_)
+	public boolean isVecInside(Vec3 par1Vec3)
 	{
-		return p_72318_1_.xCoord > minX && p_72318_1_.xCoord < maxX ? p_72318_1_.yCoord > minY && p_72318_1_.yCoord < maxY ? p_72318_1_.zCoord > minZ && p_72318_1_.zCoord < maxZ : false : false;
+		return par1Vec3.xCoord > minX && par1Vec3.xCoord < maxX ? par1Vec3.yCoord > minY && par1Vec3.yCoord < maxY ? par1Vec3.zCoord > minZ && par1Vec3.zCoord < maxZ : false : false;
 	}
 	
-	private boolean isVecInXY(Vec3 p_72319_1_)
+	private boolean isVecInXY(Vec3 par1Vec3)
 	{
-		return p_72319_1_ == null ? false : p_72319_1_.xCoord >= minX && p_72319_1_.xCoord <= maxX && p_72319_1_.yCoord >= minY && p_72319_1_.yCoord <= maxY;
+		return par1Vec3 == null ? false : par1Vec3.xCoord >= minX && par1Vec3.xCoord <= maxX && par1Vec3.yCoord >= minY && par1Vec3.yCoord <= maxY;
 	}
 	
-	private boolean isVecInXZ(Vec3 p_72315_1_)
+	private boolean isVecInXZ(Vec3 par1Vec3)
 	{
-		return p_72315_1_ == null ? false : p_72315_1_.xCoord >= minX && p_72315_1_.xCoord <= maxX && p_72315_1_.zCoord >= minZ && p_72315_1_.zCoord <= maxZ;
+		return par1Vec3 == null ? false : par1Vec3.xCoord >= minX && par1Vec3.xCoord <= maxX && par1Vec3.zCoord >= minZ && par1Vec3.zCoord <= maxZ;
 	}
 	
-	private boolean isVecInYZ(Vec3 p_72333_1_)
+	private boolean isVecInYZ(Vec3 par1Vec3)
 	{
-		return p_72333_1_ == null ? false : p_72333_1_.yCoord >= minY && p_72333_1_.yCoord <= maxY && p_72333_1_.zCoord >= minZ && p_72333_1_.zCoord <= maxZ;
+		return par1Vec3 == null ? false : par1Vec3.yCoord >= minY && par1Vec3.yCoord <= maxY && par1Vec3.zCoord >= minZ && par1Vec3.zCoord <= maxZ;
 	}
 	
-	public AxisAlignedBB offset(double p_72317_1_, double p_72317_3_, double p_72317_5_)
+	public AxisAlignedBB offset(double par1, double par3, double par5)
 	{
-		minX += p_72317_1_;
-		minY += p_72317_3_;
-		minZ += p_72317_5_;
-		maxX += p_72317_1_;
-		maxY += p_72317_3_;
-		maxZ += p_72317_5_;
+		minX += par1;
+		minY += par3;
+		minZ += par5;
+		maxX += par1;
+		maxY += par3;
+		maxZ += par5;
 		return this;
 	}
 	
-	public void setBB(AxisAlignedBB p_72328_1_)
+	public void setBB(AxisAlignedBB par1AxisAlignedBB)
 	{
-		minX = p_72328_1_.minX;
-		minY = p_72328_1_.minY;
-		minZ = p_72328_1_.minZ;
-		maxX = p_72328_1_.maxX;
-		maxY = p_72328_1_.maxY;
-		maxZ = p_72328_1_.maxZ;
+		minX = par1AxisAlignedBB.minX;
+		minY = par1AxisAlignedBB.minY;
+		minZ = par1AxisAlignedBB.minZ;
+		maxX = par1AxisAlignedBB.maxX;
+		maxY = par1AxisAlignedBB.maxY;
+		maxZ = par1AxisAlignedBB.maxZ;
 	}
 	
-	public AxisAlignedBB setBounds(double p_72324_1_, double p_72324_3_, double p_72324_5_, double p_72324_7_, double p_72324_9_, double p_72324_11_)
+	public AxisAlignedBB setBounds(double par1, double par3, double par5, double par7, double par9, double par11)
 	{
-		minX = p_72324_1_;
-		minY = p_72324_3_;
-		minZ = p_72324_5_;
-		maxX = p_72324_7_;
-		maxY = p_72324_9_;
-		maxZ = p_72324_11_;
+		minX = par1;
+		minY = par3;
+		minZ = par5;
+		maxX = par7;
+		maxY = par9;
+		maxZ = par11;
 		return this;
 	}
 	
@@ -335,8 +346,8 @@ public class AxisAlignedBB
 		return (AABBPool) theAABBLocalPool.get();
 	}
 	
-	public static AxisAlignedBB getBoundingBox(double p_72330_0_, double p_72330_2_, double p_72330_4_, double p_72330_6_, double p_72330_8_, double p_72330_10_)
+	public static AxisAlignedBB getBoundingBox(double par0, double par2, double par4, double par6, double par8, double par10)
 	{
-		return new AxisAlignedBB(p_72330_0_, p_72330_2_, p_72330_4_, p_72330_6_, p_72330_8_, p_72330_10_);
+		return new AxisAlignedBB(par0, par2, par4, par6, par8, par10);
 	}
 }

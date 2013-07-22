@@ -2,12 +2,10 @@ package net.minecraft.src;
 
 public class EntityMagmaCube extends EntitySlime
 {
-	public EntityMagmaCube(World p_i3551_1_)
+	public EntityMagmaCube(World par1World)
 	{
-		super(p_i3551_1_);
-		texture = "/mob/lava.png";
+		super(par1World);
 		isImmuneToFire = true;
-		landMovementFactor = 0.2F;
 	}
 	
 	@Override protected boolean canDamagePlayer()
@@ -20,15 +18,15 @@ public class EntityMagmaCube extends EntitySlime
 		return new EntityMagmaCube(worldObj);
 	}
 	
-	@Override protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+	@Override protected void dropFewItems(boolean par1, int par2)
 	{
 		int var3 = getDropItemId();
 		if(var3 > 0 && getSlimeSize() > 1)
 		{
 			int var4 = rand.nextInt(4) - 2;
-			if(p_70628_2_ > 0)
+			if(par2 > 0)
 			{
-				var4 += rand.nextInt(p_70628_2_ + 1);
+				var4 += rand.nextInt(par2 + 1);
 			}
 			for(int var5 = 0; var5 < var4; ++var5)
 			{
@@ -37,8 +35,14 @@ public class EntityMagmaCube extends EntitySlime
 		}
 	}
 	
-	@Override protected void fall(float p_70069_1_)
+	@Override protected void fall(float par1)
 	{
+	}
+	
+	@Override protected void func_110147_ax()
+	{
+		super.func_110147_ax();
+		func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.20000000298023224D);
 	}
 	
 	@Override protected void func_70808_l()
@@ -51,7 +55,7 @@ public class EntityMagmaCube extends EntitySlime
 		return super.getAttackStrength() + 2;
 	}
 	
-	@Override public float getBrightness(float p_70013_1_)
+	@Override public float getBrightness(float par1)
 	{
 		return 1.0F;
 	}

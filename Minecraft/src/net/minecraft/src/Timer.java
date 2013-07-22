@@ -9,15 +9,15 @@ public class Timer
 	public int elapsedTicks;
 	public float renderPartialTicks;
 	public float timerSpeed = 1.0F;
-	public float elapsedPartialTicks = 0.0F;
+	public float elapsedPartialTicks;
 	private long lastSyncSysClock;
 	private long lastSyncHRClock;
 	private long field_74285_i;
 	private double timeSyncAdjustment = 1.0D;
 	
-	public Timer(float p_i3005_1_)
+	public Timer(float par1)
 	{
-		ticksPerSecond = p_i3005_1_;
+		ticksPerSecond = par1;
 		lastSyncSysClock = Minecraft.getSystemTime();
 		lastSyncHRClock = System.nanoTime() / 1000000L;
 	}

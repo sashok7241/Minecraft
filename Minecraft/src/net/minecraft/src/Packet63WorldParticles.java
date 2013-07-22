@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet63WorldParticles extends Packet
@@ -66,34 +66,34 @@ public class Packet63WorldParticles extends Packet
 		return speed;
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleWorldParticles(this);
+		par1NetHandler.handleWorldParticles(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		particleName = readString(p_73267_1_, 64);
-		posX = p_73267_1_.readFloat();
-		posY = p_73267_1_.readFloat();
-		posZ = p_73267_1_.readFloat();
-		offsetX = p_73267_1_.readFloat();
-		offsetY = p_73267_1_.readFloat();
-		offsetZ = p_73267_1_.readFloat();
-		speed = p_73267_1_.readFloat();
-		quantity = p_73267_1_.readInt();
+		particleName = readString(par1DataInput, 64);
+		posX = par1DataInput.readFloat();
+		posY = par1DataInput.readFloat();
+		posZ = par1DataInput.readFloat();
+		offsetX = par1DataInput.readFloat();
+		offsetY = par1DataInput.readFloat();
+		offsetZ = par1DataInput.readFloat();
+		speed = par1DataInput.readFloat();
+		quantity = par1DataInput.readInt();
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		writeString(particleName, p_73273_1_);
-		p_73273_1_.writeFloat(posX);
-		p_73273_1_.writeFloat(posY);
-		p_73273_1_.writeFloat(posZ);
-		p_73273_1_.writeFloat(offsetX);
-		p_73273_1_.writeFloat(offsetY);
-		p_73273_1_.writeFloat(offsetZ);
-		p_73273_1_.writeFloat(speed);
-		p_73273_1_.writeInt(quantity);
+		writeString(particleName, par1DataOutput);
+		par1DataOutput.writeFloat(posX);
+		par1DataOutput.writeFloat(posY);
+		par1DataOutput.writeFloat(posZ);
+		par1DataOutput.writeFloat(offsetX);
+		par1DataOutput.writeFloat(offsetY);
+		par1DataOutput.writeFloat(offsetZ);
+		par1DataOutput.writeFloat(speed);
+		par1DataOutput.writeInt(quantity);
 	}
 }

@@ -6,11 +6,11 @@ public class IconFlipped implements Icon
 	private final boolean flipU;
 	private final boolean flipV;
 	
-	public IconFlipped(Icon p_i10047_1_, boolean p_i10047_2_, boolean p_i10047_3_)
+	public IconFlipped(Icon par1Icon, boolean par2, boolean par3)
 	{
-		baseIcon = p_i10047_1_;
-		flipU = p_i10047_2_;
-		flipV = p_i10047_3_;
+		baseIcon = par1Icon;
+		flipU = par2;
+		flipV = par3;
 	}
 	
 	@Override public String getIconName()
@@ -58,15 +58,5 @@ public class IconFlipped implements Icon
 	@Override public int getOriginY()
 	{
 		return baseIcon.getOriginY();
-	}
-	
-	@Override public int getSheetHeight()
-	{
-		return baseIcon.getSheetHeight();
-	}
-	
-	@Override public int getSheetWidth()
-	{
-		return baseIcon.getSheetWidth();
 	}
 }

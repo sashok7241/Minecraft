@@ -6,9 +6,9 @@ class CallableLvl2 implements Callable
 {
 	final World theWorld;
 	
-	CallableLvl2(World p_i3729_1_)
+	CallableLvl2(World par1World)
 	{
-		theWorld = p_i3729_1_;
+		theWorld = par1World;
 	}
 	
 	@Override public Object call()

@@ -22,9 +22,9 @@ public class TileEntityEnchantmentTable extends TileEntity
 		return func_94135_b() ? field_94136_s : "container.enchant";
 	}
 	
-	public void func_94134_a(String p_94134_1_)
+	public void func_94134_a(String par1Str)
 	{
-		field_94136_s = p_94134_1_;
+		field_94136_s = par1Str;
 	}
 	
 	public boolean func_94135_b()
@@ -32,12 +32,12 @@ public class TileEntityEnchantmentTable extends TileEntity
 		return field_94136_s != null && field_94136_s.length() > 0;
 	}
 	
-	@Override public void readFromNBT(NBTTagCompound p_70307_1_)
+	@Override public void readFromNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.readFromNBT(p_70307_1_);
-		if(p_70307_1_.hasKey("CustomName"))
+		super.readFromNBT(par1NBTTagCompound);
+		if(par1NBTTagCompound.hasKey("CustomName"))
 		{
-			field_94136_s = p_70307_1_.getString("CustomName");
+			field_94136_s = par1NBTTagCompound.getString("CustomName");
 		}
 	}
 	
@@ -116,12 +116,12 @@ public class TileEntityEnchantmentTable extends TileEntity
 		pageFlip += field_70374_e;
 	}
 	
-	@Override public void writeToNBT(NBTTagCompound p_70310_1_)
+	@Override public void writeToNBT(NBTTagCompound par1NBTTagCompound)
 	{
-		super.writeToNBT(p_70310_1_);
+		super.writeToNBT(par1NBTTagCompound);
 		if(func_94135_b())
 		{
-			p_70310_1_.setString("CustomName", field_94136_s);
+			par1NBTTagCompound.setString("CustomName", field_94136_s);
 		}
 	}
 }

@@ -2,28 +2,28 @@ package net.minecraft.src;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.ServerSocket;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.minecraft.server.MinecraftServer;
+
 public class HttpUtil
 {
-	public static String buildPostString(Map p_76179_0_)
+	public static String buildPostString(Map par0Map)
 	{
 		StringBuilder var1 = new StringBuilder();
-		Iterator var2 = p_76179_0_.entrySet().iterator();
+		Iterator var2 = par0Map.entrySet().iterator();
 		while(var2.hasNext())
 		{
 			Entry var3 = (Entry) var2.next();
@@ -53,29 +53,6 @@ public class HttpUtil
 		return var1.toString();
 	}
 	
-	public static void downloadTexturePack(File p_76182_0_, String p_76182_1_, IDownloadSuccess p_76182_2_, Map p_76182_3_, int p_76182_4_, IProgressUpdate p_76182_5_)
-	{
-		Thread var6 = new Thread(new HttpUtilRunnable(p_76182_5_, p_76182_1_, p_76182_3_, p_76182_0_, p_76182_2_, p_76182_4_));
-		var6.setDaemon(true);
-		var6.start();
-	}
-	
-	public static String func_104145_a(URL p_104145_0_) throws IOException
-	{
-		HttpURLConnection var1 = (HttpURLConnection) p_104145_0_.openConnection();
-		var1.setRequestMethod("GET");
-		BufferedReader var2 = new BufferedReader(new InputStreamReader(var1.getInputStream()));
-		StringBuilder var4 = new StringBuilder();
-		String var3;
-		while((var3 = var2.readLine()) != null)
-		{
-			var4.append(var3);
-			var4.append('\r');
-		}
-		var2.close();
-		return var4.toString();
-	}
-	
 	public static int func_76181_a() throws IOException
 	{
 		ServerSocket var0 = null;
@@ -101,92 +78,52 @@ public class HttpUtil
 		return var10;
 	}
 	
-	public static String[] loginToMinecraft(ILogAgent p_82718_0_, String p_82718_1_, String p_82718_2_)
+	public static String sendPost(ILogAgent par0ILogAgent, URL par1URL, Map par2Map, boolean par3)
 	{
-		HashMap var3 = new HashMap();
-		var3.put("user", p_82718_1_);
-		var3.put("password", p_82718_2_);
-		var3.put("version", Integer.valueOf(13));
-		String var4;
-		try
-		{
-			var4 = sendPost(p_82718_0_, new URL("http://login.minecraft.net/"), var3, false);
-		} catch(MalformedURLException var6)
-		{
-			var6.printStackTrace();
-			return null;
-		}
-		if(var4 != null && var4.length() != 0)
-		{
-			if(!var4.contains(":"))
-			{
-				if(p_82718_0_ == null)
-				{
-					System.out.println("Failed to authenticate: " + var4);
-				} else
-				{
-					p_82718_0_.logWarning("Failed to authenticae: " + var4);
-				}
-				return null;
-			} else
-			{
-				String[] var5 = var4.split(":");
-				return new String[] { var5[2], var5[3] };
-			}
-		} else
-		{
-			if(p_82718_0_ == null)
-			{
-				System.out.println("Failed to authenticate: Can\'t connect to minecraft.net");
-			} else
-			{
-				p_82718_0_.logWarning("Failed to authenticate: Can\'t connect to minecraft.net");
-			}
-			return null;
-		}
+		return sendPost(par0ILogAgent, par1URL, buildPostString(par2Map), par3);
 	}
 	
-	public static String sendPost(ILogAgent p_76183_0_, URL p_76183_1_, Map p_76183_2_, boolean p_76183_3_)
-	{
-		return sendPost(p_76183_0_, p_76183_1_, buildPostString(p_76183_2_), p_76183_3_);
-	}
-	
-	public static String sendPost(ILogAgent p_76180_0_, URL p_76180_1_, String p_76180_2_, boolean p_76180_3_)
+	private static String sendPost(ILogAgent par0ILogAgent, URL par1URL, String par2Str, boolean par3)
 	{
 		try
 		{
-			HttpURLConnection var4 = (HttpURLConnection) p_76180_1_.openConnection();
-			var4.setRequestMethod("POST");
-			var4.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			var4.setRequestProperty("Content-Length", "" + p_76180_2_.getBytes().length);
-			var4.setRequestProperty("Content-Language", "en-US");
-			var4.setUseCaches(false);
-			var4.setDoInput(true);
-			var4.setDoOutput(true);
-			DataOutputStream var5 = new DataOutputStream(var4.getOutputStream());
-			var5.writeBytes(p_76180_2_);
-			var5.flush();
-			var5.close();
-			BufferedReader var6 = new BufferedReader(new InputStreamReader(var4.getInputStream()));
-			StringBuffer var8 = new StringBuffer();
-			String var7;
-			while((var7 = var6.readLine()) != null)
+			Proxy var4 = MinecraftServer.getServer() == null ? null : MinecraftServer.getServer().func_110454_ao();
+			if(var4 == null)
 			{
-				var8.append(var7);
-				var8.append('\r');
+				var4 = Proxy.NO_PROXY;
 			}
+			HttpURLConnection var5 = (HttpURLConnection) par1URL.openConnection(var4);
+			var5.setRequestMethod("POST");
+			var5.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			var5.setRequestProperty("Content-Length", "" + par2Str.getBytes().length);
+			var5.setRequestProperty("Content-Language", "en-US");
+			var5.setUseCaches(false);
+			var5.setDoInput(true);
+			var5.setDoOutput(true);
+			DataOutputStream var6 = new DataOutputStream(var5.getOutputStream());
+			var6.writeBytes(par2Str);
+			var6.flush();
 			var6.close();
-			return var8.toString();
-		} catch(Exception var9)
-		{
-			if(!p_76180_3_)
+			BufferedReader var7 = new BufferedReader(new InputStreamReader(var5.getInputStream()));
+			StringBuffer var9 = new StringBuffer();
+			String var8;
+			while((var8 = var7.readLine()) != null)
 			{
-				if(p_76180_0_ != null)
+				var9.append(var8);
+				var9.append('\r');
+			}
+			var7.close();
+			return var9.toString();
+		} catch(Exception var10)
+		{
+			if(!par3)
+			{
+				if(par0ILogAgent != null)
 				{
-					p_76180_0_.logSevereException("Could not post to " + p_76180_1_, var9);
+					par0ILogAgent.logSevereException("Could not post to " + par1URL, var10);
 				} else
 				{
-					Logger.getAnonymousLogger().log(Level.SEVERE, "Could not post to " + p_76180_1_, var9);
+					Logger.getAnonymousLogger().log(Level.SEVERE, "Could not post to " + par1URL, var10);
 				}
 			}
 			return "";

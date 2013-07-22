@@ -5,11 +5,11 @@ public class BlockBreakable extends Block
 	private boolean localFlag;
 	private String breakableBlockIcon;
 	
-	protected BlockBreakable(int p_i9059_1_, String p_i9059_2_, Material p_i9059_3_, boolean p_i9059_4_)
+	protected BlockBreakable(int par1, String par2Str, Material par3Material, boolean par4)
 	{
-		super(p_i9059_1_, p_i9059_3_);
-		localFlag = p_i9059_4_;
-		breakableBlockIcon = p_i9059_2_;
+		super(par1, par3Material);
+		localFlag = par4;
+		breakableBlockIcon = par2Str;
 	}
 	
 	@Override public boolean isOpaqueCube()

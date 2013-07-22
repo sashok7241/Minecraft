@@ -1,7 +1,7 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 public class Packet9Respawn extends Packet
@@ -16,13 +16,13 @@ public class Packet9Respawn extends Packet
 	{
 	}
 	
-	public Packet9Respawn(int p_i3342_1_, byte p_i3342_2_, WorldType p_i3342_3_, int p_i3342_4_, EnumGameType p_i3342_5_)
+	public Packet9Respawn(int par1, byte par2, WorldType par3WorldType, int par4, EnumGameType par5EnumGameType)
 	{
-		respawnDimension = p_i3342_1_;
-		difficulty = p_i3342_2_;
-		worldHeight = p_i3342_4_;
-		gameType = p_i3342_5_;
-		terrainType = p_i3342_3_;
+		respawnDimension = par1;
+		difficulty = par2;
+		worldHeight = par4;
+		gameType = par5EnumGameType;
+		terrainType = par3WorldType;
 	}
 	
 	@Override public int getPacketSize()
@@ -30,18 +30,18 @@ public class Packet9Respawn extends Packet
 		return 8 + (terrainType == null ? 0 : terrainType.getWorldTypeName().length());
 	}
 	
-	@Override public void processPacket(NetHandler p_73279_1_)
+	@Override public void processPacket(NetHandler par1NetHandler)
 	{
-		p_73279_1_.handleRespawn(this);
+		par1NetHandler.handleRespawn(this);
 	}
 	
-	@Override public void readPacketData(DataInputStream p_73267_1_) throws IOException
+	@Override public void readPacketData(DataInput par1DataInput) throws IOException
 	{
-		respawnDimension = p_73267_1_.readInt();
-		difficulty = p_73267_1_.readByte();
-		gameType = EnumGameType.getByID(p_73267_1_.readByte());
-		worldHeight = p_73267_1_.readShort();
-		String var2 = readString(p_73267_1_, 16);
+		respawnDimension = par1DataInput.readInt();
+		difficulty = par1DataInput.readByte();
+		gameType = EnumGameType.getByID(par1DataInput.readByte());
+		worldHeight = par1DataInput.readShort();
+		String var2 = readString(par1DataInput, 16);
 		terrainType = WorldType.parseWorldType(var2);
 		if(terrainType == null)
 		{
@@ -49,12 +49,12 @@ public class Packet9Respawn extends Packet
 		}
 	}
 	
-	@Override public void writePacketData(DataOutputStream p_73273_1_) throws IOException
+	@Override public void writePacketData(DataOutput par1DataOutput) throws IOException
 	{
-		p_73273_1_.writeInt(respawnDimension);
-		p_73273_1_.writeByte(difficulty);
-		p_73273_1_.writeByte(gameType.getID());
-		p_73273_1_.writeShort(worldHeight);
-		writeString(terrainType.getWorldTypeName(), p_73273_1_);
+		par1DataOutput.writeInt(respawnDimension);
+		par1DataOutput.writeByte(difficulty);
+		par1DataOutput.writeByte(gameType.getID());
+		par1DataOutput.writeShort(worldHeight);
+		writeString(terrainType.getWorldTypeName(), par1DataOutput);
 	}
 }

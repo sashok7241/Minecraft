@@ -5,18 +5,17 @@ import java.util.List;
 public class BlockWood extends Block
 {
 	public static final String[] woodType = new String[] { "oak", "spruce", "birch", "jungle" };
-	public static final String[] woodTextureTypes = new String[] { "wood", "wood_spruce", "wood_birch", "wood_jungle" };
 	private Icon[] iconArray;
 	
-	public BlockWood(int p_i4023_1_)
+	public BlockWood(int par1)
 	{
-		super(p_i4023_1_, Material.wood);
+		super(par1, Material.wood);
 		setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
-	@Override public int damageDropped(int p_71899_1_)
+	@Override public int damageDropped(int par1)
 	{
-		return p_71899_1_;
+		return par1;
 	}
 	
 	@Override public Icon getIcon(int par1, int par2)
@@ -38,10 +37,10 @@ public class BlockWood extends Block
 	
 	@Override public void registerIcons(IconRegister par1IconRegister)
 	{
-		iconArray = new Icon[woodTextureTypes.length];
+		iconArray = new Icon[woodType.length];
 		for(int var2 = 0; var2 < iconArray.length; ++var2)
 		{
-			iconArray[var2] = par1IconRegister.registerIcon(woodTextureTypes[var2]);
+			iconArray[var2] = par1IconRegister.registerIcon(func_111023_E() + "_" + woodType[var2]);
 		}
 	}
 }
