@@ -1,0 +1,16 @@
+package net.minecraft.src;
+
+import java.io.IOException;
+
+public interface IChunkLoader
+{
+	void chunkTick();
+	
+	Chunk loadChunk(World var1, int var2, int var3) throws IOException;
+	
+	void saveChunk(World var1, Chunk var2) throws MinecraftException, IOException;
+	
+	void saveExtraChunkData(World var1, Chunk var2);
+	
+	void saveExtraData();
+}

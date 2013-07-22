@@ -1,0 +1,38 @@
+package net.minecraft.src;
+
+public class ItemWritableBook extends Item
+{
+	public ItemWritableBook(int par1)
+	{
+		super(par1);
+		setMaxStackSize(1);
+	}
+	
+	@Override public boolean getShareTag()
+	{
+		return true;
+	}
+	
+	@Override public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	{
+		par3EntityPlayer.displayGUIBook(par1ItemStack);
+		return par1ItemStack;
+	}
+	
+	public static boolean validBookTagPages(NBTTagCompound par0NBTTagCompound)
+	{
+		if(par0NBTTagCompound == null) return false;
+		else if(!par0NBTTagCompound.hasKey("pages")) return false;
+		else
+		{
+			NBTTagList var1 = (NBTTagList) par0NBTTagCompound.getTag("pages");
+			for(int var2 = 0; var2 < var1.tagCount(); ++var2)
+			{
+				NBTTagString var3 = (NBTTagString) var1.tagAt(var2);
+				if(var3.data == null) return false;
+				if(var3.data.length() > 256) return false;
+			}
+			return true;
+		}
+	}
+}

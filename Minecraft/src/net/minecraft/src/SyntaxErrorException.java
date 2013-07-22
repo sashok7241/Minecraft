@@ -1,0 +1,16 @@
+package net.minecraft.src;
+
+public class SyntaxErrorException extends CommandException
+{
+	private static final long serialVersionUID = 1L;
+	
+	public SyntaxErrorException()
+	{
+		this("commands.generic.snytax", new Object[0]);
+	}
+	
+	public SyntaxErrorException(String par1Str, Object ... par2ArrayOfObj)
+	{
+		super(par1Str, par2ArrayOfObj);
+	}
+}
